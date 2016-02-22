@@ -1,0 +1,1003 @@
+[ 2015-03-11T22:23:37+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/edititem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000598s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001078s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001244s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0042s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=0 )  [ RunTime:0.0158s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000102s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000292s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.073010s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.073191s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.013476s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000772s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.014439s ]
+
+[ 2015-03-11T22:24:29+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/edititem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000039s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000526s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000671s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000788s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0038s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=0 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000060s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000171s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.006938s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007062s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000347s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000517s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001029s ]
+
+[ 2015-03-11T22:26:14+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000037s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000811s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000955s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001127s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0057s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0207s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000083s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000254s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 31 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.040439s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.040628s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000633s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000748s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001626s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.033630s ]
+INFO: [ app_end ] --END-- [ RunTime:0.033794s ]
+
+[ 2015-03-11T22:26:14+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000966s ]
+
+[ 2015-03-11T22:27:44+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000623s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002641s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002996s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0055s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000072s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000193s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008128s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008245s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000532s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000751s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001481s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000786s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000897s ]
+
+[ 2015-03-11T22:27:44+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000047s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000751s ]
+
+[ 2015-03-11T22:28:16+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000546s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000874s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001051s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0039s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0234s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000117s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000287s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.012464s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012620s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000778s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001332s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002445s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001091s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001280s ]
+
+[ 2015-03-11T22:28:16+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000082s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002020s ]
+
+[ 2015-03-11T22:28:23+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000933s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001661s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001998s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0036s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000109s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000306s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010218s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010391s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000494s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000597s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001261s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000689s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000794s ]
+
+[ 2015-03-11T22:28:23+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000843s ]
+
+[ 2015-03-11T22:29:01+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000819s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000941s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001145s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0038s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000112s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000304s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.012310s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012490s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000594s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000860s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001747s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001015s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001218s ]
+
+[ 2015-03-11T22:29:01+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000758s ]
+
+[ 2015-03-11T22:29:03+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000564s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001040s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001264s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0040s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000072s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000185s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007162s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007315s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000485s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000559s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001275s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000617s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000721s ]
+
+[ 2015-03-11T22:29:03+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000785s ]
+
+[ 2015-03-11T22:29:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000038s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000730s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000707s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000869s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0039s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0173s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000075s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000196s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011249s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011395s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000478s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000740s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001506s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000819s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001000s ]
+
+[ 2015-03-11T22:29:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000044s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000749s ]
+
+[ 2015-03-11T22:29:45+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000517s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001039s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001253s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0053s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000074s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000192s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 27 行.
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010273s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010391s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000680s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000693s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001585s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000719s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000823s ]
+
+[ 2015-03-11T22:29:45+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000693s ]
+
+[ 2015-03-11T22:43:15+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000624s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001351s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001490s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000073s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000211s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011095s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011245s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000759s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001030s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002075s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001143s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001339s ]
+
+[ 2015-03-11T22:43:15+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000045s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+
+[ 2015-03-11T22:43:55+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000562s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001023s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001229s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0073s ]
+NOTIC: [8] Undefined variable: upload C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 135 行.
+
+[ 2015-03-11T22:45:24+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000037s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001143s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000849s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000984s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0064s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000101s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000263s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 32 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010986s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011194s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000670s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000805s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001728s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001042s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001209s ]
+
+[ 2015-03-11T22:45:24+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001455s ]
+
+[ 2015-03-11T22:45:58+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/innerupload/formname/f1/editname/img
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001075s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002072s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002297s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000159s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.001486s ]
+NOTIC: [8] Undefined index: f_type C:\wamp\www\babycare\bc\Runtime\Cache\Home\d30ab456ae105926eac00a25c9ce5d49.php 第 19 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.035007s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.036016s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.004623s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001416s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.008839s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.004664s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004874s ]
+
+[ 2015-03-11T22:46:03+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/uploadimg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000746s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000947s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001225s ]
+NOTIC: [2] call_user_func() expects parameter 1 to be a valid callback, no array or string given C:\wamp\www\babycare\ThinkPHP\Library\Think\Upload.class.php 第 170 行.
+NOTIC: [8] Undefined variable: lb C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 263 行.
+NOTIC: [8] Undefined offset: 4 C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 267 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001268s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001395s ]
+
+[ 2015-03-11T22:46:13+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001102s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004800s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005645s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0057s ]
+NOTIC: [8] Undefined variable: upload C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 135 行.
+
+[ 2015-03-11T22:48:48+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000047s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001184s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001292s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001437s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0039s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000070s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000232s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010117s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010321s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001088s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001929s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.003420s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001187s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001342s ]
+
+[ 2015-03-11T22:48:48+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000047s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001452s ]
+
+[ 2015-03-11T22:48:55+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/innerupload/formname/f1/editname/img
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000857s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001946s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002161s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000065s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000217s ]
+NOTIC: [8] Undefined index: f_type C:\wamp\www\babycare\bc\Runtime\Cache\Home\d30ab456ae105926eac00a25c9ce5d49.php 第 19 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.060193s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.060396s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.085754s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.042238s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.128226s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.066892s ]
+INFO: [ app_end ] --END-- [ RunTime:0.067049s ]
+
+[ 2015-03-11T22:49:03+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/uploadimg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001047s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000981s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001114s ]
+NOTIC: [2] call_user_func() expects parameter 1 to be a valid callback, no array or string given C:\wamp\www\babycare\ThinkPHP\Library\Think\Upload.class.php 第 170 行.
+NOTIC: [8] Undefined variable: lb C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 263 行.
+NOTIC: [8] Undefined offset: 4 C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 267 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.022401s ]
+INFO: [ app_end ] --END-- [ RunTime:0.022566s ]
+
+[ 2015-03-11T22:49:14+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000261s ]
+INFO: [ app_init ] --END-- [ RunTime:0.045491s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.027446s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.027591s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0044s ]
+NOTIC: [8] Undefined variable: upload C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 135 行.
+
+[ 2015-03-11T22:52:19+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.097830s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.018539s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.018836s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.2395s ]
+NOTIC: [8] Undefined index: 403af1d4574feaeea14e68b562c67bbd C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1078 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000065s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000183s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.420904s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.421100s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.163592s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.158805s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.322784s ]
+
+[ 2015-03-11T22:52:27+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.012385s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.015889s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.016072s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0042s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0009s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000102s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000287s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.108721s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.108901s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.007127s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.066935s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.074518s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.230555s ]
+INFO: [ app_end ] --END-- [ RunTime:0.230719s ]
+
+[ 2015-03-11T22:52:27+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000701s ]
+
+[ 2015-03-11T22:52:31+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000040s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000818s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001136s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001369s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.1384s ]
+NOTIC: [8] Undefined variable: upload C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 135 行.
+
+[ 2015-03-11T22:53:25+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/insertitem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000080s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002040s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000993s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001186s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.1227s ]
+NOTIC: [8] Undefined index: 403af1d4574feaeea14e68b562c67bbd C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1078 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000098s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000287s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.130458s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.130765s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000757s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000979s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002021s ]
+
+[ 2015-03-11T22:53:29+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000790s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000752s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000878s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0032s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000064s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000177s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010440s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010561s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000563s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000791s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001570s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.036886s ]
+INFO: [ app_end ] --END-- [ RunTime:0.037059s ]
+
+[ 2015-03-11T22:53:29+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000044s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001004s ]
+
+[ 2015-03-11T22:53:36+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000702s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000820s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000983s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0056s ]
+DEBUG: create vo:Array
+(
+    [id] => 1
+    [name] => utherin
+    [function] => uth
+    [brand] => u
+    [made_in] => d
+    [instruction] => d
+    [img] => /ThinkPHP//Public/Uploads/20150311/550055dfc22c7.jpg
+    [barcode] => 3333333
+)
+
+SQL: UPDATE `bc_best_for_baby` SET `name`='utherin',`function`='uth',`brand`='u',`made_in`='d',`instruction`='d',`img`='/ThinkPHP//Public/Uploads/20150311/550055dfc22c7.jpg',`barcode`='3333333' WHERE `id` = 1 [ RunTime:5.0188s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000927s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001059s ]
+
+[ 2015-03-11T22:53:58+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000770s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.012445s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012655s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0054s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000102s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000285s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.013902s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.014132s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000984s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001107s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002513s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000974s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001160s ]
+
+[ 2015-03-11T22:53:58+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000064s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000954s ]
+
+[ 2015-03-11T22:54:16+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000969s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001291s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001537s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0055s ]
+DEBUG: create vo:Array
+(
+    [id] => 1
+    [name] => utherin
+    [function] => uth
+    [brand] => u
+    [made_in] => d
+    [instruction] => d
+    [img] => /ThinkPHP//Public/Uploads/20150311/550055dfc22c7.jpg
+    [barcode] => 89
+)
+
+SQL: UPDATE `bc_best_for_baby` SET `name`='utherin',`function`='uth',`brand`='u',`made_in`='d',`instruction`='d',`img`='/ThinkPHP//Public/Uploads/20150311/550055dfc22c7.jpg',`barcode`='89' WHERE `id` = 1 [ RunTime:0.4866s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001028s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001151s ]
+
+[ 2015-03-11T22:59:51+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000676s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001900s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002204s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0059s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0009s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000116s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000368s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010303s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010444s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000859s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000963s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002093s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001137s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001327s ]
+
+[ 2015-03-11T22:59:51+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000635s ]
+
+[ 2015-03-11T23:00:11+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000044s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000807s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001154s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001326s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0037s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=1 )  [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000117s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000324s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.013653s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.013843s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000882s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001099s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002245s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000878s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001031s ]
+
+[ 2015-03-11T23:00:11+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000052s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001682s ]
+
+[ 2015-03-11T23:00:17+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/2
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000652s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001089s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001283s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0055s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=2 )  [ RunTime:0.0008s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000063s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000175s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.009011s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.009140s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001050s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000954s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002189s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000819s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000937s ]
+
+[ 2015-03-11T23:00:17+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000643s ]
+
+[ 2015-03-11T23:00:34+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/3
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000540s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001111s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001302s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0036s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=3 )  [ RunTime:0.0007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000068s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000189s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010227s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010470s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000486s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000781s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001532s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001255s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001460s ]
+
+[ 2015-03-11T23:00:34+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000799s ]
+
+[ 2015-03-11T23:00:38+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/4
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000056s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001033s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000843s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001035s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0040s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=4 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000111s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000319s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.053206s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.053383s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000693s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000994s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002003s ]
+
+[ 2015-03-11T23:01:09+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/3
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000918s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000793s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000936s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0035s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=3 )  [ RunTime:0.0006s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000118s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000340s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011782s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011945s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000670s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001028s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001983s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001083s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001267s ]
+
+[ 2015-03-11T23:01:09+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000506s ]
+
+[ 2015-03-11T23:10:05+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000033s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000704s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001128s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001344s ]
+
+[ 2015-03-11T23:10:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/3
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000718s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002156s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002470s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0039s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=3 )  [ RunTime:0.0007s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000129s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000325s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011993s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012201s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000615s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000735s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001598s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000986s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001167s ]
+
+[ 2015-03-11T23:10:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000830s ]
+
+[ 2015-03-11T23:10:33+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000640s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000896s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001093s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0044s ]
+DEBUG: create vo:Array
+(
+    [id] => 3
+    [name] => test
+    [function] => test
+    [brand] => d
+    [made_in] => 
+    [instruction] => 
+    [img] => 
+    [barcode] => 
+)
+
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0' for key 'barcode'
+
+[ 2015-03-11T23:10:45+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000646s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000783s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000923s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0033s ]
+NOTIC: [8] Undefined index: 2772ea490166aaf7a16a6df55bcdf989 C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1078 行.
+DEBUG: create vo:
+DEBUG: save rs:
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000068s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000223s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010741s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010873s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000516s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000692s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001385s ]
+
+[ 2015-03-11T23:11:00+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000054s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000943s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001075s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001292s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+NOTIC: [8] Undefined index: 2772ea490166aaf7a16a6df55bcdf989 C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1078 行.
+DEBUG: create vo:
+DEBUG: save rs:
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000064s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000185s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008987s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.009245s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001901s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001339s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.003705s ]
+
+[ 2015-03-11T23:11:19+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000040s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000902s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000862s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001045s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0054s ]
+NOTIC: [8] Undefined index: 2772ea490166aaf7a16a6df55bcdf989 C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1078 行.
+DEBUG: create vo:
+DEBUG: save rs:
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000101s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000297s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.012333s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012549s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000720s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.000987s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002020s ]
+
+[ 2015-03-11T23:11:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/3
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000856s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000835s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000968s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0038s ]
+SQL: SELECT * FROM `bc_best_for_baby` WHERE ( id=3 )  [ RunTime:0.0350s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000107s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000297s ]
+NOTIC: [8] Undefined variable: rs C:\wamp\www\babycare\bc\Runtime\Cache\Home\c35327a8db04c844ef02e0e5ff80c78f.php 第 33 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.009843s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010061s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000727s ]
+INFO: Run Behavior\TokenBuildBehavior [ RunTime:0.001026s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002049s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000880s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001081s ]
+
+[ 2015-03-11T23:11:31+08:00 ] 127.0.0.1 /index.php/home/bestforbaby/editItem/id/ThinkPHP/Public/Uploads/20150228/54f1e0f4450b1.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000972s ]
+
+[ 2015-03-11T23:11:33+08:00 ] 127.0.0.1 /index.php/Home/bestforbaby/editItem
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000874s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001197s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001403s ]
+NOTIC: [2048] Declaration of Home\Controller\BestForBabyController::show() should be compatible with that of Think\Controller::show() C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 264 行.
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0047s ]
+DEBUG: create vo:Array
+(
+    [id] => 3
+    [name] => test
+    [function] => test
+    [brand] => d
+    [made_in] =>  d
+    [instruction] => d
+    [img] => d
+    [barcode] => 6765
+)
+
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`function`='test',`brand`='d',`made_in`=' d',`instruction`='d',`img`='d',`barcode`='6765' WHERE `id` = 3 [ RunTime:0.2714s ]
+

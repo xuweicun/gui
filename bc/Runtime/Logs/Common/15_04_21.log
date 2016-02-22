@@ -1,0 +1,6 @@
+[ 2015-04-21T17:27:19+08:00 ] 127.0.0.1 /index.php/bc/Home/Category/listChildren/father_id/11
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001093s ]
+ERR: 无法加载模块:Bc
+

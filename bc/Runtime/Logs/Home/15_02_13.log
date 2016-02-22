@@ -1,0 +1,656 @@
+[ 2015-02-13T15:00:46+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000604s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000886s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000999s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0620s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.042401s ]
+INFO: [ app_end ] --END-- [ RunTime:0.042529s ]
+
+[ 2015-02-13T15:11:13+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000070s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001898s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001104s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001235s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0079s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001213s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001333s ]
+
+[ 2015-02-13T15:11:40+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000037s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000959s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001388s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001545s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0051s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: INSERT INTO `bc_best_for_baby` (`name`,`brand`,`made_in`,`function`,`instruction`,`barcode`) VALUES ('test','test','test','test','test','232533') [ RunTime:0.1072s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001564s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001740s ]
+
+[ 2015-02-13T15:13:03+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000734s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001730s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0053s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '232533' for key 'barcode'
+
+[ 2015-02-13T15:13:18+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000756s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001870s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002098s ]
+
+[ 2015-02-13T15:13:29+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001009s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001200s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001367s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0071s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: INSERT INTO `bc_best_for_baby` (`name`,`brand`,`made_in`,`function`,`instruction`,`barcode`) VALUES ('test','test','test','test','test','2323533') [ RunTime:0.1032s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001110s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001220s ]
+
+[ 2015-02-13T15:14:08+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000498s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001146s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001341s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0049s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:14:09+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000809s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001064s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001224s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0069s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:14:28+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001261s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001225s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001396s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0063s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:14:29+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000603s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001316s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001509s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0065s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:22:31+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000037s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000762s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000948s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001060s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0054s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 28 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:22:31+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000670s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002423s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002746s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0063s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 28 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:23:52+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000877s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002146s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002409s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0045s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:23:52+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000087s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000860s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000934s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001058s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:24:59+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000038s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000609s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001166s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001297s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0047s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:24:59+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000626s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001827s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002041s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0058s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0012s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:33:49+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000711s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000989s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001110s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0067s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:33:49+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000052s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001420s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001286s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001410s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0045s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:34:19+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000929s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001193s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001354s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:34:19+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000054s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001216s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001135s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001285s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:34:41+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000877s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001586s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001813s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0064s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:34:41+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000606s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000959s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001075s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0016s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:34:51+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000654s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001772s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002015s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:34:51+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000780s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001013s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001141s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:35:46+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000543s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000890s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001005s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0049s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+NOTIC: [8] Undefined index: newname C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1289 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001751s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001950s ]
+
+[ 2015-02-13T15:50:49+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000558s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001361s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001496s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0061s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+NOTIC: [8] Undefined index: newname C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1289 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001353s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001528s ]
+
+[ 2015-02-13T15:51:04+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000089s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001893s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001339s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001509s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0055s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+NOTIC: [8] Undefined index: newname C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1270 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001413s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001566s ]
+
+[ 2015-02-13T15:51:12+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000658s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001962s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002261s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0081s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1' for key 'PRIMARY'
+
+[ 2015-02-13T15:51:12+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000593s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000938s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001055s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0066s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1' for key 'PRIMARY'
+
+[ 2015-02-13T15:51:49+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001051s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001513s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001719s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0049s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:51:49+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000759s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001083s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001262s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0017s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2323533' for key 'barcode'
+
+[ 2015-02-13T15:51:57+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000828s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001714s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002003s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0076s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:51:57+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000752s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001013s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001147s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0059s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0009s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
+
+[ 2015-02-13T15:52:20+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000672s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001436s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001638s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0008s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: INSERT INTO `bc_best_for_baby` (`id`,`name`,`brand`,`made_in`,`function`,`instruction`,`barcode`) VALUES ('2323','test','test','test','test','test','23232533') [ RunTime:0.0828s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000984s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001094s ]
+
+[ 2015-02-13T15:52:51+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000697s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001342s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001472s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0052s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0007s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '23232533' for key 'barcode'
+
+[ 2015-02-13T15:52:51+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000755s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000884s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001039s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '23232533' for key 'barcode'
+
+[ 2015-02-13T15:53:06+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000043s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000844s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001940s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002147s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0060s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: INSERT INTO `bc_best_for_baby` (`id`,`name`,`brand`,`made_in`,`function`,`instruction`,`barcode`) VALUES ('2323','test','test','test','test','test','2533') [ RunTime:0.0952s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001417s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001575s ]
+
+[ 2015-02-13T15:55:24+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000627s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001423s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001618s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0008s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 2323 [ RunTime:0.0999s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002945s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003282s ]
+
+[ 2015-02-13T15:55:41+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002246s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001412s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001538s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0047s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0008s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 23233 [ RunTime:0.0006s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001261s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001383s ]
+
+[ 2015-02-13T15:56:21+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001168s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001328s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0056s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0007s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='25133' WHERE `id` = 23233 [ RunTime:0.0006s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001495s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001661s ]
+
+[ 2015-02-13T15:56:53+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000776s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001272s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001464s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2533' for key 'barcode'
+
+[ 2015-02-13T15:56:53+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000035s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000667s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001034s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001166s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0046s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+ERR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2533' for key 'barcode'
+
+[ 2015-02-13T15:59:10+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000720s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001213s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001504s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0079s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+NOTIC: [8] Undefined index: img C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1153 行.
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 23233 [ RunTime:0.0004s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001112s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001225s ]
+
+[ 2015-02-13T15:59:38+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000690s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002291s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002529s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0048s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0005s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `img`='df',`name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 23233 [ RunTime:0.0005s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001501s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001688s ]
+
+[ 2015-02-13T16:00:06+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000041s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000913s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001596s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001817s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0057s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `img`='df',`name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 2323 [ RunTime:0.1027s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001239s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001356s ]
+
+[ 2015-02-13T16:00:21+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000541s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001856s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002049s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0050s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0007s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 2323 [ RunTime:0.0953s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002111s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002281s ]
+
+[ 2015-02-13T16:00:32+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000693s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001182s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001330s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0059s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT * FROM `bc_best_for_baby` LIMIT 0,1   [ RunTime:0.0013s ]
+NOTIC: [8] Undefined variable: info C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php 第 34 行.
+SQL: UPDATE `bc_best_for_baby` SET `img`='',`name`='test',`brand`='test',`made_in`='test',`function`='test',`instruction`='test',`barcode`='2533' WHERE `id` = 2323 [ RunTime:0.0952s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001247s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001375s ]
+

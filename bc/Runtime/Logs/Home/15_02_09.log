@@ -1,0 +1,15 @@
+[ 2015-02-09T20:48:12+08:00 ] 127.0.0.1 /babycare/index.php?c=bestforbaby
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000622s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001443s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001669s ]
+SQL: SHOW COLUMNS FROM `bc_best_for_baby` [ RunTime:0.0053s ]
+NOTIC: [2] Missing argument 1 for Think\Model::where(), called in C:\wamp\www\babycare\bc\Home\Controller\BestforbabyController.class.php on line 7 and defined C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1772 行.
+NOTIC: [8] Undefined variable: where C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1780 行.
+NOTIC: [8] Undefined variable: where C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1783 行.
+NOTIC: [8] Undefined variable: where C:\wamp\www\babycare\ThinkPHP\Library\Think\Model.class.php 第 1791 行.
+SQL: SELECT * FROM `bc_best_for_baby`  [ RunTime:0.0006s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `bc_best_for_baby` LIMIT 1   [ RunTime:0.0003s ]
+

@@ -1,0 +1,102 @@
+.clear{clear:both}
+input,input[type=text],input[type=password],textarea{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}
+input[type=checkbox]{border-width:1px;border-style:solid;clear:none;cursor:pointer;display:inline-block;line-height:0;height:16px;margin:-4px 4px 0 0;outline:0;padding:0!important;text-align:center;vertical-align:middle;width:16px;min-width:16px;-webkit-appearance:none;-webkit-box-sizing:border-box;box-sizing:border-box}
+input[type=checkbox]:disabled,input[type=checkbox]:disabled:checked:before{opacity:.7}
+input[type=checkbox]:checked:before{float:left;display:inline-block;vertical-align:middle;width:16px;font:400 21px/1 dashicons;speak:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+input[type=checkbox]:checked:before{content:'\f147';margin:-3px 0 0 -4px}
+@-moz-document url-prefix(){input[type=checkbox],input[type=radio],.form-table input.tog{margin-bottom:-1px}
+    }
+html,body{height:100%;margin:0;padding:0}
+body{font-family:"Open Sans",sans-serif;font-size:13px;line-height:1.4em;min-width:600px}
+body.login{background:#fbfbfb;min-width:0}
+iframe,img{border:0}
+td,textarea,input,select,button{font-family:inherit;font-size:inherit;font-weight:inherit}
+td,textarea{line-height:inherit}
+textarea{overflow:auto}
+textarea,input,select{font-size:14px;padding:3px 5px;line-height:15px;border-radius:0}
+textarea{padding:2px 6px;line-height:1.4}
+a,input[type=text],input[type=password],textarea,div,select{outline:0}
+a:focus,a:active{outline:thin dotted}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+p{font-size:13px;line-height:1.5;margin:1em 0}
+blockquote{margin:1em}
+label{cursor:pointer}
+li,dd{margin-bottom:6px}
+input,select{margin:1px;padding:3px 5px}
+h1,h2,h3,h4,h5,h6{display:block;font-weight:600}
+h1{font-size:2em;margin:.67em 0}
+h2{font-size:1.5em;margin:.83em 0;font-weight:400}
+h3{font-size:1.3em;margin:1em 0}
+h4{font-size:1em;margin:1.33em 0}
+h5{font-size:.83em;margin:1.67em 0}
+h6{font-size:.67em;margin:2.33em 0}
+ul,ol{padding:0}
+ul{list-style:none}
+ol{list-style-type:decimal;margin-left:2em}
+code{font-family:Consolas,Monaco,monospace;direction:ltr}
+kbd,code{padding:3px 5px 2px;margin:0 1px;font-size:13px}
+textarea,input[type=text],input[type=password],select{border-width:1px;border-style:solid}
+html{background-color:#fff}
+textarea,input[type=text],input[type=password],select{background-color:#fff;color:#333}
+select:focus{border-color:#aaa}
+textarea:focus,input[type=text]:focus,input[type=password]:focus,input[type=checkbox]:focus,select:focus{-webkit-box-shadow:0 1px 2px rgba(0,0,0,.1);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+strong,b{font-weight:600}
+hr{border:0;border-top:1px solid #ddd;border-bottom:1px solid #fafafa}
+.submit{padding:1.5em 0;margin:5px 0;-webkit-border-bottom-left-radius:3px;-webkit-border-bottom-right-radius:3px;border-bottom-left-radius:3px;border-bottom-right-radius:3px}
+p.submit{text-align:left;max-width:100%;margin-top:20px;padding-top:10px}
+label{vertical-align:middle}
+
+fieldset{border:0;padding:0;margin:0}
+#loginform p.submit{border:0;margin:-10px 0 20px}
+.login *{margin:0;padding:0}
+.login form{margin-top:20px;margin-left:0;padding:26px 24px 46px;font-weight:400;overflow:hidden}
+.login form .forgetmenot{font-weight:400;float:left;margin-bottom:0}
+.login .button-primary{float:right}
+#login form p{margin-bottom:0}
+#login form p.submit{margin:0;padding:0}
+.login label{color:#777;font-size:14px}
+.login form .forgetmenot label{font-size:12px;line-height:19px}
+.login h1{text-align:center}
+#login{width:320px;padding:8% 0 0;margin:auto}
+.login form .input,.login input[type=text]{font-size:24px;line-height:1;width:100%;padding:3px;margin:2px 6px 16px 0}
+img{border:0}
+@media screen and (max-width:480px){    }
+@media only screen and (max-width:768px){    }
+@media only screen and (min-width:769px){    }
+@media only screen and (max-width:860px){    }
+@media only screen and (min-width:980px){    }
+@media only screen and (max-width:768px){    }
+@media only screen and (min-width:1250px){    }
+@media print,(-o-min-device-pixel-ratio:5/4),(-webkit-min-device-pixel-ratio:1.25),(min-resolution:120dpi){    }
+
+@media screen and (max-width:782px){body{min-width:240px;overflow-x:hidden}
+    body *{-webkit-tap-highlight-color:rgba(0,0,0,0)!important}
+    textarea{-webkit-appearance:none}
+    input[type=text],input[type=password]{-webkit-appearance:none;padding:6px 10px}
+    input[type=checkbox]{-webkit-appearance:none;padding:10px}
+    input[type=checkbox]:checked:before{font:400 30px/1 Dashicons;margin:-3px -5px}
+    input[type=checkbox]{height:25px;width:25px}
+    textarea,input{font-size:16px}
+    }
+@media only screen and (max-width:500px){    }
+@media screen and (max-width:782px){    }
+@media screen and (max-width:600px){    }
+
+.logo-main{margin:0 auto;padding-top:30px;overflow:hidden;width:220px;}
+
+hgroup{float:left;}
+
+#login > h1{display:none;}
+
+#login{padding:0;}
+
+body.login{background-image:url(../images/login_bg.jpg);-webkit-background-size:cover;background-size:cover;background-repeat:no-repeat;}
+
+.login form{background-color:rgba(0,0,0,.4);border:1px rgba(255,255,255,.5) solid;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
+#loginform .input{background-color:rgba(255,255,255,.8);-webkit-box-shadow:inset 0 0 3px rgba(0,0,0,.6);-moz-box-shadow:inset 0 0 3px rgba(0,0,0,.6);box-shadow:inset 0 0 3px rgba(0,0,0,.6);-webkit-transition:ease-in-out .5s;-moz-transition:ease-in-out .5s;-ms-transition:ease-in-out .5s;-o-transition:ease-in-out .5s;transition:ease-in-out .5s;border:none;}
+#loginform .input:focus{background-color:#3397DA;color:#fff;}
+.login label{color:#fff;}
+.login .button-primary{background-color:#3397DA;border:none;padding:2px 8px;color:#fff;cursor:pointer;-webkit-transition:ease-in-out .5s;-moz-transition:ease-in-out .5s;-ms-transition:ease-in-out .5s;-o-transition:ease-in-out .5s;transition:ease-in-out .5s;}
+.login .button-primary:hover{background-color:#fab210;}
+/*3397DA*/
