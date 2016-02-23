@@ -13,7 +13,7 @@
  	    <div ng-repeat="item in level"></div>
  		<input ng-model="level">
  		<span>{{level}}</span>
-        <a class="btn btn-large" ng-click="diskinfo(1,1,1)">查询硬盘状态</a>
+        <a class="btn btn-large" ng-click="diskInfo(1,1,1)">查询硬盘状态</a>
 
  	柜子状态获取中......
  	柜子共6层，每层6组，每组6个盘位
@@ -41,8 +41,18 @@
                 });
                 $scope.diskInfo = function(level,group,index)
                 {
+                    var msg = {level:level,cmd:'DISKINFO'};
 
-                    alert("I'm working");
+                    $http.post('/someUrl',msg).
+                            success(function(data) {
+                                // this callback will be called asynchronously
+                                // when the response is available
+                            }).
+                            error(function(data, status, headers, config) {
+                                // called asynchronously if an error occurs
+                                // or server returns response with an error status.
+                                console.log("no data sent");
+                            });
 
                 }
             });
