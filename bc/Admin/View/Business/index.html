@@ -3,10 +3,9 @@
  <head>
  	<meta charset="UTF-8">
  	<title>Document</title>
- 	<script src="//cdn.bootcss.com/jquery/3.0.0-beta1/jquery.min.js"></script>
- 	<script src="//cdn.bootcss.com/ionic/1.2.4/js/angular/angular.min.js"></script>
 
- 
+
+     <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
  	<script>
  	 $(function() {
          //send disk_info orders
@@ -27,13 +26,17 @@
 		app.controller('DeviceStatus', function($scope,$http) {
 		    $scope.level = 13;
 		     $http({
-		      url:'http://localhost:10086/index.php/business/getDeviceSize',
-		      method:'GET'
+		      //url:'http://localhost:10086/index.php/business/getDeviceSize',
+		        url:'/Public/js/device.json',
+                 method:'GET'
 		      }).success(function(data) {
-		       $scope.level = data.level;
+		       $scope.level = data.device_level;
 		       //$scope.chats = newItems;
 		     });
 		  });
 	</script>
+        <script src="//cdn.bootcss.com/jquery/3.0.0-beta1/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/ionic/1.2.4/js/angular/angular.min.js"></script>
+        <script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
  </body>
  </html>

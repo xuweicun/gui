@@ -27,10 +27,11 @@
 		app.controller('DeviceStatus', function($scope,$http) {
 		    $scope.level = 13;
 		     $http({
-		      url:'http://localhost:10086/index.php/business/getDeviceSize',
-		      method:'GET'
+		      //url:'http://localhost:10086/index.php/business/getDeviceSize',
+		        url:'/Public/js/device.json',
+                 method:'GET'
 		      }).success(function(data) {
-		       $scope.level = data.level;
+		       $scope.level = data.device_level;
 		       //$scope.chats = newItems;
 		     });
 		  });
