@@ -20,7 +20,7 @@
         </div>
  		<input ng-model="level">
  		<span>{{level}}</span>
-        <a class="btn btn-large" ng-click="bridge(1,1)">查询硬盘状态</a>
+        <a class="btn btn-large" ng-click="bridge('1','1')">查询硬盘状态</a>
 
  	柜子状态获取中......
  	柜子共6层，每层6组，每组6个盘位
@@ -37,7 +37,7 @@
             var app = angular.module('device', []);
             app.controller('DeviceStatus', function($scope,$http) {
                 $scope.level = 13;
-                var proxy = "someUrl";
+                var proxy = "http://222.35.224.230:8080";
                 $http({
                     //url:'http://localhost:10086/index.php/business/getDeviceSize',
                     url:'/Public/js/device.json',
@@ -77,7 +77,7 @@
                 $scope.bridge = function(level,group)
                 {
                     var msg = {cmd:'BRIDGE',subcmd:'START',level:level,group:group,disks:[
-                    {id:1,SN:'0123'}]};
+                    {id:"1",SN:'0123'}]};
                     $scope.sendcmd(msg);
                 }
                 $scope.md5 = function(level,group,disk)

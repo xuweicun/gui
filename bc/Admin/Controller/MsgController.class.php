@@ -11,11 +11,44 @@ class MsgController extends Controller {
 	   }
 	   //lets see what is it?
 	   $status = I('post.status');
-	   $cmd = I('post.CMD');
+	   if(!$data['cmd']= I('post.cmd'))
+	   {
+		   //something wrong;
+		   die();
+	   }
+	   $data['subcmd'] = I('psot.subcmd');
+	   
+	   $db = M('CmdLog');
+	   if($item = $db->where()->find())
+	   {
+		   $data['status'] = I('post.status',0,'intval');
+		   if($data['status'] > 0)
+		   {
+			   $data['errno'] = I('post.errno',0,'intval');
+		   }
+		   $data['progress'] = I('post.progress');
+		   $data['id'] = $item['id'];
+		   $db->save($data);//update value
+	   }
+
+	   
 	   
 	}
-	public function devicestatus()
+	
+	
+	/***
+	* update the command log
+	* @author: wilson xu
+	*/
+	public function updateCmdLog()
 	{
+		//find the commond record by cmd, subcmd, which has been inserteed
+		//before the commond sent to the proxy;
 		
+		//update the finish-time, and the status
+		//done
 	}
+	
+	
+	
 }
