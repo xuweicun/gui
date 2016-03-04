@@ -18,7 +18,7 @@ class BusinessController extends Controller {
 		$this->display();
 	}
 	
-	public function getDiskInfo()
+	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
 		$db = M('Device');

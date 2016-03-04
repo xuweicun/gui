@@ -2,7 +2,9 @@
     "levels": ["1","2","3","4","5","6"],
     "groups": ["1","2","3","4","5","6"],
     "disks": ["1","2","3","4","5","6"],
-
+    "level": 6,
+    "group": 6,
+    "disk":  6,
     "device_owner": "China National Libarary",
     "device_sn": "10010"
 

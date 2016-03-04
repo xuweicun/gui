@@ -7,15 +7,18 @@
      <script src="/Public/js/jquery-1.11.1.js"></script>
      <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
      <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
-
+     <style type="text/css">
+     .disk_active {color:red;}
+     </style>
  </head>
  <body ng-app="device" ng-controller="DeviceStatus">
-
+        <h1>柜子共{{level}}层，每层{{group}}组，每组{{disk}}个盘位</h1>
+        <h2>总盘位：{{level * group * disk}}</h2>
  	    <div ng-repeat="level in levels" style="width:90%; margin: auto; margin-bottom:5px;border:2px solid green;">
           <div ng-repeat = "group in groups" style="width:100%;display:inline-block;">
-              <button ng-repeat = "disk in disks" style="width:15%;display:inline-block;">
+              <button ng-repeat = "disk in disks" style="width:15%;display:inline-block;" id="disk_{{level}}_{{group}}_{{disk}}">
                   disk-{{level}}-{{group}}-{{disk}}
-              </div>
+              </button>
           </div>
         </div>
  		<input ng-model="level">
@@ -23,7 +26,7 @@
         <a class="btn btn-large" ng-click="bridge('1','1')">查询硬盘状态</a>
 
  	柜子状态获取中......
- 	柜子共6层，每层6组，每组6个盘位
+
 
 
         <script>
@@ -46,14 +49,36 @@
                     $scope.levels = data.levels;
                     $scope.groups = data.groups;
                     $scope.disks  = data.disks;
+                    $scope.level = data.level;
+                    $scope.group = data.group;
+                    $scope.disk = data.disk;
                     //$scope.chats = newItems;
                 });
+                if(1||$scope.devicestatus())
+                {
+                    //获取柜子状态的命令执行成功
+                    $http({
+                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
+
+                        method:'GET'
+                    }).success(function(data) {
+                        data.forEach(function(e)
+                                {
+                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.disk;
+                                    $(id).addClass("disk_active");
+                                }
+                        );
+
+                    });
+                }
+
                 $scope.sendcmd = function(msg)
                 {
                     $http.post(proxy,msg).
                             success(function(data) {
                                 // this callback will be called asynchronously
                                 // when the response is available
+                                return true;
                             }).
                             error(function(data) {
                                 // called asynchronously if an error occurs
@@ -65,7 +90,7 @@
                 $scope.devicestatus = function()
                 {
                     var msg = {cmd:'DEVICESTATUS'};
-                    $scope.sendcmd(msg);
+                    return $scope.sendcmd(msg);
                     
 
                 }
