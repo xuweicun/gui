@@ -8,12 +8,13 @@
      <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
      <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
      <style type="text/css">
-     .disk_active {color:red;}
+     .disk_active {background-color:green;}
      </style>
  </head>
  <body ng-app="device" ng-controller="DeviceStatus">
         <h1>柜子共{{level}}层，每层{{group}}组，每组{{disk}}个盘位</h1>
         <h2>总盘位：{{level * group * disk}}</h2>
+        <h3>在位：{{loaded}}</h3>
  	    <div ng-repeat="level in levels" style="width:90%; margin: auto; margin-bottom:5px;border:2px solid green;">
           <div ng-repeat = "group in groups" style="width:100%;display:inline-block;">
               <button ng-repeat = "disk in disks" style="width:15%;display:inline-block;" id="disk_{{level}}_{{group}}_{{disk}}">
@@ -38,8 +39,9 @@
         </script>
         <script>
             var app = angular.module('device', []);
-            app.controller('DeviceStatus', function($scope,$http) {
+            app.controller('DeviceStatus', function($scope,$http,$timeout) {
                 $scope.level = 13;
+                $scope.loaded = 0;
                 var proxy = "http://222.35.224.230:8080";
                 $http({
                     //url:'http://localhost:10086/index.php/business/getDeviceSize',
@@ -52,25 +54,12 @@
                     $scope.level = data.level;
                     $scope.group = data.group;
                     $scope.disk = data.disk;
+                    $scope.queryProgress = data.querying;
                     //$scope.chats = newItems;
                 });
-                if(1||$scope.devicestatus())
-                {
-                    //获取柜子状态的命令执行成功
-                    $http({
-                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
-
-                        method:'GET'
-                    }).success(function(data) {
-                        data.forEach(function(e)
-                                {
-                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.disk;
-                                    $(id).addClass("disk_active");
-                                }
-                        );
-
-                    });
-                }
+                 
+                
+                
 
                 $scope.sendcmd = function(msg)
                 {
@@ -84,16 +73,52 @@
                                 // called asynchronously if an error occurs
                                 // or server returns response with an error status.
                                 console.log("no data sent");
+                                return false;
                             });
                 }
+                var updateDeviceStatus = $timeout(function()
+                {
+                    if($scope.checkCollision() == 0)
+                    {
+                        var cmdResult = $scope.devicestatus();
+                        if(!cmdResult)
+                        {
+                            $scope.queryProgress = '通讯异常，请联系维护人员处理。';
+                        }
+                    } 
 
+                    $http({
+                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
+
+                        method:'GET'
+                    }).success(function(data) {
+                        data.forEach(function(e)
+                                {
+                                    console.log(e);
+                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.index;
+                                    $(id).addClass("disk_active");
+                                    $scope.loaded = $scope.loaded + 1;
+                                }
+                        );
+
+                    });
+                },5000);
+                $scope.checkCollision = function()
+                {
+                    $http({
+                        url:'http://localhost:10086/index.php/business/checkCollision',
+
+                        method:'GET'
+                    }).success(function(data) {
+                        return data;                    
+                    });
+                }
                 $scope.devicestatus = function()
                 {
                     var msg = {cmd:'DEVICESTATUS'};
                     return $scope.sendcmd(msg);
-                    
-
                 }
+
                 $scope.writeprotect = function(level)
                 {
                     var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};

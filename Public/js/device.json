@@ -6,6 +6,7 @@
     "group": 6,
     "disk":  6,
     "device_owner": "China National Libarary",
-    "device_sn": "10010"
+    "device_sn": "10010",
+    "querying": "设备状态查询中，请稍后..."
 
 }
