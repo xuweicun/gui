@@ -37,20 +37,30 @@ class BusinessController extends Controller {
 		$this->AjaxReturn($returnData);
 		
 	}
+    /***
+    * to return any operating command
+    */
+    public function clearAll()
+    {
+       $db = M('CmdLog');
+       $items = $db->where('status=-1')->field('cmd')->select();
+       $this->AjaxReturn($items); 
+    }
 	/***
 	* to check if or not the same commond has been sent
 	* @author: wilsonxu
 	* @input:  cmd, subcmd
 	*/
-	public function checkCollison()
+	public function checkCollision()
 	{
+        echo "hi!";
 		$db = M('CmdLog');
-		$cmd = I('post.cmd');
-		$subcmd = I('post.subcmd');
+		//$cmd = I('post.cmd');
+		//$subcmd = I('post.subcmd');
 		$status = -1;//-1 represents that the commond is not finished yet.
-		$map['cmd'] = array('like',$cmd);
-		$map['subcmd'] = array('like',$subcmd);
-		$map['status'] = array('equal',$status);
+		//$map['cmd'] = array('like',$cmd);
+		//$map['subcmd'] = array('like',$subcmd);
+		$map['status'] = array('eq',$status);
 		$data['isLegal'] = 1;
 		if(!$db->where($map)->find())
 		{

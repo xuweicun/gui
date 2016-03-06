@@ -15,6 +15,9 @@
         <h1>柜子共{{level}}层，每层{{group}}组，每组{{disk}}个盘位</h1>
         <h2>总盘位：{{level * group * disk}}</h2>
         <h3>在位：{{loaded}}</h3>
+        <div>
+            <a href="/index.php/business/bridge">桥接</a>
+        </div>
  	    <div ng-repeat="level in levels" style="width:90%; margin: auto; margin-bottom:5px;border:2px solid green;">
           <div ng-repeat = "group in groups" style="width:100%;display:inline-block;">
               <button ng-repeat = "disk in disks" style="width:15%;display:inline-block;" id="disk_{{level}}_{{group}}_{{disk}}">
@@ -92,9 +95,9 @@
 
                         method:'GET'
                     }).success(function(data) {
+                        $scope.loaded = 0;
                         data.forEach(function(e)
                                 {
-                                    console.log(e);
                                     var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.index;
                                     $(id).addClass("disk_active");
                                     $scope.loaded = $scope.loaded + 1;
@@ -103,14 +106,15 @@
 
                     });
                 },5000);
-                $scope.checkCollision = function()
+                $scope.checkCollision = function(msg)
                 {
+                    
                     $http({
                         url:'http://localhost:10086/index.php/business/checkCollision',
-
+                        
                         method:'GET'
                     }).success(function(data) {
-                        return data;                    
+                        return data['isLegal'];                    
                     });
                 }
                 $scope.devicestatus = function()
