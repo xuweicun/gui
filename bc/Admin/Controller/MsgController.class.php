@@ -17,25 +17,51 @@ class MsgController extends Controller {
 		   die();
 	   }
 	   $data['subcmd'] = I('psot.subcmd');
-	   
-	   $db = M('CmdLog');
-	   if($item = $db->where()->find())
-	   {
-		   $data['status'] = I('post.status',0,'intval');
-		   if($data['status'] > 0)
-		   {
-			   $data['errno'] = I('post.errno',0,'intval');
-		   }
-		   $data['progress'] = I('post.progress');
-		   $data['id'] = $item['id'];
-		   $db->save($data);//update value
-	   }
-
-	   
-	   
+       switch($data['cmd'])
+       {
+           case 'DEVICESTATUS':
+           $this->updateDeviceStatus();
+           break;
+       }  	   
 	}
-	
-	
+	/***
+    * 获取硬盘在位信息返回数据处理函数
+    * @作者 Wilson Xu
+    */
+	public function updateDeviceStatus()
+    {
+       if(I('post.status') == 0 || I('get.test_id') == 1)
+       {
+           $db = M('Device');
+           $levels = I('post.levels');
+           foreach($levels as $level)
+           {
+               $level_id = $level['id'];
+               $groups = $level['groups'];
+               foreach($groups as $group)
+               {
+                   $group_id = $group['id'];
+                   $disks = $group['disks'];
+                   foreach($disks as $disk)
+                   {
+                       $map['level'] = array('eq',$level_id);
+                       $map['group'] = array('eq',$group_id);
+                       $map['index'] = array('eq',$disk);
+                       if($item = $db->where($map)->find())
+                       {
+                           $item['loaded'] = 1;
+                           $db->save($item);
+                       }
+                       
+                   }
+               }
+           }
+       }
+       else
+       {
+           $this->handleError("DEVICESTATUS");//统一处理
+       } 
+    }
 	/***
 	* update the command log
 	* @author: wilson xu

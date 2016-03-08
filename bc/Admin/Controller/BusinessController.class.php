@@ -53,7 +53,6 @@ class BusinessController extends Controller {
 	*/
 	public function checkCollision()
 	{
-        echo "hi!";
 		$db = M('CmdLog');
 		//$cmd = I('post.cmd');
 		//$subcmd = I('post.subcmd');

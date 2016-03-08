@@ -1,10 +1,15 @@
 <?php
+
 !defined( 'DB_CHARSET' ) && define( 'DB_CHARSET' , 'utf8' );// 数据库保存编码, 不可缺少
 header( 'Content-Type:text/html; charset=utf-8' ); // 本程序执行编码
-
+if(file_exists('../install_lock'))
+{
+    echo '系统已安装';
+    die();
+}
 // 显示填写mysql信息的表单 , 并停止
 if ( !isset( $_POST['dbinfo'] ) ) {
-	include 'install_form.html';
+	include 'index.html';
 	exit;
 }
 

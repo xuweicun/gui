@@ -66,6 +66,7 @@
 
                 $scope.sendcmd = function(msg)
                 {
+                    console.log('sending command.');
                     $http.post(proxy,msg).
                             success(function(data) {
                                 // this callback will be called asynchronously
@@ -81,14 +82,19 @@
                 }
                 var updateDeviceStatus = $timeout(function()
                 {
-                    if($scope.checkCollision() == 0)
-                    {
-                        var cmdResult = $scope.devicestatus();
-                        if(!cmdResult)
+                    $http({
+                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        
+                        method:'GET'
+                    }).success(function(data) {
+                        if(data['isLegal'] == 1)
                         {
-                            $scope.queryProgress = '通讯异常，请联系维护人员处理。';
-                        }
-                    } 
+                            $scope.devicestatus();
+                        
+                        }                 
+                    });
+                        
+                    
 
                     $http({
                         url:'http://localhost:10086/index.php/business/getDeviceInfo',
@@ -106,7 +112,7 @@
 
                     });
                 },5000);
-                $scope.checkCollision = function(msg)
+                $scope.checkCollision = function()
                 {
                     
                     $http({
