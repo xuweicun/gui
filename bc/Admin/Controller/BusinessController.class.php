@@ -15,7 +15,7 @@ class BusinessController extends Controller {
 		
 		
 		//generate the page 
-		$this->display();
+		$this->display("index2");
 	}
 	
 	public function getDeviceInfo()
@@ -37,15 +37,15 @@ class BusinessController extends Controller {
 		$this->AjaxReturn($returnData);
 		
 	}
-    /***
-    * to return any operating command
-    */
-    public function clearAll()
-    {
-       $db = M('CmdLog');
-       $items = $db->where('status=-1')->field('cmd')->select();
-       $this->AjaxReturn($items); 
-    }
+	/***
+	* to return any operating command
+	*/
+	public function clearAll()
+	{
+	   $db = M('CmdLog');
+	   $items = $db->where('status=-1')->field('cmd')->select();
+	   $this->AjaxReturn($items); 
+	}
 	/***
 	* to check if or not the same commond has been sent
 	* @author: wilsonxu
