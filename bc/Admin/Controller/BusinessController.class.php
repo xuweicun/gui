@@ -15,7 +15,7 @@ class BusinessController extends Controller {
 		
 		
 		//generate the page 
-		$this->display("index2");
+		$this->display("index");
 	}
 	
 	public function getDeviceInfo()
