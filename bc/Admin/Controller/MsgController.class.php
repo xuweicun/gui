@@ -2,11 +2,9 @@
 namespace Admin\Controller;
 use Think\Controller;
 header('Access-Control-Allow-Origin:*'); 
-<<<<<<< HEAD
 
-=======
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
->>>>>>> origin/master
+
 class MsgController extends Controller {
 	public function index(){
 	   //get the json data into the：： _post array
@@ -15,19 +13,15 @@ class MsgController extends Controller {
 	   {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
-	   //lets see what is it?
-   	  $testDb = M('Test');
-	   $data['response'] = $_POST['errmsg'].'++'.$_POST['levels'];
-	   $testDb->add($data);
-	   $status = I('post.status');
-	   $this->AjaxReturn($_POST);
-           if(!$data['cmd']= I('post.cmd'))
+	  
+	   if($_POST['errmsg'])
 	   {
 		   //something wrong;
+		   $this->handleError();
 		   die();
 	   }
-	   $data['subcmd'] = I('psot.subcmd');
-	   switch($data['cmd'])
+	   
+	   switch($_POST['cmd'])
 	   {
 		   case 'DEVICESTATUS':
 		   $this->updateDeviceStatus();
@@ -40,13 +34,20 @@ class MsgController extends Controller {
 	*/
 	public function updateDeviceStatus()
 	{
-	   if(I('post.status') == 0)
+	   //在位信息以后改为用Redis维护
+	   if($_POST['status'] == 0)
 	   {
-		   $testDb = M('Test');
-		   $data['response'] = I('post.status').'++'.I('post.levels');
-		   $testDb->add($data);
 		   $db = M('Device');
-		   $levels = I('post.levels');
+		   $levels = $_POST['levels'];
+		   $map['loaded'] = array('eq',1);
+		   //找出所有之前在位的硬盘；
+		   $items = $db->where($map)->select();
+		   //更新在位信息；
+		   foreach($items as $item)
+		   {
+			   $item['loaded'] = 0;
+			   $db->save($item);
+		   }
 		   foreach($levels as $level)
 		   {
 			   $level_id = $level['id'];
@@ -77,8 +78,13 @@ class MsgController extends Controller {
 	   }
 	   else
 	   {
-		   $this->handleError("DEVICESTATUS");//统一处理
+		   $this->handleError();//统一处理
 	   } 
+	}
+	public function handleError()
+	{
+		//更新错误日志，包括命令名称，错误内容。--增加表；
+		die();
 	}
 	/***
 	* update the command log
