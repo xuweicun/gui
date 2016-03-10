@@ -1,6 +1,8 @@
 <?php
-namespace Admin2\Controller;
+namespace Admin\Controller;
 use Think\Controller;
+header('Access-Control-Allow-Origin:*'); 
+header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 class MsgController extends Controller {
 	public function index(){
 	   //get the json data into the _post array
@@ -10,8 +12,12 @@ class MsgController extends Controller {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
 	   //lets see what is it?
+   	  $testDb = M('Test');
+	   $data['response'] = $_POST['errmsg'].'++'.$_POST['levels'];
+	   $testDb->add($data);
 	   $status = I('post.status');
-	   if(!$data['cmd']= I('post.cmd'))
+	   $this->AjaxReturn($_POST);
+           if(!$data['cmd']= I('post.cmd'))
 	   {
 		   //something wrong;
 		   die();

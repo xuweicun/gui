@@ -681,7 +681,8 @@
 		
 		<!-- Pages JS -->
 		<script src="/Public/assets/js/pages/index.js"></script>
-		
+        <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
 		<!-- end: JavaScript-->
 		
 	</body>

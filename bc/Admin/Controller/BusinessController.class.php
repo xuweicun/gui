@@ -16,8 +16,22 @@ class BusinessController extends Controller {
 		
 		//generate the page 
 		$this->display("index");
-	}
 	
+}
+        public function temp()
+	{
+           $this->display("index2");
+        }
+	public function getTestResults()
+	{
+		$db = M('Test');
+		$items = $db->select();
+		foreach($items as $item)
+		{
+			var_dump($item);
+                        echo "<br/>";
+		}
+	}	
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
