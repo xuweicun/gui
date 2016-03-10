@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Admin\Controller;
 use Think\Controller;
 header('Access-Control-Allow-Origin:*'); 
@@ -16,16 +16,16 @@ class BusinessController extends Controller {
 		
 		//generate the page 
 		$this->display("index");
-<<<<<<< HEAD
+
 	}
-=======
+
 	
-}
-        public function temp()
+
+    public function temp()
 	{
            $this->display("index2");
-        }
->>>>>>> origin/master
+    }
+
 	public function getTestResults()
 	{
 		$db = M('Test');
@@ -33,14 +33,11 @@ class BusinessController extends Controller {
 		foreach($items as $item)
 		{
 			var_dump($item);
-<<<<<<< HEAD
-		}
-	}
-=======
-                        echo "<br/>";
+
+            echo "<br/>";
 		}
 	}	
->>>>>>> origin/master
+
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
