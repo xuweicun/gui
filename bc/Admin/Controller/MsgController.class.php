@@ -1,9 +1,11 @@
 <?php
-namespace Admin2\Controller;
+namespace Admin\Controller;
 use Think\Controller;
+header('Access-Control-Allow-Origin:*'); 
+
 class MsgController extends Controller {
 	public function index(){
-	   //get the json data into the _post array
+	   //get the json data into the：： _post array
 	   $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 	   if ($content_type_args[0] == 'application/json')
 	   {
@@ -17,51 +19,59 @@ class MsgController extends Controller {
 		   die();
 	   }
 	   $data['subcmd'] = I('psot.subcmd');
-       switch($data['cmd'])
-       {
-           case 'DEVICESTATUS':
-           $this->updateDeviceStatus();
-           break;
-       }  	   
+	   switch($data['cmd'])
+	   {
+		   case 'DEVICESTATUS':
+		   $this->updateDeviceStatus();
+		   break;
+	   }  	   
 	}
 	/***
-    * 获取硬盘在位信息返回数据处理函数
-    * @作者 Wilson Xu
-    */
+	* 获取硬盘在位信息返回数据处理函数
+	* @作者 Wilson Xu
+	*/
 	public function updateDeviceStatus()
-    {
-       if(I('post.status') == 0 || I('get.test_id') == 1)
-       {
-           $db = M('Device');
-           $levels = I('post.levels');
-           foreach($levels as $level)
-           {
-               $level_id = $level['id'];
-               $groups = $level['groups'];
-               foreach($groups as $group)
-               {
-                   $group_id = $group['id'];
-                   $disks = $group['disks'];
-                   foreach($disks as $disk)
-                   {
-                       $map['level'] = array('eq',$level_id);
-                       $map['group'] = array('eq',$group_id);
-                       $map['index'] = array('eq',$disk);
-                       if($item = $db->where($map)->find())
-                       {
-                           $item['loaded'] = 1;
-                           $db->save($item);
-                       }
-                       
-                   }
-               }
-           }
-       }
-       else
-       {
-           $this->handleError("DEVICESTATUS");//统一处理
-       } 
-    }
+	{
+	   if(I('post.status') == 0)
+	   {
+		   $testDb = M('Test');
+		   $data['response'] = I('post.status').'++'.I('post.levels');
+		   $testDb->add($data);
+		   $db = M('Device');
+		   $levels = I('post.levels');
+		   foreach($levels as $level)
+		   {
+			   $level_id = $level['id'];
+			   $groups = $level['groups'];
+			   foreach($groups as $group)
+			   {
+				   $group_id = $group['id'];
+				   $disks = $group['disks'];
+				   foreach($disks as $disk)
+				   {
+					   $map['level'] = array('eq',$level_id);
+					   $map['group'] = array('eq',$group_id);
+					   $map['index'] = array('eq',$disk);
+					   if($item = $db->where($map)->find())
+					   {
+						   $item['loaded'] = 1;
+						   $db->save($item);
+					   }
+					   else
+					   {
+						   $item['loaded'] = 1;
+						   $db->add($item);
+					   }
+					   
+				   }
+			   }
+		   }
+	   }
+	   else
+	   {
+		   $this->handleError("DEVICESTATUS");//统一处理
+	   } 
+	}
 	/***
 	* update the command log
 	* @author: wilson xu

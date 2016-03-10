@@ -15,6 +15,7 @@
         <h1>柜子共{{level}}层，每层{{group}}组，每组{{disk}}个盘位</h1>
         <h2>总盘位：{{level * group * disk}}</h2>
         <h3>在位：{{loaded}}</h3>
+        <a class="btn btn-block" href="#" ng-click="testapp()">测试代理</a>
         <div>
             <a href="/index.php/business/bridge">桥接</a>
         </div>
@@ -60,10 +61,16 @@
                     $scope.queryProgress = data.querying;
                     //$scope.chats = newItems;
                 });
-                 
+                $http.post('http://222.35.224.230/index.php?m=Admin&c=msg',{cmd:"WRITEPROTECT",status:'0',levels:"levels"}).success(function(data) {
+                   console.log(data);
+                    //$scope.chats = newItems;
+                });
                 
                 
-
+                $scope.testapp = function()
+                {
+                    $scope.devicestatus();
+                }
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
