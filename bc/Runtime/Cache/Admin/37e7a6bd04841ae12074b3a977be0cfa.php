@@ -7,7 +7,7 @@
 		<!-- Basic -->
     	<meta charset="UTF-8" />
 
-		<title>Dashboard | Fire - Admin Template</title>
+		<title>存储柜管理 | 中国国家图书馆</title>
 	 
 		<!-- Mobile Metas -->
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -54,6 +54,7 @@
 		
 		<!-- Head Libs -->
 		<script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
 		
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,7 +65,7 @@
 		
 	</head>
 	
-	<body>
+	<body ng-app="device" ng-controller="DeviceStatus"> 
 	
 		<!-- Start: Header -->
 		<div class="navbar" role="navigation">
@@ -438,7 +439,7 @@
 										</div>
 										<h1 class="bk-margin-off-top pull-right">144</h1>
 									</div>									
-									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共6层，每层6组，每组4个盘位</h6></a>
+									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层6组，每组4个盘位</h6></a>
 								</div>
 							</div>
 						</div>
@@ -461,72 +462,24 @@
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <div class="tabs tabs-vertical tabs-left">
                                 <ul class="nav nav-tabs col-sm-3 col-xs-5">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#home11"><i class=" glyphicon glyphicon-align-justify"></i> 第一层</a>
+                                    <li ng-repeat="level in levels">
+                                        <a data-toggle="tab" href="#level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
                                     </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#profile11"><i class=" glyphicon glyphicon-align-justify"></i> 第二层</a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#profile11"><i class=" glyphicon glyphicon-align-justify"></i> 第三层</a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#profile11"><i class=" glyphicon glyphicon-align-justify"></i> 第四层</a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#profile11"><i class=" glyphicon glyphicon-align-justify"></i> 第五层</a>
-                                    </li>
+                                    
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="home11">
+                                    <div ng-repeat="level in levels" class="tab-pane" id="level{{level}}">
 
 
-                                        <div class="row  bk-padding-10">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block btn-primary"
-                                                                                                href=""><i class=" glyphicon glyphicon-hdd"></i> DISK #1-1</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href=""><i class=" 	glyphicon glyphicon-ban-circle"></i> DISK #1-2</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #1-3</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #1-4</a></div>
+                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "group{{group}}">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
+                                            	<a class="btn btn-block btn-primary" href="#"><i class=" glyphicon glyphicon-hdd"></i> DISK #{{group}}-{{disk}}</a>
+                                            </div>                                            
                                         </div>
 
-                                        <div class="row bk-padding-10">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block btn-primary"
-                                                                                                href=""><i class=" glyphicon glyphicon-hdd"></i> DISK #2-1</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href=""><i class=" 	glyphicon glyphicon-ban-circle"></i> DISK #2-2</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #2-3</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #2-4</a></div>
-                                        </div>
-                                        <div class="row bk-padding-10">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block btn-primary"
-                                                                                                href=""><i class=" glyphicon glyphicon-hdd"></i> DISK #3-1</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href=""><i class=" 	glyphicon glyphicon-ban-circle"></i> DISK #3-2</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #3-3</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #3-4</a></div>
-                                        </div>
-                                        <div class="row bk-padding-10">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block btn-primary"
-                                                                                                href=""><i class=" glyphicon glyphicon-hdd"></i> DISK #4-1</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href=""><i class=" 	glyphicon glyphicon-ban-circle"></i> DISK #4-2</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #4-3</a></div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a class="btn btn-block"
-                                                                                                href="">DISK #4-4</a></div>
-                                        </div>
+                                        
                                     </div>
-                                    <div class="tab-pane" id="profile11">
-                                        <p>Profile</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="row"><!--硬盘信息-->
@@ -724,8 +677,119 @@
 		
 		<!-- Pages JS -->
 		<script src="/Public/assets/js/pages/index.js"></script>
-        <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+        
+		<script>
+            var app = angular.module('device', []);
+            app.controller('DeviceStatus', function($scope,$http,$timeout) {
+                $scope.level = 13;
+                $scope.loaded = 0;
+                var proxy = "http://222.35.224.230:8080";
+              
+  				$scope.levels = [1,2,3,4,5,6];
+                    $scope.groups = [1,2,3,4,5,6];
+                    $scope.disks  = [1,2,3,4];
+                    $scope.level = 6;
+                    $scope.group = 6;
+                    $scope.disk = 4;
+                $scope.sendcmd = function(msg)
+                {
+                    console.log('sending command.');
+                    $http.post(proxy,msg).
+                            success(function(data) {
+                                // this callback will be called asynchronously
+                                // when the response is available
+                                return true;
+                            }).
+                            error(function(data) {
+                                // called asynchronously if an error occurs
+                                // or server returns response with an error status.
+                                console.log("no data sent");
+                                return false;
+                            });
+                }
+                var updateDeviceStatus = $timeout(function()
+                {
+                    $http({
+                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        
+                        method:'GET'
+                    }).success(function(data) {
+                        if(data['isLegal'] == 1)
+                        {
+                            $scope.devicestatus();
+                        
+                        }                 
+                    });
+                        
+                    
 
+                    $http({
+                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
+
+                        method:'GET'
+                    }).success(function(data) {
+                        $scope.loaded = 0;
+                        data.forEach(function(e)
+                                {
+                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.index;
+                                    $(id).addClass("disk_active");
+                                    $scope.loaded = $scope.loaded + 1;
+                                }
+                        );
+
+                    });
+                },5000);
+                $scope.checkCollision = function()
+                {
+                    
+                    $http({
+                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        
+                        method:'GET'
+                    }).success(function(data) {
+                        return data['isLegal'];                    
+                    });
+                }
+                $scope.devicestatus = function()
+                {
+                    var msg = {cmd:'DEVICESTATUS'};
+                    return $scope.sendcmd(msg);
+                }
+
+                $scope.writeprotect = function(level)
+                {
+                    var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
+                    $scope.sendcmd(msg);
+                }
+                $scope.bridge = function(level,group)
+                {
+                    var msg = {cmd:'BRIDGE',subcmd:'START',level:level,group:group,disks:[
+                    {id:"1",SN:'0123'}]};
+                    $scope.sendcmd(msg);
+                }
+                $scope.md5 = function(level,group,disk)
+                {
+                    var msg = {cmd:'MD5',subcmd:'START',level:level,group:group,disk:disk};
+                    $scope.sendcmd(msg);
+                }
+                $scope.copy = function(srcLvl,srcGrp,srcDisk,dstLvl,dstGrp,dstDisk)
+                {
+                    var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
+                    $scope.sendcmd(msg);
+                }
+                $scope.diskinfo = function(level,group,disk)
+                {
+                    var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
+                    $scope.sendcmd(msg);
+                }
+                $scope.power = function(level)
+                {
+                    var msg = {cmd:'POWER',subcmd:'START',levels:[level]};
+                    $scope.sendcmd(msg);
+                }
+            });
+
+        </script>
 		<!-- end: JavaScript-->
 		
 	</body>
