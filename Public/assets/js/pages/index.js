@@ -109,6 +109,150 @@ Lightbox
 
 }).apply(this, [ jQuery ]);
 
+(function( $ ) {
+
+   'use strict';
+
+   function getFileTree(xmlDirPath){
+      $.get(xmlDirPath + '/items.xml', function(result){
+         $('#datatable-my').DataTable().clear();
+
+         $(result).find('items').find('i').each(function(index, ele){
+            var isDir = $(ele).attr('type') == 'd';
+            var col = '<td></td>';
+            var tr = $('<tr></tr>');
+            if(isDir){
+               var dir = xmlDirPath + '/' + $(ele).attr('dir');
+               var a = $('<a></a>')
+                  .attr('data-dir', dir)
+                  .attr('href', '#')
+                  .text($(ele).attr('text'));
+               tr.append($(col).append(a));
+            }
+            else{
+               tr.append($(col).text($(ele).attr('text')));
+            }
+
+            tr
+               .append($(col).text($(ele).attr('time')))
+               .append($(col).text(isDir?'文件夹':'文件'))
+               .append($(col).text(isDir?'-': ($(ele).attr('size') + ' kb')));
+
+            $('#datatable-my').append(tr);
+         });
+         $(datatableInit());
+      });
+   }
+
+   var datatableInit = function() {
+      $('#datatable-my').dataTable();
+   };
+
+   var disk = '1_1_1';
+   var table;
+
+   $(function() {
+      $("#datatable-my")
+         .on("click", "a", function(e){
+            e.preventDefault();
+
+            var text = $(this).attr('data-text');
+            var dir = $(this).attr('data-dir');
+            var path = table.path + '/' + dir;
+
+            var a = $("<a><i class='fa fa-folder'></i> </a>")
+               .attr('href', '#')
+               .attr('data-path', path)
+               .append(text);
+            $('#navBar').append($('<li></li>').append(a));
+
+            table.ajax.url(path + "/items.json").load().order();
+            table.path = path;
+         });
+
+      $('#navBar')
+         .on("click", "a", function(e){
+            e.preventDefault();
+
+            table.path =  $(this).attr('data-path');
+            table.ajax.url(table.path + '/items.json').load().order();
+
+            $(this).parent('li').nextAll().remove();
+         });
+
+      $('#btnUp').click(function(){
+         var items = $('#navBar > li > a');
+         if(items.length <= 1){
+            return;
+         }
+
+         items[items.length-2].click();
+      });
+
+
+      var url = "xml/" + disk;
+      table = $('#datatable-my').DataTable( {
+         ajax: url + "/" + "items.json",
+         "order": [[ 3, "asc" ], [ 0, 'asc' ]],
+         columns:[
+            { "data": "text" },
+            { "data": "time" },
+            { "data": "type" },
+            { "data": "size" },
+            { "data": "dir" }
+         ],
+         "columnDefs": [
+            {
+               "render": function ( data, type, row ) {
+                  if(row['type'] == 'd'){
+                     return "<a href='#' data-dir='" + row['dir'] + "' data-text='" + row['text'] + "'><i class='fa fa-folder'></i> " + data + '</a>';
+                  }
+                  else{
+                     return "<i class='fa fa-file'></i> " + data;
+                  }
+               },
+               "targets": 0
+            },
+            {
+               "render": function ( data, type, row ) {
+                  if(data == 'd'){
+                     return "文件夹";
+                  }
+                  else{
+                     return '文件';
+                  }
+               },
+               "orderData":[3,0],
+               "targets": 2
+            },
+            {
+               "render": function ( data, type, row ) {
+                  if(data.length == 0){
+                     return "";
+                  }
+                  else{
+                     return data + ' kb';
+                  }
+               },
+               "targets": 3
+            },
+            {
+               "visible": false,
+               "targets": 4
+            }
+         ]
+      } );
+      table.path = url;
+console.log(table);
+      var a = $("<a><i class='fa fa-folder'></i> </a>")
+         .attr('href', '#')
+         .attr('data-path', table.path)
+         .append(disk);
+      $('#navBar').append($('<li></li>').append(a));
+   });
+
+}).apply( this, [ jQuery ]);
+
 
 /*
 FlotChart (Fire Admin Update)

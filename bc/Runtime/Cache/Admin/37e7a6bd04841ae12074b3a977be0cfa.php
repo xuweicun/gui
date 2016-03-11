@@ -1,4 +1,5 @@
-<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>
+<!DOCTYPE html>
 <html lang="en">
 
 	<head>
@@ -351,12 +352,51 @@
 						</div>					
 					</div>
 					<!-- End Page Header -->
+
+			<div class="row">                       
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-default bk-bg-white">
+                                <div class="panel-heading bk-bg-white">
+                                    <h6><i class="fa fa-table red"></i><span class="break"></span>文件树</h6>                            
+                                    <div class="panel-actions">
+                                        <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                                        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+									<div>
+										<ol class="breadcrumb visible-sm visible-md visible-lg" id="navBar">
+											<li>
+												<button class="btn btn-link btn-xs" type="button" id="btnUp">
+													<i class="fa  fa-arrow-up"></i>
+												</button>
+											</li>
+										</ol>
+									</div>
+                                    <table class="table table-bordered table-striped" id="datatable-my">
+                                        <thead>
+                                            <tr>
+                                                <th>名称</th>
+                                                <th>修改日期</th>
+                                                <th>类型</th>
+                                                <th>大小</th>
+						<th>dir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+			</div>
+
 					<div class="row">
                         <!--<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <div class="panel bk-widget bk-border-off">
                                 <div class="panel-body text-left bk-bg-white bk-padding-top-10 bk-padding-bott0">
                                     <div class="row">
-                                        <!--<div class="col-xs-4 bk-vcenter text-center">
+                                        <div class="col-xs-4 bk-vcenter text-center">
                                             <div class="small-chart-wrapper">
                                                 <div class="small-chart" id="sparklineBarweeklystats"></div>
                                                 <script type="text/javascript">
@@ -633,7 +673,10 @@
 		<script src="/Public/assets/plugins/jqvmap/data/jquery.vmap.sampledata.js"></script>
 		<script src="/Public/assets/plugins/jqvmap/maps/jquery.vmap.world.js"></script>
 		<script src="/Public/assets/plugins/sparkline/js/jquery.sparkline.min.js"></script>
-		
+		<script src="/Public/assets/plugins/select2/select2.js"></script>
+                <script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+                <script src="/Public/assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+                <script src="/Public/assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
 		<!-- Theme JS -->		
 		<script src="/Public/assets/js/jquery.mmenu.min.js"></script>
 		<script src="/Public/assets/js/core.min.js"></script>
