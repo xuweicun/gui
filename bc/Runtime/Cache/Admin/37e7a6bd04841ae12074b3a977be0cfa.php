@@ -399,7 +399,7 @@
 										</div>
 										<h1 class="bk-margin-off-top pull-right">144</h1>
 									</div>									
-									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层6组，每组4个盘位</h6></a>
+									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层{{group}}组，每组{{disknum}}个盘位</h6></a>
 								</div>
 							</div>
 						</div>
@@ -422,22 +422,28 @@
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <div class="tabs tabs-vertical tabs-left">
                                 <ul class="nav nav-tabs col-sm-3 col-xs-5">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#pane-level1"><i class=" glyphicon glyphicon-align-justify"></i> 第1层</a>
+                                    </li>
                                     <li ng-repeat="level in levels">
-                                        <a data-toggle="tab" href="#level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
+                                        <a data-toggle="tab" href="#pane-level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
                                     </li>
                                     
                                 </ul>
                                 <div class="tab-content">
-                                    <div ng-repeat="level in levels" class="tab-pane" id="level{{level}}">
-
-
+                                    <div class="tab-pane active" id="pane-level1">
                                         <div class="row  bk-padding-10" ng-repeat="group in groups" id = "group{{group}}">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                            	<a class="btn btn-block btn-primary" href="#"><i class=" glyphicon glyphicon-hdd"></i> DISK #{{group}}-{{disk}}</a>
+                                                <a class="btn btn-block btn-primary" href="#" id="disk-1-{{group}}-{{disk}}"><i class=" glyphicon glyphicon-hdd"></i> DISK #{{group}}-{{disk}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
+                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "group{{group}}">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
+                                            	<a class="btn btn-block btn-primary" href="#" id="disk-{{level}}-{{group}}-{{disk}}"><i class="glyphicon glyphicon-hdd"></i> DISK #{{group}}-{{disk}}</a>
                                             </div>                                            
                                         </div>
-
-                                        
                                     </div>
                                     
                                 </div>
@@ -459,33 +465,33 @@
 
                                                     <tr>
                                                         <td>位号</td>
-                                                        <td>#1-2-1</td>
+                                                        <td>{{disk.level}}-{{disk.group}}-{{disk.index}}</td>
                                                         </tr>
                                                     <tr>
                                                         <td>容量</td>
-                                                        <td>939G</td>
+                                                        <td>{{disk.capability}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SN号</td>
-                                                        <td>DFDFJIEFJIE</td>
+                                                        <td>{{disk.sn}}</td>
                                                         </tr>
                                                     <tr>
                                                         <td>健康状况</td>
-                                                        <td>良好</td>
+                                                        <td>{{disk.health}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>首次校验值</td>
-                                                        <td>239Djife3230jifeji</td>
+                                                        <td>{{disk.md5}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>检测时间</td>
-                                                        <td>2015-12-20 12:30</td>
+                                                        <td>{{disk.first_check_time}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             上次校验值
                                                         </td>
-                                                        <td>239Djife3230jifeji</td>
+                                                        <td>{{disk.last_md5}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>检测时间</td>
@@ -495,7 +501,7 @@
                                                         <td>
                                                             本次校验值
                                                         </td>
-                                                        <td>239Djife3230jifeji</td>
+                                                        <td>{{disk.md5}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>检测时间</td>
@@ -640,30 +646,59 @@
             app.controller('DeviceStatus', function($scope,$http,$timeout) {
                 $scope.level = 13;
                 $scope.loaded = 0;
+                var server = "http://localhost:10086/index.php/business/AddCmdLog";
                 var proxy = "http://222.35.224.230:8080";
               
-  				$scope.levels = [1,2,3,4,5,6];
-                    $scope.groups = [1,2,3,4,5,6];
+  				$scope.levels = [2,3,4,5,6];
+                    $scope.groups = [2,3,4,5,6];
                     $scope.disks  = [1,2,3,4];
                     $scope.level = 6;
                     $scope.group = 6;
-                    $scope.disk = 4;
+                    $scope.disknum = 4;
+                $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
-                    $http.post(proxy,msg).
+                    $http.post(server,msg).
                             success(function(data) {
-                                // this callback will be called asynchronously
-                                // when the response is available
-                                return true;
+                                console.log("Server have received the message.");
+                                if(data['errmsg'] == 1)
+                                {
+                                    console.log("Server failed to update the log.");
+                                    return;
+                                }
+                                $http.post(proxy,msg).
+                                        success(function(data) {
+
+                                            return true;
+                                        }).
+                                        error(function(data) {
+                                            console.log("no data sent");
+                                            return false;
+                                        });
                             }).
                             error(function(data) {
                                 // called asynchronously if an error occurs
                                 // or server returns response with an error status.
-                                console.log("no data sent");
+                                console.log("server error");
                                 return false;
                             });
+
                 }
+                $http({
+                    url:'http://localhost:10086/index.php/business/getDeviceInfo',
+                   method:'GET'
+                }).success(function(data) {
+                    $scope.loaded = 0;
+                    data.forEach(function(e)
+                            {
+                                var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
+                                 $(id).removeClass("primary").addClass("default");
+                                $scope.loaded = $scope.loaded + 1;
+                            }
+                    );
+
+                });
                 var updateDeviceStatus = $timeout(function()
                 {
                     $http({
@@ -681,21 +716,22 @@
                     
 
                     $http({
-                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
+                        url:'http://localhost:10086/index.php/business/getDeviceInfo/type/1',
 
                         method:'GET'
                     }).success(function(data) {
                         $scope.loaded = 0;
                         data.forEach(function(e)
                                 {
-                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.index;
-                                    $(id).addClass("disk_active");
+                                    var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
+                                    $(id).removeClass("primary").addClass("default");
                                     $scope.loaded = $scope.loaded + 1;
                                 }
                         );
 
                     });
                 },5000);
+
                 $scope.checkCollision = function()
                 {
                     

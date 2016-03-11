@@ -21,10 +21,10 @@ class BusinessController extends Controller {
 
 	
 
-    public function temp()
+	public function temp()
 	{
-           $this->display("index2");
-    }
+		   $this->display("index2");
+	}
 
 	public function getTestResults()
 	{
@@ -34,20 +34,40 @@ class BusinessController extends Controller {
 		{
 			var_dump($item);
 
-            echo "<br/>";
+			echo "<br/>";
 		}
 	}	
-
+	public function waitTilDone($cmd,$maxTime)
+	{            
+		$exctTime = 0;        
+		$cmdDb = M('CmdLog');
+		$status = -1;//未完成
+		$map['cmd'] = array('eq',$cmd);
+		$map['status'] = array('eq',$status);
+		while($item = $cmdDb->where($map)->find() && $exctTime < $maxTime)
+		{
+			sleep(1);
+			$exctTime = $exctTime + 1;
+		}
+	}
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
 		$db = M('Device');
 		$rooms = $db->select();
 		$returnData = array();
+		$type = I('get.type',0,'intval');
+		if($type == 1)
+		{
+			//待改进：以后应将运行中的命令单独放一个表，成功或失败后放到log表中。
+			$maxTime = 10;
+			$cmd = "DEVICESTATUS";	
+			$this->waitTilDone($cmd,$maxTime);		
+		}
 		foreach($rooms as $item)
 		{
-			//add all the in-position disks into the return data array
-			if($item['loaded'] == 1)
+			//返回所有不在位的硬盘信息；
+			if($item['loaded'] == 0)
 			{
 				//硬盘在位
 				$returnData[] = $item;
@@ -103,8 +123,8 @@ class BusinessController extends Controller {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
 	   $db = M('CmdLog');
-		$data['cmd'] = I('post.cmd');
-		$data['subcmd'] = I('post.subcmd');
+		$data['cmd'] = $_POST['cmd'];
+		$data['subcmd'] = $_POST['subcmd'];
 		$data['status'] = -1;//-1 represents that the commond is not finished yet.
 		$id = $db->add($data);
 		if($id)
