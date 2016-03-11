@@ -21,7 +21,11 @@ class BusinessController extends Controller {
         public function temp()
 	{
            $this->display("index2");
-        }
+        
+	}
+	public function search(){
+		$this->display("search");
+	}
 	public function getTestResults()
 	{
 		$db = M('Test');
