@@ -947,3 +947,125 @@ INFO: [ app_end ] --START--
 INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000980s ]
 INFO: [ app_end ] --END-- [ RunTime:0.001115s ]
 
+[ 2016-03-11T16:09:45+08:00 ] ::1 /business/temp
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.086420s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.012654s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.013468s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000330s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000519s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.131275s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.131519s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.011757s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.011897s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.006907s ]
+INFO: [ app_end ] --END-- [ RunTime:0.007098s ]
+
+[ 2016-03-11T16:09:49+08:00 ] ::1 /Public/assets/vendor/js/jquery.min.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000053s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001011s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001986s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002280s ]
+ERR: 无法加载控制器:Public
+
+[ 2016-03-11T16:09:50+08:00 ] ::1 /index.php/business/getDeviceInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000050s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001147s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001842s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002104s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0219s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0005s ]
+
+[ 2016-03-11T16:09:50+08:00 ] ::1 /business/xml/1_1_1/items.json?_=1457683789390
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000053s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001063s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001947s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002161s ]
+ERR: 非法操作:xml
+
+[ 2016-03-11T16:09:55+08:00 ] ::1 /index.php/business/checkCollision
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000931s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003226s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003460s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0589s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `status` = -1 LIMIT 1   [ RunTime:0.0301s ]
+
+[ 2016-03-11T16:10:05+08:00 ] ::1 /index.php/business/getDeviceInfo/type/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000050s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001893s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001813s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002055s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0374s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0005s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0278s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0011s ]
+
+[ 2016-03-11T16:12:50+08:00 ] ::1 /index.php/business/getDeviceInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000629s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001270s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001459s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0191s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0005s ]
+
+[ 2016-03-11T16:12:55+08:00 ] ::1 /index.php/business/checkCollision
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000968s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001534s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001707s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0299s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+
+[ 2016-03-11T16:13:05+08:00 ] ::1 /index.php/business/getDeviceInfo/type/1
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000050s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001085s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001819s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002072s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0368s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0005s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0188s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `cmd` = 'DEVICESTATUS' AND `status` = -1 LIMIT 1   [ RunTime:0.0006s ]
+
