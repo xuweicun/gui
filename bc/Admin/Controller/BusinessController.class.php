@@ -3,6 +3,7 @@ namespace Admin\Controller;
 use Think\Controller;
 header('Access-Control-Allow-Origin:*'); 
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
+header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 if ($content_type_args[0] == 'application/json') {
 	$_POST = json_decode(file_get_contents('php://input'),true);     
 }
@@ -105,11 +106,6 @@ class BusinessController extends Controller {
 	*/
 	public function checkCollision()
 	{
-		$content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
-	   if ($content_type_args[0] == 'application/json')
-	   {
-		   $_POST = json_decode(file_get_contents('php://input'),true);     
-	   }
 		$db = M('CmdLog');
 		$data['cmd'] = $_POST['cmd'];
 		$data['subcmd'] = $_POST['subcmd'];
@@ -126,7 +122,7 @@ class BusinessController extends Controller {
 		}
 		else
 		{
-			$data['isLegal'] = 0;
+
 			$this->AjaxReturn($data);
 		}
 	}
@@ -146,8 +142,7 @@ class BusinessController extends Controller {
 		$disk  = $_POST['disk'];
 		$db = M('Device');
 		$db->delete();
-		$sql="alter table $gui_device auto_increment=1"; 
-		$db->query($sql);
+                $gui_device = 'gui_device';    
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
 		for($i = 1; ; $i++)
 		{

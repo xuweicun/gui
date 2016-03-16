@@ -650,7 +650,7 @@
                 $scope.level = 13;
                 $scope.loaded = 0;
                 $scope.selected = {'level':1,'group':1,'index':1};
-                var server = "http://localhost:10086/index.php/business/AddCmdLog";
+                var server = "http://localhost/index.php/business/AddCmdLog";
                 var proxy = "http://localhost:8080";
               
   				$scope.levels = [2,3,4,5,6];
@@ -694,7 +694,7 @@
                 }
                 //从数据库中查询硬盘在位信息
                 $http({
-                    url:'http://localhost:10086/index.php/business/getDeviceInfo',
+                    url:'http://localhost/index.php/business/getDeviceInfo',
                    method:'GET'
                 }).success(function(data) {
                     $scope.loaded = 0;
@@ -718,7 +718,7 @@
                 var updateDeviceStatus = $timeout(function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        url:'http://localhost/index.php/business/checkCollision',
                         method:'GET'
                     }).success(function(data) {
                         if(data['isLegal'] == 1)
@@ -727,7 +727,7 @@
                         }                 
                     });
                     $http({
-                        url:'http://localhost:10086/index.php/business/getDeviceInfo/type/1',
+                        url:'http://localhost/index.php/business/getDeviceInfo/type/1',
                         method:'GET'
                     }).success(function(data) {
                         $scope.loaded = 0;
@@ -746,7 +746,7 @@
                 $scope.init = function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/systeminit',
+                        url:'http://localhost/index.php/business/systeminit',
                         data:{level:$scope.level,group:$scope.group,disk:$scope.disknum},
                         method:'POST'
                     }).success(function(data) {
@@ -756,7 +756,7 @@
                 $scope.checkCollision = function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        url:'http://localhost/index.php/business/checkCollision',
                         
                         method:'GET'
                     }).success(function(data) {
