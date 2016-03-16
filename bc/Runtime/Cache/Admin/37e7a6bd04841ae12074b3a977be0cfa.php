@@ -690,7 +690,7 @@
                 $scope.level = 13;
                 $scope.loaded = 0;
                 var server = "http://localhost:10086/index.php/business/AddCmdLog";
-                var proxy = "http://222.35.224.230:8080";
+                var proxy = "http://localhost:8080";
               
   				$scope.levels = [2,3,4,5,6];
                     $scope.groups = [2,3,4,5,6];
@@ -702,6 +702,7 @@
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
+                    //先发送消息告知服务器即将发送指令；
                     $http.post(server,msg).
                             success(function(data) {
                                 console.log("Server have received the message.");
@@ -710,6 +711,7 @@
                                     console.log("Server failed to update the log.");
                                     return;
                                 }
+                                //服务器收到通知后，联系APP，发送指令；
                                 $http.post(proxy,msg).
                                         success(function(data) {
 
