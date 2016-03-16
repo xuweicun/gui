@@ -2,6 +2,10 @@
 namespace Admin\Controller;
 use Think\Controller;
 header('Access-Control-Allow-Origin:*'); 
+$content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
+if ($content_type_args[0] == 'application/json') {
+	$_POST = json_decode(file_get_contents('php://input'),true);     
+}
 class BusinessController extends Controller {
 	/*********
 	* @index
@@ -78,11 +82,12 @@ class BusinessController extends Controller {
 			{
 				//硬盘在位
 				$returnData[] = $item;
+				
 			} 
 			
 		}
 		$this->AjaxReturn($returnData);
-		
+		//var_dump($returnData);
 	}
 	/***
 	* to return any operating command
@@ -94,13 +99,20 @@ class BusinessController extends Controller {
 	   $this->AjaxReturn($items); 
 	}
 	/***
-	* to check if or not the same commond has been sent
+	* 检查是否有相同的命令正在执行；后期应该加上硬盘信息；
 	* @author: wilsonxu
-	* @input:  cmd, subcmd
+	* @input:  cmd, subcmd, level, group, disk;
 	*/
 	public function checkCollision()
 	{
+		$content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
+	   if ($content_type_args[0] == 'application/json')
+	   {
+		   $_POST = json_decode(file_get_contents('php://input'),true);     
+	   }
 		$db = M('CmdLog');
+		$data['cmd'] = $_POST['cmd'];
+		$data['subcmd'] = $_POST['subcmd'];
 		//$cmd = I('post.cmd');
 		//$subcmd = I('post.subcmd');
 		$status = -1;//-1 represents that the commond is not finished yet.
@@ -118,6 +130,49 @@ class BusinessController extends Controller {
 			$this->AjaxReturn($data);
 		}
 	}
+	/****
+	* 系统初始化函数
+	*/
+	public function SystemInit()
+	{
+		$level = $_POST['level'];
+		if(!$level)
+		{
+			$errmsg = 'inadequate infomation';
+			$this->AjaxReturn($errmsg);
+			die();
+		}
+		$group = $_POST['group'];
+		$disk  = $_POST['disk'];
+		$db = M('Device');
+		$db->delete();
+		$sql="alter table $gui_device auto_increment=1"; 
+		$db->query($sql);
+		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
+		for($i = 1; ; $i++)
+		{
+			if($i > $level)
+			break;
+			$data['level'] = $i;
+			for($j = 1; ; $j++)
+			{
+				if($j > $group)
+				break;
+				$data['group'] = $j;
+				for($k = 1; $k <= $disk; $k++)
+				{
+					if($k > $disk)
+					break;
+					$data['index'] = $k;
+					$data['loaded'] = 1;
+					$data['bridged'] = 0;
+					
+					$db->add($data); 
+				}
+			}
+		}
+		
+	}
 	/***
 	* to insert a new commond-request log, driven by javascript
 	* @input: cmd, subcmd, 
@@ -129,7 +184,7 @@ class BusinessController extends Controller {
 	   {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
-	   $db = M('CmdLog');
+		$db = M('CmdLog');
 		$data['cmd'] = $_POST['cmd'];
 		$data['subcmd'] = $_POST['subcmd'];
 		$data['status'] = -1;//-1 represents that the commond is not finished yet.
