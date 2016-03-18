@@ -418,7 +418,7 @@
                                         </div>
                                         <h1 class="bk-margin-off-top pull-right">{{level*group*disknum-loaded}}</h1>
                                     </div>
-                                    <h4 class="text-right bk-padding-top-15 bk-margin-off">14分钟前</h4>
+                                    <h4 class="text-right bk-padding-top-15 bk-margin-off">{{updatetime|date:'yyyy-MM-dd HH:mm:ss'}}</h4>
 								</div>
 							</div>
 						</div>
@@ -650,8 +650,11 @@
                 $scope.level = 13;
                 $scope.loaded = 0;
                 $scope.selected = {'level':1,'group':1,'index':1};
-                var server = "http://localhost/index.php/business/AddCmdLog";
-                var proxy = "http://localhost:8080";
+                var businessRoot = '/index.php?m=admin&c=business';
+                var msgRoot = '/index.php?m=admin&c=msg';
+
+		var server = businessRoot + '&a=addcmdlog' ;
+                var proxy = "http://222.35.224.230:8080";
               
   				$scope.levels = [2,3,4,5,6];
                 $scope.groups = [2,3,4,5,6];
@@ -660,7 +663,8 @@
                 $scope.group = 6;
                 $scope.disknum = 4;
                 $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
-
+                var myDate = new Date();
+                $scope.updatetime=myDate.getTime();
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
@@ -694,19 +698,10 @@
                 }
                 //从数据库中查询硬盘在位信息
                 $http({
-                    url:'http://localhost/index.php/business/getDeviceInfo',
+                    url:'/index.php?m=admin&c=business&a=getDeviceInfo',
                    method:'GET'
                 }).success(function(data) {
-                    $scope.loaded = 0;
-                    data.forEach(function(e)
-                            {
-                                var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
-                                 $(id).removeClass("btn-primary").addClass("btn-default");
-                                $(id+" i").removeClass("glyphicon-hdd").addClass("glyphicon-empty");
-                                $scope.loaded = $scope.loaded + 1;
-                            }
-                    );
-
+                    $scope.loaddisks(data);
                 });
                 $scope.selectDisk = function(level,group,index)
                 {
@@ -718,7 +713,7 @@
                 var updateDeviceStatus = $timeout(function()
                 {
                     $http({
-                        url:'http://localhost/index.php/business/checkCollision',
+                        url:'/index.php?m=admin&c=business&a=checkCollision',
                         method:'GET'
                     }).success(function(data) {
                         if(data['isLegal'] == 1)
@@ -727,26 +722,41 @@
                         }                 
                     });
                     $http({
-                        url:'http://localhost/index.php/business/getDeviceInfo/type/1',
+                        url:'/index.php?m=admin&c=business&a=getDeviceInfo&type=0',
                         method:'GET'
                     }).success(function(data) {
-                        $scope.loaded = 0;
-                        data.forEach(function(e)
+                        $scope.loaddisks(data);                 
+                    });
+                },5000);
+                $scope.loaddisks = function(data)
+                {
+                      $scope.loaded = 0;
+                      if(data.length > 0)
+                       {
+                       	   if(data[0].modify_time)
+                           $scope.updatetime = data[0].modify_time;
+                           else
+                           {var myDate = new Date();$scope.updatetime=myDate.getTime();}
+                       } 
+                       else
+                       {var myDate = new Date();$scope.updatetime=myDate.getTime();}
+                       data.forEach(function(e)
                                 {
-                                    var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
+                                    var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
                                     $(id).removeClass("btn-primary").addClass("btn-default");
                                     $(id+" i").removeClass("glyphicon-hdd").addClass("glyphicon-empty");
                                     $scope.loaded = $scope.loaded + 1;
+                                    
                                 }
                         );
-
-                    });
-                },5000);
+                        
+                        
+                }
                 //系统初始化
                 $scope.init = function()
                 {
                     $http({
-                        url:'http://localhost/index.php/business/systeminit',
+                        url:'/index.php?m=admin&c=business&a=systeminit',
                         data:{level:$scope.level,group:$scope.group,disk:$scope.disknum},
                         method:'POST'
                     }).success(function(data) {
@@ -792,7 +802,7 @@
                 }
                 $scope.diskinfo = function(level,group,disk)
                 {
-                    var msg = {cmd:'盘INFO',level:level,group:group,disk:disk};
+                    var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
                     $scope.sendcmd(msg);
                 }
                 $scope.power = function(level)

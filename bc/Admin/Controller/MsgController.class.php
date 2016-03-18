@@ -34,6 +34,14 @@ class MsgController extends Controller {
 	*/
 	public function updateDeviceStatus()
 	{
+           //将命令状态设为已完成;
+           $cmdDb = M('CmdLog');
+           $cmds = $cmdDb->where("cmd='DEVICESTATUS' and status=-1")->select();
+           foreach($cmds as $cmd)
+           {$cmd['status']=1;
+            $cmdDb->save($cmd);
+           }
+           
 	   //在位信息以后改为用Redis维护
 	   if($_POST['status'] == 0)
 	   {
@@ -48,8 +56,11 @@ class MsgController extends Controller {
 			   $item['loaded'] = 0;
 			   $db->save($item);
 		   }
+                   $testDb = M('test');
+                   
 		   foreach($levels as $level)
 		   {
+			   
 			   $level_id = $level['id'];
 			   $groups = $level['groups'];
 			   foreach($groups as $group)
@@ -58,20 +69,20 @@ class MsgController extends Controller {
 				   $disks = $group['disks'];
 				   foreach($disks as $disk)
 				   {
+                                           $data['response'] = "$level_id-$group_id-$disk";
 					   $map['level'] = array('eq',$level_id);
-					   $map['group'] = array('eq',$group_id);
-					   $map['index'] = array('eq',$disk);
-					   if($item = $db->where($map)->find())
+					   $map['zu'] = array('eq',$group_id);
+					   $map['disk'] = array('eq',$disk);
+                                           $item = $db->where("level=$level_id and zu=$group_id and disk=$disk")->find();
+					   if($item)
 					   {
 						   $item['loaded'] = 1;
 						   $db->save($item);
-					   }
-					   else
-					   {
-						   $item['loaded'] = 1;
-						   $db->add($item);
-					   }
-					   
+                                                   $data['response'] =$data['response']."-added";
+                                           }
+                                           else
+                                           {$data['response'] =$data['response']."-fail";}
+                                         $testDb->add($data);
 				   }
 			   }
 		   }
