@@ -53,8 +53,8 @@ class MsgController extends Controller {
 		   //更新在位信息；
 		   foreach($items as $item)
 		   {
-			   $item['loaded'] = 0;
-			   $db->save($item);
+			   $item['loaded'] = 0;$item['time']=time();
+                            $db->save($item);
 		   }
                    $testDb = M('test');
                    
@@ -77,6 +77,7 @@ class MsgController extends Controller {
 					   if($item)
 					   {
 						   $item['loaded'] = 1;
+						   $item['time'] = time();
 						   $db->save($item);
                                                    $data['response'] =$data['response']."-added";
                                            }

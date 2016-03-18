@@ -399,12 +399,11 @@
 									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300">总盘位</h4>
 									<div class="clearfix  bk-padding-top-10">
 										<div class="pull-right bk-margin-left-15">
-											<i class="fa fa-hdd-o fa-3x"></i>
+											<i class="fa fa-ban-circle-o fa-3x"></i>
 										</div>
-										<h1 class="bk-margin-off-top pull-right">{{level*group*disknum-loaded}}</h1>
+										<h1 class="bk-margin-off-top pull-right">{{level*group*disknum}}</h1>
 									</div>									
 									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层{{group}}组，每组{{disknum}}个盘位</h6></a>
-                                    <a href="#" class="btn btn-primary btn-block" ng-click="init()" ng-show="test">系统初始化</a>
 								</div>
 							</div>
 						</div>
@@ -414,9 +413,9 @@
 									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300" >在位数</h4>
                                     <div class="clearfix  bk-padding-top-10">
                                         <div class="pull-right bk-margin-left-15">
-                                            <i class="fa fa-hdd-o fa-3x"></i>
+                                            <i class="fa fa-ban-circle-o fa-3x"></i>
                                         </div>
-                                        <h1 class="bk-margin-off-top pull-right">{{level*group*disknum-loaded}}</h1>
+                                        <h1 class="bk-margin-off-top pull-right">{{loaded}}</h1>
                                     </div>
                                     <h4 class="text-right bk-padding-top-15 bk-margin-off">{{updatetime|date:'yyyy-MM-dd HH:mm:ss'}}</h4>
 								</div>
@@ -437,28 +436,17 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="pane-level1">
-                                        <div class="row  bk-padding-10" id = "1-group1">
-
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-1-1-{{disk}}" ng-click = "selectDisk(1,1,disk)"><i class=" glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
                                         <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
 
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk)"><i class=" glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
+                                                <a class="btn btn-block btn-default" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk);getdiskinfo(1,group,disk);"><i class=" glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
-                                        <div class="row  bk-padding-10" id = "{{level}}-group1">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-{{level}}-1-{{disk}}" ng-click = "selectDisk(level,1,disk)"><i class="glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
                                         <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                            	<a class="btn btn-block btn-primary" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk)"><i class="glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
+                                            	<a class="btn btn-block btn-default" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk);getdiskinfo(level,group,disk);"><i class="glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
                                             </div>                                            
                                         </div>
                                     </div>
@@ -657,7 +645,7 @@
                 var proxy = "http://222.35.224.230:8080";
               
   				$scope.levels = [2,3,4,5,6];
-                $scope.groups = [2,3,4,5,6];
+                $scope.groups = [1,2,3,4,5,6];
                 $scope.disks  = [1,2,3,4];
                 $scope.level = 6;
                 $scope.group = 6;
@@ -722,7 +710,7 @@
                         }                 
                     });
                     $http({
-                        url:'/index.php?m=admin&c=business&a=getDeviceInfo&type=0',
+                        url:'/index.php?m=admin&c=business&a=getDeviceInfo&type=1',
                         method:'GET'
                     }).success(function(data) {
                         $scope.loaddisks(data);                 
@@ -733,8 +721,8 @@
                       $scope.loaded = 0;
                       if(data.length > 0)
                        {
-                       	   if(data[0].modify_time)
-                           $scope.updatetime = data[0].modify_time;
+                       	   if(data[0].time)
+                           $scope.updatetime = data[0].time;
                            else
                            {var myDate = new Date();$scope.updatetime=myDate.getTime();}
                        } 
@@ -743,8 +731,8 @@
                        data.forEach(function(e)
                                 {
                                     var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
-                                    $(id).removeClass("btn-primary").addClass("btn-default");
-                                    $(id+" i").removeClass("glyphicon-hdd").addClass("glyphicon-empty");
+                                    $(id).removeClass("btn-default").addClass("btn-primary");
+                                    $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
                                     $scope.loaded = $scope.loaded + 1;
                                     
                                 }
@@ -800,10 +788,11 @@
                     var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
                     $scope.sendcmd(msg);
                 }
-                $scope.diskinfo = function(level,group,disk)
+                $scope.getdiskinfo = function(level,group,disk)
                 {
                     var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
                     $scope.sendcmd(msg);
+                    
                 }
                 $scope.power = function(level)
                 {

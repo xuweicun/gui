@@ -73,17 +73,18 @@ class BusinessController extends Controller {
 		if($type == 1)
 		{
 			//待改进：以后应将运行中的命令单独放一个表，成功或失败后放到log表中。
-			$maxTime = 10;
+			$maxTime = 30;
 			$cmd = "DEVICESTATUS";	
 			$this->waitTilDone($cmd,$maxTime);		
 		}
 		foreach($rooms as $item)
 		{
 			//返回所有不在位的硬盘信息；
-			if($item['loaded'] == 0)
+			if($item['loaded'] == 1)
 			{
 				//硬盘在位
-				$returnData[] = $item;
+				$item['time'] = date("Y-m-d H:i:s",$item['time']);
+                                $returnData[] = $item;
 				
 			} 
 			
