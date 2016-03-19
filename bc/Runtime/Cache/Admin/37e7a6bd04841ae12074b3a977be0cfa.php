@@ -303,6 +303,11 @@
 											<i class="fa  fa-cogs" aria-hidden="true"></i><span>环境</span>
 										</a>
 									</li>
+									<li>
+                                        <a herf="#" ng-click="testDiskInfo();">
+                                            <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>硬盘信息获取</span>
+                                        </a>
+                                    </li>
                                     <li>
                                         <a>
                                             <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>退出</span>
@@ -478,7 +483,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>容量</td>
-                                                        <td>{{disk.capability}}</td>
+                                                        <td>{{disk.capacity}}G</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SN号</td>
@@ -766,12 +771,12 @@
                 	$scope.diskinfo(level.toString(),group.toString(),disk.toString());
                 	$http({
                         url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data:{level:$scope.level,group:$scope.group,disk:$scope.disknum,maxtime:5,type:1},
+                        data:{level:level,group:group,disk:disk,maxtime:5,type:1},
                         method:'POST'
                     }).success(function(data) {
                         $scope.disk.sn = data['sn'];
                         $scope.disk.md5 = data['smart'];
-
+                        $scope.disk.capacity = data['capacity'];
                     });
                 }
                 $scope.devicestatus = function()
@@ -779,7 +784,17 @@
                     var msg = {cmd:'DEVICESTATUS'};
                     return $scope.sendcmd(msg);
                 }
+                $scope.testDiskInfo = function()
+                {
+                	$http({
+                        url:'/index.php?m=admin&c=msg&a=index',
+                        data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capacity:"1299"},
+                        method:'POST'
+                    }).success(function(data) {
+                        alert("done");
 
+                    });
+                }
                 $scope.writeprotect = function(level)
                 {
                     var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};

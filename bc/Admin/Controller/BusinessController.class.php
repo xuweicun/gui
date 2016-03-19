@@ -310,7 +310,7 @@ class BusinessController extends Controller {
              else
              {
                  $diskDb = M('Disk');
-                 $item = $db->find($id);
+                 $item = $diskDb->find($id);
                  if($item)
                  {
                      $this->AjaxReturn($item);
