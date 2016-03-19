@@ -578,7 +578,7 @@
 						</li>
 						<li>
 							<div class="copyright">
-								<p class="text-muted text-right">Fire <i class="fa fa-coffee"></i> Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a></p>
+								<p class="text-muted text-right">汉龙思琪</p>
 							</div>
 						</li>				
 					</ul>	
@@ -761,6 +761,19 @@
                         return data['isLegal'];                    
                     });
                 }
+                $scope.getdiskinfo = function(level,group,disk)
+                {
+                	$scope.diskinfo(level,group,disk);
+                	$http({
+                        url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
+                        data:{level:$scope.level,group:$scope.group,disk:$scope.disknum,maxtime:50},
+                        method:'POST'
+                    }).success(function(data) {
+                        $scope.disk.sn = data['sn'];
+                        $scope.disk.md5 = data['smart'];
+
+                    });
+                }
                 $scope.devicestatus = function()
                 {
                     var msg = {cmd:'DEVICESTATUS'};
@@ -788,7 +801,7 @@
                     var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
                     $scope.sendcmd(msg);
                 }
-                $scope.getdiskinfo = function(level,group,disk)
+                $scope.diskinfo = function(level,group,disk)
                 {
                     var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
                     $scope.sendcmd(msg);

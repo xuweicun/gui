@@ -63,6 +63,7 @@ class BusinessController extends Controller {
 			$exctTime = $exctTime + 1;
 		}
 	}
+
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
@@ -287,11 +288,52 @@ class BusinessController extends Controller {
 		}
 	}
 	
-	public function pick_disk(){   
+	public function getDiskInfo(){   
 		//check permission
+        $maxTime = $_POST['maxtime'] || 30;
+        $type = I('get.type',0,'intval');
+        if($type == 1)
+        $this->waitTilDone('GETDISKINFO',$maxTime);
+        $level = $_POST['level'];
+        $group = $_POST['group'];
+        $disk  = $_POST['disk'];
+        $db = M('Device');
+        $map = "level=$level and zu=$group and disk=$disk";
+        $item = $db->where($map)->find();
+        if($item)
+        {
+             $id = $item['disk_id'];
+             if(!$id)
+             {
+                 $this->notFoundError('no disk id');
+             }
+             else
+             {
+                 $diskDb = M('Disk');
+                 $item = $db->find($id);
+                 if($item)
+                 {
+                     $this->AjaxReturn($item);
+                 }
+                 else
+                 {
+                     $this->notFoundError('disk table item not found');
+                 }
+             }
+        }
+        else
+        {
+            $this->notFoundError('device');
+        }
+        
 		//query database
 		//return 
 	}
+    private function notFoundError($appended='')
+    {
+        $data['errmsg'] = 'item does not exists--'.$appended;
+        $this->AjaxReturn($data);
+    }
 	public function login(){   
 		//check permission
 		//query database

@@ -26,6 +26,9 @@ class MsgController extends Controller {
 		   case 'DEVICESTATUS':
 		   $this->updateDeviceStatus();
 		   break;
+           case 'DISKINFO':
+           $this->updateDiskInfo();
+           break;
 	   }  	   
 	}
 	/***
@@ -69,21 +72,21 @@ class MsgController extends Controller {
 				   $disks = $group['disks'];
 				   foreach($disks as $disk)
 				   {
-                                           $data['response'] = "$level_id-$group_id-$disk";
+                       $data['response'] = "$level_id-$group_id-$disk";
 					   $map['level'] = array('eq',$level_id);
 					   $map['zu'] = array('eq',$group_id);
 					   $map['disk'] = array('eq',$disk);
-                                           $item = $db->where("level=$level_id and zu=$group_id and disk=$disk")->find();
+                       $item = $db->where("level=$level_id and zu=$group_id and disk=$disk")->find();
 					   if($item)
 					   {
 						   $item['loaded'] = 1;
 						   $item['time'] = time();
 						   $db->save($item);
-                                                   $data['response'] =$data['response']."-added";
-                                           }
-                                           else
-                                           {$data['response'] =$data['response']."-fail";}
-                                         $testDb->add($data);
+                           $data['response'] =$data['response']."-added";
+                       }
+                       else
+                       {$data['response'] =$data['response']."-fail";}
+                        $testDb->add($data);
 				   }
 			   }
 		   }
@@ -93,6 +96,39 @@ class MsgController extends Controller {
 		   $this->handleError();//统一处理
 	   } 
 	}
+    public function updateDiskInfo()
+    {
+        //暂时不维护此命令状态，太麻烦;
+        //后期修改cmdlog，增加diskinfo一项，记录操作对象。
+        
+       //在位信息以后改为用Redis维护
+       if($_POST['status'] == 0)
+       {  
+           //查看是否对应盘位绑定了硬盘
+           //若未绑定
+           $level = $_POST['level'];
+           $group = $_POST['group'];
+           $disk  = $_POST['disk'];
+           $map = "level=$level and zu=$group and disk=$disk";
+           $db = M('Device');          
+           $diskDb = M('Disk');
+           $item = $db->where($map)->find();
+           $data['sn'] = $_POST['SN'];
+           $data['smart'] = $_POST['smart']; 
+           $data['time']  = time();
+           if(!$item['disk_id'])
+           {                
+               $item['disk_id'] = $diskDb->add($data);
+               $db->save($item);  
+           }
+           else
+           {
+               $data['id'] = $item['disk_id'];
+               
+               $diskDb->save($data);
+           }
+       }
+    }
 	public function handleError()
 	{
 		//更新错误日志，包括命令名称，错误内容。--增加表；
