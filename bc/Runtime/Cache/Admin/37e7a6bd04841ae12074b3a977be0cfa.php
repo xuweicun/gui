@@ -326,8 +326,8 @@
 								var sparklineLineVisitsData = [15, 16, 17, 19, 15, 25, 23, 35, 29, 15, 30, 45];
 							</script>-->
 							<div class="small-chart-info">
-								<label>登录时间</label>
-								<strong>14:22 2016.03.09</strong>
+								<label></label>
+								<strong></strong>
 							</div>
 
 						</div>
@@ -358,43 +358,7 @@
 					</div>
 					<!-- End Page Header -->
 
-			<div class="row">                       
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="panel panel-default bk-bg-white">
-                                <div class="panel-heading bk-bg-white">
-                                    <h6><i class="fa fa-table red"></i><span class="break"></span>文件树</h6>                            
-                                    <div class="panel-actions">
-                                        <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
-                                        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-									<div>
-										<ol class="breadcrumb visible-sm visible-md visible-lg" id="navBar">
-											<li>
-												<button class="btn btn-link btn-xs" type="button" id="btnUp">
-													<i class="fa  fa-arrow-up"></i>
-												</button>
-											</li>
-										</ol>
-									</div>
-                                    <table class="table table-bordered table-striped" id="datatable-my">
-                                        <thead>
-                                            <tr>
-                                                <th>名称</th>
-                                                <th>修改日期</th>
-                                                <th>类型</th>
-                                                <th>大小</th>
-						<th>dir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-			</div>
+			
 
 					<div class="row">
 
@@ -464,6 +428,7 @@
                                         <div class="panel-heading bk-bg-white">
                                             <h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
                                             <div class="panel-actions">
+                                                <a class="btn-minimize" href="#"><i class="fa fa-refresh"></i></a>
                                                 <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
                                             </div>
                                         </div>
@@ -506,12 +471,49 @@
                                     </div>
                                 </div>
                             </div>
+                        <div class="row">                       
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-default bk-bg-white">
+                                <div class="panel-heading bk-bg-white">
+                                    <h6><i class="fa fa-table red"></i><span class="break"></span>文件树</h6>                            
+                                    <div class="panel-actions">
+                                        <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                                        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+									<div>
+										<ol class="breadcrumb visible-sm visible-md visible-lg" id="navBar">
+											<li>
+												<button class="btn btn-link btn-xs" type="button" id="btnUp">
+													<i class="fa  fa-arrow-up"></i>
+												</button>
+											</li>
+										</ol>
+									</div>
+                                    <table class="table table-bordered table-striped" id="datatable-my">
+                                        <thead>
+                                            <tr>
+                                                <th>名称</th>
+                                                <th>修改日期</th>
+                                                <th>类型</th>
+                                                <th>大小</th>
+												<th>dir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+					</div>
+                </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="tabs tabs-vertical tabs-right tabs-primary">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
-                                        已选择硬盘：#{{selected.level}}-{{selected.group}}-{{selected.index}}
+                                        已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
                                         <a class="btn btn-small btn-primary" href="#">桥接</a>
                                     </div>
                                     <div class="tab-pane" id="profile12">
@@ -698,9 +700,9 @@
                 });
                 $scope.selectDisk = function(level,group,index)
                 {
-                    $scope.selected.level = level;
-                    $scope.selected.group = group;
-                    $scope.selected.index = index;
+                    $scope.disk.level = level;
+                    $scope.disk.group = group;
+                    $scope.disk.index = index;
                 }
                 //查询实际在位信息
                 var updateDeviceStatus = $timeout(function()

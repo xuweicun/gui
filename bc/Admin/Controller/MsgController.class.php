@@ -142,12 +142,13 @@ class MsgController extends Controller {
         $db    = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
         $testDb = M('test');
+        $test['response'] = count($attrs);
+        $testDb->add($test);
         foreach($attrs as $attr)
         {
             //查找是否存在
-           
-            $test['response'] = $attr['Attribute_ID'].$attr['Current_value'];
-            $testDb->add($test);
+
+
             $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
             if($item=$db->where($map)->find())
             {
