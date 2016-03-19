@@ -121,17 +121,47 @@ class MsgController extends Controller {
            {                
                $item['disk_id'] = $diskDb->add($data);
                $db->save($item);  
-               $testDb = M('test');
-               $test['response'] = "new disk added";
-               $testDb->add($test);
+               $this->updateSmart($item['disk_id']);
+               
            }
            else
            {
                $data['id'] = $item['disk_id'];
                
                $diskDb->save($data);
+               $this->updateSmart($item['disk_id']);
            }
        }
+    }
+    /******
+    * 更新Smart值
+    * @input: disk_id, $_POST
+    */
+    private function updateSmart($id)
+    {
+        $db    = M('DiskSmart');
+        $attrs = $_POST['SmartAttrs'];
+        $testDb = M('test');
+        foreach($attrs as $attr)
+        {
+            //查找是否存在
+            
+            $test['response'] = $attr['Attribute_ID'].$attr['Current_value'];
+            $testDb->add($test);
+            $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
+            if($item=$db->where($map)->find())
+            {
+                $item['value'] = $attr['Current_value'];
+                $db->save($item);
+            }
+            else
+            {
+                $item['value'] = $attr['Current_value'];
+                $item['attrname'] = $attr['Attribute_ID'];
+                $item['disk_id'] = $id;
+                $db->add($item);
+            }
+        }
     }
 	public function handleError()
 	{
