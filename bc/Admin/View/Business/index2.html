@@ -678,9 +678,9 @@
 		            }
 		            
 		        }, mdTime);
-                	var check = $interval(function(){
+                	var status = $interval(function(){
                 	$http({
-                    url:'/index.php?m=admin&c=business&a=getMdStatus',
+                    url:'/index.php?m=admin&c=business&a=getMd5Status',
                    method:'GET'
 	                }).success(function(data) {
 	                    if(data['status'] >= 0)
@@ -688,7 +688,10 @@
 	                    	if(data['status'] == 0)
 	                    	{
 	                    		vm.value = 100;
-
+	                    		//查结果
+	                    		
+	                    		$scope.md5ResultCheck(level,group,disk);
+	                    		//$scope.disk.md5 = "校验完成，结果查询中";
 	                    	}
 	                    	else
 	                    	{
@@ -696,11 +699,31 @@
 	                    		vm.errorMsg  = "命令執行失敗";
 	                    	}
 	                    	$interval.cancel(start);
-	                    	$interval.cancel(check);
+	                    	$interval.cancel(status);
 	                    }
 
 	                });
 	            },10000);
+                }
+                $scope.md5ResultCheck = function(level,group,disk)
+                {
+					$scope.md5Result(level,group,disk);
+					var result = $interval(function(){
+					$http({
+                    url:'/index.php?m=admin&c=business&a=getMd5Result',
+                   method:'POST',
+                    data:{'level':level,'group':group,'disk':disk}
+                	}).success(function(data) {
+                        if(data['status'] >= 0)
+                        {
+                        	$interval.cancel(result);
+                        	if(data['status'] == 0)
+                        	$scope.disk.md5 = data['result'];
+                            else
+                            {//失败，应如实显示}
+                        }
+                		});	
+					},1000);
                 }
                 $scope.sendcmd = function(msg)
                 {
@@ -853,6 +876,11 @@
                 $scope.md5 = function(level,group,disk)
                 {
                     var msg = {cmd:'MD5',subcmd:'START',level:level,group:group,disk:disk};
+                    $scope.sendcmd(msg);
+                }
+                $scope.md5Result = function(level,group,disk)
+                {
+                    var msg = {cmd:'MD5',subcmd:'RESULT',level:level,group:group,disk:disk};
                     $scope.sendcmd(msg);
                 }
                 $scope.copy = function(srcLvl,srcGrp,srcDisk,dstLvl,dstGrp,dstDisk)
