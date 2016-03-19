@@ -303,6 +303,11 @@
 											<i class="fa  fa-cogs" aria-hidden="true"></i><span>环境</span>
 										</a>
 									</li>
+									<li>
+                                        <a herf="#" ng-click="testDiskInfo();">
+                                            <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>硬盘信息获取</span>
+                                        </a>
+                                    </li>
                                     <li>
                                         <a>
                                             <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>退出</span>
@@ -779,7 +784,17 @@
                     var msg = {cmd:'DEVICESTATUS'};
                     return $scope.sendcmd(msg);
                 }
+                $scope.testDiskInfo = function()
+                {
+                	$http({
+                        url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
+                        data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capasity:"1299"},
+                        method:'POST'
+                    }).success(function(data) {
+                        alert("done");
 
+                    });
+                }
                 $scope.writeprotect = function(level)
                 {
                     var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
