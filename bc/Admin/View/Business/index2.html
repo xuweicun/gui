@@ -640,13 +640,18 @@
         
 		<script>
             var app = angular.module('device', []);
-            app.controller('DeviceStatus', function($scope,$http,$timeout) {
+            app.controller('DeviceStatus', function($scope,$http,$timeout,$interval) {
                 $scope.test = true;
                 $scope.level = 13;
                 $scope.loaded = 0;
                 $scope.selected = {'level':1,'group':1,'index':1};
                 var businessRoot = '/index.php?m=admin&c=business';
                 var msgRoot = '/index.php?m=admin&c=msg';
+                var vm = $scope.vm = {};
+			    vm.value = 0;
+			    vm.style = 'progress-bar-danger';
+			    vm.showLabel = true;
+			    vm.striped = true;
 
 		var server = businessRoot + '&a=addcmdlog' ;
                 var proxy = "http://222.35.224.230:8080";
@@ -660,6 +665,43 @@
                 $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
                 var myDate = new Date();
                 $scope.updatetime=myDate.getTime();
+                $scope.md5check = function(level,group,disk)
+                {
+                	$scope.md5(level,group,disk);
+                	var index = 0;
+                	var mdTime = 1000;
+                	//定時更新進度條
+                	var start = $interval(function(){
+		            vm.value =  (++index)/mdTime;
+		            if (index > mdTime-1) {
+		                $interval.cancel(start);
+		            }
+		            
+		        }, mdTime);
+                	var check = $interval(function(){
+                	$http({
+                    url:'/index.php?m=admin&c=business&a=getMdStatus',
+                   method:'GET'
+	                }).success(function(data) {
+	                    if(data['status'] >= 0)
+	                    {
+	                    	if(data['status'] == 0)
+	                    	{
+	                    		vm.value = 100;
+
+	                    	}
+	                    	else
+	                    	{
+	                    		vm.errorShow = true;
+	                    		vm.errorMsg  = "命令執行失敗";
+	                    	}
+	                    	$interval.cancel(start);
+	                    	$interval.cancel(check);
+	                    }
+
+	                });
+	            },10000);
+                }
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
