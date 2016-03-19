@@ -57,7 +57,7 @@ class BusinessController extends Controller {
 		$status = -1;//未完成
 		$map['cmd'] = array('eq',$cmd);
 		$map['status'] = array('eq',$status);
-		while($item = $cmdDb->where($map)->find() && $exctTime < $maxTime)
+		while($exctTime < $maxTime)
 		{
 			sleep(1);
 			$exctTime = $exctTime + 1;
@@ -290,8 +290,8 @@ class BusinessController extends Controller {
 	
 	public function getDiskInfo(){   
 		//check permission
-        $maxTime = $_POST['maxtime'] || 30;
-        $type = I('get.type',0,'intval');
+        $maxTime = $_POST['maxtime'];
+        $type = $_POST['type'];
         if($type == 1)
         $this->waitTilDone('GETDISKINFO',$maxTime);
         $level = $_POST['level'];

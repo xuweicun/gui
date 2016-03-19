@@ -763,10 +763,10 @@
                 }
                 $scope.getdiskinfo = function(level,group,disk)
                 {
-                	$scope.diskinfo(level,group,disk);
+                	$scope.diskinfo(level.toString(),group.toString(),disk.toString());
                 	$http({
                         url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data:{level:$scope.level,group:$scope.group,disk:$scope.disknum,maxtime:50},
+                        data:{level:$scope.level,group:$scope.group,disk:$scope.disknum,maxtime:5,type:1},
                         method:'POST'
                     }).success(function(data) {
                         $scope.disk.sn = data['sn'];

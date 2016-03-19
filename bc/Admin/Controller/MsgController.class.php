@@ -114,12 +114,16 @@ class MsgController extends Controller {
            $diskDb = M('Disk');
            $item = $db->where($map)->find();
            $data['sn'] = $_POST['SN'];
-           $data['smart'] = $_POST['smart']; 
+           $data['smart'] = 0;
+           $data['capacity'] = $_POST['capacity']; 
            $data['time']  = time();
-           if(!$item['disk_id'])
+           if(!$item['disk_id']||is_null($item['disk_id']))
            {                
                $item['disk_id'] = $diskDb->add($data);
                $db->save($item);  
+               $testDb = M('test');
+               $test['response'] = "new disk added";
+               $testDb->add($test);
            }
            else
            {
