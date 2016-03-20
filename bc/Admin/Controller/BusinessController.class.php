@@ -188,12 +188,12 @@ class BusinessController extends Controller {
 			{
 				if($j > $group)
 				break;
-				$data['group'] = $j;
+				$data['zu'] = $j;
 				for($k = 1; $k <= $disk; $k++)
 				{
 					if($k > $disk)
 					break;
-					$data['index'] = $k;
+					$data['disk'] = $k;
 					$data['loaded'] = 1;
 					$data['bridged'] = 0;
 					
