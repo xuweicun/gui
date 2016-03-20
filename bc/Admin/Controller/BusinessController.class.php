@@ -208,7 +208,7 @@ class BusinessController extends Controller {
         $level = I("get.level");
         $group = I("get.group");
         $index = I("get.index");
-        $disk = $level."-".$group."-".$index;
+        $disk = $level."_".$group."_".$index;
         $this->assign("disk",$disk);
         $this->display();
     }
