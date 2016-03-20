@@ -203,6 +203,15 @@ class BusinessController extends Controller {
 		}
 		
 	}
+    public function filetree()
+    {
+        $level = I("get.level");
+        $group = I("get.group");
+        $index = I("get.index");
+        $disk = $level."-".$group."-".$index;
+        $this->assign("disk",$disk);
+        $this->display();
+    }
 	/***
 	* to insert a new commond-request log, driven by javascript
 	* @input: cmd, subcmd, 
