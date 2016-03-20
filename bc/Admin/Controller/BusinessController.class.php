@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 use Think\Controller;
 header('Access-Control-Allow-Origin:*'); 
+header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 if ($content_type_args[0] == 'application/json') {
 	$_POST = json_decode(file_get_contents('php://input'),true);     

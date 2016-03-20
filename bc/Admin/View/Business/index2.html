@@ -719,7 +719,8 @@
                 {
                     $http({
                         url:'http://localhost/index.php/business/checkCollision',
-                        method:'GET'
+                        method:'POST',
+                        data:{cmd:'DEVICESTATUS'}
                     }).success(function(data) {
                         if(data['isLegal'] == 1)
                         {
