@@ -456,11 +456,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td>健康状况</td>
-                                                        <td>{{disk.health}}</td>
+                                                        <td>良好</td>
                                                     </tr>
                                                     <tr>
                                                         <td>本次校验值</td>
-                                                        <td>{{disk.md5}}</td>
+                                                        <td>mg2ewpoxmjdfeji3fjeifji93kcjife...</td>
                                                     </tr>
 
 
@@ -514,7 +514,9 @@
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
                                         已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
-                                        <a class="btn btn-small btn-primary" href="#">桥接</a>
+                                        <a class="btn btn-small btn-primary" href="#" ng-click="bridge();">桥接</a>
+										<p ng-bind="vm.cmd"></p>
+										<p ng-bind="vm.value"></p>
                                     </div>
                                     <div class="tab-pane" id="profile12">
                                         <p>Profile</p>

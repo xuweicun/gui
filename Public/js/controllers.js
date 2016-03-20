@@ -1,6 +1,6 @@
 angular.module('device.controllers', [])
     .controller('DeviceStatus', function($scope,$http,$timeout,$interval) {
-        $scope.test = true;
+        $scope.test = "1";
 
 
         $scope.selected = {'level':1,'group':1,'index':1};
@@ -144,9 +144,10 @@ angular.module('device.controllers', [])
 
         $scope.bridge = function()
         {
+            var disk = $scope.disk;
             vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
             var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
-                {id:disk.disk.toString(),SN:disk.sn}]};
+                {id:disk.disk.toString(),SN:disk.sn}],FILETREE:$scope.test};
             $scope.sendcmd(msg);
             var index = 0;
             var mdTime = 1000;
@@ -228,16 +229,16 @@ angular.module('device.controllers', [])
             //先发送消息告知服务器即将发送指令；
             $http.post(server,msg).
             success(function(data) {
-                if(data['errmsg'] == 1)
+                if(data['errmsg'])
                 {
-                    console.log("Server failed to update the log.");
+                    console.log(data['errmsg']);
                     return -1;
                 }
-                msg.CMDID = data['id'];
+                msg.CMD_ID = data['id'].toString();
                 //服务器收到通知后，联系APP，发送指令；
                 $http.post(proxy,msg).
                 success(function(data) {
-                    return msg.CMDID;
+                    console.log( msg.CMD_ID);
                 }).
                 error(function(data) {
                     console.log("app offline");
@@ -359,6 +360,7 @@ angular.module('device.controllers', [])
                 $scope.disk.sn = data['sn'];
                 $scope.disk.md5 = data['smart'];
                 $scope.disk.capacity = data['capacity'];
+                    $scope.disk.path = data['file_list'];
             });
             }
     }

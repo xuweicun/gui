@@ -29,8 +29,35 @@ class MsgController extends Controller {
            case 'DISKINFO':
            $this->updateDiskInfo();
            break;
+           case 'BRIDGE':
+               $this->bridgeMsgHandle();
+               break;
 	   }  	   
 	}
+    public function bridgeMsgHandle()
+    {
+        $status = $_POST['status'];
+        $cmd = 'BRIDGE';
+        $subcmd = 'START';
+        $db = M('CmdLog');
+        $item = $db->where("cmd=$cmd and status=-1")->find();
+        if($item)
+        {
+            $level = $_POST['level'];
+            $group = $_POST['group'];
+            $disk  = $_POST['disk'];
+            $path = json_decode($_POST['paths']);
+            $filedir = "/home/share/mount/".$path['value'];
+            $deviceDb = M('Device');
+            $disk = $deviceDb->where("level = $level and zu = $group and disk=$disk")->find();
+            $diskDb = M('Disk');
+            $theDisk = $diskDb->find($disk['disk_id']);
+            $theDisk['file_list'] = $filedir;
+            $diskDb->save($theDisk);
+        }
+        $item['status'] = 0;
+        $db->save($item);
+    }
 	/***
 	* 获取硬盘在位信息返回数据处理函数
 	* @作者 Wilson Xu
@@ -141,14 +168,14 @@ class MsgController extends Controller {
     private function updateSmart($id)
     {
         $db    = M('DiskSmart');
-        $attrs = $_POST['SmartAttrs'];
+        $attrs = json_decode($_POST['SmartAttrs']);
         $testDb = M('test');
         $test['response'] = count($attrs);
         $testDb->add($test);
         foreach($attrs as $attr)
         {
             //查找是否存在
-
+            $attr = json_decode($attr);
 
             $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
             if($item=$db->where($map)->find())

@@ -69,12 +69,12 @@ class BusinessController extends Controller {
 		$subcmd = 'START';
 		$db = M('CmdLog');
 		$map = "cmd = $cmd and subcmd = $subcmd";
-		$item = $db->where($map)->select();
+		$item = $db->where($map)->find();
         if($item)
         {
             if($item['status'] == 0)
             {
-                $db->delete($item['id']);
+                $db->where("id={$item['id']}")->delete();
             }
             $this->AjaxReturn($item);
         }
@@ -155,6 +155,7 @@ class BusinessController extends Controller {
             $this->notFoundError("not found this commond in the log");
         }
     }
+
 	/****
 	* 系统初始化函数
 	*/
@@ -230,12 +231,14 @@ class BusinessController extends Controller {
 		$id = $db->add($data);
 		if($id)
 		{
-			//insert related disk rooms
+            $data['id'] = $id;
+			$this->AjaxReturn($data);
 			
 		}
 		else
 		{
 			//throw an exception
+            $this->notFoundError("fail to insert the cmd log");
 		}
 		
 	}
