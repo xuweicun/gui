@@ -41,8 +41,9 @@ class MsgController extends Controller {
            $cmdDb = M('CmdLog');
            $cmds = $cmdDb->where("cmd='DEVICESTATUS' and status=-1")->select();
            foreach($cmds as $cmd)
-           {$cmd['status']=1;
-            $cmdDb->save($cmd);
+           {
+               $cmd['status'] = $_POST['status'];
+               $cmdDb->save($cmd);
            }
            
 	   //在位信息以后改为用Redis维护
