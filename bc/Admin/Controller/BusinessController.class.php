@@ -20,7 +20,7 @@ class BusinessController extends Controller {
 		
 		
 		//generate the page 
-		$this->display("index");
+		$this->display("index2");
 
 	}
 

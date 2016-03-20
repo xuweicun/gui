@@ -20,7 +20,7 @@ angular.module('device.controllers', [])
         $scope.loaded = 0;
         $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
         var myDate = new Date();
-        $scope.start();
+
 
         $scope.start = function()
         {
@@ -46,6 +46,7 @@ angular.module('device.controllers', [])
             //获取所选取的磁盘的硬盘信息
 
         }
+        $scope.start();
         $scope.deviceInit = function()
         {
             $scope.devicestatus();
