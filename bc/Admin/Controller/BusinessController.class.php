@@ -68,7 +68,8 @@ class BusinessController extends Controller {
 		$cmd = 'BRIDGE';
 		$subcmd = 'START';
 		$db = M('CmdLog');
-		$map = "cmd = $cmd and subcmd = $subcmd";
+        $map['cmd'] = array('eq',$cmd);
+
 		$item = $db->where($map)->find();
         if($item)
         {

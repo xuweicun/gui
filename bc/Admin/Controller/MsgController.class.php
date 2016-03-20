@@ -36,11 +36,12 @@ class MsgController extends Controller {
 	}
     public function bridgeMsgHandle()
     {
-        $status = $_POST['status'];
+
         $cmd = 'BRIDGE';
         $subcmd = 'START';
         $db = M('CmdLog');
-        $item = $db->where("cmd=$cmd and status=-1")->find();
+
+        $item = $db->where("cmd='$cmd' and status=-1")->find();
         if($item)
         {
             $level = $_POST['level'];
@@ -54,9 +55,10 @@ class MsgController extends Controller {
             $theDisk = $diskDb->find($disk['disk_id']);
             $theDisk['file_list'] = $filedir;
             $diskDb->save($theDisk);
+            $item['status'] = $path['status'];
+            $db->save($item);
         }
-        $item['status'] = 0;
-        $db->save($item);
+
     }
 	/***
 	* 获取硬盘在位信息返回数据处理函数
