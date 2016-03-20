@@ -144,7 +144,7 @@ class BusinessController extends Controller {
     {
         $cmd = I('get.cmd');
         $db = M('CmdLog');
-        $map = "cmd=$cmd";
+        $map['cmd'] = array('eq',$cmd);
         $item = $db->where($map)->find();
         if($item)
         {
