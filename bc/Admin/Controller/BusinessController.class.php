@@ -29,7 +29,8 @@ class BusinessController extends Controller {
 	public function temp()
 	{
 
-		   $this->display("index2");
+                $this->display("index2");
+
 		
 	}
 	public function search(){
@@ -56,12 +57,13 @@ class BusinessController extends Controller {
 		$status = -1;//未完成
 		$map['cmd'] = array('eq',$cmd);
 		$map['status'] = array('eq',$status);
-		while($item = $cmdDb->where($map)->find() && $exctTime < $maxTime)
+		while($exctTime < $maxTime)
 		{
 			sleep(1);
 			$exctTime = $exctTime + 1;
 		}
 	}
+
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
@@ -72,17 +74,18 @@ class BusinessController extends Controller {
 		if($type == 1)
 		{
 			//待改进：以后应将运行中的命令单独放一个表，成功或失败后放到log表中。
-			$maxTime = 10;
+			$maxTime = 30;
 			$cmd = "DEVICESTATUS";	
 			$this->waitTilDone($cmd,$maxTime);		
 		}
 		foreach($rooms as $item)
 		{
 			//返回所有不在位的硬盘信息；
-			if($item['loaded'] == 0)
+			if($item['loaded'] == 1)
 			{
 				//硬盘在位
-				$returnData[] = $item;
+				$item['time'] = date("Y-m-d H:i:s",$item['time']);
+                                $returnData[] = $item;
 				
 			} 
 			
@@ -106,11 +109,6 @@ class BusinessController extends Controller {
 	*/
 	public function checkCollision()
 	{
-		$content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
-	   if ($content_type_args[0] == 'application/json')
-	   {
-		   $_POST = json_decode(file_get_contents('php://input'),true);     
-	   }
 		$db = M('CmdLog');
 		$data['cmd'] = $_POST['cmd'];
 		$data['subcmd'] = $_POST['subcmd'];
@@ -127,7 +125,7 @@ class BusinessController extends Controller {
 		}
 		else
 		{
-			$data['isLegal'] = 0;
+
 			$this->AjaxReturn($data);
 		}
 	}
@@ -147,8 +145,7 @@ class BusinessController extends Controller {
 		$disk  = $_POST['disk'];
 		$db = M('Device');
 		$db->delete();
-		$sql="alter table $gui_device auto_increment=1"; 
-		$db->query($sql);
+                $gui_device = 'gui_device';    
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
 		for($i = 1; ; $i++)
 		{
@@ -291,11 +288,52 @@ class BusinessController extends Controller {
 		}
 	}
 	
-	public function pick_disk(){   
+	public function getDiskInfo(){   
 		//check permission
+        $maxTime = $_POST['maxtime'];
+        $type = $_POST['type'];
+        if($type == 1)
+        $this->waitTilDone('GETDISKINFO',$maxTime);
+        $level = $_POST['level'];
+        $group = $_POST['group'];
+        $disk  = $_POST['disk'];
+        $db = M('Device');
+        $map = "level=$level and zu=$group and disk=$disk";
+        $item = $db->where($map)->find();
+        if($item)
+        {
+             $id = $item['disk_id'];
+             if(!$id)
+             {
+                 $this->notFoundError('no disk id');
+             }
+             else
+             {
+                 $diskDb = M('Disk');
+                 $item = $diskDb->find($id);
+                 if($item)
+                 {
+                     $this->AjaxReturn($item);
+                 }
+                 else
+                 {
+                     $this->notFoundError('disk table item not found');
+                 }
+             }
+        }
+        else
+        {
+            $this->notFoundError('device');
+        }
+        
 		//query database
 		//return 
 	}
+    private function notFoundError($appended='')
+    {
+        $data['errmsg'] = 'item does not exists--'.$appended;
+        $this->AjaxReturn($data);
+    }
 	public function login(){   
 		//check permission
 		//query database

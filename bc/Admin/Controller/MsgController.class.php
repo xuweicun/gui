@@ -26,6 +26,9 @@ class MsgController extends Controller {
 		   case 'DEVICESTATUS':
 		   $this->updateDeviceStatus();
 		   break;
+           case 'DISKINFO':
+           $this->updateDiskInfo();
+           break;
 	   }  	   
 	}
 	/***
@@ -34,6 +37,14 @@ class MsgController extends Controller {
 	*/
 	public function updateDeviceStatus()
 	{
+           //将命令状态设为已完成;
+           $cmdDb = M('CmdLog');
+           $cmds = $cmdDb->where("cmd='DEVICESTATUS' and status=-1")->select();
+           foreach($cmds as $cmd)
+           {$cmd['status']=1;
+            $cmdDb->save($cmd);
+           }
+           
 	   //在位信息以后改为用Redis维护
 	   if($_POST['status'] == 0)
 	   {
@@ -45,11 +56,14 @@ class MsgController extends Controller {
 		   //更新在位信息；
 		   foreach($items as $item)
 		   {
-			   $item['loaded'] = 0;
-			   $db->save($item);
+			   $item['loaded'] = 0;$item['time']=time();
+                            $db->save($item);
 		   }
+                   $testDb = M('test');
+                   
 		   foreach($levels as $level)
 		   {
+			   
 			   $level_id = $level['id'];
 			   $groups = $level['groups'];
 			   foreach($groups as $group)
@@ -58,20 +72,21 @@ class MsgController extends Controller {
 				   $disks = $group['disks'];
 				   foreach($disks as $disk)
 				   {
+                       $data['response'] = "$level_id-$group_id-$disk";
 					   $map['level'] = array('eq',$level_id);
-					   $map['group'] = array('eq',$group_id);
-					   $map['index'] = array('eq',$disk);
-					   if($item = $db->where($map)->find())
+					   $map['zu'] = array('eq',$group_id);
+					   $map['disk'] = array('eq',$disk);
+                       $item = $db->where("level=$level_id and zu=$group_id and disk=$disk")->find();
+					   if($item)
 					   {
 						   $item['loaded'] = 1;
+						   $item['time'] = time();
 						   $db->save($item);
-					   }
-					   else
-					   {
-						   $item['loaded'] = 1;
-						   $db->add($item);
-					   }
-					   
+                           $data['response'] =$data['response']."-added";
+                       }
+                       else
+                       {$data['response'] =$data['response']."-fail";}
+                        $testDb->add($data);
 				   }
 			   }
 		   }
@@ -81,6 +96,74 @@ class MsgController extends Controller {
 		   $this->handleError();//统一处理
 	   } 
 	}
+    public function updateDiskInfo()
+    {
+        //暂时不维护此命令状态，太麻烦;
+        //后期修改cmdlog，增加diskinfo一项，记录操作对象。
+        
+       //在位信息以后改为用Redis维护
+       if($_POST['status'] == 0)
+       {  
+           //查看是否对应盘位绑定了硬盘
+           //若未绑定
+           $level = $_POST['level'];
+           $group = $_POST['group'];
+           $disk  = $_POST['disk'];
+           $map = "level=$level and zu=$group and disk=$disk";
+           $db = M('Device');          
+           $diskDb = M('Disk');
+           $item = $db->where($map)->find();
+           $data['sn'] = $_POST['SN'];
+           $data['smart'] = 0;
+           $data['capacity'] = $_POST['capacity']; 
+           $data['time']  = time();
+           if(!$item['disk_id']||is_null($item['disk_id']))
+           {                
+               $item['disk_id'] = $diskDb->add($data);
+               $db->save($item);  
+               $this->updateSmart($item['disk_id']);
+               
+           }
+           else
+           {
+               $data['id'] = $item['disk_id'];
+               
+               $diskDb->save($data);
+               $this->updateSmart($item['disk_id']);
+           }
+       }
+    }
+    /******
+    * 更新Smart值
+    * @input: disk_id, $_POST
+    */
+    private function updateSmart($id)
+    {
+        $db    = M('DiskSmart');
+        $attrs = $_POST['SmartAttrs'];
+        $testDb = M('test');
+        $test['response'] = count($attrs);
+        $testDb->add($test);
+        foreach($attrs as $attr)
+        {
+            //查找是否存在
+
+
+            $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
+            if($item=$db->where($map)->find())
+            {
+                $item['value'] = $attr['Current_value'];
+                $db->save($item);
+            }
+            else
+            {
+                $item['value'] = $attr['Current_value'];
+                $item['attrname'] = $attr['Attribute_ID'];
+                $item['disk_id'] = $id;
+                $db->add($item);
+            }
+        }
+    }
 	public function handleError()
 	{
 		//更新错误日志，包括命令名称，错误内容。--增加表；

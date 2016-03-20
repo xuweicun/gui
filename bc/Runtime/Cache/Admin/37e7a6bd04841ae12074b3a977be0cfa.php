@@ -303,6 +303,11 @@
 											<i class="fa  fa-cogs" aria-hidden="true"></i><span>环境</span>
 										</a>
 									</li>
+									<li>
+                                        <a herf="#" ng-click="testDiskInfo();">
+                                            <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>硬盘信息获取</span>
+                                        </a>
+                                    </li>
                                     <li>
                                         <a>
                                             <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>退出</span>
@@ -321,8 +326,8 @@
 								var sparklineLineVisitsData = [15, 16, 17, 19, 15, 25, 23, 35, 29, 15, 30, 45];
 							</script>-->
 							<div class="small-chart-info">
-								<label>登录时间</label>
-								<strong>14:22 2016.03.09</strong>
+								<label></label>
+								<strong></strong>
 							</div>
 
 						</div>
@@ -353,7 +358,120 @@
 					</div>
 					<!-- End Page Header -->
 
-			<div class="row">                       
+			
+
+					<div class="row">
+
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel bk-widget bk-border-off">
+								<div class="panel-body bk-bg-primary">
+									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300">总盘位</h4>
+									<div class="clearfix  bk-padding-top-10">
+										<div class="pull-right bk-margin-left-15">
+											<i class="fa fa-ban-circle-o fa-3x"></i>
+										</div>
+										<h1 class="bk-margin-off-top pull-right">{{level*group*disknum}}</h1>
+									</div>									
+									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层{{group}}组，每组{{disknum}}个盘位</h6></a>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel bk-widget bk-border-off">
+								<div class="panel-body bk-bg-success">
+									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300" >在位数</h4>
+                                    <div class="clearfix  bk-padding-top-10">
+                                        <div class="pull-right bk-margin-left-15">
+                                            <i class="fa fa-ban-circle-o fa-3x"></i>
+                                        </div>
+                                        <h1 class="bk-margin-off-top pull-right">{{loaded}}</h1>
+                                    </div>
+                                    <h4 class="text-right bk-padding-top-15 bk-margin-off">{{updatetime|date:'yyyy-MM-dd HH:mm:ss'}}</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            <div class="tabs tabs-vertical tabs-left">
+                                <ul class="nav nav-tabs col-sm-3 col-xs-5">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#pane-level1"><i class=" glyphicon glyphicon-align-justify"></i> 第1层</a>
+                                    </li>
+                                    <li ng-repeat="level in levels">
+                                        <a data-toggle="tab" href="#pane-level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
+                                    </li>
+                                    
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="pane-level1">
+                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
+
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
+                                                <a class="btn btn-block btn-default" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk);getdiskinfo(1,group,disk);"><i class=" glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
+                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
+                                            	<a class="btn btn-block btn-default" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk);getdiskinfo(level,group,disk);"><i class="glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row"><!--硬盘信息-->
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default bk-bg-white">
+                                        <div class="panel-heading bk-bg-white">
+                                            <h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
+                                            <div class="panel-actions">
+                                                <a class="btn-minimize" href="#"><i class="fa fa-refresh"></i></a>
+                                                <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>参数名称</th>
+                                                            <th>参数值</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>位号</td>
+                                                        <td>{{disk.level}}-{{disk.group}}-{{disk.index}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>容量</td>
+                                                        <td>{{disk.capacity}}G</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SN号</td>
+                                                        <td>{{disk.sn}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>健康状况</td>
+                                                        <td>{{disk.health}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>本次校验值</td>
+                                                        <td>{{disk.md5}}</td>
+                                                    </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="row">                       
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="panel panel-default bk-bg-white">
                                 <div class="panel-heading bk-bg-white">
@@ -380,7 +498,7 @@
                                                 <th>修改日期</th>
                                                 <th>类型</th>
                                                 <th>大小</th>
-						<th>dir</th>
+												<th>dir</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -389,136 +507,13 @@
                                 </div>
                             </div>
                         </div>
-			</div>
-
-					<div class="row">
-
-						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<div class="panel bk-widget bk-border-off">
-								<div class="panel-body bk-bg-primary">
-									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300">总盘位</h4>
-									<div class="clearfix  bk-padding-top-10">
-										<div class="pull-right bk-margin-left-15">
-											<i class="fa fa-hdd-o fa-3x"></i>
-										</div>
-										<h1 class="bk-margin-off-top pull-right">{{level*group*disknum-loaded}}</h1>
-									</div>									
-									<a><h6 class="text-right bk-padding-top-20 bk-margin-off">共{{level}}层，每层{{group}}组，每组{{disknum}}个盘位</h6></a>
-                                    <a href="#" class="btn btn-primary btn-block" ng-click="init()" ng-show="test">系统初始化</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<div class="panel bk-widget bk-border-off">
-								<div class="panel-body bk-bg-success">
-									<h4 class="bk-margin-off-bottom bk-docs-font-weight-300" >在位数</h4>
-                                    <div class="clearfix  bk-padding-top-10">
-                                        <div class="pull-right bk-margin-left-15">
-                                            <i class="fa fa-hdd-o fa-3x"></i>
-                                        </div>
-                                        <h1 class="bk-margin-off-top pull-right">{{level*group*disknum-loaded}}</h1>
-                                    </div>
-                                    <h4 class="text-right bk-padding-top-15 bk-margin-off">14分钟前</h4>
-								</div>
-							</div>
-						</div>
 					</div>
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <div class="tabs tabs-vertical tabs-left">
-                                <ul class="nav nav-tabs col-sm-3 col-xs-5">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#pane-level1"><i class=" glyphicon glyphicon-align-justify"></i> 第1层</a>
-                                    </li>
-                                    <li ng-repeat="level in levels">
-                                        <a data-toggle="tab" href="#pane-level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
-                                    </li>
-                                    
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="pane-level1">
-                                        <div class="row  bk-padding-10" id = "1-group1">
-
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-1-1-{{disk}}" ng-click = "selectDisk(1,1,disk)"><i class=" glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
-                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
-
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk)"><i class=" glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
-                                        <div class="row  bk-padding-10" id = "{{level}}-group1">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-primary" href="#" id="disk-{{level}}-1-{{disk}}" ng-click = "selectDisk(level,1,disk)"><i class="glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
-                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                            	<a class="btn btn-block btn-primary" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk)"><i class="glyphicon glyphicon-hdd"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>                                            
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="row"><!--硬盘信息-->
-                                <div class="col-lg-12">
-                                    <div class="panel panel-default bk-bg-white">
-                                        <div class="panel-heading bk-bg-white">
-                                            <h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
-                                            <div class="panel-actions">
-                                                <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>参数名称</th>
-                                                            <th>参数值</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>位号</td>
-                                                        <td>{{disk.level}}-{{disk.group}}-{{disk.index}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>容量</td>
-                                                        <td>{{disk.capability}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>SN号</td>
-                                                        <td>{{disk.sn}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>健康状况</td>
-                                                        <td>{{disk.health}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>本次校验值</td>
-                                                        <td>{{disk.md5}}</td>
-                                                    </tr>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="tabs tabs-vertical tabs-right tabs-primary">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
-                                        已选择硬盘：#{{selected.level}}-{{selected.group}}-{{selected.index}}
+                                        已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
                                         <a class="btn btn-small btn-primary" href="#">桥接</a>
                                     </div>
                                     <div class="tab-pane" id="profile12">
@@ -590,7 +585,7 @@
 						</li>
 						<li>
 							<div class="copyright">
-								<p class="text-muted text-right">Fire <i class="fa fa-coffee"></i> Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a></p>
+								<p class="text-muted text-right">汉龙思琪</p>
 							</div>
 						</li>				
 					</ul>	
@@ -650,17 +645,21 @@
                 $scope.level = 13;
                 $scope.loaded = 0;
                 $scope.selected = {'level':1,'group':1,'index':1};
-                var server = "http://localhost:10086/index.php/business/AddCmdLog";
-                var proxy = "http://localhost:8080";
+                var businessRoot = '/index.php?m=admin&c=business';
+                var msgRoot = '/index.php?m=admin&c=msg';
+
+		var server = businessRoot + '&a=addcmdlog' ;
+                var proxy = "http://222.35.224.230:8080";
               
   				$scope.levels = [2,3,4,5,6];
-                $scope.groups = [2,3,4,5,6];
+                $scope.groups = [1,2,3,4,5,6];
                 $scope.disks  = [1,2,3,4];
                 $scope.level = 6;
                 $scope.group = 6;
                 $scope.disknum = 4;
                 $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
-
+                var myDate = new Date();
+                $scope.updatetime=myDate.getTime();
                 $scope.sendcmd = function(msg)
                 {
                     console.log('sending command.');
@@ -694,31 +693,22 @@
                 }
                 //从数据库中查询硬盘在位信息
                 $http({
-                    url:'http://localhost:10086/index.php/business/getDeviceInfo',
+                    url:'/index.php?m=admin&c=business&a=getDeviceInfo',
                    method:'GET'
                 }).success(function(data) {
-                    $scope.loaded = 0;
-                    data.forEach(function(e)
-                            {
-                                var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
-                                 $(id).removeClass("btn-primary").addClass("btn-default");
-                                $(id+" i").removeClass("glyphicon-hdd").addClass("glyphicon-empty");
-                                $scope.loaded = $scope.loaded + 1;
-                            }
-                    );
-
+                    $scope.loaddisks(data);
                 });
                 $scope.selectDisk = function(level,group,index)
                 {
-                    $scope.selected.level = level;
-                    $scope.selected.group = group;
-                    $scope.selected.index = index;
+                    $scope.disk.level = level;
+                    $scope.disk.group = group;
+                    $scope.disk.index = index;
                 }
                 //查询实际在位信息
                 var updateDeviceStatus = $timeout(function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        url:'/index.php?m=admin&c=business&a=checkCollision',
                         method:'GET'
                     }).success(function(data) {
                         if(data['isLegal'] == 1)
@@ -727,26 +717,41 @@
                         }                 
                     });
                     $http({
-                        url:'http://localhost:10086/index.php/business/getDeviceInfo/type/1',
+                        url:'/index.php?m=admin&c=business&a=getDeviceInfo&type=1',
                         method:'GET'
                     }).success(function(data) {
-                        $scope.loaded = 0;
-                        data.forEach(function(e)
-                                {
-                                    var id = "#disk-"+ e.level + "-"+ e.group + "-"+ e.index;
-                                    $(id).removeClass("btn-primary").addClass("btn-default");
-                                    $(id+" i").removeClass("glyphicon-hdd").addClass("glyphicon-empty");
-                                    $scope.loaded = $scope.loaded + 1;
-                                }
-                        );
-
+                        $scope.loaddisks(data);                 
                     });
                 },5000);
+                $scope.loaddisks = function(data)
+                {
+                      $scope.loaded = 0;
+                      if(data.length > 0)
+                       {
+                       	   if(data[0].time)
+                           $scope.updatetime = data[0].time;
+                           else
+                           {var myDate = new Date();$scope.updatetime=myDate.getTime();}
+                       } 
+                       else
+                       {var myDate = new Date();$scope.updatetime=myDate.getTime();}
+                       data.forEach(function(e)
+                                {
+                                    var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
+                                    $(id).removeClass("btn-default").addClass("btn-primary");
+                                    $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
+                                    $scope.loaded = $scope.loaded + 1;
+                                    
+                                }
+                        );
+                        
+                        
+                }
                 //系统初始化
                 $scope.init = function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/systeminit',
+                        url:'/index.php?m=admin&c=business&a=systeminit',
                         data:{level:$scope.level,group:$scope.group,disk:$scope.disknum},
                         method:'POST'
                     }).success(function(data) {
@@ -756,11 +761,24 @@
                 $scope.checkCollision = function()
                 {
                     $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
+                        url:'http://localhost/index.php/business/checkCollision',
                         
                         method:'GET'
                     }).success(function(data) {
                         return data['isLegal'];                    
+                    });
+                }
+                $scope.getdiskinfo = function(level,group,disk)
+                {
+                	$scope.diskinfo(level.toString(),group.toString(),disk.toString());
+                	$http({
+                        url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
+                        data:{level:level,group:group,disk:disk,maxtime:5,type:1},
+                        method:'POST'
+                    }).success(function(data) {
+                        $scope.disk.sn = data['sn'];
+                        $scope.disk.md5 = data['smart'];
+                        $scope.disk.capacity = data['capacity'];
                     });
                 }
                 $scope.devicestatus = function()
@@ -768,7 +786,17 @@
                     var msg = {cmd:'DEVICESTATUS'};
                     return $scope.sendcmd(msg);
                 }
+                $scope.testDiskInfo = function()
+                {
+                	$http({
+                        url:'/index.php?m=admin&c=msg&a=index',
+                        data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capacity:"1299"},
+                        method:'POST'
+                    }).success(function(data) {
+                        alert("done");
 
+                    });
+                }
                 $scope.writeprotect = function(level)
                 {
                     var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
@@ -792,8 +820,9 @@
                 }
                 $scope.diskinfo = function(level,group,disk)
                 {
-                    var msg = {cmd:'盘INFO',level:level,group:group,disk:disk};
+                    var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
                     $scope.sendcmd(msg);
+                    
                 }
                 $scope.power = function(level)
                 {
