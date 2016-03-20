@@ -46,11 +46,11 @@ class MsgController extends Controller {
         {
             $level = $_POST['level'];
             $group = $_POST['group'];
-            $disk  = $_POST['disk'];
+            $disks  = json_decode($_POST['disks']);
             $path = json_decode($_POST['paths']);
             $filedir = "/home/share/mount/".$path['value'];
             $deviceDb = M('Device');
-            $disk = $deviceDb->where("level = $level and zu = $group and disk=$disk")->find();
+            $disk = $deviceDb->where("level = $level and zu = $group and disk={$disks[0]['id']}")->find();
             $diskDb = M('Disk');
             $theDisk = $diskDb->find($disk['disk_id']);
             $theDisk['file_list'] = $filedir;

@@ -29,7 +29,7 @@ angular.module('device.controllers', [])
 
             vm.value = 0;
             vm.style = 'progress-bar-danger';
-            vm.showLabel = true;
+            vm.show = true;
             vm.striped = true;
             vm.cmd = null;
             vm.diskReady = false;//磁盘是否准备好操作；
