@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('device.services', [])
 
   .factory('locals',['$window',function($window){
     return{

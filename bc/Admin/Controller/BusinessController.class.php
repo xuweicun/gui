@@ -63,21 +63,32 @@ class BusinessController extends Controller {
 			$exctTime = $exctTime + 1;
 		}
 	}
-
+    public function getBridgeStatus()
+	{
+		$cmd = 'BRIDGE';
+		$subcmd = 'START';
+		$db = M('CmdLog');
+		$map = "cmd = $cmd and subcmd = $subcmd";
+		$item = $db->where($map)->select();
+        if($item)
+        {
+            if($item['status'] == 0)
+            {
+                $db->delete($item['id']);
+            }
+            $this->AjaxReturn($item);
+        }
+        else
+        {
+            $this->notFoundError('bridge not found in log');
+        }
+	}
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
 		$db = M('Device');
 		$rooms = $db->select();
 		$returnData = array();
-		$type = I('get.type',0,'intval');
-		if($type == 1)
-		{
-			//待改进：以后应将运行中的命令单独放一个表，成功或失败后放到log表中。
-			$maxTime = 30;
-			$cmd = "DEVICESTATUS";	
-			$this->waitTilDone($cmd,$maxTime);		
-		}
 		foreach($rooms as $item)
 		{
 			//返回所有不在位的硬盘信息；
@@ -129,6 +140,21 @@ class BusinessController extends Controller {
 			$this->AjaxReturn($data);
 		}
 	}
+    public  function  getCmdResult()
+    {
+        $cmd = I('get.cmd');
+        $db = M('CmdLog');
+        $map = "cmd=$cmd";
+        $item = $db->where($map)->find();
+        if($item)
+        {
+            $this->AjaxReturn($item);
+        }
+        else
+        {
+            $this->notFoundError("not found this commond in the log");
+        }
+    }
 	/****
 	* 系统初始化函数
 	*/
@@ -144,7 +170,13 @@ class BusinessController extends Controller {
 		$group = $_POST['group'];
 		$disk  = $_POST['disk'];
 		$db = M('Device');
-		$db->delete();
+		$db->where('1')->delete();
+        $newDb = M('Disk');
+        $newDb->where('1')->delete();
+        $newDb = M('DiskSmart');
+        $newDb->where('1')->delete();
+        $newDb = M('CmdLog');
+        $newDb->where('1')->delete();
                 $gui_device = 'gui_device';    
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
 		for($i = 1; ; $i++)
@@ -329,6 +361,10 @@ class BusinessController extends Controller {
 		//query database
 		//return 
 	}
+    public function firstTime()
+    {
+        $this->display("systeminit");
+    }
     private function notFoundError($appended='')
     {
         $data['errmsg'] = 'item does not exists--'.$appended;

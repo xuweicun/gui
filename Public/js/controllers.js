@@ -1,4 +1,415 @@
-angular.module('starter.controllers', [])
+angular.module('device.controllers', [])
+    .controller('DeviceStatus', function($scope,$http,$timeout,$interval) {
+        $scope.test = true;
+
+
+        $scope.selected = {'level':1,'group':1,'index':1};
+        var businessRoot = '/index.php?m=admin&c=business';
+        var msgRoot = '/index.php?m=admin&c=msg';
+
+
+        var server = businessRoot + '&a=addcmdlog' ;
+        var proxy = "http://222.35.224.230:8080";
+        var vm = $scope.vm = {};
+        $scope.levels = [2,3,4,5,6];
+        $scope.groups = [1,2,3,4,5,6];
+        $scope.disks  = [1,2,3,4];
+        $scope.level = 6;
+        $scope.group = 6;
+        $scope.disknum = 4;
+        $scope.loaded = 0;
+        $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
+        var myDate = new Date();
+        $scope.start();
+
+        $scope.start = function()
+        {
+
+            $scope.updatetime=myDate.getTime();
+
+            vm.value = 0;
+            vm.style = 'progress-bar-danger';
+            vm.showLabel = true;
+            vm.striped = true;
+            vm.cmd = null;
+            vm.diskReady = false;//磁盘是否准备好操作；
+            //登陆系统时通过数据库初始化系统
+            //获取在位信息
+            $http({
+                url:'/index.php?m=admin&c=business&a=getDeviceInfo',
+                method:'GET'
+            }).success(function(data) {
+                $scope.loaddisks(data);
+            }).error(function(data){
+                console.log("系统初始化失败.");
+            });
+            //获取所选取的磁盘的硬盘信息
+
+        }
+        $scope.deviceInit = function()
+        {
+            $scope.devicestatus();
+            $scope.info1 = "初始化中，请等待";
+            var thisTimer = 0;
+            var deviceInterval = $interval(function()
+            {
+                thisTimer++;
+                $scope.info1 = "初始化中，已进行"+thisTimer+"次查询";
+                if(thisTimer > 200)
+                {//停止查询
+                    $interval.cancel(deviceInterval);
+                    $scope.info1 = "命令执行失败，请重试";
+                }
+                $http({
+                    url:'/index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS',
+                    method:'GET'
+                }).success(function(data) {
+                    if(data['errmsg'])
+                    {
+
+                        return;
+                    }
+                    if(data['status']>=0)
+                    {
+                        $interval.cancel(deviceInterval);
+                        if(data['status']>0)
+                        {
+                            $scope.info1 = "命令执行失败，请重试";
+                        }
+                        else{
+                            //命令执行完毕
+                            $scope.info1 = "命令执行成功，在位信息获取完毕，开始初始化硬盘信息...";
+                            $http({
+
+                                url:'/index.php?m=admin&c=business&a=getDeviceInfo',
+                                method:'GET'
+                            }).success(function(data) {
+                                    data.forEach(
+                                        function(e)
+                                        {
+                                            $scope.diskinfo(e.level, e.zu, e.disk);
+                                        }
+                                    );
+                                $scope.info1 = "初始化硬盘信息完毕...";
+                                }
+                            );
+                        }
+                    }
+                }
+                );
+            },2000);
+        }
+
+        $scope.md5check = function(level,group,disk)
+        {
+            $scope.md5(level,group,disk);
+            var index = 0;
+            var mdTime = 1000;
+            //定時更新進度條
+            var start = $interval(function(){
+                vm.value =  (++index)/mdTime;
+                if (index > mdTime-1) {
+                    $interval.cancel(start);
+                }
+
+            }, mdTime);
+            var status = $interval(function(){
+                $http({
+                    url:'/index.php?m=admin&c=business&a=getMd5Status',
+                    method:'GET'
+                }).success(function(data) {
+                    if(data['status'] >= 0)
+                    {
+                        if(data['status'] == 0)
+                        {
+                            vm.value = 100;
+                            //查结果
+
+                            $scope.md5ResultCheck(level,group,disk);
+                            //$scope.disk.md5 = "校验完成，结果查询中";
+                        }
+                        else
+                        {
+                            vm.errorShow = true;
+                            vm.errorMsg  = "命令執行失敗";
+                        }
+                        $interval.cancel(start);
+                        $interval.cancel(status);
+                    }
+
+                });
+            },10000);
+        }
+
+        $scope.bridge = function()
+        {
+            vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
+            var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
+                {id:disk.disk.toString(),SN:disk.sn}]};
+            $scope.sendcmd(msg);
+            var index = 0;
+            var mdTime = 1000;
+            var statusTimer = 0;
+            //更新间隔
+            var start = $interval(function(){
+                vm.value =  (++index)/3;
+                if (index > 180) {
+                    vm.value = 99;
+                    $interval.cancel(start);
+                }
+
+            }, mdTime);
+            var bridgeStatus = $interval(function(){
+                statusTimer++;
+                if(statusTimer > 600)
+                {
+                    $interval.cancel(bridgeStatus);
+                }
+                $http({
+                    url:'/index.php?m=admin&c=business&a=getBridgeStatus',
+                    method:'GET'
+                }).success(function(data) {
+                    if(data['errmsg'])
+                    {
+                        vm.cmdFail = true;//命令执行失败
+                        vm.cmd  = "设备忙，请稍后再试";
+                        $interval.cancel(start);
+                        $interval.cancel(bridgeStatus);
+                        return;
+                    }
+                    if(data['status'] >= 0)
+                    {
+                        if(data['status'] == 0)
+                        {
+                            vm.value = 100;
+                            //桥接成功，改变盘状态
+                            var id = "#disk-"+ level + "-"+ group + "-"+ disk;
+                            $(id).removeClass("btn-primary").addClass("btn-success");
+                            vm.cmd = '硬盘#'+level+'-'+group+'-'+disk+'桥接完成';
+                        }
+                        else
+                        {
+                            vm.cmdFail = true;//命令执行失败
+                            vm.cmd  = "设备忙，请稍后再试";
+                        }
+
+                        $interval.cancel(start);
+                        $interval.cancel(bridgeStatus);
+                    }
+
+                });
+            },10000);
+        }
+        $scope.md5ResultCheck = function(level,group,disk)
+        {
+            $scope.md5Result(level,group,disk);
+            var result = $interval(function(){
+                $http({
+                    url:'/index.php?m=admin&c=business&a=getMd5Result',
+                    method:'POST',
+                    data:{'level':level,'group':group,'disk':disk}
+                }).success(function(data) {
+                    if(data['status'] >= 0)
+                    {
+                        $interval.cancel(result);
+                        if(data['status'] == 0)
+                            $scope.disk.md5 = data['result'];
+                        else
+                        {//失败，应如实显示
+                        }
+                    }
+                });
+            },1000);
+        }
+        $scope.sendcmd = function(msg)
+        {
+            console.log('sending command.');
+            //先发送消息告知服务器即将发送指令；
+            $http.post(server,msg).
+            success(function(data) {
+                if(data['errmsg'] == 1)
+                {
+                    console.log("Server failed to update the log.");
+                    return -1;
+                }
+                msg.CMDID = data['id'];
+                //服务器收到通知后，联系APP，发送指令；
+                $http.post(proxy,msg).
+                success(function(data) {
+                    return msg.CMDID;
+                }).
+                error(function(data) {
+                    console.log("app offline");
+                    return -1;
+                });
+            }).
+            error(function(data) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                console.log("server error");
+                return false;
+            });
+
+        }
+        //从数据库中查询硬盘在位信息
+
+        $scope.selectDisk = function(level,group,index)
+        {
+            $scope.disk.level = level;
+            $scope.disk.group = group;
+            $scope.disk.index = index;
+        }
+        //查询实际在位信息
+        var updateDeviceStatus = function(){
+
+        }
+        $scope.loaddisks = function(data)
+        {
+            $scope.loaded = 0;
+            if(data.length > 0) {
+                var theDisk = data[0];
+                $scope.getdiskinfo(theDisk.level, theDisk.zu, theDisk.disk, 0);
+                $scope.disk.level = theDisk.level;
+                $scope.disk.group = theDisk.zu;
+                $scope.disk.disk  = theDisk.disk;
+            }
+            data.forEach(function(e)
+                {
+                    var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
+                    $(id).removeClass("btn-default").addClass("btn-primary");
+                    $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
+                    $scope.loaded = $scope.loaded + 1;
+
+                }
+            );
+
+
+        }
+        //系统初始化
+        $scope.systemInit = function()
+        {
+            $scope.info1 = "1.数据库重置中...";
+            $http({
+                url:'/index.php?m=admin&c=business&a=systeminit',
+                data:{level:$scope.level,group:$scope.group,disk:$scope.disknum},
+                method:'POST'
+            }).success(function(data) {
+                if(data['errmsg'])
+                {
+                    $scope.info1 = "数据库重置失败，请重试";
+                    return;
+                }
+                $scope.info1 = "2.数据库重置完成，开始初始化在位信息...";
+                $scope.deviceInit();
+                //检查是否有未完成的命令
+            });
+        }
+        $scope.checkCollision = function()
+        {
+            $http({
+                url:'http://localhost/index.php/business/checkCollision',
+
+                method:'GET'
+            }).success(function(data) {
+                return data['isLegal'];
+            });
+        }
+        $scope.getdiskinfo = function(level,group,disk,type)
+        {
+            if(type==1)
+            {//从设备读取最新信息
+                $scope.diskinfo(level.toString(),group.toString(),disk.toString());
+                var $diskInfoTimer = 0;
+                $diskInfoStatus = $interval(function(){
+                    $diskInfoTimer++;
+                    if($diskInfoTimer>60)
+                    {
+                        $interval.cancel($diskInfoStatus);//超过2分钟即认为失败。
+                    }
+                    $http({
+                        url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
+                        data:{level:level,group:group,disk:disk,maxtime:5,type:type},
+                        method:'POST'
+                    }).success(function(data) {
+                        if(data['status'] == 0) {
+                            $scope.disk.sn = data['sn'];
+                            $scope.disk.md5 = data['smart'];
+                            $scope.disk.capacity = data['capacity'];
+                            $interval.cancel($diskInfoStatus);
+                        }
+                        if(data['status'] > 0)
+                        {
+                            $interval.cancel($diskInfoStatus);
+                            //应该输出错误信息
+                        }
+                    });
+                },2000);
+            }
+            else{
+                $http({
+                url:'/index.php?m=admin&c=business&a=getDiskInfo&type='+type,
+                data:{level:level,group:group,disk:disk,maxtime:0,type:type},
+                method:'POST'
+            }).success(function(data) {
+                if(data['errmsg'])
+                {//不存在
+                    return;
+                }
+                $scope.disk.sn = data['sn'];
+                $scope.disk.md5 = data['smart'];
+                $scope.disk.capacity = data['capacity'];
+            });
+            }
+    }
+        $scope.devicestatus = function()
+        {
+            var msg = {cmd:'DEVICESTATUS'};
+            return $scope.sendcmd(msg);
+        }
+        $scope.testDiskInfo = function()
+        {
+            $http({
+                url:'/index.php?m=admin&c=msg&a=index',
+                data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capacity:"1299"},
+                method:'POST'
+            }).success(function(data) {
+                alert("done");
+
+            });
+        }
+        $scope.writeprotect = function(level)
+        {
+            var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
+            $scope.sendcmd(msg);
+        }
+
+        $scope.md5 = function(level,group,disk)
+        {
+            var msg = {cmd:'MD5',subcmd:'START',level:level,group:group,disk:disk};
+            $scope.sendcmd(msg);
+        }
+        $scope.md5Result = function(level,group,disk)
+        {
+            var msg = {cmd:'MD5',subcmd:'RESULT',level:level,group:group,disk:disk};
+            $scope.sendcmd(msg);
+        }
+        $scope.copy = function(srcLvl,srcGrp,srcDisk,dstLvl,dstGrp,dstDisk)
+        {
+            var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
+            $scope.sendcmd(msg);
+        }
+        $scope.diskinfo = function(level,group,disk)
+        {
+            var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
+            $scope.sendcmd(msg);
+
+        }
+        $scope.power = function(level)
+        {
+            var msg = {cmd:'POWER',subcmd:'START',levels:[level]};
+            $scope.sendcmd(msg);
+        }
+    })
   .controller('device',function($scope){
     $scope.level = 6;
   })
