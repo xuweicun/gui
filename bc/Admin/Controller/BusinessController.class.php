@@ -368,7 +368,7 @@ class BusinessController extends Controller {
                  $diskinfo['status'] = $item['status'];
                  if($item)
                  {
-                     $this->AjaxReturn($item);
+                     $this->AjaxReturn($diskinfo);
                  }
                  else
                  {
