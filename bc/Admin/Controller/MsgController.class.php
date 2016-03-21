@@ -57,6 +57,8 @@ class MsgController extends Controller {
             $diskDb->save($theDisk);
             $item['status'] = $path['status'];
             $db->save($item);
+            $disks = array_merge($disks,$path);
+            $this->AjaxReturn($disks);
         }
 
     }

@@ -369,11 +369,16 @@ angular.module('device.controllers', [])
             var msg = {cmd:'DEVICESTATUS'};
             return $scope.sendcmd(msg);
         }
-        $scope.testDiskInfo = function()
+        $scope.testPost = function()
         {
             $http({
                 url:'/index.php?m=admin&c=msg&a=index',
-                data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capacity:"1299"},
+                data:{"CMD_ID":"1",
+                    "cmd":"BRIDGE",
+                    "disks":[{"SN":"S4Z0AJ8T","id":"1"}],
+                    "group":"1","level":"1",
+                    "paths":[{"errno":"0","id":"1","status":"0","value":"sbc"}],
+                    "subcmd":"STOP"},
                 method:'POST'
             }).success(function(data) {
                 alert("done");
