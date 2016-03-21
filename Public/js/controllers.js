@@ -408,7 +408,7 @@ angular.module('device.controllers', [])
         }
         $scope.diskinfo = function(level,group,disk)
         {
-            var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
+            var msg = {cmd:'DISKINFO',level:level.toString(),group:group.toString(),disk:disk.toString()};
             $scope.sendcmd(msg);
 
         }
