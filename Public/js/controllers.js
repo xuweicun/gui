@@ -58,6 +58,7 @@ angular.module('device.controllers', [])
                 if($scope.stop == 1)
                 {
                     $interval.cancel(deviceInterval);
+                    $scope.info1 = "初始化过程终止。";
                 }
                 $scope.info1 = "初始化中，已进行"+thisTimer+"次查询";
                 if(thisTimer > 200)

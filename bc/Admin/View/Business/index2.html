@@ -357,9 +357,6 @@
 						</div>					
 					</div>
 					<!-- End Page Header -->
-
-			
-
 					<div class="row">
 
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -391,132 +388,97 @@
 							</div>
 						</div>
 					</div>
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <div class="tabs tabs-vertical tabs-left">
-                                <ul class="nav nav-tabs col-sm-3 col-xs-5">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#pane-level1"><i class=" glyphicon glyphicon-align-justify"></i> 第1层</a>
-                                    </li>
-                                    <li ng-repeat="level in levels">
-                                        <a data-toggle="tab" href="#pane-level{{level}}"><i class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
-                                    </li>
-                                    
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="pane-level1">
-                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
+					<div class="row">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+							<div class="tabs tabs-vertical tabs-left">
+								<ul class="nav nav-tabs col-sm-3 col-xs-5">
+									<li class="active">
+										<a data-toggle="tab" href="#pane-level1"><i
+												class=" glyphicon glyphicon-align-justify"></i> 第1层</a>
+									</li>
+									<li ng-repeat="level in levels">
+										<a data-toggle="tab" href="#pane-level{{level}}"><i
+												class=" glyphicon glyphicon-align-justify"></i> 第{{level}}层</a>
+									</li>
 
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-default" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk);getdiskinfo(1,group,disk,0);"><i class=" glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
-                                        <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                            	<a class="btn btn-block btn-default" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk);getdiskinfo(level,group,disk,0);"><i class="glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
-                                            </div>                                            
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="row"><!--硬盘信息-->
-                                <div class="col-lg-12">
-                                    <div class="panel panel-default bk-bg-white">
-                                        <div class="panel-heading bk-bg-white">
-                                            <h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
-                                            <div class="panel-actions">
-                                                <a class="btn-minimize" href="#"><i class="fa fa-refresh"></i></a>
-                                                <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>参数名称</th>
-                                                            <th>参数值</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>位号</td>
-                                                        <td>{{disk.level}}-{{disk.group}}-{{disk.index}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>容量</td>
-                                                        <td>{{disk.capacity}}G</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>SN号</td>
-                                                        <td>{{disk.sn}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>健康状况</td>
-                                                        <td>良好</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>本次校验值</td>
-                                                        <td>mg2ewpoxmjdfeji3fjeifji93kcjife...</td>
-                                                    </tr>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="pane-level1">
+										<div class="row  bk-padding-10" ng-repeat="group in groups"
+											 id="{{level}}-group{{group}}">
 
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="row">                       
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="panel panel-default bk-bg-white">
-                                <div class="panel-heading bk-bg-white">
-                                    <h6><i class="fa fa-table red"></i><span class="break"></span>文件树</h6>                            
-                                    <div class="panel-actions">
-                                        <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
-                                        <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-									<div>
-										<ol class="breadcrumb visible-sm visible-md visible-lg" id="navBar">
-											<li>
-												<button class="btn btn-link btn-xs" type="button" id="btnUp">
-													<i class="fa  fa-arrow-up"></i>
-												</button>
-											</li>
-										</ol>
+											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat="disk in disks">
+												<a class="btn btn-block btn-default" href="#"
+												   id="disk-1-{{group}}-{{disk}}"
+												   ng-click="selectDisk(1,group,disk);getdiskinfo(1,group,disk,0);"><i
+														class=" glyphicon glyphicon-ban-circle"></i> 盘
+													#{{group}}-{{disk}}</a>
+											</div>
+										</div>
 									</div>
-                                    <table class="table table-bordered table-striped" id="datatable-my">
-                                        <thead>
-                                            <tr>
-                                                <th>名称</th>
-                                                <th>修改日期</th>
-                                                <th>类型</th>
-                                                <th>大小</th>
-												<th>dir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-                </div>
+									<div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
+										<div class="row  bk-padding-10" ng-repeat="group in groups"
+											 id="{{level}}-group{{group}}">
+											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat="disk in disks">
+												<a class="btn btn-block btn-default" href="#"
+												   id="disk-{{level}}-{{group}}-{{disk}}"
+												   ng-click="selectDisk(level,group,disk);getdiskinfo(level,group,disk,0);"><i
+														class="glyphicon glyphicon-ban-circle"></i> 盘
+													#{{group}}-{{disk}}</a>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="panel panel-default bk-bg-white">
+										<div class="panel-heading bk-bg-white">
+											<h6><i class="fa fa-table red"></i><span class="break"></span>文件树</h6>
+
+											<div class="panel-actions">
+												<a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+												<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div>
+												<ol class="breadcrumb visible-sm visible-md visible-lg" id="navBar">
+													<li>
+														<button class="btn btn-link btn-xs" type="button" id="btnUp">
+															<i class="fa  fa-arrow-up"></i>
+														</button>
+													</li>
+												</ol>
+											</div>
+											<table class="table table-bordered table-striped" id="datatable-my">
+												<thead>
+												<tr>
+													<th>名称</th>
+													<th>修改日期</th>
+													<th>类型</th>
+													<th>大小</th>
+													<th>dir</th>
+												</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="tabs tabs-vertical tabs-right tabs-primary">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
                                         已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
                                         <a class="btn btn-small btn-primary" href="#" ng-click="bridge();">桥接</a>
-										<p ng-bind="vm.cmd"></p>
-										<p ng-bind="vm.value"></p>
 										<div class="progress light progress-xl ">
 											<div ng-style="{width: vm.value+'%'}" ng-show="vm.show" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{vm.value}}" role="progressbar" class="progress-bar progress-bar-warning">
 												{{vm.value+'%'}}
@@ -543,13 +505,57 @@
                                     </li>
                                 </ul>
                             </div>
+							<div class="row"><!--硬盘信息-->
+								<div class="col-lg-12">
+									<div class="panel panel-default bk-bg-white">
+										<div class="panel-heading bk-bg-white">
+											<h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
+											<div class="panel-actions">
+												<a class="btn-minimize" href="#"><i class="fa fa-refresh"></i></a>
+												<a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div class="table-responsive">
+												<table class="table table-bordered">
+													<thead>
+													<tr>
+														<th>参数名称</th>
+														<th>参数值</th>
+													</tr>
+													</thead>
+													<tbody>
+													<tr>
+														<td>位号</td>
+														<td>{{disk.level}}-{{disk.group}}-{{disk.index}}</td>
+													</tr>
+													<tr>
+														<td>容量</td>
+														<td>{{disk.capacity}}G</td>
+													</tr>
+													<tr>
+														<td>SN号</td>
+														<td>{{disk.sn}}</td>
+													</tr>
+													<tr>
+														<td>健康状况</td>
+														<td>良好</td>
+													</tr>
+													<tr>
+														<td>本次校验值</td>
+														<td>mg2ewpoxmjdfeji3fjeifji93kcjife...</td>
+													</tr>
+
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
                         </div>
                     </div>
-
-					
-
-					
-
 
 				</div>
 				<!-- End Main Page -->
