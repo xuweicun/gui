@@ -180,13 +180,13 @@ class BusinessController extends Controller {
         $newDb = M('CmdLog');
         $newDb->where('1')->delete();
 		$Model = M();
-		$sql = "alter table gui_device auto_increment=1";
+		$sql = "alter table gui.gui_device auto_increment=1";
 		$Model->query($sql);
-		$sql = "alter table gui_disk auto_increment=1";
+		$sql = "alter table gui.gui_disk auto_increment=1";
 		$Model->query($sql);
-		$sql = "alter table gui_disk_smart auto_increment=1";
+		$sql = "alter table gui.gui_disk_smart auto_increment=1";
 		$Model->query($sql);
-		$sql = "alter table gui_cmd_log auto_increment=1";
+		$sql = "alter table gui.gui_cmd_log auto_increment=1";
 		$Model->query($sql);
 		$gui_device = 'gui_device';
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
