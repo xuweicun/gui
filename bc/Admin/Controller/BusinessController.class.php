@@ -192,9 +192,7 @@ class BusinessController extends Controller {
         $newDb->where('1')->delete();
         $newDb = M('CmdLog');
         $newDb->where('1')->delete();
-		$Model = M();
-
-		$Model->query($sql);
+		$this->originSql();
 		$gui_device = 'gui_device';
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
 		for($i = 1; ; $i++)
