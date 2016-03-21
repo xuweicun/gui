@@ -72,15 +72,15 @@ class MsgController extends Controller {
 	{
            //将命令状态设为已完成;
            $cmdDb = M('CmdLog');
-           $cmds = $cmdDb->where("cmd='DEVICESTATUS' and status=-1")->select();
-           foreach($cmds as $cmd)
-           {
-               $cmd['status'] = $_POST['status'];
-               $cmdDb->save($cmd);
-           }
+           $cmdId = (int)$_POST['CMD_ID'];
+           $cmd = $cmdDb->find($cmdId);
+
+           $cmd['status'] = (int)$_POST['status'];
+           $cmdDb->save($cmd);
+
            
 	   //在位信息以后改为用Redis维护
-	   if($_POST['status'] == 0)
+	   if($_POST['status'] == '0')
 	   {
 		   $db = M('Device');
 		   $levels = $_POST['levels'];
@@ -90,8 +90,9 @@ class MsgController extends Controller {
 		   //更新在位信息；
 		   foreach($items as $item)
 		   {
-			   $item['loaded'] = 0;$item['time']=time();
-                            $db->save($item);
+			   $item['loaded'] = 0;
+               $item['time']=time();
+               $db->save($item);
 		   }
                    $testDb = M('test');
                    

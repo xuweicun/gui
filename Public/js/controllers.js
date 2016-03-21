@@ -29,7 +29,7 @@ angular.module('device.controllers', [])
 
             vm.value = 0;
             vm.style = 'progress-bar-danger';
-            vm.show = true;
+            vm.show = false;
             vm.striped = true;
             vm.cmd = null;
             vm.diskReady = false;//磁盘是否准备好操作；
@@ -55,6 +55,10 @@ angular.module('device.controllers', [])
             var deviceInterval = $interval(function()
             {
                 thisTimer++;
+                if($scope.stop == 1)
+                {
+                    $interval.cancel(deviceInterval);
+                }
                 $scope.info1 = "初始化中，已进行"+thisTimer+"次查询";
                 if(thisTimer > 200)
                 {//停止查询
@@ -141,7 +145,11 @@ angular.module('device.controllers', [])
                 });
             },10000);
         }
-
+        var showProgress = function()
+        {
+            vm.value = 0;
+            vm.show = true;
+        }
         $scope.bridge = function()
         {
             var disk = $scope.disk;
@@ -153,9 +161,10 @@ angular.module('device.controllers', [])
             var mdTime = 1000;
             var statusTimer = 0;
             //更新间隔
+            showProgress();
             var start = $interval(function(){
-                vm.value =  (++index)/3;
-                if (index > 180) {
+                vm.value =  100*(++index)/180;
+                if (index >= 180) {
                     vm.value = 99;
                     $interval.cancel(start);
                 }
@@ -165,7 +174,10 @@ angular.module('device.controllers', [])
                 statusTimer++;
                 if(statusTimer > 600)
                 {
+                    vm.value = 0;
+                    vm.show = false;
                     $interval.cancel(bridgeStatus);
+
                 }
                 $http({
                     url:'/index.php?m=admin&c=business&a=getBridgeStatus',
@@ -177,6 +189,7 @@ angular.module('device.controllers', [])
                         vm.cmd  = "设备忙，请稍后再试";
                         $interval.cancel(start);
                         $interval.cancel(bridgeStatus);
+                        vm.show = false;
                         return;
                     }
                     if(data['status'] >= 0)
@@ -197,6 +210,7 @@ angular.module('device.controllers', [])
 
                         $interval.cancel(start);
                         $interval.cancel(bridgeStatus);
+                        vm.show = false;
                     }
 
                 });
@@ -315,6 +329,10 @@ angular.module('device.controllers', [])
             }).success(function(data) {
                 return data['isLegal'];
             });
+        }
+        $scope.initStop = function()
+        {
+            $scope.stop = 1;
         }
         $scope.getdiskinfo = function(level,group,disk,type)
         {
