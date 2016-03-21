@@ -220,10 +220,8 @@ class BusinessController extends Controller {
 	}
     public function filetree()
     {
-        $level = I("get.level");
-        $group = I("get.group");
-        $index = I("get.index");
-        $disk = $level."_".$group."_".$index;
+        
+        $disk = I("get.f");
         $this->assign("disk",$disk);
         $this->display();
     }
@@ -247,7 +245,6 @@ class BusinessController extends Controller {
 		{
             $data['id'] = $id;
 			$this->AjaxReturn($data);
-			
 		}
 		else
 		{
@@ -350,38 +347,38 @@ class BusinessController extends Controller {
 		//check permission
         $maxTime = $_POST['maxtime'];
         $type = $_POST['type'];
-        if($type == 1)
-        $this->waitTilDone('GETDISKINFO',$maxTime);
+       
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk  = $_POST['disk'];
         $db = M('Device');
         $map = "level=$level and zu=$group and disk=$disk";
         $item = $db->where($map)->find();
-        if($item)
+        if($item && $item['loaded'] == 1)
         {
              $id = $item['disk_id'];
              if(!$id)
              {
-                 $this->notFoundError('no disk id');
+                 $this->notFoundError('disk info query not finished yet or failed');
              }
              else
              {
                  $diskDb = M('Disk');
-                 $item = $diskDb->find($id);
+                 $diskinfo = $diskDb->find($id);
+                 $diskinfo['status'] = $item['status'];
                  if($item)
                  {
                      $this->AjaxReturn($item);
                  }
                  else
                  {
-                     $this->notFoundError('disk table item not found');
+                     $this->notFoundError('invalid disk_id');
                  }
              }
         }
         else
         {
-            $this->notFoundError('device');
+            $this->notFoundError('incorrect disk position or disk not loaded');
         }
         
 		//query database
