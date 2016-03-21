@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7945a430-8f3a-4d81-a04d-74564c7c8d1d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
     </list>
     <ignored path="gui.iws" />
@@ -37,13 +38,13 @@
       <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7294398">
-              <caret line="191" column="31" selection-start-line="191" selection-start-column="31" selection-end-line="191" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.45768774">
+              <caret line="176" column="5" selection-start-line="176" selection-start-column="5" selection-end-line="176" selection-end-column="5" />
               <folding>
-                <marker date="1458529740624" expanded="true" signature="3855:3894" placeholder="alter table gui_device..." />
-                <marker date="1458529740624" expanded="true" signature="3930:3967" placeholder="alter table gui_disk..." />
-                <marker date="1458529740624" expanded="true" signature="4003:4046" placeholder="alter table gui_disk_smart..." />
-                <marker date="1458529740624" expanded="true" signature="4082:4122" placeholder="alter table gui_cmd_log..." />
+                <marker date="1458530790312" expanded="true" signature="3441:3484" placeholder="alter table gui.gui_device..." />
+                <marker date="1458530790312" expanded="true" signature="3498:3539" placeholder="alter table gui.gui_disk..." />
+                <marker date="1458530790312" expanded="true" signature="3553:3600" placeholder="alter table gui.gui_disk_smart..." />
+                <marker date="1458530790312" expanded="true" signature="3614:3658" placeholder="alter table gui.gui_cmd_log..." />
               </folding>
             </state>
           </provider>
@@ -786,14 +787,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.714285">
-          <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.178572">
@@ -814,15 +807,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.714285">
+          <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7294398">
-          <caret line="191" column="31" selection-start-line="191" selection-start-column="31" selection-end-line="191" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.45768774">
+          <caret line="176" column="5" selection-start-line="176" selection-start-column="5" selection-end-line="176" selection-end-column="5" />
           <folding>
-            <marker date="1458529740624" expanded="true" signature="3855:3894" placeholder="alter table gui_device..." />
-            <marker date="1458529740624" expanded="true" signature="3930:3967" placeholder="alter table gui_disk..." />
-            <marker date="1458529740624" expanded="true" signature="4003:4046" placeholder="alter table gui_disk_smart..." />
-            <marker date="1458529740624" expanded="true" signature="4082:4122" placeholder="alter table gui_cmd_log..." />
+            <marker date="1458530790312" expanded="true" signature="3441:3484" placeholder="alter table gui.gui_device..." />
+            <marker date="1458530790312" expanded="true" signature="3498:3539" placeholder="alter table gui.gui_disk..." />
+            <marker date="1458530790312" expanded="true" signature="3553:3600" placeholder="alter table gui.gui_disk_smart..." />
+            <marker date="1458530790312" expanded="true" signature="3614:3658" placeholder="alter table gui.gui_cmd_log..." />
           </folding>
         </state>
       </provider>
