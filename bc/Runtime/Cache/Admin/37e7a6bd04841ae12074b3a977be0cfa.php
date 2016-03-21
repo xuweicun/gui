@@ -408,14 +408,14 @@
                                         <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
 
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                                <a class="btn btn-block btn-default" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk);getdiskinfo(1,group,disk);"><i class=" glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
+                                                <a class="btn btn-block btn-default" href="#" id="disk-1-{{group}}-{{disk}}" ng-click = "selectDisk(1,group,disk);getdiskinfo(1,group,disk,0);"><i class=" glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div ng-repeat="level in levels" class="tab-pane" id="pane-level{{level}}">
                                         <div class="row  bk-padding-10" ng-repeat="group in groups" id = "{{level}}-group{{group}}">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-repeat = "disk in disks">
-                                            	<a class="btn btn-block btn-default" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk);getdiskinfo(level,group,disk);"><i class="glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
+                                            	<a class="btn btn-block btn-default" href="#" id="disk-{{level}}-{{group}}-{{disk}}" ng-click = "selectDisk(level,group,disk);getdiskinfo(level,group,disk,0);"><i class="glyphicon glyphicon-ban-circle"></i> 盘 #{{group}}-{{disk}}</a>
                                             </div>                                            
                                         </div>
                                     </div>
@@ -456,11 +456,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td>健康状况</td>
-                                                        <td>{{disk.health}}</td>
+                                                        <td>良好</td>
                                                     </tr>
                                                     <tr>
                                                         <td>本次校验值</td>
-                                                        <td>{{disk.md5}}</td>
+                                                        <td>mg2ewpoxmjdfeji3fjeifji93kcjife...</td>
                                                     </tr>
 
 
@@ -514,7 +514,14 @@
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
                                         已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
-                                        <a class="btn btn-small btn-primary" href="#">桥接</a>
+                                        <a class="btn btn-small btn-primary" href="#" ng-click="bridge();">桥接</a>
+										<p ng-bind="vm.cmd"></p>
+										<p ng-bind="vm.value"></p>
+										<div class="progress light progress-xl ">
+											<div ng-style="{width: vm.value+'%'}" ng-show="vm.show" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{vm.value}}" role="progressbar" class="progress-bar progress-bar-warning">
+												{{vm.value+'%'}}
+											</div>
+										</div>
                                     </div>
                                     <div class="tab-pane" id="profile12">
                                         <p>Profile</p>
@@ -637,201 +644,13 @@
 		
 		<!-- Pages JS -->
 		<script src="/Public/assets/js/pages/index.js"></script>
-        
+
 		<script>
-            var app = angular.module('device', []);
-            app.controller('DeviceStatus', function($scope,$http,$timeout) {
-                $scope.test = true;
-                $scope.level = 13;
-                $scope.loaded = 0;
-                $scope.selected = {'level':1,'group':1,'index':1};
-                var businessRoot = '/index.php?m=admin&c=business';
-                var msgRoot = '/index.php?m=admin&c=msg';
+            var app = angular.module('device', ['device.controllers']);
 
-		var server = businessRoot + '&a=addcmdlog' ;
-                var proxy = "http://222.35.224.230:8080";
-              
-  				$scope.levels = [2,3,4,5,6];
-                $scope.groups = [1,2,3,4,5,6];
-                $scope.disks  = [1,2,3,4];
-                $scope.level = 6;
-                $scope.group = 6;
-                $scope.disknum = 4;
-                $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
-                var myDate = new Date();
-                $scope.updatetime=myDate.getTime();
-                $scope.sendcmd = function(msg)
-                {
-                    console.log('sending command.');
-                    //先发送消息告知服务器即将发送指令；
-                    $http.post(server,msg).
-                            success(function(data) {
-                                console.log("Server have received the message.");
-                                if(data['errmsg'] == 1)
-                                {
-                                    console.log("Server failed to update the log.");
-                                    return;
-                                }
-                                //服务器收到通知后，联系APP，发送指令；
-                                $http.post(proxy,msg).
-                                        success(function(data) {
-
-                                            return true;
-                                        }).
-                                        error(function(data) {
-                                            console.log("no data sent");
-                                            return false;
-                                        });
-                            }).
-                            error(function(data) {
-                                // called asynchronously if an error occurs
-                                // or server returns response with an error status.
-                                console.log("server error");
-                                return false;
-                            });
-
-                }
-                //从数据库中查询硬盘在位信息
-                $http({
-                    url:'/index.php?m=admin&c=business&a=getDeviceInfo',
-                   method:'GET'
-                }).success(function(data) {
-                    $scope.loaddisks(data);
-                });
-                $scope.selectDisk = function(level,group,index)
-                {
-                    $scope.disk.level = level;
-                    $scope.disk.group = group;
-                    $scope.disk.index = index;
-                }
-                //查询实际在位信息
-                var updateDeviceStatus = $timeout(function()
-                {
-                    $http({
-                        url:'/index.php?m=admin&c=business&a=checkCollision',
-                        method:'GET'
-                    }).success(function(data) {
-                        if(data['isLegal'] == 1)
-                        {
-                            $scope.devicestatus();
-                        }                 
-                    });
-                    $http({
-                        url:'/index.php?m=admin&c=business&a=getDeviceInfo&type=1',
-                        method:'GET'
-                    }).success(function(data) {
-                        $scope.loaddisks(data);                 
-                    });
-                },5000);
-                $scope.loaddisks = function(data)
-                {
-                      $scope.loaded = 0;
-                      if(data.length > 0)
-                       {
-                       	   if(data[0].time)
-                           $scope.updatetime = data[0].time;
-                           else
-                           {var myDate = new Date();$scope.updatetime=myDate.getTime();}
-                       } 
-                       else
-                       {var myDate = new Date();$scope.updatetime=myDate.getTime();}
-                       data.forEach(function(e)
-                                {
-                                    var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
-                                    $(id).removeClass("btn-default").addClass("btn-primary");
-                                    $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
-                                    $scope.loaded = $scope.loaded + 1;
-                                    
-                                }
-                        );
-                        
-                        
-                }
-                //系统初始化
-                $scope.init = function()
-                {
-                    $http({
-                        url:'/index.php?m=admin&c=business&a=systeminit',
-                        data:{level:$scope.level,group:$scope.group,disk:$scope.disknum},
-                        method:'POST'
-                    }).success(function(data) {
-                        console.log("init success");
-                    });
-                }
-                $scope.checkCollision = function()
-                {
-                    $http({
-                        url:'http://localhost/index.php/business/checkCollision',
-                        
-                        method:'GET'
-                    }).success(function(data) {
-                        return data['isLegal'];                    
-                    });
-                }
-                $scope.getdiskinfo = function(level,group,disk)
-                {
-                	$scope.diskinfo(level.toString(),group.toString(),disk.toString());
-                	$http({
-                        url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data:{level:level,group:group,disk:disk,maxtime:5,type:1},
-                        method:'POST'
-                    }).success(function(data) {
-                        $scope.disk.sn = data['sn'];
-                        $scope.disk.md5 = data['smart'];
-                        $scope.disk.capacity = data['capacity'];
-                    });
-                }
-                $scope.devicestatus = function()
-                {
-                    var msg = {cmd:'DEVICESTATUS'};
-                    return $scope.sendcmd(msg);
-                }
-                $scope.testDiskInfo = function()
-                {
-                	$http({
-                        url:'/index.php?m=admin&c=msg&a=index',
-                        data:{level:"1",group:"1",disk:"1",cmd:"DISKINFO",status:"0",SN:"34",capacity:"1299"},
-                        method:'POST'
-                    }).success(function(data) {
-                        alert("done");
-
-                    });
-                }
-                $scope.writeprotect = function(level)
-                {
-                    var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
-                    $scope.sendcmd(msg);
-                }
-                $scope.bridge = function(level,group)
-                {
-                    var msg = {cmd:'BRIDGE',subcmd:'START',level:level,group:group,disks:[
-                    {id:"1",SN:'0123'}]};
-                    $scope.sendcmd(msg);
-                }
-                $scope.md5 = function(level,group,disk)
-                {
-                    var msg = {cmd:'MD5',subcmd:'START',level:level,group:group,disk:disk};
-                    $scope.sendcmd(msg);
-                }
-                $scope.copy = function(srcLvl,srcGrp,srcDisk,dstLvl,dstGrp,dstDisk)
-                {
-                    var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
-                    $scope.sendcmd(msg);
-                }
-                $scope.diskinfo = function(level,group,disk)
-                {
-                    var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
-                    $scope.sendcmd(msg);
-                    
-                }
-                $scope.power = function(level)
-                {
-                    var msg = {cmd:'POWER',subcmd:'START',levels:[level]};
-                    $scope.sendcmd(msg);
-                }
-            });
 
         </script>
+		<script src="/Public/js/controllers.js"></script>
 		<!-- end: JavaScript-->
 		
 	</body>

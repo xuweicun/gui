@@ -42,21 +42,22 @@ class MsgController extends Controller {
         $db = M('CmdLog');
         $map['cmd'] = array("eq",$cmd);
         $map['status'] = array("eq",-1);
-        $item = $db->where($map)->find();
-        if($item)
+        $items = $db->where($map)->select();
+        if($items)
         {
-            $level = $_POST['level'];
-            $group = $_POST['group'];
-            $disks  = json_decode($_POST['disks']);
-            $path = json_decode($_POST['paths']);
+	    $item = $items[0];
+            $level = (int)$_POST['level'];
+            $group =(int)$_POST['group'];
+            $disks  = $_POST['disks'];
+            $path = $_POST['paths'];
             $filedir = "/home/share/mount/".$path['value'];
             $deviceDb = M('Device');
-            $disk = $deviceDb->where("level = $level and zu = $group and disk={$disks[0]['id']}")->find();
+            $disk = $deviceDb->where("level = $level and zu = $group and disk={$disks[0]['id']}")->select();
             $diskDb = M('Disk');
-            $theDisk = $diskDb->find($disk['disk_id']);
+            $theDisk = $diskDb->find($disk[0]['disk_id']);
             $theDisk['file_list'] = $filedir;
             $diskDb->save($theDisk);
-            $item['status'] = $path['status'];
+            $item['status'] = (int)$path['status'];
             $db->save($item);
             $disks = array_merge($disks,$path);
             $this->AjaxReturn($disks);
@@ -173,14 +174,14 @@ class MsgController extends Controller {
     private function updateSmart($id)
     {
         $db    = M('DiskSmart');
-        $attrs = json_decode($_POST['SmartAttrs']);
+        $attrs = $_POST['SmartAttrs'];
         $testDb = M('test');
         $test['response'] = count($attrs);
         $testDb->add($test);
         foreach($attrs as $attr)
         {
             //查找是否存在
-            $attr = json_decode($attr);
+            $attr = $attr;
 
             $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
             if($item=$db->where($map)->find())
