@@ -40,8 +40,9 @@ class MsgController extends Controller {
         $cmd = 'BRIDGE';
         $subcmd = 'START';
         $db = M('CmdLog');
-
-        $item = $db->where("cmd='$cmd' and status=-1")->find();
+        $map['cmd'] = array("eq",$cmd);
+        $map['status'] = array("eq",-1);
+        $item = $db->where($map)->find();
         if($item)
         {
             $level = $_POST['level'];
