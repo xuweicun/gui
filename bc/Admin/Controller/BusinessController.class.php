@@ -158,17 +158,16 @@ class BusinessController extends Controller {
     }
     public function originSql()
 	{
-		$conn=mysqli_connect("localhost", "root", "moganfreeman");
-		$sql1 = "alter table gui.gui_device auto_increment=1";
-		$sql2 = "alter table gui.gui_disk auto_increment=1";
-		$sql3 = "alter table gui.gui_disk_smart auto_increment=1";
-		$sql4 = "alter table gui.gui_cmd_log auto_increment=1";
-		$result=mysqli_query("gui",$sql1, $conn);
-		$result=mysqli_query("gui",$sql2, $conn);
-		$result=mysqli_query("gui",$sql3, $conn);
-		$result=mysqli_query("gui",$sql4, $conn);
-		mysqli_close($conn);
-		echo "done";
+		$conn=mysqli_connect("localhost", "root", "moganfreeman","gui");
+		$sql1 = "alter table gui_device auto_increment=1";
+		$sql2 = "alter table gui_disk auto_increment=1";
+		$sql3 = "alter table gui_disk_smart auto_increment=1";
+		$sql4 = "alter table gui_cmd_log auto_increment=1";
+		$result=mysqli_query($conn,$sql1);
+		$result=mysqli_query($conn,$sql2);
+		$result=mysqli_query($conn,$sql3);
+		$result=mysqli_query($conn,$sql4);
+                mysqli_close($conn);
 	}
 	/****
 	* 系统初始化函数
@@ -192,9 +191,7 @@ class BusinessController extends Controller {
         $newDb->where('1')->delete();
         $newDb = M('CmdLog');
         $newDb->where('1')->delete();
-		$Model = M();
 
-		$Model->query($sql);
 		$gui_device = 'gui_device';
 		//循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
 		for($i = 1; ; $i++)
