@@ -169,6 +169,8 @@ angular.module('device.controllers', [])
                 msg.subcmd = 'STOP';
                 msg.filetree = '0';
                 $scope.sendcmd(msg);
+                disk.bridged = 0;
+                updateDiskView(disk);
                 return;
             }
 
@@ -380,6 +382,7 @@ angular.module('device.controllers', [])
                         disk.sn = '未知';
                         disk.bridged = 0;
                         disk.loaded = 0;
+                        updateDiskView(disk);
                         return;
                     }
                     updateDiskInfo(data);
