@@ -58,8 +58,8 @@ angular.module('device.controllers', [])
                     $interval.cancel(deviceInterval);
                     $scope.info1 = "初始化过程终止。";
                 }
-                $scope.info1 = "初始化中，已进行" + thisTimer + "次查询";
-                if (thisTimer > 200) {//停止查询
+                $scope.info1 = "正在获取在位信息，等待代理响应，预计需40秒，已等待" + thisTimer*2+"秒";
+                if (thisTimer > 100) {//停止查询
                     $interval.cancel(deviceInterval);
                     $scope.info1 = "命令执行失败，请重试";
                 }
