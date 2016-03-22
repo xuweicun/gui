@@ -31,29 +31,34 @@ class MsgController extends Controller {
            break;
            case 'BRIDGE':
                $this->bridgeMsgHandle();
-               break;
+           break;
 	   }  	   
 	}
     public function bridgeMsgHandle()
-    {
-
-
+    {    
         $level = (int)$_POST['level'];
-        $group = (int)$_POST['group'];
-        $disks = $_POST['disks'];
-        $path = $_POST['paths'];
-        $filedir = "/home/share/mount/" . $path['value'];
+        $group =(int)$_POST['group'];
+        $disks  = $_POST['disks'];
+        $paths = $_POST['paths'];
+        //$filedir = "/home/share/mount/".$path['value'];
+        $i = 0;
         $deviceDb = M('Device');
-        foreach($disks as $disk) {
-            $item = $deviceDb->where("level = $level and zu = $group and disk={$disk['id']}")->select();
-            $diskDb = M('Disk');
-            $theDisk = $diskDb->find($item['disk_id']);
-            $theDisk['file_list'] = $filedir;
-            $diskDb->save($theDisk);
+        foreach($disks as $disk)
+        {           
+            $item = $deviceDb->where("level = $level and zu = $group and disk={$disk['id']}")->find();
+            if($item)
+            {          
+                $status = (int)$paths[$i]['status'];
+                if($status == 0)
+                {
+                    $item['bridged'] = 1;
+                    $deviceDb->save($item);    
+                }
+            }
+            $i = $i + 1;
         }
-        $this->updateCmdLog();
-
-
+        $status = (int)$paths[0]['status'];
+        $this->updateCmdLog($status);
     }
 	/***
 	* 获取硬盘在位信息返回数据处理函数
@@ -62,7 +67,7 @@ class MsgController extends Controller {
 	public function updateDeviceStatus()
 	{
            //将命令状态设为已完成;
-
+          
 
            
 	   //在位信息以后改为用Redis维护
@@ -113,12 +118,12 @@ class MsgController extends Controller {
 		   }
 	   }
        $this->updateCmdLog();
-        if($_POST['status'] != '0')
+	   if((int)$_POST['status'] > 0)
 	   {
 		   $this->handleError();//统一处理
 	   } 
 	}
-
+    
     public function updateDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
@@ -196,13 +201,13 @@ class MsgController extends Controller {
 	* update the command log
 	* @author: wilson xu
 	*/
-	public function updateCmdLog()
+	public function updateCmdLog($status = -1)
 	{
         $cmdDb = M('CmdLog');
         $cmdId = (int)$_POST['CMD_ID'];
         $cmd = $cmdDb->find($cmdId);
-        $cmd['status'] = (int)$_POST['status'];
-        $cmdDb->save($cmd);
+        $cmd['status'] = $status == -1 ? (int)$_POST['status']:$status;              
+        $cmdDb->save($cmd); 
 	}
 	
 	

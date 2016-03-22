@@ -156,8 +156,9 @@ angular.module('device.controllers', [])
             var disk = $scope.disk;
             vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
             var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
-                {id:disk.disk.toString(),SN:disk.sn}],FILETREE:$scope.test};
-            $scope.sendcmd(msg);
+                {id:disk.disk.toString(),SN:disk.sn}],filetree:$scope.test};
+            var msgId = 0;
+            msgId = $scope.sendcmd(msg);
             var index = 0;
             var mdTime = 1000;
             var statusTimer = 0;
@@ -172,13 +173,16 @@ angular.module('device.controllers', [])
 
             }, mdTime);
             var bridgeStatus = $interval(function(){
+                if(msgId == 0)
+                    return;
                 statusTimer++;
                 if(statusTimer > 600)
                 {
                     vm.value = 0;
                     vm.show = false;
                     $interval.cancel(bridgeStatus);
-
+                    $interval.cancel(start);
+                    return;
                 }
                 $http({
                     url:'/index.php?m=admin&c=business&a=getBridgeStatus',
@@ -337,34 +341,35 @@ angular.module('device.controllers', [])
         }
         $scope.getdiskinfo = function(level,group,disk,type)
         {
-            if(type==1)
-            {//从设备读取最新信息
+            if(type>0)
+            {//手动初始化
                 $scope.diskinfo(level.toString(),group.toString(),disk.toString());
                 var $diskInfoTimer = 0;
                 $diskInfoStatus = $interval(function(){
                     $diskInfoTimer++;
-                    if($diskInfoTimer>60)
+                    if($diskInfoTimer>24)
                     {
                         $interval.cancel($diskInfoStatus);//超过2分钟即认为失败。
                     }
                     $http({
                         url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data:{level:level,group:group,disk:disk,maxtime:5,type:type},
+                        data:{level:level,group:group,disk:disk,maxtime:0,type:type},
                         method:'POST'
                     }).success(function(data) {
-                        if(data['status'] == 0) {
+                        if(data['errmsg'])
+                        {
+                            console.log(data['errmsg']);
+                        }
+                        else{
                             $scope.disk.sn = data['sn'];
                             $scope.disk.md5 = data['smart'];
                             $scope.disk.capacity = data['capacity'];
+                            if(type == 1)//现阶段手动初始化手段
                             $interval.cancel($diskInfoStatus);
                         }
-                        if(data['status'] > 0)
-                        {
-                            $interval.cancel($diskInfoStatus);
-                            //应该输出错误信息
-                        }
+                        
                     });
-                },2000);
+                },5000);
             }
             else{
                 $http({
