@@ -217,11 +217,12 @@ angular.module('device.controllers', [])
                     {
                         if(data['status'] == 0)
                         {
+                            var disk = $scope.disk;
                             vm.value = 100;
                             //桥接成功，改变盘状态
-                            var id = "#disk-"+ level + "-"+ group + "-"+ disk;
+                            var id = "#disk-"+ disk.level + "-"+ disk.group + "-"+ disk.index;
                             $(id).removeClass("btn-primary").addClass("btn-success");
-                            vm.cmd = '硬盘#'+level+'-'+group+'-'+disk+'桥接完成';
+                            vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.index+'桥接完成';
                         }
                         else
                         {

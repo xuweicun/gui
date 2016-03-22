@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7945a430-8f3a-4d81-a04d-74564c7c8d1d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/controllers.js" afterPath="$PROJECT_DIR$/Public/js/controllers.js" />
     </list>
     <ignored path="gui.iws" />
@@ -37,13 +38,13 @@
       <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.642857">
-              <caret line="364" column="14" selection-start-line="364" selection-start-column="14" selection-end-line="364" selection-end-column="14" />
+            <state vertical-scroll-proportion="2.3035715">
+              <caret line="168" column="42" selection-start-line="168" selection-start-column="42" selection-end-line="168" selection-end-column="42" />
               <folding>
-                <marker date="1458627739198" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
-                <marker date="1458627739198" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
-                <marker date="1458627739198" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
-                <marker date="1458627739198" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
+                <marker date="1458635988517" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
+                <marker date="1458635988517" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
+                <marker date="1458635988517" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
+                <marker date="1458635988517" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
               </folding>
             </state>
           </provider>
@@ -73,7 +74,7 @@
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.37209302">
-              <caret line="304" column="41" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
+              <caret line="307" column="41" selection-start-line="307" selection-start-column="41" selection-end-line="307" selection-end-column="41" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -83,6 +84,7 @@
                 <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -91,8 +93,8 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334">
-              <caret line="394" column="82" selection-start-line="394" selection-start-column="82" selection-end-line="394" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.82302403">
+              <caret line="389" column="61" selection-start-line="388" selection-start-column="28" selection-end-line="389" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -328,6 +330,7 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -375,6 +378,7 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -422,6 +426,7 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -469,6 +474,7 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -516,6 +522,7 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -716,7 +723,7 @@
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.37209302">
-          <caret line="304" column="41" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
+          <caret line="307" column="41" selection-start-line="307" selection-start-column="41" selection-end-line="307" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -726,27 +733,28 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <marker date="1458635988557" expanded="true" signature="19717:19722" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.642857">
-          <caret line="364" column="14" selection-start-line="364" selection-start-column="14" selection-end-line="364" selection-end-column="14" />
+        <state vertical-scroll-proportion="2.3035715">
+          <caret line="168" column="42" selection-start-line="168" selection-start-column="42" selection-end-line="168" selection-end-column="42" />
           <folding>
-            <marker date="1458627739198" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
-            <marker date="1458627739198" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
-            <marker date="1458627739198" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
-            <marker date="1458627739198" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
+            <marker date="1458635988517" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
+            <marker date="1458635988517" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
+            <marker date="1458635988517" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
+            <marker date="1458635988517" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="394" column="82" selection-start-line="394" selection-start-column="82" selection-end-line="394" selection-end-column="82" />
+        <state vertical-scroll-proportion="0.82302403">
+          <caret line="389" column="61" selection-start-line="388" selection-start-column="28" selection-end-line="389" selection-end-column="61" />
           <folding />
         </state>
       </provider>
