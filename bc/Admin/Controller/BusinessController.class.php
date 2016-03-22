@@ -365,9 +365,10 @@ class BusinessController extends Controller {
              {
                  $diskDb = M('Disk');
                  $diskinfo = $diskDb->find($id);
-                 $diskinfo['status'] = $item['status'];
-                 if($item)
+
+                 if($diskinfo)
                  {
+					 $diskinfo = array_merge($diskinfo,$item);
                      $this->AjaxReturn($diskinfo);
                  }
                  else

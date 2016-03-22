@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7945a430-8f3a-4d81-a04d-74564c7c8d1d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/controllers.js" afterPath="$PROJECT_DIR$/Public/js/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/index2.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/index2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,16 +35,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="106" column="5" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.67490494">
+              <caret line="372" column="18" selection-start-line="372" selection-start-column="18" selection-end-line="372" selection-end-column="18" />
               <folding>
-                <marker date="1458606084790" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
-                <marker date="1458606084790" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
-                <marker date="1458606084790" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
-                <marker date="1458606084790" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
+                <marker date="1458627739198" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
+                <marker date="1458627739198" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
+                <marker date="1458627739198" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
+                <marker date="1458627739198" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
               </folding>
             </state>
           </provider>
@@ -71,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index2.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index2.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.06451613">
+            <state vertical-scroll-proportion="-0.37209302">
               <caret line="304" column="41" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -94,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="179" column="56" selection-start-line="179" selection-start-column="56" selection-end-line="179" selection-end-column="56" />
+              <caret line="404" column="49" selection-start-line="404" selection-start-column="49" selection-end-line="404" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -124,11 +123,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Public/js/services.js" />
-        <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
-        <option value="$PROJECT_DIR$/Public/js/controllers.js" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/index2.html" />
+        <option value="$PROJECT_DIR$/Public/js/controllers.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
       </list>
     </option>
   </component>
@@ -707,19 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="106" column="5" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
-          <folding>
-            <marker date="1458606084790" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
-            <marker date="1458606084790" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
-            <marker date="1458606084790" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
-            <marker date="1458606084790" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6785714">
@@ -728,17 +714,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="179" column="56" selection-start-line="179" selection-start-column="56" selection-end-line="179" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06451613">
+        <state vertical-scroll-proportion="-0.37209302">
           <caret line="304" column="41" selection-start-line="304" selection-start-column="41" selection-end-line="304" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -749,6 +727,27 @@
             <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="404" column="49" selection-start-line="404" selection-start-column="49" selection-end-line="404" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.67490494">
+          <caret line="372" column="18" selection-start-line="372" selection-start-column="18" selection-end-line="372" selection-end-column="18" />
+          <folding>
+            <marker date="1458627739198" expanded="true" signature="3447:3486" placeholder="alter table gui_device..." />
+            <marker date="1458627739198" expanded="true" signature="3500:3537" placeholder="alter table gui_disk..." />
+            <marker date="1458627739198" expanded="true" signature="3551:3594" placeholder="alter table gui_disk_smart..." />
+            <marker date="1458627739198" expanded="true" signature="3608:3648" placeholder="alter table gui_cmd_log..." />
           </folding>
         </state>
       </provider>

@@ -303,11 +303,6 @@
 											<i class="fa  fa-cogs" aria-hidden="true"></i><span>环境</span>
 										</a>
 									</li>
-									<li>
-                                        <a herf="#" ng-click="testDiskInfo();">
-                                            <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>硬盘信息获取</span>
-                                        </a>
-                                    </li>
                                     <li>
                                         <a>
                                             <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>退出</span>
@@ -478,16 +473,13 @@
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
                                         已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
-                                        <a class="btn btn-small btn-primary" href="#" ng-click="bridge();">桥接</a>
-										<div class="progress light progress-xl ">
+                                        <a class="btn btn-small btn-primary" href="#" ng-click="bridge(1);"><i class="fa fa-toggle-right"></i> {{cmd}}</a>
+										<a class="btn btn-small btn-alert" href="#" ng-click="bridge(2);"> <i class="fa fa-stop"></i> 停止{{cmd}}</a>
+										<div class="bk-padding-10 progress light progress-xl">
 											<div ng-style="{width: vm.value+'%'}" ng-show="vm.show" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{vm.value}}" role="progressbar" class="progress-bar progress-bar-warning">
 												{{vm.value+'%'}}
 											</div>
 										</div>
-                                    </div>
-                                    <div class="tab-pane" id="profile12">
-                                        <p>Profile</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
                                     </div>
                                 </div>
                                 <ul class="nav nav-tabs col-sm-3 col-xs-5">
@@ -495,13 +487,13 @@
                                         <a data-toggle="tab" href="#home12"><i class="fa fa-link"></i> 桥接</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#profile12"><i class="fa fa-copy"></i> 复制</a>
+                                        <a data-toggle="tab" href="#home12"><i class="fa fa-copy"></i> 复制</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#profile12"><i class="fa fa-eye"></i> 校验</a>
+                                        <a data-toggle="tab" href="#home12"><i class="fa fa-eye"></i> 校验</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#profile12"><i class="fa fa-refresh"></i> 刷新</a>
+                                        <a data-toggle="tab" href="#home12"><i class="fa fa-refresh"></i> 刷新</a>
                                     </li>
                                 </ul>
                             </div>
@@ -543,8 +535,8 @@
 														<td>良好</td>
 													</tr>
 													<tr>
-														<td>本次校验值</td>
-														<td>mg2ewpoxmjdfeji3fjeifji93kcjife...</td>
+														<td>状态</td>
+														<td><span ng-hide="disk.loaded == 1">不</span>在位<span ng-show="disk.bridged == 1"> | 已桥接</span></td>
 													</tr>
 
 
