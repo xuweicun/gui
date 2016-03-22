@@ -40,6 +40,8 @@ class MsgController extends Controller {
         $group =(int)$_POST['group'];
         $disks  = $_POST['disks'];
         $paths = $_POST['paths'];
+        $subcmd = $_POST['subcmd'];
+
         //$filedir = "/home/share/mount/".$path['value'];
         $i = 0;
         $deviceDb = M('Device');
@@ -51,8 +53,16 @@ class MsgController extends Controller {
                 $status = (int)$paths[$i]['status'];
                 if($status == 0)
                 {
-                    $item['bridged'] = 1;
-                    $deviceDb->save($item);    
+                    switch($subcmd)
+                    {
+                        case 'START':
+                            $item['bridged'] = 1;
+                            break;
+                        case 'STOP':
+                            $item['bridged'] = 0;
+                            break;
+                    }
+                    $deviceDb->save($item);
                 }
             }
             $i = $i + 1;
