@@ -297,7 +297,10 @@ angular.module('device.controllers', [])
             data.forEach(function(e)
                 {
                     var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
+                    if(e.bridged==0)
                     $(id).removeClass("btn-default").addClass("btn-primary");
+                    else
+                    $(id).removeClass("btn-default").addClass("btn-success");
                     $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
                     $scope.loaded = $scope.loaded + 1;
 
