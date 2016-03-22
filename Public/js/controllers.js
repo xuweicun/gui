@@ -158,10 +158,12 @@ angular.module('device.controllers', [])
             var disk = $scope.disk;
             var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
                 {id:disk.disk.toString(),SN:disk.sn}],filetree:$scope.test};
-            if(undefined(type))
+            if(undefined == type)
             { type = 1;}
             if(type==2)
             {
+		$interval.cancel(start);
+               
                 msg.subcmd = 'STOP';
                 msg.filetree = '0';
                 $scope.sendcmd(msg);
@@ -179,7 +181,8 @@ angular.module('device.controllers', [])
             showProgress();
             var start = $interval(function(){
                 vm.value =  parseInt(100*(++index)/180);
-                if (index >= 180) {
+                 console.log(vm.value);
+		 if (index >= 180) {
                     vm.value = 99;
                     $interval.cancel(start);
                 }
@@ -363,15 +366,15 @@ angular.module('device.controllers', [])
             {//手动初始化
                 $scope.diskinfo(disk.level.toString(),disk.group.toString(),disk.index.toString());
                 var $diskInfoTimer = 0;
-                $diskInfoStatus = $interval(function(){
+                var diskInfoStatus = $interval(function(){
                     $diskInfoTimer++;
                     if($diskInfoTimer>24)
                     {
-                        $interval.cancel($diskInfoStatus);//超过2分钟即认为失败。
+                        $interval.cancel(diskInfoStatus);//超过2分钟即认为失败。
                     }
                     $http({
                         url:'/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data:{level:level,group:group,disk:disk,maxtime:0,type:type},
+                        data:{level:disk.level,group:disk.group,disk:disk.index,maxtime:0,type:type},
                         method:'POST'
                     }).success(function(data) {
                         if(data['errmsg'])
@@ -396,7 +399,11 @@ angular.module('device.controllers', [])
                     method: 'POST'
                 }).success(function (data) {
                     if (data['errmsg']) {//不存在
-                        return;
+                        disk.capacity = '未知';
+                        disk.sn = '未知';
+			disk.bridged = 0;
+			disk.loaded=0;
+			return;
                     }
                     disk.sn = data['sn'];
                     disk.md5 = data['smart'];

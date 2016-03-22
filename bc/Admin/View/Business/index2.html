@@ -472,14 +472,18 @@
                             <div class="tabs tabs-vertical tabs-right tabs-primary">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="home12">
-                                        已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
+                                        <div class="panel bk-widget bk-border-off">
+					已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
                                         <a class="btn btn-small btn-primary" href="#" ng-click="bridge(1);"><i class="fa fa-toggle-right"></i> {{cmd}}</a>
-										<a class="btn btn-small btn-alert" href="#" ng-click="bridge(2);"> <i class="fa fa-stop"></i> 停止{{cmd}}</a>
-										<div class="bk-padding-10 progress light progress-xl">
+										<a class="btn btn-small btn-danger" href="#" ng-click="bridge(2);"> <i class="fa fa-stop"></i> 停止{{cmd}}</a>
+					</div>
+<div class="panel bk-widget bk-border-off">									
+	<div class="progress light progress-xl" style="margin-top:10;">
 											<div ng-style="{width: vm.value+'%'}" ng-show="vm.show" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{vm.value}}" role="progressbar" class="progress-bar progress-bar-warning">
 												{{vm.value+'%'}}
 											</div>
 										</div>
+</div>
                                     </div>
                                 </div>
                                 <ul class="nav nav-tabs col-sm-3 col-xs-5">
