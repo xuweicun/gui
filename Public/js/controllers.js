@@ -85,17 +85,24 @@ angular.module('device.controllers', [])
                                     method: 'GET'
                                 }).success(function (data) {
                                     var i = 0;
+                                    var timeLth = data.length * 20;
+                                    var diskInitTimer = $interval(function(){
+                                        timeLth--;
+                                        if(timeLth == 0)
+                                        $interval.cancel(diskInitTimer);
+                                    },1000);
                                     var diskInterval = $interval(function(){
                                         var e = data[i];
                                         $scope.info1 = "正在初始化硬盘，硬盘号#"+ e.level+"-"+ e.zu+"-"+ e.disk;
-                                        $scope.info1 = $scope.info1+",剩余时间"+50*(data.length-i)+"秒";
+                                        $scope.info1 = $scope.info1+",剩余时间"+timeLth+"秒";
                                         $scope.diskinfo(e.level, e.zu, e.disk);
                                         i++;
                                         if(i >= data.length)
                                         {
+                                            console.log("初始化完成。");
                                             $interval.cancel(diskInterval);
                                         }
-                                    },50000);
+                                    },20000);
 
                                         $scope.info1 = "初始化硬盘信息完毕...";
                                     }
@@ -298,11 +305,7 @@ angular.module('device.controllers', [])
             }
             data.forEach(function (e) {
                     var id = "#disk-" + e.level + "-" + e.zu + "-" + e.disk;
-                    if (e.bridged == 0)
-                        $(id).removeClass("btn-default").addClass("btn-primary");
-                    else
-                        $(id).removeClass("btn-default").addClass("btn-success");
-                    $(id + " i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
+                    updateDiskView(e);
                     $scope.loaded = $scope.loaded + 1;
                 }
             );
