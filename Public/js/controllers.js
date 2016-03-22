@@ -155,6 +155,7 @@ angular.module('device.controllers', [])
         }
         $scope.bridge = function(type)
         {
+            var disk = $scope.disk;
             var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
                 {id:disk.disk.toString(),SN:disk.sn}],filetree:$scope.test};
             if(undefined(type))
@@ -166,7 +167,7 @@ angular.module('device.controllers', [])
                 $scope.sendcmd(msg);
                 return;
             }
-            var disk = $scope.disk;
+
             vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
 
             var msgId = 0;
@@ -311,10 +312,12 @@ angular.module('device.controllers', [])
             data.forEach(function(e)
                 {
                     var id = "#disk-"+ e.level + "-"+ e.zu + "-"+ e.disk;
-                    $(id).removeClass("btn-default").addClass("btn-primary");
+                    if(e.bridged==0)
+                        $(id).removeClass("btn-default").addClass("btn-primary");
+                    else
+                        $(id).removeClass("btn-default").addClass("btn-success");
                     $(id+" i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
                     $scope.loaded = $scope.loaded + 1;
-
                 }
             );
 
@@ -355,6 +358,7 @@ angular.module('device.controllers', [])
         }
         $scope.getdiskinfo = function(level,group,disk,type)
         {
+            var disk = $scope.disk;
             if(type>0)
             {//手动初始化
                 $scope.diskinfo(level.toString(),group.toString(),disk.toString());
@@ -385,21 +389,22 @@ angular.module('device.controllers', [])
                     });
                 },5000);
             }
-            else{
+            else {
                 $http({
-                url:'/index.php?m=admin&c=business&a=getDiskInfo&type='+type,
-                data:{level:level,group:group,disk:disk,maxtime:0,type:type},
-                method:'POST'
-            }).success(function(data) {
-                if(data['errmsg'])
-                {//不存在
-                    return;
-                }
-                $scope.disk.sn = data['sn'];
-                $scope.disk.md5 = data['smart'];
-                $scope.disk.capacity = data['capacity'];
-                    $scope.disk.bridged = data['bridged'];
-            });
+                    url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
+                    data: {level: level, group: group, disk: disk, maxtime: 0, type: type},
+                    method: 'POST'
+                }).success(function (data) {
+                    if (data['errmsg']) {//不存在
+                        return;
+                    }
+                    disk.sn = data['sn'];
+                    disk.md5 = data['smart'];
+                    disk.capacity = data['capacity'];
+                    disk.bridged = data['bridged'];
+                    disk.loaded = data['loaded'];
+
+                });
             }
     }
         $scope.devicestatus = function()
