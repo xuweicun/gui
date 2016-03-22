@@ -361,7 +361,7 @@ angular.module('device.controllers', [])
             var disk = $scope.disk;
             if(type>0)
             {//手动初始化
-                $scope.diskinfo(level.toString(),group.toString(),disk.toString());
+                $scope.diskinfo(disk.level.toString(),disk.group.toString(),disk.index.toString());
                 var $diskInfoTimer = 0;
                 $diskInfoStatus = $interval(function(){
                     $diskInfoTimer++;
@@ -392,7 +392,7 @@ angular.module('device.controllers', [])
             else {
                 $http({
                     url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
-                    data: {level: level, group: group, disk: disk, maxtime: 0, type: type},
+                    data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
                     method: 'POST'
                 }).success(function (data) {
                     if (data['errmsg']) {//不存在
