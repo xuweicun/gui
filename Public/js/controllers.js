@@ -18,6 +18,7 @@ angular.module('device.controllers', [])
         $scope.group = 6;
         $scope.disknum = 4;
         $scope.loaded = 0;
+        $scope.cmd = "桥接";
         $scope.disk = {'level':1,'group':1,'index':1,'capability':'查询中...','sn':'查询中...','md5':'查询中'};
         var myDate = new Date();
 
@@ -33,6 +34,7 @@ angular.module('device.controllers', [])
             vm.striped = true;
             vm.cmd = null;
             vm.diskReady = false;//磁盘是否准备好操作；
+            vm.bridge="桥接";
             //登陆系统时通过数据库初始化系统
             //获取在位信息
             $http({
@@ -151,12 +153,22 @@ angular.module('device.controllers', [])
             vm.value = 0;
             vm.show = true;
         }
-        $scope.bridge = function()
+        $scope.bridge = function(type)
         {
-            var disk = $scope.disk;
-            vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
             var msg = {cmd:'BRIDGE',subcmd:'START',level:disk.level.toString(),group:disk.group.toString(),disks:[
                 {id:disk.disk.toString(),SN:disk.sn}],filetree:$scope.test};
+            if(undefined(type))
+            { type = 1;}
+            if(type==2)
+            {
+                msg.subcmd = 'STOP';
+                msg.filetree = '0';
+                $scope.sendcmd(msg);
+                return;
+            }
+            var disk = $scope.disk;
+            vm.cmd = '硬盘#'+disk.level+'-'+disk.group+'-'+disk.disk+'桥接中...';
+
             var msgId = 0;
             msgId = $scope.sendcmd(msg);
             var index = 0;
@@ -165,7 +177,7 @@ angular.module('device.controllers', [])
             //更新间隔
             showProgress();
             var start = $interval(function(){
-                vm.value =  100*(++index)/180;
+                vm.value =  parseInt(100*(++index)/180);
                 if (index >= 180) {
                     vm.value = 99;
                     $interval.cancel(start);
@@ -293,6 +305,8 @@ angular.module('device.controllers', [])
                 $scope.disk.level = theDisk.level;
                 $scope.disk.group = theDisk.zu;
                 $scope.disk.disk  = theDisk.disk;
+
+
             }
             data.forEach(function(e)
                 {
@@ -384,7 +398,7 @@ angular.module('device.controllers', [])
                 $scope.disk.sn = data['sn'];
                 $scope.disk.md5 = data['smart'];
                 $scope.disk.capacity = data['capacity'];
-                    $scope.disk.path = data['file_list'];
+                    $scope.disk.bridged = data['bridged'];
             });
             }
     }
