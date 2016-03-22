@@ -37,31 +37,22 @@ class MsgController extends Controller {
     public function bridgeMsgHandle()
     {
 
-        $cmd = 'BRIDGE';
-        $subcmd = 'START';
-        $db = M('CmdLog');
-        $map['cmd'] = array("eq",$cmd);
-        $map['status'] = array("eq",-1);
-        $items = $db->where($map)->select();
-        if($items)
-        {
-	    $item = $items[0];
-            $level = (int)$_POST['level'];
-            $group =(int)$_POST['group'];
-            $disks  = $_POST['disks'];
-            $path = $_POST['paths'];
-            $filedir = "/home/share/mount/".$path['value'];
-            $deviceDb = M('Device');
-            $disk = $deviceDb->where("level = $level and zu = $group and disk={$disks[0]['id']}")->select();
+
+        $level = (int)$_POST['level'];
+        $group = (int)$_POST['group'];
+        $disks = $_POST['disks'];
+        $path = $_POST['paths'];
+        $filedir = "/home/share/mount/" . $path['value'];
+        $deviceDb = M('Device');
+        foreach($disks as $disk) {
+            $item = $deviceDb->where("level = $level and zu = $group and disk={$disk['id']}")->select();
             $diskDb = M('Disk');
-            $theDisk = $diskDb->find($disk[0]['disk_id']);
+            $theDisk = $diskDb->find($item['disk_id']);
             $theDisk['file_list'] = $filedir;
             $diskDb->save($theDisk);
-            $item['status'] = (int)$path['status'];
-            $db->save($item);
-            $disks = array_merge($disks,$path);
-            $this->AjaxReturn($disks);
         }
+        $this->updateCmdLog();
+
 
     }
 	/***
@@ -71,12 +62,7 @@ class MsgController extends Controller {
 	public function updateDeviceStatus()
 	{
            //将命令状态设为已完成;
-           $cmdDb = M('CmdLog');
-           $cmdId = (int)$_POST['CMD_ID'];
-           $cmd = $cmdDb->find($cmdId);
 
-           $cmd['status'] = (int)$_POST['status'];
-           $cmdDb->save($cmd);
 
            
 	   //在位信息以后改为用Redis维护
@@ -126,11 +112,13 @@ class MsgController extends Controller {
 			   }
 		   }
 	   }
-	   else
+       $this->updateCmdLog();
+        if($_POST['status'] != '0')
 	   {
 		   $this->handleError();//统一处理
 	   } 
 	}
+
     public function updateDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
@@ -210,11 +198,11 @@ class MsgController extends Controller {
 	*/
 	public function updateCmdLog()
 	{
-		//find the commond record by cmd, subcmd, which has been inserteed
-		//before the commond sent to the proxy;
-		
-		//update the finish-time, and the status
-		//done
+        $cmdDb = M('CmdLog');
+        $cmdId = (int)$_POST['CMD_ID'];
+        $cmd = $cmdDb->find($cmdId);
+        $cmd['status'] = (int)$_POST['status'];
+        $cmdDb->save($cmd);
 	}
 	
 	
