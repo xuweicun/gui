@@ -408,7 +408,7 @@ class BusinessController extends Controller {
 		//query database
 		//return 
 	}
-    public function firstTime()
+    public function init()
     {
         $this->display("systeminit");
     }

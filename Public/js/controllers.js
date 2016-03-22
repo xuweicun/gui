@@ -85,26 +85,27 @@ angular.module('device.controllers', [])
                                     method: 'GET'
                                 }).success(function (data) {
                                     var i = 0;
-                                    var timeLth = data.length * 20;
+                                    var timeLth = data.length * 50;
                                     var diskInitTimer = $interval(function(){
                                         timeLth--;
+                                        $scope.info2 = " 剩余时间"+timeLth+"秒";
                                         if(timeLth == 0)
                                         $interval.cancel(diskInitTimer);
                                     },1000);
                                     var diskInterval = $interval(function(){
                                         var e = data[i];
                                         $scope.info1 = "正在初始化硬盘，硬盘号#"+ e.level+"-"+ e.zu+"-"+ e.disk;
-                                        $scope.info1 = $scope.info1+",剩余时间"+timeLth+"秒";
+
                                         $scope.diskinfo(e.level, e.zu, e.disk);
                                         i++;
                                         if(i >= data.length)
                                         {
-                                            console.log("初始化完成。");
+                                            $scope.info1 = "初始化硬盘信息完毕...";
                                             $interval.cancel(diskInterval);
                                         }
-                                    },20000);
+                                    },50000);
 
-                                        $scope.info1 = "初始化硬盘信息完毕...";
+
                                     }
                                 );
                             }
