@@ -386,7 +386,7 @@ angular.module('device.controllers', [])
                             $scope.disk.md5 = data['smart'];
                             $scope.disk.capacity = data['capacity'];
                             if(type == 1)//现阶段手动初始化手段
-                            $interval.cancel($diskInfoStatus);
+                            $interval.cancel(diskInfoStatus);
                         }
                         
                     });
