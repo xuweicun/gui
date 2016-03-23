@@ -126,7 +126,7 @@
             <!-- Page Header -->
 
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                     <div class="panel panel-default bk-bg-white ">
                         <div class="panel-heading">
@@ -138,60 +138,82 @@
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">层号</label>
-                                    <div class="bk-margin-5 btn-group col-md-9">
-                                        <button class="btn btn-default" type="button">选择层</button>
-                                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
-                                                type="button">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul role="menu" class="dropdown-menu">
-                                            <li><a href="ui-buttons.html#">第{{level}}层</a></li>
-                                        </ul>
+
+                                    <div class="col-md-9">
+                                        <div class="btn-group">
+                                            <button class="btn btn-default" type="button">选择层</button>
+                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                                    type="button">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul role="menu" class="dropdown-menu">
+                                                <li><a href="ui-buttons.html#">第{{level}}层</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">组号</label>
-                                    <div class="bk-margin-5 btn-group col-md-9">
-                                        <button class="btn btn-primary" type="button">选择组</button>
-                                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"
-                                                type="button">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul role="menu" class="dropdown-menu">
-                                            <li><a href="ui-buttons.html#">第{{group}}组</a></li>
-                                        </ul>
+
+                                    <div class="col-md-9">
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary" type="button">选择组</button>
+                                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"
+                                                    type="button">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul role="menu" class="dropdown-menu">
+                                                <li><a href="ui-buttons.html#">第{{group}}组</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">选择硬盘</label>
-                                    <div class="bk-margin-5 btn-group col-md-9">
-                                        <div class="checkbox-custom checkbox-inline checkbox-warning">
-                                            <input type="checkbox" value="option1" name="inline-checkbox1"
-                                                   id="inline-checkbox1">
-                                            <label for="inline-checkbox1"> 盘#1[已桥接]</label>
-                                        </div>
-                                        <div class="checkbox-custom checkbox-inline">
-                                            <input type="checkbox" value="option1" name="inline-checkbox1"
-                                                   id="inline-checkbox1">
-                                            <label for="inline-checkbox1"> 盘#2[不在位]</label>
+
+                                    <div class="col-md-9">
+                                        <div class="btn-group">
+                                            <div class="checkbox-custom checkbox-inline checkbox-warning">
+                                                <input type="checkbox" value="option1" name="inline-checkbox1"
+                                                       id="inline-checkbox1">
+                                                <label for="inline-checkbox1"> 盘#1[已桥接]</label>
+                                            </div>
+                                            <div class="checkbox-custom checkbox-inline">
+                                                <input type="checkbox" value="option1" name="inline-checkbox1"
+                                                       id="inline-checkbox1">
+                                                <label for="inline-checkbox1"> 盘#2[不在位]</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
-                                    <div class="bk-margin-5 btn-group col-md-9">
-                                        <div class="checkbox-custom checkbox-inline checkbox-warning">
-                                            <input type="checkbox" value="option1" name="inline-checkbox1"
-                                                   id="inline-checkbox1">
-                                            <label for="inline-checkbox1"> 全选</label>
+
+                                    <div class="col-md-9">
+                                        <div class="btn-group">
+                                            <div class="checkbox-custom checkbox-inline checkbox-warning">
+                                                <input type="checkbox" value="option1" name="inline-checkbox1"
+                                                       id="inline-checkbox1">
+                                                <label for="inline-checkbox1"> 全选</label>
+                                            </div>
+                                            <div class="checkbox-custom checkbox-inline checkbox-warning">
+                                                <input type="checkbox" value="option1" name="inline-checkbox1"
+                                                       id="inline-checkbox1">
+                                                <label for="inline-checkbox1"> 全不选</label>
+                                            </div>
                                         </div>
-                                        <div class="checkbox-custom checkbox-inline checkbox-warning">
-                                            <input type="checkbox" value="option1" name="inline-checkbox1"
-                                                   id="inline-checkbox1">
-                                            <label for="inline-checkbox1"> 全不选</label>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+
+                                    <div class="col-md-3">
+
+                                            <a href="" class="btn btn-block btn-success">执行</a>
+
+
                                     </div>
                                 </div>
                             </form>
@@ -199,69 +221,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="row"><!--硬盘信息-->
-                        <div class="col-lg-12">
-                            <div class="panel panel-default bk-bg-white">
-                                <div class="panel-heading bk-bg-white">
-                                    <h6><i class="fa  fa-info-circle red"></i><span class="break"></span>硬盘信息</h6>
 
-                                    <div class="panel-actions">
-                                        <a class="btn-minimize"
-                                           href="/index.php?m=admin&c=business&a=filetree&f={{disk.level}}_{{disk.group}}_{{disk.index}}"><i
-                                                class="fa fa-list"></i></a>
-
-                                        <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>参数名称</th>
-                                                <th>参数值</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>位号</td>
-                                                <td>{{disk.level}}-{{disk.group}}-{{disk.index}}<span>|</span>
-                                                    <a class="btn btn-sm btn-success" href="#"
-                                                       ng-click="getdiskinfo(disk.level,disk.group,disk.index,1);"><i
-                                                            class="fa fa-refresh"></i> 更新</a><span>|</span>
-                                                    <a class="btn btn-sm btn-success"
-                                                       href="/index.php?m=Admin&c=business&a=filetree&f={{disk.level}}_{{disk.group}}_{{disk.index}}"><i
-                                                            class="fa fa-list"></i> 文件列表</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>容量</td>
-                                                <td>{{disk.capacity}}G</td>
-                                            </tr>
-                                            <tr>
-                                                <td>SN号</td>
-                                                <td>{{disk.sn}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>健康状况</td>
-                                                <td>良好</td>
-                                            </tr>
-                                            <tr>
-                                                <td>状态</td>
-                                                <td><span ng-hide="disk.loaded == 1">不</span>在位<span
-                                                        ng-show="disk.bridged == 1"> | 已桥接</span></td>
-                                            </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
         </div>
