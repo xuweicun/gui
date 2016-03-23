@@ -527,7 +527,10 @@
                                                 <td>{{disk.level}}-{{disk.group}}-{{disk.index}}<a
                                                         class="btn btn-sm btn-success" href="#"
                                                         ng-click="getdiskinfo(disk.level,disk.group,disk.index,1);"><i
-                                                        class="fa fa-refresh"></i> 更新</a></td>
+                                                        class="fa fa-refresh"></i> 更新</a><a
+                                                        class="btn btn-sm btn-success" href="/index.php?m=Admin&c=business&a=filetree&f={{disk.level}}_{{disk.group}}_{{disk.index}}"
+                                                        ><i
+                                                        class="fa fa-list"></i> 文件列表</a></td>
                                             </tr>
                                             <tr>
                                                 <td>容量</td>
