@@ -418,10 +418,12 @@
                                 <div class="tab-pane active" id="home12">
                                     <div class="panel bk-widget bk-border-off">
                                         已选择硬盘：#{{disk.level}}-{{disk.group}}-{{disk.index}}
+                                        <div class="row btn-group">
                                         <a class="btn btn-small btn-primary" href="#" ng-click="bridge(1);"><i
                                                 class="fa fa-toggle-right"></i> {{cmd}}</a>
                                         <a class="btn btn-small btn-danger" href="#" ng-click="bridge(2);"> <i
                                                 class="fa fa-stop"></i> 终止</a>
+                                        </div>
                                     </div>
                                     <div class="panel bk-widget bk-border-off">
                                         <div class="progress light progress-xl" style="margin-top:10;">
@@ -524,12 +526,11 @@
                                             <tbody>
                                             <tr>
                                                 <td>位号</td>
-                                                <td>{{disk.level}}-{{disk.group}}-{{disk.index}}<a
-                                                        class="btn btn-sm btn-success" href="#"
+                                                <td>{{disk.level}}-{{disk.group}}-{{disk.index}}<span>|</span>
+                                                    <a class="btn btn-sm btn-success" href="#"
                                                         ng-click="getdiskinfo(disk.level,disk.group,disk.index,1);"><i
-                                                        class="fa fa-refresh"></i> 更新</a><a
-                                                        class="btn btn-sm btn-success" href="/index.php?m=Admin&c=business&a=filetree&f={{disk.level}}_{{disk.group}}_{{disk.index}}"
-                                                        ><i
+                                                        class="fa fa-refresh"></i> 更新</a><span>|</span>
+                                                    <a class="btn btn-sm btn-success" href="/index.php?m=Admin&c=business&a=filetree&f={{disk.level}}_{{disk.group}}_{{disk.index}}"><i
                                                         class="fa fa-list"></i> 文件列表</a></td>
                                             </tr>
                                             <tr>
