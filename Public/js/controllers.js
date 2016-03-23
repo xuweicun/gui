@@ -21,15 +21,12 @@ angular.module('device.controllers', [])
         $scope.cmd = "桥接";
         $scope.disk = {'level': 1, 'group': 1, 'index': 1, 'capability': '查询中...', 'sn': '查询中...', 'md5': '查询中'};
         var myDate = new Date();
-
+        vm.value = 0;
+        vm.style = 'progress-bar-danger';
+        vm.show = false;
 
         $scope.start = function () {
-
             $scope.updatetime = myDate.getTime();
-
-            vm.value = 0;
-            vm.style = 'progress-bar-danger';
-            vm.show = false;
             vm.striped = true;
             vm.cmd = null;
             vm.diskReady = false;//磁盘是否准备好操作；
@@ -308,6 +305,8 @@ angular.module('device.controllers', [])
             }
             data.forEach(function (e) {
                     var id = "#disk-" + e.level + "-" + e.zu + "-" + e.disk;
+                e.group = e.zu;
+                e.index  = e.disk;
                     updateDiskView(e);
                     $scope.loaded = $scope.loaded + 1;
                 }
