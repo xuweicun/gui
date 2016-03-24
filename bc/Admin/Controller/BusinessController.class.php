@@ -24,7 +24,10 @@ class BusinessController extends Controller {
 
 	}
 
-	
+	public function bridge()
+	{
+		$this->display('bridge');
+	}
 
 	public function temp()
 	{
