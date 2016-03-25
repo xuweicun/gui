@@ -1,12 +1,13 @@
 angular.module('device.controllers', [])
     .controller('DeviceStatus', function ($scope, $http, $timeout, $interval) {
         $scope.test = "1";
-
+        $scope.bridgedLvl = 0;
+        $scope.bridgedGrp = 0;
 
         $scope.selected = {'level': 1, 'group': 1, 'index': 1};
         var businessRoot = '/index.php?m=admin&c=business';
         var msgRoot = '/index.php?m=admin&c=msg';
-
+        $scope.bridgeUrl = '/Public/js/bridge.html';
 
         var server = businessRoot + '&a=addcmdlog';
         var proxy = "http://222.35.224.230:8080";
@@ -24,6 +25,7 @@ angular.module('device.controllers', [])
         vm.value = 0;
         vm.style = 'progress-bar-danger';
         vm.show = false;
+        vm.bridgeReady = 0;
 
         $scope.start = function () {
             $scope.updatetime = myDate.getTime();
@@ -45,6 +47,14 @@ angular.module('device.controllers', [])
 
         }
         $scope.start();
+        $scope.selectLevel = function(level)
+        {
+            $scope.bridgedLvl = level;
+        }
+        $scope.selectGroup = function(group)
+        {
+            $scope.bridgedGrp = group;
+        }
         $scope.deviceInit = function () {
             $scope.devicestatus();
             $scope.info1 = "初始化中，请等待";
@@ -65,7 +75,6 @@ angular.module('device.controllers', [])
                     method: 'GET'
                 }).success(function (data) {
                         if (data['errmsg']) {
-
                             return;
                         }
                         if (data['status'] >= 0) {
@@ -293,7 +302,7 @@ angular.module('device.controllers', [])
 
         }
         $scope.loaddisks = function (data) {
-            var levels = $scope.levels;
+            var levels = $scope.bridgedLevels;
 
             var bridgedGroups = $scope.groups;
             var zeros = [0,0,0,0,0,0];
@@ -320,7 +329,7 @@ angular.module('device.controllers', [])
                 e.index  = e.disk;
                     if(e.bridged == 1)
                     {
-                        levels[e.level - 1]++;
+                        levels[e.level - 1] = true;
                         bridgedGroups[e.level-1][e.zu-1]++;
                     }
                     updateDiskView(e);
@@ -418,16 +427,17 @@ angular.module('device.controllers', [])
         var updateDiskView = function (disk) {
             var id = "#disk-" + disk.level + "-" + disk.group + "-" + disk.index;
             var infoId = "#diskinfo-" + disk.level + "-" + disk.group + "-" + disk.index;
+            var checkId = "#qj-chk-" + disk.level + "-" + disk.group + "-" + disk.index;
             $(id).removeClass("btn-default").removeClass("btn-primary").removeClass("btn-success");
 
             $(id + " i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
             if (disk.bridged == 1) {
                 $(id).addClass("btn-success");
                 $(infoId).val('[已桥接]');
+                $(checkId).attr("checked",true);
             }
             else {
-                if (disk.loaded == 1)
-                {
+                if (disk.loaded == 1) {
                     $(id).addClass("btn-primary");
                     $(infoId).val('[未桥接]');
                 }
@@ -435,14 +445,11 @@ angular.module('device.controllers', [])
                     $(id).addClass("btn-default");
                     $(id + " i").removeClass("glyphicon-hdd").addClass("glyphicon-ban-circle");
                     $(infoId).val('[不在位]');
+                    $(checkId).attr("disabled",true);
                 }
             }
         }
-        $scope.selectAll()
-        {
-            //全选
 
-        }
         $scope.devicestatus = function () {
             var msg = {cmd: 'DEVICESTATUS'};
             return $scope.sendcmd(msg);
