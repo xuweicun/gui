@@ -302,6 +302,7 @@ angular.module('device.controllers', [])
 
         }
         $scope.loaddisks = function (data) {
+
             var levels = $scope.bridgedLevels;
 
             var bridgedGroups = $scope.groups;
@@ -336,6 +337,7 @@ angular.module('device.controllers', [])
                     $scope.loaded = $scope.loaded + 1;
                 }
             );
+            $scope.bridgeReady = 1;
 
 
         }
@@ -370,6 +372,7 @@ angular.module('device.controllers', [])
         }
         $scope.getdiskinfo = function (level, group, disk, type) {
             var disk = $scope.disk;
+            $scope.bridgeReady = 0;
             if (type > 0) {//手动初始化
                 $scope.diskinfo(disk.level.toString(), disk.group.toString(), disk.index.toString());
                 var $diskInfoTimer = 0;
@@ -423,6 +426,7 @@ angular.module('device.controllers', [])
             disk.bridged = data['bridged'];
             disk.loaded = data['loaded'];
             updateDiskView(disk);
+            $scope.bridgeReady = 1;
         }
         var updateDiskView = function (disk) {
             var id = "#disk-" + disk.level + "-" + disk.group + "-" + disk.index;
