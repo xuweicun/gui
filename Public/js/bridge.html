@@ -14,14 +14,15 @@
 
                         <div class="col-md-9">
                             <div class="btn-group">
-                                <button class="btn btn-default" type="button">选择层</button>
+                                <button class="btn btn-default" type="button" ng-bind="levelText"></button>
                                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
                                         type="button">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu">
-                                    <li ng-repeat="level in levels" ng-class="{selected:bridgedLevels[level-1]}" ng-click="selectGroup(group)"><a href="ui-buttons.html#">第{{level}}层</a></li>
+                                    <li ng-repeat="level in levels" ng-class="{selected:bridgedLevels[level-1]}" id="lvl-optn-1"><a href="#" ng-click="selectLevel(1)">第1层</a></li>
+                                    <li ng-repeat="level in levels" ng-class="{selected:bridgedLevels[level-1]}" id="lvl-optn-{{level}}"><a href="#"  ng-click="selectLevel(level)">第{{level}}层</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -31,14 +32,14 @@
 
                         <div class="col-md-9">
                             <div class="btn-group">
-                                <button class="btn btn-primary" type="button">选择组</button>
+                                <button class="btn btn-primary" type="button" ng-bind="groupText"></button>
                                 <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"
                                         type="button">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu">
-                                    <li ng-repeat="group in groups"><a href="#" ng-click="selectGroup(group)">第{{group}}组<span class="badge" ng-bind="bridgedGroups[secectedLvl-1][group-1]"></span></a></li>
+                                    <li ng-repeat="group in groups"><a href="#" ng-click="selectGroup(group)" id="grp-optn-{{group}}">第{{group}}组<span class="badge" ng-bind="bridgedGroups[secectedLvl-1][group-1]"></span></a></li>
                                 </ul>
                             </div>
                         </div>

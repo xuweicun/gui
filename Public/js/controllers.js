@@ -20,6 +20,8 @@ angular.module('device.controllers', [])
         $scope.disknum = 4;
         $scope.loaded = 0;
         $scope.cmd = "桥接";
+        $scope.levelText = "选择层";
+        $scope.groupText = "选择组";
         $scope.disk = {'level': 1, 'group': 1, 'index': 1, 'capability': '查询中...', 'sn': '查询中...', 'md5': '查询中'};
         var myDate = new Date();
         vm.value = 0;
@@ -50,10 +52,14 @@ angular.module('device.controllers', [])
         $scope.selectLevel = function(level)
         {
             $scope.bridgedLvl = level;
+            $scope.levelText = "第"+level+"层";
+            $("#lvl-optn-"+level).addClass("selected");
         }
         $scope.selectGroup = function(group)
         {
             $scope.bridgedGrp = group;
+            $scope.groupText = "第"+group+"组";
+            $("#grp-optn-"+group).addClass("selected");
         }
         $scope.deviceInit = function () {
             $scope.devicestatus();
