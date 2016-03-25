@@ -293,6 +293,17 @@ angular.module('device.controllers', [])
 
         }
         $scope.loaddisks = function (data) {
+            var levels = $scope.levels;
+
+            var bridgedGroups = $scope.groups;
+            var zeros = [0,0,0,0,0,0];
+            levels = zeros;
+            //初始化groups
+            bridgedGroups=[];
+            for(var i = 0;i < $scope.level;i++)
+            {
+                bridgedGroups[i] = zeros;
+            }
             $scope.loaded = 0;
             if (data.length > 0) {
                 var theDisk = data[0];
@@ -307,6 +318,11 @@ angular.module('device.controllers', [])
                     var id = "#disk-" + e.level + "-" + e.zu + "-" + e.disk;
                 e.group = e.zu;
                 e.index  = e.disk;
+                    if(e.bridged == 1)
+                    {
+                        levels[e.level - 1]++;
+                        bridgedGroups[e.level-1][e.zu-1]++;
+                    }
                     updateDiskView(e);
                     $scope.loaded = $scope.loaded + 1;
                 }
@@ -401,19 +417,31 @@ angular.module('device.controllers', [])
         }
         var updateDiskView = function (disk) {
             var id = "#disk-" + disk.level + "-" + disk.group + "-" + disk.index;
+            var infoId = "#diskinfo-" + disk.level + "-" + disk.group + "-" + disk.index;
             $(id).removeClass("btn-default").removeClass("btn-primary").removeClass("btn-success");
 
             $(id + " i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");
             if (disk.bridged == 1) {
                 $(id).addClass("btn-success");
+                $(infoId).val('[已桥接]');
             }
             else {
-                if (disk.loaded == 1)$(id).addClass("btn-primary");
+                if (disk.loaded == 1)
+                {
+                    $(id).addClass("btn-primary");
+                    $(infoId).val('[未桥接]');
+                }
                 else {
                     $(id).addClass("btn-default");
                     $(id + " i").removeClass("glyphicon-hdd").addClass("glyphicon-ban-circle");
+                    $(infoId).val('[不在位]');
                 }
             }
+        }
+        $scope.selectAll()
+        {
+            //全选
+
         }
         $scope.devicestatus = function () {
             var msg = {cmd: 'DEVICESTATUS'};
