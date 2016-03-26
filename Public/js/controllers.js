@@ -5,6 +5,7 @@ angular.module('device.controllers', [])
         $scope.bridgedGrp = 0;
 
         $scope.selected = {'level': 1, 'group': 1, 'index': 1};
+        $scope.bridgedDisks = [];
         var businessRoot = '/index.php?m=admin&c=business';
         var msgRoot = '/index.php?m=admin&c=msg';
         $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -22,12 +23,15 @@ angular.module('device.controllers', [])
         $scope.cmd = "桥接";
         $scope.levelText = "选择层";
         $scope.groupText = "选择组";
+        $scope.ready = {};
         $scope.disk = {'level': 1, 'group': 1, 'index': 1, 'capability': '查询中...', 'sn': '查询中...', 'md5': '查询中'};
         var myDate = new Date();
         vm.value = 0;
         vm.style = 'progress-bar-danger';
         vm.show = false;
         vm.bridgeReady = 0;
+        $scope.ready.bridgedDisk = true;
+        $scope.ready.bridge = false;
 
         $scope.start = function () {
             $scope.updatetime = myDate.getTime();
@@ -51,15 +55,92 @@ angular.module('device.controllers', [])
         $scope.start();
         $scope.selectLevel = function(level)
         {
+            if(level != $scope.bridgedLvl)
+            {
+                $scope.bridgedDisks = [];
+                if($scope.bridgedGrp > 0)
+                {
+                    $scope.updateBridgedDisk(level,$scope.bridgedGrp);
+
+                }
+            }
             $scope.bridgedLvl = level;
             $scope.levelText = "第"+level+"层";
             $("#lvl-optn-"+level).addClass("selected");
+
         }
         $scope.selectGroup = function(group)
         {
+            if(group != $scope.bridgedGrp)
+            {
+                $scope.bridgedDisks = [];
+                if($scope.bridgedLvl > 0)
+                {
+                    $scope.updateBridgedDisk($scope.bridgedLvl,group);
+                }
+            }
             $scope.bridgedGrp = group;
             $scope.groupText = "第"+group+"组";
             $("#grp-optn-"+group).addClass("selected");
+        }
+
+        $scope.updateBridgedDisk = function(level,group)
+        {
+            var readyNum = 0;
+            $scope.ready.bridgedDisk = false;
+            for(var i = 1;i <= $scope.disknum;i++)
+            {
+                $http({
+                    url: '/index.php?m=admin&c=business&a=getDiskInfo',
+                    data: {level: level, group: group, disk: i, maxtime: 0, type: 0},
+                    method: 'POST'
+                }).success(function (data) {
+
+                    updateDiskView(data);
+                    if(data.bridged == 1)
+                    {
+                        $scope.bridgedDisks.push(i);
+                    }
+                    readyNum++;
+                    if(readyNum==$scope.disknum)
+                        $scope.ready.bridgedDisk=true;
+                }).error(function(data){
+                    console.log("server error: post fail");
+                    readyNum++;
+                    if(readyNum==$scope.disknum)
+                    {
+                        $scope.ready.bridgedDisk=true;
+
+                    }
+                });
+            }
+        }
+
+        $scope.updateBridgeSelection = function(index)
+        {
+            var selected = $scope.bridgedDisks;
+            var idx = selected.indexOf(index);//是否已选
+            if(idx == -1)
+            {
+                selected.push(index);
+            }
+            else
+            {
+                selected.splice(idx,1);
+            }
+        }
+        $scope.isBridgeSelected = function(index)
+        {
+            var selected = $scope.bridgedDisks;
+            var idx = selected.indexOf(index);//是否已选
+            if(idx == -1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         $scope.deviceInit = function () {
             $scope.devicestatus();
@@ -436,8 +517,8 @@ angular.module('device.controllers', [])
         }
         var updateDiskView = function (disk) {
             var id = "#disk-" + disk.level + "-" + disk.group + "-" + disk.index;
-            var infoId = "#diskinfo-" + disk.level + "-" + disk.group + "-" + disk.index;
-            var checkId = "#qj-chk-" + disk.level + "-" + disk.group + "-" + disk.index;
+            var infoId = "#diskinfo-"  + disk.index;
+            var checkId = "#qj-chk-" + disk.index;
             $(id).removeClass("btn-default").removeClass("btn-primary").removeClass("btn-success");
 
             $(id + " i").removeClass("glyphicon-ban-circle").addClass("glyphicon-hdd");

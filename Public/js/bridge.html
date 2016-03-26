@@ -14,14 +14,14 @@
 
                         <div class="col-md-9">
                             <div class="btn-group">
-                                <button class="btn btn-default" type="button" ng-bind="levelText"></button>
-                                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                <button class="btn btn-primary" type="button" ng-bind="levelText"></button>
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"
                                         type="button">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu">
-                                    <li ng-repeat="level in levels" ng-class="{selected:bridgedLevels[level-1]}" id="lvl-optn-1"><a href="#" ng-click="selectLevel(1)">第1层</a></li>
+                                    <li ng-class="{selected:bridgedLevels[level-1]}" id="lvl-optn-1"><a href="#" ng-click="selectLevel(1)">第1层</a></li>
                                     <li ng-repeat="level in levels" ng-class="{selected:bridgedLevels[level-1]}" id="lvl-optn-{{level}}"><a href="#"  ng-click="selectLevel(level)">第{{level}}层</a></li>
                                 </ul>
                             </div>
@@ -50,15 +50,25 @@
                         <div class="col-md-9">
                             <div class="btn-group">
                                 <div class="checkbox-custom checkbox-inline" ng-repeat="disk in disks">
-                                    <input type="checkbox" value="option1" name="inline-checkbox1"
-                                           id="inline-checkbox1">
-                                    <label for="inline-checkbox1"> 盘#1[已桥接]</label>
+                                    <input type="checkbox" value="option1" name="diskOptns"
+                                           id="qj-chk-{{disk}}" ng-checked="isBridgeSelected(disk)" ng-click="updateBridgeSelection(disk)">
+                                    <label for="qj-chk-{{disk}}"> 盘#{{disk}}<span id="diskinfo-{{disk}}"></span> </label>
                                 </div>
 
                             </div>
+                            <div>
+
+                            </div>
+
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-hide="ready.bridgedDisk">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-9">
+                            <img src="/Public/assets/img/loading.gif" class="img-circle bk-img-40 bk-border-off" alt="加载中...">硬盘信息获取中...
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
                         <label class="col-md-3 control-label"></label>
 
                         <div class="col-md-9">
@@ -76,12 +86,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="ready.bridge">
                         <label class="col-md-3 control-label"></label>
 
                         <div class="col-md-3">
 
-                            <a href="" class="btn btn-block btn-success">执行</a>
+                            <a href="" class="btn btn-block btn-success" >执行</a>
 
 
                         </div>
