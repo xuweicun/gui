@@ -16,6 +16,7 @@ angular.module('device.controllers', [])
             //轮询次数计数器
             queryCnt:0,
             stopFlag: false,
+            maxPoolSize: 50,
             add: function(task){
                 this.going.forEach(e)
                 {
@@ -122,11 +123,53 @@ angular.module('device.controllers', [])
             },
             //更新命令池
             cleanCmdPool: function(){
-
+                var newPool = [];
+                var pool = this.going;
+                for(var i = 0;i < this.going.length;i++)
+                {
+                    if(pool[i].status > -1)
+                    {
+                        this.done.push(pool[i]);
+                    }
+                    else
+                    newPool.push(pool[i]);
+                }
+                this.going = [];
+                this.going = newPool;
+                this.startWatch();
             },
             //发送消息检查命令进度
             checkProgress: function(idx){
-                var task = this.going;
+                var task = this.going[idx];
+                if(task.cmd != 'MD5' && task.cmd != 'COPY')
+                    return;
+                if(task.subcmd != 'START' || task.progress.parseInt() >= 100)
+                    return;
+                if(task.cmd == 'MD5')
+                {
+                    $scope.md5Progress(task.level,task.group,task.disk);
+
+                }
+                if(task.cmd == 'COPY')
+                {
+                    $scope.copyProgress(task.level,task.group,task.disk);
+                }
+
+            },
+            /*
+            * success:成功处理
+            * error:失败处理
+            * */
+            success: function(idx){
+                var task = this.going[idx];
+
+                if(task.progress > 100)
+                {
+                    return;
+                }
+                $scope.md5Result(task);
+            },
+            error: function(idx){
 
             }
 
@@ -142,6 +185,12 @@ angular.module('device.controllers', [])
             disks:[
                 {id:1,sn:1},{id:2,sn:2}
             ],
+            srcDisk:1,
+            srcLevel:1,
+            srcGroup:1,
+            dstDisk:1,
+            dstLevel:1,
+            dstGroup:1,
             disk:1,
             status:0
         };
@@ -158,6 +207,7 @@ angular.module('device.controllers', [])
 
         var server = businessRoot + '&a=addcmdlog';
         var proxy = "http://222.35.224.230:8080";
+
         var vm = $scope.vm = {};
         $scope.levels = [2, 3, 4, 5, 6];
         $scope.groups = [1, 2, 3, 4, 5, 6];
@@ -717,6 +767,10 @@ angular.module('device.controllers', [])
             var msg = {cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk};
             $scope.sendcmd(msg);
         }
+        $scope.md5Progress = function (level, group, disk) {
+            var msg = {cmd: 'MD5', subcmd: 'PROGRESS', level: level, group: group, disk: disk};
+            $scope.sendcmd(msg);
+        }
         $scope.md5Result = function (level, group, disk) {
             var msg = {cmd: 'MD5', subcmd: 'RESULT', level: level, group: group, disk: disk};
             $scope.sendcmd(msg);
@@ -731,6 +785,20 @@ angular.module('device.controllers', [])
                 dstLevel: dstLvl,
                 dstGroup: dstGrp,
                 dstDisk: dstDisk
+            };
+            $scope.sendcmd(msg);
+        }
+        $scope.copyProgress = function(task)
+        {
+            var msg = {
+                cmd: 'COPY',
+                subcmd: 'PROGRESS',
+                srcLevel: task.srcLvl,
+                srcGroup: task.srcGrp,
+                srcDisk: task.srcDisk,
+                dstLevel: task.dstLvl,
+                dstGroup: task.dstGrp,
+                dstDisk: task.dstDisk
             };
             $scope.sendcmd(msg);
         }

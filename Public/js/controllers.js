@@ -32,6 +32,15 @@ angular.module('device.controllers', [])
         vm.bridgeReady = 0;
         $scope.ready.bridgedDisk = true;
         $scope.ready.bridge = false;
+        var cs = $scope.cmdStatus;
+        cs = [];/*{
+            ids:[],
+            dstIds:[],
+            cmds:[],
+            subCmds:[],
+            status:[],
+            startTimes:[]
+        };*/
 
         $scope.start = function () {
             $scope.updatetime = myDate.getTime();
