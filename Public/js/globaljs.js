@@ -29,9 +29,10 @@ angular.module('device.controllers', [])
             },
             updateQueryCnt: function()
             {
+                this.queryCnt++;
               if(this.queryCnt > this.lgAmer)
               {
-                  
+                    this.queryCnt = 0;
               }
             },
             deactivate: function(task){
@@ -64,6 +65,28 @@ angular.module('device.controllers', [])
                     }
                     for(var idx = 0;idx < this.going.length; idx++)
                     {
+                        if(this.going[idx].status > -1)
+                        continue;
+                        var timeFlag = false;
+                        switch(this.going.cmd)
+                        {
+                            case 'BRIDGE':
+                                if(0 == this.queryCnt % this.mdAmp)timeFlag = true;
+                                break;
+                            case 'MD5':
+                                if(0 == this.queryCnt % this.lgAmp)timeFlag = true;
+                                break;
+                            case 'COPY':
+                                if(0 == this.queryCnt % this.lgAmp)timeFlag = true;
+                                break;
+                            default:
+                                if(0 == this.queryCnt % this.smAmp)timeFlag = true;
+                                break;
+                        }
+                        if(timeFlag != true)
+                        {
+                            continue;
+                        }
                         $http({
                             url: '/index.php?m=admin&c=business&a=getCmdStatus&cmdid='+this.going[idx].id,
                             method: 'GET'
@@ -75,21 +98,38 @@ angular.module('device.controllers', [])
                             else
                             {
                                 this.going[idx].status = data['status'];
-                                if(data['status'] != -1)
-                                {
 
-                                }
                             }
                         }).error(function (data) {
                             console.log("系统初始化失败.");
                         });
+                        this.checkProgress(idx);
+                    }
+                    this.updateQueryCnt();
+                    //检查命令池大小
+
+                    if(this.going.length > this.maxPoolSize)
+                    {
+                        //更新命令池
+                        $interval.cancel(taskWatcher);
+                        this.cleanCmdPool();
                     }
 
                 },this.unitTimer);
             },
             stopWatch: function(){
                 this.stopFlag = true;
+            },
+            //更新命令池
+            cleanCmdPool: function(){
+
+            },
+            //发送消息检查命令进度
+            checkProgress: function(idx){
+                var task = this.going;
+
             }
+
         };
 
         var cmd = {
