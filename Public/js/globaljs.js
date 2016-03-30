@@ -1,5 +1,27 @@
 angular.module('device.controllers', [])
     .controller('statusMonitor', function ($scope, $http, $timeout, $interval) {
+        //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
+        $scope.svrErrPool = {
+            pool:[],
+            svrDown:false,
+            maxPoolSize:10,
+            add:function(data)
+            {
+                if(data == undefined)
+                {
+                    data = {errMsg:'与服务器通信失败。'};
+                }
+                this.pool.push(data);
+                if(this.pool.length > this.maxPoolSize)
+                {
+                    $scope.taskPool.stopWatch();
+                    this.svrDown = true;
+                }
+
+            }
+        };
+        //！！服务器出错标志，慎重使用！！
+        $scope.
         $scope.taskPool = {
             //正在执行的任务
             going:[],
@@ -69,7 +91,9 @@ angular.module('device.controllers', [])
                         if(this.going[idx].status > -1)
                         continue;
                         var timeFlag = false;
-                        switch(this.going.cmd)
+                        //更新时间
+                        this.going[idx].usedTime++;
+                        switch(this.going[idx].cmd)
                         {
                             case 'BRIDGE':
                                 if(0 == this.queryCnt % this.mdAmp)timeFlag = true;
@@ -94,15 +118,15 @@ angular.module('device.controllers', [])
                         }).success(function (data) {
                             if(data['errmsg'])
                             {
-
+                                $scope.svrErrPool.add(data);
                             }
                             else
                             {
                                 this.going[idx].status = data['status'];
 
                             }
-                        }).error(function (data) {
-                            console.log("系统初始化失败.");
+                        }).error(function () {
+                            $scope.svrErrPool.add();
                         });
                         this.checkProgress(idx);
                     }
@@ -192,7 +216,8 @@ angular.module('device.controllers', [])
             dstLevel:1,
             dstGroup:1,
             disk:1,
-            status:0
+            status:0,
+            usedTime:0
         };
 
         $scope.test = "1";
