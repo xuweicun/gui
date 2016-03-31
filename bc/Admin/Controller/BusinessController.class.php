@@ -41,7 +41,15 @@ class BusinessController extends Controller {
 	
 	}
 
+	/**
+	 * 获取正在进行的任务清单
+	 *
+	 */
+	public function getGoingTasks(){
+		$db = M('CmdLog');
+		$items = $db->where("status = -1")->select();
 
+	}
 	public function getTestResults()
 	{
 		$db = M('Test');
@@ -240,6 +248,14 @@ class BusinessController extends Controller {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
 		$db = M('CmdLog');
+		if($_POST['id'])
+		{
+			//日志更新
+			$log = $db->find($_POST['id']);
+			$log['msg'] = $_POST['msg'];
+			$db->save($log);
+			return;
+		}
 		$data['cmd'] = $_POST['cmd'];
 		$data['subcmd'] = $_POST['subcmd'];
 		$data['status'] = -1;//-1 represents that the commond is not finished yet.

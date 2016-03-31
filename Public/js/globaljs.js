@@ -22,6 +22,7 @@ angular.module('device.controllers', [])
         };
         //！！服务器出错标志，慎重使用！！
         $scope.taskPool = {
+            ready : false,
             //正在执行的任务
             going:[],
             //停止的任务
@@ -184,6 +185,24 @@ angular.module('device.controllers', [])
                 }
 
             },
+            init: function()
+            {
+                $http({
+                    url: '/index.php?m=admin&c=business&a=getGoingTasks',
+                    method: 'GET'
+                }).success(function (data) {
+                    data.forEach(function(e){
+                        if(e.msg) {
+                        var msg = JSON.parse(e.msg);
+                        var task = createCmd(msg);
+                        this.add(task);
+                        }
+                    });
+                    this.ready = true;
+                }).error(function () {
+                    $scope.svrErrPool.add();
+                });
+            },
             /*
             * success:成功处理
             * error:失败处理
@@ -195,6 +214,7 @@ angular.module('device.controllers', [])
                 {
                     return;
                 }
+                task.progress = 101;
                 $scope.md5Result(task);
             },
             error: function(idx){
@@ -202,69 +222,86 @@ angular.module('device.controllers', [])
             }
 
         };
-        $scope.errCodes = {};
-        $scope.cmd = {
-            id:1,
-            dstId:1,
-            cmd:'BRIDGE',
-            subcmd:'START',
-            going: -1,
-            timeout: -3,
-            level:1,
-            group:1,
-            disks:[
-                {id:1,sn:1},{id:2,sn:2}
-            ],
-            srcDisk:1,
-            srcLevel:1,
-            srcGroup:1,
-            dstDisk:1,
-            dstLevel:1,
-            dstGroup:1,
-            disk:1,
-            status:0,
-            usedTime:0,
-            progress:0,
-            maxTime: 300,
-            minTime: 120,
-            errMsg:'',
-            init: function()
+        $scope.errCodes = {
+            ready:false,
+            init:function()
             {
-                //根据命令名称判断
-                switch(this.cmd)
-                {
-                    case 'BRIDGE':
-                        if(this.subcmd == 'START') {
-                            this.usedTime = this.maxTime;
-                        }
-                        else{
-                          this.usedTime = this.minTime;
-                        }
-                        break;
-                    default:
-                        this.usedTime = this.minTime;
-                        break;
-                }
-            },
-            setStatus: function(status)
-            {
-                this.status = status;
-                if(status == 0 || status == -2)
-                {
-                    return;
-                }
-                ///如果出错
-                switch(status)
-                {
-                    case this.timeout:
-                        this.errMsg = "命令执行超时，请联系维护人员处理。";
-                        break;
-                    default:
-                        this.errMsg = $scope.errCodes[status.toString()];
-                }
-
+                $http({
+                    url: '/Public/js/errcode.json',
+                    method: 'GET'
+                }).success(function (data) {
+                    this.codes = data;
+                    this.ready = true;
+                }).error(function () {
+                    $scope.svrErrPool.add();
+                });
             }
         };
+        var createCmd = function(msg)
+        {
+            var newcmd = {
+                id:msg.CMD_ID,
+                cmd:msg.cmd,
+                subcmd:msg.subcmd,
+                going: -1,
+                timeout: -3,
+                level:msg.level,
+                group:msg.group,
+                disks:msg.disks,
+                srcDisk:msg.srcDisk,
+                srcLevel:msg.srcGroup,
+                srcGroup:msg.srcLevel,
+                dstDisk:msg.dstDisk,
+                dstLevel:msg.dstLevel,
+                dstGroup:msg.dstDisk,
+                disk:msg.disk,
+                status:this.going,
+                usedTime:0,
+                progress:0,
+                maxTime: 300,
+                minTime: 120,
+                errMsg:'',
+                init: function()
+                {
+                    //根据命令名称判断
+                    switch(this.cmd)
+                    {
+                        case 'BRIDGE':
+                            if(this.subcmd == 'START') {
+                                this.usedTime = this.maxTime;
+                            }
+                            else{
+                                this.usedTime = this.minTime;
+                            }
+                            break;
+                        default:
+                            this.usedTime = this.minTime;
+                            break;
+                    }
+                },
+                setStatus: function(status)
+                {
+                    this.status = status;
+                    if(status == 0 || status == -2)
+                    {
+                        return;
+                    }
+                    ///如果出错
+                    switch(status)
+                    {
+                        case this.timeout:
+                            this.errMsg = "命令执行超时，请联系维护人员处理。";
+                            break;
+                        default:
+                            this.errMsg = $scope.errCodes.codes[status.toString()];
+                    }
+
+                }
+            };
+
+            return newcmd;
+        }
+
 
         $scope.test = "1";
         $scope.bridgedLvl = 0;
@@ -302,6 +339,7 @@ angular.module('device.controllers', [])
 
         $scope.start = function () {
             $scope.updatetime = myDate.getTime();
+
             //初始化柜子
             //初始化命令池
 
@@ -620,30 +658,31 @@ angular.module('device.controllers', [])
             }, 1000);
         }
         $scope.sendcmd = function (msg) {
-            console.log('sending command.');
+
             //先发送消息告知服务器即将发送指令；
             $http.post(server, msg).
             success(function (data) {
                 if (data['errmsg']) {
-                    console.log(data['errmsg']);
-                    return -1;
+                    $scope.svrErrPool.add(data);
                 }
                 msg.CMD_ID = data['id'].toString();
+                var msgStr = JSON.stringify(msg);
+
                 //服务器收到通知后，联系APP，发送指令；
                 $http.post(proxy, msg).
                 success(function (data) {
-                    console.log(msg.CMD_ID);
+                    //命令池更新
+                    var newCmd = createCmd(msg);
+                    $scope.taskPool.add(newCmd);
                 }).
                 error(function (data) {
-                    console.log("app offline");
-                    return -1;
+                    $scope.svrErrPool.add();
                 });
+                //更新日志内容，将命令所涉及的插槽信息发送给日志
+                $http.post(server, {msg:msgStr,id:data['id']});
             }).
             error(function (data) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-                console.log("server error");
-                return false;
+                $scope.svrErrPool.add();
             });
 
         }
