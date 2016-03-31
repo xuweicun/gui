@@ -21,7 +21,6 @@ angular.module('device.controllers', [])
             }
         };
         //！！服务器出错标志，慎重使用！！
-        $scope.
         $scope.taskPool = {
             //正在执行的任务
             going:[],
@@ -88,11 +87,18 @@ angular.module('device.controllers', [])
                     }
                     for(var idx = 0;idx < this.going.length; idx++)
                     {
-                        if(this.going[idx].status > -1)
-                        continue;
+                        var task = this.going[idx];
+                        if(this.going[idx].status != $scope.cmd.going) {
+                            continue;
+                        }
                         var timeFlag = false;
                         //更新时间
-                        this.going[idx].usedTime++;
+
+                        if(--task.usedTime < 0)
+                        {
+                            task.status = task.timeout;
+                            continue;
+                        }
                         switch(this.going[idx].cmd)
                         {
                             case 'BRIDGE':
@@ -123,7 +129,6 @@ angular.module('device.controllers', [])
                             else
                             {
                                 this.going[idx].status = data['status'];
-
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
@@ -139,7 +144,6 @@ angular.module('device.controllers', [])
                         $interval.cancel(taskWatcher);
                         this.cleanCmdPool();
                     }
-
                 },this.unitTimer);
             },
             stopWatch: function(){
@@ -151,7 +155,7 @@ angular.module('device.controllers', [])
                 var pool = this.going;
                 for(var i = 0;i < this.going.length;i++)
                 {
-                    if(pool[i].status > -1)
+                    if(pool[i].status != $scope.cmd.going)
                     {
                         this.done.push(pool[i]);
                     }
@@ -198,12 +202,14 @@ angular.module('device.controllers', [])
             }
 
         };
-
-        var cmd = {
+        $scope.errCodes = {};
+        $scope.cmd = {
             id:1,
             dstId:1,
             cmd:'BRIDGE',
             subcmd:'START',
+            going: -1,
+            timeout: -3,
             level:1,
             group:1,
             disks:[
@@ -217,7 +223,47 @@ angular.module('device.controllers', [])
             dstGroup:1,
             disk:1,
             status:0,
-            usedTime:0
+            usedTime:0,
+            progress:0,
+            maxTime: 300,
+            minTime: 120,
+            errMsg:'',
+            init: function()
+            {
+                //根据命令名称判断
+                switch(this.cmd)
+                {
+                    case 'BRIDGE':
+                        if(this.subcmd == 'START') {
+                            this.usedTime = this.maxTime;
+                        }
+                        else{
+                          this.usedTime = this.minTime;
+                        }
+                        break;
+                    default:
+                        this.usedTime = this.minTime;
+                        break;
+                }
+            },
+            setStatus: function(status)
+            {
+                this.status = status;
+                if(status == 0 || status == -2)
+                {
+                    return;
+                }
+                ///如果出错
+                switch(status)
+                {
+                    case this.timeout:
+                        this.errMsg = "命令执行超时，请联系维护人员处理。";
+                        break;
+                    default:
+                        this.errMsg = $scope.errCodes[status.toString()];
+                }
+
+            }
         };
 
         $scope.test = "1";
@@ -256,6 +302,9 @@ angular.module('device.controllers', [])
 
         $scope.start = function () {
             $scope.updatetime = myDate.getTime();
+            //初始化柜子
+            //初始化命令池
+
             vm.striped = true;
             vm.cmd = null;
             vm.diskReady = false;//磁盘是否准备好操作；
