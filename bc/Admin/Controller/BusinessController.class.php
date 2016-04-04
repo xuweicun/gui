@@ -20,7 +20,7 @@ class BusinessController extends Controller {
 		
 		
 		//generate the page 
-		$this->display("index2");
+		$this->display();
 
 	}
 
@@ -48,7 +48,7 @@ class BusinessController extends Controller {
 	public function getGoingTasks(){
 		$db = M('CmdLog');
 		$items = $db->where("status = -1")->select();
-
+		$this->AjaxReturn($items);
 	}
 	public function getTestResults()
 	{
@@ -60,7 +60,8 @@ class BusinessController extends Controller {
 
 			echo "<br/>";
 		}
-	}	
+	}
+
 	public function waitTilDone($cmd,$maxTime)
 	{            
 		$exctTime = 0;        
@@ -154,10 +155,10 @@ class BusinessController extends Controller {
 	}
     public  function  getCmdResult()
     {
-        $cmd = I('get.cmd');
+        $id = I('get.cmdid');
         $db = M('CmdLog');
         $map['cmd'] = array('eq',$cmd);
-        $item = $db->where($map)->find();
+        $item = $db->find($id);
         if($item)
         {
             $this->AjaxReturn($item);
@@ -258,7 +259,7 @@ class BusinessController extends Controller {
 		}
 		$data['cmd'] = $_POST['cmd'];
 		$data['subcmd'] = $_POST['subcmd'];
-		$data['status'] = -1;//-1 represents that the commond is not finished yet.
+		$data['status'] = CMD_GOING;//-1 represents that the commond is not finished yet.
 		$id = $db->add($data);
 
 		if($id)

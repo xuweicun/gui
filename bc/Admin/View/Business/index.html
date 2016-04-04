@@ -1,174 +1,544 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
- 	<meta charset="UTF-8">
- 	<title>Document</title>
+<!DOCTYPE html>
+<html lang="en">
 
-     <script src="/Public/js/jquery-1.11.1.js"></script>
-     <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-     <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
-     <style type="text/css">
-     .disk_active {background-color:green;}
-     </style>
- </head>
- <body ng-app="device" ng-controller="DeviceStatus">
-        <h1>柜子共{{level}}层，每层{{group}}组，每组{{disk}}个盘位</h1>
-        <h2>总盘位：{{level * group * disk}}</h2>
-        <h3>在位：{{loaded}}</h3>
-        <a class="btn btn-block" href="#" ng-click="testapp()">测试代理</a>
-        <div>
-            <a href="/index.php/business/bridge">桥接</a>
+<head>
+
+    <!-- Basic -->
+    <meta charset="UTF-8"/>
+
+    <title>存储柜管理 | 中国国家图书馆</title>
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <!-- Import google fonts -->
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="/Public/assets/ico/favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="/Public/assets/ico/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/Public/assets/ico/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/Public/assets/ico/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/Public/assets/ico/apple-touch-icon-76x76.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/Public/assets/ico/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="/Public/assets/ico/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="/Public/assets/ico/apple-touch-icon-144x144.png"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="/Public/assets/ico/apple-touch-icon-152x152.png"/>
+
+    <!-- start: CSS file-->
+
+    <!-- Vendor CSS-->
+    <link href="/Public/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Public/assets/vendor/skycons/css/skycons.css" rel="stylesheet"/>
+    <link href="/Public/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/Public/assets/vendor/css/pace.preloader.css" rel="stylesheet"/>
+
+    <!-- Plugins CSS-->
+    <link href="/Public/assets/plugins/jquery-ui/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
+    <link href="/Public/assets/plugins/scrollbar/css/mCustomScrollbar.css" rel="stylesheet"/>
+    <link href="/Public/assets/plugins/bootkit/css/bootkit.css" rel="stylesheet"/>
+    <link href="/Public/assets/plugins/magnific-popup/css/magnific-popup.css" rel="stylesheet"/>
+    <link href="/Public/assets/plugins/fullcalendar/css/fullcalendar.css" rel="stylesheet"/>
+    <link href="/Public/assets/plugins/jqvmap/jqvmap.css" rel="stylesheet"/>
+
+    <!-- Theme CSS -->
+    <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet"/>
+
+    <!-- Page CSS -->
+    <link href="/Public/assets/css/style.css" rel="stylesheet"/>
+    <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet"/>
+
+    <!-- end: CSS file-->
+
+
+    <!-- Head Libs -->
+    <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <style>
+        li.selected a{
+            background-color:green;
+        }
+    </style>
+    <![endif]-->
+
+</head>
+
+
+<body ng-app="link_app">
+<div class="content container-fluid" ng-controller="link_ctrl">
+    <!-- Start: Content -->
+    <div class="container-fluid content">
+        <div class="row" ng-repeat="apple in apples">{{index}}</div>
+        <div class="row">
+            <div class="panel panel-default col-lg-9">
+                <div class="panel-heading">
+                    <i class="fa fa-building-o"></i>离线存储柜
+                </div>
+                <div class="panel-body">
+                    <div class="tabs tabs-vertical tabs-left ">
+                        <ul class="nav nav-tabs">
+                            <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
+                                <a data-toggle="tab" href="#pane-cab-level{{$index}}">
+                                    <i class="glyphicon glyphicon-align-justify"></i>
+                                    第{{$index+1}}层
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div ng-repeat="_lvl in cab.levels" ng-init="idx_lvl=$index" id="pane-cab-level{{$index}}"
+                                 class="tab-pane data-plugin-toggle bk-margin-off col-lg-12"
+                                 ng-class="{'true': 'active'}[$first]">
+                                <div ng-repeat="_grp in _lvl.groups" ng-init="idx_grp = $index" class="row">
+                                    <div ng-repeat="_dsk in _grp.disks" class="col-lg-3" ng-init="idx_dsk = $index">
+                                        <div class="btn btn-block btn-sm bk-margin-bottom-15"
+                                             ng-class="{
+													 'btn-success':_dsk.is_bridged(),
+													 'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
+													 'btn-default':!_dsk.is_loaded(),
+													 'btn-warning' : _dsk.get_cmd_name() != ''
+												 }"
+                                             ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
+                                            <div class="bk-vcenter" ng-class="{
+													   		true:'text-left',
+													   		false:'text-center'
+														}[_dsk.base_info.loaded]">
+                                                <i class="glyphicon bk-margin-left-5"
+                                                   ng-class="{
+													   		true:'glyphicon-hdd',
+													   		false:'glyphicon-ban-circle'
+														}[_dsk.base_info.loaded]"></i>
+                                                {{_dsk.get_title()}} {{!_dsk.is_loaded()?'(无盘)':_dsk.get_cmd_name()!=''?'('+_dsk.to_name_cn()+')':''}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default col-lg-3">
+                <div class="panel-heading">
+                    <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>插槽信息
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 panel bk-margin-10">
+                            <h4>当前硬盘：{{cab.curr.get_title()}}</h4>
+                        </div>
+                    </div>
+                    <div class="row panel bk-margin-10 bk-margin-bottom-20">
+                        <div class="row">
+                            <div class="col-lg-6 bk-margin-bottom-5">
+                                <p title="在位情况">
+                                    <i class="glyphicon"
+                                       ng-class="{
+												true:'glyphicon-hdd',
+												false:'glyphicon-ban-circle'
+											}[cab.curr.is_loaded()]"></i>
+                                    {{cab.curr.is_loaded()?'在位':'无盘'}}
+                                </p>
+                            </div>
+                            <div class="col-lg-6">
+                                <p title="桥接">
+                                    <i class="fa "
+                                       ng-class="{
+												true:'fa-link',
+												false:'fa-unlink'
+											}[cab.curr.is_bridged()]"></i>
+                                    {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p title="硬盘容量">
+                                    <i class="fa fa-tachometer"></i>
+                                    {{cab.curr.is_loaded()?cab.curr.get_capacity() : '-'}} GB
+                                </p>
+                            </div>
+                            <div class="col-lg-6">
+                                <p title="get_SN">
+                                    <i class="fa fa-list-ul"></i>
+                                    {{cab.curr.is_loaded()?cab.curr.get_SN() : '-'}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel bk-margin-10">
+                        <div class="row bk-margin-top-10">
+                            <div class="col-lg-12">
+                                <!-- Disk info -->
+                                <a href="#modalAnim{{cab.curr.parent.get_busy_disk() != null?'Busy':'InfoStart'}}"
+                                   class="btn btn-xs modal-with-move-anim"
+                                   ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
+                                   ng-disabled="!cab.curr.is_loaded()">
+                                    <i class="fa fa-info-circle"></i>
+                                    {{cab.curr.to_cmd_cn('DISKINFO')}}
+                                </a>
+                                <!-- Bridge -->
+                                <a href="#modalAnim{{cab.curr.is_bridged()?'BridgeStop':cab.curr.parent.get_busy_disk() != null?'Busy':'BridgeStart'}}"
+                                   class="btn btn-primary btn-xs modal-with-move-anim"
+                                   ng-class="{'btn-danger':cab.curr.is_bridged(), 'btn-warning':cab.curr.get_cmd_name() == 'BRIDGE'}"
+                                   ng-disabled="!cab.curr.is_loaded()">
+                                    <i class="fa" ng-class="{true:'fa-unlink', false:'fa-link'}[cab.curr.is_bridged()]"></i>
+                                    {{cab.curr.to_cmd_cn('BRIDGE')}}
+                                </a>
+
+                                <!-- MD5 -->
+                                <a href="#modalAnim{{cab.curr.get_cmd_name() == 'MD5'?'Stop':cab.curr.parent.get_busy_disk() != null?'Busy':'Md5Start'}}"
+                                   class="btn btn-xs modal-with-move-anim"
+                                   ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'MD5']"
+                                   ng-disabled="!cab.curr.is_loaded()">
+                                    <i class="fa fa-check-circle"></i>
+                                    {{cab.curr.to_cmd_cn('MD5')}}
+                                </a>
+
+                                <!-- Copy -->
+                                <a href="#modalAnim{{cab.curr.get_cmd_name() == 'COPY'?'Stop':(cab.curr.busy_disk != null || cab.curr.busy_disk_copy != null?'CopyBusy':'CopyStart')}}"
+                                   class="btn btn-xs modal-with-move-anim"
+                                   ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'COPY']"
+                                   ng-disabled="!cab.curr.is_loaded()">
+                                    <i class="fa fa-copy"></i>
+                                    {{cab.curr.to_cmd_cn('COPY')}}
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
- 	    <div ng-repeat="level in levels" style="width:90%; margin: auto; margin-bottom:5px;border:2px solid green;">
-          <div ng-repeat = "group in groups" style="width:100%;display:inline-block;">
-              <button ng-repeat = "disk in disks" style="width:15%;display:inline-block;" id="disk_{{level}}_{{group}}_{{disk}}">
-                  disk-{{level}}-{{group}}-{{disk}}
-              </button>
-          </div>
+    </div><!--/container-->
+    <div class="row">
+        <a href="" class="btn btn-block"></a>
+    </div>
+    <div id="modalAnimBusy" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令提醒</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p>
+                            硬盘（<span ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk.is_bridged()]">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.busy_disk.get_title()}}
+                                </span>）{{
+                            cab.curr.busy_disk.is_bridged()?'已经桥接，请停止该硬盘桥接状态...':
+                            '正在进行“'+ cab.curr.busy_disk.to_name_cn() + '”操作' +
+                            (cab.curr.busy_disk.get_cmd_name() == 'MD5' || cab.curr.busy_disk.get_cmd_name() == 'COPY'?'' +
+                            '（已完成'+cab.curr.busy_disk.cmd_info.progress+'%），请先停止该命令以继续。':
+                            '（剩余' + cab.curr.busy_disk.cmd_info.lefttime + '秒），请稍候。')
+                            }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-warning modal-dismiss">确定</button>
+                    </div>
+                </div>
+            </div>
         </div>
- 		<input ng-model="level">
- 		<span>{{level}}</span>
-        <a class="btn btn-large" ng-click="bridge('1','1')">查询硬盘状态</a>
+    </div>
+    <div id="modalAnimStop" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令提醒</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p>
+                            您确定停止硬盘（<span ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.is_bridged()]">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.get_title()}}
+                                </span>）当前执行的“{{cab.curr.to_name_cn()}}”命令（{{cab.curr.get_cmd_name()=='DISKINFO' || cab.curr.get_cmd_name()=='BRIDGE'?'剩余'+cab.curr.cmd_info.lefttime+'秒':'已完成'+cab.curr.cmd_info.progress+'%'}}）？
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_stop()">确认</button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalAnimInfoStart" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令确认</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p>
+                            您确定要提交对硬盘（<span class="bk-fg-primary">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.get_title()}}
+                                </span>）的“查询”命令吗？
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('DISKINFO')">确认</button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
- 	柜子状态获取中......
+    <div id="modalAnimBridgeStart" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <form class="chk-radios-form">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">硬盘命令提醒</h2>
+                </div>
+                <div class="panel-body bk-noradius">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">选择硬盘<span class="required">*</span></label>
+                        <div class="col-md-10">
+                            <div class="checkbox-custom" ng-repeat="_dsk in cab.curr.get_siblings()">
+                                <input id="selected-disk{{$index}}" type="checkbox" name="to_bridged_disks[]" ng-model="_dsk.isto_bridge" ng-disabled="!_dsk.is_loaded()" value="{{_dsk.get_title()}}" ng-model="_dsk.isto_bridge" required>
+                                <label for="selected-disk{{$index}}" ng-class="{'bk-fg-primary':_dsk.is_loaded() && !_dsk.is_bridged(), 'bk-fg-success': _dsk.is_bridged()}">
+                                    <i class="glyphicon bk-margin-left-5" ng-class="{true:'glyphicon-hdd', false:'glyphicon-ban-circle'}[_dsk.is_loaded()]"></i>
+                                    {{_dsk.get_title()}}{{_dsk === cab.curr?'(当前)':''}}
+                                </label>
+                            </div>
+                            <label class="error" for="to_bridged_disks[]"></label>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-primary" ng-click="cab.curr.cmd_start('BRIDGE')">确定</button>
+                            <button class="btn btn-default modal-dismiss">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modalAnimBridgeStop" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令提醒</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p>
+                            您确定对硬盘（<span class="bk-fg-success">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.get_title()}}
+                                </span>）提交“停止桥接”命令?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_stop()">确认</button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id="modalAnimMd5Start" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令确认</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p>
+                            您确定对硬盘（<span class="bk-fg-primary">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.get_title()}}
+                                </span>）
+                            提交“MD5”命令?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('MD5')">确认</button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <script>
-            $(function() {
-                //send disk_info orders
+    <div id="modalAnimCopyStart" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">存储柜 -- 复制命令确认</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-md-2">源硬盘</label>
+                        <div class="col-md-10" ng-if="cab.curr.g%2==0">
+                            <label class="bk-fg-primary bk-margin-off control-label">
+                                <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
+                                {{cab.curr.get_title()}}
+                                (当前)
+                            </label>
+                        </div>
+                        <div class="col-md-10 bk-margin-bottom-10" ng-if="cab.curr.g%2==1">
+                            <div class="radio-custom" ng-repeat="_disk in cab.curr.get_copy_disks()">
+                                <input type="radio" ng-model="cab.curr.copy_disk" name="srcDisks" ng-disabled="!_disk.is_loaded()" value="{{_disk.d}}">
+                                <label ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()), 'bk-fg-success':(_disk.is_bridged())}">
+                                    <i class="glyphicon bk-margin-left-5" ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>
+                                    {{_disk.get_title()}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-md-2">目的硬盘</label>
+                        <div class="col-md-10" ng-if="cab.curr.g%2==1">
+                            <label class="bk-fg-primary bk-margin-off control-label">
+                                <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
+                                {{cab.curr.get_title()}}
+                                （当前）
+                            </label>
+                        </div>
+                        <div class="col-md-10 bk-margin-top-10" ng-if="cab.curr.g%2==0">
+                            <div class="radio-custom" ng-repeat="_disk in cab.curr.parent.parent.groups[cab.curr.g+1].disks">
+                                <input type="radio" ng-model="cab.curr.copy_disk" name="dstDisks" ng-disabled="!_disk.is_loaded()" value="{{_disk.d}}">
+                                <label ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()),
+																			   'bk-fg-success':(_disk.is_bridged())}">
+                                    <i class="glyphicon bk-margin-left-5" ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>
+                                    {{_disk.get_title()}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('COPY')">确定</button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalAnimCopyBusy" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">硬盘命令提醒</h2>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-wrapper">
+                    <div class="modal-icon">
+                        <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="modal-text">
+                        <p ng-if="cab.curr.busy_disk != null">
+                            {{cab.curr.g%2==0?'源':'目的'}}硬盘组中硬盘（<span ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk.is_bridged()]">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.busy_disk.get_title()}}
+                                </span>）{{cab.curr.busy_disk.is_bridged()?'已经桥接，请停止该硬盘桥接状态...':'正在进行“'+ cab.curr.busy_disk.to_name_cn() + '”操作' +(cab.curr.busy_disk.get_cmd_name() == 'MD5' || cab.curr.busy_disk.get_cmd_name() == 'COPY'?'' +'（已完成'+cab.curr.busy_disk.cmd_info.progress+'%），请先停止该命令以继续。':'（剩余' + cab.curr.busy_disk.cmd_info.lefttime + '秒），请稍候。')}}
+                        </p>
+                        <p ng-if="cab.curr.busy_disk == null">
+                            {{cab.curr.g%2==0?'目的':'源'}}硬盘组中硬盘（<span ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk_copy.is_bridged()]">
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    {{cab.curr.busy_disk_copy.get_title()}}
+                                </span>）{{cab.curr.busy_disk_copy.is_bridged()?'已经桥接，请停止该硬盘桥接状态...':'正在进行“'+ cab.curr.busy_disk_copy.to_name_cn() + '”操作' +(cab.curr.busy_disk_copy.get_cmd_name() == 'MD5' || cab.curr.busy_disk_copy.get_cmd_name() == 'COPY'?'' +'（已完成'+cab.curr.busy_disk_copy.cmd_info.progress+'%），请先停止该命令以继续。':'（剩余' + cab.curr.busy_disk_copy.cmd_info.lefttime + '秒），请稍候。')}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-warning modal-dismiss">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                //check the device status
-            });
-        </script>
-        <script>
-            var app = angular.module('device', []);
-            app.controller('DeviceStatus', function($scope,$http,$timeout) {
-                $scope.level = 13;
-                $scope.loaded = 0;
-                var proxy = "http://222.35.224.230:8080";
-                $http({
-                    //url:'http://localhost:10086/index.php/business/getDeviceSize',
-                    url:'/Public/js/device.json',
-                    method:'GET'
-                }).success(function(data) {
-                    $scope.levels = data.levels;
-                    $scope.groups = data.groups;
-                    $scope.disks  = data.disks;
-                    $scope.level = data.level;
-                    $scope.group = data.group;
-                    $scope.disk = data.disk;
-                    $scope.queryProgress = data.querying;
-                    //$scope.chats = newItems;
-                });
-                $http.post('http://222.35.224.230/index.php?m=Admin&c=msg',{cmd:"WRITEPROTECT",status:'0',levels:"levels"}).success(function(data) {
-                   console.log(data);
-                    //$scope.chats = newItems;
-                });
-                
-                
-                $scope.testapp = function()
-                {
-                    $scope.devicestatus();
-                }
-                $scope.sendcmd = function(msg)
-                {
-                    console.log('sending command.');
-                    $http.post(proxy,msg).
-                            success(function(data) {
-                                // this callback will be called asynchronously
-                                // when the response is available
-                                return true;
-                            }).
-                            error(function(data) {
-                                // called asynchronously if an error occurs
-                                // or server returns response with an error status.
-                                console.log("no data sent");
-                                return false;
-                            });
-                }
-                var updateDeviceStatus = $timeout(function()
-                {
-                    $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
-                        
-                        method:'GET'
-                    }).success(function(data) {
-                        if(data['isLegal'] == 1)
-                        {
-                            $scope.devicestatus();
-                        
-                        }                 
-                    });
-                        
-                    
+<!-- start: JavaScript-->
 
-                    $http({
-                        url:'http://localhost:10086/index.php/business/getDeviceInfo',
+<!-- Vendor JS-->
+<script src="/Public/assets/vendor/js/jquery.min.js"></script>
+<script src="/Public/assets/vendor/js/jquery-2.1.1.min.js"></script>
+<script src="/Public/assets/vendor/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/Public/assets/vendor/skycons/js/skycons.js"></script>
+<script src="/Public/assets/vendor/js/pace.min.js"></script>
 
-                        method:'GET'
-                    }).success(function(data) {
-                        $scope.loaded = 0;
-                        data.forEach(function(e)
-                                {
-                                    var id = "#disk_"+ e.level + "_"+ e.group + "_"+ e.index;
-                                    $(id).addClass("disk_active");
-                                    $scope.loaded = $scope.loaded + 1;
-                                }
-                        );
+<!-- Plugins JS-->
+<script src="/Public/assets/plugins/jquery-ui/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/Public/assets/plugins/scrollbar/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/Public/assets/plugins/bootkit/js/bootkit.js"></script>
+<script src="/Public/assets/plugins/magnific-popup/js/magnific-popup.js"></script>
+<script src="/Public/assets/plugins/moment/js/moment.min.js"></script>
 
-                    });
-                },5000);
-                $scope.checkCollision = function()
-                {
-                    
-                    $http({
-                        url:'http://localhost:10086/index.php/business/checkCollision',
-                        
-                        method:'GET'
-                    }).success(function(data) {
-                        return data['isLegal'];                    
-                    });
-                }
-                $scope.devicestatus = function()
-                {
-                    var msg = {cmd:'DEVICESTATUS'};
-                    return $scope.sendcmd(msg);
-                }
+<script src="/Public/assets/plugins/select2/select2.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
+<!-- Theme JS -->
+<script src="/Public/assets/js/jquery.mmenu.min.js"></script>
+<script src="/Public/assets/js/core.min.js"></script>
 
-                $scope.writeprotect = function(level)
-                {
-                    var msg = {cmd:"WRITEPROTECT",subcmd:'START',level:level};
-                    $scope.sendcmd(msg);
-                }
-                $scope.bridge = function(level,group)
-                {
-                    var msg = {cmd:'BRIDGE',subcmd:'START',level:level,group:group,disks:[
-                    {id:"1",SN:'0123'}]};
-                    $scope.sendcmd(msg);
-                }
-                $scope.md5 = function(level,group,disk)
-                {
-                    var msg = {cmd:'MD5',subcmd:'START',level:level,group:group,disk:disk};
-                    $scope.sendcmd(msg);
-                }
-                $scope.copy = function(srcLvl,srcGrp,srcDisk,dstLvl,dstGrp,dstDisk)
-                {
-                    var msg = {cmd:'COPY',subcmd:'START',srcLevel:srcLvl,srcGroup:srcGrp,srcDisk:srcDisk,dstLevel:dstLvl,dstGroup:dstGrp,dstDisk:dstDisk};
-                    $scope.sendcmd(msg);
-                }
-                $scope.diskinfo = function(level,group,disk)
-                {
-                    var msg = {cmd:'DISKINFO',level:level,group:group,disk:disk};
-                    $scope.sendcmd(msg);
-                }
-                $scope.power = function(level)
-                {
-                    var msg = {cmd:'POWER',subcmd:'START',levels:[level]};
-                    $scope.sendcmd(msg);
-                }
-            });
+<!-- Pages JS -->
+<script src="/Public/assets/js/pages/index.js"></script>
+<script src="/Public/assets/js/pages/ui-modals.js"></script>
+<script>
+    var app = angular.module('device', ['device.controllers']);
+</script>
+<script src="/Public/js/link.js"></script>
+<!-- end: JavaScript-->
 
-        </script>
- </body>
- </html>
+</body>
+
+</html>

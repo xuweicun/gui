@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 
 class MsgController extends Controller {
+
 	public function index(){
 	   //get the json data into the：： _post array
 	   $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -32,8 +33,145 @@ class MsgController extends Controller {
            case 'BRIDGE':
                $this->bridgeMsgHandle();
            break;
+           case 'MD5':
+               $this->md5MsgHandle();
+               break;
+           case 'COPY':
+               $this->copyMsgHandle();
+               break;
+
 	   }  	   
 	}
+    private function  md5MsgHandle()
+    {
+        $subcmd = $_POST['subcmd'];
+        $id = $_POST['CMD_ID'];
+        $status = $_POST['status'];
+        $db = M('CmdLog');
+        switch($subcmd)
+        {
+            case 'STOP':
+                //处理停止消息
+                if($status == CMD_SUCCESS)
+                {
+                    //将对应命令设为已取消
+                    $item = $db->find($id);
+                    if($item['status'] == CMD_GOING)
+                    {
+                        $item['status'] = CMD_CANCELED;
+                        $db->save($item);
+                    }
+
+                }
+
+                $item = $db->where('target_id=%d',$id)->find();
+                $item['status'] = $status;
+                $db->save($item);
+                break;
+            case 'PROGRESS':
+                //更新进度
+                if($status == CMD_SUCCESS)
+                {
+                    //将对应命令设为已取消
+                    $item = $db->find($id);
+                    if($item['status'] == CMD_GOING)
+                    {
+                        $item['progress'] = $_POST['progress'];
+                        $db->save($item);
+                    }
+                }
+                else
+                {
+                    $this->handleError();
+                }
+                break;
+            case 'RESULT':
+                if($status == CMD_SUCCESS)
+                {
+                    //将对应命令设为已取消
+                    $this->updateDiskMd5();
+                }
+                else{
+                    $this->handleError();
+                }
+            default:
+                $item = $db->find($id);
+                $item['status'] = $status;
+                $db->save($item);
+                break;
+        }
+    }
+    private  function copyMsgHandle()
+    {
+        $subcmd = $_POST['subcmd'];
+        $id = $_POST['CMD_ID'];
+        $status = $_POST['status'];
+        $db = M('CmdLog');
+        switch($subcmd)
+        {
+            case 'STOP':
+                //处理停止消息
+                if($status == CMD_SUCCESS)
+                {
+                    //将对应命令设为已取消
+                    $item = $db->find($id);
+                    if($item['status'] == CMD_GOING)
+                    {
+                        $item['status'] = CMD_CANCELED;
+                        $db->save($item);
+                    }
+
+                }
+
+                $item = $db->where('target_id=%d',$id)->find();
+                $item['status'] = $status;
+                $db->save($item);
+                break;
+            case 'PROGRESS':
+                //更新进度
+                if($status == CMD_SUCCESS)
+                {
+                    //将对应命令设为已取消
+                    $item = $db->find($id);
+                    if($item['status'] == CMD_GOING)
+                    {
+                        $item['progress'] = $_POST['progress'];
+                        $db->save($item);
+                    }
+                }
+                else
+                {
+                    $this->handleError();
+                }
+                break;
+            default:
+                $item = $db->find($id);
+                $item['status'] = $status;
+                $db->save($item);
+        }
+    }
+    private function updateDiskMd5()
+    {
+        $level = $_POST['level'];
+        $group = $_POST['group'];
+        $disk  = $_POST['disk'];
+        $map = "level=$level and zu=$group and disk=$disk";
+        $db = M('Device');
+        $diskDb = M('Disk');
+        $item = $db->where($map)->find();
+        $data['md5'] = $_POST['result'];
+        $data['time']  = time();
+        if(!$item['disk_id']||is_null($item['disk_id']))
+        {
+            $item['disk_id'] = $diskDb->add($data);
+            $db->save($item);
+        }
+        else
+        {
+            $data['id'] = $item['disk_id'];
+            $diskDb->save($data);
+        }
+    }
     public function bridgeMsgHandle()
     {    
         $level = (int)$_POST['level'];
