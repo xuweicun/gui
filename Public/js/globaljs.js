@@ -707,20 +707,15 @@ angular.module('device.controllers', [])
 
         $('.modal-with-move-anim').magnificPopup({
             type: 'inline',
-
             fixedContentPos: false,
             fixedBgPos: true,
-
             overflowY: 'auto',
-
             closeBtnInside: true,
             preloader: false,
-
             midClick: true,
             removalDelay: 300,
             mainClass: 'my-mfp-slide-bottom',
             modal: true,
-
             callbacks:{
                 beforeOpen:function(){
                     $scope.cab.curr.copy_disk = null;
