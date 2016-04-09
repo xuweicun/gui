@@ -48,6 +48,10 @@ class BusinessController extends Controller {
 	public function getGoingTasks(){
 		$db = M('CmdLog');
 		$items = $db->where("status = -1")->select();
+		foreach($items as $index=>$item)
+		{
+			$items[$index]['msg'] = stripslashes($item['msg']);
+		}
 		$this->AjaxReturn($items);
 	}
 	public function getTestResults()
@@ -258,8 +262,9 @@ class BusinessController extends Controller {
 			return;
 		}
 		$data['cmd'] = $_POST['cmd'];
-		$data['subcmd'] = $_POST['subcmd'];
-		$data['status'] = CMD_GOING;//-1 represents that the commond is not finished yet.
+		$data['sub_cmd'] = $_POST['subcmd'];
+		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
+		$data['start_time'] =  time();
 		$id = $db->add($data);
 
 		if($id)

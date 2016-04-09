@@ -52,7 +52,7 @@
 
     <!-- Head Libs -->
     <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
-    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="/Public/js/angular-1.4.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -571,9 +571,10 @@
                             <tbody>
                             <tr class="gradeA odd" role="row" ng-repeat="task in taskPool.going" ng-class-odd="odd" ng-class-even="even">
                                 <td class="sorting_1" ng-bind="task.cmd"></td>
-                                <td ng-bind="task.subcmd"> </td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td class="center hidden-phone">1.7</td>
+                                <td ng-bind="task.sub_cmd"> </td>
+                                <td ng-bind="task.start_time"> </td>
+                                <td ng-bind="task.usedTime">Win 98+ / OSX.2+</td>
+                                <td class="center hidden-phone">层：<span ng-bind="task.level"></span><br/>组：<span ng-bind="task.group"></span></td>
                                 <td class="center hidden-phone">A</td>
                             </tr>
 

@@ -14,7 +14,6 @@ angular.module('device.controllers', [])
                     $scope.taskPool.stopWatch();
                     this.svrDown = true;
                 }
-
             }
         };
         //！！服务器出错标志，慎重使用！！
@@ -37,13 +36,13 @@ angular.module('device.controllers', [])
             stopFlag: false,
             maxPoolSize: 50,
             add: function (task) {
-                this.going.forEach(e)
-                {
+                this.going.forEach(function(e){
                     if (e.id == task.id) {
                         //判断是否是新命令，如果不是新命令，不执行任何操作
                         return;
                     }
-                }
+                });
+
                 this.going.push(task);
             },
             updateQueryCnt: function () {
@@ -72,14 +71,14 @@ angular.module('device.controllers', [])
                 }
             },
             startWatch: function () {
-
+                var pool = this;
                 var taskWatcher = $interval(function () {
                     if (this.stopFlag == true) {
                         $interval.cancel(taskWatcher);
                     }
-                    for (var idx = 0; idx < this.going.length; idx++) {
-                        var task = this.going[idx];
-                        if (this.going[idx].status != $scope.cmd.going) {
+                    for (var idx = 0; idx < pool.going.length; idx++) {
+                        var task = pool.going[idx];
+                        if (pool.going[idx].status != $scope.cmd.going) {
                             continue;
                         }
                         var timeFlag = false;
@@ -89,45 +88,45 @@ angular.module('device.controllers', [])
                             task.status = task.timeout;
                             continue;
                         }
-                        switch (this.going[idx].cmd) {
+                        switch (pool.going[idx].cmd) {
                             case 'BRIDGE':
-                                if (0 == this.queryCnt % this.mdAmp)timeFlag = true;
+                                if (0 == pool.queryCnt % pool.mdAmp)timeFlag = true;
                                 break;
                             case 'MD5':
-                                if (0 == this.queryCnt % this.lgAmp)timeFlag = true;
+                                if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
                                 break;
                             case 'COPY':
-                                if (0 == this.queryCnt % this.lgAmp)timeFlag = true;
+                                if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
                                 break;
                             default:
-                                if (0 == this.queryCnt % this.smAmp)timeFlag = true;
+                                if (0 == pool.queryCnt % pool.smAmp)timeFlag = true;
                                 break;
                         }
                         if (timeFlag != true) {
                             continue;
                         }
                         $http({
-                            url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + this.going[idx].id,
+                            url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + pool.going[idx].id,
                             method: 'GET'
                         }).success(function (data) {
                             if (data['errmsg']) {
                                 $scope.svrErrPool.add(data);
                             }
                             else {
-                                this.going[idx].status = data['status'];
+                                pool.going[idx].status = data['status'];
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
                         });
-                        this.checkProgress(idx);
+                        pool.checkProgress(idx);
                     }
-                    this.updateQueryCnt();
+                    pool.updateQueryCnt();
                     //检查命令池大小
 
-                    if (this.going.length > this.maxPoolSize) {
+                    if (pool.going.length > pool.maxPoolSize) {
                         //更新命令池
                         $interval.cancel(taskWatcher);
-                        this.cleanCmdPool();
+                        pool.cleanCmdPool();
                     }
                 }, this.unitTimer);
             },
@@ -164,21 +163,24 @@ angular.module('device.controllers', [])
                 $scope.cmd.update(task.id, 'PROGRESS');
             },
             init: function () {
+                var pool = this;
                 $http({
                     url: '/index.php?m=admin&c=business&a=getGoingTasks',
                     method: 'GET'
                 }).success(function (data) {
                     var time = new Date();
                     data.forEach(function (e) {
-                        if (e.msg) {
+                        if (e.msg != '' && e.cmd !='MD5') {
+
                             var msg = JSON.parse(e.msg);
+                            console.log(e['start_time']);
                             var task = $scope.cmd.createCmd(msg);
-                            task.usedTime = parseInt(task.usedTime - (time.getTime() / 1000 - msg.start_time));
-                            this.add(task);
+                            task.usedTime = parseInt(task.usedTime - (time.getTime() / 1000 - parseInt(e.start_time)));
+                            pool.add(task);
                         }
                     });
-                    this.ready = true;
-                    this.startWatch();
+                    pool.ready = true;
+                    pool.startWatch();
                 }).error(function () {
                     $scope.svrErrPool.add();
                 });
@@ -204,12 +206,13 @@ angular.module('device.controllers', [])
         $scope.errCodes = {
             ready: false,
             init: function () {
+                var that = this;
                 $http({
                     url: '/Public/js/errcode.json',
                     method: 'GET'
                 }).success(function (data) {
-                    this.codes = data;
-                    this.ready = true;
+                    that.codes = data;
+                    that.ready = true;
                 }).error(function () {
                     $scope.svrErrPool.add();
                 });
@@ -869,7 +872,7 @@ angular.module('device.controllers', [])
           //  $scope.updatetime = myDate.getTime();
             $scope.errCodes.init();
           //  $scope.cab.init($scope.levelCnt, $scope.groupCnt, $scope.diskCnt);
-
+            $scope.cab.ready = true;
             //等待柜子初始化完成后，开始监控程序；
             var waitCab = $interval(function () {
                 if ($scope.cab.ready) {

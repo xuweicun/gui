@@ -1,769 +1,402 @@
--- phpMyAdmin SQL Dump
--- version 4.4.7
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: 2016-03-19 16:14:08
--- 服务器版本： 5.5.42-log
--- PHP Version: 5.4.41
+/*
+Navicat MySQL Data Transfer
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+Source Server         : mysql
+Source Server Version : 50520
+Source Host           : localhost:3306
+Source Database       : gui
 
+Target Server Type    : MYSQL
+Target Server Version : 50520
+File Encoding         : 65001
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+Date: 2016-04-09 19:11:09
+*/
 
---
--- Database: `gui`
---
+SET FOREIGN_KEY_CHECKS=0;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `gui_admin`
---
-
-CREATE TABLE IF NOT EXISTS `gui_admin` (
-  `adminid` smallint(6) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_admin`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_admin`;
+CREATE TABLE `gui_admin` (
+  `adminid` smallint(6) NOT NULL AUTO_INCREMENT,
   `adminname` varchar(50) COLLATE gbk_bin NOT NULL,
-  `password` varchar(100) COLLATE gbk_bin NOT NULL
+  `password` varchar(100) COLLATE gbk_bin NOT NULL,
+  PRIMARY KEY (`adminid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk COLLATE=gbk_bin;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of gui_admin
+-- ----------------------------
 
---
--- 表的结构 `gui_chg_log`
---
-
-CREATE TABLE IF NOT EXISTS `gui_chg_log` (
-  `id` int(10) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_chg_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_chg_log`;
+CREATE TABLE `gui_chg_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `obj_id` int(5) NOT NULL,
   `value` varchar(300) NOT NULL COMMENT 'md5 or sn',
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `handled` int(1) NOT NULL,
   `comment` varchar(3000) DEFAULT NULL,
-  `type` int(2) NOT NULL
+  `type` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='异常记录';
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of gui_chg_log
+-- ----------------------------
 
---
--- 表的结构 `gui_cmd_log`
---
-
-CREATE TABLE IF NOT EXISTS `gui_cmd_log` (
-  `id` int(11) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_cmd_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_cmd_log`;
+CREATE TABLE `gui_cmd_log` (
+  `msg` varchar(500) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `cmd` varchar(20) NOT NULL,
-  `sub_cmd` varchar(10) NOT NULL,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(2) DEFAULT NULL,
-  `progress` int(4) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+  `sub_cmd` varchar(10) DEFAULT NULL,
+  `start_time` varchar(100) DEFAULT NULL,
+  `return_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `status` int(2) NOT NULL,
+  `progress` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `gui_cmd_log`
---
+-- ----------------------------
+-- Records of gui_cmd_log
+-- ----------------------------
+INSERT INTO `gui_cmd_log` VALUES (null, '1', null, 'DEVICESTATUS', null, '2016-03-11 15:23:19', '0000-00-00 00:00:00', '-1', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '2', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '3', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '4', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '5', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '6', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '7', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '8', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '9', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '10', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '11', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '12', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '13', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '14', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '15', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '16', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '17', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '18', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '19', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '20', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '21', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '22', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '23', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '24', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '25', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '26', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '27', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '28', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '29', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '30', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '31', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '32', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '33', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '34', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '35', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '36', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '37', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '38', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '39', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '40', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '41', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '42', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '43', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '44', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '45', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '46', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '47', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '48', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '49', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '50', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '51', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '52', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '53', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '54', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '55', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '56', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '57', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '58', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '59', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '60', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '61', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '62', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '63', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '64', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '65', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '66', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '67', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '68', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '69', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '70', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '71', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '72', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '73', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '74', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '75', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '76', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '77', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '78', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '79', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '80', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '81', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '82', null, '', null, '2016-03-15 15:14:43', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '83', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '84', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '85', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '86', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '87', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '88', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '89', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '90', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '91', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '92', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '93', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '94', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '95', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '96', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '97', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '98', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '99', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '100', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES (null, '101', null, '', null, '2016-03-15 15:14:44', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES ('{\"cmd\":\"DEVICESTATUS\",\"CMD_ID\":\"102\"}', '102', null, 'DEVICESTATUS', null, '2016-04-09 16:39:55', '0000-00-00 00:00:00', '0', null);
+INSERT INTO `gui_cmd_log` VALUES ('{\"cmd\":\"DEVICESTATUS\",\"CMD_ID\":\"103\"}', '103', null, 'DEVICESTATUS', null, '1460199078', '0000-00-00 00:00:00', '-1', null);
 
-INSERT INTO `gui_cmd_log` (`id`, `user_id`, `cmd`, `sub_cmd`, `start_time`, `status`, `progress`) VALUES
-(1, 0, 'DEVICESTATUS', '', '2016-03-17 10:36:39', 1, 0),
-(2, 0, 'DEVICESTATUS', '', '2016-03-17 10:39:07', 1, 0),
-(3, 0, 'DEVICESTATUS', '', '2016-03-17 10:40:05', 1, 0),
-(4, 0, 'DEVICESTATUS', '', '2016-03-17 10:41:01', 1, 0),
-(5, 0, 'DEVICESTATUS', '', '2016-03-17 10:46:50', 1, 0),
-(6, 0, 'DEVICESTATUS', '', '2016-03-17 10:48:25', 1, 0),
-(7, 0, 'DEVICESTATUS', '', '2016-03-17 10:49:01', 1, 0),
-(8, 0, 'DEVICESTATUS', '', '2016-03-17 10:51:06', 1, 0),
-(9, 0, 'DEVICESTATUS', '', '2016-03-17 11:02:36', 1, 0),
-(10, 0, 'DEVICESTATUS', '', '2016-03-17 11:03:59', 1, 0),
-(11, 0, 'DEVICESTATUS', '', '2016-03-17 11:05:51', 1, 0),
-(12, 0, 'DEVICESTATUS', '', '2016-03-17 11:54:16', 1, 0),
-(13, 0, 'DEVICESTATUS', '', '2016-03-17 11:56:09', 1, 0),
-(14, 0, 'DEVICESTATUS', '', '2016-03-17 12:21:35', 1, 0),
-(15, 0, 'DEVICESTATUS', '', '2016-03-17 12:34:21', 1, 0),
-(16, 0, 'DEVICESTATUS', '', '2016-03-17 12:55:23', 1, 0),
-(17, 0, 'DEVICESTATUS', '', '2016-03-17 12:58:29', 1, 0),
-(18, 0, 'DEVICESTATUS', '', '2016-03-17 13:01:05', 1, 0),
-(19, 0, 'DEVICESTATUS', '', '2016-03-17 13:10:04', 1, 0),
-(20, 0, 'DEVICESTATUS', '', '2016-03-17 14:52:49', 1, 0),
-(21, 0, 'DEVICESTATUS', '', '2016-03-17 15:27:37', 1, 0),
-(22, 0, 'DEVICESTATUS', '', '2016-03-17 15:31:36', 1, 0),
-(23, 0, 'DEVICESTATUS', '', '2016-03-17 15:32:39', 1, 0),
-(24, 0, 'DEVICESTATUS', '', '2016-03-18 06:17:10', 1, 0),
-(25, 0, 'DEVICESTATUS', '', '2016-03-18 06:44:39', 1, 0),
-(26, 0, 'DEVICESTATUS', '', '2016-03-18 07:11:05', 1, 0),
-(27, 0, 'DEVICESTATUS', '', '2016-03-18 07:14:42', 1, 0),
-(28, 0, 'DEVICESTATUS', '', '2016-03-18 07:39:10', 1, 0),
-(29, 0, 'DEVICESTATUS', '', '2016-03-18 07:40:29', 1, 0),
-(30, 0, 'DEVICESTATUS', '', '2016-03-18 07:53:25', 1, 0),
-(31, 0, 'DEVICESTATUS', '', '2016-03-18 11:09:17', 1, 0),
-(32, 0, 'DEVICESTATUS', '', '2016-03-18 11:14:53', 1, 0),
-(33, 0, 'DEVICESTATUS', '', '2016-03-18 11:15:37', 1, 0),
-(34, 0, 'DEVICESTATUS', '', '2016-03-18 11:45:18', 1, 0),
-(35, 0, 'DEVICESTATUS', '', '2016-03-18 11:47:20', 1, 0),
-(36, 0, 'DEVICESTATUS', '', '2016-03-18 11:48:46', 1, 0),
-(37, 0, 'DEVICESTATUS', '', '2016-03-18 12:51:11', 1, 0),
-(38, 0, 'DEVICESTATUS', '', '2016-03-18 12:51:48', 1, 0),
-(39, 0, 'DEVICESTATUS', '', '2016-03-18 13:07:41', 1, 0),
-(40, 0, 'DEVICESTATUS', '', '2016-03-18 13:24:59', 1, 0),
-(41, 0, 'DEVICESTATUS', '', '2016-03-18 13:26:32', 1, 0),
-(42, 0, 'DEVICESTATUS', '', '2016-03-18 13:27:10', 1, 0),
-(43, 0, 'DEVICESTATUS', '', '2016-03-18 13:35:00', 1, 0),
-(44, 0, 'DEVICESTATUS', '', '2016-03-18 13:36:04', 1, 0),
-(45, 0, 'DEVICESTATUS', '', '2016-03-18 13:44:48', 1, 0),
-(46, 0, 'DEVICESTATUS', '', '2016-03-18 14:24:23', 1, 0),
-(47, 0, 'DEVICESTATUS', '', '2016-03-18 14:25:30', 1, 0),
-(48, 0, 'DEVICESTATUS', '', '2016-03-19 06:19:09', 1, 0),
-(49, 0, 'DISKINFO', '', '2016-03-19 06:19:29', -1, 0),
-(50, 0, 'DISKINFO', '', '2016-03-19 06:23:07', -1, 0),
-(51, 0, 'DISKINFO', '', '2016-03-19 06:23:22', -1, 0),
-(52, 0, 'DEVICESTATUS', '', '2016-03-19 06:28:54', 1, 0),
-(53, 0, 'DISKINFO', '', '2016-03-19 06:29:25', -1, 0),
-(54, 0, 'DISKINFO', '', '2016-03-19 06:30:38', -1, 0),
-(55, 0, 'DISKINFO', '', '2016-03-19 06:41:08', -1, 0),
-(56, 0, 'DEVICESTATUS', '', '2016-03-19 06:42:01', 1, 0),
-(57, 0, 'DISKINFO', '', '2016-03-19 06:51:16', -1, 0),
-(58, 0, 'DISKINFO', '', '2016-03-19 06:52:28', -1, 0),
-(59, 0, 'DISKINFO', '', '2016-03-19 07:01:23', -1, 0),
-(60, 0, 'DEVICESTATUS', '', '2016-03-19 07:01:23', 1, 0),
-(61, 0, 'DISKINFO', '', '2016-03-19 07:34:35', -1, 0),
-(62, 0, 'DISKINFO', '', '2016-03-19 07:35:12', -1, 0);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `gui_device`
---
-
-CREATE TABLE IF NOT EXISTS `gui_device` (
-  `id` int(5) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_device`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_device`;
+CREATE TABLE `gui_device` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `level` smallint(2) NOT NULL,
-  `zu` smallint(2) NOT NULL,
-  `disk` smallint(2) NOT NULL,
+  `group` smallint(2) NOT NULL,
+  `index` smallint(2) NOT NULL,
   `disk_id` int(10) DEFAULT NULL,
-  `loaded` tinyint(1) DEFAULT '1',
-  `bridged` tinyint(1) DEFAULT '0',
+  `loaded` tinyint(1) NOT NULL,
+  `bridged` tinyint(1) NOT NULL,
   `status` tinyint(1) DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `time` varchar(30) DEFAULT NULL COMMENT 'string time'
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
 
---
--- 转存表中的数据 `gui_device`
---
+-- ----------------------------
+-- Records of gui_device
+-- ----------------------------
+INSERT INTO `gui_device` VALUES ('1', '1', '1', '1', null, '0', '0', '0');
+INSERT INTO `gui_device` VALUES ('2', '1', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('3', '1', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('4', '1', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('5', '1', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('6', '1', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('7', '1', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('8', '1', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('9', '1', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('10', '1', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('11', '1', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('12', '1', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('13', '1', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('14', '1', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('15', '1', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('16', '1', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('17', '1', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('18', '1', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('19', '1', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('20', '1', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('21', '1', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('22', '1', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('23', '1', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('24', '1', '6', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('25', '2', '1', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('26', '2', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('27', '2', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('28', '2', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('29', '2', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('30', '2', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('31', '2', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('32', '2', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('33', '2', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('34', '2', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('35', '2', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('36', '2', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('37', '2', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('38', '2', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('39', '2', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('40', '2', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('41', '2', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('42', '2', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('43', '2', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('44', '2', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('45', '2', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('46', '2', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('47', '2', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('48', '2', '6', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('49', '3', '1', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('50', '3', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('51', '3', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('52', '3', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('53', '3', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('54', '3', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('55', '3', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('56', '3', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('57', '3', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('58', '3', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('59', '3', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('60', '3', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('61', '3', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('62', '3', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('63', '3', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('64', '3', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('65', '3', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('66', '3', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('67', '3', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('68', '3', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('69', '3', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('70', '3', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('71', '3', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('72', '3', '6', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('73', '4', '1', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('74', '4', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('75', '4', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('76', '4', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('77', '4', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('78', '4', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('79', '4', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('80', '4', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('81', '4', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('82', '4', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('83', '4', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('84', '4', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('85', '4', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('86', '4', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('87', '4', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('88', '4', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('89', '4', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('90', '4', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('91', '4', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('92', '4', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('93', '4', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('94', '4', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('95', '4', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('96', '4', '6', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('97', '5', '1', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('98', '5', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('99', '5', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('100', '5', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('101', '5', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('102', '5', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('103', '5', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('104', '5', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('105', '5', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('106', '5', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('107', '5', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('108', '5', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('109', '5', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('110', '5', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('111', '5', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('112', '5', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('113', '5', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('114', '5', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('115', '5', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('116', '5', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('117', '5', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('118', '5', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('119', '5', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('120', '5', '6', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('121', '6', '1', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('122', '6', '1', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('123', '6', '1', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('124', '6', '1', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('125', '6', '2', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('126', '6', '2', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('127', '6', '2', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('128', '6', '2', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('129', '6', '3', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('130', '6', '3', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('131', '6', '3', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('132', '6', '3', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('133', '6', '4', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('134', '6', '4', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('135', '6', '4', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('136', '6', '4', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('137', '6', '5', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('138', '6', '5', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('139', '6', '5', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('140', '6', '5', '4', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('141', '6', '6', '1', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('142', '6', '6', '2', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('143', '6', '6', '3', null, '1', '0', '0');
+INSERT INTO `gui_device` VALUES ('144', '6', '6', '4', null, '1', '0', '0');
 
-INSERT INTO `gui_device` (`id`, `level`, `zu`, `disk`, `disk_id`, `loaded`, `bridged`, `status`, `modify_time`, `time`) VALUES
-(2, 1, 1, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(3, 1, 1, 2, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(4, 1, 1, 3, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(5, 1, 1, 4, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(6, 1, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(7, 1, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(8, 1, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(9, 1, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(10, 1, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(11, 1, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(12, 1, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(13, 1, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(14, 1, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(15, 1, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(16, 1, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(17, 1, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(18, 1, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(19, 1, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(20, 1, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(21, 1, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(22, 1, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(23, 1, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(24, 1, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(25, 1, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(26, 2, 1, 1, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(27, 2, 1, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(28, 2, 1, 3, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(29, 2, 1, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(30, 2, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(31, 2, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(32, 2, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(33, 2, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(34, 2, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(35, 2, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(36, 2, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(37, 2, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(38, 2, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(39, 2, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(40, 2, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(41, 2, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(42, 2, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(43, 2, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(44, 2, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(45, 2, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(46, 2, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(47, 2, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(48, 2, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(49, 2, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(50, 3, 1, 1, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370922'),
-(51, 3, 1, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(52, 3, 1, 3, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370923'),
-(53, 3, 1, 4, NULL, 1, 0, 0, '0000-00-00 00:00:00', '1458370923'),
-(54, 3, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(55, 3, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(56, 3, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(57, 3, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(58, 3, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(59, 3, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(60, 3, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(61, 3, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(62, 3, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(63, 3, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(64, 3, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(65, 3, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(66, 3, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(67, 3, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(68, 3, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(69, 3, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(70, 3, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(71, 3, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(72, 3, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(73, 3, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(74, 4, 1, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(75, 4, 1, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(76, 4, 1, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(77, 4, 1, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(78, 4, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(79, 4, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(80, 4, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(81, 4, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(82, 4, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(83, 4, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(84, 4, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(85, 4, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(86, 4, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(87, 4, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(88, 4, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(89, 4, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(90, 4, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(91, 4, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(92, 4, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(93, 4, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(94, 4, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(95, 4, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(96, 4, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(97, 4, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(98, 5, 1, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(99, 5, 1, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(100, 5, 1, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(101, 5, 1, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(102, 5, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(103, 5, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(104, 5, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(105, 5, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(106, 5, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(107, 5, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(108, 5, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(109, 5, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(110, 5, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(111, 5, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(112, 5, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(113, 5, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(114, 5, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(115, 5, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(116, 5, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(117, 5, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(118, 5, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(119, 5, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(120, 5, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(121, 5, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(122, 6, 1, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(123, 6, 1, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(124, 6, 1, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(125, 6, 1, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(126, 6, 2, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(127, 6, 2, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(128, 6, 2, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(129, 6, 2, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(130, 6, 3, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(131, 6, 3, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(132, 6, 3, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(133, 6, 3, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(134, 6, 4, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(135, 6, 4, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(136, 6, 4, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(137, 6, 4, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(138, 6, 5, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(139, 6, 5, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(140, 6, 5, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(141, 6, 5, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(142, 6, 6, 1, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(143, 6, 6, 2, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(144, 6, 6, 3, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL),
-(145, 6, 6, 4, NULL, 0, 0, 0, '2016-03-18 07:53:01', NULL);
+-- ----------------------------
+-- Table structure for `gui_disk`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_disk`;
+CREATE TABLE `gui_disk` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `sn` int(20) NOT NULL,
+  `md5` varchar(500) NOT NULL,
+  `c5` int(10) NOT NULL,
+  `file_list` varchar(1000) NOT NULL COMMENT '文件列表存储路径',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of gui_disk
+-- ----------------------------
 
---
--- 表的结构 `gui_disk`
---
-
-CREATE TABLE IF NOT EXISTS `gui_disk` (
-  `id` int(10) NOT NULL,
-  `sn` int(20) DEFAULT NULL,
-  `md5` varchar(500) DEFAULT NULL,
-  `c5` int(10) DEFAULT NULL,
-  `file_list` varchar(1000) DEFAULT NULL COMMENT '文件列表存储路径'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `gui_disk`
---
-
-INSERT INTO `gui_disk` (`id`, `sn`, `md5`, `c5`, `file_list`) VALUES
-(1, 0, '', 0, '');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `gui_disk_chg_log`
---
-
-CREATE TABLE IF NOT EXISTS `gui_disk_chg_log` (
-  `id` int(10) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_disk_chg_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_disk_chg_log`;
+CREATE TABLE `gui_disk_chg_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `disk_id` smallint(5) NOT NULL,
   `md5` varchar(300) DEFAULT NULL,
   `c5` int(5) DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `file_content` varchar(200) DEFAULT NULL COMMENT '内容变化'
+  `file_content` varchar(200) DEFAULT NULL COMMENT '内容变化',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of gui_disk_chg_log
+-- ----------------------------
 
---
--- 表的结构 `gui_disk_smart`
---
-
-CREATE TABLE IF NOT EXISTS `gui_disk_smart` (
-  `id` int(20) NOT NULL,
-  `disk_id` int(10) DEFAULT NULL,
-  `attrname` varchar(5) DEFAULT NULL,
-  `explanation` varchar(20) DEFAULT NULL,
-  `value` varchar(20) DEFAULT NULL,
-  `normal` varchar(20) DEFAULT NULL COMMENT '安全值'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='smart value';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `gui_level`
---
-
-CREATE TABLE IF NOT EXISTS `gui_level` (
-  `id` int(5) NOT NULL,
+-- ----------------------------
+-- Table structure for `gui_level`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_level`;
+CREATE TABLE `gui_level` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `level` int(5) NOT NULL,
-  `protected` int(1) DEFAULT '1' COMMENT '写保护'
+  `protected` int(1) DEFAULT '1' COMMENT '写保护',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='层级表';
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of gui_level
+-- ----------------------------
 
---
--- 表的结构 `gui_super`
---
-
-CREATE TABLE IF NOT EXISTS `gui_super` (
-  `id` int(11) NOT NULL,
-  `pwd` varchar(500) NOT NULL
+-- ----------------------------
+-- Table structure for `gui_super`
+-- ----------------------------
+DROP TABLE IF EXISTS `gui_super`;
+CREATE TABLE `gui_super` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pwd` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `gui_test`
---
-
-CREATE TABLE IF NOT EXISTS `gui_test` (
-  `response` varchar(1000) NOT NULL,
-  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `gui_test`
---
-
-INSERT INTO `gui_test` (`response`, `time`, `id`) VALUES
-('1-1-1-added', '2016-03-18 06:17:49', 127),
-('1-1-2-added', '2016-03-18 06:17:49', 128),
-('1-1-3-added', '2016-03-18 06:17:49', 129),
-('1-1-4-added', '2016-03-18 06:17:49', 130),
-('2-1-1-added', '2016-03-18 06:17:50', 131),
-('2-1-3-added', '2016-03-18 06:17:50', 132),
-('3-1-1-added', '2016-03-18 06:17:50', 133),
-('3-1-3-added', '2016-03-18 06:17:50', 134),
-('3-1-4-added', '2016-03-18 06:17:50', 135),
-('1-1-1-added', '2016-03-18 06:45:17', 136),
-('1-1-2-added', '2016-03-18 06:45:17', 137),
-('1-1-3-added', '2016-03-18 06:45:17', 138),
-('1-1-4-added', '2016-03-18 06:45:17', 139),
-('2-1-1-added', '2016-03-18 06:45:17', 140),
-('2-1-3-added', '2016-03-18 06:45:18', 141),
-('3-1-1-added', '2016-03-18 06:45:18', 142),
-('3-1-3-added', '2016-03-18 06:45:18', 143),
-('3-1-4-added', '2016-03-18 06:45:18', 144),
-('1-1-1-added', '2016-03-18 07:11:43', 145),
-('1-1-2-added', '2016-03-18 07:11:43', 146),
-('1-1-3-added', '2016-03-18 07:11:43', 147),
-('1-1-4-added', '2016-03-18 07:11:43', 148),
-('2-1-1-added', '2016-03-18 07:11:43', 149),
-('2-1-3-added', '2016-03-18 07:11:43', 150),
-('3-1-1-added', '2016-03-18 07:11:43', 151),
-('3-1-3-added', '2016-03-18 07:11:44', 152),
-('3-1-4-added', '2016-03-18 07:11:44', 153),
-('1-1-1-added', '2016-03-18 07:15:20', 154),
-('1-1-2-added', '2016-03-18 07:15:20', 155),
-('1-1-3-added', '2016-03-18 07:15:20', 156),
-('1-1-4-added', '2016-03-18 07:15:20', 157),
-('2-1-1-added', '2016-03-18 07:15:20', 158),
-('2-1-3-added', '2016-03-18 07:15:20', 159),
-('3-1-1-added', '2016-03-18 07:15:20', 160),
-('3-1-3-added', '2016-03-18 07:15:21', 161),
-('3-1-4-added', '2016-03-18 07:15:21', 162),
-('1-1-1-added', '2016-03-18 07:39:48', 163),
-('1-1-2-added', '2016-03-18 07:39:49', 164),
-('1-1-3-added', '2016-03-18 07:39:49', 165),
-('1-1-4-added', '2016-03-18 07:39:49', 166),
-('2-1-1-added', '2016-03-18 07:39:49', 167),
-('2-1-3-added', '2016-03-18 07:39:49', 168),
-('3-1-1-added', '2016-03-18 07:39:49', 169),
-('3-1-3-added', '2016-03-18 07:39:50', 170),
-('3-1-4-added', '2016-03-18 07:39:50', 171),
-('1-1-1-added', '2016-03-18 07:41:07', 172),
-('1-1-2-added', '2016-03-18 07:41:07', 173),
-('1-1-3-added', '2016-03-18 07:41:07', 174),
-('1-1-4-added', '2016-03-18 07:41:07', 175),
-('2-1-1-added', '2016-03-18 07:41:07', 176),
-('2-1-3-added', '2016-03-18 07:41:07', 177),
-('3-1-1-added', '2016-03-18 07:41:07', 178),
-('3-1-3-added', '2016-03-18 07:41:08', 179),
-('3-1-4-added', '2016-03-18 07:41:08', 180),
-('1-1-1-added', '2016-03-18 07:54:03', 181),
-('1-1-2-added', '2016-03-18 07:54:03', 182),
-('1-1-3-added', '2016-03-18 07:54:03', 183),
-('1-1-4-added', '2016-03-18 07:54:03', 184),
-('2-1-1-added', '2016-03-18 07:54:03', 185),
-('2-1-3-added', '2016-03-18 07:54:03', 186),
-('3-1-1-added', '2016-03-18 07:54:04', 187),
-('3-1-3-added', '2016-03-18 07:54:04', 188),
-('3-1-4-added', '2016-03-18 07:54:04', 189),
-('1-1-1-added', '2016-03-18 11:09:56', 190),
-('1-1-2-added', '2016-03-18 11:09:56', 191),
-('1-1-3-added', '2016-03-18 11:09:56', 192),
-('1-1-4-added', '2016-03-18 11:09:56', 193),
-('2-1-1-added', '2016-03-18 11:09:57', 194),
-('2-1-3-added', '2016-03-18 11:09:57', 195),
-('3-1-1-added', '2016-03-18 11:09:57', 196),
-('3-1-3-added', '2016-03-18 11:09:57', 197),
-('3-1-4-added', '2016-03-18 11:09:57', 198),
-('1-1-1-added', '2016-03-18 11:15:32', 199),
-('1-1-2-added', '2016-03-18 11:15:32', 200),
-('1-1-3-added', '2016-03-18 11:15:32', 201),
-('1-1-4-added', '2016-03-18 11:15:32', 202),
-('2-1-1-added', '2016-03-18 11:15:32', 203),
-('2-1-3-added', '2016-03-18 11:15:32', 204),
-('3-1-1-added', '2016-03-18 11:15:32', 205),
-('3-1-3-added', '2016-03-18 11:15:33', 206),
-('3-1-4-added', '2016-03-18 11:15:33', 207),
-('1-1-1-added', '2016-03-18 11:16:15', 208),
-('1-1-2-added', '2016-03-18 11:16:15', 209),
-('1-1-3-added', '2016-03-18 11:16:15', 210),
-('1-1-4-added', '2016-03-18 11:16:15', 211),
-('2-1-1-added', '2016-03-18 11:16:15', 212),
-('2-1-3-added', '2016-03-18 11:16:15', 213),
-('3-1-1-added', '2016-03-18 11:16:15', 214),
-('3-1-3-added', '2016-03-18 11:16:16', 215),
-('3-1-4-added', '2016-03-18 11:16:16', 216),
-('1-1-1-added', '2016-03-18 11:45:57', 217),
-('1-1-2-added', '2016-03-18 11:45:57', 218),
-('1-1-3-added', '2016-03-18 11:45:57', 219),
-('1-1-4-added', '2016-03-18 11:45:57', 220),
-('2-1-1-added', '2016-03-18 11:45:57', 221),
-('2-1-3-added', '2016-03-18 11:45:57', 222),
-('3-1-1-added', '2016-03-18 11:45:57', 223),
-('3-1-3-added', '2016-03-18 11:45:58', 224),
-('3-1-4-added', '2016-03-18 11:45:58', 225),
-('1-1-1-added', '2016-03-18 11:48:00', 226),
-('1-1-2-added', '2016-03-18 11:48:00', 227),
-('1-1-3-added', '2016-03-18 11:48:00', 228),
-('1-1-4-added', '2016-03-18 11:48:00', 229),
-('2-1-1-added', '2016-03-18 11:48:00', 230),
-('2-1-3-added', '2016-03-18 11:48:00', 231),
-('3-1-1-added', '2016-03-18 11:48:01', 232),
-('3-1-3-added', '2016-03-18 11:48:01', 233),
-('3-1-4-added', '2016-03-18 11:48:01', 234),
-('1-1-1-added', '2016-03-18 11:49:24', 235),
-('1-1-2-added', '2016-03-18 11:49:24', 236),
-('1-1-3-added', '2016-03-18 11:49:24', 237),
-('1-1-4-added', '2016-03-18 11:49:24', 238),
-('2-1-1-added', '2016-03-18 11:49:24', 239),
-('2-1-3-added', '2016-03-18 11:49:24', 240),
-('3-1-1-added', '2016-03-18 11:49:24', 241),
-('3-1-3-added', '2016-03-18 11:49:24', 242),
-('3-1-4-added', '2016-03-18 11:49:25', 243),
-('1-1-1-added', '2016-03-18 12:51:49', 244),
-('1-1-2-added', '2016-03-18 12:51:49', 245),
-('1-1-3-added', '2016-03-18 12:51:49', 246),
-('1-1-4-added', '2016-03-18 12:51:49', 247),
-('2-1-1-added', '2016-03-18 12:51:49', 248),
-('2-1-3-added', '2016-03-18 12:51:50', 249),
-('3-1-1-added', '2016-03-18 12:51:50', 250),
-('3-1-3-added', '2016-03-18 12:51:50', 251),
-('3-1-4-added', '2016-03-18 12:51:50', 252),
-('1-1-1-added', '2016-03-18 12:52:27', 253),
-('1-1-2-added', '2016-03-18 12:52:27', 254),
-('1-1-3-added', '2016-03-18 12:52:27', 255),
-('1-1-4-added', '2016-03-18 12:52:27', 256),
-('2-1-1-added', '2016-03-18 12:52:27', 257),
-('2-1-3-added', '2016-03-18 12:52:27', 258),
-('3-1-1-added', '2016-03-18 12:52:28', 259),
-('3-1-3-added', '2016-03-18 12:52:28', 260),
-('3-1-4-added', '2016-03-18 12:52:28', 261),
-('1-1-1-added', '2016-03-18 13:08:19', 262),
-('1-1-2-added', '2016-03-18 13:08:19', 263),
-('1-1-3-added', '2016-03-18 13:08:19', 264),
-('1-1-4-added', '2016-03-18 13:08:19', 265),
-('2-1-1-added', '2016-03-18 13:08:19', 266),
-('2-1-3-added', '2016-03-18 13:08:19', 267),
-('3-1-1-added', '2016-03-18 13:08:19', 268),
-('3-1-3-added', '2016-03-18 13:08:20', 269),
-('3-1-4-added', '2016-03-18 13:08:20', 270),
-('1-1-1-added', '2016-03-18 13:25:37', 271),
-('1-1-2-added', '2016-03-18 13:25:37', 272),
-('1-1-3-added', '2016-03-18 13:25:37', 273),
-('1-1-4-added', '2016-03-18 13:25:37', 274),
-('2-1-1-added', '2016-03-18 13:25:37', 275),
-('2-1-3-added', '2016-03-18 13:25:37', 276),
-('3-1-1-added', '2016-03-18 13:25:37', 277),
-('3-1-3-added', '2016-03-18 13:25:37', 278),
-('3-1-4-added', '2016-03-18 13:25:38', 279),
-('1-1-1-added', '2016-03-18 13:27:10', 280),
-('1-1-2-added', '2016-03-18 13:27:10', 281),
-('1-1-3-added', '2016-03-18 13:27:10', 282),
-('1-1-4-added', '2016-03-18 13:27:10', 283),
-('2-1-1-added', '2016-03-18 13:27:10', 284),
-('2-1-3-added', '2016-03-18 13:27:10', 285),
-('3-1-1-added', '2016-03-18 13:27:11', 286),
-('3-1-3-added', '2016-03-18 13:27:11', 287),
-('3-1-4-added', '2016-03-18 13:27:11', 288),
-('1-1-1-added', '2016-03-18 13:27:47', 289),
-('1-1-2-added', '2016-03-18 13:27:48', 290),
-('1-1-3-added', '2016-03-18 13:27:48', 291),
-('1-1-4-added', '2016-03-18 13:27:48', 292),
-('2-1-1-added', '2016-03-18 13:27:48', 293),
-('2-1-3-added', '2016-03-18 13:27:48', 294),
-('3-1-1-added', '2016-03-18 13:27:48', 295),
-('3-1-3-added', '2016-03-18 13:27:49', 296),
-('3-1-4-added', '2016-03-18 13:27:49', 297),
-('1-1-1-added', '2016-03-18 13:35:38', 298),
-('1-1-2-added', '2016-03-18 13:35:38', 299),
-('1-1-3-added', '2016-03-18 13:35:38', 300),
-('1-1-4-added', '2016-03-18 13:35:38', 301),
-('2-1-1-added', '2016-03-18 13:35:38', 302),
-('2-1-3-added', '2016-03-18 13:35:38', 303),
-('3-1-1-added', '2016-03-18 13:35:38', 304),
-('3-1-3-added', '2016-03-18 13:35:39', 305),
-('3-1-4-added', '2016-03-18 13:35:39', 306),
-('1-1-1-added', '2016-03-18 13:36:42', 307),
-('1-1-2-added', '2016-03-18 13:36:42', 308),
-('1-1-3-added', '2016-03-18 13:36:42', 309),
-('1-1-4-added', '2016-03-18 13:36:42', 310),
-('2-1-1-added', '2016-03-18 13:36:42', 311),
-('2-1-3-added', '2016-03-18 13:36:42', 312),
-('3-1-1-added', '2016-03-18 13:36:42', 313),
-('3-1-3-added', '2016-03-18 13:36:43', 314),
-('3-1-4-added', '2016-03-18 13:36:43', 315),
-('1-1-1-added', '2016-03-18 13:45:27', 316),
-('1-1-2-added', '2016-03-18 13:45:27', 317),
-('1-1-3-added', '2016-03-18 13:45:27', 318),
-('1-1-4-added', '2016-03-18 13:45:27', 319),
-('2-1-1-added', '2016-03-18 13:45:27', 320),
-('2-1-3-added', '2016-03-18 13:45:27', 321),
-('3-1-1-added', '2016-03-18 13:45:27', 322),
-('3-1-3-added', '2016-03-18 13:45:28', 323),
-('3-1-4-added', '2016-03-18 13:45:28', 324),
-('1-1-1-added', '2016-03-18 14:25:02', 325),
-('1-1-2-added', '2016-03-18 14:25:02', 326),
-('1-1-3-added', '2016-03-18 14:25:02', 327),
-('1-1-4-added', '2016-03-18 14:25:02', 328),
-('2-1-1-added', '2016-03-18 14:25:02', 329),
-('2-1-3-added', '2016-03-18 14:25:02', 330),
-('3-1-1-added', '2016-03-18 14:25:02', 331),
-('3-1-3-added', '2016-03-18 14:25:03', 332),
-('3-1-4-added', '2016-03-18 14:25:03', 333),
-('1-1-1-added', '2016-03-18 14:26:08', 334),
-('1-1-2-added', '2016-03-18 14:26:08', 335),
-('1-1-3-added', '2016-03-18 14:26:08', 336),
-('1-1-4-added', '2016-03-18 14:26:08', 337),
-('2-1-1-added', '2016-03-18 14:26:08', 338),
-('2-1-3-added', '2016-03-18 14:26:08', 339),
-('3-1-1-added', '2016-03-18 14:26:09', 340),
-('3-1-3-added', '2016-03-18 14:26:09', 341),
-('3-1-4-added', '2016-03-18 14:26:09', 342),
-('1-1-1-added', '2016-03-19 06:19:46', 343),
-('1-1-2-added', '2016-03-19 06:19:47', 344),
-('1-1-3-added', '2016-03-19 06:19:47', 345),
-('1-1-4-added', '2016-03-19 06:19:47', 346),
-('2-1-1-added', '2016-03-19 06:19:47', 347),
-('2-1-3-added', '2016-03-19 06:19:47', 348),
-('3-1-1-added', '2016-03-19 06:19:47', 349),
-('3-1-3-added', '2016-03-19 06:19:48', 350),
-('3-1-4-added', '2016-03-19 06:19:48', 351),
-('1-1-1-added', '2016-03-19 06:29:33', 352),
-('1-1-2-added', '2016-03-19 06:29:33', 353),
-('1-1-3-added', '2016-03-19 06:29:33', 354),
-('1-1-4-added', '2016-03-19 06:29:33', 355),
-('2-1-1-added', '2016-03-19 06:29:33', 356),
-('2-1-3-added', '2016-03-19 06:29:34', 357),
-('3-1-1-added', '2016-03-19 06:29:34', 358),
-('3-1-3-added', '2016-03-19 06:29:34', 359),
-('3-1-4-added', '2016-03-19 06:29:34', 360),
-('1-1-1-added', '2016-03-19 06:42:40', 361),
-('1-1-2-added', '2016-03-19 06:42:40', 362),
-('1-1-3-added', '2016-03-19 06:42:40', 363),
-('1-1-4-added', '2016-03-19 06:42:40', 364),
-('2-1-1-added', '2016-03-19 06:42:40', 365),
-('2-1-3-added', '2016-03-19 06:42:40', 366),
-('3-1-1-added', '2016-03-19 06:42:40', 367),
-('3-1-3-added', '2016-03-19 06:42:40', 368),
-('3-1-4-added', '2016-03-19 06:42:41', 369),
-('S4Z0AJ8T-010f00726300000490cf88060303006160000000000000000432005e5e0000000019a51405330064640000000000000a070f0064fd00000001ed921e09320064640000000000d3000a13006464000000000000610c32006161000000000cf214b73200646400000000000000b83200646400000000000063bb3200646400000000000000bc3200646400000000000600bd3a00595900000000000b00be22004323001d212000212dbf3200646400000000000000c03200646400000000006500c1320061610000000019d100c22200214100080000002100c51200646400000000000000c61000646400000000000000c73e00c8c800000000000700f0000064fd7466000000cc00f1000064fd0003276f9ef000f2000064fd0028c9da13890000000000000000000000', '2016-03-19 06:55:08', 370),
-('1-1-1-added', '2016-03-19 07:02:02', 371),
-('1-1-2-added', '2016-03-19 07:02:02', 372),
-('1-1-3-added', '2016-03-19 07:02:02', 373),
-('1-1-4-added', '2016-03-19 07:02:02', 374),
-('2-1-1-added', '2016-03-19 07:02:02', 375),
-('2-1-3-added', '2016-03-19 07:02:02', 376),
-('3-1-1-added', '2016-03-19 07:02:03', 377),
-('3-1-3-added', '2016-03-19 07:02:03', 378),
-('3-1-4-added', '2016-03-19 07:02:03', 379);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `gui_admin`
---
-ALTER TABLE `gui_admin`
-  ADD PRIMARY KEY (`adminid`);
-
---
--- Indexes for table `gui_chg_log`
---
-ALTER TABLE `gui_chg_log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_cmd_log`
---
-ALTER TABLE `gui_cmd_log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_device`
---
-ALTER TABLE `gui_device`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_disk`
---
-ALTER TABLE `gui_disk`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_disk_chg_log`
---
-ALTER TABLE `gui_disk_chg_log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_disk_smart`
---
-ALTER TABLE `gui_disk_smart`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_level`
---
-ALTER TABLE `gui_level`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_super`
---
-ALTER TABLE `gui_super`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gui_test`
---
-ALTER TABLE `gui_test`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `gui_admin`
---
-ALTER TABLE `gui_admin`
-  MODIFY `adminid` smallint(6) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_chg_log`
---
-ALTER TABLE `gui_chg_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_cmd_log`
---
-ALTER TABLE `gui_cmd_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
---
--- AUTO_INCREMENT for table `gui_device`
---
-ALTER TABLE `gui_device`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=146;
---
--- AUTO_INCREMENT for table `gui_disk`
---
-ALTER TABLE `gui_disk`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `gui_disk_chg_log`
---
-ALTER TABLE `gui_disk_chg_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_disk_smart`
---
-ALTER TABLE `gui_disk_smart`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_level`
---
-ALTER TABLE `gui_level`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_super`
---
-ALTER TABLE `gui_super`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gui_test`
---
-ALTER TABLE `gui_test`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ----------------------------
+-- Records of gui_super
+-- ----------------------------
