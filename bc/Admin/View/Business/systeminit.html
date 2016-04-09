@@ -64,7 +64,7 @@
 		
 	</head>
 	
-	<body ng-app="device" ng-controller="DeviceStatus"> 
+	<body ng-app="device" ng-controller="statusMonitor">
 	
 		<!-- Start: Header -->
 
@@ -128,11 +128,15 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-danger" ng-click="systemInit();">存储柜信息初始化</a>
+							<a href="" class="btn btn-block btn-success" ng-click="systemInit();">存储柜信息初始化</a>
 							<p class="help-block">{{info1}}{{info2}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-danger" ng-click="initStop();">停止初始化</a>
+							<a href="" class="btn btn-block btn-success" ng-click="deviceInit();">获取插槽信息</a>
+
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<a href="" class="btn btn-block btn-danger" ng-click="initStop();"><i class="fa fa-stop"></i> 停止初始化</a>
 
 						</div>
 					</div>
@@ -177,14 +181,16 @@
 		<!-- Theme JS -->		
 		<script src="/Public/assets/js/jquery.mmenu.min.js"></script>
 		<script src="/Public/assets/js/core.min.js"></script>
-		
+		<script src="/Public/assets/plugins/magnific-popup/js/magnific-popup.js"></script>
+
+
 		<!-- Pages JS -->
 		<script>
             var app = angular.module('device', ['device.controllers']);
 
 
         </script>
-		<script src="/Public/js/controllers.js"></script>
+		<script src="/Public/js/globaljs.js"></script>
 		<!-- end: JavaScript-->
 		
 	</body>

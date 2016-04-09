@@ -852,6 +852,7 @@ angular.module('device.controllers', [])
             disk.base_info.loaded = true;
             disk.detail_info.capacity = 250;
             disk.detail_info.SN = 'aaaaaade';
+            $scope.cab.ready = true;
         };
 
         test();
@@ -880,7 +881,7 @@ angular.module('device.controllers', [])
         }
         $scope.start();
         $scope.deviceInit = function () {
-            $scope.devicestatus();
+            $scope.cmd.devicestatus();
             $scope.info1 = "初始化中，请等待";
             var thisTimer = 0;
             var deviceInterval = $interval(function () {
@@ -976,7 +977,7 @@ angular.module('device.controllers', [])
                     $scope.svrErrPool.add();
                 });
                 //更新日志内容，将命令所涉及的插槽信息发送给日志
-                $http.post(server, {msg: msgStr, id: data['id']});
+                $http.post(server, {msg: msgStr, id: msg.CMD_ID});
             }).
             error(function (data) {
                 $scope.svrErrPool.add();
