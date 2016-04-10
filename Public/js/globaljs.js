@@ -19,6 +19,8 @@ angular.module('device.controllers', [])
         //！！服务器出错标志，慎重使用！！
         $scope.taskPool = {
             ready: false,
+            //池子里有完成的命令
+            dirty: false,
             //正在执行的任务
             going: [],
             //停止的任务
@@ -123,7 +125,7 @@ angular.module('device.controllers', [])
                     pool.updateQueryCnt();
                     //检查命令池大小
 
-                    if (pool.going.length > pool.maxPoolSize) {
+                    if (pool.going.length > pool.maxPoolSize || pool.queryCnt === 1) {
                         //更新命令池
                         $interval.cancel(taskWatcher);
                         pool.cleanCmdPool();
