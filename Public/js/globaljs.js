@@ -1,5 +1,5 @@
 angular.module('device.controllers', [])
-    .controller('statusMonitor', function ($scope, $http, $interval,Cmd) {
+    .controller('statusMonitor', function ($scope, $http, $interval) {
         //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
         var Cmd = {};
         Cmd.createCmd = function (msg) {
@@ -376,15 +376,16 @@ angular.module('device.controllers', [])
                     }
                     for (var idx = 0; idx < pool.going.length; idx++) {
                         var task = pool.going[idx];
-                        if (pool.going[idx].status != $scope.cmd.going) {
-                            continue;
-                        }
+
                         var timeFlag = false;
                         //更新时间
 
                         if (--task.usedTime < 0) {
                             task.status = task.timeout;
                             pool.dirty = true;
+                        }
+
+                        if (task.status != $scope.cmd.going) {
                             continue;
                         }
                         switch (pool.going[idx].cmd) {
@@ -405,14 +406,14 @@ angular.module('device.controllers', [])
                             continue;
                         }
                         $http({
-                            url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + pool.going[idx].id,
+                            url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + task.id,
                             method: 'GET'
                         }).success(function (data) {
                             if (data['errmsg']) {
                                 $scope.svrErrPool.add(data);
                             }
                             else {
-                                pool.going[idx].status = data['status'];
+                                task.status = data['status'];
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
@@ -422,7 +423,7 @@ angular.module('device.controllers', [])
                     pool.updateQueryCnt();
                     //检查命令池大小
 
-                    if (pool.going.length > pool.maxPoolSize || pool.queryCnt === 1) {
+                    if (pool.dirty === true) {
                         //更新命令池
                         $interval.cancel(taskWatcher);
                         pool.cleanCmdPool();
@@ -432,12 +433,48 @@ angular.module('device.controllers', [])
             stopWatch: function () {
                 this.stopFlag = true;
             },
+            //通知
+            notify:function(task){
+                var result = '成功';
+                var type = 'success';
+                var icon='fa fa-check';
+                switch(task.status)
+                {
+
+                    case task.timeout:
+                        result = '超时';
+                        type =  'error';
+                        icon='fa fa-alarm';
+                        break;
+                    case task.canceled:
+                        result = '取消';
+                        type = 'info';
+                        icon='fa fa-alarm';
+                        break;
+                    default :
+                        //失败
+                        result  = '失败';
+                        type =  'error';
+                        icon='fa fa-alarm';
+                        break;
+                }
+                new PNotify({
+                   title:'命令执行结果',
+                    text:task.cmd+'命令执行'+ result,
+                    type: type,
+                    addclass: 'notficiation-primary',
+                    icon: icon
+                });
+            },
             //更新命令池
             cleanCmdPool: function () {
                 var newPool = [];
                 var pool = this.going;
                 for (var i = 0; i < this.going.length; i++) {
                     if (pool[i].status != $scope.cmd.going) {
+                        //根据命令状态弹出响应消息
+
+                        this.notify(pool[i]);
                         this.done.push(pool[i]);
                     }
                     else
