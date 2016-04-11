@@ -257,7 +257,57 @@ angular.module('device.services', [])
         }
         return Cmd;
     }
-)
+).factory('Lang',function(){
+    var lang = [
+        {
+            code:'DEVICESTATUS',
+            cn:'存储柜插槽状态查询'
+        },
+        {
+            code:'BRIDGE',
+            cn:'桥接'
+        },
+        {
+            code:'MD5',
+            cn:'磁盘校验'
+        },
+        {
+            code:'COPY',
+            cn:'磁盘备份'
+        },
+        {
+            code:'DISKINFO',
+            cn:'磁盘信息查询'
+        },
+        {
+            code:'WRITEPROTECT',
+            cn:'磁盘写保护'
+        },
+        {
+            code:'START',
+            cn:'开始'
+        },
+        {
+            code:'STOP',
+            cn:'停止'
+        },
+        {
+            code:'RESULT',
+            cn:'结果查询'
+        }
+    ];
+        return {
+            getLang: function (code) {
+                for(var idx = 0; idx < lang.length;idx++){
+                    if(lang[idx].code === code)
+                    {
+                        return lang[idx].cn;
+                        break;
+                    }
+                }
+            }
+        };
+    })
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

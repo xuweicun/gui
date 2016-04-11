@@ -1,12 +1,15 @@
 angular.module('device.controllers', [])
-    .controller('statusMonitor', function ($scope, $http, $interval) {
+    .controller('statusMonitor', function ($scope, $http, $interval,Lang) {
         //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
         var Cmd = {};
-        Cmd.createCmd = function (msg) {
+        Cmd.createCmd = function (log) {
+            var msg = JSON.parse(log.msg);
+            var _start_time = log.start_time;
             var newcmd = {
                 id: msg.CMD_ID,
                 cmd: msg.cmd,
                 subcmd: msg.subcmd,
+                start_time:null,
                 //正在进行命令的status取值
                 going: -1,
                 //已经取消命令的status取值
@@ -17,7 +20,7 @@ angular.module('device.controllers', [])
                 level: msg.level,
                 group: msg.group,
                 //disks对于桥接命令有意义，其内部为[{id:1,sn:2},{id:2,sn:3}]的格式，具体可参考通讯协议
-                disks: msg.disks,
+                disks: null,
                 //src和dst仅对拷贝命令有意义
                 srcDisk: msg.srcDisk,
                 srcLevel: msg.srcGroup,
@@ -26,33 +29,52 @@ angular.module('device.controllers', [])
                 dstLevel: msg.dstLevel,
                 dstGroup: msg.dstDisk,
                 //MD5、diskinfo等命令中，disk值有效
-                disk: msg.disk,
+                disk: null,
                 //命令状态，初始值为-1
                 status: this.going,
                 //剩余时间，为0时表示时间用完
                 usedTime: 0,
-                progress: 0,
+                progress: -1,
                 //最大等待时间，300秒
                 maxTime: 300,
                 //最小等待时间，120秒
                 minTime: 120,
+                timeLimit:0,
                 //错误信息
                 errMsg: '',
                 init: function () {
+                    this.disk = msg.disk;
+                    this.disks = msg.disks;
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
                             if (this.subcmd == 'START') {
-                                this.usedTime = this.maxTime;
+                                this.timeLimit = this.maxTime;
                             }
                             else {
-                                this.usedTime = this.minTime;
+                                this.timeLimit = this.minTime;
                             }
                             break;
                         default:
-                            this.usedTime = this.minTime;
+                            this.timeLimit = this.minTime;
                             break;
                     }
+
+                    var time = new Date();
+                    _start_time = _start_time * 1000;
+                    this.usedTime = parseInt(this.timeLimit - (time.getTime() - parseInt(_start_time))/1000);
+                    this.start_time = _start_time;
+                },
+                getLeftTime: function(){
+                    return (this.timeLimit - this.usedTime);
+                },
+                getProgress: function(){
+                    this.usedTime = 20;
+                    if(this.cmd != 'BRIDGE' && this.cmd != 'MD5')
+                    {
+                        this.progress = parseInt(100*this.usedTime/this.timeLimit);
+                    }
+                    return this.progress;
                 },
                 setStatus: function (status) {
                     this.status = status;
@@ -265,12 +287,11 @@ angular.module('device.controllers', [])
                         msg.CMD_ID = data['id'].toString();
                     }
                     var msgStr = JSON.stringify(msg);
-
                     //服务器收到通知后，联系APP，发送指令；
                     $http.post(proxy, msg).
                         success(function (data) {
                             //命令池更新
-                            var newCmd = this.createCmd(msg);
+                            var newCmd = this.createCmd(msgStr,data);
                             $scope.taskPool.add(newCmd);
                         }).
                         error(function (data) {
@@ -285,6 +306,7 @@ angular.module('device.controllers', [])
 
         }
         $scope.cmd = Cmd;
+        $scope.lang = Lang;
         $scope.svrErrPool = {
             pool: [],
             svrDown: false,
@@ -433,6 +455,12 @@ angular.module('device.controllers', [])
             stopWatch: function () {
                 this.stopFlag = true;
             },
+            showGoing: function(){
+                return this.going.length > 0;
+            },
+            showDone: function(){
+                return this.done.length > 0;
+            },
             //通知
             notify:function(task){
                 var result = '成功';
@@ -507,12 +535,7 @@ angular.module('device.controllers', [])
                     var time = new Date();
                     data.forEach(function (e) {
                         if (e.msg != '' && e.cmd !='MD5') {
-
-                            var msg = JSON.parse(e.msg);
-                            console.log(e['start_time']);
-                            console.log($scope.cmd);
-                            var task = $scope.cmd.createCmd(msg);
-                            task.usedTime = parseInt(task.usedTime - (time.getTime() / 1000 - parseInt(e.start_time)));
+                            var task = $scope.cmd.createCmd(e);
                             pool.add(task);
                         }
                     });
