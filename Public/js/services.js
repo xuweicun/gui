@@ -285,7 +285,7 @@ angular.module('device.services', [])
         },
         {
             code:'START',
-            cn:'开始'
+            cn:'开始执行'
         },
         {
             code:'STOP',
@@ -294,6 +294,10 @@ angular.module('device.services', [])
         {
             code:'RESULT',
             cn:'结果查询'
+        },
+        {
+            code:null,
+            cn:'开始执行'
         }
     ];
         return {

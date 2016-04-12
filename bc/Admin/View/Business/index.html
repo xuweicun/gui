@@ -481,7 +481,7 @@
                         <tr class="gradeA odd" role="row" ng-repeat="task in taskPool.going" ng-class-odd="odd"
                             ng-class-even="even">
                             <td class="sorting_1" ng-bind="lang.getLang(task.cmd)"></td>
-                            <td  ng-bind="lang.getLang(task.sub_cmd)"></td>
+                            <td  ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                             <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
                             <td >
                                 <div class="panel bk-widget bk-border-off" ng-show="task.getProgress() > 0">
@@ -605,7 +605,7 @@
                         <tr class="gradeA odd" role="row" ng-repeat="task in taskPool.done" ng-class-odd="odd"
                             ng-class-even="even">
                             <td class="sorting_1" ng-bind="lang.getLang(task.cmd)"></td>
-                            <td  ng-bind="lang.getLang(task.sub_cmd)"></td>
+                            <td  ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                             <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
                             <td >
                                 <div class="panel bk-widget bk-border-off" ng-show="task.getProgress() > 0">

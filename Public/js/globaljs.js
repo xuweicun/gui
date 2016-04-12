@@ -59,7 +59,11 @@ angular.module('device.controllers', [])
                             this.timeLimit = this.minTime;
                             break;
                     }
-
+                    console.log(this.subcmd);
+                    if(this.subcmd === undefined)
+                    {
+                        this.subcmd = null;
+                    }
                     var time = new Date();
                     _start_time = _start_time * 1000;
                     this.usedTime = parseInt(this.timeLimit - (time.getTime() - parseInt(_start_time))/1000);
@@ -361,7 +365,7 @@ angular.module('device.controllers', [])
                         return;
                     }
                 });
-
+                $scope.cab.i_on_cmd_changed(task, true);
                 this.going.push(task);
             },
             updateQueryCnt: function () {
@@ -401,13 +405,14 @@ angular.module('device.controllers', [])
 
                         var timeFlag = false;
                         //更新时间
-
-                        if (--task.usedTime < 0) {
+                        //检查是否超时
+                        if (++task.usedTime >= task.timeLimit) {
                             task.status = task.timeout;
                             pool.dirty = true;
                         }
 
                         if (task.status != $scope.cmd.going) {
+                            pool.dirty = true;
                             continue;
                         }
                         switch (pool.going[idx].cmd) {
@@ -436,6 +441,9 @@ angular.module('device.controllers', [])
                             }
                             else {
                                 task.status = data['status'];
+                                if (task.cmd == 'BRIDGE') {
+                                    pool.hdlBridgeMsg(task);
+                                }
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
@@ -451,6 +459,22 @@ angular.module('device.controllers', [])
                         pool.cleanCmdPool();
                     }
                 }, this.unitTimer);
+            },
+            //更新桥接状态
+            hdlBridgeMsg: function(msg){
+                msg.paths = [];
+                for (var i in msg.disks) {
+                    var _dsk = msg.disks[i];
+                    msg.paths.push({
+                        "status": "0",
+                        // 硬盘号，类型int，取值：1-4
+                        "id": _dsk.id.toString(),
+                        //路径，类型字符串，长度16字节
+                        "value": "sdb" + _dsk.id
+                    });
+                }
+
+                $scope.cab.i_on_bridge_resp(msg);
             },
             stopWatch: function () {
                 this.stopFlag = true;
@@ -501,7 +525,7 @@ angular.module('device.controllers', [])
                 for (var i = 0; i < this.going.length; i++) {
                     if (pool[i].status != $scope.cmd.going) {
                         //根据命令状态弹出响应消息
-
+                        $scope.cab.i_on_cmd_changed(pool[i], false);
                         this.notify(pool[i]);
                         this.done.push(pool[i]);
                     }
