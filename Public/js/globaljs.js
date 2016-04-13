@@ -3,6 +3,7 @@ angular.module('device.controllers', [])
         //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
         var Cmd = {};
         Cmd.createCmd = function (log) {
+            console.log(log.msg);
             var msg = JSON.parse(log.msg);
             var _start_time = log.start_time;
             var newcmd = {
@@ -59,21 +60,22 @@ angular.module('device.controllers', [])
                             this.timeLimit = this.minTime;
                             break;
                     }
-                    console.log(this.subcmd);
+
                     if(this.subcmd === undefined)
                     {
                         this.subcmd = null;
                     }
                     var time = new Date();
                     _start_time = _start_time * 1000;
-                    this.usedTime = parseInt(this.timeLimit - (time.getTime() - parseInt(_start_time))/1000);
+                    this.usedTime = parseInt((time.getTime() - parseInt(_start_time))/1000);
+                    console.log(this.usedTime);
                     this.start_time = _start_time;
                 },
                 getLeftTime: function(){
                     return (this.timeLimit - this.usedTime);
                 },
                 getProgress: function(){
-                    this.usedTime = 20;
+            //        this.usedTime = 20;
                     if(this.cmd != 'BRIDGE' && this.cmd != 'MD5')
                     {
                         this.progress = parseInt(100*this.usedTime/this.timeLimit);
@@ -243,44 +245,21 @@ angular.module('device.controllers', [])
 
         }
         Cmd.bridge = function (level,group,disk) {
-
             var msg = {
                 cmd: 'BRIDGE', subcmd: 'START', level: disk.level.toString(), group: disk.group.toString(), disks: [
                     {id: disk.disk.toString(), SN: disk.sn}], filetree:1
             };
-            $scope.cmd.sendcmd(msg);
+            Cmd.sendcmd(msg);
+        }
+        Cmd.cabinfo = function()
+        {
+            var msg = {
+                cmd: 'DEVICEINFO'
+            };
+            Cmd.sendcmd(msg);
         }
         Cmd.sendcmd = function (msg) {
-            /*****test******/
-            if (msg.subcmd == 'START') {
-                msg.usedTime = 45;
-                msg.progress = 36.7;
-                $scope.cab.i_on_cmd_changed(msg, true);
-            }
-            else if (msg.subcmd == 'STOP') {
-                $scope.cab.i_on_cmd_changed(msg, false);
-            }
-
-            if (msg.cmd == 'BRIDGE') {
-                msg.paths = [];
-
-                for (var i in msg.disks) {
-                    var _dsk = msg.disks[i];
-
-                    msg.paths.push({
-                        "status": "0",
-                        // 硬盘号，类型int，取值：1-4
-                        "id": _dsk.id.toString(),
-                        //路径，类型字符串，长度16字节
-                        "value": "sdb" + _dsk.id
-                    });
-                }
-
-                $scope.cab.i_on_bridge_resp(msg);
-            }
-            return;
-            /*****test end******/
-            //先发送消息告知服务器即将发送指令；
+           //先发送消息告知服务器即将发送指令；
             $http.post(server, msg).
                 success(function (data) {
                     if (data['errmsg']) {
@@ -293,16 +272,20 @@ angular.module('device.controllers', [])
                     var msgStr = JSON.stringify(msg);
                     //服务器收到通知后，联系APP，发送指令；
                     $http.post(proxy, msg).
-                        success(function (data) {
+                        success(function () {
                             //命令池更新
-                            var newCmd = this.createCmd(msgStr,data);
+                            data['msg'] = msgStr;
+                            var newCmd = $scope.cmd.createCmd(data);
                             $scope.taskPool.add(newCmd);
                         }).
                         error(function (data) {
                             $scope.svrErrPool.add();
                         });
+               // data['msg'] = msgStr;
+                //var newCmd = $scope.cmd.createCmd(data);
+                //$scope.taskPool.add(newCmd);
                     //更新日志内容，将命令所涉及的插槽信息发送给日志
-                    $http.post(server, {msg: msgStr, id: msg.CMD_ID});
+                $http.post(server, {msg: msgStr, id: msg.CMD_ID});
                 }).
                 error(function (data) {
                     $scope.svrErrPool.add();
@@ -407,11 +390,12 @@ angular.module('device.controllers', [])
                         //更新时间
                         //检查是否超时
                         if (++task.usedTime >= task.timeLimit) {
+                            console.log(task.usedTime+'-'+task.timeLimit);
                             task.status = task.timeout;
                             pool.dirty = true;
                         }
 
-                        if (task.status != $scope.cmd.going) {
+                        if (task.status != task.going) {
                             pool.dirty = true;
                             continue;
                         }
@@ -442,7 +426,7 @@ angular.module('device.controllers', [])
                             else {
                                 task.status = data['status'];
                                 if (task.cmd == 'BRIDGE') {
-                                    pool.hdlBridgeMsg(task);
+                                    //pool.hdlBridgeMsg(task);
                                 }
                             }
                         }).error(function () {
@@ -490,9 +474,9 @@ angular.module('device.controllers', [])
                 var result = '成功';
                 var type = 'success';
                 var icon='fa fa-check';
+                console.log("status:"+task.status);
                 switch(task.status)
                 {
-
                     case task.timeout:
                         result = '超时';
                         type =  'error';
@@ -519,21 +503,10 @@ angular.module('device.controllers', [])
                 });
             },
             //更新命令池
-            cleanCmdPool: function () {
-                var newPool = [];
+            cleanCmdPool: function (idx) {
                 var pool = this.going;
-                for (var i = 0; i < this.going.length; i++) {
-                    if (pool[i].status != $scope.cmd.going) {
-                        //根据命令状态弹出响应消息
-                        $scope.cab.i_on_cmd_changed(pool[i], false);
-                        this.notify(pool[i]);
-                        this.done.push(pool[i]);
-                    }
-                    else
-                        newPool.push(pool[i]);
-                }
-                this.going = [];
-                this.going = newPool;
+                this.done.push(pool[idx]);
+                pool.splice(idx,1);
                 this.startWatch();
             },
             //发送消息检查命令进度
@@ -1207,6 +1180,7 @@ angular.module('device.controllers', [])
                     }
                     default: {
                         console.log('Unknown Cmd');
+                        console.log(json_cmd.cmd);
                         break;
                     }
                 }

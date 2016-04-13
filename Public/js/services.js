@@ -1,262 +1,114 @@
 angular.module('device.services', [])
-    .factory('Cmd', function($http,$interval,$timeout){
-        var Cmd = {};
-        Cmd.createCmd = function (msg) {
-            var newcmd = {
-                id: msg.CMD_ID,
-                cmd: msg.cmd,
-                subcmd: msg.subcmd,
-                //正在进行命令的status取值
-                going: -1,
-                //已经取消命令的status取值
-                canceled: -2,
-                //超时命令的status值
-                timeout: -3,
-                //level和group是通用值，多数命令都用到
-                level: msg.level,
-                group: msg.group,
-                //disks对于桥接命令有意义，其内部为[{id:1,sn:2},{id:2,sn:3}]的格式，具体可参考通讯协议
-                disks: msg.disks,
-                //src和dst仅对拷贝命令有意义
-                srcDisk: msg.srcDisk,
-                srcLevel: msg.srcGroup,
-                srcGroup: msg.srcLevel,
-                dstDisk: msg.dstDisk,
-                dstLevel: msg.dstLevel,
-                dstGroup: msg.dstDisk,
-                //MD5、diskinfo等命令中，disk值有效
-                disk: msg.disk,
-                //命令状态，初始值为-1
-                status: this.going,
-                //剩余时间，为0时表示时间用完
-                usedTime: 0,
-                progress: 0,
-                //最大等待时间，300秒
-                maxTime: 300,
-                //最小等待时间，120秒
-                minTime: 120,
-                //错误信息
-                errMsg: '',
-                init: function () {
-                    //根据命令名称判断
-                    switch (this.cmd) {
-                        case 'BRIDGE':
-                            if (this.subcmd == 'START') {
-                                this.usedTime = this.maxTime;
-                            }
-                            else {
-                                this.usedTime = this.minTime;
-                            }
-                            break;
-                        default:
-                            this.usedTime = this.minTime;
-                            break;
-                    }
-                },
-                setStatus: function (status) {
-                    this.status = status;
-                    if (status == 0 || status == this.canceled) {
-                        return;
-                    }
-                    ///如果出错
-                    switch (status) {
-                        case this.timeout:
-                            this.errMsg = "命令执行超时，请联系维护人员处理。";
-                            break;
-                        default:
-                            this.errMsg = $scope.errCodes.codes[status.toString()];
-                    }
+    .factory('Errcode',function(){
+       var errCodes = {
+           "0": "no error",
+           "1": "slot busy",
+           "10": "md5 not complete",
+           "10001": "proxy error",
+           "10002": "proxy disconnect",
+           "10003": "field not find",
+           "10004": "field not number",
+           "10005": "field not string",
+           "10006": "cmd not find",
+           "10007": "cmd not string",
+           "10008": "cmd unknown",
+           "10009": "subcmd not find",
+           "10010": "subcmd not string",
+           "10011": "subcmd unknown",
+           "10012": "level not find",
+           "10013": "level not number",
+           "10014": "group not find",
+           "10015": "group not number",
+           "10016": "disk not find",
+           "10017": "disk not number",
+           "10018": "srclevel not find",
+           "10019": "srclevel not number",
+           "10020": "srcgroup not find",
+           "10021": "srcgroup not bumber",
+           "10022": "srcdisk not find",
+           "10023": "srcdisk not number",
+           "10024": "dstlevel not find",
+           "10025": "dstlevel not number",
+           "10026": "dstgroup not find",
+           "10027": "dstgroup not number",
+           "10028": "dstdisk not find",
+           "10029": "dstdisk not number",
+           "10030": "levels not find",
+           "10031": "levels not array",
+           "10032": "levels array empty",
+           "10033": "levels item not number",
+           "10034": "levels item out of range",
+           "10035": "disks not find",
+           "10036": "disks not array",
+           "10037": "disks array empty",
+           "10038": "disks item not object",
+           "10039": "disks item id invalid",
+           "10040": "disks item SN invalid",
+           "10041": "json field not find",
+           "10042": "json file format error",
+           "10043": "json field is not number",
+           "10044": "json field is zero size",
+           "10045": "json field out of range",
+           "10046": "json field is not array",
+           "10047": "json field is not object",
+           "10048": "Copy diffrent src level and dst level",
+           "10049": "Copy unexpect dst group",
+           "10050": "Power levels is not selected",
+           "10051": "FileTree is runing",
+           "10052": "FileTree dismatch",
+           "10053": "FileTree mount path is too long",
+           "10054": "FileTree mountpath is invalid",
+           "10055": "FileTree make path failure",
+           "10056": "Json format error",
+           "10057": "Json is not object",
+           "10058": "Json unknown cmd",
+           "11": "disk info fail",
+           "12": "get md5 result fail",
+           "13": "get md5 progress fail",
+           "14": "get copy progress fail",
+           "15": "copy size dismatch",
+           "16": "copy no disk",
+           "2": "bad param",
+           "20": "power no resp",
+           "21": "device status timeout",
+           "22": "device status timeout",
+           "23": "write protect no resp",
+           "24": "copying",
+           "25": "bridging",
+           "26": "copying",
+           "27": "disk info is going",
+           "28": "md5 is going",
+           "29": "channel is busy",
+           "3": "no disk",
+           "30": "unknown error",
+           "31": "level not match",
+           "32": "group not match",
+           "33": "md5 stop is going",
+           "35": "unknown device id",
+           "36": "bridge is going",
+           "4": "start md5 fail",
+           "40": "device status is going",
+           "42": "copy not started",
+           "43": "write protect is going",
+           "46": "power is going",
+           "49": "md5 received by device",
+           "5": "stop md5 fail",
+           "6": "busy",
+           "7": "get md5 result fail",
+           "8": "start copy fail",
+           "9": "stop copy fail"
+       }
+       return{
+           getErrName:function(code){
+               if(code in errCodes)
+               {
+                   return errCodes[code];
+               }
+               return "Error code not defined!";
+           }
+       }
 
-                }
-            };
-            newcmd.init();
-            return newcmd;
-        }
-        Cmd.checkCollision = function () {
-            $http({
-                url: 'http://localhost/index.php/business/checkCollision',
-
-                method: 'GET'
-            }).success(function (data) {
-                return data['isLegal'];
-            });
-        }
-        Cmd.getdiskinfo = function (level, group, disk, type) {
-            var disk = $scope.disk;
-            $scope.bridgeReady = 0;
-            if (type > 0) {//手动初始化
-                $scope.diskinfo(disk.level.toString(), disk.group.toString(), disk.index.toString());
-                var $diskInfoTimer = 0;
-                var diskInfoStatus = $interval(function () {
-                    $diskInfoTimer++;
-                    if ($diskInfoTimer > 24) {
-                        $interval.cancel(diskInfoStatus);//超过2分钟即认为失败。
-                    }
-                    $http({
-                        url: '/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
-                        method: 'POST'
-                    }).success(function (data) {
-                        if (data['errmsg']) {
-                            console.log(data['errmsg']);
-                        }
-                        else {
-                            updateDiskInfo(data);
-
-                            if (type == 1)//现阶段手动初始化手段
-                                $interval.cancel(diskInfoStatus);
-                        }
-
-                    });
-                }, 20000);
-            }
-            else {
-                $http({
-                    url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
-                    data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
-                    method: 'POST'
-                }).success(function (data) {
-                    if (data['errmsg']) {//不存在
-                        disk.capacity = '未知';
-                        disk.sn = '未知';
-                        disk.bridged = 0;
-                        disk.loaded = 0;
-                        updateDiskView(disk);
-                        return;
-                    }
-                    updateDiskInfo(data);
-
-                });
-            }
-        }
-        Cmd.devicestatus = function () {
-            var msg = {cmd: 'DEVICESTATUS'};
-            return Cmd.sendcmd(msg);
-        }
-        Cmd.testPost = function () {
-            $http({
-                url: '/index.php?m=admin&c=msg&a=index',
-                data: {
-                    "CMD_ID": "1",
-                    "cmd": "BRIDGE",
-                    "disks": [{"SN": "S4Z0AJ8T", "id": "1"}],
-                    "group": "1", "level": "1",
-                    "paths": [{"errno": "0", "id": "1", "status": "0", "value": "sbc"}],
-                    "subcmd": "STOP"
-                },
-                method: 'POST'
-            }).success(function (data) {
-                alert("done");
-
-            });
-        }
-        Cmd.writeprotect = function (level) {
-            var msg = {cmd: "WRITEPROTECT", subcmd: 'START', level: level};
-            Cmd.sendcmd(msg);
-        }
-        Cmd.md5 = function (level, group, disk) {
-            var msg = {cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk};
-            Cmd.sendcmd(msg);
-        }
-        Cmd.stop = function (id) {
-            //获取命令参数
-            $http({
-                url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
-                method: 'GET'
-            }).success(function (data) {
-                if (data['errmsg']) {
-                    $scope.svrErrPool.add(data);
-                }
-                else {
-                    var msg = JSON.parse(data['msg']);
-                    msg.CMD_ID = id.toString();
-                    msg.subcmd = 'STOP';
-                    this.sendcmd(msg);
-                }
-            });
-            //增加命令日志
-            //发送命令
-        }
-        Cmd.update = function (id, subcmd) {
-            //获取命令参数
-            $http({
-                url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
-                method: 'GET'
-            }).success(function (data) {
-                if (data['errmsg']) {
-                    $scope.svrErrPool.add(data);
-                }
-                else {
-                    var msg = JSON.parse(data['msg']);
-                    msg.CMD_ID = id.toString();
-                    msg.subcmd = subcmd;
-                    $http.post(proxy, msg).error(function () {
-                        $scope.svrErrPool.add();
-                    });
-                }
-            });
-
-        }
-        Cmd.copy = function (srcLvl, srcGrp, srcDisk, dstLvl, dstGrp, dstDisk) {
-            var msg = {
-                cmd: 'COPY',
-                subcmd: 'START',
-                srcLevel: srcLvl,
-                srcGroup: srcGrp,
-                srcDisk: srcDisk,
-                dstLevel: dstLvl,
-                dstGroup: dstGrp,
-                dstDisk: dstDisk
-            };
-            Cmd.sendcmd(msg);
-        }
-        Cmd.diskinfo = function (level, group, disk) {
-            var msg = {cmd: 'DISKINFO', level: level.toString(), group: group.toString(), disk: disk.toString()};
-            Cmd.sendcmd(msg);
-
-        }
-        Cmd.bridge = function (level,group,disk) {
-
-            var msg = {
-                cmd: 'BRIDGE', subcmd: 'START', level: disk.level.toString(), group: disk.group.toString(), disks: [
-                    {id: disk.disk.toString(), SN: disk.sn}], filetree:1
-            };
-            $scope.cmd.sendcmd(msg);
-        }
-        Cmd.sendcmd = function (msg) {
-
-            //先发送消息告知服务器即将发送指令；
-            $http.post(server, msg).
-                success(function (data) {
-                    if (data['errmsg']) {
-                        $scope.svrErrPool.add(data);
-                    }
-                    //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
-                    if (msg.subcmd != 'STOP') {
-                        msg.CMD_ID = data['id'].toString();
-                    }
-                    var msgStr = JSON.stringify(msg);
-
-                    //服务器收到通知后，联系APP，发送指令；
-                    $http.post(proxy, msg).
-                        success(function (data) {
-                            //命令池更新
-                            var newCmd = this.createCmd(msg);
-                            $scope.taskPool.add(newCmd);
-                        }).
-                        error(function (data) {
-                            $scope.svrErrPool.add();
-                        });
-                    //更新日志内容，将命令所涉及的插槽信息发送给日志
-                    $http.post(server, {msg: msgStr, id: msg.CMD_ID});
-                }).
-                error(function (data) {
-                    $scope.svrErrPool.add();
-                });
-
-        }
-        return Cmd;
-    }
+   }
 ).factory('Lang',function(){
     var lang = [
         {
@@ -311,52 +163,4 @@ angular.module('device.services', [])
                 }
             }
         };
-    })
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-});
+    });
