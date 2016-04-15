@@ -32,7 +32,7 @@ angular.module('device.controllers', [])
                 //MD5、diskinfo等命令中，disk值有效
                 disk: null,
                 //命令状态，初始值为-1
-                status: this.going,
+                status: -1,
                 //剩余时间，为0时表示时间用完
                 usedTime: 0,
                 progress: -1,
@@ -46,6 +46,7 @@ angular.module('device.controllers', [])
                 init: function () {
                     this.disk = msg.disk;
                     this.disks = msg.disks;
+                    this.status = this.going;
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
@@ -68,6 +69,10 @@ angular.module('device.controllers', [])
                     var time = new Date();
                     _start_time = _start_time * 1000;
                     this.usedTime = parseInt((time.getTime() - parseInt(_start_time))/1000);
+                    if(this.getLeftTime() <= 0)
+                    {
+                        this.status = this.timeout;
+                    }
                     console.log(this.usedTime);
                     this.start_time = _start_time;
                 },
@@ -389,15 +394,15 @@ angular.module('device.controllers', [])
                         var timeFlag = false;
                         //更新时间
                         //检查是否超时
-                        if (++task.usedTime >= task.timeLimit) {
-                            console.log(task.usedTime+'-'+task.timeLimit);
+
+                        if (task.status == task.going && ++task.usedTime >= task.timeLimit) {
+                            console.log("超时："+task.cmd+'-'+task.usedTime+'-'+task.timeLimit);
                             task.status = task.timeout;
-                            pool.dirty = true;
                         }
 
                         if (task.status != task.going) {
+                            console.log("task status: "+task.status);
                             pool.dirty = true;
-                            continue;
                         }
                         switch (pool.going[idx].cmd) {
                             case 'BRIDGE':
@@ -424,7 +429,8 @@ angular.module('device.controllers', [])
                                 $scope.svrErrPool.add(data);
                             }
                             else {
-                                task.status = data['status'];
+                                if(data['status'] != task.going)
+                                    task.status = data['status'];
                                 if (task.cmd == 'BRIDGE') {
                                     //pool.hdlBridgeMsg(task);
                                 }
@@ -433,10 +439,10 @@ angular.module('device.controllers', [])
                             $scope.svrErrPool.add();
                         });
                         pool.checkProgress(idx);
+
                     }
                     pool.updateQueryCnt();
                     //检查命令池大小
-
                     if (pool.dirty === true) {
                         //更新命令池
                         $interval.cancel(taskWatcher);
@@ -503,10 +509,26 @@ angular.module('device.controllers', [])
                 });
             },
             //更新命令池
-            cleanCmdPool: function (idx) {
+            cleanCmdPool: function () {
+                if(this.dirty === false)
+                {
+                    console.log("Don't need to clean.");
+                    return;
+                }
                 var pool = this.going;
-                this.done.push(pool[idx]);
-                pool.splice(idx,1);
+                var newPool = [];
+                for(var i = 0;i < pool.length;i++)
+                {
+                    if(pool[i].status != pool[i].going)
+                    {
+                        this.done.push(pool[i]);
+                    }
+                    else
+                    newPool.push(pool[i]);
+                }
+                this.going = [];
+                this.going = newPool;
+                this.dirty = false;
                 this.startWatch();
             },
             //发送消息检查命令进度
@@ -533,7 +555,18 @@ angular.module('device.controllers', [])
                     data.forEach(function (e) {
                         if (e.msg != '' && e.cmd !='MD5') {
                             var task = $scope.cmd.createCmd(e);
-                            pool.add(task);
+                            if(task.status == task.going) {
+                                pool.add(task);
+                            }
+                            else{
+                                //将对应命令设为超时
+                                $http({
+                                    url: '/index.php?m=admin&c=business&a=setTimeOut&id='+ e.id,
+                                    method: 'GET'
+                                }).error(function(data) {
+                                        $scope.svrErrPool.add(data);
+                                    });
+                            }
                         }
                     });
                     pool.ready = true;

@@ -79,6 +79,14 @@ class BusinessController extends Controller {
 			$exctTime = $exctTime + 1;
 		}
 	}
+	public function setTimeOut()
+	{
+		$db = M('CmdLog');
+		$map['id'] = array('eq',I('get.id'));
+		$item = $db->where($map)->find();
+		$item['status'] = C('CMD_TIMEOUT');
+		$db->save($item);
+	}
     public function getBridgeStatus()
 	{
 		$cmd = 'BRIDGE';

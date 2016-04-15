@@ -492,7 +492,7 @@
                                             <span ng-bind="task.getProgress()+'%'" ng-show="task.getProgress() > 0"></span>
                                         </div>
                                     </div>
-                                    <p class="help-block">剩余时间: <span ng-bind="task.getLeftTime()"></span>秒</p>
+                                    <p class="help-block" ng-show="task.getLeftTime() > -1">剩余时间: <span ng-bind="task.getLeftTime()"></span>秒</p>
                                 </div>
                             </td>
                             <td class="center hidden-phone">
