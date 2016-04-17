@@ -11,12 +11,14 @@ header('Access-Control-Allow-Origin:*');
 
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
+$return_msg = file_get_contents('php://input');
 if ($content_type_args[0] == 'application/json') {
-    $_POST = json_decode(file_get_contents('php://input'), true);
+    $_POST = json_decode($return_msg, true);
 }
 
 class Msg
 {
+    public $origin = null;
     public $cmd = null;
     public $subcmd = null;
     public $status = null;
@@ -34,7 +36,8 @@ class Msg
 
     public function init()
     {
-
+        global $return_msg;
+        $this->origin = $return_msg;
         $this->cmd = $_POST['cmd'];
         $this->subcmd = $_POST['subcmd'];
         $this->getStatus();
@@ -45,6 +48,11 @@ class Msg
         $this->getRealId();
         $this->getResult();
         $this->db = M("CmdLog");
+    }
+
+    public function isBridge()
+    {
+        return $this->cmd == 'BRIDGE';
     }
 
     public function getStatus()
@@ -180,6 +188,11 @@ class MsgController extends Controller
             $this->hdlFail();
             return;
         }
+        if($this->msg->isStop()&&!$this->msg->isBridge())
+        {
+            $this->hdlStopMsg();
+            return;
+        }
         switch ($this->msg->cmd) {
             case 'DEVICESTATUS':
                 $this->updateDeviceStatus();
@@ -212,6 +225,8 @@ class MsgController extends Controller
         $log = $this->db->find($item->id);
         if ($log) {
             $log['status'] = $item->status;
+            if ($this->msg->isBridge())
+                $log['return_mgs'] = $this->msg->origin;
             $this->db->save($log);
         }
     }
@@ -351,10 +366,12 @@ class MsgController extends Controller
         $log['substatus'] = $this->msg->substatus;
         $this->db->save($log);
     }
+
     public function getLog($id)
     {
         return $this->db->find($id);
     }
+
     public function hdlBridgeMsg()
     {
         $disks = $_POST['disks'];
@@ -362,8 +379,8 @@ class MsgController extends Controller
         $log = $this->getLog($this->msg->id);
         if ($this->msg->isWorking()) {
             //if just some working msg
-
             $log['stage'] = $this->msg->stage;
+            $log['return_msg'] = $this->msg->origin;
             $this->db->save($log);
             return;
         }
@@ -372,8 +389,8 @@ class MsgController extends Controller
         $dsk = new Dsk();
         $dsk->init();
         //for dsk object
-        $keys = array('bridged','path');
-        $values = array(0,'');
+        $keys = array('bridged', 'path');
+        $values = array(0, '');
         foreach ($disks as $key => $disk) {
             $status = (int)$paths[$key]['status'];
             if ($status == C('CMD_SUCCESS')) {
@@ -381,7 +398,7 @@ class MsgController extends Controller
                 $values[0] = $stop == true ? 0 : 1;
                 //if bridged
                 if (!$stop) {
-                    $values[1] = "/home/share/mount/" . $paths[$key]['value'];
+                    $values[1] = C('BRG_DIR_ROOT') .$paths[$key]['value'];
                 } else {
                     $values[1] = '';
                 }
@@ -391,12 +408,10 @@ class MsgController extends Controller
         //状态值
         if ($failFlag == true) {
             $log['status'] = (int)$paths[0]['status'];
-        }
-        else{
-            $log['status'] =  C('CMD_SUCCESS');
+        } else {
+            $log['status'] = C('CMD_SUCCESS');
             $dstLog = $this->getLog($this->msg->dst_id);
-            if($dstLog['status'] == C('CMD_GOING'))
-            {
+            if ($dstLog['status'] == C('CMD_GOING')) {
                 //if the dst-commond still going, cancel it
                 $dstLog['status'] = C('CMD_CANCELED');
                 $this->db->save($dstLog);

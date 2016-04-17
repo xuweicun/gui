@@ -9,7 +9,9 @@ $config = array(
 	    'SUB_STATUS_SUCCESS'=>0,
 	    'SUB_STATUS_START'=>1,
 	    'SUB_STATUS_WORK'=>2,
+	    'BRG_DIR_ROOT' => "/home/share/mount/",
 		'TMPL_L_DELIM'=>'<{',
-		'TMPL_R_DELIM'=>'}>'
+		'TMPL_R_DELIM'=>'}>',
+        'URL_MODEL'=>0
 );
 return array_merge($dbconfig,$config);

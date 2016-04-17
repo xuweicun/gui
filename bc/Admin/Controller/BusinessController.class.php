@@ -8,40 +8,6 @@ if ($content_type_args[0] == 'application/json') {
 	$_POST = json_decode(file_get_contents('php://input'),true);     
 }
 
-class Dsk
-{
-	public $level = 0, $group = 0, $disk = 0, $cab = 0;
-	public $disks = array();
-	public $db = null;
-	public $map = array();
-
-	public function init()
-	{
-		$this->level = (int)$_POST['level'];
-		$this->disk = (int)$_POST['disk'];
-		$this->group = (int)$_POST['group'];
-		$this->disks = $_POST['disks'];
-		$this->cab = (int)$_POST['device_id'];
-		$this->db = M('Device');
-		$this->map['cab'] = array('eq', $this->cab);
-		$this->map['level'] = array('eq', $this->level);
-		$this->map['zu'] = array('eq', $this->group);
-
-	}
-
-	public function updateDisk($keys, $values, $dsk_idx = -1)
-	{
-		if ($dsk_idx >= 0 && !$this->disks)
-			return;
-		$this->map['disk'] = $dsk_idx >= 0 ? array('eq', $this->disks[$dsk_idx] . id) : array('eq', $this->disk);
-		$item = $this->db->where($this->map)->find();
-		foreach ($keys as $idx => $key) {
-			$item[$key] = $values[$idx];
-		}
-		$this->db->save($item);
-	}
-}
-
 class BusinessController extends Controller {
 	/*********
 	* @index
@@ -131,9 +97,7 @@ class BusinessController extends Controller {
 	public function temp()
 	{
 
-		$dsk = new Dsk();
-		var_dump($dsk);
-		echo('yes');
+
 
 		
 	}
