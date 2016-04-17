@@ -754,8 +754,8 @@ angular.module('device.controllers', [])
             // 用户提交命令
             cmd_commit: function (cmd_name) {
                 this.clear_status();
+                if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY') {
 
-                if (cmd_name != 'DISKINFO'&& cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY') {
                     console.log('unknown cmd = ' + cmd_name);
                     return;
                 }
