@@ -150,6 +150,18 @@ angular.module('device.services', [])
         {
             code:null,
             cn:'开始执行'
+        },
+        {
+            code:0,
+            cn:'成功'
+        },
+        {
+            code:-2,
+            cn:'撤销'
+        },
+        {
+            code:-3,
+            cn:'超时'
         }
     ];
         return {
@@ -158,9 +170,11 @@ angular.module('device.services', [])
                     if(lang[idx].code === code)
                     {
                         return lang[idx].cn;
-                        break;
+
                     }
                 }
+                console.log(code);
+                return '未知状态'+code;
             }
         };
     });

@@ -7,6 +7,41 @@ $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 if ($content_type_args[0] == 'application/json') {
 	$_POST = json_decode(file_get_contents('php://input'),true);     
 }
+
+class Dsk
+{
+	public $level = 0, $group = 0, $disk = 0, $cab = 0;
+	public $disks = array();
+	public $db = null;
+	public $map = array();
+
+	public function init()
+	{
+		$this->level = (int)$_POST['level'];
+		$this->disk = (int)$_POST['disk'];
+		$this->group = (int)$_POST['group'];
+		$this->disks = $_POST['disks'];
+		$this->cab = (int)$_POST['device_id'];
+		$this->db = M('Device');
+		$this->map['cab'] = array('eq', $this->cab);
+		$this->map['level'] = array('eq', $this->level);
+		$this->map['zu'] = array('eq', $this->group);
+
+	}
+
+	public function updateDisk($keys, $values, $dsk_idx = -1)
+	{
+		if ($dsk_idx >= 0 && !$this->disks)
+			return;
+		$this->map['disk'] = $dsk_idx >= 0 ? array('eq', $this->disks[$dsk_idx] . id) : array('eq', $this->disk);
+		$item = $this->db->where($this->map)->find();
+		foreach ($keys as $idx => $key) {
+			$item[$key] = $values[$idx];
+		}
+		$this->db->save($item);
+	}
+}
+
 class BusinessController extends Controller {
 	/*********
 	* @index
@@ -17,13 +52,77 @@ class BusinessController extends Controller {
 		//check permission --to delay        
 		
 		//initiate database   --generate model
-		
-		
-		//generate the page 
-		$this->display();
+		if(!session('?user'))  {
+			U('login');
+			$this->redirect('login');
 
+		}
+		else{
+			$Username = session('user');
+			$this->assign('username',$Username);
+			//generate the page
+			$this->display();
+		}
 	}
+	public function deleteCmd(){
+		$db = M('CmdLog');
+		$id = I('get.id',0,'intval');
+		if($db->find($id))
+		{
+			$map['id'] = array('eq',$id);
+			$db->where($map)->delete();
+		}
+		else{
+			$this->notFoundError('Cmd not found');
+		}
+	}
+	public function insertUser(){
+		if(IS_POST){
+		}
+		else{
+			$user = I('get.user');
+			$pwd = I('get.pwd');
+			$db = M('Super');
+			$data['name'] = $user;
+			$data['pwd'] = md5($pwd);
+			if($db->where("name='$user'")->find())
+			{
+				$this->error('用户名重复',U('login'));
+				return;
+			}
+			if($db->add($data))
+			{
+				$this->success("增加成功",U('login'));
+			}
+			else{
+				$this->error('插入失败',U('login'));
+			}
+		}
+	}
+	public function login(){
+		if(session('?user')){
+			$this->redirect('index');
+			die();
+		}
+		if(IS_POST)
+		{
+			$User = M('super');
+			$uname = I('post.uname');
+			$cond['name'] = array('eq',$uname);
+			$cond['pwd'] = array('eq',md5(I('post.pwd')));
 
+			if(is_null($User->where($cond)->select())){
+				$this->error('登录失败');                     ;
+			}
+			else{
+				session('user', $uname);
+				$this->success('成功登录', U('index'));
+			}
+		}
+		else{
+			$this->display();
+		}
+	}
 	public function bridge()
 	{
 		$this->display('bridge');
@@ -32,7 +131,9 @@ class BusinessController extends Controller {
 	public function temp()
 	{
 
-                $this->display("index2");
+		$dsk = new Dsk();
+		var_dump($dsk);
+		echo('yes');
 
 		
 	}
@@ -450,11 +551,7 @@ class BusinessController extends Controller {
         $data['errmsg'] = 'item does not exists--'.$appended;
         $this->AjaxReturn($data);
     }
-	public function login(){   
-		//check permission
-		//query database
-		//return 
-	}
+
 	public function logout(){   
 		//check permission
 		//query database

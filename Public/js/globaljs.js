@@ -7,7 +7,8 @@ angular.module('device.controllers', [])
             var msg = JSON.parse(log.msg);
             var _start_time = log.start_time;
             var newcmd = {
-                id: msg.CMD_ID,
+                id: log.id,//log.id和CMD_ID有时不同
+                dst_id:log.dst_id,//STOP命令需要dst_id;
                 cmd: msg.cmd,
                 subcmd: msg.subcmd,
                 start_time:null,
@@ -36,10 +37,12 @@ angular.module('device.controllers', [])
                 //剩余时间，为0时表示时间用完
                 usedTime: 0,
                 progress: -1,
-                //最大等待时间，300秒
-                maxTime: 300,
-                //最小等待时间，120秒
-                minTime: 120,
+                //最长等待，20小时
+                maxTime: 72000,
+                //中等等待时间，300秒
+                midTime: 300,
+                //最小等待时间，60秒
+                minTime: 30,
                 timeLimit:0,
                 //错误信息
                 errMsg: '',
@@ -47,14 +50,24 @@ angular.module('device.controllers', [])
                     this.disk = msg.disk;
                     this.disks = msg.disks;
                     this.status = this.going;
+                    this.timeLimit = this.minTime;
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
                             if (this.subcmd == 'START') {
+                                this.timeLimit = this.midTime;
+                            }
+
+                            break;
+                        case 'MD5':
+                            if (this.subcmd == 'START') {
                                 this.timeLimit = this.maxTime;
                             }
-                            else {
-                                this.timeLimit = this.minTime;
+
+                            break;
+                        case 'COPY':
+                            if (this.subcmd == 'START') {
+                                this.timeLimit = this.maxTime;
                             }
                             break;
                         default:
@@ -75,6 +88,14 @@ angular.module('device.controllers', [])
                     }
                     console.log(this.usedTime);
                     this.start_time = _start_time;
+                },
+                setTimeOut: function(){
+                    $http({
+                        url: '/index.php?m=admin&c=business&a=setTimeOut&id='+ this.id,
+                        method: 'GET'
+                    }).error(function(data) {
+                        $scope.svrErrPool.add(data);
+                    });
                 },
                 getLeftTime: function(){
                     return (this.timeLimit - this.usedTime);
@@ -398,6 +419,7 @@ angular.module('device.controllers', [])
                         if (task.status == task.going && ++task.usedTime >= task.timeLimit) {
                             console.log("超时："+task.cmd+'-'+task.usedTime+'-'+task.timeLimit);
                             task.status = task.timeout;
+                            task.setTimeOut();
                         }
 
                         if (task.status != task.going) {
@@ -502,9 +524,9 @@ angular.module('device.controllers', [])
                 }
                 new PNotify({
                    title:'命令执行结果',
-                    text:task.cmd+'命令执行'+ result,
+                    text:task.cmd+'命令执行'+ $scope.lang.getLang(task.status),
                     type: type,
-                    addclass: 'notficiation-primary',
+                    addclass: 'notification-primary',
                     icon: icon
                 });
             },
@@ -522,6 +544,7 @@ angular.module('device.controllers', [])
                     if(pool[i].status != pool[i].going)
                     {
                         this.done.push(pool[i]);
+                        this.notify(pool[i]);
                     }
                     else
                     newPool.push(pool[i]);
@@ -612,6 +635,9 @@ angular.module('device.controllers', [])
 
         var businessRoot = '/index.php?m=admin&c=business';
         $scope.bridgeUrl = '/Public/js/bridge.html';
+        $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
+        $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
+        $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
         var server = businessRoot + '&a=addcmdlog';
         var proxy = "http://222.35.224.230:8080";
         $scope.cabId = 0;
