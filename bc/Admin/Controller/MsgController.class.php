@@ -170,29 +170,13 @@ class MsgController extends Controller
     {
         $this->msg = new Msg();
         $this->msg->init();
-        //get the json data into the：： _post array
         $this->db = M("CmdLog");
-
         if ($_POST['errmsg']) {
             //something wrong;
             $this->handleError();
             die();
         }
-        if ($this->msg->isStart()) {
-            //just start
-            $this->hdlStartMsg();
-            return;
-        }
-        if ($this->msg->isFail()) {
-            //failed
-            $this->hdlFail();
-            return;
-        }
-        if($this->msg->isStop()&&!$this->msg->isBridge())
-        {
-            $this->hdlStopMsg();
-            return;
-        }
+        $this->updateCmdLog();
         switch ($this->msg->cmd) {
             case 'DEVICESTATUS':
                 $this->updateDeviceStatus();
@@ -217,6 +201,7 @@ class MsgController extends Controller
                 break;
 
         }
+        $this->hdlSuccess();
     }
 
     private function hdlFail()
@@ -339,21 +324,23 @@ class MsgController extends Controller
             return;
         }
         if ($this->msg->isSuccess()) {
-            $cmd = $this->db->find($this->msg->id);
-            if ($cmd) {
+            $cmd = $this->db->find($this->msg->dst_id);
+            //cancel the going cmd
+            if ($cmd && $this->isGoing($cmd) ) {
                 $cmd['status'] = C('CMD_CANCELED');
                 $this->db->save($cmd);
             }
-            $map['dst_id'] = array('eq', $this->msg->id);
-            $map['status'] = array('eq', C('CMD_GOING'));
-            $items = $this->db->where($map)->select();
-            foreach ($items as $item) {
-                $item['status'] = C('CMD_SUCCESS');
-                $this->db->save($item);
+            $cmd = $this->db->find($this->msg->id);
+            if ($cmd) {
+                $cmd['status'] = C('CMD_SUCCESS');
+                $this->db->save($cmd);
             }
         }
     }
-
+    public function isGoing($cmd)
+    {
+        return $cmd['status'] == C('CMD_GOING');
+    }
     /**
      * for start msg: substatus:start
      */
@@ -432,9 +419,10 @@ class MsgController extends Controller
     {
         //将命令状态设为已完成;
 
-
+        $dsk = new Dsk();
+        $dsk.init();
         //在位信息以后改为用Redis维护
-        if ($_POST['status'] == '0') {
+        if ($this->msg->isSuccess()) {
             $db = M('Device');
             $levels = $_POST['levels'];
             $map['loaded'] = array('eq', 1);
@@ -460,7 +448,8 @@ class MsgController extends Controller
                         $map['level'] = array('eq', $level_id);
                         $map['zu'] = array('eq', $group_id);
                         $map['disk'] = array('eq', $disk);
-                        $item = $db->where("level=$level_id and zu=$group_id and disk=$disk")->find();
+                        $map['cab_id'] = array('eq',$dsk->cab);
+                        $item = $db->where($map)->find();
                         if ($item) {
                             $item['loaded'] = 1;
                             $item['time'] = time();
@@ -473,10 +462,6 @@ class MsgController extends Controller
                     }
                 }
             }
-        }
-        $this->updateCmdLog();
-        if ((int)$_POST['status'] > 0) {
-            $this->handleError();//统一处理
         }
     }
 
@@ -541,7 +526,14 @@ class MsgController extends Controller
             }
         }
     }
-
+    public function hdlSuccess()
+    {
+        $log = $this->db->find($this->msg->id);
+        if($log) {
+            $log['status'] = C('CMD_SUCCESS');
+            $this->db->save($log);
+        }
+    }
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
@@ -552,52 +544,24 @@ class MsgController extends Controller
      * update the command log
      * @author: wilson xu
      */
-    public function updateCmdLog($status)
+    public function updateCmdLog()
     {
-        $status = (int)$_POST['status'];
-        $cmdDb = M('CmdLog');
-        $cmdId = (int)$_POST['CMD_ID'];
-        $cmd = $_POST['cmd'];
-        $item = $cmdDb->find($cmdId);
-
-        //status>=0?
-        if ($status == C('CMD_SUCCESS')) {
-            //获取子状态的值
-            $substatus = $_POST['substatus'];
-            switch ($substatus) {
-                case C('CMD_STARTING'):
-                    $status = C('CMD_GOING');
-                    break;
-                case C('CMD_SUCCESS'):
-                    //进一步处理
-                    $subcmd = $_POST['subcmd'];
-                    switch ($subcmd) {
-                        case 'PROGRESS':
-                            $item['progress'] = (float)$_POST['progress'];
-                            break;
-                        case 'STOP':
-                            //command is canceled
-                            $item['status'] = C('CMD_CANCELED');
-                            $cmdDb->save($item);
-                            //find the real stop cmd and success it
-                            $map['dst_id'] = array('eq', $cmdId);
-                            $item = $cmdDb->where($map)->find();
-                            break;
-                    }
-                    break;
-                case C('CMD_WORKING'):
-                    if ($_POST['cmd'] == 'BRIDGE') {
-                        //获取工作进度
-                        $item['stage'] = $_POST['workingstatus'];
-                    }
-                    break;
-            }
+        if ($this->msg->isStart()) {
+            //just start
+            $this->hdlStartMsg();
+            die();
         }
-        $item['status'] = $status;
-        //对于获取进度子命令或者桥接命令
+        if ($this->msg->isFail()) {
+            //failed
+            $this->hdlFail();
+            die();
+        }
+        if($this->msg->isStop()&&!$this->msg->isBridge())
+        {
+            $this->hdlStopMsg();
+            die();
+        }
 
-        $item['progress'] = $_POST['progress'];
-        $cmdDb->save($item);
     }
 
 

@@ -408,7 +408,7 @@
                                         <a href="#modalAnim{{cab.curr.get_busy_disk() != null?'Busy':'Start'}}"
                                            class="btn btn-xs modal-with-move-anim"
                                            ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
-                                           ng-disabled="!cab.curr.is_loaded()">
+                                           ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
                                             <i class="fa fa-info-circle"></i>
                                             {{cab.curr.get_btn_title('DISKINFO')}}
                                         </a>
