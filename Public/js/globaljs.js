@@ -1242,7 +1242,7 @@ angular.module('device.controllers', [])
                     _dsk.base_info.bridged = e.bridged == 1;
                     // 桥接置位
                     if (e.bridged == 1) {
-                        _dsk.base_info.bridge_path = e.bridge_path;
+                        _dsk.base_info.bridge_path = e.path;
                     }
                 }
             },

@@ -391,6 +391,19 @@
                                    </div>-->
                                 <div class="row">
                                     <div class="col-lg-6">
+                                        <p title="桥接">
+                                            <i class="fa "
+                                               ng-class="{
+                                                       true:'fa-link',
+                                                       false:'fa-unlink'
+                                                   }[cab.curr.is_bridged()]"></i>
+                                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
+                                            <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" ng-if="cab.curr.is_bridged()">打开</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
                                         <p title="硬盘容量">
                                             <i class="fa fa-tachometer"></i>
                                             {{cab.curr.is_loaded()?cab.curr.get_capacity() : '-'}} GB
