@@ -173,11 +173,22 @@ class BusinessController extends Controller {
             $this->notFoundError('bridge not found in log');
         }
 	}
+
+	/**
+	 * show how many cabs here
+	 */
+	public function getCabInfo()
+	{
+		$db = M('Cab');
+        $items = $db->select();
+        $this->AjaxReturn($items);
+	}
 	public function getDeviceInfo()
 	{
 		 //initiate database   --generate model
 		$db = M('Device');
-		$rooms = $db->select();
+        $map['cab_id'] = array('eq',I('get.cab'));
+		$rooms = $db->where($map)->select();
 		$returnData = array();
 		foreach($rooms as $item)
 		{
@@ -187,8 +198,7 @@ class BusinessController extends Controller {
 				//硬盘在位
 				$item['time'] = date("Y-m-d H:i:s",$item['time']);
 				$returnData[] = $item;
-				
-			} 
+			}
 			
 		}
 		$this->AjaxReturn($returnData);

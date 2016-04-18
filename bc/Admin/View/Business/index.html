@@ -47,7 +47,9 @@
         li.selected a {
             background-color: green;
         }
-
+        div.selected{
+            border: 2px solid darkred !important;
+        }
         .btn-selected {
             border: 2px solid darkred !important;
             color: darkred;
@@ -252,7 +254,7 @@
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
                     </figure>-->
                     <div class="profile-info">
-                        <span class="name">管理员</span>
+                        <span class="name"><{$username}></span>
                         <span class="role"><i class="fa fa-circle bk-fg-success"></i> 高级权限</span>
                     </div>
                     <i class="fa custom-caret"></i>
@@ -299,6 +301,7 @@
         </div>
         <div class="main">
             <!-- Start: Content -->
+            <div ng-include="cabUrl"></div>
             <div class="container-fluid content">
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
