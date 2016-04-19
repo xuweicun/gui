@@ -527,9 +527,8 @@ class BusinessController extends Controller {
     }
 
 	public function logout(){   
-		//check permission
-		//query database
-		//return 
+		session_unset();
+		session_destroy(); 
 	}
 	public function chg_pwd(){   
 		//check permission
