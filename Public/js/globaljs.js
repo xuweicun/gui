@@ -285,8 +285,20 @@ angular.module('device.controllers', [])
             };
             Cmd.sendcmd(msg);
         }
+        Cmd.isDeviceNeeded = function(msg)
+        {
+            if(msg.cmd == 'DEVICEINFO')
+            {
+                return false;
+            }
+            return true;
+        }
         Cmd.sendcmd = function (msg) {
             //先发送消息告知服务器即将发送指令；
+            if(this.isDeviceNeeded(msg))
+            {
+                msg.device_id = $scope.cab.id.toString();
+            }
             $http.post(server, msg).
                 success(function (data) {
                     if (data['errmsg']) {
