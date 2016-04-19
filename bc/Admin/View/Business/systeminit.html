@@ -64,7 +64,7 @@
 		
 	</head>
 	
-	<body ng-app="device" ng-controller="statusMonitor">
+	<body ng-app="device" ng-controller="initCtrl">
 	
 		<!-- Start: Header -->
 
@@ -128,22 +128,52 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-success" ng-click="systemInit();">存储柜信息初始化</a>
+							<a href="" class="btn btn-block btn-success" ng-click="resetDb();">重置数据库</a>
 							<p class="help-block">{{info1}}{{info2}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-success" ng-click="deviceInit();">获取插槽信息</a>
-
+							<a href="" class="btn btn-block btn-success" ng-click="initCab();">获取存储柜信息</a>
+							<p class="help-block">{{info1}}{{info2}}</p>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<a href="" class="btn btn-block btn-success" ng-click="systemInit();">获取在位信息</a>
+							<p class="help-block">{{info1}}{{info2}}</p>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<a href="" class="btn btn-block btn-success" ng-click="deviceInit();">获取插槽详情</a>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 							<a href="" class="btn btn-block btn-danger" ng-click="initStop();"><i class="fa fa-stop"></i> 停止初始化</a>
-
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 							<a href="" class="btn btn-block btn-danger" ng-click="testPost();">POST处理测试</a>
 							<p class="help-block">{{info}}</p>
+						</div>
+					</div>
+					<div class="container-fluid content">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="tabs tabs-vertical tabs-left ">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#goingTasks" data-toggle="tab"><i class="fa fa-clock-o"></i>
+											进行中任务 <span class="badge badge-success" ng-bind="taskPool.going.length"
+														ng-show="taskPool.showGoing();"></span></a></li>
+										<li><a href="#doneTasks" data-toggle="tab"><i class="fa fa-check"></i> 已完成任务 <span
+												class="badge badge-danger" ng-bind="taskPool.done.length"
+												ng-show="taskPool.showDone();"></span></a></li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane panel panel-default bk-bg-white active" id="goingTasks">
+											<div ng-include="goingTaskUrl"></div>
+										</div>
+										<div class="tab-pane panel panel-default bk-bg-white" id="doneTasks">
+											<div ng-include="doneTaskUrl"></div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

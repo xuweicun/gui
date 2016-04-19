@@ -18,6 +18,7 @@ angular.module('device.controllers', [])
                 canceled: -2,
                 //超时命令的status值
                 timeout: -3,
+                cab_id:0,
                 //level和group是通用值，多数命令都用到
                 level: msg.level,
                 group: msg.group,
@@ -49,6 +50,7 @@ angular.module('device.controllers', [])
                 init: function () {
                     this.disk = msg.disk;
                     this.disks = msg.disks;
+                    this.cab_id = msg.device_id;
                     this.status = this.going;
                     this.timeLimit = this.minTime;
                     //根据命令名称判断
@@ -285,8 +287,7 @@ angular.module('device.controllers', [])
             };
             Cmd.sendcmd(msg);
         }
-        Cmd.isDeviceNeeded = function(msg)
-        {
+        Cmd.isDeviceNeeded = function(msg){
             if(msg.cmd == 'DEVICEINFO')
             {
                 return false;
@@ -652,7 +653,9 @@ angular.module('device.controllers', [])
         var server = businessRoot + '&a=addcmdlog';
         var proxy = "http://222.35.224.230:8080";
 
-
+        $scope.initCab = function(){
+            $scope.cmd.cabinfo();
+        }
         function init_popup() {
             $('.modal-with-move-anim').magnificPopup({
                 type: 'inline',
@@ -1074,33 +1077,31 @@ angular.module('device.controllers', [])
             },
             // 用于发送“MD5”和“复制”命令的“STOP”子命令
             cmd_stop: function () {
+              //  $scope.cmd.stop(this.curr_cmd.id);
                 var cmd_obj = null;
-                if (this.base_info.bridged) {
+                if (this.is_bridged()) {
+                    var disk_array = [];
+                    var disks = this.get_siblings();
+                    for (var i = 0; i < disks.length; ++i) {
+                        if (disks[i].is_bridged()) {
+                            disk_array.push({
+                                id: (disks[i].d + 1).toString(),
+                                SN: disks[i].get_SN()
+                            });
+                        }
+                    }
+
                     cmd_obj = {
                         cmd: 'BRIDGE',
                         subcmd: 'STOP',
                         level: (this.l + 1).toString(),
                         group: (this.g + 1).toString(),
-                        disks: [
-                            {
-                                id: (this.d + 1).toString(),
-                                SN: ''
-                            }
-                        ]
+                        disks: disk_array
                     };
                 }
                 else {
                     cmd_obj = this.curr_cmd;
                     cmd_obj.subcmd = 'STOP';
-
-                    if (cmd_obj != null && cmd_obj.subcmd != null) {
-                        if (cmd_obj.cmd == 'COPY') {
-                            this.parent.parent.groups[parseInt(cmd_obj.srcGroup) - 1].disks[parseInt(cmd_obj.srcDisk) - 1].curr_cmd = null;
-                            this.parent.parent.groups[parseInt(cmd_obj.dstGroup) - 1].disks[parseInt(cmd_obj.dstDisk) - 1].curr_cmd = null;
-                        }
-
-                        this.curr_cmd = null;
-                    }
                 }
 
                 $scope.cmd.sendcmd(cmd_obj);
@@ -1502,88 +1503,4 @@ angular.module('device.controllers', [])
                 }
             });
         }
-        $scope.deviceInit = function () {
-            $scope.cmd.devicestatus();
-            $scope.info1 = "初始化中，请等待";
-            var thisTimer = 0;
-            var deviceInterval = $interval(function () {
-                thisTimer++;
-                if ($scope.stop == 1) {
-                    $interval.cancel(deviceInterval);
-                    $scope.info1 = "初始化过程终止。";
-                }
-                $scope.info1 = "正在获取在位信息，等待代理响应，预计需40秒，已等待" + thisTimer * 2 + "秒";
-                if (thisTimer > 100) {//停止查询
-                    $interval.cancel(deviceInterval);
-                    $scope.info1 = "命令执行失败，请重试";
-                }
-                $http({
-                    url: '/index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS',
-                    method: 'GET'
-                }).success(function (data) {
-                        if (data['errmsg']) {
-                            return;
-                        }
-                        if (data['status'] >= 0) {
-                            $interval.cancel(deviceInterval);
-                            if (data['status'] > 0) {
-                                $scope.info1 = "命令执行失败，请重试";
-                            }
-                            else {
-                                //命令执行完毕
-                                $scope.info1 = "命令执行成功，在位信息获取完毕，开始初始化硬盘信息...";
-                                $http({
-
-                                    url: '/index.php?m=admin&c=business&a=getDeviceInfo',
-                                    method: 'GET'
-                                }).success(function (data) {
-                                        var i = 0;
-                                        var timeLth = data.length * 50;
-                                        var diskInitTimer = $interval(function () {
-                                            timeLth--;
-                                            $scope.info2 = " 剩余时间" + timeLth + "秒";
-                                            if (timeLth == 0)
-                                                $interval.cancel(diskInitTimer);
-                                        }, 1000);
-                                        var diskInterval = $interval(function () {
-                                            var e = data[i];
-                                            $scope.info1 = "正在初始化硬盘，硬盘号#" + e.level + "-" + e.zu + "-" + e.disk;
-
-                                            $scope.diskinfo(e.level, e.zu, e.disk);
-                                            i++;
-                                            if (i >= data.length) {
-                                                $scope.info1 = "初始化硬盘信息完毕...";
-                                                $interval.cancel(diskInterval);
-                                            }
-                                        }, 50000);
-
-
-                                    }
-                                );
-                            }
-                        }
-                    }
-                );
-            }, 2000);
-        }
-
-        //系统初始化
-        $scope.systemInit = function () {
-            $scope.info1 = "1.数据库重置中...";
-            $http({
-                url: '/index.php?m=admin&c=business&a=systeminit',
-                data: {level: $scope.level, group: $scope.group, disk: $scope.disknum},
-                method: 'POST'
-            }).success(function (data) {
-                if (data['errmsg']) {
-                    $scope.info1 = "数据库重置失败，请重试";
-                    return;
-                }
-                $scope.info1 = "2.数据库重置完成，开始初始化在位信息...";
-                $scope.deviceInit();
-                //检查是否有未完成的命令
-            });
-        }
-
-
     });
