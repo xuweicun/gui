@@ -492,7 +492,7 @@ class MsgController extends Controller
             //将命令状态设为已完成;
 
             $dsk = new Dsk();
-            $dsk . init();
+            $dsk->init();
             //在位信息以后改为用Redis维护
             if ($this->msg->isSuccess()) {
                 $db = M('Device');
@@ -601,8 +601,7 @@ class MsgController extends Controller
             }
         }
 
-        public
-        function hdlSuccess()
+        public function hdlSuccess()
         {
             $log = $this->db->find($this->msg->id);
             if ($log) {
@@ -611,8 +610,7 @@ class MsgController extends Controller
             }
         }
 
-        public
-        function handleError()
+        public function handleError()
         {
             //更新错误日志，包括命令名称，错误内容。--增加表；
             die();
@@ -622,8 +620,7 @@ class MsgController extends Controller
          * update the command log
          * @author: wilson xu
          */
-        public
-        function updateCmdLog()
+        public function updateCmdLog()
         {
             if ($this->msg->isStart()) {
                 //just start
