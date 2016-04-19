@@ -529,6 +529,7 @@ class BusinessController extends Controller {
 	public function logout(){   
 		session_unset();
 		session_destroy(); 
+		$this->display("logout");
 	}
 	public function chg_pwd(){   
 		//check permission
