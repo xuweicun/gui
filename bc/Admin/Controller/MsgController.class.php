@@ -147,7 +147,7 @@ class Dsk
         $this->map['cab'] = array('eq', $this->cab);
         $this->map['level'] = array('eq', $this->level);
         $this->map['zu'] = array('eq', $this->group);
-
+        $this->map['cab_id'] = array('eq', $this->cab);
     }
 
     public function updateDisk($keys, $values, $dsk_idx = -1)
@@ -160,6 +160,26 @@ class Dsk
             $item[$key] = $values[$idx];
         }
         $this->db->save($item);
+    }
+
+    /***
+     * @param $keys
+     * @param $values
+     * update the true disk information
+     */
+    public function  updateDiskInfo($keys, $values)
+    {
+        $room = $this->db->where($this->map)->find();
+        $dskDb = M('Disk');
+        $dsk = $dskDb->find($room['disk_id']);
+        if($dsk)
+        {
+            foreach($keys as $idx=>$key)
+            {
+                $dsk[$key] = $values[$idx];
+            }
+            $dskDb->save($dsk);
+        }
     }
 }
 
@@ -178,7 +198,9 @@ class MsgController extends Controller
             $this->handleError();
             die();
         }
+        //update the log
         $this->updateCmdLog();
+        //update related table
         switch ($this->msg->cmd) {
             case 'DIVICEINFO':
                 $this->hdlDevInfo();
@@ -226,13 +248,12 @@ class MsgController extends Controller
      */
     private function hdlDevInfo()
     {
-        $log = $this->getLog($this->msg->id);
         if ($this->msg->isSuccess()) {
             $cabDb = M('Cab');
             //查看cab是否存在
             $cabs = $_POST['cabinets'];
             foreach ($cabs as $cab) {
-                $map['sn'] = array('eq', $cab);
+                $map['sn'] = array('eq',(int)$cab);
                 $item = $cabDb->where($map)->find();
                 if (!$item) {
                     $data = array();
@@ -367,7 +388,17 @@ class MsgController extends Controller
                     }
                     break;
                 case 'RESULT':
-                    
+                    $keys = array('md5');
+                    $values = array($_POST['result']);
+                    $dsk = new Dsk();
+                    $dsk->init();
+                    $dsk->updateDiskInfo($keys,$values);
+                    break;
+                case 'PROGRESS':
+                    //for md5 and copy, update progress
+                    $log = $this->getLog($this->msg->dst_id);
+                    $log['progress'] = (float)$_POST['progress'];
+                    $this->db->save($log);
                     break;
             }
         }
