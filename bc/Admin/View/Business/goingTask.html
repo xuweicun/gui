@@ -81,6 +81,7 @@
                             </div>
                         </td>
                         <td class="center hidden-phone">
+                            <p ng-bind="'柜子号：#'+task.cab_id" ng-show="task.cab_id"></p>
                             <p ng-repeat="disk in task.disks" ng-show="task.disks != null">
                                 <span><i class="fa fa-hdd-o"></i> {{task.level+'-'+task.group+'-'+disk.id}}</span>
                             </p>
