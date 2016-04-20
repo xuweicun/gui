@@ -116,6 +116,10 @@ angular.module('device.services', [])
             cn:'存储柜插槽状态查询'
         },
         {
+            code:'DEVICEINFO',
+            cn:'存储柜查询'
+        },
+        {
             code:'BRIDGE',
             cn:'桥接'
         },

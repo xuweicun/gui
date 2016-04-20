@@ -294,6 +294,14 @@ angular.module('device.controllers', [])
             }
             return true;
         }
+        Cmd.delete = function(id){
+            $http({
+                url: '/index.php?m=admin&c=business&a=deleteLog&id='+id,
+                method: 'GET'
+            }).error(function (data) {
+                console.log("更新存储柜信息失败.");
+            });
+        }
         Cmd.sendcmd = function (msg) {
             //先发送消息告知服务器即将发送指令；
             if(this.isDeviceNeeded(msg))
@@ -306,7 +314,7 @@ angular.module('device.controllers', [])
                         $scope.svrErrPool.add(data);
                     }
                     //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
-                    if (msg.subcmd != 'STOP') {
+                    if (msg.subcmd != 'STOP' && msg.cmd != 'DEVICEINFO') {
                         msg.CMD_ID = data['id'].toString();
                     }
                     var msgStr = JSON.stringify(msg);
@@ -320,6 +328,8 @@ angular.module('device.controllers', [])
                         }).
                         error(function (data) {
                             $scope.svrErrPool.add();
+                        //delete from log;
+                        $scope.cmd.delete(data['id']);
                         });
                     // data['msg'] = msgStr;
                     //var newCmd = $scope.cmd.createCmd(data);

@@ -30,7 +30,7 @@ class BusinessController extends Controller {
 			$this->display();
 		}
 	}
-	public function deleteCmd(){
+	public function deleteLog(){
 		$db = M('CmdLog');
 		$id = I('get.id',0,'intval');
 		if($db->find($id))
