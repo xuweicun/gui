@@ -254,8 +254,9 @@
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
                     </figure>-->
                     <div class="profile-info">
-                        <span class="name"><{$username}></span>
+                        <span class="name" id="username"><{$username}></span>
                         <span class="role"><i class="fa fa-circle bk-fg-success"></i> 高级权限</span>
+                        <input type="text" value="<{$userid}>" style="display: none;" id="userid">
                     </div>
                     <i class="fa custom-caret"></i>
                 </a>
@@ -697,7 +698,7 @@
             <div class="container-fluid content">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="tabs tabs-vertical tabs-left ">
+                        <div class="tabs tabs-horizontal tabs-left ">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#goingTasks" data-toggle="tab"><i class="fa fa-clock-o"></i>
                                     进行中任务 <span class="badge badge-success" ng-bind="taskPool.going.length"

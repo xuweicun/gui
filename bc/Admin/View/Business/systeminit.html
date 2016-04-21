@@ -12,7 +12,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		
 		<!-- Import google fonts -->
-        <link href='http://fonts.useso.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+
         
 		<!-- Favicon and touch icons -->
 		<link rel="shortcut icon" href="/Public/assets/ico/favicon.ico" type="image/x-icon" />
@@ -53,7 +53,7 @@
 		
 		<!-- Head Libs -->
 		<script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
-		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="/Public/js/angular-1.4.min.js"></script>
 		
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -136,7 +136,7 @@
 							<p class="help-block">{{info1}}{{info2}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-success" ng-click="systemInit();">获取在位信息</a>
+							<a href="" class="btn btn-block btn-success" ng-click="cmd.devicestatus();">获取在位信息</a>
 							<p class="help-block">{{info1}}{{info2}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -148,14 +148,14 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-danger" ng-click="testPost();">POST处理测试</a>
+							<a href="" class="btn btn-block btn-danger" ng-click="cmd.testPost();">POST处理测试</a>
 							<p class="help-block">{{info}}</p>
 						</div>
 					</div>
 					<div class="container-fluid content">
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="tabs tabs-vertical tabs-left ">
+								<div class="tabs tabs-horizontal tabs-left ">
 									<ul class="nav nav-tabs">
 										<li class="active"><a href="#goingTasks" data-toggle="tab"><i class="fa fa-clock-o"></i>
 											进行中任务 <span class="badge badge-success" ng-bind="taskPool.going.length"

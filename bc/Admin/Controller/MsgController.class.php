@@ -50,7 +50,10 @@ class Msg
         $this->getResult();
         $this->db = M("CmdLog");
     }
-
+    public function isStop()
+    {
+        return $this->subcmd == 'STOP';
+    }
     public function isBridge()
     {
         return $this->cmd == 'BRIDGE';
@@ -94,6 +97,7 @@ class Msg
      */
     public function isWorking()
     {
+
         return $this->substatus == C('SUB_STATUS_WORKING');
     }
 
@@ -139,8 +143,8 @@ class Dsk
     public function init()
     {
         $this->level = (int)$_POST['level'];
-        $this->disk = (int)$_POST['disk'];
-        $this->group = (int)$_POST['group'];
+        $this->disk = $_POST['disk'] ? (int)$_POST['disk'] : 0;
+        $this->group = $_POST['group'] ? (int)$_POST['group'] : 0;
         $this->disks = $_POST['disks'];
         $this->cab = (int)$_POST['device_id'];
         $this->db = M('Device');
@@ -172,10 +176,8 @@ class Dsk
         $room = $this->db->where($this->map)->find();
         $dskDb = M('Disk');
         $dsk = $dskDb->find($room['disk_id']);
-        if($dsk)
-        {
-            foreach($keys as $idx=>$key)
-            {
+        if ($dsk) {
+            foreach ($keys as $idx => $key) {
                 $dsk[$key] = $values[$idx];
             }
             $dskDb->save($dsk);
@@ -193,10 +195,12 @@ class MsgController extends Controller
         $this->msg = new Msg();
         $this->msg->init();
         $this->db = M("CmdLog");
+        $this->RTLog($this->msg->cmd);
         if ($_POST['errmsg']) {
             //something wrong;
-            $this->handleError();
-            die();
+            //   $this->handleError();
+            //   die();
+            $this->RTLog($_POST['errmsg']);
         }
         //update the log
         $this->updateCmdLog();
@@ -224,15 +228,16 @@ class MsgController extends Controller
                 $this->protectMsgHdl();
                 break;
             case 'DEVICEINFO':
-                $this->updateCabStatus();
+                $this->hdlDevInfo();
                 break;
 
         }
-        $this->hdlSuccess();
+       // $this->hdlSuccess();
     }
 
     private function hdlFail()
     {
+        $this->RTLog("fail func called");
         $item = $this->msg;
         $log = $this->db->find($item->id);
         if ($log) {
@@ -253,7 +258,7 @@ class MsgController extends Controller
             //查看cab是否存在
             $cabs = $_POST['cabinets'];
             foreach ($cabs as $cab) {
-                $map['sn'] = array('eq',(int)$cab);
+                $map['sn'] = array('eq', (int)$cab);
                 $item = $cabDb->where($map)->find();
                 if (!$item) {
                     $data = array();
@@ -392,7 +397,7 @@ class MsgController extends Controller
                     $values = array($_POST['result']);
                     $dsk = new Dsk();
                     $dsk->init();
-                    $dsk->updateDiskInfo($keys,$values);
+                    $dsk->updateDiskInfo($keys, $values);
                     break;
                 case 'PROGRESS':
                     //for md5 and copy, update progress
@@ -404,248 +409,274 @@ class MsgController extends Controller
         }
     }
 
-        function isGoing($cmd)
-        {
-            return $cmd['status'] == C('CMD_GOING');
-        }
+    function isGoing($cmd)
+    {
+        return $cmd['status'] == C('CMD_GOING');
+    }
 
-        /**
-         * for start msg: substatus:start
-         */
-        public
-        function hdlStartMsg()
-        {
-            $log = $this->db->find($this->msg->id);
-            if (!$log) {
-                return;
-            }
-            $log['substatus'] = $this->msg->substatus;
+    /**
+     * for start msg: substatus:start
+     */
+    public
+    function hdlStartMsg()
+    {
+        $log = $this->db->find($this->msg->id);
+        if (!$log) {
+            return;
+        }
+        $log['substatus'] = $this->msg->substatus;
+        $this->db->save($log);
+    }
+
+    public
+    function getLog($id)
+    {
+        return $this->db->find($id);
+    }
+
+    public function  RTLog($txt='love you')
+    {
+        $myfile = fopen("rtlog.txt", "a") or die("Unable to open file!");
+        $txt = $txt."\r\n";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+    }
+    public function rdLog()
+    {
+        echo(file_get_contents("rtlog.txt") );
+    }
+
+    public
+    function hdlBridgeMsg()
+    {
+        $disks = $_POST['disks'];
+        $paths = $_POST['paths'];
+        $log = $this->getLog($this->msg->id);
+        $this->RTLog("bridge msg handling");
+        if ($this->msg->isWorking()) {
+            $this->RTLog("working:".$this->msg->substatus);
+            //if just some working msg
+            $log['stage'] = $this->msg->stage;
+            $log['return_msg'] = $this->msg->origin;
             $this->db->save($log);
+            return;
         }
-
-        public
-        function getLog($id)
-        {
-            return $this->db->find($id);
-        }
-
-        public
-        function hdlBridgeMsg()
-        {
-            $disks = $_POST['disks'];
-            $paths = $_POST['paths'];
-            $log = $this->getLog($this->msg->id);
-            if ($this->msg->isWorking()) {
-                //if just some working msg
-                $log['stage'] = $this->msg->stage;
-                $log['return_msg'] = $this->msg->origin;
-                $this->db->save($log);
-                return;
-            }
-            $stop = $this->msg->isStop();
-            $failFlag = true;
-            $dsk = new Dsk();
-            $dsk->init();
-            //for dsk object
-            $keys = array('bridged', 'path');
-            $values = array(0, '');
-            foreach ($disks as $key => $disk) {
-                $status = (int)$paths[$key]['status'];
-                if ($status == C('CMD_SUCCESS')) {
-                    $failFlag = false;
-                    $values[0] = $stop == true ? 0 : 1;
-                    //if bridged
-                    if (!$stop) {
-                        $values[1] = C('BRG_DIR_ROOT') . $paths[$key]['value'];
-                    } else {
-                        $values[1] = '';
-                    }
-                    $dsk->updateDisk($keys, $values, $key);
-                }
-            }
-            //状态值
-            if ($failFlag == true) {
-                $log['status'] = (int)$paths[0]['status'];
-            } else {
-                $log['status'] = C('CMD_SUCCESS');
-                $dstLog = $this->getLog($this->msg->dst_id);
-                if ($dstLog['status'] == C('CMD_GOING')) {
-                    //if the dst-commond still going, cancel it
-                    $dstLog['status'] = C('CMD_CANCELED');
-                    $this->db->save($dstLog);
-                }
-            }
-
-            $log['return_msg'] = file_get_contents('php://input');
-            $this->db->save($log);
-            //return msg
-
-        }
-
-        /***
-         * 获取硬盘在位信息返回数据处理函数
-         * @作者 Wilson Xu
-         */
-        public
-        function updateDeviceStatus()
-        {
-            //将命令状态设为已完成;
-
-            $dsk = new Dsk();
-            $dsk->init();
-            //在位信息以后改为用Redis维护
-            if ($this->msg->isSuccess()) {
-                $db = M('Device');
-                $levels = $_POST['levels'];
-                $map['loaded'] = array('eq', 1);
-                //找出所有之前在位的硬盘；
-                $items = $db->where($map)->select();
-                //更新在位信息；
-                foreach ($items as $item) {
-                    $item['loaded'] = 0;
-                    $item['time'] = time();
-                    $db->save($item);
-                }
-                $testDb = M('test');
-
-                foreach ($levels as $level) {
-
-                    $level_id = $level['id'];
-                    $groups = $level['groups'];
-                    foreach ($groups as $group) {
-                        $group_id = $group['id'];
-                        $disks = $group['disks'];
-                        foreach ($disks as $disk) {
-                            $data['response'] = "$level_id-$group_id-$disk";
-                            $map['level'] = array('eq', $level_id);
-                            $map['zu'] = array('eq', $group_id);
-                            $map['disk'] = array('eq', $disk);
-                            $map['cab_id'] = array('eq', $dsk->cab);
-                            $item = $db->where($map)->find();
-                            if ($item) {
-                                $item['loaded'] = 1;
-                                $item['time'] = time();
-                                $db->save($item);
-                                $data['response'] = $data['response'] . "-added";
-                            } else {
-                                $data['response'] = $data['response'] . "-fail";
-                            }
-                            $testDb->add($data);
-                        }
-                    }
-                }
-            }
-        }
-
-        public
-        function updateDiskInfo()
-        {
-            //暂时不维护此命令状态，太麻烦;
-            //后期修改cmdlog，增加diskinfo一项，记录操作对象。
-
-            //在位信息以后改为用Redis维护
-            if ($_POST['status'] == 0) {
-                //查看是否对应盘位绑定了硬盘
-                //若未绑定
-                $level = $_POST['level'];
-                $group = $_POST['group'];
-                $disk = $_POST['disk'];
-                $map = "level=$level and zu=$group and disk=$disk";
-                $db = M('Device');
-                $diskDb = M('Disk');
-                $item = $db->where($map)->find();
-                $data['sn'] = $_POST['SN'];
-                $data['smart'] = 0;
-                $data['capacity'] = $_POST['capacity'];
-                $data['time'] = time();
-                if (!$item['disk_id'] || is_null($item['disk_id'])) {
-                    $item['disk_id'] = $diskDb->add($data);
-                    $db->save($item);
-                    $this->updateSmart($item['disk_id']);
-
+        $this->RTLog("here handling;");
+        $stop = $this->msg->isStop();
+        $failFlag = true;
+        $dsk = new Dsk();
+        $dsk->init();
+        //for dsk object
+        $keys = array('bridged', 'path');
+        $values = array(0, '');
+        $this->RTLog("<Disk number:".count($disks).">");
+        foreach ($disks as $key => $disk) {
+            $status = (int)$paths[$key]['status'];
+            $this->RTLog("handling:".$status);
+            if ($status == C('CMD_SUCCESS')) {
+                $failFlag = false;
+                $values[0] = $stop == true ? 0 : 1;
+                //if bridged
+                if (!$stop) {
+                    $values[1] = C('BRG_DIR_ROOT') . $paths[$key]['value'];
                 } else {
-                    $data['id'] = $item['disk_id'];
-
-                    $diskDb->save($data);
-                    $this->updateSmart($item['disk_id']);
+                    $values[1] = '';
                 }
+                $dsk->updateDisk($keys, $values, $key);
+            }
+        }
+        //状态值
+        if ($failFlag == true) {
+            $log['status'] = (int)$paths[0]['status'];
+            $this->RTLog("FAIL:".$log['status']);
+        } else {
+            $this->RTLog("success");
+            $log['status'] = C('CMD_SUCCESS');
+            $dstLog = $this->getLog($this->msg->dst_id);
+            if ($dstLog['status'] == C('CMD_GOING')) {
+                //if the dst-commond still going, cancel it
+                $dstLog['status'] = C('CMD_CANCELED');
+                $this->db->save($dstLog);
             }
         }
 
-        /******
-         * 更新Smart值
-         * @input: disk_id, $_POST
-         */
-        private
-        function updateSmart($id)
-        {
-            $db = M('DiskSmart');
-            $attrs = $_POST['SmartAttrs'];
-            $testDb = M('test');
-            $test['response'] = count($attrs);
-            $testDb->add($test);
-            foreach ($attrs as $attr) {
-                //查找是否存在
-                $attr = $attr;
-
-                $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
-                if ($item = $db->where($map)->find()) {
-                    $item['value'] = $attr['Current_value'];
-                    $db->save($item);
-                } else {
-                    $item['value'] = $attr['Current_value'];
-                    $item['attrname'] = $attr['Attribute_ID'];
-                    $item['disk_id'] = $id;
-                    $db->add($item);
-                }
-            }
-        }
-
-        public function hdlSuccess()
-        {
-            $log = $this->db->find($this->msg->id);
-            if ($log) {
-                $log['status'] = C('CMD_SUCCESS');
-                $this->db->save($log);
-            }
-        }
-
-        public function handleError()
-        {
-            //更新错误日志，包括命令名称，错误内容。--增加表；
-            die();
-        }
-
-        /***
-         * update the command log
-         * @author: wilson xu
-         */
-        public function updateCmdLog()
-        {
-            if ($this->msg->isStart()) {
-                //just start
-                $this->hdlStartMsg();
-                die();
-            }
-            if ($this->msg->isFail()) {
-                //failed
-                $this->hdlFail();
-                die();
-            }
-            //bridge msg has to be handled seperately
-            if ($this->msg->isBridge()) {
-                return;
-            }
-            //for stop msg: stop is quite simple
-            if ($this->msg->isSRP()) {
-                $this->hdlSRPMsg();
-                die();
-            }
-            //for success msg
-            if ($this->msg->isSuccess()) {
-                $this->hdlSuccess();
-            }
-        }
-
+        $log['return_msg'] = file_get_contents('php://input');
+        $this->RTLog("status:".$log['status']);
+        $this->RTLog("log:".$log['id']);
+        $this->db->save($log);
+        die();
+        //return msg
 
     }
+
+    /***
+     * 获取硬盘在位信息返回数据处理函数
+     * @作者 Wilson Xu
+     */
+    public
+    function updateDeviceStatus()
+    {
+        //将命令状态设为已完成;
+
+        $dsk = new Dsk();
+        $dsk->init();
+        //在位信息以后改为用Redis维护
+        if ($this->msg->isSuccess()) {
+            $db = M('Device');
+            $levels = $_POST['levels'];
+            $map['loaded'] = array('eq', 1);
+            //找出所有之前在位的硬盘；
+            $items = $db->where($map)->select();
+            //更新在位信息；
+            foreach ($items as $item) {
+                $item['loaded'] = 0;
+                $item['time'] = time();
+                $db->save($item);
+            }
+            $testDb = M('test');
+
+            foreach ($levels as $level) {
+
+                $level_id = $level['id'];
+                $groups = $level['groups'];
+                foreach ($groups as $group) {
+                    $group_id = $group['id'];
+                    $disks = $group['disks'];
+                    foreach ($disks as $disk) {
+                        $data['response'] = "$level_id-$group_id-$disk";
+                        //清空map
+                        $map = array();
+                        $map['level'] = array('eq', $level_id);
+                        $map['zu'] = array('eq', $group_id);
+                        $map['disk'] = array('eq', $disk);
+                        $map['cab_id'] = array('eq', $dsk->cab);
+                        $this->RTLog($dsk->cab.'-'.$level_id.'-'.$group_id.'-'.$disk);
+                        $item = $db->where($map)->find();
+                        if ($item) {
+                            $item['loaded'] = 1;
+                            $item['time'] = time();
+                            $db->save($item);
+                            $data['response'] = $data['response'] . "-added";
+                            $this->RTLog('<change info>');
+                        } else {
+                            $data['response'] = $data['response'] . "-fail";
+                        }
+                        $testDb->add($data);
+                    }
+                }
+            }
+        }
+    }
+
+    public
+    function updateDiskInfo()
+    {
+        //暂时不维护此命令状态，太麻烦;
+        //后期修改cmdlog，增加diskinfo一项，记录操作对象。
+
+        //在位信息以后改为用Redis维护
+        if ($_POST['status'] == 0) {
+            //查看是否对应盘位绑定了硬盘
+            //若未绑定
+            $level = $_POST['level'];
+            $group = $_POST['group'];
+            $disk = $_POST['disk'];
+            $map = "level=$level and zu=$group and disk=$disk";
+            $db = M('Device');
+            $diskDb = M('Disk');
+            $item = $db->where($map)->find();
+            $data['sn'] = $_POST['SN'];
+            $data['smart'] = 0;
+            $data['capacity'] = $_POST['capacity'];
+            $data['time'] = time();
+            if (!$item['disk_id'] || is_null($item['disk_id'])) {
+                $item['disk_id'] = $diskDb->add($data);
+                $db->save($item);
+                $this->updateSmart($item['disk_id']);
+
+            } else {
+                $data['id'] = $item['disk_id'];
+
+                $diskDb->save($data);
+                $this->updateSmart($item['disk_id']);
+            }
+        }
+    }
+
+    /******
+     * 更新Smart值
+     * @input: disk_id, $_POST
+     */
+    private
+    function updateSmart($id)
+    {
+        $db = M('DiskSmart');
+        $attrs = $_POST['SmartAttrs'];
+        $testDb = M('test');
+        $test['response'] = count($attrs);
+        $testDb->add($test);
+        foreach ($attrs as $attr) {
+            //查找是否存在
+            $attr = $attr;
+
+            $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
+            if ($item = $db->where($map)->find()) {
+                $item['value'] = $attr['Current_value'];
+                $db->save($item);
+            } else {
+                $item['value'] = $attr['Current_value'];
+                $item['attrname'] = $attr['Attribute_ID'];
+                $item['disk_id'] = $id;
+                $db->add($item);
+            }
+        }
+    }
+
+    public function hdlSuccess()
+    {
+        $log = $this->db->find($this->msg->id);
+        if ($log) {
+            $log['status'] = C('CMD_SUCCESS');
+            $this->db->save($log);
+        }
+    }
+
+    public function handleError()
+    {
+        //更新错误日志，包括命令名称，错误内容。--增加表；
+        die();
+    }
+
+    /***
+     * update the command log
+     * @author: wilson xu
+     */
+    public function updateCmdLog()
+    {
+        if ($this->msg->isStart()) {
+            //just start
+            $this->hdlStartMsg();
+            die();
+        }
+        if ($this->msg->isFail()) {
+            //failed
+            $this->hdlFail();
+            die();
+        }
+        //bridge msg has to be handled seperately
+        if ($this->msg->isBridge()) {
+            return;
+        }
+        //for stop msg: stop is quite simple
+        if ($this->msg->isSRP()) {
+            $this->hdlSRPMsg();
+            die();
+        }
+        //for success msg
+        if ($this->msg->isSuccess()) {
+            $this->hdlSuccess();
+        }
+    }
+
+
+}

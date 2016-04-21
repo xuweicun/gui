@@ -26,6 +26,7 @@ class BusinessController extends Controller {
 		else{
 			$Username = session('user');
 			$this->assign('username',$Username);
+			$this->assign('userid',session('userid'));
 			//generate the page
 			$this->display();
 		}
@@ -74,14 +75,16 @@ class BusinessController extends Controller {
 		{
 			$User = M('super');
 			$uname = I('post.uname');
+			$item = null;
 			$cond['name'] = array('eq',$uname);
 			$cond['pwd'] = array('eq',md5(I('post.pwd')));
 
-			if(is_null($User->where($cond)->select())){
+			if(!$item = $User->where($cond)->find()){
 				$this->error('登录失败');                     ;
 			}
 			else{
 				session('user', $uname);
+				session('userid',$item['id']);
 				$this->success('成功登录', U('index'));
 			}
 		}
@@ -344,6 +347,7 @@ class BusinessController extends Controller {
 			$db->save($log);
 			return;
 		}
+		$data['user_id'] = I('get.userid',0,'intval');
 		$data['cmd'] = $_POST['cmd'];
 		$data['sub_cmd'] = $_POST['subcmd'];
 		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
