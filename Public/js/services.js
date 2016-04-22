@@ -112,10 +112,15 @@ angular.module('device.services', [])
     var msg = {
         diskinfo: {"CMD_ID":"117","SN":"5LY3PRKJ","SmartAttrs":[{"Attribute_ID":"01","Current_value":"00","Data":"29677D22","ExtData":"0001","Threshold":"55","Worst_value":"6C"},{"Attribute_ID":"03","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"63","Worst_value":"63"},{"Attribute_ID":"04","Current_value":"00","Data":"002A2514","ExtData":"0000","Threshold":"5A","Worst_value":"5A"},{"Attribute_ID":"05","Current_value":"00","Data":"00000024","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"07","Current_value":"00","Data":"5A67101E","ExtData":"0002","Threshold":"3C","Worst_value":"4B"},{"Attribute_ID":"09","Current_value":"DE","Data":"0001A900","ExtData":"AF00","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"0A","Current_value":"00","Data":"00000022","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"0C","Current_value":"00","Data":"00200A14","ExtData":"0000","Threshold":"5C","Worst_value":"5C"},{"Attribute_ID":"BB","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"BD","Current_value":"00","Data":"00001C00","ExtData":"0000","Threshold":"48","Worst_value":"48"},{"Attribute_ID":"BE","Current_value":"00","Data":"1700172D","ExtData":"0017","Threshold":"26","Worst_value":"4D"},{"Attribute_ID":"BF","Current_value":"00","Data":"00000E00","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C0","Current_value":"00","Data":"0002BD00","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C1","Current_value":"00","Data":"00515400","ExtData":"0000","Threshold":"5A","Worst_value":"5A"},{"Attribute_ID":"C2","Current_value":"00","Data":"00001700","ExtData":"0C00","Threshold":"3E","Worst_value":"17"},{"Attribute_ID":"C3","Current_value":"00","Data":"29677D00","ExtData":"0001","Threshold":"3C","Worst_value":"6C"},{"Attribute_ID":"C4","Current_value":"23","Data":"0001B700","ExtData":"0400","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C5","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C6","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C7","Current_value":"00","Data":"00000400","ExtData":"0000","Threshold":"C8","Worst_value":"C8"},{"Attribute_ID":"C8","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"FD","Worst_value":"64"},{"Attribute_ID":"CA","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"FD","Worst_value":"64"}],"capacity":"74","cmd":"DISKINFO","device_id":"1","disk":"1","group":"2","level":"1","status":"0","substatus":"0"},
         devicestatus:{"CMD_ID":"116","cmd":"DEVICESTATUS","device_id":"1","levels":[{"groups":[{"disks":["1"],"id":"2"}],"id":"1"},{"groups":[{"disks":["3"],"id":"1"}],"id":"2"},{"groups":[{"disks":["3"],"id":"3"}],"id":"3"}],"status":"0","substatus":"0"}
-
     }
-})
-    .factory('Lang', function () {
+    return {
+        i_getMsg: function (id) {
+            msg.diskinfo['CMD_ID'] = id;
+            msg.devicestatus['CMD_ID'] = id;
+            return msg;
+        }
+    };
+}) .factory('Lang', function () {
     var param = {
         'success': 0,
         'timeout': -3,

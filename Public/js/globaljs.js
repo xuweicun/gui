@@ -1,7 +1,9 @@
 angular.module('device.controllers', [])
-    .controller('statusMonitor', function ($scope, $http, $interval, Lang) {
+    .controller('statusMonitor', function ($scope, $http, $interval, Lang, TestMsg) {
         //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
         $scope.user = $("#userid").val();
+        $scope.testMsg = TestMsg;
+        $scope.testCmdId = 0;
         var Cmd = {};
         Cmd.createCmd = function (log) {
             console.log(log.msg);
@@ -167,6 +169,7 @@ angular.module('device.controllers', [])
                 }, 20000);
             }
             else {
+
                 $http({
                     url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
                     data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
@@ -190,10 +193,10 @@ angular.module('device.controllers', [])
             return Cmd.sendcmd(msg);
         }
         Cmd.testPost = function () {
+            var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             $http({
                 url: '/index.php?m=admin&c=msg&a=index',
-                data:{"CMD_ID":"116","cmd":"DEVICESTATUS","device_id":"1","levels":[{"groups":[{"disks":["1"],"id":"2"}],"id":"1"},{"groups":[{"disks":["3"],"id":"1"}],"id":"2"},{"groups":[{"disks":["3"],"id":"3"}],"id":"3"}],"status":"0","substatus":"0"}
-               ,
+                data:msg.diskinfo,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");

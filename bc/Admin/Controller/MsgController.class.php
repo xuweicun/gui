@@ -568,8 +568,7 @@ class MsgController extends Controller
         }
     }
 
-    public
-    function updateDiskInfo()
+    public function updateDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
         //后期修改cmdlog，增加diskinfo一项，记录操作对象。
@@ -607,8 +606,7 @@ class MsgController extends Controller
      * 更新Smart值
      * @input: disk_id, $_POST
      */
-    private
-    function updateSmart($id)
+    private function updateSmart($id)
     {
         $db = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
@@ -619,7 +617,8 @@ class MsgController extends Controller
             //查找是否存在
             $attr = $attr;
 
-            $map = "disk_id=$id and attrname={$attr['Attribute_ID']}";
+            $map['disk_id'] = array('eq',$id);
+            $map['attrname'] = array('eq',$attr['Attribute_ID']);
             if ($item = $db->where($map)->find()) {
                 $item['value'] = $attr['Current_value'];
                 $db->save($item);
