@@ -46,6 +46,7 @@ class Msg
         $this->progress = (float)$_POST['progress'];
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
+        $this->stage = $_POST['workingstatus'];
         $this->getRealId();
         $this->getResult();
         $this->db = M("CmdLog");
@@ -148,7 +149,7 @@ class Dsk
         $this->disks = $_POST['disks'];
         $this->cab = (int)$_POST['device_id'];
         $this->db = M('Device');
-        $this->map['cab'] = array('eq', $this->cab);
+       // $this->map['cab'] = array('eq', $this->cab);
         $this->map['level'] = array('eq', $this->level);
         $this->map['zu'] = array('eq', $this->group);
         $this->map['cab_id'] = array('eq', $this->cab);
@@ -158,7 +159,7 @@ class Dsk
     {
         if ($dsk_idx >= 0 && !$this->disks)
             return;
-        $this->map['disk'] = $dsk_idx >= 0 ? array('eq', $this->disks[$dsk_idx] . id) : array('eq', $this->disk);
+        $this->map['disk'] = $dsk_idx >= 0 ? array('eq', $this->disks[$dsk_idx]['id']) : array('eq', $this->disk);
         $item = $this->db->where($this->map)->find();
         foreach ($keys as $idx => $key) {
             $item[$key] = $values[$idx];
@@ -437,13 +438,19 @@ class MsgController extends Controller
     public function  RTLog($txt='love you')
     {
         $myfile = fopen("rtlog.txt", "a") or die("Unable to open file!");
-        $txt = $txt."\r\n";
+        $txt = $txt."++\r\n";
         fwrite($myfile, $txt);
         fclose($myfile);
     }
     public function rdLog()
     {
-        echo(file_get_contents("rtlog.txt") );
+        $log = file_get_contents("rtlog.txt");
+        $logs = explode("++",$log);
+        foreach($logs as $l)
+        {
+            echo($l);
+            echo("<br/>");
+        }
     }
 
     public
@@ -452,11 +459,12 @@ class MsgController extends Controller
         $disks = $_POST['disks'];
         $paths = $_POST['paths'];
         $log = $this->getLog($this->msg->id);
-        $this->RTLog("bridge msg handling");
+        $this->RTLog("{$this->msg->id}:bridge msg handling");
         if ($this->msg->isWorking()) {
             $this->RTLog("working:".$this->msg->substatus);
             //if just some working msg
             $log['stage'] = $this->msg->stage;
+            $log['progress'] = $this->msg->progress;
             $log['return_msg'] = $this->msg->origin;
             $this->db->save($log);
             return;
@@ -466,6 +474,7 @@ class MsgController extends Controller
         $failFlag = true;
         $dsk = new Dsk();
         $dsk->init();
+        $this->RTLog("dsk inited");
         //for dsk object
         $keys = array('bridged', 'path');
         $values = array(0, '');
@@ -492,11 +501,13 @@ class MsgController extends Controller
         } else {
             $this->RTLog("success");
             $log['status'] = C('CMD_SUCCESS');
-            $dstLog = $this->getLog($this->msg->dst_id);
-            if ($dstLog['status'] == C('CMD_GOING')) {
-                //if the dst-commond still going, cancel it
-                $dstLog['status'] = C('CMD_CANCELED');
-                $this->db->save($dstLog);
+            if(stop) {
+                $dstLog = $this->getLog($this->msg->dst_id);
+                if ($dstLog['status'] == C('CMD_GOING')) {
+                    //if the dst-commond still going, cancel it
+                    $dstLog['status'] = C('CMD_CANCELED');
+                    $this->db->save($dstLog);
+                }
             }
         }
 

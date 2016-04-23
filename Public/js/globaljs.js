@@ -42,6 +42,7 @@ angular.module('device.controllers', [])
                 //剩余时间，为0时表示时间用完
                 usedTime: 0,
                 progress: -1,
+                stage: 0,
                 //最长等待，20小时
                 maxTime: 72000,
                 //中等等待时间，300秒
@@ -60,27 +61,22 @@ angular.module('device.controllers', [])
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
-                            if (this.subcmd == 'START') {
                                 this.timeLimit = this.midTime;
-                            }
-
                             break;
                         case 'MD5':
-                            if (this.subcmd == 'START') {
                                 this.timeLimit = this.maxTime;
-                            }
-
                             break;
                         case 'COPY':
-                            if (this.subcmd == 'START') {
                                 this.timeLimit = this.maxTime;
-                            }
                             break;
                         default:
                             this.timeLimit = this.minTime;
                             break;
                     }
-
+                    if(this.subcmd != 'START')
+                    {
+                        this.timeLimit = this.minTime;
+                    }
                     if (this.subcmd === undefined) {
                         this.subcmd = null;
                     }
@@ -105,12 +101,20 @@ angular.module('device.controllers', [])
                     return (this.timeLimit - this.usedTime);
                 },
                 getProgress: function () {
-                    //        this.usedTime = 20;
-                    if (this.cmd != 'BRIDGE' && this.cmd != 'MD5') {
+                    if (this.subcmd != 'START' || (this.cmd != 'BRIDGE' && this.cmd != 'MD5' && this.cmd != 'COPY')) {
                         this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     }
                     return this.progress;
                 },
+                getStage: function()
+                {
+                    if(this.cmd != 'BRIDGE' || this.stage == 0)
+                    {
+                        return null;
+                    }
+                    return $scope.lang.getLang(this.stage.toString());
+                }
+                ,
                 setStatus: function (status) {
                     this.status = status;
                     if (status == 0 || status == this.canceled) {
@@ -139,54 +143,22 @@ angular.module('device.controllers', [])
                 return data['isLegal'];
             });
         }
-        Cmd.getdiskinfo = function (level, group, disk, type) {
-            var disk = $scope.disk;
-            $scope.bridgeReady = 0;
-            if (type > 0) {//手动初始化
-                $scope.diskinfo(disk.level.toString(), disk.group.toString(), disk.index.toString());
-                var $diskInfoTimer = 0;
-                var diskInfoStatus = $interval(function () {
-                    $diskInfoTimer++;
-                    if ($diskInfoTimer > 24) {
-                        $interval.cancel(diskInfoStatus);//超过2分钟即认为失败。
-                    }
-                    $http({
-                        url: '/index.php?m=admin&c=business&a=getDiskInfo&type=1',
-                        data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
-                        method: 'POST'
-                    }).success(function (data) {
-                        if (data['errmsg']) {
-                            console.log(data['errmsg']);
-                        }
-                        else {
-                            updateDiskInfo(data);
+        Cmd.getdiskinfo = function (level, group, disk, cab) {
+            $http({
+                url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
+                data: {level: level, group: group, disk: disk, cab_id: cab},
+                method: 'POST'
+            }).success(function (data) {
+                if (data['errmsg']) {//不存在
+                    disk.capacity = '未知';
+                    disk.sn = '未知';
+                    disk.bridged = 0;
+                    disk.loaded = 0;
+                    return;
+                }
+                $scope.cab.i_load_disks_base_info(data);
 
-                            if (type == 1)//现阶段手动初始化手段
-                                $interval.cancel(diskInfoStatus);
-                        }
-
-                    });
-                }, 20000);
-            }
-            else {
-
-                $http({
-                    url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
-                    data: {level: disk.level, group: disk.group, disk: disk.index, maxtime: 0, type: type},
-                    method: 'POST'
-                }).success(function (data) {
-                    if (data['errmsg']) {//不存在
-                        disk.capacity = '未知';
-                        disk.sn = '未知';
-                        disk.bridged = 0;
-                        disk.loaded = 0;
-                        updateDiskView(disk);
-                        return;
-                    }
-                    updateDiskInfo(data);
-
-                });
-            }
+            });
         }
         Cmd.devicestatus = function () {
             var msg = {cmd: 'DEVICESTATUS'};
@@ -196,7 +168,7 @@ angular.module('device.controllers', [])
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             $http({
                 url: '/index.php?m=admin&c=msg&a=index',
-                data:msg.diskinfo,
+                data:msg.bridge_done,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");
@@ -316,6 +288,7 @@ angular.module('device.controllers', [])
                 }
                 var msgStr = JSON.stringify(msg);
                 //服务器收到通知后，联系APP，发送指令；
+               // proxy = "/index.php";
                 $http.post(proxy, msg).success(function () {
                     //命令池更新
                     data['msg'] = msgStr;
@@ -397,9 +370,10 @@ angular.module('device.controllers', [])
                         return;
                     }
                 });
-                if($scope.cabs.length > 0) {
+                if($scope.cabs.getLth() > 0) {
                     $scope.cab.i_on_cmd_changed(task, true);
                 }
+                $scope.testCmdId = task.id;
                 this.going.push(task);
                 if(!this.isWatching)
                 {
@@ -483,7 +457,10 @@ angular.module('device.controllers', [])
                                 if (data['status'] != task.going)
                                     task.status = data['status'];
                                 if (task.cmd == 'BRIDGE') {
-                                    //pool.hdlBridgeMsg(task);
+                                    var returnMsg = JSON.parse(data['return_msg']);
+                                    pool.hdlBridgeMsg(returnMsg);
+                                    task.stage = data['stage'];
+                                    task.progress = data['progress'];
                                 }
                             }
                         }).error(function () {
@@ -503,7 +480,7 @@ angular.module('device.controllers', [])
             },
             //更新桥接状态
             hdlBridgeMsg: function (msg) {
-                msg.paths = [];
+                /* msg.paths = [];
                 for (var i in msg.disks) {
                     var _dsk = msg.disks[i];
                     msg.paths.push({
@@ -513,7 +490,7 @@ angular.module('device.controllers', [])
                         //路径，类型字符串，长度16字节
                         "value": "sdb" + _dsk.id
                     });
-                }
+                }*/
 
                 $scope.cab.i_on_bridge_resp(msg);
             },
@@ -569,6 +546,7 @@ angular.module('device.controllers', [])
                 for (var i = 0; i < pool.length; i++) {
                     if (pool[i].status != pool[i].going) {
                         this.done.push(pool[i]);
+                        $scope.cab.i_on_cmd_changed(pool[i], false);
                         this.notify(pool[i]);
                     }
                     else
@@ -632,7 +610,22 @@ angular.module('device.controllers', [])
              * */
             success: function (idx) {
                 var task = this.going[idx];
-                $scope.cmd.update(task.id, 'RESULT');
+                switch (task.cmd)
+                {
+                    case 'MD5':
+                        $scope.cmd.update(task.id, 'RESULT');
+                        break;
+                    case 'DEVICESTATUS':
+                        //如果命令对应是当前柜子
+                        if(task.device_id == $scope.cab.id)
+                        $scope.updateDeviceStatus();
+                        break;
+                    case 'DISKINFO':
+                        //如果命令对应是当前柜子
+                        if(task.device_id == $scope.cab.id)
+                        $scope.cmd.getdiskinfo(task.level,task.group,task.disk);
+                }
+
             },
             error: function (idx) {
 
@@ -754,6 +747,7 @@ angular.module('device.controllers', [])
                 capacity: 0,
                 // 序列号
                 SN: '',
+                MD5:'',
                 // smart属性
                 smarts: [
                     {
@@ -1182,6 +1176,8 @@ angular.module('device.controllers', [])
             select_disk: function (l, g, d) {
                 this.curr = this.levels[l].groups[g].disks[d];
                 this.curr.get_copy_busy_disk();
+
+                $scope.getDiskInfo(parseInt(this.id),l+1,g+1,d+1);
             },
 
             on_cmd_disk_info: function (json_cmd, is_add) {
@@ -1268,13 +1264,19 @@ angular.module('device.controllers', [])
                     // 桥接置位
                     if (e.bridged == 1) {
                         _dsk.base_info.bridge_path = e.path;
+
                     }
+                    _dsk.detail_info.SN = e.sn;
+                    _dsk.detail_info.MD5 = e.md5;
+                    _dsk.detail_info.capacity = e.capacity;
                 }
             },
 
             // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
             i_on_cmd_changed: function (json_cmd, bol_op) {
+                console.log('adding;');
                 switch (json_cmd.cmd) {
+
                     case 'DISKINFO':
                     {
                         this.on_cmd_disk_info(json_cmd, bol_op);
@@ -1352,6 +1354,9 @@ angular.module('device.controllers', [])
                 $scope.updateDeviceStatus();
                 $scope.cab = this.curr;
             },
+            getLth:function(){
+                return this.cabs.length;
+            },
             i_on_add: function (new_cab) {
                 this.cabs.push(new_cab);
             },
@@ -1377,6 +1382,7 @@ angular.module('device.controllers', [])
                             that.curr = that.cabs[0];
                             that.curr.get_select();
                             $scope.cab = that.curr;
+
                         }
                         $scope.updateDeviceStatus();
                     }
@@ -1505,4 +1511,25 @@ angular.module('device.controllers', [])
                 }
             });
         }
-    });
+        $scope.getDiskInfo = function (cab,lvl,grp,dsk) {
+            //read cab info from database
+            $http({
+                url: '/index.php?m=admin&c=business&a=getDiskInfo',
+                data:{cab:cab,level:lvl,group:grp,disk:dsk},
+                method: 'POST'
+            }).success(function (data) {
+                if (!data['err_msg']) {
+                    $scope.cab.i_load_disks_base_info(data);
+                }
+                else {
+                   console.log(data['err_msg']);
+                }
+            });
+        }
+
+    }).controller('testCtrl',function($scope,TestMsg){
+    var Test = function(){
+        this.server = '/index.php?m=admin&c=msg';
+    }
+
+});
