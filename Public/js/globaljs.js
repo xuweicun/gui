@@ -39,6 +39,7 @@ angular.module('device.controllers', [])
                 disk: null,
                 //命令状态，初始值为-1
                 status: -1,
+                substatus: -1,
                 //剩余时间，为0时表示时间用完
                 usedTime: 0,
                 progress: -1,
@@ -104,6 +105,8 @@ angular.module('device.controllers', [])
                     if (this.subcmd != 'START' || (this.cmd != 'BRIDGE' && this.cmd != 'MD5' && this.cmd != 'COPY')) {
                         this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     }
+                    //取进度返回值和估计值的最大值，防止出现进度后退的情况
+                    this.progress = max(this.progress,parseInt(100 * this.usedTime / this.timeLimit));
                     return this.progress;
                 },
                 getStage: function()
@@ -113,6 +116,22 @@ angular.module('device.controllers', [])
                         return null;
                     }
                     return $scope.lang.getLang(this.stage.toString());
+                },
+                getStatus: function(){
+                    if(this.substatus < 0)
+                    {
+                        console.log(this.substatus);
+                        return '已发出';
+                    }
+                    switch (this.substatus){
+                        case 0:
+                            return '成功';
+                        case 1:
+                            return '进行中';
+                        case 2:
+                            return '进行中';
+
+                    }
                 }
                 ,
                 setStatus: function (status) {
@@ -167,8 +186,8 @@ angular.module('device.controllers', [])
         Cmd.testPost = function () {
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             $http({
-                url: '/index.php?m=admin&c=msg&a=index',
-                data:msg.bridge_done,
+                url: 'http://222.35.224.230/index.php?m=admin&c=msg',
+                data:msg.diskinfo,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");
@@ -460,7 +479,7 @@ angular.module('device.controllers', [])
                                     var returnMsg = JSON.parse(data['return_msg']);
                                     pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
-                                    task.progress = data['progress'];
+                                    task.progress = max(task.progress,data['progress']);
                                 }
                             }
                         }).error(function () {
@@ -610,9 +629,11 @@ angular.module('device.controllers', [])
              * */
             success: function (idx) {
                 var task = this.going[idx];
+                //如果是START，按下面的方式处理
                 switch (task.cmd)
                 {
                     case 'MD5':
+                        if(task.subcmd == 'START')
                         $scope.cmd.update(task.id, 'RESULT');
                         break;
                     case 'DEVICESTATUS':
@@ -622,8 +643,8 @@ angular.module('device.controllers', [])
                         break;
                     case 'DISKINFO':
                         //如果命令对应是当前柜子
-                        if(task.device_id == $scope.cab.id)
-                        $scope.cmd.getdiskinfo(task.level,task.group,task.disk);
+                        if(task.cab_id == $scope.cab.id)
+                        $scope.cmd.getdiskinfo(task.level,task.group,task.disk,task.cab_id);
                 }
 
             },
