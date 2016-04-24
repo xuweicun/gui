@@ -409,7 +409,7 @@ angular.module('device.controllers', [])
                 }
             },
             updateTask: function(data){
-                pool = this;
+                var pool = this;
                 //找到命令
                 for (var idx = 0; idx < pool.going.length; idx++) {
                     var task = pool.going[idx];
@@ -417,7 +417,12 @@ angular.module('device.controllers', [])
                         if (data['status'] != task.going) {
                             task.status = data['status'];
                             console.log('当前命令:'+task.cmd+':'+task.status);
-
+                            //根据命令修改信息
+                            //桥接成功或失败
+                            if(data['status'] == task.success)
+                            {
+                                pool.success(idx);
+                            }
                         }
                         if (task.cmd == 'BRIDGE') {
                             task.stage = data['stage'];
@@ -666,6 +671,7 @@ angular.module('device.controllers', [])
                         //如果命令对应是当前柜子
                         if(task.cab_id == $scope.cab.id)
                         $scope.cmd.getdiskinfo(task.level,task.group,task.disk,task.cab_id);
+                        
                 }
 
             },
