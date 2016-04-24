@@ -417,6 +417,7 @@ angular.module('device.controllers', [])
                         if (data['status'] != task.going) {
                             task.status = data['status'];
                             console.log('当前命令:'+task.cmd+':'+task.status);
+
                         }
                         if (task.cmd == 'BRIDGE') {
                             task.stage = data['stage'];
@@ -1022,7 +1023,7 @@ angular.module('device.controllers', [])
                 for (var i = 0; i < _lvl.groups.length; ++i) {
                     var _grp = _lvl.groups[i];
                     for (var j = 0; j < _grp.disks.length; ++j) {
-                        var dsk = _grp.disks[i];
+                        var dsk = _grp.disks[j];
                         // 1) 已桥接；2）已发出桥接命令
                         if (dsk.is_bridged || (dsk.curr_cmd != null && dsk.curr_cmd.cmd == 'BRIDGE' && dsk.curr_cmd.subcmd == 'START')) {
                             _dsk = dsk;
