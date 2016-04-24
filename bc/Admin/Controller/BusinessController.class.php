@@ -31,6 +31,31 @@ class BusinessController extends Controller {
 			$this->display();
 		}
 	}
+	public function systReset(){
+		//所有硬盘桥接、在位状态清零
+		$db = M('Device');
+		$items = $db->select();
+		foreach($items as $item)
+		{
+			$item['bridged'] = 0;
+			$item['loaded'] = 0;
+			$item['path'] = '';
+			$db->save($item);
+		}
+		//所有命令状态取消
+		$this->cancelAllCmds();
+	}
+	private function cancelAllCmds()
+	{
+		$db = M('CmdLog');
+		$going = C('CMD_GOING');
+		$items = $db->where("status=$going")->select();
+		foreach($items as $item)
+		{
+			$item['status'] = C('CMD_CANCELED');
+			$db->save($item);
+		}
+	}
 	public function deleteLog(){
 		$db = M('CmdLog');
 		$id = I('get.id',0,'intval');
