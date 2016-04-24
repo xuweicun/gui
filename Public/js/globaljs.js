@@ -882,7 +882,7 @@ angular.module('device.controllers', [])
 
                     // 当前有命令在执行
                     if (this.get_cmd_name() == cmd_key) {
-                        title = '正在查询中';
+                        title = '查询中';
                     }
 
                     return title;
@@ -897,7 +897,7 @@ angular.module('device.controllers', [])
 
                     // 当前有命令在执行
                     if (this.get_cmd_name() == cmd_key) {
-                        title = '正在桥接中';
+                        title = '桥接中';
                     }
 
                     return title;
@@ -936,6 +936,9 @@ angular.module('device.controllers', [])
                 }
 
                 if (this.is_bridged()) {
+                    if (this.curr_cmd.subcmd == 'STOP') {
+                        return '停止桥接中(' + this.curr_cmd.usedTime + 's)';
+                    }
                     return '已桥接';
                 }
 
