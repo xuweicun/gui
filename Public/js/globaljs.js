@@ -827,6 +827,10 @@ angular.module('device.controllers', [])
                     return;
                 }
 
+                if (cmd_name == 'BRIDGE') {
+                    this.isto_bridge = true;
+                }
+
                 this.cmd_name_to_commit = cmd_name;
             },
 
@@ -1054,7 +1058,7 @@ angular.module('device.controllers', [])
                     _msg += '正在执行[' + _dsk.get_extent_title() + ']命令';
                 }
 
-                _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行操作！';
+                _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行其他操作！';
 
                 return _msg;
             },
