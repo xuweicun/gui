@@ -114,7 +114,7 @@ angular.module('device.controllers', [])
                     //取进度返回值和估计值的最大值，防止出现进度后退的情况
                     if(!this.progress)
                     this.progress = 0;
-                    this.progress = max(this.progress,parseInt(100 * this.usedTime / this.timeLimit));
+                    this.progress = Math.max.apply(this.progress,parseInt(100 * this.usedTime / this.timeLimit));
                     return this.progress;
                 },
                 getStage: function()
@@ -489,7 +489,7 @@ angular.module('device.controllers', [])
                                     var returnMsg = JSON.parse(data['return_msg']);
                                     pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
-                                    task.progress = max(task.progress,data['progress']);
+                                    task.progress = Math.max.apply(task.progress,data['progress']);
                                     console.log('当前进度:'+data['progress']);
                                 }
                             }
