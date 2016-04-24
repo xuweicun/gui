@@ -1060,14 +1060,13 @@ angular.module('device.controllers', [])
             },
             // 根据硬盘状态获得弹出模态框的类型
             get_modal_type: function (btn_type) {
-                if (this.get_busy_disk()) {
-                    return 'Busy';
-                }
-
-                console.log(btn_type);
                 switch (btn_type) {
                     case 'BRIDGE':
                         {
+                            if (this.is_bridged()) {
+                                return 'Stop';
+                            }
+
                             // 如果有桥接Busy硬盘
                             if (this.get_bridge_busy_disk() != null) {
                                 return 'Busy';
@@ -1079,6 +1078,10 @@ angular.module('device.controllers', [])
                         break;
                     case 'COPY':
                         {
+                            if (this.curr_cmd != null && this.curr_cmd.cmd == 'COPY') {
+                                return 'Stop';
+                            }
+
                             // 如果有复制Busy硬盘
                             if (this.get_copy_busy_disk() != null) {
                                 return 'Busy';
@@ -1089,9 +1092,27 @@ angular.module('device.controllers', [])
                         }
                         break;
                     case 'DISKINFO':
+                        {
+                            if (this.get_busy_disk() != null) {
+                                return 'Busy';
+                            }
+                            else {
+                                return 'Start';
+                            }
+                        }
+                        break;
                     case 'MD5':
                         {
-                            return 'Start';
+                            if (this.curr_cmd != null && this.curr_cmd.cmd == 'MD5') {
+                                return 'Stop';
+                            }
+
+                            if (this.get_busy_disk() != null) {
+                                return 'Busy';
+                            }
+                            else {
+                                return 'Start';
+                            }
                         }
                         break;
                     default:
