@@ -1023,13 +1023,15 @@ angular.module('device.controllers', [])
                 for (var i = 0; i < _lvl.groups.length; ++i) {
                     var _grp = _lvl.groups[i];
                     for (var j = 0; j < _grp.disks.length; ++j) {
-                        _dsk = _grp.disks[i];
+                        var dsk = _grp.disks[i];
                         // 1) 已桥接；2）已发出桥接命令
-                        if (_dsk.is_bridged || (_dsk.curr_cmd != null && _dsk.curr_cmd.cmd == 'BRIDGE' && _dsk.curr_cmd.subcmd == 'START')) {
-                            return _dsk;
+                        if (dsk.is_bridged || (dsk.curr_cmd != null && dsk.curr_cmd.cmd == 'BRIDGE' && dsk.curr_cmd.subcmd == 'START')) {
+                            _dsk = dsk;
                         }
                     }
                 }
+                this.busy_disk = _dsk;
+                return this.busy_disk;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
             to_modal_busy_msg: function () {
