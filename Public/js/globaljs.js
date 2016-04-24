@@ -382,7 +382,7 @@ angular.module('device.controllers', [])
             //最小轮询时间单元
             unitTimer: 1000,
             //小号放大器
-            smAmp: 1,
+            smAmp: 5,
             //中号放大器
             mdAmp: 10,
             //大号放大器
@@ -484,13 +484,14 @@ angular.module('device.controllers', [])
                                     task.status = data['status'];
                                     console.log('当前命令:'+task.cmd+':'+task.status);
                                 }
+                                console.log("<<<<<<<<<<<<<<<<<<<<");
                                 if (task.cmd == 'BRIDGE') {
                                     var returnMsg = JSON.parse(data['return_msg']);
-                                    pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
                                     task.progress = data['progress'];
-                                    console.log('当前进度:'+data['progress']);
+                                    console.log(data['id']+'-'+task.id);
                                 }
+                                console.log(">>>>>>>>>>>>>>>>>>>>>");
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
