@@ -459,7 +459,7 @@
                                         </a>
 
                                         <!-- Bridge -->
-                                        <a href="#modalAnim{{cab.curr.is_bridged() ? 'Stop' : (cab.curr.get_busy_disk() != null?'Busy':'Start')}}"
+                                        <a href="#modalAnim{{cab.curr.is_bridged() ? 'Stop' : (cab.curr.get_busy_disk() != null?'Busy': (cab.curr.get_bridge_busy_disk() != null?'Busy':'Start'))}}"
                                            class="btn btn-primary btn-xs modal-with-move-anim"
                                            ng-class="{'btn-danger':cab.curr.is_bridged(), 'btn-warning':cab.curr.get_cmd_name() == 'BRIDGE'}"
                                            ng-disabled="!cab.curr.is_loaded()"
