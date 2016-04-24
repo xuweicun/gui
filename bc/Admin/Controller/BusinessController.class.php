@@ -376,6 +376,7 @@ class BusinessController extends Controller {
 		$id = $db->add($data);
 		if($id)
 		{
+            $data = $db->find($id);
 			$this->AjaxReturn($data);
 		}
 		else
