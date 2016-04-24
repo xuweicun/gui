@@ -522,7 +522,7 @@ angular.module('device.controllers', [])
                         "value": "sdb" + _dsk.id
                     });
                 }*/
-
+                if(msg)
                 $scope.cab.i_on_bridge_resp(msg);
             },
             stopWatch: function () {
