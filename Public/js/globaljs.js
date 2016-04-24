@@ -1038,7 +1038,6 @@ angular.module('device.controllers', [])
                 }
 
                 this.busy_disk = _dsk;
-                console.log(_dsk);
                 return this.busy_disk;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
@@ -1058,6 +1057,47 @@ angular.module('device.controllers', [])
                 _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行操作！';
 
                 return _msg;
+            },
+            // 根据硬盘状态获得弹出模态框的类型
+            get_modal_type: function (btn_type) {
+                if (this.get_busy_disk()) {
+                    return 'Busy';
+                }
+
+                console.log(btn_type);
+                switch (btn_type) {
+                    case 'BRIDGE':
+                        {
+                            // 如果有桥接Busy硬盘
+                            if (this.get_bridge_busy_disk() != null) {
+                                return 'Busy';
+                            }
+                            else {
+                                return 'Start';
+                            }
+                        }
+                        break;
+                    case 'COPY':
+                        {
+                            // 如果有复制Busy硬盘
+                            if (this.get_copy_busy_disk() != null) {
+                                return 'Busy';
+                            }
+                            else {
+                                return 'Start';
+                            }
+                        }
+                        break;
+                    case 'DISKINFO':
+                    case 'MD5':
+                        {
+                            return 'Start';
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return '';
             },
             // 获得邻居硬盘
             get_siblings: function () {
