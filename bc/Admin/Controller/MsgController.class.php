@@ -487,7 +487,7 @@ class MsgController extends Controller
                 $values[0] = $stop == true ? 0 : 1;
                 //if bridged
                 if (!$stop) {
-                    $values[1] = C('BRG_DIR_ROOT') . $paths[$key]['value'];
+                    $values[1] = $paths[$key]['value'];
                 } else {
                     $values[1] = '';
                 }
