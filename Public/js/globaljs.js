@@ -1016,7 +1016,7 @@ angular.module('device.controllers', [])
             get_bridge_busy_disk: function () {
                 // 内部总线是否占用
                 var _dsk = this.get_busy_disk();
-                if (_dsk != null) return;
+                if (_dsk != null) return _dsk;
 
                 // 外部总线是否占用，即本层是否有硬盘处于桥接状态
                 var _lvl = this.parent.parent;
@@ -1025,12 +1025,14 @@ angular.module('device.controllers', [])
                     for (var j = 0; j < _grp.disks.length; ++j) {
                         var dsk = _grp.disks[j];
                         // 1) 已桥接；2）已发出桥接命令
-                        if (dsk.is_bridged || (dsk.curr_cmd != null && dsk.curr_cmd.cmd == 'BRIDGE' && dsk.curr_cmd.subcmd == 'START')) {
+                        if (dsk.is_bridged() || (dsk.curr_cmd != null && dsk.curr_cmd.cmd == 'BRIDGE' && dsk.curr_cmd.subcmd == 'START')) {
                             _dsk = dsk;
                         }
                     }
                 }
+
                 this.busy_disk = _dsk;
+                console.log(_dsk);
                 return this.busy_disk;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
