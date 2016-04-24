@@ -408,6 +408,24 @@ angular.module('device.controllers', [])
                     this.startWatch();
                 }
             },
+            updateTask: function(data){
+                pool = this;
+                //找到命令
+                for (var idx = 0; idx < pool.going.length; idx++) {
+                    var task = pool.going[idx];
+                    if(task.id == data['id']){
+                        if (data['status'] != task.going) {
+                            task.status = data['status'];
+                            console.log('当前命令:'+task.cmd+':'+task.status);
+                        }
+                        if (task.cmd == 'BRIDGE') {
+                            task.stage = data['stage'];
+                            task.progress = data['progress'];
+                        }
+                        break;
+                    }
+                }
+            },
             updateQueryCnt: function () {
                 this.queryCnt++;
                 if (this.queryCnt > this.lgAmer) {
@@ -480,18 +498,7 @@ angular.module('device.controllers', [])
                                 $scope.svrErrPool.add(data);
                             }
                             else {
-                                if (data['status'] != task.going) {
-                                    task.status = data['status'];
-                                    console.log('当前命令:'+task.cmd+':'+task.status);
-                                }
-                                console.log("<<<<<<<<<<<<<<<<<<<<");
-                                if (task.cmd == 'BRIDGE') {
-                                    var returnMsg = JSON.parse(data['return_msg']);
-                                    task.stage = data['stage'];
-                                    task.progress = data['progress'];
-                                    console.log(data['id']+'-'+task.id);
-                                }
-                                console.log(">>>>>>>>>>>>>>>>>>>>>");
+                                pool.updateTask(data);
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
