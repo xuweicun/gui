@@ -1029,6 +1029,7 @@ angular.module('device.controllers', [])
                         }
                     }
                 }
+                return _dsk;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
             to_modal_busy_msg: function () {
