@@ -417,6 +417,7 @@ angular.module('device.controllers', [])
                         if (data['status'] != task.going) {
                             task.status = data['status'];
                             console.log('当前命令:'+task.cmd+':'+task.status);
+
                         }
                         if (task.cmd == 'BRIDGE') {
                             task.stage = data['stage'];
