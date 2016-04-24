@@ -1007,7 +1007,7 @@ angular.module('device.controllers', [])
             // 在执行“桥接”命令时，查找可能导致命令执行失败的Busy硬盘
             get_bridge_busy_disk: function () {
                 // 内部总线是否占用
-                var _dsk = get_busy_disk();
+                var _dsk = this.get_busy_disk();
                 if (_dsk != null) return;
 
                 // 外部总线是否占用，即本层是否有硬盘处于桥接状态
