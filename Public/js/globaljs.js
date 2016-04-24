@@ -114,7 +114,8 @@ angular.module('device.controllers', [])
                     //取进度返回值和估计值的最大值，防止出现进度后退的情况
                     if(!this.progress)
                     this.progress = 0;
-                    this.progress = Math.max.apply(this.progress,parseInt(100 * this.usedTime / this.timeLimit));
+                    if(this.progress < parseInt(100 * this.usedTime / this.timeLimit))
+                        this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     return this.progress;
                 },
                 getStage: function()
@@ -489,7 +490,7 @@ angular.module('device.controllers', [])
                                     var returnMsg = JSON.parse(data['return_msg']);
                                     pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
-                                    task.progress = Math.max.apply(task.progress,data['progress']);
+                                    task.progress = data['progress'];
                                     console.log('当前进度:'+data['progress']);
                                 }
                             }
@@ -610,6 +611,8 @@ angular.module('device.controllers', [])
                     method: 'GET'
                 }).success(function (data) {
                     var time = new Date();
+                    if(data === null)
+                    return;
                     data.forEach(function (e) {
                         if (e.msg != '' && e.cmd != 'MD5') {
                             var task = $scope.cmd.createCmd(e);
