@@ -4,6 +4,12 @@ angular.module('device.controllers', [])
         $scope.user = $("#userid").val();
         $scope.testMsg = TestMsg;
         $scope.testCmdId = 0;
+        $scope.systReset = function()
+        {
+            $http({method:'GET',url:'/index.php?m=admin&c=business&a=systReset'}).success(function(data){
+                alert('系统重置成功！');
+            });
+        }
         var Cmd = {};
         Cmd.createCmd = function (log) {
             console.log(log.msg);
@@ -103,9 +109,11 @@ angular.module('device.controllers', [])
                 },
                 getProgress: function () {
                     if (this.subcmd != 'START' || (this.cmd != 'BRIDGE' && this.cmd != 'MD5' && this.cmd != 'COPY')) {
-                        this.progress = parseInt(100 * this.usedTime / this.timeLimit);
+                      //  this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     }
                     //取进度返回值和估计值的最大值，防止出现进度后退的情况
+                    if(!this.progress)
+                    this.progress = 0;
                     this.progress = max(this.progress,parseInt(100 * this.usedTime / this.timeLimit));
                     return this.progress;
                 },
@@ -473,13 +481,16 @@ angular.module('device.controllers', [])
                                 $scope.svrErrPool.add(data);
                             }
                             else {
-                                if (data['status'] != task.going)
+                                if (data['status'] != task.going) {
                                     task.status = data['status'];
+                                    console.log('当前命令:'+task.cmd+':'+task.status);
+                                }
                                 if (task.cmd == 'BRIDGE') {
                                     var returnMsg = JSON.parse(data['return_msg']);
                                     pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
                                     task.progress = max(task.progress,data['progress']);
+                                    console.log('当前进度:'+data['progress']);
                                 }
                             }
                         }).error(function () {
@@ -871,7 +882,7 @@ angular.module('device.controllers', [])
 
                     // 当前有命令在执行
                     if (this.get_cmd_name() == cmd_key) {
-                        title = '正在查询中';
+                        title = '查询中';
                     }
 
                     return title;
@@ -886,7 +897,7 @@ angular.module('device.controllers', [])
 
                     // 当前有命令在执行
                     if (this.get_cmd_name() == cmd_key) {
-                        title = '正在桥接中';
+                        title = '桥接中';
                     }
 
                     return title;
@@ -925,6 +936,9 @@ angular.module('device.controllers', [])
                 }
 
                 if (this.is_bridged()) {
+                    if (this.curr_cmd.subcmd == 'STOP') {
+                        return '停止桥接中(' + this.curr_cmd.usedTime + 's)';
+                    }
                     return '已桥接';
                 }
 
