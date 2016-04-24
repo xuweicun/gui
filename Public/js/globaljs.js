@@ -939,7 +939,7 @@ angular.module('device.controllers', [])
                 }
 
                 if (this.is_bridged()) {
-                    if (this.curr_cmd.subcmd == 'STOP') {
+                    if (this.curr_cmd != null && this.curr_cmd.subcmd == 'STOP') {
                         return '停止桥接中(' + this.curr_cmd.usedTime + 's)';
                     }
                     return '已桥接';
