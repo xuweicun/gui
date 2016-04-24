@@ -382,7 +382,7 @@ angular.module('device.controllers', [])
             //最小轮询时间单元
             unitTimer: 1000,
             //小号放大器
-            smAmp: 2,
+            smAmp: 1,
             //中号放大器
             mdAmp: 10,
             //大号放大器
@@ -458,9 +458,7 @@ angular.module('device.controllers', [])
                             pool.dirty = true;
                         }
                         switch (pool.going[idx].cmd) {
-                            case 'BRIDGE':
-                                if (0 == pool.queryCnt % pool.mdAmp)timeFlag = true;
-                                break;
+
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
                                 break;
@@ -522,8 +520,8 @@ angular.module('device.controllers', [])
                         "value": "sdb" + _dsk.id
                     });
                 }*/
-                if(msg)
-                $scope.cab.i_on_bridge_resp(msg);
+               // if(msg)
+               // $scope.cab.i_on_bridge_resp(msg);
             },
             stopWatch: function () {
                 this.stopFlag = true;
@@ -939,7 +937,7 @@ angular.module('device.controllers', [])
                 }
 
                 if (this.is_bridged()) {
-                    if (this.curr_cmd.subcmd == 'STOP') {
+                    if (this.curr_cmd != null && this.curr_cmd.subcmd == 'STOP') {
                         return '停止桥接中(' + this.curr_cmd.usedTime + 's)';
                     }
                     return '已桥接';
@@ -1342,45 +1340,8 @@ angular.module('device.controllers', [])
                         break;
                     }
                 }
-            },
-
-            // 接口：激励，当桥接命令返回时触发，用于更新硬盘的桥接状态
-            i_on_bridge_resp: function (resp) {
-                if (resp.cmd != 'BRIDGE') return;
-
-                var idx_l = parseInt(resp.level) - 1, idx_g = parseInt(resp.group) - 1;
-                if (idx_l < 0 || idx_l > 5 || idx_g < 0 || idx_g > 5) {
-                    console.log("Invalid bridge resp", resp);
-                    return;
-                }
-
-                // 遍历所有硬盘
-                for (var i in resp.paths) {
-                    var path = resp.paths[i];
-                    var idx_d = parseInt(path.id) - 1;
-                    if (idx_d < 0 || idx_d > 3) {
-                        console.log("Invalid bridge resp, path id=" + path.id, resp);
-                        return;
-                    }
-
-                    // 桥接失败
-                    if (path.status != '0') {
-                        continue;
-                    }
-
-                    if (resp.subcmd == 'START') {
-                        // 桥接置位
-                        this.levels[idx_l].groups[idx_g].disks[idx_d].base_info.bridged = true;
-                    }
-                    else if (resp.subcmd == 'STOP') {
-                        // 桥接置零
-                        this.levels[idx_l].groups[idx_g].disks[idx_d].base_info.bridged = false;
-                    }
-                    else {
-                        return;
-                    }
-                }
             }
+
         };
 //        $scope.cab = new Cabinet();
 
