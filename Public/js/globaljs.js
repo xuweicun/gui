@@ -382,7 +382,7 @@ angular.module('device.controllers', [])
             //最小轮询时间单元
             unitTimer: 1000,
             //小号放大器
-            smAmp: 1,
+            smAmp: 5,
             //中号放大器
             mdAmp: 10,
             //大号放大器
@@ -484,13 +484,14 @@ angular.module('device.controllers', [])
                                     task.status = data['status'];
                                     console.log('当前命令:'+task.cmd+':'+task.status);
                                 }
+                                console.log("<<<<<<<<<<<<<<<<<<<<");
                                 if (task.cmd == 'BRIDGE') {
                                     var returnMsg = JSON.parse(data['return_msg']);
-                                    pool.hdlBridgeMsg(returnMsg);
                                     task.stage = data['stage'];
                                     task.progress = data['progress'];
-                                    console.log('当前进度:'+data['progress']);
+                                    console.log(data['id']+'-'+task.id);
                                 }
+                                console.log(">>>>>>>>>>>>>>>>>>>>>");
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
@@ -1002,6 +1003,25 @@ angular.module('device.controllers', [])
 
                 this.busy_disk = this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks[0].get_busy_disk();
                 return this.busy_disk;
+            },
+            // 在执行“桥接”命令时，查找可能导致命令执行失败的Busy硬盘
+            get_bridge_busy_disk: function () {
+                // 内部总线是否占用
+                var _dsk = get_busy_disk();
+                if (_dsk != null) return;
+
+                // 外部总线是否占用，即本层是否有硬盘处于桥接状态
+                var _lvl = this.parent.parent;
+                for (var i = 0; i < _lvl.groups.length; ++i) {
+                    var _grp = _lvl.groups[i];
+                    for (var j = 0; j < _grp.disks.length; ++j) {
+                        _dsk = _grp.disks[i];
+                        // 1) 已桥接；2）已发出桥接命令
+                        if (_dsk.is_bridged || (_dsk.curr_cmd != null && _dsk.curr_cmd.cmd == 'BRIDGE' && _dsk.curr_cmd.subcmd == 'START')) {
+                            return _dsk;
+                        }
+                    }
+                }
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
             to_modal_busy_msg: function () {

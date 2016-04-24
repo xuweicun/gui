@@ -269,7 +269,6 @@ class BusinessController extends Controller {
     {
         $id = I('get.cmdid');
         $db = M('CmdLog');
-        $map['cmd'] = array('eq',$cmd);
         $item = $db->find($id);
         if($item)
         {
@@ -375,32 +374,8 @@ class BusinessController extends Controller {
 		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
 		$data['start_time'] =  time();
 		$id = $db->add($data);
-
 		if($id)
 		{
-            $data['id'] = $id;
-			if($data['cmd'] == 'BRIDGE' && $data['subcmd'] == 'STOP')
-		    {
-				$level = $_POST['level'];
-				$group = $_POST['group'];
-				$disks  = $_POST['disks'];
-				$map['level'] = array('eq',$level);
-				$map['zu'] = array('eq',$group);
-
-
-				$dDb = M('Device');
-				foreach($disks as $disk)
-				{
-					$map['disk'] = array('eq',$disk['id']);
-					$item = $dDb->where($map)->find();
-					if($item)
-					{
-						$item['bridged'] = 0;
-						$dDb->save($item);
-					}
-				}
-
-			}
 			$this->AjaxReturn($data);
 		}
 		else
