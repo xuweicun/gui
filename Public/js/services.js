@@ -2,7 +2,7 @@ angular.module('device.services', [])
     .factory('Errcode', function () {
             var errCodes = {
                 "0": "no error",
-                "1": "slot busy",
+                "1": "bridge not started",
                 "10": "md5 not complete",
                 "10001": "proxy error",
                 "10002": "proxy disconnect",
@@ -72,13 +72,13 @@ angular.module('device.services', [])
                 "20": "power no resp",
                 "21": "device status timeout",
                 "22": "device status timeout",
-                "23": "write protect no resp",
+                "23": "md5 not started",
                 "24": "copying",
                 "25": "bridging",
                 "26": "copying",
                 "27": "disk info is going",
                 "28": "md5 is going",
-                "29": "channel is busy",
+                "29": "optics channel is busy",
                 "3": "no disk",
                 "30": "unknown error",
                 "31": "level not match",
@@ -109,14 +109,26 @@ angular.module('device.services', [])
 
         }
     ).factory('TestMsg',function(){
+
     var msg = {
-        diskinfo: {"CMD_ID":"117","SN":"5LY3PRKJ","SmartAttrs":[{"Attribute_ID":"01","Current_value":"00","Data":"29677D22","ExtData":"0001","Threshold":"55","Worst_value":"6C"},{"Attribute_ID":"03","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"63","Worst_value":"63"},{"Attribute_ID":"04","Current_value":"00","Data":"002A2514","ExtData":"0000","Threshold":"5A","Worst_value":"5A"},{"Attribute_ID":"05","Current_value":"00","Data":"00000024","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"07","Current_value":"00","Data":"5A67101E","ExtData":"0002","Threshold":"3C","Worst_value":"4B"},{"Attribute_ID":"09","Current_value":"DE","Data":"0001A900","ExtData":"AF00","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"0A","Current_value":"00","Data":"00000022","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"0C","Current_value":"00","Data":"00200A14","ExtData":"0000","Threshold":"5C","Worst_value":"5C"},{"Attribute_ID":"BB","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"BD","Current_value":"00","Data":"00001C00","ExtData":"0000","Threshold":"48","Worst_value":"48"},{"Attribute_ID":"BE","Current_value":"00","Data":"1700172D","ExtData":"0017","Threshold":"26","Worst_value":"4D"},{"Attribute_ID":"BF","Current_value":"00","Data":"00000E00","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C0","Current_value":"00","Data":"0002BD00","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C1","Current_value":"00","Data":"00515400","ExtData":"0000","Threshold":"5A","Worst_value":"5A"},{"Attribute_ID":"C2","Current_value":"00","Data":"00001700","ExtData":"0C00","Threshold":"3E","Worst_value":"17"},{"Attribute_ID":"C3","Current_value":"00","Data":"29677D00","ExtData":"0001","Threshold":"3C","Worst_value":"6C"},{"Attribute_ID":"C4","Current_value":"23","Data":"0001B700","ExtData":"0400","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C5","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C6","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"64","Worst_value":"64"},{"Attribute_ID":"C7","Current_value":"00","Data":"00000400","ExtData":"0000","Threshold":"C8","Worst_value":"C8"},{"Attribute_ID":"C8","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"FD","Worst_value":"64"},{"Attribute_ID":"CA","Current_value":"00","Data":"00000000","ExtData":"0000","Threshold":"FD","Worst_value":"64"}],"capacity":"74","cmd":"DISKINFO","device_id":"1","disk":"1","group":"2","level":"1","status":"0","substatus":"0"},
-        devicestatus:{"CMD_ID":"116","cmd":"DEVICESTATUS","device_id":"1","levels":[{"groups":[{"disks":["1"],"id":"2"}],"id":"1"},{"groups":[{"disks":["3"],"id":"1"}],"id":"2"},{"groups":[{"disks":["3"],"id":"3"}],"id":"3"}],"status":"0","substatus":"0"}
+        diskinfo: {"CMD_ID":"144","cmd":"DISKINFO","device_id":"1","disk":"3","group":"1","level":"2","status":"0","substatus":"1"},
+        devicestatus:{"CMD_ID":"121","cmd":"DEVICESTATUS","device_id":"1","levels":[{"groups":[{"disks":["1"],"id":"2"}],"id":"1"},{"groups":[{"disks":["3"],"id":"1"}],"id":"2"},{"groups":[{"disks":["3"],"id":"3"}],"id":"3"}],"status":"0","substatus":"0"},
+        bridge:{"CMD_ID":"124","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"progress":"75","subcmd":"START","substatus":"2","workingstatus":"59"},
+        bridge_done:{"CMD_ID":"1","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":"sdb"}],"subcmd":"START","substatus":"0"},
+        bridge_stop:{"CMD_ID":"134","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"subcmd":"STOP","substatus":"0"}
+
+
     }
     return {
         i_getMsg: function (id) {
+          //  if(parseInt(id) == 0)
+           // return msg;
+
             msg.diskinfo['CMD_ID'] = id;
             msg.devicestatus['CMD_ID'] = id;
+            msg.bridge['CMD_ID'] = id;
+            msg.bridge_done['CMD_ID'] = id;
+            msg.bridge_stop['CMD_ID'] = id;
             return msg;
         }
     };
@@ -183,6 +195,50 @@ angular.module('device.services', [])
         {
             code: "-3",
             cn: '超时'
+        },
+        {
+            code:"52",
+            cn:'BRIDGE_EIGHTOPTICS_RECEIVED_START_COMMAND'
+        },
+        {
+            code:"53",
+            cn:'光口FPGA通道开启，硬盘通道准备完毕',
+        },
+        {
+            code:"54",
+            cn:'八光口输出通道准备完毕',
+        },
+        {
+            code:"55",
+            cn:'八光口输入通道与输出通道连接完毕',
+        },
+        {
+            code:"56",
+            cn:'命令已收到',
+        },
+        {
+            code:"57",
+            cn:'控制器已加电，硬盘可见',
+        },
+        {
+            code:"58",
+            cn:'存储柜信号输出中',
+        },
+        {
+            code:"59",
+            cn:'收到光口到串口命令',
+        },
+        {
+            code:"60",
+            cn:'光口到串口控制器启动完毕',
+        },
+        {
+            code:"61",
+            cn:'光口到串口信号输出中',
+        },
+        {
+            code:"62",
+            cn:'光口到串口信号输出成功',
         }
     ];
     return {

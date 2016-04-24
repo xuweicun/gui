@@ -190,19 +190,16 @@ class BusinessController extends Controller {
 	{
 		 //initiate database   --generate model
 		$db = M('Device');
+		$viewDb = D('DeviceView');
         $map['cab_id'] = array('eq',I('get.cab'));
 		$rooms = $db->where($map)->select();
+		$roomView = $viewDb->where($map)->select();
+		$rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
 		$returnData = array();
 		foreach($rooms as $item)
 		{
-			//返回所有不在位的硬盘信息；
-			if($item['loaded'] == 1)
-			{
-				//硬盘在位
 				$item['time'] = date("Y-m-d H:i:s",$item['time']);
 				$returnData[] = $item;
-			}
-			
 		}
 		$this->AjaxReturn($returnData);
 		//var_dump($returnData);
@@ -480,37 +477,19 @@ class BusinessController extends Controller {
 	
 	public function getDiskInfo(){   
 		//check permission
-        $maxTime = $_POST['maxtime'];
-        $type = $_POST['type'];
+
        
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk  = $_POST['disk'];
-        $db = M('Device');
-        $map = "level=$level and zu=$group and disk=$disk";
-        $item = $db->where($map)->find();
-        if($item && $item['loaded'] == 1)
+		$cab  = $_POST['cab']||$_POST['cab_id'];
+        $db = D('DeviceView');
+        $map = "level=$level and zu=$group and disk=$disk and cab_id=$cab";
+        $item = $db->where($map)->select();
+        if($item)
         {
-             $id = $item['disk_id'];
-             if(!$id)
-             {
-                 $this->notFoundError('disk info query not finished yet or failed');
-             }
-             else
-             {
-                 $diskDb = M('Disk');
-                 $diskinfo = $diskDb->find($id);
-
-                 if($diskinfo)
-                 {
-					 $diskinfo = array_merge($diskinfo,$item);
-                     $this->AjaxReturn($diskinfo);
-                 }
-                 else
-                 {
-                     $this->notFoundError('invalid disk_id');
-                 }
-             }
+			$this->AjaxReturn($item);
+			die();
         }
         else
         {
