@@ -420,7 +420,7 @@ angular.module('device.controllers', [])
                             //根据命令修改信息
                             //桥接成功或失败
                             if (data['status'] == task.success) {
-                                pool.success(idx);
+                                pool.success(idx,data);
                             }
                         }
                         if (task.cmd == 'BRIDGE') {
@@ -652,7 +652,7 @@ angular.module('device.controllers', [])
              * success:成功处理
              * error:失败处理
              * */
-            success: function (idx) {
+            success: function (idx,msg) {
                 var task = this.going[idx];
                 //如果是START，按下面的方式处理
                 switch (task.cmd) {
@@ -672,14 +672,17 @@ angular.module('device.controllers', [])
                         break;
                     case 'BRIDGE':
                         //如果桥接
-                        var disks = task.disks;
+
+                        var return_msg = JSON.parse(msg['return_msg']);
+                        var paths = return_msg.paths;
+                        var tasks = return_msg.disks;
                         //遍历硬盘
                         for (var idx = 0; idx < disks.length; idx++) {
                             var disk = $scope.cabs.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                             if (disk) {
                                 if (task.subcmd == 'START') {
                                     disk.base_info.bridged = true;
-                                    disk.base_info.bridge_path = task.paths[idx].value;
+                                    disk.base_info.bridge_path = paths[idx].value;
 
                                 }
                                 if (task.subcmd == 'STOP') {
