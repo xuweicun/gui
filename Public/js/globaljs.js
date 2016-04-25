@@ -1325,6 +1325,16 @@ angular.module('device.controllers', [])
                         _dsk.curr_cmd.progress = 0;
                     }
                 }
+                else if (cmd_name == 'FILETREE') {
+                    cmd_obj.subcmd = 'START';
+                    cmd_obj.level = (this.l + 1).toString();
+                    cmd_obj.group = (this.g + 1).toString();
+                    cmd_obj.disk = (this.d + 1).toString();
+                    cmd_obj.mount_path = this.base_info.bridge_path;
+                }
+                else {
+                    return false;
+                }
 
                 // send cmd;
                 $scope.cmd.sendcmd(cmd_obj);
