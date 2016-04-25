@@ -338,7 +338,7 @@
                             <i class="fa fa-building-o"></i>离线存储柜
                         </div>
                         <div class="panel-body">
-                            <div class="tabs tabs-horizontal tabs-left ">
+                            <div class="tabs tabs-primary">
                                 <ul class="nav nav-tabs">
                                     <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
                                         <a data-toggle="tab" href="#pane-cab-level{{$index}}">
@@ -350,7 +350,7 @@
                                 <div class="tab-content">
                                     <div ng-repeat="_lvl in cab.levels" ng-init="idx_lvl=$index"
                                          id="pane-cab-level{{$index}}"
-                                         class="tab-pane data-plugin-toggle bk-margin-off col-lg-12"
+                                         class="tab-pane bk-margin-bottom-off"
                                          ng-class="{'true': 'active'}[$first]">
                                         <div ng-repeat="_grp in _lvl.groups" ng-init="idx_grp = $index" class="row">
                                             <div ng-repeat="_dsk in _grp.disks" class="col-lg-3"
