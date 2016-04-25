@@ -274,7 +274,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="page-profile.html"><i class="fa fa-user"></i> Profile</a>
+                            <a href="#"><i class="fa fa-user"></i> Profile</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench"></i> Settings</a>
@@ -338,6 +338,7 @@
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>离线存储柜
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();">存储柜信息重置</a>                            
                         </div>
                         <div class="panel-body">
                             <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -498,9 +499,6 @@
                 </div>
             </div>
             <!--/container-->
-            <div class="row">
-                <a href="" ng-click="updateDeviceStatus();" class="btn btn-block">硬盘信息重置</a>
-            </div>
             <div id="modalAnimBusy" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
