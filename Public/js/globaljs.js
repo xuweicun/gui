@@ -4,9 +4,8 @@ angular.module('device.controllers', [])
         $scope.user = $("#userid").val();
         $scope.testMsg = TestMsg;
         $scope.testCmdId = 0;
-        $scope.systReset = function()
-        {
-            $http({method:'GET',url:'/index.php?m=admin&c=business&a=systReset'}).success(function(data){
+        $scope.systReset = function () {
+            $http({method: 'GET', url: '/index.php?m=admin&c=business&a=systReset'}).success(function (data) {
                 alert('系统重置成功！');
             });
         }
@@ -68,20 +67,19 @@ angular.module('device.controllers', [])
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
-                                this.timeLimit = this.midTime;
+                            this.timeLimit = this.midTime;
                             break;
                         case 'MD5':
-                                this.timeLimit = this.maxTime;
+                            this.timeLimit = this.maxTime;
                             break;
                         case 'COPY':
-                                this.timeLimit = this.maxTime;
+                            this.timeLimit = this.maxTime;
                             break;
                         default:
                             this.timeLimit = this.minTime;
                             break;
                     }
-                    if(this.subcmd != 'START')
-                    {
+                    if (this.subcmd != 'START') {
                         this.timeLimit = this.minTime;
                     }
                     if (this.subcmd === undefined) {
@@ -109,30 +107,27 @@ angular.module('device.controllers', [])
                 },
                 getProgress: function () {
                     if (this.subcmd != 'START' || (this.cmd != 'BRIDGE' && this.cmd != 'MD5' && this.cmd != 'COPY')) {
-                      //  this.progress = parseInt(100 * this.usedTime / this.timeLimit);
+                        //  this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     }
                     //取进度返回值和估计值的最大值，防止出现进度后退的情况
-                    if(!this.progress)
-                    this.progress = 0;
-                    if(this.progress < parseInt(100 * this.usedTime / this.timeLimit))
+                    if (!this.progress)
+                        this.progress = 0;
+                    if (this.progress < parseInt(100 * this.usedTime / this.timeLimit))
                         this.progress = parseInt(100 * this.usedTime / this.timeLimit);
                     return this.progress;
                 },
-                getStage: function()
-                {
-                    if(this.cmd != 'BRIDGE' || this.stage == 0)
-                    {
+                getStage: function () {
+                    if (this.cmd != 'BRIDGE' || this.stage == 0) {
                         return null;
                     }
                     return $scope.lang.getLang(this.stage.toString());
                 },
-                getStatus: function(){
-                    if(this.substatus < 0)
-                    {
+                getStatus: function () {
+                    if (this.substatus < 0) {
                         console.log(this.substatus);
                         return '已发出';
                     }
-                    switch (this.substatus){
+                    switch (this.substatus) {
                         case 0:
                             return '成功';
                         case 1:
@@ -141,8 +136,7 @@ angular.module('device.controllers', [])
                             return '进行中';
 
                     }
-                }
-                ,
+                },
                 setStatus: function (status) {
                     this.status = status;
                     if (status == 0 || status == this.canceled) {
@@ -173,7 +167,7 @@ angular.module('device.controllers', [])
         }
         Cmd.getdiskinfo = function (level, group, disk, cab) {
             $http({
-                url: '/index.php?m=admin&c=business&a=getDiskInfo&type=' + type,
+                url: '/index.php?m=admin&c=business&a=getDiskInfo',
                 data: {level: level, group: group, disk: disk, cab_id: cab},
                 method: 'POST'
             }).success(function (data) {
@@ -196,7 +190,7 @@ angular.module('device.controllers', [])
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             $http({
                 url: 'http://222.35.224.230/index.php?m=admin&c=msg',
-                data:msg.diskinfo,
+                data: msg.diskinfo,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");
@@ -300,44 +294,44 @@ angular.module('device.controllers', [])
                 msg.device_id = $scope.cab.id.toString();
             }
             $http.post(server, msg).
-            success(function (data) {
-                if (data['errmsg']) {
-                    $scope.svrErrPool.add(data);
-                }
-                //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
+                success(function (data) {
+                    if (data['errmsg']) {
+                        $scope.svrErrPool.add(data);
+                    }
+                    //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-                if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
-                    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
-                }
-                else {
-                  //  if (msg.cmd != 'DEVICEINFO') {
+                    if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
+                        msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
+                    }
+                    else {
+                        //  if (msg.cmd != 'DEVICEINFO') {
                         msg.CMD_ID = data['id'].toString();
-                   // }
-                }
-                var msgStr = JSON.stringify(msg);
-                //服务器收到通知后，联系APP，发送指令；
-               // proxy = "/index.php";
-                $http.post(proxy, msg).success(function () {
-                    //命令池更新
-                    data['msg'] = msgStr;
-                    var newCmd = $scope.cmd.createCmd(data);
-                    $scope.taskPool.add(newCmd);
+                        // }
+                    }
+                    var msgStr = JSON.stringify(msg);
+                    //服务器收到通知后，联系APP，发送指令；
+                    // proxy = "/index.php";
+                    $http.post(proxy, msg).success(function () {
+                        //命令池更新
+                        data['msg'] = msgStr;
+                        var newCmd = $scope.cmd.createCmd(data);
+                        $scope.taskPool.add(newCmd);
 
+                    }).
+                        error(function (data) {
+                            $scope.svrErrPool.add();
+                            //delete from log;
+                            $scope.cmd.delete(data['id']);
+                        });
+                    // data['msg'] = msgStr;
+                    //var newCmd = $scope.cmd.createCmd(data);
+                    //$scope.taskPool.add(newCmd);
+                    //更新日志内容，将命令所涉及的插槽信息发送给日志
+                    $http.post(server, {msg: msgStr, id: data['id']});
                 }).
                 error(function (data) {
                     $scope.svrErrPool.add();
-                    //delete from log;
-                    $scope.cmd.delete(data['id']);
                 });
-                // data['msg'] = msgStr;
-                //var newCmd = $scope.cmd.createCmd(data);
-                //$scope.taskPool.add(newCmd);
-                //更新日志内容，将命令所涉及的插槽信息发送给日志
-                $http.post(server, {msg: msgStr, id: data['id']});
-            }).
-            error(function (data) {
-                $scope.svrErrPool.add();
-            });
 
         }
         $scope.cmd = Cmd;
@@ -365,6 +359,13 @@ angular.module('device.controllers', [])
                 method: 'GET'
             }).success(function (data) {
                 curr.i_load_disks_base_info(data);
+                //获取每个硬盘的信息
+                for (var idx = 0; idx < data.length; idx++) {
+                    //如果硬盘在位且有disk_id,获取详细信息；防止有的盘在位但是没有详细信息的
+                    if (data[idx].loaded == 1 && data[idx].disk_id && data[idx].disk_id > 0) {
+                        $scope.cmd.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);
+                    }
+                }
             }).error(function (data) {
                 console.log("更新存储柜信息失败.");
             });
@@ -398,30 +399,28 @@ angular.module('device.controllers', [])
                         return;
                     }
                 });
-                if($scope.cabs.getLth() > 0) {
+                if ($scope.cabs.getLth() > 0) {
                     $scope.cab.i_on_cmd_changed(task, true);
                 }
                 $scope.testCmdId = task.id;
                 this.going.push(task);
-                if(!this.isWatching)
-                {
+                if (!this.isWatching) {
                     this.startWatch();
                 }
             },
-            updateTask: function(data){
+            updateTask: function (data) {
                 var pool = this;
                 //找到命令
                 for (var idx = 0; idx < pool.going.length; idx++) {
                     var task = pool.going[idx];
-                    if(task.id == data['id']){
+                    if (task.id == data['id']) {
                         if (data['status'] != task.going) {
                             task.status = data['status'];
-                            console.log('当前命令:'+task.cmd+':'+task.status);
+                            console.log('当前命令:' + task.cmd + ':' + task.status);
                             //根据命令修改信息
                             //桥接成功或失败
-                            if(data['status'] == task.success)
-                            {
-                                pool.success(idx);
+                            if (data['status'] == task.success) {
+                                pool.success(idx,data);
                             }
                         }
                         if (task.cmd == 'BRIDGE') {
@@ -524,18 +523,18 @@ angular.module('device.controllers', [])
             //更新桥接状态
             hdlBridgeMsg: function (msg) {
                 /* msg.paths = [];
-                for (var i in msg.disks) {
-                    var _dsk = msg.disks[i];
-                    msg.paths.push({
-                        "status": "0",
-                        // 硬盘号，类型int，取值：1-4
-                        "id": _dsk.id.toString(),
-                        //路径，类型字符串，长度16字节
-                        "value": "sdb" + _dsk.id
-                    });
-                }*/
-               // if(msg)
-               // $scope.cab.i_on_bridge_resp(msg);
+                 for (var i in msg.disks) {
+                 var _dsk = msg.disks[i];
+                 msg.paths.push({
+                 "status": "0",
+                 // 硬盘号，类型int，取值：1-4
+                 "id": _dsk.id.toString(),
+                 //路径，类型字符串，长度16字节
+                 "value": "sdb" + _dsk.id
+                 });
+                 }*/
+                // if(msg)
+                // $scope.cab.i_on_bridge_resp(msg);
             },
             stopWatch: function () {
                 this.stopFlag = true;
@@ -623,8 +622,8 @@ angular.module('device.controllers', [])
                     method: 'GET'
                 }).success(function (data) {
                     var time = new Date();
-                    if(data === null)
-                    return;
+                    if (data === null)
+                        return;
                     data.forEach(function (e) {
                         if (e.msg != '' && e.cmd != 'MD5') {
                             var task = $scope.cmd.createCmd(e);
@@ -643,8 +642,8 @@ angular.module('device.controllers', [])
                         }
                     });
                     pool.ready = true;
-                    if(pool.going.length > 0)
-                    pool.startWatch();
+                    if (pool.going.length > 0)
+                        pool.startWatch();
                 }).error(function () {
                     $scope.svrErrPool.add();
                 });
@@ -653,25 +652,48 @@ angular.module('device.controllers', [])
              * success:成功处理
              * error:失败处理
              * */
-            success: function (idx) {
+            success: function (idx,msg) {
                 var task = this.going[idx];
                 //如果是START，按下面的方式处理
-                switch (task.cmd)
-                {
+                switch (task.cmd) {
                     case 'MD5':
-                        if(task.subcmd == 'START')
-                        $scope.cmd.update(task.id, 'RESULT');
+                        if (task.subcmd == 'START')
+                            $scope.cmd.update(task.id, 'RESULT');
                         break;
                     case 'DEVICESTATUS':
                         //如果命令对应是当前柜子
-                        if(task.device_id == $scope.cab.id)
-                        $scope.updateDeviceStatus();
+                        if (task.device_id == $scope.cab.id)
+                            $scope.updateDeviceStatus();
                         break;
                     case 'DISKINFO':
                         //如果命令对应是当前柜子
-                        if(task.cab_id == $scope.cab.id)
-                        $scope.cmd.getdiskinfo(task.level,task.group,task.disk,task.cab_id);
-                        
+                        if (task.cab_id == $scope.cab.id)
+                            $scope.cmd.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
+                        break;
+                    case 'BRIDGE':
+                        //如果桥接
+
+                        var return_msg = JSON.parse(msg['return_msg']);
+                        var paths = return_msg.paths;
+                        var disks = return_msg.disks;
+                        //遍历硬盘
+                        for (var idx = 0; idx < disks.length; idx++) {
+                            var disk = $scope.cabs.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
+                            if (disk) {
+                                if (task.subcmd == 'START') {
+                                    disk.base_info.bridged = true;
+                                    disk.base_info.bridge_path = paths[idx].value;
+
+                                }
+                                if (task.subcmd == 'STOP') {
+                                    disk.base_info.bridged = false;
+                                    disk.base_info.bridge_path = null;
+                                }
+                            }
+                        }
+
+
+                    //如果断开
                 }
 
             },
@@ -703,7 +725,7 @@ angular.module('device.controllers', [])
         $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
         $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
         $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
-        var server = businessRoot + '&a=addcmdlog&userid='+$scope.user;
+        var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
         var proxy = "http://222.35.224.230:8080";
 
         $scope.initCab = function () {
@@ -795,7 +817,7 @@ angular.module('device.controllers', [])
                 capacity: 0,
                 // 序列号
                 SN: '',
-                MD5:'',
+                MD5: '',
                 // smart属性
                 smarts: [
                     {
@@ -1103,58 +1125,58 @@ angular.module('device.controllers', [])
             get_modal_type: function (btn_type) {
                 switch (btn_type) {
                     case 'BRIDGE':
-                        {
-                            if (this.is_bridged()) {
-                                return 'Stop';
-                            }
-
-                            // 如果有桥接Busy硬盘
-                            if (this.get_bridge_busy_disk() != null) {
-                                return 'Busy';
-                            }
-                            else {
-                                return 'Start';
-                            }
+                    {
+                        if (this.is_bridged()) {
+                            return 'Stop';
                         }
+
+                        // 如果有桥接Busy硬盘
+                        if (this.get_bridge_busy_disk() != null) {
+                            return 'Busy';
+                        }
+                        else {
+                            return 'Start';
+                        }
+                    }
                         break;
                     case 'COPY':
-                        {
-                            if (this.curr_cmd != null && this.curr_cmd.cmd == 'COPY') {
-                                return 'Stop';
-                            }
-
-                            // 如果有复制Busy硬盘
-                            if (this.get_copy_busy_disk() != null) {
-                                return 'Busy';
-                            }
-                            else {
-                                return 'Start';
-                            }
+                    {
+                        if (this.curr_cmd != null && this.curr_cmd.cmd == 'COPY') {
+                            return 'Stop';
                         }
+
+                        // 如果有复制Busy硬盘
+                        if (this.get_copy_busy_disk() != null) {
+                            return 'Busy';
+                        }
+                        else {
+                            return 'Start';
+                        }
+                    }
                         break;
                     case 'DISKINFO':
-                        {
-                            if (this.get_busy_disk() != null) {
-                                return 'Busy';
-                            }
-                            else {
-                                return 'Start';
-                            }
+                    {
+                        if (this.get_busy_disk() != null) {
+                            return 'Busy';
                         }
+                        else {
+                            return 'Start';
+                        }
+                    }
                         break;
                     case 'MD5':
-                        {
-                            if (this.curr_cmd != null && this.curr_cmd.cmd == 'MD5') {
-                                return 'Stop';
-                            }
-
-                            if (this.get_busy_disk() != null) {
-                                return 'Busy';
-                            }
-                            else {
-                                return 'Start';
-                            }
+                    {
+                        if (this.curr_cmd != null && this.curr_cmd.cmd == 'MD5') {
+                            return 'Stop';
                         }
+
+                        if (this.get_busy_disk() != null) {
+                            return 'Busy';
+                        }
+                        else {
+                            return 'Start';
+                        }
+                    }
                         break;
                     default:
                         break;
@@ -1313,10 +1335,6 @@ angular.module('device.controllers', [])
             this.selected = false;
         }
 
-        function Cabs() {
-            this.cabs = [];
-            this.curr = null;
-        }
 
         // 柜子Cabinet类的原型
         Cabinet.prototype = {
@@ -1357,9 +1375,12 @@ angular.module('device.controllers', [])
                 this.curr = this.levels[l].groups[g].disks[d];
                 this.curr.get_copy_busy_disk();
 
-                $scope.getDiskInfo(parseInt(this.id),l+1,g+1,d+1);
+              //  $scope.getDiskInfo(parseInt(this.id), l + 1, g + 1, d + 1);//不再获取详细信息
             },
-
+            //获取某块盘的指针
+            i_get_disk: function (l, g, d) {
+                return this.levels[l].groups[g].disks[d];
+            },
             on_cmd_disk_info: function (json_cmd, is_add) {
                 if (json_cmd.cmd != 'DISKINFO') return;
 
@@ -1488,8 +1509,26 @@ angular.module('device.controllers', [])
 
         };
 //        $scope.cab = new Cabinet();
+        function Cabs() {
+            this.cabs = [];
+            this.curr = null;
+        }
 
         Cabs.prototype = {
+            //获取一块盘的指针
+            i_get_disk: function (c, l, g, d) {
+                //找到硬盘
+                for (var idx = 0; idx < this.cabs.length; idx++) {
+                    //找到柜子
+                    if (this.cabs[idx].id == c) {
+                        var thisCab = this.cabs[idx];
+                        var disk = thisCab.i_get_disk(l - 1, g - 1, d - 1);
+                        return disk;
+
+                    }
+                }
+                return null;
+            },
             on_select: function (idx) {
                 this.cabs[idx].get_select();
                 this.curr.selected = false;
@@ -1497,7 +1536,7 @@ angular.module('device.controllers', [])
                 $scope.updateDeviceStatus();
                 $scope.cab = this.curr;
             },
-            getLth:function(){
+            getLth: function () {
                 return this.cabs.length;
             },
             i_on_add: function (new_cab) {
@@ -1512,8 +1551,8 @@ angular.module('device.controllers', [])
                     url: '/index.php?m=admin&c=business&a=getCabInfo',
                     method: 'GET'
                 }).success(function (data) {
-                    if(data === null)
-                    return;
+                    if (data === null)
+                        return;
                     if (!data['err_msg']) {
                         data.forEach(function (e) {
                             var cab = new Cabinet();
@@ -1654,25 +1693,25 @@ angular.module('device.controllers', [])
                 }
             });
         }
-        $scope.getDiskInfo = function (cab,lvl,grp,dsk) {
+        $scope.getDiskInfo = function (cab, lvl, grp, dsk) {
             //read cab info from database
             $http({
                 url: '/index.php?m=admin&c=business&a=getDiskInfo',
-                data:{cab:cab,level:lvl,group:grp,disk:dsk},
+                data: {cab: cab, level: lvl, group: grp, disk: dsk},
                 method: 'POST'
             }).success(function (data) {
                 if (!data['err_msg']) {
                     $scope.cab.i_load_disks_base_info(data);
                 }
                 else {
-                   console.log(data['err_msg']);
+                    console.log(data['err_msg']);
                 }
             });
         }
 
-    }).controller('testCtrl',function($scope,TestMsg){
-    var Test = function(){
-        this.server = '/index.php?m=admin&c=msg';
-    }
+    }).controller('testCtrl', function ($scope, TestMsg) {
+        var Test = function () {
+            this.server = '/index.php?m=admin&c=msg';
+        }
 
-});
+    });
