@@ -675,7 +675,7 @@ angular.module('device.controllers', [])
 
                         var return_msg = JSON.parse(msg['return_msg']);
                         var paths = return_msg.paths;
-                        var tasks = return_msg.disks;
+                        var disks = return_msg.disks;
                         //遍历硬盘
                         for (var idx = 0; idx < disks.length; idx++) {
                             var disk = $scope.cabs.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
