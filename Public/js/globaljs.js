@@ -1477,7 +1477,7 @@ angular.module('device.controllers', [])
 
             // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
             i_on_cmd_changed: function (json_cmd, bol_op) {
-                console.log('adding;');
+                console.log('adding;', json_cmd);
                 switch (json_cmd.cmd) {
 
                     case 'DISKINFO':
@@ -1569,6 +1569,8 @@ angular.module('device.controllers', [])
 
                         }
                         $scope.updateDeviceStatus();
+
+                        $scope.taskPool.init();
                     }
                 });
             }
@@ -1581,7 +1583,6 @@ angular.module('device.controllers', [])
             $scope.errCodes.init();
             //read cab information
             $scope.cabs.on_init();
-            $scope.taskPool.init();
             //$scope.cmd.devicestatus();
         }
         $scope.start();
