@@ -834,6 +834,41 @@ angular.module('device.controllers', [])
                 this.cmd_name_to_commit = cmd_name;
             },
 
+            get_cmd_error: function () {
+                if (this.curr_cmd == null) return '';
+                
+                var _cmd = this.curr_cmd;
+                if (_cmd.cmd == 'BRIDGE') {
+                    for (var i = 0; i < _cmd.disks.length; ++i) {
+                        if (!_cmd.disks[i].SN) {
+                            return '硬盘 ' + _cmd.level + '-' + _cmd.group + '-' + _cmd.disks[i].id + '# 的SN号为空，请先执行“查询”命令获取硬盘信息';
+                        }
+                    }
+                }
+                else if (_cmd.cmd == 'COPY') {
+                    var _lvl = this.parent.parent;
+                    var _src = _lvl.groups[parseInt(_cmd.srcGroup) - 1].disks[parseInt(_cmd.srcDisk) - 1];
+                    var _dst = _lvl.groups[parseInt(_cmd.dstGroup) - 1].disks[parseInt(_cmd.dstDisk) - 1];
+
+                    var _srcCap = _src.get_capacity();
+                    var _dstCap = _dst.get_capacity();
+                    if (!_srcCap) {
+                        return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
+                    }
+                    if (!_dstCap) {
+                        return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
+                    }
+                    if (phaseInt(_srcCap) > phaseInt(_dstCap)) {
+                        return '无进行复制，原因：源硬盘 ' + _src.get_title() + ' 的容量(' + _srcCap + 'GB) 超过目的硬盘 ' + _dst.get_title() + ' 的容量(' + _dstCap + 'GB)';
+                    }
+                }
+                else {
+                    return '';
+                }
+
+                return '';
+            },
+
             // 选择状态清空
             clear_status: function () {
                 var sibs = this.get_siblings();
@@ -878,6 +913,8 @@ angular.module('device.controllers', [])
             // 获得命令中文名
             get_commit_cmd_title: function () {
                 switch (this.cmd_name_to_commit) {
+                    case 'DISKINFO':
+                        return '桥接';
                     case 'BRIDGE':
                         return '桥接';
                     case 'MD5':
@@ -1141,6 +1178,10 @@ angular.module('device.controllers', [])
             },
             // 用于发送“查询”、“桥接”、“MD5”和“复制”命令的“START”子命令
             cmd_start: function (cmd_name) {
+                if (!this.get_cmd_error()) {
+                    return false;
+                }
+
                 var cmd_obj = {cmd: cmd_name};
 
                 if (cmd_name == 'DISKINFO') {
