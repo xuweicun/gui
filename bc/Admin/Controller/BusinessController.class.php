@@ -348,6 +348,26 @@ class BusinessController extends Controller {
         $this->assign("disk",$disk);
         $this->display();
     }
+
+	/**
+	 * To update the log, by adding msg, changing subcmd and so on
+	 */
+	public function updateCmdLog(){
+		$db = M('CmdLog');
+		if($_POST['id'])
+		{
+			//日志更新
+			$log = $db->find($_POST['id']);
+			if($_POST['subcmd'])
+			{
+				//更新子命令
+				$log['subcmd'] = $_POST['subcmd'];
+			}
+			$log['msg'] = $_POST['msg'];
+			$db->save($log);
+			return;
+		}
+	}
 	/***
 	* to insert a new commond-request log, driven by javascript
 	* @input: cmd, subcmd, 
@@ -360,14 +380,7 @@ class BusinessController extends Controller {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
 		$db = M('CmdLog');
-		if($_POST['id'])
-		{
-			//日志更新
-			$log = $db->find($_POST['id']);
-			$log['msg'] = $_POST['msg'];
-			$db->save($log);
-			return;
-		}
+
 		$data['user_id'] = I('get.userid',0,'intval');
 		$data['cmd'] = $_POST['cmd'];
 		$data['sub_cmd'] = $_POST['subcmd'];

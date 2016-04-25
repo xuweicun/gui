@@ -83,7 +83,8 @@ class Msg
 
     public function isSRP()
     {
-
+        if($this->isBridge())
+            return false;
         return in_array($this->subcmd, $this->srp);
     }
 
@@ -198,7 +199,7 @@ class MsgController extends Controller
         $this->db = M("CmdLog");
         $this->RTLog("------RETURN MSG HANDLING START-----------");
         $this->RTLog("CMD-ID  :".$this->msg->cmd->id);
-        $this->RTLog("CMD-TYPE：".$this->msg->cmd);
+        $this->RTLog("CMD-TYPE:".$this->msg->cmd);
 
         //update the log
         $this->updateCmdLog();
@@ -235,7 +236,7 @@ class MsgController extends Controller
 
     private function hdlFail()
     {
-        $this->RTLog("fail func called");
+        $this->RTLog("comond failed");
         $item = $this->msg;
         $log = $this->db->find($item->id);
         if ($log) {
@@ -373,19 +374,24 @@ class MsgController extends Controller
     public function hdlSRPMsg()
     {
         if (!$this->msg->isSRP()) {
+            //START\PROGRESS\STOP and NOT BRIDGE
             return;
         }
         if ($this->msg->isSuccess()) {
-            $cmd = $this->db->find($this->msg->dst_id);
+            $cmd = $this->db->find($this->msg->id);
+            if(!$cmd) die();
             //cancel the going cmd
+            $this->RTLog("SRP START: ".$this->msg->subcmd);
             switch ($this->msg->sucmd) {
                 case 'STOP':
-                    if ($cmd && $this->isGoing($cmd)) {
+                    if ($this->isGoing($cmd)) {
+                        //命令被取消
                         $cmd['status'] = C('CMD_CANCELED');
                         $this->db->save($cmd);
                     }
-                    $cmd = $this->db->find($this->msg->id);
-                    if ($cmd) {
+                    else
+                    {
+                        //已经结束
                         $cmd['status'] = C('CMD_SUCCESS');
                         $this->db->save($cmd);
                     }
@@ -399,7 +405,7 @@ class MsgController extends Controller
                     break;
                 case 'PROGRESS':
                     //for md5 and copy, update progress
-                    $log = $this->getLog($this->msg->dst_id);
+                    $log = $this->getLog($this->msg->id);
                     $log['progress'] = (float)$_POST['progress'];
                     $this->db->save($log);
                     break;
@@ -409,7 +415,8 @@ class MsgController extends Controller
 
     function isGoing($cmd)
     {
-        return $cmd['status'] == C('CMD_GOING');
+
+        return $cmd['status'] == C('CMD_GOING') && $cmd['progress'] < 100;
     }
 
     /**

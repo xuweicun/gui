@@ -205,7 +205,7 @@ angular.module('device.controllers', [])
             var msg = {cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk};
             Cmd.sendcmd(msg);
         }
-        Cmd.stop = function (id) {
+        Cmd.stop = function (id,subcmd) {
             //获取命令参数
             $http({
                 url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
@@ -217,8 +217,10 @@ angular.module('device.controllers', [])
                 else {
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
-                    msg.subcmd = 'STOP';
-                    this.sendcmd(msg);
+                    msg.subcmd = subcmd;
+                    $http.post({data:msg,url:proxy}).error(function(){
+                        console.log('向APP发送消息 失败');
+                    });
                 }
             });
             //增加命令日志
@@ -237,7 +239,9 @@ angular.module('device.controllers', [])
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
                     msg.subcmd = subcmd;
-                    this.sendcmd(msg);
+                    $http.post({data:msg,url:proxy}).error(function(){
+                        console.log('向APP发送消息 失败');
+                    });
                 }
             });
 
@@ -300,14 +304,14 @@ angular.module('device.controllers', [])
                     }
                     //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-                    if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
-                        msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
-                    }
-                    else {
+                    //if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
+                    //    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
+                    //}
+                    //else {
                         //  if (msg.cmd != 'DEVICEINFO') {
                         msg.CMD_ID = data['id'].toString();
                         // }
-                    }
+                    //}
                     var msgStr = JSON.stringify(msg);
                     //服务器收到通知后，联系APP，发送指令；
                     // proxy = "/index.php";
@@ -423,9 +427,50 @@ angular.module('device.controllers', [])
                                 pool.success(idx,data);
                             }
                         }
+                        else {
+                            //命令执行中
+                            //如果为MD5或者COPY
+                            if(data['progress'])
+                            {
+                                task.progress = data['progress'];
+                            }
+                            if(task.cmd == 'MD5'||task.cmd=='COPY')
+                            {
+                                //检查进度
+                                if(data['progress'] && parseFloat(data['progress']) < 100){
+                                    //未完成
+                                    $scope.cmd.update(data['id'],'PROGRESS');
+                                }
+                                else{
+                                    if(parseFloat(data['progress']) >= 100){
+                                        //已成功
+                                        switch (data['cmd']){
+                                            case 'MD5':
+                                                if(data['subcmd'] != 'RESULT' && data['subcmd'] != 'STOP'){
+                                                    //尚未开始查询结果和停止，则查询结果
+                                                    $scope.cmd.update(data['id'],'RESULT');
+                                                }
+                                                if(data['subcmd' == 'RESULT'] && data['substatus'] == 0)
+                                                {
+                                                    //已经查询过结果，且查询成功,则发送停止令
+                                                    $scope.cmd.update(data['id'],'STOP');
+                                                }
+                                                break;
+                                            case 'COPY':
+                                                if(data['subcmd' == 'START'])
+                                                {
+                                                    //执行完成,则发送停止令
+                                                    $scope.cmd.update(data['id'],'STOP');
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (task.cmd == 'BRIDGE') {
                             task.stage = data['stage'];
-                            task.progress = data['progress'];
+
                         }
                         break;
                     }
@@ -1312,13 +1357,14 @@ angular.module('device.controllers', [])
                         group: (this.g + 1).toString(),
                         disks: disk_array
                     };
+                    $scope.cmd.sendcmd(cmd_obj);
                 }
                 else {
                     cmd_obj = this.curr_cmd;
-                    cmd_obj.subcmd = 'STOP';
+                    $scope.cmd.update(cmd_obj.id,'STOP');
                 }
 
-                $scope.cmd.sendcmd(cmd_obj);
+
                 //console.log(cmd_obj);
 
                 $.magnificPopup.close();
