@@ -430,7 +430,12 @@
                                                        false:'fa-unlink'
                                                    }[cab.curr.is_bridged()]"></i>
                                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
-                                            <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" ng-if="cab.curr.is_bridged()">打开</a>
+                                            <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" 
+                                               ng-if="cab.curr.is_bridged()"
+                                               class="btn btn-danger btn-xs">打开</a>
+                                            <a class="btn btn-danger btn-xs" href="" 
+                                               ng-if="cab.curr.is_bridged()"
+                                               ng-click="cab.curr.cmd_start('FILETREE')">生成文件树</a>
                                         </p>
                                     </div>
                                 </div>
