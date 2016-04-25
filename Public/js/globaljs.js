@@ -1375,6 +1375,8 @@ angular.module('device.controllers', [])
                 this.curr = this.levels[l].groups[g].disks[d];
                 this.curr.get_copy_busy_disk();
 
+                console.log(this.curr);
+
               //  $scope.getDiskInfo(parseInt(this.id), l + 1, g + 1, d + 1);//不再获取详细信息
             },
             //获取某块盘的指针
@@ -1574,105 +1576,6 @@ angular.module('device.controllers', [])
 
         $scope.cabs = new Cabs();
         $scope.cab = $scope.cabs.curr;
-        var test = function () {
-            var disk;
-            disk = $scope.cab.levels[0].groups[0].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 80;
-            disk.detail_info.SN = '123456';
-
-            disk = $scope.cab.levels[0].groups[0].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 120;
-            disk.detail_info.SN = 'abcdef';
-
-            disk = $scope.cab.levels[0].groups[1].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaaaaa';
-
-            disk = $scope.cab.levels[0].groups[1].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 1050;
-            disk.detail_info.SN = 'daaaaa';
-
-
-            disk = $scope.cab.levels[0].groups[2].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 1150;
-            disk.detail_info.SN = 'daaaaa1';
-
-            disk = $scope.cab.levels[0].groups[2].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 500;
-            disk.detail_info.SN = 'aaaaab';
-
-            disk = $scope.cab.levels[0].groups[3].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 1150;
-            disk.detail_info.SN = 'daaaaa1';
-
-            disk = $scope.cab.levels[0].groups[3].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaaaac';
-
-            disk = $scope.cab.levels[0].groups[4].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaabaa';
-
-            disk = $scope.cab.levels[0].groups[4].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaabba';
-
-            disk = $scope.cab.levels[0].groups[5].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaacaa';
-
-            disk = $scope.cab.levels[0].groups[5].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 251;
-            disk.detail_info.SN = 'aaacaa1';
-
-            disk = $scope.cab.levels[0].groups[5].disks[2];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 252;
-            disk.detail_info.SN = 'aaacaa2';
-
-            disk = $scope.cab.levels[0].groups[5].disks[3];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 253;
-            disk.detail_info.SN = 'aaacaa3';
-
-            disk = $scope.cab.levels[1].groups[0].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 120;
-            disk.detail_info.SN = 'abcdef';
-
-            disk = $scope.cab.levels[1].groups[1].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaaaaa';
-
-
-            disk = $scope.cab.levels[1].groups[2].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 120;
-            disk.detail_info.SN = 'abcdef';
-
-            disk = $scope.cab.levels[1].groups[3].disks[0];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaaaaa';
-
-            disk = $scope.cab.levels[1].groups[3].disks[1];
-            disk.base_info.loaded = true;
-            disk.detail_info.capacity = 250;
-            disk.detail_info.SN = 'aaaaaade';
-        };
         $scope.start = function () {
             //  $scope.updatetime = myDate.getTime();
             $scope.errCodes.init();
