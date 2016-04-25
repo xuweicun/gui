@@ -196,13 +196,10 @@ class MsgController extends Controller
         $this->msg = new Msg();
         $this->msg->init();
         $this->db = M("CmdLog");
-        $this->RTLog($this->msg->cmd);
-        if ($_POST['errmsg']) {
-            //something wrong;
-            //   $this->handleError();
-            //   die();
-            $this->RTLog($_POST['errmsg']);
-        }
+        $this->RTLog("------RETURN MSG HANDLING START-----------");
+        $this->RTLog("CMD-ID  :".$this->msg->cmd->id);
+        $this->RTLog("CMD-TYPE：".$this->msg->cmd);
+
         //update the log
         $this->updateCmdLog();
         //update related table
@@ -497,9 +494,9 @@ class MsgController extends Controller
         //状态值
         if ($failFlag == true) {
             $log['status'] = (int)$paths[0]['status'];
-            $this->RTLog("FAIL:".$log['status']);
+            $this->RTLog("BRIDGE FAIL: ERROR NO->".$log['status']);
         } else {
-            $this->RTLog("success");
+            $this->RTLog("BRIDGE SUCCESS: CMD_ID".$this->msg->id);
             $log['status'] = C('CMD_SUCCESS');
             if(stop) {
                 $dstLog = $this->getLog($this->msg->dst_id);
@@ -663,6 +660,11 @@ class MsgController extends Controller
      */
     public function updateCmdLog()
     {
+        if ($_POST['errmsg']) {
+            //出错，输出错误信息
+            $this->RTLog($_POST['errno'].":".$_POST['errmsg']);
+            die();
+        }
         if ($this->msg->isStart()) {
             //just start
             $this->hdlStartMsg();
