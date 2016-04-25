@@ -1101,6 +1101,7 @@ angular.module('device.controllers', [])
                 }
 
                 this.busy_disk = _dsk;
+                console.log(this.busy_disk);
                 return this.busy_disk;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
