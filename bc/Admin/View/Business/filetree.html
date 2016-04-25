@@ -85,6 +85,9 @@
         //
         // there's no better way to do this at this time :(
         if ($.isFunction($.fn['dataTable'])) {
+
+            $.fn.dataTable.ext.errMode = 'throw';
+
             $.extend(true, $.fn.dataTable.defaults, {
                 sDom: "<'row datatables-header form-inline'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r><'table-responsive't><'row datatables-footer'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 oLanguage: {
