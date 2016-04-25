@@ -671,7 +671,29 @@ angular.module('device.controllers', [])
                         //如果命令对应是当前柜子
                         if(task.cab_id == $scope.cab.id)
                         $scope.cmd.getdiskinfo(task.level,task.group,task.disk,task.cab_id);
-                        
+                        break;
+                    case 'BRIDGE':
+                        //如果桥接
+                        var disks = task.disks;
+                        //遍历硬盘
+                        for(var idx = 0; idx < disks.length;idx++){
+                            var disk = $scope.cabs.i_get_disk(task.cab_id,task.level,task.group, disks[idx].id);
+                            if(disk){
+                                if(task.subcmd == 'START')
+                                {
+                                    disk.base_info.bridged = true;
+                                    disk.base_info.bridge_path = task.paths[idx].value;
+
+                                }
+                                if(task.subcmd == 'STOP'){
+                                    disk.base_info.bridged = false;
+                                    disk.base_info.bridge_path = null;
+                                }
+                            }
+                        }
+
+
+                        //如果断开
                 }
 
             },
@@ -1272,10 +1294,7 @@ angular.module('device.controllers', [])
             this.selected = false;
         }
 
-        function Cabs() {
-            this.cabs = [];
-            this.curr = null;
-        }
+
 
         // 柜子Cabinet类的原型
         Cabinet.prototype = {
@@ -1318,7 +1337,10 @@ angular.module('device.controllers', [])
 
                 $scope.getDiskInfo(parseInt(this.id),l+1,g+1,d+1);
             },
-
+            //获取某块盘的指针
+            i_get_disk: function(l,g,d){
+                return this.levels[l].groups[g].disks[d];
+            },
             on_cmd_disk_info: function (json_cmd, is_add) {
                 if (json_cmd.cmd != 'DISKINFO') return;
 
@@ -1447,8 +1469,26 @@ angular.module('device.controllers', [])
 
         };
 //        $scope.cab = new Cabinet();
-
+        function Cabs() {
+            this.cabs = [];
+            this.curr = null;
+        }
         Cabs.prototype = {
+            //获取一块盘的指针
+            i_get_disk: function(c,l,g,d){
+                //找到硬盘
+                for(var idx = 0; idx < this.cabs.length; idx++){
+                    //找到柜子
+                    if(this.cabs[idx].id == c)
+                    {
+                        var thisCab = this.cabs[idx];
+                        var disk = thisCab.i_get_disk(l-1,g-1,d-1);
+                        return disk;
+
+                    }
+                }
+                return null;
+            },
             on_select: function (idx) {
                 this.cabs[idx].get_select();
                 this.curr.selected = false;
