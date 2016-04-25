@@ -11,8 +11,8 @@ angular.module('device.controllers', [])
         }
         var Cmd = {};
         Cmd.createCmd = function (log) {
-            console.log(log.msg);
             var msg = JSON.parse(log.msg);
+            console.log('Create Cmd', msg, log.msg);
             var _start_time = log.start_time;
             var newcmd = {
                 id: log.id,//log.id和CMD_ID有时不同
