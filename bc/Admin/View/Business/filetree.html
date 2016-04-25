@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,43 +23,42 @@
     <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet" />
 
     <style>
-        a{
+        a {
             color: #777 !important;
         }
     </style>
 
 </head>
 <body>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h6><i class="fa fa-table red"></i><span class="break"></span>文件列表</h6>
-        <input style="display:none;" id="diskinfo" value="{$disk}">
-    </div>
-    <div class="panel-body">
-        <div>
-            <ol class="breadcrumb" id="navBar">
-                <li>
-                    <button class="btn btn-link btn-xs" type="button" id="btnUp">
-                        <i class="fa  fa-arrow-up"></i>
-                    </button>
-                </li>
-            </ol>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6><i class="fa fa-table red"></i><span class="break"></span>文件列表</h6>
+            <input style="display:none;" id="diskinfo" value="<{$disk}>">
         </div>
-        <table class="table table-bordered table-striped" id="datatable-my">
-            <thead>
-            <tr>
-                <th>名称</th>
-                <th>修改日期</th>
-                <th>类型</th>
-                <th>大小</th>
-                <th>dir</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="panel-body">
+            <div>
+                <ol class="breadcrumb" id="navBar">
+                    <li>
+                        <button class="btn btn-link btn-xs" type="button" id="btnUp">
+                            <i class="fa  fa-arrow-up"></i>
+                        </button>
+                    </li>
+                </ol>
+            </div>
+            <table class="table table-bordered table-striped" id="datatable-my">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>修改日期</th>
+                        <th>类型</th>
+                        <th>大小</th>
+                        <th>dir</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
-</div>
 </body>
 
 
@@ -85,7 +84,9 @@
         // you should run the code inside this function to keep functionality.
         //
         // there's no better way to do this at this time :(
-        if ( $.isFunction( $.fn[ 'dataTable' ] ) ) {
+        if ($.isFunction($.fn['dataTable'])) {
+
+            $.fn.dataTable.ext.errMode = 'throw';
 
             $.extend(true, $.fn.dataTable.defaults, {
                 sDom: "<'row datatables-header form-inline'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r><'table-responsive't><'row datatables-footer'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
