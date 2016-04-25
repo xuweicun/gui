@@ -1200,7 +1200,7 @@ angular.module('device.controllers', [])
             },
             // 用于发送“查询”、“桥接”、“MD5”和“复制”命令的“START”子命令
             cmd_start: function (cmd_name) {
-                if (!this.get_cmd_error()) {
+                if (this.get_cmd_error() != '') {
                     return false;
                 }
 
