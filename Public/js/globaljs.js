@@ -35,11 +35,11 @@ angular.module('device.controllers', [])
                 disks: null,
                 //src和dst仅对拷贝命令有意义
                 srcDisk: msg.srcDisk,
-                srcLevel: msg.srcGroup,
-                srcGroup: msg.srcLevel,
+                srcLevel: msg.srcLevel,
+                srcGroup: msg.srcGroup,
                 dstDisk: msg.dstDisk,
                 dstLevel: msg.dstLevel,
-                dstGroup: msg.dstDisk,
+                dstGroup: msg.dstGroup,
                 //MD5、diskinfo等命令中，disk值有效
                 disk: null,
                 //命令状态，初始值为-1
