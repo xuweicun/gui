@@ -436,7 +436,7 @@
                                             <a class="btn btn-danger btn-xs" href="" 
                                                ng-if="cab.curr.is_bridged()"
                                                ng-click="cab.curr.cmd_start('FILETREE')">重建索引</a>
-                                            <a class="btn btn-danger btn-xs" ng-href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.base_info.level+1}}_{{cab.curr.base_info.group+1}}_{{cab.curr.base_info.disk+1}}"
+                                            <a class="btn btn-danger btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
                                                ng-if="cab.curr.is_loaded()" target="_blank">离线浏览</a>
                                         </p>
                                     </div>
