@@ -880,7 +880,7 @@ angular.module('device.controllers', [])
                     if (!_dstCap) {
                         return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
-                    if (phaseInt(_srcCap) > phaseInt(_dstCap)) {
+                    if (parseInt(_srcCap) > parseInt(_dstCap)) {
                         return '无进行复制，原因：源硬盘 ' + _src.get_title() + ' 的容量(' + _srcCap + 'GB) 超过目的硬盘 ' + _dst.get_title() + ' 的容量(' + _dstCap + 'GB)';
                     }
                 }
