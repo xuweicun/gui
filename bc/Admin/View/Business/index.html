@@ -589,7 +589,9 @@
                             <div class="modal-text form-group" ng-if="cab.curr.cmd_name_to_commit == 'BRIDGE'">
                                 <label class="col-md-2 control-label">请选择<span class="required">*</span><br><label
                                         class="error"
-                                        for="to_bridged_disks[]"></label></label>
+                                        for="to_bridged_disks[]"></label>
+                                <label class="error">{{cab.curr.get_cmd_error()}}</label>
+                                </label>
 
                                 <div class="col-md-10">
                                     <div class="checkbox-custom" ng-repeat="_dsk in cab.curr.get_siblings()">
@@ -630,7 +632,10 @@
                                     <div class="row form-group">
                                         <label class="control-label col-md-2">目的硬盘<span
                                                 class="required">*</span><br><label
-                                                class="error" for="dstDisks"></label></label>
+                                                class="error" for="dstDisks"></label>
+
+                                            <label class="error">{{cab.curr.get_cmd_error()}}</label>
+                                        </label>
 
                                         <div class="col-md-10 bk-margin-bottom-10">
                                             <div class="radio-custom" ng-repeat="_disk in cab.curr.get_copy_disks()">
@@ -653,7 +658,10 @@
                                     <div class="row form-group">
                                         <label class="control-label col-md-2">源硬盘<span
                                                 class="required">*</span><br><label
-                                                class="error" for="srcDisks"></label></label>
+                                                class="error" for="srcDisks"></label>
+
+                                            <label class="error">{{cab.curr.get_cmd_error()}}</label>
+                                        </label>
 
                                         <div class="col-md-10">
                                             <div class="radio-custom" ng-repeat="_disk in cab.curr.get_copy_disks()">
