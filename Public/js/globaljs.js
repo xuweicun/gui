@@ -849,6 +849,20 @@ angular.module('device.controllers', [])
                     return;
                 }
 
+                if (cmd_name == 'DISKINFO' || cmd_name == 'MD5') {
+                    var bdsk = this.get_busy_disk();
+                    if (bdsk != null) this.busy_disk = bdsk;
+                }
+                else if (cmd_name == 'COPY') {
+                    var bdsk = this.get_copy_busy_disk();
+                    if (bdsk != null) this.busy_disk = bdsk;
+                }
+                else if (cmd_name == 'BRIDGE') {
+                    var bdsk = this.get_bridge_busy_disk();
+                    if (bdsk != null) this.busy_disk = bdsk;
+                }
+
+
                 if (cmd_name == 'BRIDGE') {
                     this.isto_bridge = true;
                 }
@@ -1052,12 +1066,8 @@ angular.module('device.controllers', [])
             },
             // 获得可能导致命令执行失败的本组中Busy硬盘
             get_busy_disk: function () {
-                // 清空状态
-                this.busy_disk = null;
-
                 // 若自身Busy，则返回this
                 if (this.is_busy()) {
-                    this.busy_disk = this;
                     return this;
                 }
 
@@ -1066,20 +1076,18 @@ angular.module('device.controllers', [])
                 for (var i in sibs) {
                     var _dsk = sibs[i];
                     if (_dsk.is_busy()) {
-                        this.busy_disk = _dsk;
-                        break;
+                        return _dsk;
                     }
                 }
 
-                return this.busy_disk;
+                return null;
             },
             // 在执行“复制”命令时，查找可能导致命令执行失败的Busy硬盘
             get_copy_busy_disk: function () {
                 var _sdisk = this.get_busy_disk();
                 if (_sdisk != null) return _sdisk;
 
-                this.busy_disk = this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks[0].get_busy_disk();
-                return this.busy_disk;
+                return this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks[0].get_busy_disk();
             },
             // 在执行“桥接”命令时，查找可能导致命令执行失败的Busy硬盘
             get_bridge_busy_disk: function () {
@@ -1095,14 +1103,11 @@ angular.module('device.controllers', [])
                         var dsk = _grp.disks[j];
                         // 1) 已桥接；2）已发出桥接命令
                         if (dsk.is_bridged() || (dsk.curr_cmd != null && dsk.curr_cmd.cmd == 'BRIDGE' && dsk.curr_cmd.subcmd == 'START')) {
-                            _dsk = dsk;
+                            return dsk;
                         }
                     }
                 }
-
-                this.busy_disk = _dsk;
-                console.log(this.busy_disk);
-                return this.busy_disk;
+                return null;
             },
             // 命令执行时，构建“硬盘忙”模态框的显示信息
             to_modal_busy_msg: function () {
