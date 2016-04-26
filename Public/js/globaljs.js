@@ -670,9 +670,9 @@ angular.module('device.controllers', [])
                     if (data === null)
                         return;
                     data.forEach(function (e) {
+                        console.log(task);
                         if (e.msg != '' && e.cmd != 'MD5') {
                             var task = $scope.cmd.createCmd(e);
-                            console.log(task);
                             if (task.status == task.going) {
                                 pool.add(task);
                             }
