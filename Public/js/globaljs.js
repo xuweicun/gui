@@ -537,6 +537,9 @@ angular.module('device.controllers', [])
 
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
+                                console.log(pool.queryCnt);
+                                console.log(pool.lgAmp);
+                                console.log(pool.queryCnt % pool.lgAmp);
                                 console.log('timeFlag:'+timeFlag);
                                 break;
                             case 'COPY':
