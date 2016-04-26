@@ -397,7 +397,7 @@ angular.module('device.controllers', [])
             //中号放大器
             mdAmp: 10,
             //大号放大器
-            LgAmp: 20,
+            lgAmp: 20,
             //轮询次数计数器
             queryCnt: 0,
             stopFlag: false,
@@ -446,6 +446,7 @@ angular.module('device.controllers', [])
                                 //检查进度
                                 if(data['progress'] && parseFloat(data['progress']) < 100){
                                     //未完成
+                                    task.subcmd = 'PROGRESS';
                                     $scope.cmd.update(data['id'],'PROGRESS');
                                 }
                                 else{
@@ -455,11 +456,13 @@ angular.module('device.controllers', [])
                                             case 'MD5':
                                                 if(data['subcmd'] != 'RESULT' && data['subcmd'] != 'STOP'){
                                                     //尚未开始查询结果和停止，则查询结果
+                                                    task.subcmd = 'RESULT';
                                                     $scope.cmd.update(data['id'],'RESULT');
                                                 }
                                                 if(data['subcmd' == 'RESULT'] && data['substatus'] == 0)
                                                 {
                                                     //已经查询过结果，且查询成功,则发送停止令
+                                                    task.subcmd = 'STOP';
                                                     $scope.cmd.update(data['id'],'STOP');
                                                 }
                                                 break;
@@ -467,6 +470,7 @@ angular.module('device.controllers', [])
                                                 if(data['subcmd' == 'START'])
                                                 {
                                                     //执行完成,则发送停止令
+                                                    task.subcmd = 'STOP';
                                                     $scope.cmd.update(data['id'],'STOP');
                                                 }
                                                 break;
@@ -537,7 +541,6 @@ angular.module('device.controllers', [])
 
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
-                                console.log('timeFlag:'+timeFlag);
                                 break;
                             case 'COPY':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
@@ -681,7 +684,7 @@ angular.module('device.controllers', [])
                     for (var i = 0; i < data.length; ++i) {
                         var e = data[i];
                         console.log(e);
-                        if (e.msg != '' && e.cmd != 'MD5') {
+                        if (e.msg != '') {
                             var task = $scope.cmd.createCmd(e);
                             if (task.status == task.going) {
                                 pool.add(task);
