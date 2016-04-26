@@ -669,8 +669,9 @@ angular.module('device.controllers', [])
                     var time = new Date();
                     if (data === null)
                         return;
-                    data.forEach(function (e) {
-                        console.log(task);
+                    for (var i = 0; i < data.length; ++i) {
+                        var e = data[i];
+                        console.log(e);
                         if (e.msg != '' && e.cmd != 'MD5') {
                             var task = $scope.cmd.createCmd(e);
                             if (task.status == task.going) {
@@ -686,6 +687,10 @@ angular.module('device.controllers', [])
                                 });
                             }
                         }
+                    }
+                    data.forEach(function (e) {
+                        console.log(task);
+                        
                     });
                     pool.ready = true;
                     if (pool.going.length > 0)
