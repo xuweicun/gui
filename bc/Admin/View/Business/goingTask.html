@@ -69,12 +69,12 @@
                         <td  ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                         <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
                         <td >
-                            <div class="panel bk-widget bk-border-off" ng-show="task.getProgress() > 0">
+                            <div class="panel bk-widget bk-border-off">
                                 <div class="progress light progress-xl" style="margin-top:10;" >
                                     <div ng-style="{width: task.getProgress()+'%'}"  aria-valuemax="100"
                                          aria-valuemin="0" aria-valuenow="{{task.getProgress()}}" role="progressbar"
                                          class="progress-bar progress-bar-warning">
-                                        <span ng-bind="task.getProgress()+'%'" ng-show="task.getProgress() > 0"></span>
+                                        <span ng-bind="task.getProgress()+'%'" ></span>
 
                                     </div>
                                 </div>
