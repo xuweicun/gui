@@ -239,9 +239,9 @@ angular.module('device.controllers', [])
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
                     msg.subcmd = subcmd;
-                    $http.post({data:msg,url:proxy}).success(function(){
+                    $http.post(proxy, msg).success(function(){
                         var msgStr = JSON.stringify(msg);
-                        $http.post({data:{msg: msgStr,id: id},url:server}).error(function(){
+                        $http.post(server,{msg: msgStr,id: id}).error(function(){
                             console.log('向服务器发送消息 失败');
                         });
                     }).error(function(){
@@ -537,6 +537,7 @@ angular.module('device.controllers', [])
 
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
+                                console.log('timeFlag:'+timeFlag);
                                 break;
                             case 'COPY':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
