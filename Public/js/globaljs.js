@@ -485,7 +485,7 @@ angular.module('device.controllers', [])
             },
             updateQueryCnt: function () {
                 this.queryCnt++;
-                if (this.queryCnt > this.lgAmer) {
+                if (this.queryCnt > 10000) {
                     this.queryCnt = 0;
                 }
             },
