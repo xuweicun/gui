@@ -67,7 +67,12 @@ angular.module('device.controllers', [])
                     //根据命令名称判断
                     switch (this.cmd) {
                         case 'BRIDGE':
-                            this.timeLimit = this.midTime;
+                            if (this.subcmd != 'START') {
+                                this.timeLimit = this.minTime;
+                            }
+                            else{
+                                this.timeLimit = this.midTime;
+                            }
                             break;
                         case 'MD5':
                             this.timeLimit = this.maxTime;
@@ -79,9 +84,7 @@ angular.module('device.controllers', [])
                             this.timeLimit = this.minTime;
                             break;
                     }
-                    if (this.subcmd != 'START') {
-                        this.timeLimit = this.minTime;
-                    }
+
                     if (this.subcmd === undefined) {
                         this.subcmd = null;
                     }

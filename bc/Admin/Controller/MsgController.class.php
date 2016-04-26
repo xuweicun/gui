@@ -675,19 +675,19 @@ class MsgController extends Controller
     {
         if ($_POST['errmsg']) {
             //出错，输出错误信息
-            $this->RTLog($_POST['errno'].":".$_POST['errmsg']);
-            die();
+            $this->RTLog('Error:'.$_POST['errno'].":".$_POST['errmsg']);
+            if ($this->msg->isFail()) {
+                //failed
+                $this->hdlFail();
+                die();
+            }
         }
         if ($this->msg->isStart()) {
             //just start
             $this->hdlStartMsg();
             die();
         }
-        if ($this->msg->isFail()) {
-            //failed
-            $this->hdlFail();
-            die();
-        }
+
         //bridge msg has to be handled seperately
         if ($this->msg->isBridge()) {
             return;
