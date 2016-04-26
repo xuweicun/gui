@@ -666,13 +666,13 @@ angular.module('device.controllers', [])
                     url: '/index.php?m=admin&c=business&a=getGoingTasks',
                     method: 'GET'
                 }).success(function (data) {
-                    console.log(data);
                     var time = new Date();
                     if (data === null)
                         return;
                     data.forEach(function (e) {
                         if (e.msg != '' && e.cmd != 'MD5') {
                             var task = $scope.cmd.createCmd(e);
+                            console.log(task);
                             if (task.status == task.going) {
                                 pool.add(task);
                             }
