@@ -23,6 +23,7 @@ class Msg
     public $subcmd = null;
     public $status = null;
     public $substatus = null;
+    public $errno  = null;
     public $progress = 0;
     public $cab_id = 0;
     public $isStop = false;
@@ -66,6 +67,7 @@ class Msg
             $this->status = $_POST['status'];
         }
         $this->substatus = $_POST['substatus'];
+        $this->errno = $_POST['errno'];
     }
 
     /***
@@ -108,7 +110,7 @@ class Msg
      */
     public function isFail()
     {
-        return $this->status > C('CMD_SUCCESS');
+        return $this->status > C('CMD_SUCCESS') || $this->errno > C('CMD_SUCCESS') ;
     }
 
     /**
@@ -240,7 +242,11 @@ class MsgController extends Controller
         $item = $this->msg;
         $log = $this->db->find($item->id);
         if ($log) {
-            $log['status'] = $item->status;
+            //status有时没有值
+            $log['status'] = $item->status ? $item->status : $item->errno;
+            //let it be an unknown error number
+            if($log['status'] == null)
+                $log['status'] = 30;
             if ($this->msg->isBridge())
                 $log['return_mgs'] = $this->msg->origin;
             $this->db->save($log);
