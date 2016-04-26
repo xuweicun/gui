@@ -353,9 +353,10 @@ class BusinessController extends Controller {
 	 * To update the log, by adding msg, changing subcmd and so on
 	 */
 	public function updateCmdLog(){
-		$db = M('CmdLog');
+
 		if($_POST['id'])
 		{
+			$db = M('CmdLog');
 			//日志更新
 			$log = $db->find($_POST['id']);
 			if($_POST['subcmd'])
@@ -365,7 +366,7 @@ class BusinessController extends Controller {
 			}
 			$log['msg'] = $_POST['msg'];
 			$db->save($log);
-			return;
+			$this->AjaxReturn($log);
 		}
 	}
 	/***
@@ -379,6 +380,7 @@ class BusinessController extends Controller {
 	   {
 		   $_POST = json_decode(file_get_contents('php://input'),true);     
 	   }
+		$this->updateCmdLog();
 		$db = M('CmdLog');
 
 		$data['user_id'] = I('get.userid',0,'intval');

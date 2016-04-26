@@ -239,9 +239,15 @@ angular.module('device.controllers', [])
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
                     msg.subcmd = subcmd;
-                    $http.post({data:msg,url:proxy}).error(function(){
+                    $http.post({data:msg,url:proxy}).success(function(){
+                        var msgStr = JSON.stringify(msg);
+                        $http.post({data:{msg: msgStr,id: id},url:server}).error(function(){
+                            console.log('向服务器发送消息 失败');
+                        });
+                    }).error(function(){
                         console.log('向APP发送消息 失败');
                     });
+
                 }
             });
 
@@ -410,6 +416,7 @@ angular.module('device.controllers', [])
                 this.going.push(task);
                 if (!this.isWatching) {
                     this.startWatch();
+
                 }
             },
             updateTask: function (data) {
@@ -506,8 +513,9 @@ angular.module('device.controllers', [])
                 var pool = this;
                 this.isWatching = true;
                 var taskWatcher = $interval(function () {
-                    if (this.stopFlag == true) {
+                    if (this.stopFlag == true || pool.going.length == 0) {
                         $interval.cancel(taskWatcher);
+                        this.isWatching = false;
                     }
                     for (var idx = 0; idx < pool.going.length; idx++) {
                         var task = pool.going[idx];
