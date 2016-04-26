@@ -688,10 +688,6 @@ angular.module('device.controllers', [])
                             }
                         }
                     }
-                    data.forEach(function (e) {
-                        console.log(task);
-                        
-                    });
                     pool.ready = true;
                     if (pool.going.length > 0)
                         pool.startWatch();
