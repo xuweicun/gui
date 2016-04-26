@@ -397,6 +397,7 @@ angular.module('device.controllers', [])
             stopFlag: false,
             maxPoolSize: 50,
             add: function (task) {
+                console.log("add", task);
                 this.going.forEach(function (e) {
                     if (e.id == task.id) {
                         //判断是否是新命令，如果不是新命令，不执行任何操作
