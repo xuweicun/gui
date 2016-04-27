@@ -934,12 +934,12 @@ angular.module('device.controllers', [])
                     var _dst = _lvl.groups[parseInt(_cmd.dstGroup) - 1].disks[parseInt(_cmd.dstDisk) - 1];
 
                     var _srcCap = _src.get_capacity();
-                    var _dstCap = _dst.get_capacity();
-                    if (!_srcCap) {
+                    var _dstCap = _dst.get_capacity();                    
+                    if (_srcCap == '') {
                         return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
-                    if (!_dstCap) {
-                        return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
+                    if (_dstCap == '') {
+                        return '硬盘 ' + _dst.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
                     if (parseInt(_srcCap) > parseInt(_dstCap)) {
                         return '无进行复制，原因：源硬盘 ' + _src.get_title() + ' 的容量(' + _srcCap + 'GB) 超过目的硬盘 ' + _dst.get_title() + ' 的容量(' + _dstCap + 'GB)';
