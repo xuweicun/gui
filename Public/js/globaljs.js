@@ -1470,11 +1470,11 @@ angular.module('device.controllers', [])
             },
             // 获得在位信息
             start_cmd_device_status: function(){
-                if (id <= 0) return;
+                if (this.id <= 0) return;
 
                 var json_cmd = {
                     cmd: 'DEVICESTATUS',
-                    device_id: id.toString()
+                    device_id: this.id.toString()
                 };
 
                 $scope.cmd.sendcmd(json_cmd);
