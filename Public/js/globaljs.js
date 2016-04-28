@@ -1411,6 +1411,17 @@ angular.module('device.controllers', [])
                 this.select_disk(0, 0, 0);
                 this.ready = true;
             },
+            // 获得在位信息
+            start_cmd_device_status: function(){
+                if (this.id <= 0) return;
+
+                var json_cmd = {
+                    cmd: 'DEVICESTATUS',
+                    device_id: this.id.toString()
+                };
+
+                $scope.cmd.sendcmd(json_cmd);
+            },
             get_select: function () {
                 this.selected = true;
             },
@@ -1576,8 +1587,10 @@ angular.module('device.controllers', [])
                 return null;
             },
             on_select: function (idx) {
-                this.cabs[idx].get_select();
+                if (this.curr === this.cabs[idx]) return;
+
                 this.curr.selected = false;
+                this.cabs[idx].get_select();
                 this.curr = this.cabs[idx];
                 $scope.updateDeviceStatus();
                 $scope.cab = this.curr;
