@@ -1644,8 +1644,10 @@ angular.module('device.controllers', [])
                 return null;
             },
             on_select: function (idx) {
-                this.cabs[idx].get_select();
+                if (this.curr === this.cabs[idx]) return;
+
                 this.curr.selected = false;
+                this.cabs[idx].get_select();
                 this.curr = this.cabs[idx];
                 $scope.updateDeviceStatus();
                 $scope.cab = this.curr;
