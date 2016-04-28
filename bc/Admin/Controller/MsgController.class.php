@@ -23,7 +23,7 @@ class Msg
     public $subcmd = null;
     public $status = null;
     public $substatus = null;
-    public $errno  = null;
+    public $errno = null;
     public $progress = 0;
     public $cab_id = 0;
     public $isStop = false;
@@ -52,13 +52,21 @@ class Msg
         $this->getResult();
         $this->db = M("CmdLog");
     }
+
     public function isStop()
     {
         return $this->subcmd == 'STOP';
     }
+
     public function isBridge()
     {
         return $this->cmd == 'BRIDGE';
+    }
+
+    public function needStop()
+    {
+        $nsCmd = array("MD5", "COPY");
+        return in_array($this->cmd, $nsCmd);
     }
 
     public function getStatus()
@@ -83,9 +91,14 @@ class Msg
         }
     }
 
+    public function isGoing($cmd)
+    {
+        return $cmd['finished'] == 0;
+    }
+
     public function isSRP()
     {
-        if($this->isBridge())
+        if ($this->isBridge())
             return false;
         return in_array($this->subcmd, $this->srp);
     }
@@ -110,7 +123,7 @@ class Msg
      */
     public function isFail()
     {
-        return $this->status > C('CMD_SUCCESS') || $this->errno > C('CMD_SUCCESS') ;
+        return $this->status > C('CMD_SUCCESS');
     }
 
     /**
@@ -152,7 +165,7 @@ class Dsk
         $this->disks = $_POST['disks'];
         $this->cab = (int)$_POST['device_id'];
         $this->db = M('Device');
-       // $this->map['cab'] = array('eq', $this->cab);
+        // $this->map['cab'] = array('eq', $this->cab);
         $this->map['level'] = array('eq', $this->level);
         $this->map['zu'] = array('eq', $this->group);
         $this->map['cab_id'] = array('eq', $this->cab);
@@ -200,8 +213,8 @@ class MsgController extends Controller
         $this->msg->init();
         $this->db = M("CmdLog");
         $this->RTLog("------RETURN MSG HANDLING START-----------");
-        $this->RTLog("CMD-ID  :".$this->msg->cmd->id);
-        $this->RTLog("CMD-TYPE:".$this->msg->cmd);
+        $this->RTLog("CMD-ID  :" . $this->msg->cmd->id);
+        $this->RTLog("CMD-TYPE:" . $this->msg->cmd);
 
         //update the log
         $this->updateCmdLog();
@@ -233,19 +246,27 @@ class MsgController extends Controller
                 break;
 
         }
-       // $this->hdlSuccess();
+        // $this->hdlSuccess();
     }
 
     private function hdlFail()
     {
-        $this->RTLog("comond failed");
+        $this->RTLog("Commond failed");
+
         $item = $this->msg;
         $log = $this->db->find($item->id);
         if ($log) {
+            if ($this->msg->needStop()) {
+                //MD5或者copy
+                if ($this->msg->subcmd != $log['subcmd']) {
+                    $this->RTLog("Resp from app. Filtered.");
+                    die();
+                }
+            }
             //status有时没有值
             $log['status'] = $item->status ? $item->status : $item->errno;
             //let it be an unknown error number
-            if($log['status'] == null)
+            if ($log['status'] == null)
                 $log['status'] = 30;
             if ($this->msg->isBridge())
                 $log['return_mgs'] = $this->msg->origin;
@@ -385,22 +406,27 @@ class MsgController extends Controller
         }
         if ($this->msg->isSuccess()) {
             $cmd = $this->db->find($this->msg->id);
-            if(!$cmd) die();
+            if (!$cmd) die();
             //cancel the going cmd
-            $this->RTLog("SRP START: ".$this->msg->subcmd);
+            $this->RTLog("SRP START: " . $this->msg->subcmd);
             switch ($this->msg->sucmd) {
                 case 'STOP':
-                    if ($this->isGoing($cmd)) {
-                        //命令被取消
-                        $cmd['status'] = C('CMD_CANCELED');
-                        $this->db->save($cmd);
+                    //判断是app发的还是用户发的
+                    if ($cmd['user_id'] > 0) {
+                        //用户发的，作为单独命令处理，先求dst_id
+                        $dstCmd = $this->db->find($this->msg->dst_id);
+                        if ($this->isGoing($dstCmd)) {
+                            //命令被取消
+                            $dstCmd['status'] = C('CMD_CANCELED');
+                            $dstCmd['finished'] = 1;
+                        }
+                        $this->db->save($dstCmd);
                     }
-                    else
-                    {
-                        //已经结束
-                        $cmd['status'] = C('CMD_SUCCESS');
-                        $this->db->save($cmd);
-                    }
+                    //已经结束
+                    $cmd['status'] = C('CMD_SUCCESS');
+                    $cmd['finished'] = 1;
+                    $this->db->save($cmd);
+
                     break;
                 case 'RESULT':
                     $keys = array('md5');
@@ -408,12 +434,26 @@ class MsgController extends Controller
                     $dsk = new Dsk();
                     $dsk->init();
                     $dsk->updateDiskInfo($keys, $values);
+                    //将状态更新为等待停止
+                    $cmd['stage'] = 'STOP';
+                    $this->db->save($cmd);
                     break;
                 case 'PROGRESS':
                     //for md5 and copy, update progress
-                    $log = $this->getLog($this->msg->id);
-                    $log['progress'] = (float)$_POST['progress'];
-                    $this->db->save($log);
+                    $cmd['progress'] = (float)$_POST['progress'];
+                    //如果进度达到100%，将状态更新为查询结果或等待停止
+                    if($cmd['progress'] >= 100)
+                    {
+                        if($cmd['cmd'] ==  'MD5')
+                        {
+                            $cmd['status'] =  'RESULT';
+                        }
+                        if($cmd['cmd'] ==  'COPY')
+                        {
+                            $cmd['status'] =  'STOP';
+                        }
+                    }
+                    $this->db->save($cmd);
                     break;
             }
         }
@@ -422,7 +462,7 @@ class MsgController extends Controller
     function isGoing($cmd)
     {
 
-        return $cmd['status'] == C('CMD_GOING') && $cmd['progress'] < 100;
+        return $cmd['finished'] == 0;
     }
 
     /**
@@ -445,19 +485,19 @@ class MsgController extends Controller
         return $this->db->find($id);
     }
 
-    public function  RTLog($txt='love you')
+    public function  RTLog($txt = 'love you')
     {
         $myfile = fopen("rtlog.txt", "a") or die("Unable to open file!");
-        $txt = $txt."++\r\n";
+        $txt = $this->msg->id . "-" . $this->msg->cmd . "-" . $this->msg->subcmd . ":" . $txt . "++\r\n";
         fwrite($myfile, $txt);
         fclose($myfile);
     }
+
     public function rdLog()
     {
         $log = file_get_contents("rtlog.txt");
-        $logs = explode("++",$log);
-        foreach($logs as $l)
-        {
+        $logs = explode("++", $log);
+        foreach ($logs as $l) {
             echo($l);
             echo("<br/>");
         }
@@ -471,7 +511,7 @@ class MsgController extends Controller
         $log = $this->getLog($this->msg->id);
         $this->RTLog("{$this->msg->id}:bridge msg handling");
         if ($this->msg->isWorking()) {
-            $this->RTLog("working:".$this->msg->substatus);
+            $this->RTLog("working:" . $this->msg->substatus);
             //if just some working msg
             $log['stage'] = $this->msg->stage;
             $log['progress'] = $this->msg->progress;
@@ -488,10 +528,10 @@ class MsgController extends Controller
         //for dsk object
         $keys = array('bridged', 'path');
         $values = array(0, '');
-        $this->RTLog("<Disk number:".count($disks).">");
+        $this->RTLog("<Disk number:" . count($disks) . ">");
         foreach ($disks as $key => $disk) {
             $status = (int)$paths[$key]['status'];
-            $this->RTLog("handling:".$status);
+            $this->RTLog("handling:" . $status);
             if ($status == C('CMD_SUCCESS')) {
                 $failFlag = false;
                 $values[0] = $stop == true ? 0 : 1;
@@ -507,11 +547,11 @@ class MsgController extends Controller
         //状态值
         if ($failFlag == true) {
             $log['status'] = (int)$paths[0]['status'];
-            $this->RTLog("BRIDGE FAIL: ERROR NO->".$log['status']);
+            $this->RTLog("BRIDGE FAIL: ERROR NO->" . $log['status']);
         } else {
-            $this->RTLog("BRIDGE SUCCESS: CMD_ID".$this->msg->id);
+            $this->RTLog("BRIDGE SUCCESS: CMD_ID" . $this->msg->id);
             $log['status'] = C('CMD_SUCCESS');
-            if(stop) {
+            if (stop) {
                 $dstLog = $this->getLog($this->msg->dst_id);
                 if ($dstLog['status'] == C('CMD_GOING')) {
                     //if the dst-commond still going, cancel it
@@ -522,8 +562,8 @@ class MsgController extends Controller
         }
 
         $log['return_msg'] = file_get_contents('php://input');
-        $this->RTLog("status:".$log['status']);
-        $this->RTLog("log:".$log['id']);
+        $this->RTLog("status:" . $log['status']);
+        $this->RTLog("log:" . $log['id']);
         $this->db->save($log);
         die();
         //return msg
@@ -571,7 +611,7 @@ class MsgController extends Controller
                         $map['zu'] = array('eq', $group_id);
                         $map['disk'] = array('eq', $disk);
                         $map['cab_id'] = array('eq', $dsk->cab);
-                        $this->RTLog($dsk->cab.'-'.$level_id.'-'.$group_id.'-'.$disk);
+                        $this->RTLog($dsk->cab . '-' . $level_id . '-' . $group_id . '-' . $disk);
                         $item = $db->where($map)->find();
                         if ($item) {
                             $item['loaded'] = 1;
@@ -638,8 +678,8 @@ class MsgController extends Controller
             //查找是否存在
             $attr = $attr;
 
-            $map['disk_id'] = array('eq',$id);
-            $map['attrname'] = array('eq',$attr['Attribute_ID']);
+            $map['disk_id'] = array('eq', $id);
+            $map['attrname'] = array('eq', $attr['Attribute_ID']);
             if ($item = $db->where($map)->find()) {
                 $item['value'] = $attr['Current_value'];
                 $db->save($item);
@@ -657,6 +697,7 @@ class MsgController extends Controller
         $log = $this->db->find($this->msg->id);
         if ($log) {
             $log['status'] = C('CMD_SUCCESS');
+            $log['finished'] = 1;
             $this->db->save($log);
         }
     }
@@ -675,7 +716,7 @@ class MsgController extends Controller
     {
         if ($_POST['errmsg']) {
             //出错，输出错误信息
-            $this->RTLog('Error:'.$_POST['errno'].":".$_POST['errmsg']);
+            $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             if ($this->msg->isFail()) {
                 //failed
                 $this->hdlFail();
