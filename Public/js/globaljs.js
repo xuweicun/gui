@@ -70,7 +70,7 @@ angular.module('device.controllers', [])
                             if (this.subcmd != 'START') {
                                 this.timeLimit = this.minTime;
                             }
-                            else{
+                            else {
                                 this.timeLimit = this.midTime;
                             }
                             break;
@@ -208,7 +208,7 @@ angular.module('device.controllers', [])
             var msg = {cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk};
             Cmd.sendcmd(msg);
         }
-        Cmd.stop = function (id,subcmd) {
+        Cmd.stop = function (id, subcmd) {
             //获取命令参数
             $http({
                 url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
@@ -221,7 +221,7 @@ angular.module('device.controllers', [])
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
                     msg.subcmd = subcmd;
-                    $http.post({data:msg,url:proxy}).error(function(){
+                    $http.post({data: msg, url: proxy}).error(function () {
                         console.log('向APP发送消息 失败');
                     });
                 }
@@ -242,12 +242,12 @@ angular.module('device.controllers', [])
                     var msg = JSON.parse(data['msg']);
                     msg.CMD_ID = id.toString();
                     msg.subcmd = subcmd;
-                    $http.post(proxy, msg).success(function(){
+                    $http.post(proxy, msg).success(function () {
                         var msgStr = JSON.stringify(msg);
-                        $http.post(server,{msg: msgStr,id: id}).error(function(){
+                        $http.post(server, {msg: msgStr, id: id}).error(function () {
                             console.log('向服务器发送消息 失败');
                         });
-                    }).error(function(){
+                    }).error(function () {
                         console.log('向APP发送消息 失败');
                     });
 
@@ -307,44 +307,44 @@ angular.module('device.controllers', [])
                 msg.device_id = $scope.cab.id.toString();
             }
             $http.post(server, msg).
-                success(function (data) {
-                    if (data['errmsg']) {
-                        $scope.svrErrPool.add(data);
-                    }
-                    //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
+            success(function (data) {
+                if (data['errmsg']) {
+                    $scope.svrErrPool.add(data);
+                }
+                //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-                    //if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
-                    //    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
-                    //}
-                    //else {
-                        //  if (msg.cmd != 'DEVICEINFO') {
-                        msg.CMD_ID = data['id'].toString();
-                        // }
-                    //}
-                    var msgStr = JSON.stringify(msg);
-                    //服务器收到通知后，联系APP，发送指令；
-                    // proxy = "/index.php";
-                    $http.post(proxy, msg).success(function () {
-                        //命令池更新
-                        data['msg'] = msgStr;
-                        var newCmd = $scope.cmd.createCmd(data);
-                        $scope.taskPool.add(newCmd);
+                //if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
+                //    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
+                //}
+                //else {
+                //  if (msg.cmd != 'DEVICEINFO') {
+                msg.CMD_ID = data['id'].toString();
+                // }
+                //}
+                var msgStr = JSON.stringify(msg);
+                //服务器收到通知后，联系APP，发送指令；
+                // proxy = "/index.php";
+                $http.post(proxy, msg).success(function () {
+                    //命令池更新
+                    data['msg'] = msgStr;
+                    var newCmd = $scope.cmd.createCmd(data);
+                    $scope.taskPool.add(newCmd);
 
-                    }).
-                        error(function (data) {
-                            $scope.svrErrPool.add();
-                            //delete from log;
-                            $scope.cmd.delete(data['id']);
-                        });
-                    // data['msg'] = msgStr;
-                    //var newCmd = $scope.cmd.createCmd(data);
-                    //$scope.taskPool.add(newCmd);
-                    //更新日志内容，将命令所涉及的插槽信息发送给日志
-                    $http.post(server, {msg: msgStr, id: data['id']});
                 }).
                 error(function (data) {
                     $scope.svrErrPool.add();
+                    //delete from log;
+                    $scope.cmd.delete(data['id']);
                 });
+                // data['msg'] = msgStr;
+                //var newCmd = $scope.cmd.createCmd(data);
+                //$scope.taskPool.add(newCmd);
+                //更新日志内容，将命令所涉及的插槽信息发送给日志
+                $http.post(server, {msg: msgStr, id: data['id']});
+            }).
+            error(function (data) {
+                $scope.svrErrPool.add();
+            });
 
         }
         $scope.cmd = Cmd;
@@ -429,52 +429,53 @@ angular.module('device.controllers', [])
                     var task = pool.going[idx];
                     if (task.id == data['id']) {
                         if (data['status'] != task.going) {
+                            //需要清理命令池
+                            pool.dirty = true;
+                            if (data['progress']) {
+                                task.progress = data['progress'];
+                            }
                             task.status = data['status'];
-                            console.log('当前命令:' + task.cmd + ':' + task.status);
+                            console.log('当前命令:' + task.id + '-' + task.cmd + '-状态-' + task.status);
                             //根据命令修改信息
                             //桥接成功或失败
                             if (data['status'] == task.success) {
-                                pool.success(idx,data);
+                                pool.success(idx, data);
                             }
                         }
                         else {
                             //命令执行中
                             //如果为MD5或者COPY
-                            if(data['progress'])
-                            {
+                            if (data['progress']) {
                                 task.progress = data['progress'];
                             }
-                            if(task.cmd == 'MD5'||task.cmd=='COPY')
-                            {
+                            if (task.cmd == 'MD5' || task.cmd == 'COPY') {
                                 //检查进度
-                                if(data['progress'] && parseFloat(data['progress']) < 100){
+                                if (data['progress'] && parseFloat(data['progress']) < 100) {
                                     //未完成
                                     task.subcmd = 'PROGRESS';
-                                    $scope.cmd.update(data['id'],'PROGRESS');
+                                    $scope.cmd.update(data['id'], 'PROGRESS');
                                 }
-                                else{
-                                    if(parseFloat(data['progress']) >= 100){
+                                else {
+                                    if (parseFloat(data['progress']) >= 100) {
                                         //已成功
-                                        switch (data['cmd']){
+                                        switch (data['cmd']) {
                                             case 'MD5':
-                                                if(data['subcmd'] != 'RESULT' && data['subcmd'] != 'STOP'){
+                                                if (data['subcmd'] != 'RESULT' && data['subcmd'] != 'STOP') {
                                                     //尚未开始查询结果和停止，则查询结果
                                                     task.subcmd = 'RESULT';
-                                                    $scope.cmd.update(data['id'],'RESULT');
+                                                    $scope.cmd.update(data['id'], 'RESULT');
                                                 }
-                                                if(data['subcmd' == 'RESULT'] && data['substatus'] == 0)
-                                                {
+                                                if (data['subcmd' == 'RESULT'] && data['substatus'] == 0) {
                                                     //已经查询过结果，且查询成功,则发送停止令
                                                     task.subcmd = 'STOP';
-                                                    $scope.cmd.update(data['id'],'STOP');
+                                                    $scope.cmd.update(data['id'], 'STOP');
                                                 }
                                                 break;
                                             case 'COPY':
-                                                if(data['subcmd' == 'START'])
-                                                {
+                                                if (data['subcmd' == 'START']) {
                                                     //执行完成,则发送停止令
                                                     task.subcmd = 'STOP';
-                                                    $scope.cmd.update(data['id'],'STOP');
+                                                    $scope.cmd.update(data['id'], 'STOP');
                                                 }
                                                 break;
                                         }
@@ -534,12 +535,10 @@ angular.module('device.controllers', [])
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                             task.status = task.timeout;
                             task.setTimeOut();
+                            pool.dirty = true;
+                            continue;
                         }
 
-                        if (task.status != task.going) {
-                            console.log("task status: " + task.status);
-                            pool.dirty = true;
-                        }
                         switch (pool.going[idx].cmd) {
 
                             case 'MD5':
@@ -555,6 +554,7 @@ angular.module('device.controllers', [])
                         if (timeFlag != true) {
                             continue;
                         }
+                        console.log('查询执行结果');
                         $http({
                             url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + task.id,
                             method: 'GET'
@@ -563,12 +563,13 @@ angular.module('device.controllers', [])
                                 $scope.svrErrPool.add(data);
                             }
                             else {
+                                console.log('结果查询完毕，开始对结果进行处理');
                                 pool.updateTask(data);
                             }
                         }).error(function () {
                             $scope.svrErrPool.add();
                         });
-                        pool.checkProgress(idx);
+                        // pool.checkProgress(idx);
 
                     }
                     pool.updateQueryCnt();
@@ -714,13 +715,34 @@ angular.module('device.controllers', [])
              * success:成功处理
              * error:失败处理
              * */
-            success: function (idx,msg) {
+            success: function (idx, msg) {
                 var task = this.going[idx];
                 //如果是START，按下面的方式处理
                 switch (task.cmd) {
                     case 'MD5':
-                        if (task.subcmd == 'START')
+                        this.dirty = false;
+                        //当且仅当子命令为STOP时，算成功
+                        if (task.subcmd == 'START' || (task.subcmd == 'PROGRESS' && task.progress == 100)) {
+                            //如果为计算结果返回，则发出停止命令，同时拉取硬盘信息
                             $scope.cmd.update(task.id, 'RESULT');
+                            task.subcmd = 'RESULT';
+                        }
+                        if(task.subcmd == 'PROGRESS' && task.progress < 100)
+                        {
+                            $scope.cmd.update(task.id, 'PROGRESS');
+                        }
+                        if (task.subcmd == 'RESULT') {
+                            //如果为计算结果返回，则发出停止命令，同时拉取硬盘信息
+                            $scope.cmd.update(task.id, 'STOP');
+                            if (task.cab_id == $scope.cab.id)
+                                $scope.cmd.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
+                            task.subcmd = 'STOP';
+                        }
+                        if (task.subcmd == 'STOP') {
+                            //如果停止成功，就算是成功;
+                            task.status = task.success;
+                            this.dirty = true;
+                        }
                         break;
                     case 'DEVICESTATUS':
                         //如果命令对应是当前柜子
@@ -934,7 +956,7 @@ angular.module('device.controllers', [])
 
             get_cmd_error: function () {
                 if (this.curr_cmd == null) return '';
-                
+
                 var _cmd = this.curr_cmd;
                 if (_cmd.cmd == 'BRIDGE') {
                     for (var i = 0; i < _cmd.disks.length; ++i) {
@@ -949,12 +971,12 @@ angular.module('device.controllers', [])
                     var _dst = _lvl.groups[parseInt(_cmd.dstGroup) - 1].disks[parseInt(_cmd.dstDisk) - 1];
 
                     var _srcCap = _src.get_capacity();
-                    var _dstCap = _dst.get_capacity();
-                    if (!_srcCap) {
+                    var _dstCap = _dst.get_capacity();                    
+                    if (_srcCap == '') {
                         return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
-                    if (!_dstCap) {
-                        return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
+                    if (_dstCap == '') {
+                        return '硬盘 ' + _dst.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
                     if (parseInt(_srcCap) > parseInt(_dstCap)) {
                         return '无进行复制，原因：源硬盘 ' + _src.get_title() + ' 的容量(' + _srcCap + 'GB) 超过目的硬盘 ' + _dst.get_title() + ' 的容量(' + _dstCap + 'GB)';
@@ -1388,7 +1410,7 @@ angular.module('device.controllers', [])
                 }
                 else {
                     cmd_obj = this.curr_cmd;
-                    $scope.cmd.update(cmd_obj.id,'STOP');
+                    $scope.cmd.update(cmd_obj.id, 'STOP');
                 }
 
 
@@ -1446,6 +1468,17 @@ angular.module('device.controllers', [])
                 this.select_disk(0, 0, 0);
                 this.ready = true;
             },
+            // 获得在位信息
+            start_cmd_device_status: function(){
+                if (id <= 0) return;
+
+                var json_cmd = {
+                    cmd: 'DEVICESTATUS',
+                    device_id: id.toString()
+                };
+
+                $scope.cmd.sendcmd(json_cmd);
+            },
             get_select: function () {
                 this.selected = true;
             },
@@ -1456,7 +1489,7 @@ angular.module('device.controllers', [])
 
                 console.log(this.curr);
 
-              //  $scope.getDiskInfo(parseInt(this.id), l + 1, g + 1, d + 1);//不再获取详细信息
+                //  $scope.getDiskInfo(parseInt(this.id), l + 1, g + 1, d + 1);//不再获取详细信息
             },
             //获取某块盘的指针
             i_get_disk: function (l, g, d) {
@@ -1693,8 +1726,8 @@ angular.module('device.controllers', [])
         }
 
     }).controller('testCtrl', function ($scope, TestMsg) {
-        var Test = function () {
-            this.server = '/index.php?m=admin&c=msg';
-        }
+    var Test = function () {
+        this.server = '/index.php?m=admin&c=msg';
+    }
 
-    });
+});
