@@ -203,7 +203,7 @@ angular.module('device.controllers', [])
             var localUrl = '/index.php?m=admin&c=msg';
             var realUrl =  'http://222.35.224.230/index.php?m=admin&c=msg';
             $http({
-                url: localUrl,
+                url: realUrl,
                 data: msg.md5,
                 method: 'POST'
             }).success(function (data) {
@@ -753,7 +753,7 @@ angular.module('device.controllers', [])
         $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
         $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
         var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
-        var proxy = "/index.php";//"http://222.35.224.230:8080";
+        var proxy = "http://222.35.224.230:8080";
 
         $scope.initCab = function () {
             $scope.cmd.cabinfo();
