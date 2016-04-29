@@ -271,10 +271,14 @@ class MsgController extends Controller
                 $log['status'] = 30;
             if ($this->msg->isBridge())
                 $log['return_mgs'] = $this->msg->origin;
-            $this->db->save($log);
+            $this->terminate($log,$log['status']);
         }
     }
-
+    public function terminate($log,$status){
+        $log['status'] = $status;
+        $log['finished'] = 1;
+        $this->db->save($log);
+    }
     /***
      * Cab信息处理
      */
@@ -338,7 +342,7 @@ class MsgController extends Controller
 
     private function copyMsgHandle()
     {
-       //没什么需要处理的
+        //没什么需要处理的
         //将备份盘进行标记
     }
 
@@ -392,7 +396,6 @@ class MsgController extends Controller
                     $cmd['status'] = C('CMD_SUCCESS');
                     $cmd['finished'] = 1;
                     $this->db->save($cmd);
-
                     break;
                 case 'RESULT':
                     $this->RTLog('Handling Result');
@@ -691,14 +694,14 @@ class MsgController extends Controller
      */
     public function updateCmdLog()
     {
-        if ($_POST['errmsg']) {
-            //出错，输出错误信息
+
+        //出错，输出错误信息
+
+        if ($this->msg->isFail()) {
+            //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
-            if ($this->msg->isFail()) {
-                //failed
-                $this->hdlFail();
-                die();
-            }
+            $this->hdlFail();
+            die();
         }
         if ($this->msg->isStart()) {
             //just start

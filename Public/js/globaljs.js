@@ -381,7 +381,6 @@ angular.module('device.controllers', ['datatables'])
                     data['msg'] = msgStr;
                     var newCmd = $scope.cmd.createCmd(data);
                     $scope.taskPool.add(newCmd);
-
                 }).
                 error(function (data) {
                     $scope.svrErrPool.add();
