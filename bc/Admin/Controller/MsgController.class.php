@@ -338,45 +338,8 @@ class MsgController extends Controller
 
     private function copyMsgHandle()
     {
-        $subcmd = $_POST['subcmd'];
-        $id = $_POST['CMD_ID'];
-        $status = $_POST['status'];
-        $db = M('CmdLog');
-        switch ($subcmd) {
-            case 'STOP':
-                //处理停止消息
-                if ($status == CMD_SUCCESS) {
-                    //将对应命令设为已取消
-                    $item = $db->find($id);
-                    if ($item['status'] == CMD_GOING) {
-                        $item['status'] = CMD_CANCELED;
-                        $db->save($item);
-                    }
-
-                }
-
-                $item = $db->where('target_id=%d', $id)->find();
-                $item['status'] = $status;
-                $db->save($item);
-                break;
-            case 'PROGRESS':
-                //更新进度
-                if ($status == CMD_SUCCESS) {
-                    //将对应命令设为已取消
-                    $item = $db->find($id);
-                    if ($item['status'] == CMD_GOING) {
-                        $item['progress'] = $_POST['progress'];
-                        $db->save($item);
-                    }
-                } else {
-                    $this->handleError();
-                }
-                break;
-            default:
-                $item = $db->find($id);
-                $item['status'] = $status;
-                $db->save($item);
-        }
+       //没什么需要处理的
+        //将备份盘进行标记
     }
 
     private function updateDiskMd5()
