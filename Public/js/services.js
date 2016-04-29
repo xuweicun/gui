@@ -116,7 +116,7 @@ angular.module('device.services', [])
         bridge:{"CMD_ID":"124","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"progress":"75","subcmd":"START","substatus":"2","workingstatus":"59"},
         bridge_done:{"CMD_ID":"1","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":"sdb"}],"subcmd":"START","substatus":"0"},
         bridge_stop:{"CMD_ID":"134","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"subcmd":"STOP","substatus":"0"},
-        md5:{"CMD_ID":"504","cmd":"MD5","device_id":"1","disk":"1","group":"1","level":"1","status":"0","subcmd":"STOP","substatus":"0"}
+        md5:{"CMD_ID":"506","cmd":"MD5","device_id":"1","disk":"1","group":"2","level":"1","progress":"20.55","status":"0","subcmd":"PROGRESS","substatus":"0"}
     }
     return {
         i_getMsg: function (id) {

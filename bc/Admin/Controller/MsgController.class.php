@@ -209,10 +209,11 @@ class MsgController extends Controller
 
     public function index()
     {
+        $this->RTLog("------RETURN MSG HANDLING START-----------");
         $this->msg = new Msg();
         $this->msg->init();
         $this->db = M("CmdLog");
-        $this->RTLog("------RETURN MSG HANDLING START-----------");
+        $this->RTLog("------INIT FINISHED-----------");
         $this->RTLog("CMD-ID  :" . $this->msg->id);
         $this->RTLog("CMD-TYPE:" . $this->msg->cmd);
 
