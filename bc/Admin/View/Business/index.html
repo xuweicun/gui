@@ -432,14 +432,13 @@
                                                        false:'fa-unlink'
                                                    }[cab.curr.is_bridged()]"></i>
                                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
+                                            <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
+                                               ng-if="cab.curr.is_loaded()" target="_blank">离线</a>
                                             <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" 
                                                ng-if="cab.curr.is_bridged()"
-                                               class="btn btn-danger btn-xs">打开</a>
-                                            <a class="btn btn-danger btn-xs" href="" 
-                                               ng-if="cab.curr.is_bridged()"
-                                               ng-click="cab.curr.cmd_start('FILETREE')">重建索引</a>
-                                            <a class="btn btn-danger btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
-                                               ng-if="cab.curr.is_loaded()" target="_blank">离线浏览</a>
+                                               class="btn btn-primary btn-xs">在线</a>
+                                            <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
+                                               ng-show="cab.curr.is_bridged()">重建索引</a>
                                         </p>
                                     </div>
                                 </div>
@@ -508,6 +507,39 @@
                 </div>
             </div>
             <!--/container-->
+            <div id="modalAnimFileTreeCmd" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">硬盘命令[重建离线索引] -- 开始</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa fa-warning"></i>
+                            </div>
+                            <div class="modal-text">
+                                <p>
+                                    您确定要提交对硬盘（<span class="bk-fg-primary">
+                                        <i class="glyphicon glyphicon-hdd"></i>
+                                        {{cab.curr.get_title()}}
+                                    </span>）的“重建离线索引”命令吗？
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-primary"
+                                        ng-click="cab.curr.cmd_start('FILETREE')">
+                                    确认
+                                </button>
+                                <button class="btn btn-default modal-dismiss">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="modalAnimBusy" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
