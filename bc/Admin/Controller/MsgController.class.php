@@ -258,8 +258,8 @@ class MsgController extends Controller
         $log = $this->db->find($item->id);
         if ($log) {
             if ($this->msg->needStop()) {
-                //MD5或者copy
-                if ($this->msg->subcmd != $log['subcmd']) {
+                //MD5或者copy,如果子命令不一致，说明是APP发的，因为APP会服用copy或md5的cmdid发送rsp命令
+                if ($this->msg->subcmd != $log['sub_cmd']) {
                     $this->RTLog("Resp from app. Filtered.");
                     die();
                 }
