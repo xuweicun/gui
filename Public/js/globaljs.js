@@ -1331,7 +1331,6 @@ angular.module('device.controllers', [])
                         cmd_obj.srcGroup = (_dsk.g + 1).toString();
                         cmd_obj.srcDisk = (_dsk.d + 1).toString();
                         _dsk.curr_cmd = cmd_obj;
-                        _dsk.curr_cmd.progress = 0;
                     }
                 }
                 else if (cmd_name == 'FILETREE') {
