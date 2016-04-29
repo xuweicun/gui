@@ -203,63 +203,7 @@
                 items[items.length-2].click();
             });
 
-
-            var url = "xml/" + disk;
-            table = $('#datatable-my').DataTable( {
-                "jQueryUI": true,
-                "searching": true,//关闭搜索框
-                responsive: true,
-                "processing": true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
-                //多语言配置
-                ajax: url + "/" + "items.json",
-                "order": [[ 3, "asc" ], [ 0, 'asc' ]],
-                columns:[
-                    { "data": "text" },
-                    { "data": "time" },
-                    { "data": "type" },
-                    { "data": "size" },
-                    { "data": "dir" }
-                ],
-                "columnDefs": [
-                    {
-                        "render": function ( data, type, row ) {
-                            if(row['type'] == 'd'){
-                                return "<a href='#' data-dir='" + row['dir'] + "' data-text='" + row['text'] + "'><i class='fa fa-folder'></i> " + data + '</a>';
-                            }
-                            else{
-                                return "<i class='fa fa-file'></i> " + data;
-                            }
-                        },
-                        "targets": 0
-                    },
-                    {
-                        "render": function ( data, type, row ) {
-                            if(data == 'd'){
-                                return "文件夹";
-                            }
-                            else{
-                                return '文件';
-                            }
-                        },
-                        "orderData":[3,0],
-                        "targets": 2
-                    },
-                    {
-                        "render": function ( data, type, row ) {
-                            if(data.length == 0){
-                                return "";
-                            }
-                            else{
-                                return data + ' kb';
-                            }
-                        },
-                        "targets": 3
-                    },
-                    {
-                        "visible": false,
-                        "targets": 4
-                    }
-                ],
+            $('#datatable-my').DataTable({
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ 条/页",
                     "sZeroRecords": "数据为空",
@@ -267,15 +211,91 @@
                     "sInfoEmpty": "[0-0] in 0",
                     "sInfoFiltered": "(从 _MAX_ 条数据中检索)"
                 }
-            } );
-            table.path = url;
+            });
 
-            var a = $("<a><i class='fa fa-folder'></i> </a>")
-                    .attr('href', '#')
-                    .attr('data-path', table.path)
-                    .append(disk);
-            $('#navBar').append($('<li></li>').append(a));
+            var url = "xml/" + disk;
+
+            function loadTable() {
+                table = $('#datatable-my').DataTable({
+                    "jQueryUI": true,
+                    "searching": true,//关闭搜索框
+                    responsive: true,
+                    "processing": true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+                    //多语言配置
+                    ajax: url + "/" + "items.json",
+                    "order": [[3, "asc"], [0, 'asc']],
+                    columns: [
+                        { "data": "text" },
+                        { "data": "time" },
+                        { "data": "type" },
+                        { "data": "size" },
+                        { "data": "dir" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                if (row['type'] == 'd') {
+                                    return "<a href='#' data-dir='" + row['dir'] + "' data-text='" + row['text'] + "'><i class='fa fa-folder'></i> " + data + '</a>';
+                                }
+                                else {
+                                    return "<i class='fa fa-file'></i> " + data;
+                                }
+                            },
+                            "targets": 0
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                if (data == 'd') {
+                                    return "文件夹";
+                                }
+                                else {
+                                    return '文件';
+                                }
+                            },
+                            "orderData": [3, 0],
+                            "targets": 2
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                if (data.length == 0) {
+                                    return "";
+                                }
+                                else {
+                                    return data + ' kb';
+                                }
+                            },
+                            "targets": 3
+                        },
+                        {
+                            "visible": false,
+                            "targets": 4
+                        }
+                    ],
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ 条/页",
+                        "sZeroRecords": "数据为空",
+                        "sInfo": "[_START_ - _END_] in _TOTAL_",
+                        "sInfoEmpty": "[0-0] in 0",
+                        "sInfoFiltered": "(从 _MAX_ 条数据中检索)"
+                    }
+                });
+                table.path = url;
+
+                var a = $("<a><i class='fa fa-folder'></i> </a>")
+                        .attr('href', '#')
+                        .attr('data-path', table.path)
+                        .append(disk);
+                $('#navBar').append($('<li></li>').append(a));
+            }
+
+            $.get(url + '/items.json', function (result, status) {
+                if (status == 'success') {
+                    loadTable();
+                }
+            });
+            
             //getFileTree('xml/1_1_1');
+            
         });
 
     }).apply( this, [ jQuery ]);
