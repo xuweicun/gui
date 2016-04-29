@@ -168,15 +168,7 @@ angular.module('device.controllers', [])
             newcmd.init();
             return newcmd;
         }
-        Cmd.checkCollision = function () {
-            $http({
-                url: 'http://localhost/index.php/business/checkCollision',
 
-                method: 'GET'
-            }).success(function (data) {
-                return data['isLegal'];
-            });
-        }
         Cmd.getdiskinfo = function (level, group, disk, cab) {
             $http({
                 url: '/index.php?m=admin&c=business&a=getDiskInfo',
@@ -201,19 +193,17 @@ angular.module('device.controllers', [])
         Cmd.localTest = function(){
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             var localUrl = '/index.php?m=admin&c=msg';
-            var realUrl =  'http://222.35.224.230/index.php?m=admin&c=msg';
             $http({
                 url: localUrl,
                 data: msg.md5,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");
-
             });
         },
         Cmd.testPost = function () {
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
-            var localUrl = '/index.php?m=admin&c=msg';
+            console.log('Test starting');
             var realUrl =  'http://222.35.224.230/index.php?m=admin&c=msg';
             $http({
                 url: realUrl,
