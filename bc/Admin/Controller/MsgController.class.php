@@ -271,10 +271,14 @@ class MsgController extends Controller
                 $log['status'] = 30;
             if ($this->msg->isBridge())
                 $log['return_mgs'] = $this->msg->origin;
-            $this->db->save($log);
+            $this->terminate($log,$log['status']);
         }
     }
-
+    public function terminate($log,$status){
+        $log['status'] = $status;
+        $log['finished'] = 1;
+        $this->db->save($log);
+    }
     /***
      * Cab信息处理
      */
