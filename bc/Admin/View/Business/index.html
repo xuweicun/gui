@@ -36,6 +36,9 @@
     <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet"/>
 
     <!-- Page CSS -->
+    <link href="/Public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/Public/assets/css/angular-datatables.min.css" rel="stylesheet" />
+    <link href="/Public/assets/css/datatables.bootstrap.min.css" rel="stylesheet" />
     <link href="/Public/assets/css/style.css" rel="stylesheet"/>
     <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet"/>
 
@@ -44,7 +47,6 @@
 
     <!-- Head Libs -->
     <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
-    <script src="/Public/js/angular-1.4.min.js"></script>
     <style>
         li.selected a {
             background-color: green;
@@ -71,7 +73,7 @@
 </head>
 
 
-<body ng-app="device" ng-controller="statusMonitor">
+<body ng-app="device" ng-controller="statusMonitor  as showCase">
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">
@@ -690,8 +692,9 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="table-responsive">
-                                            <table id="datatable-default" class="table table-bordered table-striped dataTable no-footer"
-                                                   role="grid" aria-describedby="datatable-default_info">
+                                            <table class="table table-bordered table-striped dataTable no-footer"
+                                                    datatable="ng" dt-options="showCase.dtOptions"
+                                                   >
                                                 <thead>
                                                     <tr role="row">
                                                         <th class="sorting_asc" tabindex="0" aria-controls="datatable-default" rowspan="1"
@@ -783,8 +786,8 @@
                                     <div class="panel-body">
 
                                         <div class="table-responsive">
-                                            <table id="table-done-tasks" class="table table-bordered table-striped dataTable no-footer"
-                                                   role="grid" aria-describedby="datatable-default_info">
+                                            <table  class="table table-bordered table-striped dataTable no-footer"
+                                                    datatable="ng" dt-options="showCase.dtOptions" >
                                                 <thead>
                                                     <tr role="row">
                                                         <th class="sorting_asc" tabindex="0" aria-controls="datatable-default" rowspan="1"
@@ -873,6 +876,7 @@
 
 <script src="/Public/assets/plugins/select2/select2.js"></script>
 <script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="/Public/js/angular-1.4.min.js"></script>
 <script src="/Public/assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 <script src="/Public/assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
 <!-- Theme JS -->
@@ -889,7 +893,7 @@
     var app = angular.module('device', ['device.controllers', 'device.services']);
 </script>
     <script src="/Public/js/globaljs.js"></script>
-    <script src="/Public/js/page_init.js"></script>
+    <script src="/Public/js/angular-datatables.min.js"></script>
 <script src="/Public/js/services.js"></script>
 <!-- end: JavaScript-->
 
