@@ -202,7 +202,7 @@ angular.module('device.controllers', [])
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             $http({
                 url: 'http://222.35.224.230/index.php?m=admin&c=msg',
-                data: msg.diskinfo,
+                data: msg.md5,
                 method: 'POST'
             }).success(function (data) {
                 alert("done");
@@ -494,7 +494,6 @@ angular.module('device.controllers', [])
                         var timeFlag = false;
                         //更新时间
                         //检查是否超时
-
                         if (task.status == task.going && ++task.usedTime >= task.timeLimit) {
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                             task.status = task.timeout;
@@ -502,7 +501,6 @@ angular.module('device.controllers', [])
                             pool.dirty = true;
                             continue;
                         }
-
                         switch (pool.going[idx].cmd) {
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;

@@ -40,7 +40,7 @@ class Msg
     {
         global $return_msg;
         $this->origin = $return_msg;
-        $this->cmd = $_POST['cmd'];
+        $this->cmd = 'whatever';//$_POST['cmd'];
         $this->subcmd = $_POST['subcmd'];
         $this->getStatus();
 
@@ -213,7 +213,7 @@ class MsgController extends Controller
         $this->msg->init();
         $this->db = M("CmdLog");
         $this->RTLog("------RETURN MSG HANDLING START-----------");
-        $this->RTLog("CMD-ID  :" . $this->msg->cmd->id);
+        $this->RTLog("CMD-ID  :" . $this->msg->id);
         $this->RTLog("CMD-TYPE:" . $this->msg->cmd);
 
         //update the log
@@ -502,7 +502,10 @@ class MsgController extends Controller
             echo("<br/>");
         }
     }
-
+   public function clearLog()
+   {
+       file_put_contents("rtlog.txt",'');
+   }
     public
     function hdlBridgeMsg()
     {
