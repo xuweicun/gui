@@ -115,6 +115,14 @@ angular.module('device.controllers', [])
                 },
                 isSuccess: function () {
                     return this.status == this.success;
+                },
+                killTask: function(_status){
+                    this.status = _status;
+                    this.finished = 1;
+                    if(_status == this.timeout)
+                    {
+                        this.setTimeOut();
+                    }
                 }
                 ,
                 getLeftTime: function () {
@@ -504,10 +512,14 @@ angular.module('device.controllers', [])
                         var timeFlag = false;
                         //更新时间
                         //检查是否超时
-                        if (task.finished == 0 && ++task.usedTime >= task.timeLimit) {
+                        if(task.isDone())
+                        {
+                            //如果命令执行完毕
+                            continue;
+                        }
+                        if ( ++task.usedTime >= task.timeLimit) {
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
-                            task.status = task.timeout;
-                            task.setTimeOut();
+                            task.killTask(task.timeout);
                             pool.dirty = true;
                             continue;
                         }

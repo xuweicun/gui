@@ -401,6 +401,7 @@ class MsgController extends Controller
 
     public function hdlSRPMsg()
     {
+        //  处理不涉及桥接的SRP消息
         if (!$this->msg->isSRP()) {
             //START\PROGRESS\STOP and NOT BRIDGE
             return;
@@ -448,15 +449,12 @@ class MsgController extends Controller
                     $cmd['progress'] = (float)$_POST['progress'];
                     $this->RTLog("Updating progress: " . $this->msg->progress);
                     //如果进度达到100%，将状态更新为查询结果或等待停止
-                    if($cmd['progress'] >= 100)
-                    {
-                        if($cmd['cmd'] ==  'MD5')
-                        {
-                            $cmd['stage'] =  'RESULT';
+                    if ($cmd['progress'] >= 100) {
+                        if ($cmd['cmd'] == 'MD5') {
+                            $cmd['stage'] = 'RESULT';
                         }
-                        if($cmd['cmd'] ==  'COPY')
-                        {
-                            $cmd['stage'] =  'STOP';
+                        if ($cmd['cmd'] == 'COPY') {
+                            $cmd['stage'] = 'STOP';
                         }
                     }
                     $this->db->save($cmd);
@@ -509,19 +507,21 @@ class MsgController extends Controller
             echo("<br/>");
         }
     }
-   public function clearLog()
-   {
-       file_put_contents("rtlog.txt",'');
-   }
+
+    public function clearLog()
+    {
+        file_put_contents("rtlog.txt", '');
+    }
+
     public
     function hdlBridgeMsg()
     {
         $disks = $_POST['disks'];
         $paths = $_POST['paths'];
         $log = $this->getLog($this->msg->id);
-        $this->RTLog("{$this->msg->id}:bridge msg handling");
+        $this->RTLog("Bridge Handling Start");
         if ($this->msg->isWorking()) {
-            $this->RTLog("working:" . $this->msg->substatus);
+            $this->RTLog("Working:" . $this->msg->substatus);
             //if just some working msg
             $log['stage'] = $this->msg->stage;
             $log['progress'] = $this->msg->progress;
@@ -529,19 +529,15 @@ class MsgController extends Controller
             $this->db->save($log);
             return;
         }
-        $this->RTLog("here handling;");
         $stop = $this->msg->isStop();
         $failFlag = true;
         $dsk = new Dsk();
         $dsk->init();
-        $this->RTLog("dsk inited");
         //for dsk object
         $keys = array('bridged', 'path');
         $values = array(0, '');
-        $this->RTLog("<Disk number:" . count($disks) . ">");
         foreach ($disks as $key => $disk) {
             $status = (int)$paths[$key]['status'];
-            $this->RTLog("handling:" . $status);
             if ($status == C('CMD_SUCCESS')) {
                 $failFlag = false;
                 $values[0] = $stop == true ? 0 : 1;
@@ -555,25 +551,29 @@ class MsgController extends Controller
             }
         }
         //状态值
+
+        $log['finished'] = 1;
         if ($failFlag == true) {
             $log['status'] = (int)$paths[0]['status'];
-            $this->RTLog("BRIDGE FAIL: ERROR NO->" . $log['status']);
+            $this->RTLog("FAIL");
         } else {
-            $this->RTLog("BRIDGE SUCCESS: CMD_ID" . $this->msg->id);
+            $this->RTLog("SUCCESS");
             $log['status'] = C('CMD_SUCCESS');
             if (stop) {
+                //处理被桥接的命令，其实一般用不到
+                $this->RTLog("This is a stop Msg");
                 $dstLog = $this->getLog($this->msg->dst_id);
-                if ($dstLog['status'] == C('CMD_GOING')) {
+                if ($dstLog['finished'] == 0) {
                     //if the dst-commond still going, cancel it
                     $dstLog['status'] = C('CMD_CANCELED');
+                    $dstLog['finished'] = 1;
                     $this->db->save($dstLog);
                 }
+                $this->RTLog("STOP BRIDGE");
             }
         }
 
         $log['return_msg'] = file_get_contents('php://input');
-        $this->RTLog("status:" . $log['status']);
-        $this->RTLog("log:" . $log['id']);
         $this->db->save($log);
         die();
         //return msg
@@ -710,8 +710,8 @@ class MsgController extends Controller
         if ($log) {
             $log['status'] = C('CMD_SUCCESS');
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
-            if(!$this->msg->needStop() ||($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
-            $log['finished'] = 1;
+            if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
+                $log['finished'] = 1;
             $this->db->save($log);
         }
     }
