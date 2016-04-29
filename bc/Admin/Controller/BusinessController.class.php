@@ -140,7 +140,7 @@ class BusinessController extends Controller {
 	 */
 	public function getGoingTasks(){
 		$db = M('CmdLog');
-		$items = $db->where("status = -1")->select();
+		$items = $db->where("finished = 0")->select();
 		foreach($items as $index=>$item)
 		{
 			$items[$index]['msg'] = stripslashes($item['msg']);
