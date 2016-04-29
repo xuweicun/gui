@@ -675,22 +675,6 @@ angular.module('device.controllers', ['datatables'])
                 this.dirty = false;
                 this.startWatch();
             },
-            //发送消息检查命令进度
-            checkProgress: function (idx) {
-                var task = this.going[idx];
-                if (task.cmd != 'MD5' && task.cmd != 'COPY')
-                    return;
-                //如果命令执行成功，返回
-                if (task.status == task.success) {
-                    //如果为MD5,检查结果；
-                    if (task.cmd == 'MD5') {
-                        $scope.cmd.update(task.id, 'RESULT');
-                    }
-                    return;
-                }
-                //如果命令执行未完成
-                $scope.cmd.update(task.id, 'PROGRESS');
-            },
             init: function () {
                 var pool = this;
                 $http({
@@ -1400,13 +1384,12 @@ angular.module('device.controllers', ['datatables'])
                         group: (this.g + 1).toString(),
                         disks: disk_array
                     };
-                    $scope.cmd.sendcmd(cmd_obj);
+
                 }
                 else {
                     cmd_obj = this.curr_cmd;
-                    $scope.cmd.update(cmd_obj.id, 'STOP');
                 }
-
+                $scope.cmd.sendcmd(cmd_obj);
 
                 //console.log(cmd_obj);
 
