@@ -196,8 +196,36 @@ class Dsk
         if ($dsk) {
             foreach ($keys as $idx => $key) {
                 $dsk[$key] = $values[$idx];
+                if($key == 'md5' || $key = 'sn')
+                {
+                    //处理md5和sn的变化
+                    $this->hdlDskChg($dsk,$key,$values[$idx]);
+                }
+
             }
             $dskDb->save($dsk);
+        }
+    }
+
+    /***
+     * @param $dsk 数据库中查询到的记录
+     * @param $key 字段名称
+     * @param $value 返回值
+     * 此函数用来处理MD5和SN的变化
+     */
+    public function hdlDskChg($dsk,$key,$value)
+    {
+        //检查字段的值是不是发生了变化
+        if($dsk[$key] != null && ($value != $dsk[$key]))
+        {
+            //更新更改记录
+            $data['obj_id'] = $dsk['id'];
+            $data['value'] = $value;
+            $data['handled'] = 0;
+            $data['type'] = $key;
+            $data['time'] = time();
+            $logDb = M('ChgLog');
+            $logDb->add($data);
         }
     }
 }
@@ -671,8 +699,6 @@ class MsgController extends Controller
     public function hdlSuccess()
     {
         $log = $this->db->find($this->msg->id);
-
-
         if ($log) {
             $log['status'] = C('CMD_SUCCESS');
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
