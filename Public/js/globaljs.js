@@ -625,7 +625,7 @@ angular.module('device.controllers', [])
                 var pool = this.going;
                 var newPool = [];
                 for (var i = 0; i < pool.length; i++) {
-                    if (pool[i].status != pool[i].going) {
+                    if (pool[i].isDone()) {
                         this.done.push(pool[i]);
                         $scope.cab.i_on_cmd_changed(pool[i], false);
                         this.notify(pool[i]);
