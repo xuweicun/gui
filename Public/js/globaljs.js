@@ -540,7 +540,6 @@ angular.module('device.controllers', [])
                         }
 
                         switch (pool.going[idx].cmd) {
-
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
                                 break;
