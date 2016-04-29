@@ -388,6 +388,7 @@ class BusinessController extends Controller {
 		$data['sub_cmd'] = $_POST['subcmd'];
 		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
 		$data['start_time'] =  time();
+		$data['finished'] = 0;
 		$id = $db->add($data);
 		if($id)
 		{

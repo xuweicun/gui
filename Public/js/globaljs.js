@@ -28,6 +28,7 @@ angular.module('device.controllers', [])
                 timeout: -3,
                 success: 0,
                 cab_id: 0,
+                finished: 0,
                 //level和group是通用值，多数命令都用到
                 level: msg.level,
                 group: msg.group,
@@ -63,6 +64,7 @@ angular.module('device.controllers', [])
                     this.disks = msg.disks;
                     this.cab_id = msg.device_id;
                     this.status = this.going;
+                    this.finished = msg.finished;
                     this.timeLimit = this.minTime;
                     //根据命令名称判断
                     switch (this.cmd) {
@@ -92,7 +94,10 @@ angular.module('device.controllers', [])
                     _start_time = _start_time * 1000;
                     this.usedTime = parseInt((time.getTime() - parseInt(_start_time)) / 1000);
                     if (this.getLeftTime() <= 0) {
+                        //超时
                         this.status = this.timeout;
+                        this.finished = 1;
+                        this.setTimeOut();
                     }
                     console.log(this.usedTime);
                     this.start_time = _start_time;
@@ -105,6 +110,13 @@ angular.module('device.controllers', [])
                         $scope.svrErrPool.add(data);
                     });
                 },
+                isDone: function () {
+                    return this.finished == 1;
+                },
+                isSuccess: function () {
+                    return this.status == this.success;
+                }
+                ,
                 getLeftTime: function () {
                     return (this.timeLimit - this.usedTime);
                 },
@@ -140,20 +152,17 @@ angular.module('device.controllers', [])
 
                     }
                 },
-                setStatus: function (status) {
-                    this.status = status;
-                    if (status == 0 || status == this.canceled) {
-                        return;
+                updateStatus: function (respData) {
+                    //利用返回的值更新命令状态
+                    var task = this;
+                    task.status = respData['status'];
+                    task.finished = respData['finished'];
+                    if (respData['progress']) {
+                        task.progress = respData['progress'];
                     }
-                    ///如果出错
-                    switch (status) {
-                        case this.timeout:
-                            this.errMsg = "命令执行超时，请联系维护人员处理。";
-                            break;
-                        default:
-                            this.errMsg = $scope.errCodes.codes[status.toString()];
+                    if (respData['stage']) {
+                        task.stage = respData['stage'];
                     }
-
                 }
             };
             newcmd.init();
@@ -313,12 +322,15 @@ angular.module('device.controllers', [])
                 }
                 //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-                //if ((msg.subcmd == 'STOP' || msg.subcmd == 'PROGRESS' || msg.subcmd == 'RESULT') && msg.CMD_ID) {
-                //    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID
-                //}
+                if ((msg.subcmd == 'STOP') && msg.CMD_ID) {
+                    msg.CMD_ID = data['id'] + '_' + msg.CMD_ID;
+                }
+                else {
+                    msg.CMD_ID = data['id'].toString();
+                }
                 //else {
                 //  if (msg.cmd != 'DEVICEINFO') {
-                msg.CMD_ID = data['id'].toString();
+
                 // }
                 //}
                 var msgStr = JSON.stringify(msg);
@@ -428,64 +440,16 @@ angular.module('device.controllers', [])
                 for (var idx = 0; idx < pool.going.length; idx++) {
                     var task = pool.going[idx];
                     if (task.id == data['id']) {
-                        if (data['status'] != task.going) {
+                        task.updateStatus(data);
+                        if (task.isDone()) {
                             //需要清理命令池
                             pool.dirty = true;
-                            if (data['progress']) {
-                                task.progress = data['progress'];
-                            }
-                            task.status = data['status'];
                             console.log('当前命令:' + task.id + '-' + task.cmd + '-状态-' + task.status);
                             //根据命令修改信息
                             //桥接成功或失败
-                            if (data['status'] == task.success) {
+                            if (task.isSuccess()) {
                                 pool.success(idx, data);
                             }
-                        }
-                        else {
-                            //命令执行中
-                            //如果为MD5或者COPY
-                            if (data['progress']) {
-                                task.progress = data['progress'];
-                            }
-                            if (task.cmd == 'MD5' || task.cmd == 'COPY') {
-                                //检查进度
-                                if (data['progress'] && parseFloat(data['progress']) < 100) {
-                                    //未完成
-                                    task.subcmd = 'PROGRESS';
-                                    $scope.cmd.update(data['id'], 'PROGRESS');
-                                }
-                                else {
-                                    if (parseFloat(data['progress']) >= 100) {
-                                        //已成功
-                                        switch (data['cmd']) {
-                                            case 'MD5':
-                                                if (data['subcmd'] != 'RESULT' && data['subcmd'] != 'STOP') {
-                                                    //尚未开始查询结果和停止，则查询结果
-                                                    task.subcmd = 'RESULT';
-                                                    $scope.cmd.update(data['id'], 'RESULT');
-                                                }
-                                                if (data['subcmd' == 'RESULT'] && data['substatus'] == 0) {
-                                                    //已经查询过结果，且查询成功,则发送停止令
-                                                    task.subcmd = 'STOP';
-                                                    $scope.cmd.update(data['id'], 'STOP');
-                                                }
-                                                break;
-                                            case 'COPY':
-                                                if (data['subcmd' == 'START']) {
-                                                    //执行完成,则发送停止令
-                                                    task.subcmd = 'STOP';
-                                                    $scope.cmd.update(data['id'], 'STOP');
-                                                }
-                                                break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (task.cmd == 'BRIDGE') {
-                            task.stage = data['stage'];
-
                         }
                         break;
                     }
@@ -540,7 +504,6 @@ angular.module('device.controllers', [])
                         }
 
                         switch (pool.going[idx].cmd) {
-
                             case 'MD5':
                                 if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
                                 break;
@@ -690,7 +653,7 @@ angular.module('device.controllers', [])
                         console.log(e);
                         if (e.msg != '') {
                             var task = $scope.cmd.createCmd(e);
-                            if (task.status == task.going) {
+                            if (!task.isDone()) {
                                 pool.add(task);
                             }
                             else {
@@ -720,28 +683,10 @@ angular.module('device.controllers', [])
                 //如果是START，按下面的方式处理
                 switch (task.cmd) {
                     case 'MD5':
-                        this.dirty = false;
-                        //当且仅当子命令为STOP时，算成功
-                        if (task.subcmd == 'START' || (task.subcmd == 'PROGRESS' && task.progress == 100)) {
-                            //如果为计算结果返回，则发出停止命令，同时拉取硬盘信息
-                            $scope.cmd.update(task.id, 'RESULT');
-                            task.subcmd = 'RESULT';
-                        }
-                        if(task.subcmd == 'PROGRESS' && task.progress < 100)
-                        {
-                            $scope.cmd.update(task.id, 'PROGRESS');
-                        }
-                        if (task.subcmd == 'RESULT') {
-                            //如果为计算结果返回，则发出停止命令，同时拉取硬盘信息
-                            $scope.cmd.update(task.id, 'STOP');
+                        if (task.subcmd == 'START') {
+                            //更新硬盘MD5值
                             if (task.cab_id == $scope.cab.id)
                                 $scope.cmd.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
-                            task.subcmd = 'STOP';
-                        }
-                        if (task.subcmd == 'STOP') {
-                            //如果停止成功，就算是成功;
-                            task.status = task.success;
-                            this.dirty = true;
                         }
                         break;
                     case 'DEVICESTATUS':
@@ -756,7 +701,6 @@ angular.module('device.controllers', [])
                         break;
                     case 'BRIDGE':
                         //如果桥接
-
                         var return_msg = JSON.parse(msg['return_msg']);
                         var paths = return_msg.paths;
                         var disks = return_msg.disks;
@@ -767,7 +711,6 @@ angular.module('device.controllers', [])
                                 if (task.subcmd == 'START') {
                                     disk.base_info.bridged = true;
                                     disk.base_info.bridge_path = paths[idx].value;
-
                                 }
                                 if (task.subcmd == 'STOP') {
                                     disk.base_info.bridged = false;
@@ -971,7 +914,7 @@ angular.module('device.controllers', [])
                     var _dst = _lvl.groups[parseInt(_cmd.dstGroup) - 1].disks[parseInt(_cmd.dstDisk) - 1];
 
                     var _srcCap = _src.get_capacity();
-                    var _dstCap = _dst.get_capacity();                    
+                    var _dstCap = _dst.get_capacity();
                     if (_srcCap == '') {
                         return '硬盘 ' + _src.get_title() + ' 的容量为空，请先执行“查询”命令获取该硬盘信息';
                     }
