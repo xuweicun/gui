@@ -430,6 +430,7 @@ class MsgController extends Controller
 
                     break;
                 case 'RESULT':
+                    $this->RTLog('Handling Result');
                     $keys = array('md5');
                     $values = array($_POST['result']);
                     $dsk = new Dsk();
@@ -437,6 +438,7 @@ class MsgController extends Controller
                     $dsk->updateDiskInfo($keys, $values);
                     //将状态更新为等待停止
                     $cmd['stage'] = 'STOP';
+                    $this->RTLog($cmd['stage']);
                     $this->db->save($cmd);
                     break;
                 case 'PROGRESS':

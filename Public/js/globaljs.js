@@ -198,6 +198,19 @@ angular.module('device.controllers', [])
             var msg = {cmd: 'DEVICESTATUS'};
             return Cmd.sendcmd(msg);
         }
+        Cmd.localTest = function(){
+            var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
+            var localUrl = '/index.php?m=admin&c=msg';
+            var realUrl =  'http://222.35.224.230/index.php?m=admin&c=msg';
+            $http({
+                url: localUrl,
+                data: msg.md5,
+                method: 'POST'
+            }).success(function (data) {
+                alert("done");
+
+            });
+        },
         Cmd.testPost = function () {
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             var localUrl = '/index.php?m=admin&c=msg';
