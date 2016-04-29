@@ -338,7 +338,7 @@ class MsgController extends Controller
 
     private function copyMsgHandle()
     {
-       //没什么需要处理的
+        //没什么需要处理的
         //将备份盘进行标记
     }
 
@@ -392,7 +392,6 @@ class MsgController extends Controller
                     $cmd['status'] = C('CMD_SUCCESS');
                     $cmd['finished'] = 1;
                     $this->db->save($cmd);
-
                     break;
                 case 'RESULT':
                     $this->RTLog('Handling Result');
@@ -691,14 +690,14 @@ class MsgController extends Controller
      */
     public function updateCmdLog()
     {
-        if ($_POST['errmsg']) {
-            //出错，输出错误信息
+
+        //出错，输出错误信息
+
+        if ($this->msg->isFail()) {
+            //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
-            if ($this->msg->isFail()) {
-                //failed
-                $this->hdlFail();
-                die();
-            }
+            $this->hdlFail();
+            die();
         }
         if ($this->msg->isStart()) {
             //just start
