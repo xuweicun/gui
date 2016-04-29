@@ -705,8 +705,12 @@ class MsgController extends Controller
     public function hdlSuccess()
     {
         $log = $this->db->find($this->msg->id);
+
+
         if ($log) {
             $log['status'] = C('CMD_SUCCESS');
+            //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
+            if(!$this->msg->needStop() ||($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
             $log['finished'] = 1;
             $this->db->save($log);
         }
@@ -748,7 +752,8 @@ class MsgController extends Controller
             $this->hdlSRPMsg();
             die();
         }
-        //for success msg
+        //处理一条命令完全结束的情况，如果命令不需要停止的话
+        ////可以将finished设为1
         if ($this->msg->isSuccess()) {
             $this->hdlSuccess();
         }

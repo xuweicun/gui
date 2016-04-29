@@ -118,6 +118,7 @@ angular.module('device.controllers', [])
                 }
                 ,
                 getLeftTime: function () {
+                    console.log('时间上限：',this.timeLimit,';用时：',this.usedTime);
                     return (this.timeLimit - this.usedTime);
                 },
                 getProgress: function () {
@@ -132,7 +133,7 @@ angular.module('device.controllers', [])
                     return this.progress;
                 },
                 getStage: function () {
-                    if (this.cmd != 'BRIDGE' || this.stage == 0) {
+                    if (this.stage == 0) {
                         return null;
                     }
                     return $scope.lang.getLang(this.stage.toString());
@@ -403,6 +404,8 @@ angular.module('device.controllers', [])
         //！！服务器出错标志，慎重使用！！
         $scope.taskPool = {
             isWatching: false,
+            //用于异步处理的锁标识，防止异步处理过程中池子发生变化
+            locked: false,
             ready: false,
             //池子里有完成的命令
             dirty: false,
@@ -442,6 +445,7 @@ angular.module('device.controllers', [])
             updateTask: function (data) {
                 var pool = this;
                 //找到命令
+                this.locked = true;
                 for (var idx = 0; idx < pool.going.length; idx++) {
                     var task = pool.going[idx];
                     if (task.id == data['id']) {
@@ -459,6 +463,7 @@ angular.module('device.controllers', [])
                         break;
                     }
                 }
+                this.locked = false;
             },
             updateQueryCnt: function () {
                 this.queryCnt++;
@@ -499,7 +504,7 @@ angular.module('device.controllers', [])
                         var timeFlag = false;
                         //更新时间
                         //检查是否超时
-                        if (task.status == task.going && ++task.usedTime >= task.timeLimit) {
+                        if (task.finished == 0 && ++task.usedTime >= task.timeLimit) {
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                             task.status = task.timeout;
                             task.setTimeOut();
@@ -577,17 +582,19 @@ angular.module('device.controllers', [])
                 var result = '成功';
                 var type = 'success';
                 var icon = 'fa fa-check';
-                console.log("status:" + task.status);
+                console.log("状态值:" + task.status);
                 switch (task.status) {
                     case task.timeout:
-                        result = '超时';
                         type = 'error';
-                        icon = 'fa fa-alarm';
+                        icon = 'fa fa-clock-o';
                         break;
                     case task.canceled:
-                        result = '取消';
                         type = 'info';
                         icon = 'fa fa-alarm';
+                        break;
+                    case task.success:
+                        type = 'success';
+                        icon = 'fa fa-check-o';
                         break;
                     default :
                         //失败
@@ -598,7 +605,7 @@ angular.module('device.controllers', [])
                 }
                 new PNotify({
                     title: '命令执行结果',
-                    text: task.cmd + '命令执行' + $scope.lang.getLang(task.status),
+                    text: $scope.lang.getLang(task.cmd) + '命令执行完毕，执行结果：' + $scope.lang.getLang(task.status),
                     type: type,
                     addclass: 'notification-primary',
                     icon: icon
@@ -608,6 +615,11 @@ angular.module('device.controllers', [])
             cleanCmdPool: function () {
                 if (this.dirty === false) {
                     console.log("Don't need to clean.");
+                    return;
+                }
+                if (this.locked)
+                {
+                    console.log("命令池锁启动中，稍后处理");
                     return;
                 }
                 var pool = this.going;
