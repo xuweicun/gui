@@ -270,9 +270,6 @@ class MsgController extends Controller
             case 'WRITEPROTECT':
                 $this->protectMsgHdl();
                 break;
-            case 'DEVICEINFO':
-                $this->hdlDevInfo();
-                break;
 			case 'FILETREE':
 				$this->fileTreeMsgHandle();
 				break;
@@ -341,7 +338,7 @@ class MsgController extends Controller
         switch ($subcmd) {
             case 'START':
                 //更新进度
-                if ($status == CMD_SUCCESS) {
+                if ($status == "0") {
                     $item = $db->find($id);
                     $item['progress'] = $_POST['progress'];
                     $db->save($item);
