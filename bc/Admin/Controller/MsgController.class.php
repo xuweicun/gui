@@ -40,7 +40,7 @@ class Msg
     {
         global $return_msg;
         $this->origin = $return_msg;
-        $this->cmd = 'whatever';//$_POST['cmd'];
+        $this->cmd = $_POST['cmd'];
         $this->subcmd = $_POST['subcmd'];
         $this->getStatus();
 
@@ -409,7 +409,8 @@ class MsgController extends Controller
             if (!$cmd) die();
             //cancel the going cmd
             $this->RTLog("SRP START: " . $this->msg->subcmd);
-            switch ($this->msg->sucmd) {
+            $this->RTLog($this->msg->subcmd == 'PROGRESS');
+            switch ($_POST['subcmd']) {
                 case 'STOP':
                     //判断是app发的还是用户发的
                     if ($cmd['user_id'] > 0) {
@@ -440,22 +441,25 @@ class MsgController extends Controller
                     break;
                 case 'PROGRESS':
                     //for md5 and copy, update progress
+                    $this->RTLog('Handling Progress');
                     $cmd['progress'] = (float)$_POST['progress'];
+                    $this->RTLog("Updating progress: " . $this->msg->progress);
                     //如果进度达到100%，将状态更新为查询结果或等待停止
                     if($cmd['progress'] >= 100)
                     {
                         if($cmd['cmd'] ==  'MD5')
                         {
-                            $cmd['status'] =  'RESULT';
+                            $cmd['stage'] =  'RESULT';
                         }
                         if($cmd['cmd'] ==  'COPY')
                         {
-                            $cmd['status'] =  'STOP';
+                            $cmd['stage'] =  'STOP';
                         }
                     }
                     $this->db->save($cmd);
                     break;
             }
+            $this->RTLog("SRP END");
         }
     }
 
