@@ -202,17 +202,7 @@
 
                 items[items.length-2].click();
             });
-
-            $('#datatable-my').DataTable({
-                "oLanguage": {
-                    "sLengthMenu": "_MENU_ 条/页",
-                    "sZeroRecords": "数据为空",
-                    "sInfo": "[_START_ - _END_] in _TOTAL_",
-                    "sInfoEmpty": "[0-0] in 0",
-                    "sInfoFiltered": "(从 _MAX_ 条数据中检索)"
-                }
-            });
-
+            
             var url = "xml/" + disk;
 
             function loadTable() {
