@@ -273,6 +273,9 @@ class MsgController extends Controller
             case 'DEVICEINFO':
                 $this->hdlDevInfo();
                 break;
+			case 'FILETREE':
+				$this->fileTreeMsgHandle();
+				break;
 
         }
         // $this->hdlSuccess();
@@ -328,6 +331,31 @@ class MsgController extends Controller
             }
         }
     }
+
+	private function fileTreeMsgHandle()
+	{
+		$subcmd = $_POST['subcmd'];
+        $id = $_POST['CMD_ID'];
+        $status = $_POST['status'];
+        $db = M('CmdLog');
+        switch ($subcmd) {
+            case 'START':
+                //更新进度
+                if ($status == CMD_SUCCESS) {
+                    $item = $db->find($id);
+                    $item['progress'] = $_POST['progress'];
+                    $db->save($item);
+                } else {
+                    $this->handleError();
+                }
+                break;
+            default:
+                $item = $db->find($id);
+                $item['status'] = $status;
+                $db->save($item);
+                break;
+        }
+	}
 
     private function  md5MsgHandle()
     {
