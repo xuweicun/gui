@@ -1375,6 +1375,7 @@ angular.module('device.controllers', ['datatables'])
                 }
                 else {
                     cmd_obj = JSON.parse(this.curr_cmd.msgStr);
+                    cmd_obj.subcmd = 'STOP';
                 }
                 $scope.cmd.sendcmd(cmd_obj);
 
