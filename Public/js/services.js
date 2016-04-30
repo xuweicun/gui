@@ -122,20 +122,84 @@ angular.module('device.services', [])
             }
 
         }
-    ).factory('TestMsg',function(){
+    ).factory('TestMsg', function () {
 
     var msg = {
-        diskinfo: {"CMD_ID":"144","cmd":"DISKINFO","device_id":"1","disk":"3","group":"1","level":"2","status":"0","substatus":"1"},
-        devicestatus:{"CMD_ID":"121","cmd":"DEVICESTATUS","device_id":"1","levels":[{"groups":[{"disks":["1"],"id":"2"}],"id":"1"},{"groups":[{"disks":["3"],"id":"1"}],"id":"2"},{"groups":[{"disks":["3"],"id":"3"}],"id":"3"}],"status":"0","substatus":"0"},
-        bridge:{"CMD_ID":"124","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"progress":"75","subcmd":"START","substatus":"2","workingstatus":"59"},
-        bridge_done:{"CMD_ID":"1","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":"sdb"}],"subcmd":"START","substatus":"0"},
-        bridge_stop:{"CMD_ID":"134","cmd":"BRIDGE","device_id":"1","disks":[{"SN":"5LY3PRKJ","id":"1"}],"group":"2","level":"1","paths":[{"id":"1","status":"0","value":""}],"subcmd":"STOP","substatus":"0"},
-        md5:{"CMD_ID":"527","cmd":"COPY",status:"1","device_id":"1","dstDisk":"3","dstGroup":"6","dstLevel":"1","progress":0,"srcDisk":"3","srcGroup":"5","srcLevel":"1","subcmd":"START"}
+        diskinfo: {
+            "CMD_ID": "144",
+            "cmd": "DISKINFO",
+            "device_id": "1",
+            "disk": "3",
+            "group": "1",
+            "level": "2",
+            "status": "0",
+            "substatus": "1"
+        },
+        devicestatus: {
+            "CMD_ID": "121",
+            "cmd": "DEVICESTATUS",
+            "device_id": "1",
+            "levels": [{"groups": [{"disks": ["1"], "id": "2"}], "id": "1"}, {
+                "groups": [{"disks": ["3"], "id": "1"}],
+                "id": "2"
+            }, {"groups": [{"disks": ["3"], "id": "3"}], "id": "3"}],
+            "status": "0",
+            "substatus": "0"
+        },
+        bridge: {
+            "CMD_ID": "124",
+            "cmd": "BRIDGE",
+            "device_id": "1",
+            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+            "group": "2",
+            "level": "1",
+            "paths": [{"id": "1", "status": "0", "value": ""}],
+            "progress": "75",
+            "subcmd": "START",
+            "substatus": "2",
+            "workingstatus": "59"
+        },
+        bridge_done: {
+            "CMD_ID": "1",
+            "cmd": "BRIDGE",
+            "device_id": "1",
+            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+            "group": "2",
+            "level": "1",
+            "paths": [{"id": "1", "status": "0", "value": "sdb"}],
+            "subcmd": "START",
+            "substatus": "0"
+        },
+        bridge_stop: {
+            "CMD_ID": "134",
+            "cmd": "BRIDGE",
+            "device_id": "1",
+            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+            "group": "2",
+            "level": "1",
+            "paths": [{"id": "1", "status": "0", "value": ""}],
+            "subcmd": "STOP",
+            "substatus": "0"
+        },
+        md5: {
+            "CMD_ID": "527",
+            "cmd": "COPY",
+            status: "1",
+            "device_id": "1",
+            "dstDisk": "3",
+            "dstGroup": "6",
+            "dstLevel": "1",
+            "progress": 0,
+            "srcDisk": "3",
+            "srcGroup": "5",
+            "srcLevel": "1",
+            "subcmd": "START"
+        }
     }
     return {
         i_getMsg: function (id) {
-          //  if(parseInt(id) == 0)
-           // return msg;
+            //  if(parseInt(id) == 0)
+            // return msg;
 
             msg.diskinfo['CMD_ID'] = id;
             msg.devicestatus['CMD_ID'] = id;
@@ -146,7 +210,7 @@ angular.module('device.services', [])
             return msg;
         }
     };
-}) .factory('Lang', function () {
+}).factory('Lang', function () {
     var param = {
         'success': 0,
         'timeout': -3,
@@ -215,56 +279,55 @@ angular.module('device.services', [])
             cn: '超时'
         },
         {
-            code:"52",
-            cn:'BRIDGE_EIGHTOPTICS_RECEIVED_START_COMMAND'
+            code: "52",
+            cn: 'BRIDGE_EIGHTOPTICS_RECEIVED_START_COMMAND'
         },
         {
-            code:"53",
-            cn:'光口FPGA通道开启，硬盘通道准备完毕',
+            code: "53",
+            cn: '光口FPGA通道开启，硬盘通道准备完毕',
         },
         {
-            code:"54",
-            cn:'八光口输出通道准备完毕',
+            code: "54",
+            cn: '八光口输出通道准备完毕',
         },
         {
-            code:"55",
-            cn:'八光口输入通道与输出通道连接完毕',
+            code: "55",
+            cn: '八光口输入通道与输出通道连接完毕',
         },
         {
-            code:"56",
-            cn:'命令已收到',
+            code: "56",
+            cn: '命令已收到',
         },
         {
-            code:"57",
-            cn:'控制器已加电，硬盘可见',
+            code: "57",
+            cn: '控制器已加电，硬盘可见',
         },
         {
-            code:"58",
-            cn:'存储柜信号输出中',
+            code: "58",
+            cn: '存储柜信号输出中',
         },
         {
-            code:"59",
-            cn:'收到光口到串口命令',
+            code: "59",
+            cn: '收到光口到串口命令',
         },
         {
-            code:"60",
-            cn:'光口到串口控制器启动完毕',
+            code: "60",
+            cn: '光口到串口控制器启动完毕',
         },
         {
-            code:"61",
-            cn:'光口到串口信号输出中',
+            code: "61",
+            cn: '光口到串口信号输出中',
         },
         {
-            code:"62",
-            cn:'光口到串口信号输出成功',
+            code: "62",
+            cn: '光口到串口信号输出成功',
         }
     ];
     return {
         getLang: function (code) {
 
             if (typeof (code) == 'number') {
-                if(code > param.success)
-                {
+                if (code > param.success) {
                     return '失败';
                 }
                 code = code.toString();
@@ -282,6 +345,31 @@ angular.module('device.services', [])
         param_success: param.success,
         param_timeout: param.timeout,
         param_canceled: param.canceled,
-        param_going: param.going
+        param_going: param.going,
+        /*****
+         * 将秒数转化为分钟小时数
+         * @param _time
+         */
+        getTime: function (_time) {
+            var theTime = parseInt(_time);// 秒
+            var theTime1 = 0;// 分
+            var theTime2 = 0;// 小时
+            if (theTime > 60) {
+                theTime1 = parseInt(theTime / 60);
+                theTime = parseInt(theTime % 60);
+                if (theTime1 > 60) {
+                    theTime2 = parseInt(theTime1 / 60);
+                    theTime1 = parseInt(theTime1 % 60);
+                }
+            }
+            var result = "" + parseInt(theTime) + "秒";
+            if (theTime1 > 0) {
+                result = "" + parseInt(theTime1) + "分" + result;
+            }
+            if (theTime2 > 0) {
+                result = "" + parseInt(theTime2) + "小时" + result;
+            }
+            return result;
+        }
     };
 });
