@@ -267,8 +267,22 @@ class BusinessController extends Controller {
 	}
     public  function  getCmdResult()
     {
+		$db = M('CmdLog');
+		if(IS_POST){
+			$tasks = $_POST['tasks'];
+			$results = array();
+			foreach($tasks as $task)
+			{
+				$item = $db->find($task);
+				if($item){
+					$results[] = $item;
+				}
+			}
+			$this->AjaxReturn($results);
+			return;
+		}
         $id = I('get.cmdid');
-        $db = M('CmdLog');
+
         $item = $db->find($id);
         if($item)
         {
