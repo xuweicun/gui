@@ -142,17 +142,15 @@ angular.module('device.controllers', ['datatables'])
                 isSuccess: function () {
                     return this.status == this.success;
                 },
-                killTask: function(_status){
+                killTask: function (_status) {
                     this.status = _status;
                     this.finished = 1;
-                    if(_status == this.timeout)
-                    {
+                    if (_status == this.timeout) {
                         this.setTimeOut();
                     }
                 }
                 ,
                 getLeftTime: function () {
-                    console.log('时间上限：',this.timeLimit,';用时：',this.usedTime);
                     return (this.timeLimit - this.usedTime);
                 },
                 getProgress: function () {
@@ -225,7 +223,7 @@ angular.module('device.controllers', ['datatables'])
             var msg = {cmd: 'DEVICESTATUS'};
             return Cmd.sendcmd(msg);
         }
-        Cmd.localTest = function(){
+        Cmd.localTest = function () {
             var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
             var localUrl = '/index.php?m=admin&c=msg';
             $http({
@@ -236,19 +234,19 @@ angular.module('device.controllers', ['datatables'])
                 alert("done");
             });
         },
-        Cmd.testPost = function () {
-            var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
-            console.log('Test starting');
-            var realUrl =  'http://222.35.224.230/index.php?m=admin&c=msg';
-            $http({
-                url: realUrl,
-                data: msg.md5,
-                method: 'POST'
-            }).success(function (data) {
-                alert("done");
+            Cmd.testPost = function () {
+                var msg = $scope.testMsg.i_getMsg($scope.testCmdId);
+                console.log('Test starting');
+                var realUrl = 'http://222.35.224.230/index.php?m=admin&c=msg';
+                $http({
+                    url: realUrl,
+                    data: msg.md5,
+                    method: 'POST'
+                }).success(function (data) {
+                    alert("done");
 
-            });
-        }
+                });
+            }
         Cmd.writeprotect = function (level) {
             var msg = {cmd: "WRITEPROTECT", subcmd: 'START', level: level};
             Cmd.sendcmd(msg);
@@ -537,12 +535,11 @@ angular.module('device.controllers', ['datatables'])
                         var timeFlag = false;
                         //更新时间
                         //检查是否超时
-                        if(task.isDone())
-                        {
+                        if (task.isDone()) {
                             //如果命令执行完毕
                             continue;
                         }
-                        if ( ++task.usedTime >= task.timeLimit) {
+                        if (++task.usedTime >= task.timeLimit) {
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                             task.killTask(task.timeout);
                             pool.dirty = true;
@@ -654,8 +651,7 @@ angular.module('device.controllers', ['datatables'])
                     console.log("Don't need to clean.");
                     return;
                 }
-                if (this.locked)
-                {
+                if (this.locked) {
                     console.log("命令池锁启动中，稍后处理");
                     return;
                 }
@@ -675,22 +671,6 @@ angular.module('device.controllers', ['datatables'])
                 this.dirty = false;
                 this.startWatch();
             },
-            //发送消息检查命令进度
-            checkProgress: function (idx) {
-                var task = this.going[idx];
-                if (task.cmd != 'MD5' && task.cmd != 'COPY')
-                    return;
-                //如果命令执行成功，返回
-                if (task.status == task.success) {
-                    //如果为MD5,检查结果；
-                    if (task.cmd == 'MD5') {
-                        $scope.cmd.update(task.id, 'RESULT');
-                    }
-                    return;
-                }
-                //如果命令执行未完成
-                $scope.cmd.update(task.id, 'PROGRESS');
-            },
             init: function () {
                 var pool = this;
                 $http({
@@ -698,24 +678,25 @@ angular.module('device.controllers', ['datatables'])
                     method: 'GET'
                 }).success(function (data) {
                     var time = new Date();
-                    if (data === null)
-                        return;
-                    for (var i = 0; i < data.length; ++i) {
-                        var e = data[i];
-                        console.log(e);
-                        if (e.msg != '') {
-                            var task = $scope.cmd.createCmd(e);
-                            if (!task.isDone()) {
-                                pool.add(task);
-                            }
-                            else {
-                                //将对应命令设为超时
-                                $http({
-                                    url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + e.id,
-                                    method: 'GET'
-                                }).error(function (data) {
-                                    $scope.svrErrPool.add(data);
-                                });
+                    pool.ready = true;
+                    if (data && data.length > 0) {
+                        for (var i = 0; i < data.length; ++i) {
+                            var e = data[i];
+                            console.log(e);
+                            if (e.msg != '') {
+                                var task = $scope.cmd.createCmd(e);
+                                if (!task.isDone()) {
+                                    pool.add(task);
+                                }
+                                else {
+                                    //将对应命令设为超时
+                                    $http({
+                                        url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + e.id,
+                                        method: 'GET'
+                                    }).error(function (data) {
+                                        $scope.svrErrPool.add(data);
+                                    });
+                                }
                             }
                         }
                     }
@@ -724,6 +705,7 @@ angular.module('device.controllers', ['datatables'])
                         pool.startWatch();
                 }).error(function () {
                     $scope.svrErrPool.add();
+                    this.ready = true;
                 });
             },
             /*
@@ -1400,13 +1382,12 @@ angular.module('device.controllers', ['datatables'])
                         group: (this.g + 1).toString(),
                         disks: disk_array
                     };
-                    $scope.cmd.sendcmd(cmd_obj);
+
                 }
                 else {
                     cmd_obj = this.curr_cmd;
-                    $scope.cmd.update(cmd_obj.id, 'STOP');
                 }
-
+                $scope.cmd.sendcmd(cmd_obj);
 
                 //console.log(cmd_obj);
 
@@ -1463,7 +1444,7 @@ angular.module('device.controllers', ['datatables'])
                 this.ready = true;
             },
             // 获得在位信息
-            start_cmd_device_status: function(){
+            start_cmd_device_status: function () {
                 if (this.id <= 0) return;
 
                 var json_cmd = {
