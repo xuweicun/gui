@@ -38,7 +38,7 @@ angular.module('device.controllers', ['datatables'])
         var Cmd = {};
         Cmd.createCmd = function (log) {
             var msg = JSON.parse(log.msg);
-            console.log('Create Cmd', msg, log.msg);
+
             var _start_time = log.start_time;
             var newcmd = {
                 id: log.id,//log.id和CMD_ID有时不同
@@ -67,6 +67,7 @@ angular.module('device.controllers', ['datatables'])
                 dstDisk: msg.dstDisk,
                 dstLevel: msg.dstLevel,
                 dstGroup: msg.dstGroup,
+                msgStr: log.msg,
                 //MD5、diskinfo等命令中，disk值有效
                 disk: null,
                 //命令状态，初始值为-1
@@ -276,32 +277,7 @@ angular.module('device.controllers', ['datatables'])
             //增加命令日志
             //发送命令
         }
-        Cmd.update = function (id, subcmd) {
-            //获取命令参数
-            $http({
-                url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
-                method: 'GET'
-            }).success(function (data) {
-                if (data['errmsg']) {
-                    $scope.svrErrPool.add(data);
-                }
-                else {
-                    var msg = JSON.parse(data['msg']);
-                    msg.CMD_ID = id.toString();
-                    msg.subcmd = subcmd;
-                    $http.post(proxy, msg).success(function () {
-                        var msgStr = JSON.stringify(msg);
-                        $http.post(server, {msg: msgStr, id: id}).error(function () {
-                            console.log('向服务器发送消息 失败');
-                        });
-                    }).error(function () {
-                        console.log('向APP发送消息 失败');
-                    });
 
-                }
-            });
-
-        }
         Cmd.copy = function (srcLvl, srcGrp, srcDisk, dstLvl, dstGrp, dstDisk) {
             var msg = {
                 cmd: 'COPY',
@@ -1385,7 +1361,7 @@ angular.module('device.controllers', ['datatables'])
 
                 }
                 else {
-                    cmd_obj = this.curr_cmd;
+                    cmd_obj = JSON.parse(this.curr_cmd.cmdStr);
                 }
                 $scope.cmd.sendcmd(cmd_obj);
 
