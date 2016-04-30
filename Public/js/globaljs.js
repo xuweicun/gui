@@ -151,7 +151,6 @@ angular.module('device.controllers', ['datatables'])
                 }
                 ,
                 getLeftTime: function () {
-                    console.log('时间上限：', this.timeLimit, ';用时：', this.usedTime);
                     return (this.timeLimit - this.usedTime);
                 },
                 getProgress: function () {
