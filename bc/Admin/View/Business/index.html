@@ -774,7 +774,7 @@
                                                                         <span ng-bind="task.getProgress()+'%'" style="color:cadetblue;" ></span>
                                                                     </div>
                                                                 </div>
-                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:red;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
+                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:cadetblue;font-weight: bold;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
                                                             </div>
                                                         </td>
                                                         <td class="center hidden-phone">
