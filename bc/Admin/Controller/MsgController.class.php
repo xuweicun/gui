@@ -212,6 +212,7 @@ class Dsk
      * @param $key 字段名称
      * @param $value 返回值
      * 此函数用来处理MD5和SN的变化
+     * @return true:表示有变化
      */
     public function hdlDskChg($dsk,$key,$value)
     {
@@ -226,7 +227,10 @@ class Dsk
             $data['time'] = time();
             $logDb = M('ChgLog');
             $logDb->add($data);
+            //返回true表示发生了变化
+            return true;
         }
+        return false;
     }
 }
 

@@ -109,6 +109,8 @@ angular.module('device.controllers', ['datatables'])
                         case 'COPY':
                             this.timeLimit = this.maxTime;
                             break;
+                        case 'FILETREE':
+                            this.timeLimit = this.maxTime;
                         default:
                             this.timeLimit = this.minTime;
                             break;
@@ -173,7 +175,6 @@ angular.module('device.controllers', ['datatables'])
                 },
                 getStatus: function () {
                     if (this.substatus < 0) {
-                        console.log(this.substatus);
                         return '已发出';
                     }
                     switch (this.substatus) {
@@ -452,25 +453,30 @@ angular.module('device.controllers', ['datatables'])
             updateTask: function (data) {
                 var pool = this;
                 //找到命令
-                this.locked = true;
-                for (var idx = 0; idx < pool.going.length; idx++) {
-                    var task = pool.going[idx];
-                    if (task.id == data['id']) {
-                        task.updateStatus(data);
-                        if (task.isDone()) {
-                            //需要清理命令池
-                            pool.dirty = true;
-                            console.log('当前命令:' + task.id + '-' + task.cmd + '-状态-' + task.status);
-                            //根据命令修改信息
-                            //桥接成功或失败
-                            if (task.isSuccess()) {
-                                pool.success(idx, data);
-                            }
-                        }
-                        break;
-                    }
+                if(!data){
+                    console.log("无返回的命令结果");
+                    return;
                 }
-                this.locked = false;
+                data.forEach(function(e){
+                    for (var idx = 0; idx < pool.going.length; idx++) {
+                        var u_task = pool.going[idx];
+                        if (u_task.id == e['id']) {
+                            u_task.updateStatus(data);
+                            if (u_task.isDone()) {
+                                //需要清理命令池
+                                pool.dirty = true;
+                                console.log('当前命令:' + u_task.id + '-' + u_task.cmd + '-状态-' + u_task.status);
+                                //根据命令修改信息
+                                //桥接成功或失败
+                                if (u_task.isSuccess()) {
+                                    pool.success(idx, data);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                });
+
             },
             updateQueryCnt: function () {
                 this.queryCnt++;
@@ -503,9 +509,10 @@ angular.module('device.controllers', ['datatables'])
                 this.isWatching = true;
                 var taskWatcher = $interval(function () {
                     if (this.stopFlag == true || pool.going.length == 0) {
-                        $interval.cancel(taskWatcher);
                         this.isWatching = false;
+                        $interval.cancel(taskWatcher);
                     }
+                    //更新时间
                     for (var idx = 0; idx < pool.going.length; idx++) {
                         var task = pool.going[idx];
                         var timeFlag = false;
@@ -515,43 +522,19 @@ angular.module('device.controllers', ['datatables'])
                             //如果命令执行完毕
                             continue;
                         }
-                        if (++task.usedTime >= task.timeLimit) {
+                        task.usedTime = task.usedTime + 1;
+                        console.log(task.usedTime);
+                        if (task.usedTime >= task.timeLimit) {
                             console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                             task.killTask(task.timeout);
                             pool.dirty = true;
                             continue;
                         }
-                        switch (pool.going[idx].cmd) {
-                            case 'MD5':
-                                if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
-                                break;
-                            case 'COPY':
-                                if (0 == pool.queryCnt % pool.lgAmp)timeFlag = true;
-                                break;
-                            default:
-                                if (0 == pool.queryCnt % pool.smAmp)timeFlag = true;
-                                break;
-                        }
-                        if (timeFlag != true) {
-                            continue;
-                        }
-                        console.log('查询执行结果');
-                        $http({
-                            url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + task.id,
-                            method: 'GET'
-                        }).success(function (data) {
-                            if (data['errmsg']) {
-                                $scope.svrErrPool.add(data);
-                            }
-                            else {
-                                console.log('结果查询完毕，开始对结果进行处理');
-                                pool.updateTask(data);
-                            }
-                        }).error(function () {
-                            $scope.svrErrPool.add();
-                        });
-                        // pool.checkProgress(idx);
+                    }
 
+                    //5秒取一次结果
+                    if (0 == pool.queryCnt % 5) {
+                        timeFlag = true;
                     }
                     pool.updateQueryCnt();
                     //检查命令池大小
@@ -560,6 +543,36 @@ angular.module('device.controllers', ['datatables'])
                         $interval.cancel(taskWatcher);
                         pool.cleanCmdPool();
                     }
+                    if (timeFlag != true || pool.locked) {
+                        return;
+                    }
+                    console.log('查询执行结果', task.id);
+                    pool.locked = true;
+                    var _tasks = [];
+                    for (var idx = 0; idx < pool.going.length; idx++) {
+                        _tasks.push(pool.going[idx].id);
+                    }
+                    $http({
+                        url: '/index.php?m=admin&c=business&a=getCmdResult',
+                        method: 'POST',
+                        data: {tasks:_tasks}
+                    }).success(function (data) {
+                        if (data['errmsg']) {
+                            $scope.svrErrPool.add(data);
+                        }
+                        else {
+                            console.log('结果查询完毕，开始对结果进行处理');
+                            pool.updateTask(data);
+                        }
+                        pool.locked = false;
+                    }).error(function () {
+                        $scope.svrErrPool.add();
+                        pool.locked = false;
+                    });
+                    // pool.checkProgress(idx);
+
+
+
                 }, this.unitTimer);
             },
             //更新桥接状态
