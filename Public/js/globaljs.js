@@ -461,7 +461,7 @@ angular.module('device.controllers', ['datatables'])
                     for (var idx = 0; idx < pool.going.length; idx++) {
                         var u_task = pool.going[idx];
                         if (u_task.id == e['id']) {
-                            u_task.updateStatus(data);
+                            u_task.updateStatus(e);
                             if (u_task.isDone()) {
                                 //需要清理命令池
                                 pool.dirty = true;
@@ -469,7 +469,7 @@ angular.module('device.controllers', ['datatables'])
                                 //根据命令修改信息
                                 //桥接成功或失败
                                 if (u_task.isSuccess()) {
-                                    pool.success(idx, data);
+                                    pool.success(idx, e);
                                 }
                             }
                             break;
