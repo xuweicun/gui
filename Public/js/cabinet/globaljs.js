@@ -9,6 +9,9 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
     var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
     var proxy = "http://222.35.224.230:8080";
 
+    global_server = server;
+    global_app = proxy;
+
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
@@ -18,16 +21,21 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             alert('系统重置成功！');
         });
     }
-    global_cmd_helper = new CabCmdHelper(server, proxy, $scope, $http);
+    global_cmd_helper = new CabCmdHelper($scope);
     $scope.cmd = global_cmd_helper;
+
+    global_lang = Lang;
     $scope.lang = Lang;
-    $scope.svrErrPool = {
+
+    global_http = $http;
+
+    global_err_pool = {
         pool: [],
         svrDown: false,
         maxPoolSize: 10,
         add: function (data) {
             if (data == undefined) {
-                data = {errMsg: '与服务器通信失败。'};
+                data = { errMsg: '与服务器通信失败。' };
             }
             this.pool.push(data);
             if (this.pool.length > this.maxPoolSize) {
@@ -36,6 +44,8 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             }
         }
     };
+    $scope.svrErrPool = global_err_pool;
+
     $scope.updateDeviceStatus = function () {
         var curr = $scope.cabs.curr;
         var cab_id = curr.id;
@@ -56,7 +66,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
         });
     }
     //！！服务器出错标志，慎重使用！！
-    $scope.taskPool = {
+    global_task_pool = {
         isWatching: false,
         //用于异步处理的锁标识，防止异步处理过程中池子发生变化
         locked: false,
@@ -317,7 +327,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; ++i) {
                         var e = data[i];
-                        console.log(e);
+                        //console.log(e);
                         if (e.msg != '') {
                             var task = $scope.cmd.createCmd(e);
                             if (!task.isDone()) {
@@ -398,6 +408,8 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
         }
 
     };
+    $scope.taskPool = global_task_pool;
+
     $scope.errCodes = {
         ready: false,
         init: function () {

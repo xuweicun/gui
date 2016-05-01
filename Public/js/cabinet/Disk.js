@@ -501,7 +501,7 @@ Disk.prototype = {
         }
 
         // send cmd;
-        link_send_cmd(cmd_obj);
+        global_cmd_helper.sendcmd(cmd_obj);
 
         $.magnificPopup.close();
 
@@ -537,7 +537,7 @@ Disk.prototype = {
             cmd_obj.subcmd = 'STOP';
         }
 
-        link_send_cmd(cmd_obj);
+        global_cmd_helper.sendcmd(cmd_obj);
 
         //console.log(cmd_obj);
 
