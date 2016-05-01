@@ -115,7 +115,7 @@ TaskPool.prototype = {
                     continue;
                 }
                 task.usedTime += 1;
-                console.log(task.usedTime);
+                //console.log(task.usedTime);
                 if (task.usedTime >= task.timeLimit) {
                     console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
                     task.killTask(task.timeout);
@@ -138,7 +138,7 @@ TaskPool.prototype = {
             if (timeFlag != true || pool.locked) {
                 return;
             }
-            console.log('查询执行结果', task.id);
+            //console.log('查询执行结果', task.id);
             pool.locked = true;
             var _tasks = [];
             for (var idx = 0; idx < pool.going.length; idx++) {
@@ -153,7 +153,7 @@ TaskPool.prototype = {
                     global_err_pool.add(data);
                 }
                 else {
-                    console.log('结果查询完毕，开始对结果进行处理');
+                    //console.log('结果查询完毕，开始对结果进行处理');
                     pool.updateTask(data);
                 }
                 pool.locked = false;
@@ -206,7 +206,7 @@ TaskPool.prototype = {
             if (timeFlag != true || pool.locked) {
                 return;
             }
-            console.log('查询执行结果', task.id);
+            //console.log('查询执行结果', task.id);
             pool.locked = true;
             var _tasks = [];
             for (var idx = 0; idx < pool.going.length; idx++) {
@@ -221,7 +221,7 @@ TaskPool.prototype = {
                     global_err_pool.add(data);
                 }
                 else {
-                    console.log('结果查询完毕，开始对结果进行处理');
+                    //console.log('结果查询完毕，开始对结果进行处理');
                     pool.updateTask(data);
                 }
                 pool.locked = false;
