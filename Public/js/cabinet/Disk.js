@@ -8,6 +8,8 @@ function Disk(l, g, d) {
 
     // 温度
     this.temperature = '-';
+    // 是否写保护
+    this.write_protected = true,
 
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
     this.isto_bridge = false;
@@ -17,8 +19,6 @@ function Disk(l, g, d) {
     this.base_info = {
         // 是否在位
         loaded: false,
-        // 是否写保护
-        write_protected: false,
         // 是否桥接
         bridged: false,
         // 已桥接状态的mount文件夹名
@@ -163,7 +163,7 @@ Disk.prototype = {
     get_commit_cmd_title: function () {
         switch (this.cmd_name_to_commit) {
             case 'DISKINFO':
-                return '桥接';
+                return '查询';
             case 'BRIDGE':
                 return '桥接';
             case 'MD5':
@@ -235,31 +235,43 @@ Disk.prototype = {
 
         return cmd_name;
     },
-    // 依据硬盘状态计算出插槽栏的中文附加描述
-    get_extent_title: function () {
+    get_curr_cmd_title: function(){
         if (!this.is_loaded()) {
             return '(无盘)';
         }
 
         if (this.is_bridged()) {
             if (this.curr_cmd != null && this.curr_cmd.subcmd == 'STOP') {
-                return '停止桥接中(' + this.curr_cmd.usedTime + 's)';
+                return '停止桥接中';
             }
             return '已桥接';
         }
 
         var _name = this.get_cmd_name();
         if (_name == 'DISKINFO') {
-            return '查询(' + this.curr_cmd.usedTime + 's)';
+            return '查询';
         }
         else if (_name == 'BRIDGE') {
-            return '桥接(' + this.curr_cmd.usedTime + 's)';
+            return '桥接';
         }
         else if (_name == 'MD5') {
-            return 'MD5(' + this.curr_cmd.progress + '%)' + this.temperature + '℃';
+            return 'MD5';
         }
         else if (_name == 'COPY') {
-            return '复制-' + (this.g % 2 == 0 ? '源' : '目') + '(' + this.curr_cmd.progress + '%)' + this.temperature + '℃';
+            return '复制-' + (this.g % 2 == 0 ? '源' : '目');
+        }
+        else {
+            return '';
+        }
+    },
+    // 依据硬盘状态计算出插槽栏的中文附加描述
+    get_extent_title: function () {        
+        var _name = this.get_cmd_name();
+        if (_name == 'DISKINFO' || _name == 'BRIDGE') {
+            return this.curr_cmd.usedTime + 's';
+        }
+        else if (_name == 'MD5' || _name == 'COPY') {
+            return this.curr_cmd.progress + '%，' + this.temperature + '℃';
         }
         else {
             return '';
