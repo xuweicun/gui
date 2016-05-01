@@ -94,6 +94,72 @@ TaskPool.prototype = {
             this.done.push(task);
         }
     },
+    startGlobalWatch:function(){
+        global_interval(function () {
+            var pool = global_task_pool;
+            if (pool.going.length == 0) {
+                return;
+            }
+
+            //更新时间
+            for (var idx = 0; idx < pool.going.length; idx++) {
+                var task = pool.going[idx];
+                var timeFlag = false;
+                //更新时间
+                //检查是否超时
+                if (task.isDone()) {
+                    //如果命令执行完毕
+                    continue;
+                }
+                task.usedTime += 1;
+                console.log(task.usedTime);
+                if (task.usedTime >= task.timeLimit) {
+                    console.log("超时：" + task.cmd + '-' + task.usedTime + '-' + task.timeLimit);
+                    task.killTask(task.timeout);
+                    pool.dirty = true;
+                    continue;
+                }
+            }
+
+            //5秒取一次结果
+            if (0 == pool.queryCnt % 5) {
+                timeFlag = true;
+            }
+            pool.updateQueryCnt();
+
+            //检查命令池大小
+            if (pool.dirty === true) {
+                //更新命令池
+                pool.cleanCmdPool();
+            }
+            if (timeFlag != true || pool.locked) {
+                return;
+            }
+            console.log('查询执行结果', task.id);
+            pool.locked = true;
+            var _tasks = [];
+            for (var idx = 0; idx < pool.going.length; idx++) {
+                _tasks.push(pool.going[idx].id);
+            }
+            global_http({
+                url: '/index.php?m=admin&c=business&a=getCmdResult',
+                method: 'POST',
+                data: { tasks: _tasks }
+            }).success(function (data) {
+                if (data['errmsg']) {
+                    global_err_pool.add(data);
+                }
+                else {
+                    console.log('结果查询完毕，开始对结果进行处理');
+                    pool.updateTask(data);
+                }
+                pool.locked = false;
+            }).error(function () {
+                global_err_pool.add();
+                pool.locked = false;
+            });
+        }, this.unitTimer);
+    },
 
     startWatch: function () {
         var pool = global_task_pool;
@@ -160,10 +226,6 @@ TaskPool.prototype = {
                 global_err_pool.add();
                 pool.locked = false;
             });
-            // pool.checkProgress(idx);
-
-
-
         }, this.unitTimer);
     },
     //更新桥接状态
@@ -249,7 +311,7 @@ TaskPool.prototype = {
         this.going = [];
         this.going = newPool;
         this.dirty = false;
-        this.startWatch();
+        //this.startWatch();
     },
     init: function () {
         var pool = this;
@@ -283,7 +345,7 @@ TaskPool.prototype = {
             }
             global_task_pool.ready = true;
             if (global_task_pool.going.length > 0) {
-                global_task_pool.startWatch();
+                global_task_pool.startGlobalWatch();
             }
         }).error(function () {
             global_err_pool.add();

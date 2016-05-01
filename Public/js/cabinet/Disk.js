@@ -6,6 +6,9 @@ function Disk(l, g, d) {
     this.g = g;
     this.d = d;
 
+    // 温度
+    this.temperature = '-';
+
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
     this.isto_bridge = false;
     // 用于辅助执行“复制”命令时，指定另一块目的/源硬盘对象
@@ -247,16 +250,16 @@ Disk.prototype = {
 
         var _name = this.get_cmd_name();
         if (_name == 'DISKINFO') {
-            return '查询';
+            return '查询(' + this.curr_cmd.usedTime + 's)';
         }
         else if (_name == 'BRIDGE') {
             return '桥接(' + this.curr_cmd.usedTime + 's)';
         }
         else if (_name == 'MD5') {
-            return 'MD5(' + this.curr_cmd.progress + '%)';
+            return 'MD5(' + this.curr_cmd.progress + '%)' + this.temperature + '℃';
         }
         else if (_name == 'COPY') {
-            return '复制-' + (this.g % 2 == 0 ? '源' : '目') + '(' + this.curr_cmd.progress + '%)';
+            return '复制-' + (this.g % 2 == 0 ? '源' : '目') + '(' + this.curr_cmd.progress + '%)' + this.temperature + '℃';
         }
         else {
             return '';

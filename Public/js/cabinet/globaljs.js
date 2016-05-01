@@ -40,7 +40,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             }
             this.pool.push(data);
             if (this.pool.length > this.maxPoolSize) {
-                global_task_pool.stopWatch();
+                //global_task_pool.stopWatch();
                 this.svrDown = true;
             }
         }
