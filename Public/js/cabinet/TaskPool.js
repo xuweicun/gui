@@ -38,7 +38,7 @@ TaskPool.prototype = {
         //$scope.testCmdId = task.id;
         this.going.push(task);
         if (!this.isWatching) {
-            this.startWatch();
+            //this.startWatch();
         }
     },
     updateTask: function (data) {
