@@ -275,8 +275,45 @@ class MsgController extends Controller
                 $this->protectMsgHdl();
                 break;
 
+            case 'RESTARTTIME':
+                $this->restartTimeMsgHdl();
+                break;
+
         }
         // $this->hdlSuccess();
+    }
+    
+    private function restartTimeMsgHdl(){
+        if ($this->msg->isSuccess()) {
+            $rtDb = M('RestartTime');
+            //查看cab是否存在
+            $item = $rtDb->order('id desc')->limit(1)->select();
+            if (!$item || $item['restart_time'] != $_POST['restart_time']){
+                //所有硬盘桥接、在位状态清零
+                $db = M('Device');
+                $items = $db->select();
+                foreach($items as $item)
+                {
+                    $item['bridged'] = 0;
+                    $item['loaded'] = 0;
+                    $item['path'] = '';
+                    $db->save($item);
+                }
+        
+                $db = M('CmdLog');
+                $going = C('CMD_GOING');
+                $items = $db->where("status=$going")->select();
+                foreach($items as $item)
+                {
+                    $item['status'] = C('CMD_CANCELED');
+                    $db->save($item);
+                }   
+                
+                $data = array();
+                $data['restart_time'] = $_POST['restart_time'];
+                $rtDb->add($data);             
+            }
+        }       
     }
 
     private function hdlFail()
