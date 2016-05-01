@@ -94,7 +94,10 @@ TaskPool.prototype = {
             this.done.push(task);
         }
     },
-    startGlobalWatch:function(){
+    startGlobalWatch: function () {
+        if (this.isWatching) reutrn;
+
+        this.isWatching = true;
         global_interval(function () {
             var pool = global_task_pool;
             if (pool.going.length == 0) {
