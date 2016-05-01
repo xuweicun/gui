@@ -1,4 +1,4 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
+app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -29,6 +29,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
 
     global_http = $http;
     global_interval = $interval;
+    global_timeout = $timeout;
 
     global_err_pool = {
         pool: [],
