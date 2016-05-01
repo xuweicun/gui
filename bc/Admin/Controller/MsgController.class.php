@@ -283,11 +283,7 @@ class MsgController extends Controller
         // $this->hdlSuccess();
     }
     
-    public function restartTimeMsgHdl(){
-         $item = $rtDb->order('id desc')->limit(1)->find();
-            
-            var_dump($item);
-            return;
+    public function restartTimeMsgHdl(){      
         if ($this->msg->isSuccess()) {
             $rtDb = M('RestartTime');
             //查看cab是否存在
