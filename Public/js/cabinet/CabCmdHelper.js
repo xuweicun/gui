@@ -130,7 +130,8 @@ CabCmdHelper.prototype = {
             console.log("更新存储柜信息失败.");
         });
     },
-    sendcmd : function (msg) {
+    sendcmd: function (msg) {
+        var that = this;
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg)) {
             msg.device_id = this.scope.cab.id.toString();
@@ -138,7 +139,7 @@ CabCmdHelper.prototype = {
         this.http.post(this.server, msg).
         success(function (data) {
             if (data['errmsg']) {
-                this.scope.svrErrPool.add(data);
+                that.scope.svrErrPool.add(data);
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
@@ -156,25 +157,25 @@ CabCmdHelper.prototype = {
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；
             // proxy = "/index.php";
-            this.http.post(proxy, msg).success(function () {
+            that.http.post(proxy, msg).success(function () {
                 //命令池更新
                 data['msg'] = msgStr;
                 var newCmd = this.scope.cmd.createCmd(data);
-                this.scope.taskPool.add(newCmd);
+                that.scope.taskPool.add(newCmd);
             }).
             error(function (data) {
-                this.scope.svrErrPool.add();
+                that.scope.svrErrPool.add();
                 //delete from log;
-                this.scope.cmd.delete(data['id']);
+                that.scope.cmd.delete(data['id']);
             });
             // data['msg'] = msgStr;
             //var newCmd = $scope.cmd.createCmd(data);
             //$scope.taskPool.add(newCmd);
             //更新日志内容，将命令所涉及的插槽信息发送给日志
-            this.http.post(this.server, { msg: msgStr, id: data['id'] });
+            that.http.post(this.server, { msg: msgStr, id: data['id'] });
         }).
         error(function (data) {
-            this.scope.svrErrPool.add();
+            that.scope.svrErrPool.add();
         });
     }
 };
