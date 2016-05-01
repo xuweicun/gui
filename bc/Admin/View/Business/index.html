@@ -58,6 +58,9 @@
             border: 2px solid darkred !important;
             color: darkred;
         }
+        .btn-not-selected {
+            border: 2px solid lightgray !important;
+        }
 
         body {
             min-height: 1000px;
@@ -326,7 +329,8 @@
 													 'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
 													 'btn-default':!_dsk.is_loaded(),
 													 'btn-warning' : _dsk.get_cmd_name() != '',
-													 'btn-selected':_dsk == cab.curr
+													 'btn-selected':_dsk === cab.curr,
+                                                     'btn-not-selected':_dsk !== cab.curr
 												 }"
                                                      ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
                                                     <div class="bk-vcenter row">
