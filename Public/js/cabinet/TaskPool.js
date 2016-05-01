@@ -366,8 +366,11 @@ TaskPool.prototype = {
                 break;
             case 'DEVICESTATUS':
                 //如果命令对应是当前柜子
-                if (task.device_id == global_cabinet.id)
-                    global_cmd_helper.updateDeviceStatus();
+                if (task.device_id == global_cabinet.id) {
+                    global_timeout(function () {
+                        global_cmd_helper.updateDeviceStatus();
+                    }, 2000);
+                }
                 break;
             case 'DISKINFO':
                 //如果命令对应是当前柜子
