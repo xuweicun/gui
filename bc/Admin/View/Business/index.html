@@ -918,11 +918,12 @@
 <script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
-<script>
-    var app = angular.module('device', ['device.controllers', 'device.services']);
-    var app_device = angular.module('device.controllers', ['datatables']);
-    var global_cmd_helper;
-</script>
+    <!-- global variables define -->
+    <!-- 用于前端命令处理 -->
+    <script src="/Public/js/CabCmd.js"></script>
+    <script src="/Public/js/CabCmdHelper.js"></script>
+    <script src="/Public/js/globalvars.js"></script>
+
      <!-- cabinet.js 必须放到 globaljs.js之前 -->
     <script src="/Public/js/cabinet.js"></script>
 
