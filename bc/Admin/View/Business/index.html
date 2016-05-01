@@ -698,7 +698,7 @@
                     </div>
                 </form>
             </div>
-            <div class="container-fluid content" ng-show="taskPool.ready==true">
+            <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -920,10 +920,19 @@
 
 <script>
     var app = angular.module('device', ['device.controllers', 'device.services']);
+    var app_device = angular.module('device.controllers', ['datatables']);
+    var global_cmd_helper;
 </script>
-    <script src="/Public/js/globaljs.js"></script>
+     <!-- cabinet.js 必须放到 globaljs.js之前 -->
+    <script src="/Public/js/cabinet.js"></script>
+
+    <script src="/Public/js/globaljs.js"></script>   
+     
+    <!-- page_init.js 必须放到 globaljs.js之后 -->
+    <script src="/Public/js/page_init.js"></script>
+
     <script src="/Public/js/angular-datatables.min.js"></script>
-<script src="/Public/js/services.js"></script>
+    <script src="/Public/js/services.js"></script>
 <!-- end: JavaScript-->
 
 
