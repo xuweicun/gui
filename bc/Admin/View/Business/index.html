@@ -295,7 +295,12 @@
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>离线存储柜
                             <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();" title="刷新柜子信息">刷新</a>
-                            <a href="#modalAnimDeviceStatusCmd" class="btn btn-primary btn-xs pull-right bk-margin-5 modal-with-move-anim" title="查询柜子在位信息">在位查询</a> 
+                            <a href="#modalAnimDeviceStatusCmd" 
+                               class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
+                               ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
+                               title="查询柜子在位信息">
+                                在位查询{{cab.is_device_status_cmd_going()?'中':''}}
+                            </a> 
                         </div>
                         <div class="panel-body">
                             <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -958,6 +963,7 @@
     <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
 
      <!-- cabinet.js 必须放到 globaljs.js之前 -->
+    <script src="/Public/js/cabinet/Disk.js"></script>
     <script src="/Public/js/cabinet/cabinet.js"></script>
 
     <script src="/Public/js/cabinet/globaljs.js"></script>   
