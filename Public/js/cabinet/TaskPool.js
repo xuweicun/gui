@@ -219,7 +219,7 @@ TaskPool.prototype = {
         }
         new PNotify({
             title: '命令执行结果',
-            text: $scope.lang.getLang(task.cmd) + '命令执行完毕，执行结果：' + $scope.lang.getLang(task.status),
+            text: global_lang.getLang(task.cmd) + '命令执行完毕，执行结果：' + global_lang.getLang(task.status),
             type: type,
             addclass: 'notification-primary',
             icon: icon
@@ -322,7 +322,7 @@ TaskPool.prototype = {
                 var disks = return_msg.disks;
                 //遍历硬盘
                 for (var idx = 0; idx < disks.length; idx++) {
-                    var disk = $scope.cabs.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
+                    var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                     if (disk) {
                         if (task.subcmd == 'START') {
                             disk.base_info.bridged = true;
