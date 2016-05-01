@@ -9,6 +9,7 @@ var global_err_pool;
 var global_task_pool;
 var global_http;
 var global_interval;
+var global_timeout;
 var global_lang;
 var global_server;
 var global_app;
