@@ -1,5 +1,4 @@
-﻿function CabCmd(log, _http) {
-    this.http = _http;
+﻿function CabCmd(log) {
     this.msg = JSON.parse(log.msg);
     this._stime = log.start_time;
 
@@ -93,15 +92,15 @@ CabCmd.prototype = {
             this.finished = 1;
             this.setTimeOut();
         }
-        console.log(this.usedTime);
+        //console.log(this.usedTime);
         this.start_time = this._stime;
     },
     setTimeOut: function () {
-        this.http({
+        global_http({
             url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + this.id,
             method: 'GET'
         }).error(function (data) {
-            $scope.svrErrPool.add(data);
+            global_err_pool.add(data);
         });
     },
     isDone: function () {
@@ -136,7 +135,7 @@ CabCmd.prototype = {
         if (this.stage == 0) {
             return null;
         }
-        return $scope.lang.getLang(this.stage.toString());
+        return global_lang.getLang(this.stage.toString());
     },
     getStatus: function () {
         if (this.substatus < 0) {

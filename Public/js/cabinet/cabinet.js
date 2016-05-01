@@ -76,7 +76,7 @@ Cabinet.prototype = {
             device_id: this.id.toString()
         };
 
-        link_send_cmd(json_cmd);
+        global_cmd_helper.sendcmd(json_cmd);
 
         $.magnificPopup.close();
     },

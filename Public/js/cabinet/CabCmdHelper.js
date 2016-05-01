@@ -1,18 +1,15 @@
-﻿function CabCmdHelper(_server,_proxy, _scope, _http) {
+﻿function CabCmdHelper(_scope) {
     this.scope = _scope;
-    this.http = _http;
-    this.server = _server;
-    this.proxy = _proxy;
 }
 
 CabCmdHelper.prototype = {
     createCmd : function (log) {
-        var newcmd = new CabCmd(log, this.http);
+        var newcmd = new CabCmd(log);
         newcmd.init();
         return newcmd;
     },
     getdiskinfo : function (level, group, disk, cab) {
-        this.http({
+        global_http({
             url: '/index.php?m=admin&c=business&a=getDiskInfo',
             data: { level: level, group: group, disk: disk, cab_id: cab },
             method: 'POST'
@@ -35,7 +32,7 @@ CabCmdHelper.prototype = {
     localTest : function () {
         var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         var localUrl = '/index.php?m=admin&c=msg';
-        this.http({
+        global_http({
             url: localUrl,
             data: msg.md5,
             method: 'POST'
@@ -47,7 +44,7 @@ CabCmdHelper.prototype = {
         var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         console.log('Test starting');
         var realUrl = 'http://222.35.224.230/index.php?m=admin&c=msg';
-        this.http({
+        global_http({
             url: realUrl,
             data: msg.md5,
             method: 'POST'
@@ -67,18 +64,18 @@ CabCmdHelper.prototype = {
     stop: function (id, subcmd) {
         var that = this;
         //获取命令参数
-        this.http({
+        global_http({
             url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
             method: 'GET'
         }).success(function (data) {
             if (data['errmsg']) {
-                this.scope.svrErrPool.add(data);
+                global_err_pool.add(data);
             }
             else {
                 var msg = JSON.parse(data['msg']);
                 msg.CMD_ID = id.toString();
                 msg.subcmd = subcmd;
-                this.http.post({ data: msg, url: that.proxy }).error(function () {
+                global_http.post({ data: msg, url: global_app }).error(function () {
                     console.log('向APP发送消息 失败');
                 });
             }
@@ -125,7 +122,7 @@ CabCmdHelper.prototype = {
         return true;
     },
     delete : function (id) {
-        this.http({
+        global_http({
             url: '/index.php?m=admin&c=business&a=deleteLog&id=' + id,
             method: 'GET'
         }).error(function (data) {
@@ -136,12 +133,12 @@ CabCmdHelper.prototype = {
         var that = this;
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg)) {
-            msg.device_id = this.scope.cab.id.toString();
+            msg.device_id = global_cabinet.id.toString();
         }
-        this.http.post(this.server, msg).
+        global_http.post(global_server, msg).
         success(function (data) {
             if (data['errmsg']) {
-                that.scope.svrErrPool.add(data);
+                global_err_pool.add(data);
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
@@ -154,28 +151,25 @@ CabCmdHelper.prototype = {
 
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；
-            // proxy = "/index.php";
-            that.http.post(that.proxy, msg).success(function () {
+            global_http.post(global_app, msg).success(function () {
                 //命令池更新
                 data['msg'] = msgStr;
-                var newCmd = that.scope.cmd.createCmd(data);
-                that.scope.taskPool.add(newCmd);
+                var newCmd = global_cmd_helper.createCmd(data);
+                global_task_pool.add(newCmd);
             }).
             error(function (data) {
-
-                return;
-                that.scope.svrErrPool.add();
+                global_err_pool.add();
                 //delete from log;
-                that.scope.cmd.delete(data['id']);
+                global_cmd_helper.delete(data['id']);
             });
             // data['msg'] = msgStr;
             //var newCmd = $scope.cmd.createCmd(data);
             //$scope.taskPool.add(newCmd);
             //更新日志内容，将命令所涉及的插槽信息发送给日志
-            that.http.post(that.server, { msg: msgStr, id: data['id'] });
+            global_http.post(global_server, { msg: msgStr, id: data['id'] });
         }).
         error(function (data) {
-            that.scope.svrErrPool.add();
+            global_err_pool.add();
         });
     }
 };
