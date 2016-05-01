@@ -317,6 +317,7 @@ TaskPool.prototype = {
         //this.startWatch();
     },
     init: function () {
+        this.startGlobalWatch();
         var pool = this;
         global_http({
             url: '/index.php?m=admin&c=business&a=getGoingTasks',
@@ -347,9 +348,6 @@ TaskPool.prototype = {
                 }
             }
             global_task_pool.ready = true;
-            if (global_task_pool.going.length > 0) {
-                global_task_pool.startGlobalWatch();
-            }
         }).error(function () {
             global_err_pool.add();
             this.ready = true;
