@@ -335,13 +335,14 @@
                                                         <div class="bk-vcenter col-lg-12" ng-class="{
 													   		true:'text-left',
 													   		false:'text-center'
-														}[_dsk.base_info.loaded]">
+														}[_dsk.base_info.loaded]"
+                                                             style="min-height:40px">
                                                             <i class="glyphicon bk-margin-left-5"
                                                                ng-class="{
 													   		true:'glyphicon-hdd',
 													   		false:'glyphicon-ban-circle'
 														}[_dsk.base_info.loaded]"></i>
-                                                            {{_dsk.get_title()}} {{_dsk.get_curr_cmd_title()}} {{_dsk.get_extent_title()}}
+                                                            {{_dsk.get_title()}} {{_dsk.get_curr_cmd_title()}}<br>{{_dsk.get_extent_title()}}
                                                         </div>
                                                     </div>                                                    
                                                 </div>
