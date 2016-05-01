@@ -151,11 +151,7 @@ CabCmdHelper.prototype = {
             else {
                 msg.CMD_ID = data['id'].toString();
             }
-            //else {
-            //  if (msg.cmd != 'DEVICEINFO') {
 
-            // }
-            //}
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；
             // proxy = "/index.php";
@@ -166,6 +162,8 @@ CabCmdHelper.prototype = {
                 that.scope.taskPool.add(newCmd);
             }).
             error(function (data) {
+
+                return;
                 that.scope.svrErrPool.add();
                 //delete from log;
                 that.scope.cmd.delete(data['id']);
@@ -174,7 +172,7 @@ CabCmdHelper.prototype = {
             //var newCmd = $scope.cmd.createCmd(data);
             //$scope.taskPool.add(newCmd);
             //更新日志内容，将命令所涉及的插槽信息发送给日志
-            that.http.post(this.server, { msg: msgStr, id: data['id'] });
+            that.http.post(that.server, { msg: msgStr, id: data['id'] });
         }).
         error(function (data) {
             that.scope.svrErrPool.add();

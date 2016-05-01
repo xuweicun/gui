@@ -618,6 +618,8 @@ Cabinet.prototype = {
         };
 
         link_send_cmd(json_cmd);
+
+        $.magnificPopup.close();
     },
     get_select: function () {
         this.selected = true;
