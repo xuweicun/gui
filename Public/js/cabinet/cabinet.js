@@ -729,7 +729,7 @@ Cabinet.prototype = {
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
     i_on_cmd_changed: function (json_cmd, bol_op) {
-        console.log('adding;', json_cmd);
+        console.log(bol_op?'add':'remove', json_cmd);
         switch (json_cmd.cmd) {
 
             case 'DISKINFO':
