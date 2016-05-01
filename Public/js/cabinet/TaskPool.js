@@ -301,18 +301,14 @@ TaskPool.prototype = {
             return;
         }
         var pool = this.going;
-        var newPool = [];
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
                 global_cabinet.i_on_cmd_changed(pool[i], false);
                 this.notify(pool[i]);
+                pool.splice(i, 1);
             }
-            else
-                newPool.push(pool[i]);
         }
-        this.going = [];
-        this.going = newPool;
         this.dirty = false;
         //this.startWatch();
     },
