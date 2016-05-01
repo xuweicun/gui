@@ -3,20 +3,20 @@
         <div class="panel bk-widget bk-border-off" ng-class="{true:'selected'}[item.selected]">
             <div class="panel-body bk-bg-primary">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <h4 class="bk-margin-off-bottom bk-docs-font-weight-300" ng-bind="'存储柜#'+item.id"></h4>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="" class="btn btn-default btn-xs pull-right" ng-click="item.start_cmd_device_status()" ng-if="item.selected">在位查询</a>
+                    <div class="col-lg-8">
+                        <h4>存储柜({{item.id}}#，{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}块)</h4>
                     </div>
                 </div>
-                
-                <div class="clearfix  bk-padding-top-10">
-                    <div class="pull-right bk-margin-left-15">
-                        <i class="fa fa-ban-circle-o fa-3x"></i>
+                <div class="row">
+                    <div class="col-lg-12">
+                        电压：{{item.voltage}}V，电流：{{item.current}}A，电量：{{item.electricity}}KWH
                     </div>
-                    <h1 class="bk-margin-off-top pull-right" ng-bind="item.lvl_cnt*item.grp_cnt*item.dsk_cnt"></h1>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        温度：{{item.temperature}}℃，湿度：{{item.humidity}}%RH
+                    </div>
+                </div>                
                 <a href="#" ng-click="cabs.on_select($index)"><h6 class="text-right bk-padding-top-20 bk-margin-off">
                     <span ng-bind="'共'+item.lvl_cnt+'层'"></span>
                     <span ng-bind="',每层'+item.grp_cnt+'组'"></span>

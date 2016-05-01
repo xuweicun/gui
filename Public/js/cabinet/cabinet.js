@@ -562,7 +562,18 @@ function Cabinet() {
     this.levels = [];
     //初始化完成后，会变为true；
     this.ready = false;
+    // 是否已选中
     this.selected = false;
+    // 电压
+    this.voltage = 0;
+    // 电流
+    this.current = 0;
+    // 电量
+    this.electricity = 0;
+    // 温度
+    this.temperature = 0;
+    // 湿度
+    this.humidity = 0;
 }
 
 
