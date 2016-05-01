@@ -151,6 +151,10 @@ Cabinet.prototype = {
         if (json_cmd.cmd != 'DEVICESTATUS') return;
         
         this.cmd_device_status = is_add ? json_cmd : null;
+
+        if (!is_add) {
+            global_cmd_helper.updateDeviceStatus();
+        }
     },
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值

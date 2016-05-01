@@ -32,14 +32,13 @@ TaskPool.prototype = {
                 return;
             }
         });
-        if ($scope.cabs.getLth() > 0) {
-            $scope.cab.i_on_cmd_changed(task, true);
+        if (global_cabinet_helper.getLth() > 0) {
+            global_cabinet.i_on_cmd_changed(task, true);
         }
-        $scope.testCmdId = task.id;
+        //$scope.testCmdId = task.id;
         this.going.push(task);
         if (!this.isWatching) {
             this.startWatch();
-
         }
     },
     updateTask: function (data) {
@@ -97,12 +96,12 @@ TaskPool.prototype = {
     },
 
     startWatch: function () {
-        var pool = this;
+        var pool = global_task_pool;
         this.isWatching = true;
-        var taskWatcher = $interval(function () {
-            if (this.stopFlag == true || pool.going.length == 0) {
-                this.isWatching = false;
-                $interval.cancel(taskWatcher);
+        var taskWatcher = global_interval(function () {
+            if (pool.stopFlag == true || pool.going.length == 0) {
+                pool.isWatching = false;
+                global_interval.cancel(taskWatcher);
             }
             //更新时间
             for (var idx = 0; idx < pool.going.length; idx++) {
@@ -144,13 +143,13 @@ TaskPool.prototype = {
             for (var idx = 0; idx < pool.going.length; idx++) {
                 _tasks.push(pool.going[idx].id);
             }
-            $http({
+            global_http({
                 url: '/index.php?m=admin&c=business&a=getCmdResult',
                 method: 'POST',
                 data: { tasks: _tasks }
             }).success(function (data) {
                 if (data['errmsg']) {
-                    $scope.svrErrPool.add(data);
+                    global_err_pool.add(data);
                 }
                 else {
                     console.log('结果查询完毕，开始对结果进行处理');
@@ -158,7 +157,7 @@ TaskPool.prototype = {
                 }
                 pool.locked = false;
             }).error(function () {
-                $scope.svrErrPool.add();
+                global_err_pool.add();
                 pool.locked = false;
             });
             // pool.checkProgress(idx);
@@ -181,7 +180,7 @@ TaskPool.prototype = {
             });
             }*/
         // if(msg)
-        // $scope.cab.i_on_bridge_resp(msg);
+        // global_cabinet.i_on_bridge_resp(msg);
     },
     stopWatch: function () {
         this.stopFlag = true;
@@ -241,7 +240,7 @@ TaskPool.prototype = {
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
-                $scope.cab.i_on_cmd_changed(pool[i], false);
+                global_cabinet.i_on_cmd_changed(pool[i], false);
                 this.notify(pool[i]);
             }
             else
@@ -254,38 +253,40 @@ TaskPool.prototype = {
     },
     init: function () {
         var pool = this;
-        $http({
+        global_http({
             url: '/index.php?m=admin&c=business&a=getGoingTasks',
             method: 'GET'
         }).success(function (data) {
             var time = new Date();
-            pool.ready = true;
+            global_task_pool.ready = true;
             if (data && data.length > 0) {
                 for (var i = 0; i < data.length; ++i) {
                     var e = data[i];
-                    console.log(e);
+                    //console.log(e);
                     if (e.msg != '') {
-                        var task = $scope.cmd.createCmd(e);
+                        var task = global_cmd_helper.createCmd(e);
                         if (!task.isDone()) {
-                            pool.add(task);
+                            global_task_pool.add(task);
                         }
                         else {
+                            console.log('timeout', e);
                             //将对应命令设为超时
-                            $http({
+                            global_http({
                                 url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + e.id,
                                 method: 'GET'
                             }).error(function (data) {
-                                $scope.svrErrPool.add(data);
+                                global_err_pool.add(data);
                             });
                         }
                     }
                 }
             }
-            pool.ready = true;
-            if (pool.going.length > 0)
-                pool.startWatch();
+            global_task_pool.ready = true;
+            if (global_task_pool.going.length > 0) {
+                global_task_pool.startWatch();
+            }
         }).error(function () {
-            $scope.svrErrPool.add();
+            global_err_pool.add();
             this.ready = true;
         });
     },
@@ -300,19 +301,19 @@ TaskPool.prototype = {
             case 'MD5':
                 if (task.subcmd == 'START') {
                     //更新硬盘MD5值
-                    if (task.cab_id == $scope.cab.id)
-                        $scope.cmd.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
+                    if (task.cab_id == global_cabinet.id)
+                        global_cmd_helper.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
                 }
                 break;
             case 'DEVICESTATUS':
                 //如果命令对应是当前柜子
-                if (task.device_id == $scope.cab.id)
-                    $scope.updateDeviceStatus();
+                if (task.device_id == global_cabinet.id)
+                    global_cmd_helper.updateDeviceStatus();
                 break;
             case 'DISKINFO':
                 //如果命令对应是当前柜子
-                if (task.cab_id == $scope.cab.id)
-                    $scope.cmd.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
+                if (task.cab_id == global_cabinet.id)
+                    global_cmd_helper.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
                 break;
             case 'BRIDGE':
                 //如果桥接
