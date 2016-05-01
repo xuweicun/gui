@@ -34,6 +34,10 @@ Cabinet.prototype = {
     is_device_status_cmd_going:function(){
         return this.cmd_device_status != null;
     },
+    // 在位查询按钮文本
+    get_device_status_btn_text:function(){
+        return '在位查询' + (this.cmd_device_status != null?'中('+ this.cmd_device_status.usedTime +'s)':'');
+    },
     // 初始化存储柜的插槽信息
     i_on_init: function (id, level_cnt, group_cnt, disk_cnt) {
         this.id = id;

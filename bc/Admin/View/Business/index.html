@@ -299,7 +299,7 @@
                                class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
                                ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
                                title="查询柜子在位信息">
-                                在位查询{{cab.is_device_status_cmd_going()?'中':''}}
+                                {{cab.get_device_status_btn_text()}}
                             </a> 
                         </div>
                         <div class="panel-body">
