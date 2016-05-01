@@ -131,7 +131,7 @@ TaskPool.prototype = {
             //检查命令池大小
             if (pool.dirty === true) {
                 //更新命令池
-                $interval.cancel(taskWatcher);
+                global_interval.cancel(taskWatcher);
                 pool.cleanCmdPool();
             }
             if (timeFlag != true || pool.locked) {
