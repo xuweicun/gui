@@ -162,7 +162,7 @@ CabCmdHelper.prototype = {
             that.http.post(that.proxy, msg).success(function () {
                 //命令池更新
                 data['msg'] = msgStr;
-                var newCmd = this.scope.cmd.createCmd(data);
+                var newCmd = that.scope.cmd.createCmd(data);
                 that.scope.taskPool.add(newCmd);
             }).
             error(function (data) {
