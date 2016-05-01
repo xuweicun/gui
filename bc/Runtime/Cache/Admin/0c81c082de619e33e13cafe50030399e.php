@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -214,9 +214,9 @@
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
                     </figure>-->
                     <div class="profile-info">
-                        <span class="name" id="username">您好,<{$username}></span>
+                        <span class="name" id="username">您好,<?php echo ($username); ?></span>
                         <span class="role"><i class="fa fa-circle bk-fg-success"></i> 高级权限</span>
-                        <input type="text" value="<{$userid}>" style="display: none;" id="userid">
+                        <input type="text" value="<?php echo ($userid); ?>" style="display: none;" id="userid">
                     </div>
                     <i class="fa custom-caret"></i>
                 </a>
@@ -294,13 +294,7 @@
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>离线存储柜
-                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();" title="刷新柜子信息">刷新</a>
-                            <a href="#modalAnimDeviceStatusCmd" 
-                               class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
-                               ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
-                               title="查询柜子在位信息">
-                                {{cab.get_device_status_btn_text()}}
-                            </a> 
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();">存储柜信息重置</a>                            
                         </div>
                         <div class="panel-body">
                             <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -422,7 +416,6 @@
                                     <div class="col-lg-12">
 
                                         <a href="#modalAnim{{cab.curr.get_modal_type('DISKINFO')}}"
-                                           title="查询硬盘详细信息"
                                            class="btn btn-xs modal-with-move-anim"
                                            ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
                                            ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
@@ -468,46 +461,6 @@
                 </div>
             </div>
             <!--/container-->
-            <div id="modalAnimDeviceStatusCmd" class="zoom-anim-dialog modal-block  mfp-hide"
-                 ng-class="{true:'modal-block-primary',false:'modal-block-warning'}[!cab.is_device_status_cmd_going()]" >
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">存储柜命令[在位查询]</h4>
-                    </div>
-                    <div class="panel-body bk-noradius">
-                        <div class="modal-wrapper">
-                            <div class="modal-icon">
-                                <i class="fa"
-                                   ng-class="{true:'fa-warning',false:'fa-question-circle'}[cab.is_device_status_cmd_going()]"
-                                   ></i>
-                            </div>
-                            <div class="modal-text">
-                                <p ng-if="!cab.is_device_status_cmd_going()">
-                                    您确定要提交对存储柜 {{cab.id}}#的“在位查询”命令吗？
-                                </p>
-
-                                <p ng-if="cab.is_device_status_cmd_going()">
-                                    存储柜 {{cab.id}}#正在进行的“在位查询”命令，请稍候。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right" ng-if="!cab.is_device_status_cmd_going()">
-                                <button class="btn btn-primary"
-                                        ng-click="cab.start_cmd_device_status()">
-                                    确认
-                                </button>
-                                <button class="btn btn-default modal-dismiss">取消</button>
-                            </div>
-                            <div class="col-md-12 text-right" ng-if="cab.is_device_status_cmd_going()">
-                                <button class="btn btn-warning modal-dismiss">确认</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div id="modalAnimFileTreeCmd" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -516,7 +469,7 @@
                     <div class="panel-body bk-noradius">
                         <div class="modal-wrapper">
                             <div class="modal-icon">
-                                <i class="fa fa-question-circle"></i>
+                                <i class="fa fa-warning"></i>
                             </div>
                             <div class="modal-text">
                                 <p>
@@ -745,7 +698,7 @@
                     </div>
                 </form>
             </div>
-            <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
+            <div class="container-fluid content" ng-show="taskPool.ready==true">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -960,28 +913,17 @@
 <script src="/Public/assets/js/core.min.js"></script>
 
 <!-- Pages JS -->
+<script src="/Public/assets/js/pages/index.js"></script>
 <script src="/Public/assets/js/pages/ui-modals.js"></script>
 <script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
-    <!-- global variables define -->
-    <script src="/Public/js/cabinet/globalvars.js"></script>
-
-    <!-- 用于前端命令处理 -->
-    <script src="/Public/js/cabinet/CabCmd.js"></script>
-    <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
-
-     <!-- cabinet.js 必须放到 globaljs.js之前 -->
-    <script src="/Public/js/cabinet/Disk.js"></script>
-    <script src="/Public/js/cabinet/cabinet.js"></script>
-
-    <script src="/Public/js/cabinet/globaljs.js"></script>   
-     
-    <!-- page_init.js 必须放到 globaljs.js之后 -->
-    <script src="/Public/js/cabinet/page_init.js"></script>
-    <script src="/Public/js/cabinet/services.js"></script>
-
+<script>
+    var app = angular.module('device', ['device.controllers', 'device.services']);
+</script>
+    <script src="/Public/js/globaljs.js"></script>
     <script src="/Public/js/angular-datatables.min.js"></script>
+<script src="/Public/js/services.js"></script>
 <!-- end: JavaScript-->
 
 
