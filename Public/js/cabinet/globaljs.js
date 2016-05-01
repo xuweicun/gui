@@ -1,4 +1,14 @@
 app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
+
+    var businessRoot = '/index.php?m=admin&c=business';
+    $scope.bridgeUrl = '/Public/js/bridge.html';
+    $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
+    $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
+    $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
+    $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
+    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
+    var proxy = "http://222.35.224.230:8080";
+
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
@@ -8,7 +18,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             alert('系统重置成功！');
         });
     }
-    global_cmd_helper = new CabCmdHelper($scope, $http);
+    global_cmd_helper = new CabCmdHelper(server, $scope, $http);
     $scope.cmd = global_cmd_helper;
     $scope.lang = Lang;
     $scope.svrErrPool = {
@@ -403,16 +413,6 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             });
         }
     };
-
-
-    var businessRoot = '/index.php?m=admin&c=business';
-    $scope.bridgeUrl = '/Public/js/bridge.html';
-    $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
-    $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
-    $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
-    $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
-    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
-    var proxy = "http://222.35.224.230:8080";
 
     $scope.initCab = function () {
         $scope.cmd.cabinfo();

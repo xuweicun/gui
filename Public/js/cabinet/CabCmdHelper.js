@@ -1,6 +1,7 @@
-﻿function CabCmdHelper(_scope, _http) {
+﻿function CabCmdHelper(_server, _scope, _http) {
     this.scope = _scope;
     this.http = _http;
+    this.server = _server;
 }
 
 CabCmdHelper.prototype = {
@@ -134,7 +135,7 @@ CabCmdHelper.prototype = {
         if (this.isDeviceNeeded(msg)) {
             msg.device_id = this.scope.cab.id.toString();
         }
-        this.http.post(server, msg).
+        this.http.post(this.server, msg).
         success(function (data) {
             if (data['errmsg']) {
                 this.scope.svrErrPool.add(data);
@@ -170,7 +171,7 @@ CabCmdHelper.prototype = {
             //var newCmd = $scope.cmd.createCmd(data);
             //$scope.taskPool.add(newCmd);
             //更新日志内容，将命令所涉及的插槽信息发送给日志
-            this.http.post(server, { msg: msgStr, id: data['id'] });
+            this.http.post(this.server, { msg: msgStr, id: data['id'] });
         }).
         error(function (data) {
             this.scope.svrErrPool.add();
