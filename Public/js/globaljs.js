@@ -242,7 +242,7 @@ angular.module('device.controllers', ['datatables'])
                 var realUrl = 'http://222.35.224.230/index.php?m=admin&c=msg';
                 $http({
                     url: realUrl,
-                    data: msg.md5,
+                    data: msg.bridge_stop,
                     method: 'POST'
                 }).success(function (data) {
                     alert("done");
