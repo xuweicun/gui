@@ -1,7 +1,8 @@
-﻿function CabCmdHelper(_server, _scope, _http) {
+﻿function CabCmdHelper(_server,_proxy, _scope, _http) {
     this.scope = _scope;
     this.http = _http;
     this.server = _server;
+    this.proxy = _proxy;
 }
 
 CabCmdHelper.prototype = {
@@ -63,7 +64,8 @@ CabCmdHelper.prototype = {
         var msg = { cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk };
         this.sendcmd(msg);
     },
-    stop : function (id, subcmd) {
+    stop: function (id, subcmd) {
+        var that = this;
         //获取命令参数
         this.http({
             url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
@@ -76,7 +78,7 @@ CabCmdHelper.prototype = {
                 var msg = JSON.parse(data['msg']);
                 msg.CMD_ID = id.toString();
                 msg.subcmd = subcmd;
-                this.http.post({ data: msg, url: proxy }).error(function () {
+                this.http.post({ data: msg, url: that.proxy }).error(function () {
                     console.log('向APP发送消息 失败');
                 });
             }
@@ -157,7 +159,7 @@ CabCmdHelper.prototype = {
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；
             // proxy = "/index.php";
-            that.http.post(proxy, msg).success(function () {
+            that.http.post(that.proxy, msg).success(function () {
                 //命令池更新
                 data['msg'] = msgStr;
                 var newCmd = this.scope.cmd.createCmd(data);

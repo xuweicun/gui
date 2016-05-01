@@ -18,7 +18,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, Lang,
             alert('系统重置成功！');
         });
     }
-    global_cmd_helper = new CabCmdHelper(server, $scope, $http);
+    global_cmd_helper = new CabCmdHelper(server, proxy, $scope, $http);
     $scope.cmd = global_cmd_helper;
     $scope.lang = Lang;
     $scope.svrErrPool = {
