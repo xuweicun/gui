@@ -48,9 +48,9 @@ class Msg
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
         $this->stage = $_POST['workingstatus'];
+        $this->db = M("CmdLog");
         $this->getDstId();
         $this->getResult();
-        $this->db = M("CmdLog");
     }
 
     public function isStop()

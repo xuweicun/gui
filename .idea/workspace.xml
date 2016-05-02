@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/services.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/services.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/9357d1ff480909d22c02de6d377a8b12.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/9357d1ff480909d22c02de6d377a8b12.php" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -130,8 +125,8 @@
       <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34234235">
-              <caret line="10" column="72" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
+            <state vertical-scroll-proportion="0.5387387">
+              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding>
                 <element signature="e#6#62#0#PHP" expanded="true" />
               </folding>
@@ -722,8 +717,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34234235">
-          <caret line="10" column="72" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.5387387">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding>
             <element signature="e#6#62#0#PHP" expanded="true" />
           </folding>
