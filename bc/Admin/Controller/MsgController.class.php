@@ -7,7 +7,7 @@ namespace Admin\Controller;
 
 use Think\Controller;
 
-header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Origin:*');                                  
 
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -49,9 +49,9 @@ class Msg
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
         $this->stage = $_POST['workingstatus'];
-        $this->getRealId();
-        $this->getResult();
         $this->db = M("CmdLog");
+        $this->getDstId();
+        $this->getResult();         
     }
 
     public function isStop()
@@ -138,16 +138,13 @@ class Msg
     /**
      *for those stop, result and progress cmds
      */
-    public function getRealId()
+    public function getDstId()
     {
-        if (strpos("_", $this->id) > 0) {
-            $idInfo = explode("_", $this->id);
-            $this->id = (int)$idInfo[0];
-            if (count($idInfo) > 1) {
-                $this->dst_id = (int)$idInfo[1];
-            }
+        $log = $this->db->find($this->id);
+        if($log)
+        {
+            $this->dst_id = $log['dst_id'];
         }
-
     }
 }
 
