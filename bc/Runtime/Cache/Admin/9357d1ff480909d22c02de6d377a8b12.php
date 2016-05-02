@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 
 	<head>
@@ -228,12 +228,26 @@
 		<script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 		<script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
-		<script>
-			var app = angular.module('device', ['device.controllers', 'device.services']);
-		</script>
-		<script src="/Public/js/globaljs.js"></script>
+		<!-- global variables define -->
+		<script src="/Public/js/cabinet/globalvars.js"></script>
+
+		<!-- 用于前端命令处理 -->
+		<script src="/Public/js/cabinet/CabCmd.js"></script>
+		<script src="/Public/js/cabinet/CabCmdHelper.js"></script>
+		<script src="/Public/js/cabinet/TaskPool.js"></script>
+		<script src="/Public/js/cabinet/cabinethelper.js"></script>
+
+		<!-- cabinet.js 必须放到 globaljs.js之前 -->
+		<script src="/Public/js/cabinet/Disk.js"></script>
+		<script src="/Public/js/cabinet/cabinet.js"></script>
+
+		<script src="/Public/js/cabinet/globaljs.js"></script>
+
+		<!-- page_init.js 必须放到 globaljs.js之后 -->
+		<script src="/Public/js/cabinet/page_init.js"></script>
+		<script src="/Public/js/cabinet/services.js"></script>
+
 		<script src="/Public/js/angular-datatables.min.js"></script>
-		<script src="/Public/js/services.js"></script>
 		<!-- end: JavaScript-->
 
 

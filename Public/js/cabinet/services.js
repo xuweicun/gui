@@ -170,17 +170,7 @@ angular.module('device.services', [])
             "subcmd": "START",
             "substatus": "0"
         },
-        bridge_stop: {
-            "CMD_ID":"576_573",
-            "cmd":"MD5",
-            "device_id":"1",
-            "disk":"1",
-            "errmsg":"cmdid not number",
-            "group":"1",
-            "level":"1",
-            "status":"10007",
-            "subcmd":"STOP"
-        } ,
+        bridge_stop: {"CMD_ID":"703","cmd":"MD5","device_id":"1","disk":"1","group":"1","level":"1","status":"0","subcmd":"STOP","substatus":"0"} ,
         md5: {
             "CMD_ID": "527",
             "cmd": "COPY",
