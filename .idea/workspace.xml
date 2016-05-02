@@ -2,60 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ThinkPHP/Library/Vendor/phpRPC/pecl/xxtea/.vs/php_xxtea/v14/.suo" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/install_lock" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/89c92216997648dd247e6e88e7583dc2.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/ffbe9d069fcd75a9f63a75c27d3d5094.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1462094717-16_05_01.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1462109348-16_05_01.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1462118104-16_05_01.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1462123782-16_05_02.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_25.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_28.log" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Admin/View/Public/cab.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/2156a038549649d931187e271c4d3836.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/9357d1ff480909d22c02de6d377a8b12.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460772518-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460778103-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460783689-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460789275-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460793553-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460798783-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460803146-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460814072-16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460897553-16_04_17.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1460903142-16_04_17.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1461195615-16_04_21.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/1461205003-16_04_21.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_03_23.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_03_26.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_03_27.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_01.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_03.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_04.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_09.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_13.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_15.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_16.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_17.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_20.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_21.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_22.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_23.log" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/90c3f7f36bb4743572e98aa0f52b955b.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/d57c7af35fb4f48b1eb4f931c80d65dd.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/services.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_26.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_26.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_29.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_29.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_30.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_04_30.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_01.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_01.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_02.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_02.log" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -151,31 +98,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="services.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39175257">
-              <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.133333">
+              <caret line="173" column="124" selection-start-line="173" selection-start-column="122" selection-end-line="173" selection-end-column="124" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CabCmdHelper.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CabCmdHelper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.48969072">
               <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-              <folding>
-                <marker date="1462173689085" expanded="true" signature="124:433" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="146:274" placeholder="{&quot;method&quot;: 'GET'...}" />
-                <marker date="1462173689085" expanded="true" signature="300:433" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="5477:6258" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="5477:6345" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="5628:5815" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="5852:5995" placeholder="{...}" />
-                <marker date="1462173689085" expanded="true" signature="6010:6170" placeholder="//..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -183,8 +121,8 @@
       <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.071428">
-              <caret line="284" column="32" selection-start-line="284" selection-start-column="32" selection-end-line="284" selection-end-column="32" />
+            <state vertical-scroll-proportion="-14.035714">
+              <caret line="509" column="38" selection-start-line="509" selection-start-column="38" selection-end-line="509" selection-end-column="38" />
               <folding>
                 <element signature="e#6#62#0#PHP" expanded="true" />
               </folding>
@@ -335,7 +273,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25718608" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -683,23 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-          <folding>
-            <marker date="1462173689085" expanded="true" signature="124:433" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="146:274" placeholder="{&quot;method&quot;: 'GET'...}" />
-            <marker date="1462173689085" expanded="true" signature="300:433" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="5477:6258" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="5477:6345" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="5628:5815" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="5852:5995" placeholder="{...}" />
-            <marker date="1462173689085" expanded="true" signature="6010:6170" placeholder="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.133333">
@@ -744,10 +665,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.133333">
+          <caret line="173" column="124" selection-start-line="173" selection-start-column="122" selection-end-line="173" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.071428">
-          <caret line="284" column="32" selection-start-line="284" selection-start-column="32" selection-end-line="284" selection-end-column="32" />
+        <state vertical-scroll-proportion="-14.035714">
+          <caret line="509" column="38" selection-start-line="509" selection-start-column="38" selection-end-line="509" selection-end-column="38" />
           <folding>
             <element signature="e#6#62#0#PHP" expanded="true" />
           </folding>
@@ -762,10 +691,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/services.js">
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39175257">
-          <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.48969072">
+          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding />
         </state>
       </provider>

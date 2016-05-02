@@ -238,9 +238,11 @@ class MsgController extends Controller
 {
     public $msg = null;
     public $db = null;
+    public $file = null;
 
     public function index()
     {
+        $this->file = fopen("rtlog.txt", "a");
         $this->RTLog("------RETURN MSG HANDLING START-----------");
         $this->msg = new Msg();
         $this->msg->init();
@@ -248,6 +250,7 @@ class MsgController extends Controller
         $this->RTLog("------INIT FINISHED-----------");
         $this->RTLog("CMD-ID  :" . $this->msg->id);
         $this->RTLog("CMD-TYPE:" . $this->msg->cmd);
+
 
         //update the log
         $this->updateCmdLog();
@@ -286,7 +289,11 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
     }
-    
+    private function quit()
+    {
+        fclose($this->file);
+        die();
+    }
     public function restartTimeMsgHdl(){      
         if ($this->msg->isSuccess()) {
             $rtDb = M('RestartTime');
@@ -333,7 +340,7 @@ class MsgController extends Controller
                 //MD5或者copy,如果子命令不一致，说明是APP发的，因为APP会服用copy或md5的cmdid发送rsp命令
                 if ($this->msg->subcmd != $log['sub_cmd']) {
                     $this->RTLog("Resp from app. Filtered.");
-                    die();
+                    $this->quit();
                 }
             }
             //status有时没有值
@@ -447,7 +454,7 @@ class MsgController extends Controller
         }
         if ($this->msg->isSuccess()) {
             $cmd = $this->db->find($this->msg->id);
-            if (!$cmd) die();
+            if (!$cmd) $this->quit();
             //cancel the going cmd
             $this->RTLog("SRP START: " . $this->msg->subcmd);
             $this->RTLog($this->msg->subcmd == 'PROGRESS');
@@ -500,7 +507,7 @@ class MsgController extends Controller
                     $this->db->save($cmd);
                     break;
             }
-            $this->RTLog("SRP END");
+            $this->RTLog("SRP FINISHED");
         }
     }
 
@@ -532,10 +539,8 @@ class MsgController extends Controller
 
     public function  RTLog($txt = 'love you')
     {
-        $myfile = fopen("rtlog.txt", "a") or die("Unable to open file!");
         $txt = $this->msg->id . "-" . $this->msg->cmd . "-" . $this->msg->subcmd . ":" . $txt . "++\r\n";
-        fwrite($myfile, $txt);
-        fclose($myfile);
+        fwrite($this->file, $txt);
     }
 
     public function rdLog()
@@ -616,7 +621,7 @@ class MsgController extends Controller
 
         $log['return_msg'] = file_get_contents('php://input');
         $this->db->save($log);
-        die();
+        $this->quit();
         //return msg
 
     }
@@ -758,7 +763,7 @@ class MsgController extends Controller
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
-        die();
+        $this->quit();
     }
 
     /***
@@ -774,12 +779,12 @@ class MsgController extends Controller
             //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             $this->hdlFail();
-            die();
+            $this->quit();
         }
         if ($this->msg->isStart()) {
             //just start
             $this->hdlStartMsg();
-            die();
+            $this->quit();
         }
 
         //bridge msg has to be handled seperately
@@ -789,7 +794,7 @@ class MsgController extends Controller
         //for stop msg: stop is quite simple
         if ($this->msg->isSRP()) {
             $this->hdlSRPMsg();
-            die();
+            $this->quit();
         }
 
     }
