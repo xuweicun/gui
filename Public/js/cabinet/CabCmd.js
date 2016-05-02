@@ -37,7 +37,7 @@
     this.status = -1;
     this.substatus = -1;
     //剩余时间，为0时表示时间用完
-    this.usedTime = this._ctime - this._stime;
+    this.usedTime = parseInt(this._ctime) - parseInt(this._stime);
     this.progress = -1;
     this.stage = 0;
     //最长等待，20小时
