@@ -217,7 +217,7 @@ TaskPool.prototype = {
         }
         new PNotify({
             title: '命令执行结果',
-            text: '[' + global_lang.getLang(task.cmd) + ']命令执行完毕，执行结果：' + global_lang.getLang(task.status),
+            text: '[' + global_lang.getLang(task.cmd) + ']-[' + global_lang.getLang(task.subcmd) + ']命令执行完毕，执行结果：' + global_lang.getLang(task.status),
             type: type,
             shadow: true,
             icon: icon
