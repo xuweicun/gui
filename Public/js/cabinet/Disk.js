@@ -345,7 +345,7 @@ Disk.prototype = {
             _msg += '已经处于桥接状态';
         }
         else {
-            _msg += '正在执行[' + _dsk.get_extent_title() + ']命令';
+            _msg += '正在执行[' + _dsk.get_curr_cmd_title() + ']命令';
         }
 
         _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行其他操作！';
