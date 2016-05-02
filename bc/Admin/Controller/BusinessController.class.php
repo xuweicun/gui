@@ -142,11 +142,9 @@ class BusinessController extends Controller {
 		$db = M('CmdLog');
 		$items = $db->where("finished = 0")->select();
 		foreach($items as $index=>$item)
-		{
-            if ($index == 0){
-                $items[$index]['current_time'] = time();
-            }
-			$items[$index]['msg'] = stripslashes($item['msg']);     
+		{      
+			$items[$index]['msg'] = stripslashes($item['msg']);
+            $items[$index]['current_time'] = time();     
 		}                 
 		$this->AjaxReturn($items);
 	}
