@@ -142,12 +142,12 @@ CabCmdHelper.prototype = {
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-            if ((msg.subcmd == 'STOP') && msg.CMD_ID) {
-                msg.CMD_ID = data['id'] + '_' + msg.CMD_ID;
-            }
-            else {
+            //if ((msg.subcmd == 'STOP') && msg.CMD_ID) {
+           //     msg.CMD_ID = data['id'] + '_' + msg.CMD_ID;
+            //}
+           // else {
                 msg.CMD_ID = data['id'].toString();
-            }
+           // }
 
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；

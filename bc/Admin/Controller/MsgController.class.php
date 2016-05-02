@@ -137,16 +137,13 @@ class Msg
     /**
      *for those stop, result and progress cmds
      */
-    public function getRealId()
+    public function getDstId()
     {
-        if (strpos("_", $this->id) > 0) {
-            $idInfo = explode("_", $this->id);
-            $this->id = (int)$idInfo[0];
-            if (count($idInfo) > 1) {
-                $this->dst_id = (int)$idInfo[1];
-            }
+        $log = $this->db->find($this->id);
+        if($log)
+        {
+            $this->dst_id = $log['dst_id'];
         }
-
     }
 }
 
