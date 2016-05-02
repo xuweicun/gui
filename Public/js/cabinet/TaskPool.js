@@ -286,7 +286,7 @@ TaskPool.prototype = {
             title: '命令执行结果',
             text: global_lang.getLang(task.cmd) + '命令执行完毕，执行结果：' + global_lang.getLang(task.status),
             type: type,
-            addclass: 'notification-primary',
+            shadow: true,
             icon: icon
         });
     },
