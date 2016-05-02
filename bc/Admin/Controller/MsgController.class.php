@@ -312,7 +312,8 @@ class MsgController extends Controller
                 $items = $db->where("status=$going")->select();
                 foreach($items as $item)
                 {
-                    $item['status'] = C('CMD_CANCELED');
+                    $item['status'] = C('CMD_CANCELED');  
+                    $item['finished'] = 1;
                     $db->save($item);
                 }   
                 
