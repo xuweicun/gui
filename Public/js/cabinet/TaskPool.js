@@ -195,7 +195,7 @@ TaskPool.prototype = {
         var type = 'success';
         var icon = 'fa fa-check';
         console.log("状态值:" + task.status);
-        switch (task.status) {
+        switch (parseInt(task.status)) {
             case task.timeout:
                 type = 'error';
                 icon = 'fa fa-clock-o';
@@ -222,7 +222,6 @@ TaskPool.prototype = {
             shadow: true,
             icon: icon
         });
-        console.log(type, task);
     },
     //更新命令池
     cleanCmdPool: function () {
