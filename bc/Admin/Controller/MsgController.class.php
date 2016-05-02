@@ -309,7 +309,7 @@ class MsgController extends Controller
         
                 $db = M('CmdLog');
                 $going = C('CMD_GOING');
-                $items = $db->where("status=$going")->select();
+                $items = $db->where("status=$going or finished=0")->select();
                 foreach($items as $item)
                 {
                     $item['status'] = C('CMD_CANCELED');  
