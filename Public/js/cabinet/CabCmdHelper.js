@@ -12,6 +12,8 @@ CabCmdHelper.prototype = {
             if (!global_cabinet.selected) return;
 
             global_cabinet.i_load_disks_base_info(data);
+
+            return;
             //获取每个硬盘的信息
             for (var idx = 0; idx < data.length; idx++) {
                 //如果硬盘在位且有disk_id,获取详细信息；防止有的盘在位但是没有详细信息的
@@ -162,12 +164,12 @@ CabCmdHelper.prototype = {
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
 
-            //if ((msg.subcmd == 'STOP') && msg.CMD_ID) {
-           //     msg.CMD_ID = data['id'] + '_' + msg.CMD_ID;
-            //}
-           // else {
+            if ((msg.subcmd == 'STOP') && msg.CMD_ID) {
+                msg.CMD_ID = data['id'] + '_' + msg.CMD_ID;
+            }
+            else {
                 msg.CMD_ID = data['id'].toString();
-           // }
+            }
 
             var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；

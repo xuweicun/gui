@@ -1,6 +1,7 @@
 ﻿function CabCmd(log) {
     this.msg = JSON.parse(log.msg);
     this._stime = log.start_time;
+    this._ctime = log.current_time;
 
     this.device_id = this.msg.device_id;
     this.id = log.id;//log.id和CMD_ID有时不同
@@ -36,7 +37,7 @@
     this.status = -1;
     this.substatus = -1;
     //剩余时间，为0时表示时间用完
-    this.usedTime = 0;
+    this.usedTime = (this._ctime == undefined?0:parseInt(this._ctime) - parseInt(this._stime));
     this.progress = -1;
     this.stage = 0;
     //最长等待，20小时
@@ -86,7 +87,7 @@ CabCmd.prototype = {
         }
         var time = new Date();
         this._stime *= 1000;
-        this.usedTime = parseInt((time.getTime() - parseInt(this._stime)) / 1000);
+        //this.usedTime = parseInt((time.getTime() - parseInt(this._stime)) / 1000);
         if (this.getLeftTime() <= 0) {
             //超时
             this.status = this.timeout;
