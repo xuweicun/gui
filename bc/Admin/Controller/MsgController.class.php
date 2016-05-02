@@ -16,6 +16,7 @@ if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode($return_msg, true);
 }
 
+
 class Msg
 {
     public $origin = null;
@@ -662,7 +663,7 @@ class MsgController extends Controller
                         $map['zu'] = array('eq', $group_id);
                         $map['disk'] = array('eq', $disk);
                         $map['cab_id'] = array('eq', $dsk->cab);
-                        $this->RTLog($dsk->cab . '-' . $level_id . '-' . $group_id . '-' . $disk);
+                        //$this->RTLog($dsk->cab . '-' . $level_id . '-' . $group_id . '-' . $disk);
                         $item = $db->where($map)->find();
                         if ($item) {
                             $item['loaded'] = 1;
