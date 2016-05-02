@@ -6,16 +6,14 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
-    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
-    var proxy = "http://222.35.224.230:8080";
-
-    global_server = server;
-    global_app = proxy;
-
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
     $scope.testCmdId = 0;
+    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
+    var proxy = "http://222.35.224.230:8080";
+    global_server = server;
+    global_app = proxy;
     $scope.systReset = function () {
         $http({method: 'GET', url: '/index.php?m=admin&c=business&a=systReset'}).success(function (data) {
             alert('系统重置成功！');
