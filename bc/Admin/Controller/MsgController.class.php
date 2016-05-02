@@ -16,6 +16,7 @@ if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode($return_msg, true);
 }
 
+
 class Msg
 {
     public $origin = null;
