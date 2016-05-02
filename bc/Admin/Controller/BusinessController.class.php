@@ -142,9 +142,10 @@ class BusinessController extends Controller {
 		$db = M('CmdLog');
 		$items = $db->where("finished = 0")->select();
 		foreach($items as $index=>$item)
-		{
+		{      
 			$items[$index]['msg'] = stripslashes($item['msg']);
-		}
+            $items[$index]['current_time'] = time();     
+		}                 
 		$this->AjaxReturn($items);
 	}
 	public function getTestResults()
@@ -403,11 +404,6 @@ class BusinessController extends Controller {
 		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
 		$data['start_time'] =  time();
 		$data['finished'] = 0;
-		//如果是停止令，需要注明dst_id;
-		if($_POST['CMD_ID'] && $_POST['subcmd'] == 'STOP')
-		{
-			$data['dst_id'] = $_POST['CMD_ID'];
-		}
 		$id = $db->add($data);
 		if($id)
 		{

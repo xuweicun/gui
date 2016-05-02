@@ -8,7 +8,7 @@ namespace Admin\Controller;
 use Think\Controller;
 
 header('Access-Control-Allow-Origin:*');
-Header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 $return_msg = file_get_contents('php://input');
@@ -48,9 +48,9 @@ class Msg
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
         $this->stage = $_POST['workingstatus'];
-        $this->db = M("CmdLog");
-        $this->getDstId();
+        $this->getRealId();
         $this->getResult();
+        $this->db = M("CmdLog");
     }
 
     public function isStop()
@@ -137,13 +137,16 @@ class Msg
     /**
      *for those stop, result and progress cmds
      */
-    public function getDstId()
+    public function getRealId()
     {
-        $log = $this->db->find($this->id);
-        if($log)
-        {
-            $this->dst_id = $log['dst_id'];
+        if (strpos("_", $this->id) > 0) {
+            $idInfo = explode("_", $this->id);
+            $this->id = (int)$idInfo[0];
+            if (count($idInfo) > 1) {
+                $this->dst_id = (int)$idInfo[1];
+            }
         }
+
     }
 }
 
