@@ -281,7 +281,11 @@ class MsgController extends Controller
                 break;
 
         }
-        // $this->hdlSuccess();
+        //处理一条命令完全结束的情况，如果命令不需要停止的话
+        ////可以将finished设为1
+        if ($this->msg->isSuccess()) {
+            $this->hdlSuccess();
+        }
     }
     
     public function restartTimeMsgHdl(){      
@@ -454,8 +458,10 @@ class MsgController extends Controller
                     if ($cmd['user_id'] > 0) {
                         //用户发的，作为单独命令处理，先求dst_id
                         $dstCmd = $this->db->find($this->msg->dst_id);
+                        $this->RTLog("DST CMD ID = " . $this->msg->dst_id);
                         if ($this->isGoing($dstCmd)) {
                             //命令被取消
+                            $this->RTLog("CMD TERMINATING...");
                             $dstCmd['status'] = C('CMD_CANCELED');
                             $dstCmd['finished'] = 1;
                         }
@@ -545,7 +551,8 @@ class MsgController extends Controller
 
     public function clearLog()
     {
-        file_put_contents("rtlog.txt", '');
+        file_put_contents("rtlog.txt", '清空时间：');
+
     }
 
     public
@@ -785,11 +792,7 @@ class MsgController extends Controller
             $this->hdlSRPMsg();
             die();
         }
-        //处理一条命令完全结束的情况，如果命令不需要停止的话
-        ////可以将finished设为1
-        if ($this->msg->isSuccess()) {
-            $this->hdlSuccess();
-        }
+
     }
 
 

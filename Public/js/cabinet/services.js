@@ -170,6 +170,8 @@ angular.module('device.services', [])
             "subcmd": "START",
             "substatus": "0"
         },
+
+        md5: {"CMD_ID":"703","cmd":"MD5","device_id":"1","disk":"1","group":"1","level":"1","status":"0","subcmd":"STOP","substatus":"0"},
         bridge_stop: {
             "CMD_ID": "134",
             "cmd": "BRIDGE",
@@ -180,20 +182,6 @@ angular.module('device.services', [])
             "paths": [{"id": "1", "status": "0", "value": ""}],
             "subcmd": "STOP",
             "substatus": "0"
-        },
-        md5: {
-            "CMD_ID": "527",
-            "cmd": "COPY",
-            status: "1",
-            "device_id": "1",
-            "dstDisk": "3",
-            "dstGroup": "6",
-            "dstLevel": "1",
-            "progress": 0,
-            "srcDisk": "3",
-            "srcGroup": "5",
-            "srcLevel": "1",
-            "subcmd": "START"
         }
     }
     return {
