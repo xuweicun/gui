@@ -13,7 +13,6 @@ CabCmdHelper.prototype = {
 
             global_cabinet.i_load_disks_base_info(data);
 
-            return;
             //获取每个硬盘的信息
             for (var idx = 0; idx < data.length; idx++) {
                 //如果硬盘在位且有disk_id,获取详细信息；防止有的盘在位但是没有详细信息的
