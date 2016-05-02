@@ -280,11 +280,13 @@ class MsgController extends Controller
         // $this->hdlSuccess();
     }
     
-    private function restartTimeMsgHdl(){
+    public function restartTimeMsgHdl(){      
         if ($this->msg->isSuccess()) {
             $rtDb = M('RestartTime');
             //查看cab是否存在
-            $item = $rtDb->order('id desc')->limit(1)->select();
+            $item = $rtDb->order('id desc')->limit(1)->find();
+            
+            var_dump($item);
             if (!$item || $item['restart_time'] != $_POST['restart_time']){
                 //所有硬盘桥接、在位状态清零
                 $db = M('Device');

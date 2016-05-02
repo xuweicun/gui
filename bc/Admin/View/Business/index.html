@@ -58,6 +58,9 @@
             border: 2px solid darkred !important;
             color: darkred;
         }
+        .btn-not-selected {
+            border: 2px solid lightgray !important;
+        }
 
         body {
             min-height: 1000px;
@@ -318,7 +321,7 @@
                                          class="tab-pane bk-margin-bottom-off"
                                          ng-class="{'true': 'active'}[$first]">
                                         <div ng-repeat="_grp in _lvl.groups" ng-init="idx_grp = $index" class="row">
-                                            <div ng-repeat="_dsk in _grp.disks" class="col-lg-3"
+                                            <div ng-repeat="_dsk in _grp.disks" class="col-lg-3 col-md-6 col-sm-12"
                                                  ng-init="idx_dsk = $index">
                                                 <div class="btn btn-block btn-sm bk-margin-bottom-15"
                                                      ng-class="{
@@ -326,22 +329,26 @@
 													 'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
 													 'btn-default':!_dsk.is_loaded(),
 													 'btn-warning' : _dsk.get_cmd_name() != '',
-													 'btn-selected':_dsk == cab.curr
+													 'btn-selected':_dsk === cab.curr,
+                                                     'btn-not-selected':_dsk !== cab.curr
 												 }"
                                                      ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
-                                                    <div class="bk-vcenter" ng-class="{
+                                                    <div class="bk-vcenter row">
+                                                        <i class="fa fa-check-circle" style="position:absolute;right:20px"
+                                                           ng-show="_dsk == cab.curr"></i>
+                                                        <div class="bk-vcenter col-lg-12" ng-class="{
 													   		true:'text-left',
 													   		false:'text-center'
-														}[_dsk.base_info.loaded]">
-                                                        <i class="glyphicon bk-margin-left-5"
-                                                           ng-class="{
+														}[_dsk.base_info.loaded]"
+                                                             style="min-height:38px">
+                                                            <i class="glyphicon bk-margin-left-5"
+                                                               ng-class="{
 													   		true:'glyphicon-hdd',
 													   		false:'glyphicon-ban-circle'
 														}[_dsk.base_info.loaded]"></i>
-                                                        <span ng-bind="_dsk.get_title()+' '+_dsk.get_extent_title()"></span>
-                                                        <i class="fa fa-check-circle pull-right"
-                                                           ng-show="_dsk == cab.curr"></i>
-                                                    </div>
+                                                            {{_dsk.get_title()}} {{_dsk.get_curr_cmd_title()}}<br>{{_dsk.get_extent_title()}}
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -764,7 +771,6 @@
 
                                         <div class="panel-actions">
                                             <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -813,15 +819,15 @@
                                                         <td ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                                                         <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
                                                         <td>
-                                                            <div class="panel bk-widget bk-border-off" >
-                                                                <div class="progress light progress-xl" style="margin-top:10;">
+                                                            <div class="panel bk-widget bk-border-off bk-margin-off" >
+                                                                <div class="progress progress-striped light progress-xl active" style="margin-top:10;">
                                                                     <div ng-style="{width: task.getProgress()+'%'}" aria-valuemax="100"
                                                                          aria-valuemin="0" aria-valuenow="{{task.getProgress()}}" role="progressbar"
                                                                          class="progress-bar progress-bar-warning">
                                                                         <span ng-bind="task.getProgress()+'%'" style="color:cadetblue;" ></span>
                                                                     </div>
                                                                 </div>
-                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:cadetblue;font-weight: bold;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
+                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:cadetblue;font-weight: bold;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><br><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
                                                             </div>
                                                         </td>
                                                         <td class="center hidden-phone">
@@ -856,7 +862,6 @@
                                         <h6><i class="fa fa-table red"></i><span class="break"></span>任务列表</h6>
                                         <div class="panel-actions">
                                             <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -970,6 +975,8 @@
     <!-- 用于前端命令处理 -->
     <script src="/Public/js/cabinet/CabCmd.js"></script>
     <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
+    <script src="/Public/js/cabinet/TaskPool.js"></script>
+    <script src="/Public/js/cabinet/cabinethelper.js"></script>
 
      <!-- cabinet.js 必须放到 globaljs.js之前 -->
     <script src="/Public/js/cabinet/Disk.js"></script>

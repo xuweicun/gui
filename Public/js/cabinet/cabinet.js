@@ -155,6 +155,7 @@ Cabinet.prototype = {
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
     i_load_disks_base_info: function (data) {
+        console.log('i_load_disks_base_info', data);
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
             var int_l = parseInt(e.level) - 1;

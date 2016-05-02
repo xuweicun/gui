@@ -3,6 +3,26 @@
 }
 
 CabCmdHelper.prototype = {
+    updateDeviceStatus : function () {
+        global_http({
+            url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + global_cabinet.id,
+            method: 'GET'
+        }).success(function (data) {
+            // 用户切换了柜子
+            if (!global_cabinet.selected) return;
+
+            global_cabinet.i_load_disks_base_info(data);
+            //获取每个硬盘的信息
+            for (var idx = 0; idx < data.length; idx++) {
+                //如果硬盘在位且有disk_id,获取详细信息；防止有的盘在位但是没有详细信息的
+                if (data[idx].loaded == 1 && data[idx].disk_id && data[idx].disk_id > 0) {
+                    global_cmd_helper.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);
+                }
+            }
+        }).error(function (data) {
+            console.log("更新存储柜信息失败.");
+        });
+    },
     createCmd : function (log) {
         var newcmd = new CabCmd(log);
         newcmd.init();
