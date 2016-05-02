@@ -51,8 +51,9 @@ class BusinessController extends Controller {
 		$going = C('CMD_GOING');
 		$items = $db->where("status=$going")->select();
 		foreach($items as $item)
-		{
-			$item['status'] = C('CMD_CANCELED');
+		{                                           
+            $item['status'] = C('CMD_CANCELED');
+            $item['finished'] = 1;
 			$db->save($item);
 		}
 	}
@@ -404,6 +405,11 @@ class BusinessController extends Controller {
 		$data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
 		$data['start_time'] =  time();
 		$data['finished'] = 0;
+        //如果是停止令，需要注明dst_id;
+        if($_POST['CMD_ID'] && $_POST['subcmd'] == 'STOP')
+        {
+            $data['dst_id'] = $_POST['CMD_ID'];
+        }
 		$id = $db->add($data);
 		if($id)
 		{

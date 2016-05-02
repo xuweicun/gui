@@ -7,7 +7,7 @@ namespace Admin\Controller;
 
 use Think\Controller;
 
-header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Origin:*');                                  
 
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -15,6 +15,7 @@ $return_msg = file_get_contents('php://input');
 if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode($return_msg, true);
 }
+
 
 class Msg
 {
@@ -48,9 +49,9 @@ class Msg
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
         $this->stage = $_POST['workingstatus'];
-        $this->getRealId();
-        $this->getResult();
         $this->db = M("CmdLog");
+        $this->getDstId();
+        $this->getResult();         
     }
 
     public function isStop()
@@ -137,16 +138,13 @@ class Msg
     /**
      *for those stop, result and progress cmds
      */
-    public function getRealId()
+    public function getDstId()
     {
-        if (strpos("_", $this->id) > 0) {
-            $idInfo = explode("_", $this->id);
-            $this->id = (int)$idInfo[0];
-            if (count($idInfo) > 1) {
-                $this->dst_id = (int)$idInfo[1];
-            }
+        $log = $this->db->find($this->id);
+        if($log)
+        {
+            $this->dst_id = $log['dst_id'];
         }
-
     }
 }
 
@@ -315,10 +313,11 @@ class MsgController extends Controller
         
                 $db = M('CmdLog');
                 $going = C('CMD_GOING');
-                $items = $db->where("status=$going")->select();
+                $items = $db->where("status=$going or finished=0")->select();
                 foreach($items as $item)
                 {
-                    $item['status'] = C('CMD_CANCELED');
+                    $item['status'] = C('CMD_CANCELED');  
+                    $item['finished'] = 1;
                     $db->save($item);
                 }   
                 
@@ -667,7 +666,7 @@ class MsgController extends Controller
                         $map['zu'] = array('eq', $group_id);
                         $map['disk'] = array('eq', $disk);
                         $map['cab_id'] = array('eq', $dsk->cab);
-                        $this->RTLog($dsk->cab . '-' . $level_id . '-' . $group_id . '-' . $disk);
+                        //$this->RTLog($dsk->cab . '-' . $level_id . '-' . $group_id . '-' . $disk);
                         $item = $db->where($map)->find();
                         if ($item) {
                             $item['loaded'] = 1;
