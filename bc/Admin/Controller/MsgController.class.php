@@ -8,7 +8,7 @@ namespace Admin\Controller;
 use Think\Controller;
 
 header('Access-Control-Allow-Origin:*');
-
+Header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 $return_msg = file_get_contents('php://input');

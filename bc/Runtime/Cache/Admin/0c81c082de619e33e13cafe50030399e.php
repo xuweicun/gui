@@ -58,6 +58,9 @@
             border: 2px solid darkred !important;
             color: darkred;
         }
+        .btn-not-selected {
+            border: 2px solid lightgray !important;
+        }
 
         body {
             min-height: 1000px;
@@ -294,7 +297,13 @@
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>离线存储柜
-                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();">存储柜信息重置</a>                            
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();" title="刷新柜子信息">刷新</a>
+                            <a href="#modalAnimDeviceStatusCmd" 
+                               class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
+                               ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
+                               title="查询柜子在位信息">
+                                {{cab.get_device_status_btn_text()}}
+                            </a> 
                         </div>
                         <div class="panel-body">
                             <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -312,7 +321,7 @@
                                          class="tab-pane bk-margin-bottom-off"
                                          ng-class="{'true': 'active'}[$first]">
                                         <div ng-repeat="_grp in _lvl.groups" ng-init="idx_grp = $index" class="row">
-                                            <div ng-repeat="_dsk in _grp.disks" class="col-lg-3"
+                                            <div ng-repeat="_dsk in _grp.disks" class="col-lg-3 col-md-6 col-sm-12"
                                                  ng-init="idx_dsk = $index">
                                                 <div class="btn btn-block btn-sm bk-margin-bottom-15"
                                                      ng-class="{
@@ -320,22 +329,26 @@
 													 'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
 													 'btn-default':!_dsk.is_loaded(),
 													 'btn-warning' : _dsk.get_cmd_name() != '',
-													 'btn-selected':_dsk == cab.curr
+													 'btn-selected':_dsk === cab.curr,
+                                                     'btn-not-selected':_dsk !== cab.curr
 												 }"
                                                      ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
-                                                    <div class="bk-vcenter" ng-class="{
+                                                    <div class="bk-vcenter row">
+                                                        <i class="fa fa-check-circle" style="position:absolute;right:20px"
+                                                           ng-show="_dsk == cab.curr"></i>
+                                                        <div class="bk-vcenter col-lg-12" ng-class="{
 													   		true:'text-left',
 													   		false:'text-center'
-														}[_dsk.base_info.loaded]">
-                                                        <i class="glyphicon bk-margin-left-5"
-                                                           ng-class="{
+														}[_dsk.base_info.loaded]"
+                                                             style="min-height:38px">
+                                                            <i class="glyphicon bk-margin-left-5"
+                                                               ng-class="{
 													   		true:'glyphicon-hdd',
 													   		false:'glyphicon-ban-circle'
 														}[_dsk.base_info.loaded]"></i>
-                                                        <span ng-bind="_dsk.get_title()+' '+_dsk.get_extent_title()"></span>
-                                                        <i class="fa fa-check-circle pull-right"
-                                                           ng-show="_dsk == cab.curr"></i>
-                                                    </div>
+                                                            {{_dsk.get_title()}} {{_dsk.get_curr_cmd_title()}}<br>{{_dsk.get_extent_title()}}
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -416,6 +429,7 @@
                                     <div class="col-lg-12">
 
                                         <a href="#modalAnim{{cab.curr.get_modal_type('DISKINFO')}}"
+                                           title="查询硬盘详细信息"
                                            class="btn btn-xs modal-with-move-anim"
                                            ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
                                            ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
@@ -461,6 +475,46 @@
                 </div>
             </div>
             <!--/container-->
+            <div id="modalAnimDeviceStatusCmd" class="zoom-anim-dialog modal-block  mfp-hide"
+                 ng-class="{true:'modal-block-primary',false:'modal-block-warning'}[!cab.is_device_status_cmd_going()]" >
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">存储柜命令[在位查询]</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa"
+                                   ng-class="{true:'fa-warning',false:'fa-question-circle'}[cab.is_device_status_cmd_going()]"
+                                   ></i>
+                            </div>
+                            <div class="modal-text">
+                                <p ng-if="!cab.is_device_status_cmd_going()">
+                                    您确定要提交对存储柜 {{cab.id}}#的“在位查询”命令吗？
+                                </p>
+
+                                <p ng-if="cab.is_device_status_cmd_going()">
+                                    存储柜 {{cab.id}}#正在进行的“在位查询”命令，请稍候。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right" ng-if="!cab.is_device_status_cmd_going()">
+                                <button class="btn btn-primary"
+                                        ng-click="cab.start_cmd_device_status()">
+                                    确认
+                                </button>
+                                <button class="btn btn-default modal-dismiss">取消</button>
+                            </div>
+                            <div class="col-md-12 text-right" ng-if="cab.is_device_status_cmd_going()">
+                                <button class="btn btn-warning modal-dismiss">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="modalAnimFileTreeCmd" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -469,7 +523,7 @@
                     <div class="panel-body bk-noradius">
                         <div class="modal-wrapper">
                             <div class="modal-icon">
-                                <i class="fa fa-warning"></i>
+                                <i class="fa fa-question-circle"></i>
                             </div>
                             <div class="modal-text">
                                 <p>
@@ -698,7 +752,7 @@
                     </div>
                 </form>
             </div>
-            <div class="container-fluid content" ng-show="taskPool.ready==true">
+            <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="tabs tabs-primary bk-margin-bottom-5">
@@ -717,7 +771,6 @@
 
                                         <div class="panel-actions">
                                             <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -766,15 +819,15 @@
                                                         <td ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                                                         <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
                                                         <td>
-                                                            <div class="panel bk-widget bk-border-off" >
-                                                                <div class="progress light progress-xl" style="margin-top:10;">
+                                                            <div class="panel bk-widget bk-border-off bk-margin-off" >
+                                                                <div class="progress progress-striped light progress-xl active" style="margin-top:10;">
                                                                     <div ng-style="{width: task.getProgress()+'%'}" aria-valuemax="100"
                                                                          aria-valuemin="0" aria-valuenow="{{task.getProgress()}}" role="progressbar"
                                                                          class="progress-bar progress-bar-warning">
                                                                         <span ng-bind="task.getProgress()+'%'" style="color:cadetblue;" ></span>
                                                                     </div>
                                                                 </div>
-                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:cadetblue;font-weight: bold;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
+                                                                <p class="help-block" ng-show="task.getLeftTime() > -1" style="color:cadetblue;font-weight: bold;">已经用时: <span ng-bind="lang.getTime(task.usedTime)"></span><br><span ng-bind="' 当前操作:'+task.getStage()" ng-show="task.getStage() != null"></span></p>
                                                             </div>
                                                         </td>
                                                         <td class="center hidden-phone">
@@ -809,7 +862,6 @@
                                         <h6><i class="fa fa-table red"></i><span class="break"></span>任务列表</h6>
                                         <div class="panel-actions">
                                             <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
-                                            <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -913,17 +965,30 @@
 <script src="/Public/assets/js/core.min.js"></script>
 
 <!-- Pages JS -->
-<script src="/Public/assets/js/pages/index.js"></script>
 <script src="/Public/assets/js/pages/ui-modals.js"></script>
 <script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
-<script>
-    var app = angular.module('device', ['device.controllers', 'device.services']);
-</script>
-    <script src="/Public/js/globaljs.js"></script>
+    <!-- global variables define -->
+    <script src="/Public/js/cabinet/globalvars.js"></script>
+
+    <!-- 用于前端命令处理 -->
+    <script src="/Public/js/cabinet/CabCmd.js"></script>
+    <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
+    <script src="/Public/js/cabinet/TaskPool.js"></script>
+    <script src="/Public/js/cabinet/cabinethelper.js"></script>
+
+     <!-- cabinet.js 必须放到 globaljs.js之前 -->
+    <script src="/Public/js/cabinet/Disk.js"></script>
+    <script src="/Public/js/cabinet/cabinet.js"></script>
+
+    <script src="/Public/js/cabinet/globaljs.js"></script>   
+     
+    <!-- page_init.js 必须放到 globaljs.js之后 -->
+    <script src="/Public/js/cabinet/page_init.js"></script>
+    <script src="/Public/js/cabinet/services.js"></script>
+
     <script src="/Public/js/angular-datatables.min.js"></script>
-<script src="/Public/js/services.js"></script>
 <!-- end: JavaScript-->
 
 
