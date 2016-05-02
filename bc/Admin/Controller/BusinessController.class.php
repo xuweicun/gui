@@ -143,8 +143,11 @@ class BusinessController extends Controller {
 		$items = $db->where("finished = 0")->select();
 		foreach($items as $index=>$item)
 		{
-			$items[$index]['msg'] = stripslashes($item['msg']);
-		}
+            if ($index == 0){
+                $items[$index]['current_time'] = time();
+            }
+			$items[$index]['msg'] = stripslashes($item['msg']);     
+		}                 
 		$this->AjaxReturn($items);
 	}
 	public function getTestResults()
