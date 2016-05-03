@@ -387,7 +387,6 @@ Disk.prototype = {
                                 }
                             }
                         }
-                        console.log(bridged_cnt);
                         return bridged_cnt>=2? 'TwoBridgedBusy':'Start';
                     }
                 }

@@ -21,8 +21,6 @@ function Cabinet() {
     this.electricity = 0;
     // 在位查询命令
     this.cmd_device_status = null;
-    // 已桥接的硬盘组
-    this.bridged_groups = [];
 }
 
 
@@ -46,8 +44,6 @@ Cabinet.prototype = {
         for (var i = 0; i < level_cnt; ++i) {
             // 每一层
             var level_obj = {
-                // 是否已桥接
-                bridged: false,
                 // 温度
                 temperature: 0,
                 // 湿度
@@ -58,8 +54,6 @@ Cabinet.prototype = {
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组
                 var group_obj = {
-                    // 是否已桥接
-                    bridged: false,
                     // 硬盘插槽
                     disks: []
                 };
@@ -189,26 +183,6 @@ Cabinet.prototype = {
             var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
             // 在位置位
             _dsk.base_info.loaded = (e.loaded == 1);
-
-            if (!_dsk.base_info.bridged && (e.bridged == 1)) {
-                _dsk.parent.bridged = true;
-                _dsk.parent.parent.bridged = true;
-            }
-            else if (_dsk.base_info.bridged && (e.bridged != 1)) {
-                var _dsks = _dsk.parent.disks;
-                var gb = false;
-                for (var j = 0; j < _dsks.length; ++j) {
-                    var _d = _dsks[j];
-                    if (j != int_d && _d.bridged) {
-                        gb = true;
-                        break;
-                    }
-                }
-
-                _dsk.parent.bridged = gb;
-                _dsk.parent.parent.bridged = gb;
-            }
-
             _dsk.base_info.bridged = e.bridged == 1;
 
             if (e.bridged == 1) {
