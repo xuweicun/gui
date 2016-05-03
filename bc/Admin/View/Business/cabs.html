@@ -1,27 +1,32 @@
 ﻿<div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
-        <div class="panel bk-widget bk-border-off" ng-class="{true:'selected'}[item.selected]">
+        <div class="panel bk-widget bk-border-off" ng-class="{true:'selected',false:'non-selected'}[item.selected]" ng-click="cabs.on_select($index)">
             <div class="panel-body bk-bg-primary">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h4>存储柜({{item.id}}#，{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}块)</h4>
+                <div style="position:absolute;width:16px;right:45px;top:10px">
+                    <div style="position:absolute;left:0px;top:4px;height:8px;width:2px;background-color:white;"></div>
+                    <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
+                        <div style="background-color:white;height:12px;margin:1px;width:{{item.electricity}}%;float:right"></div>
+                        <div style="position:absolute;font-size:11px;text-align:center;width:inherit"
+                             title="剩余电量">{{item.electricity}}%</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        电压：{{item.voltage}}V，电流：{{item.current}}A，电量：{{item.electricity}}KWH
+                        <span style="font-size:18px;width:inherit;margin-right:10px">存储柜({{item.id}}#)</span>
+                        <i class="fa fa-leaf" title="电压"></i> {{item.voltage}}V <i class="fa fa-flash" style="margin-left:10px" title="电流"></i> {{item.current}}A
                     </div>
                 </div>
-                <div class="row">
+                <br />
+                <div class="row bk-margin-bottom-15">
                     <div class="col-lg-12">
-                        温度：{{item.temperature}}℃，湿度：{{item.humidity}}%RH
+                        共{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}个插槽
                     </div>
-                </div>                
-                <a href="#" ng-click="cabs.on_select($index)"><h6 class="text-right bk-padding-top-20 bk-margin-off">
+                </div>              
+                <h6 class="text-right bk-margin-off">
                     <span ng-bind="'共'+item.lvl_cnt+'层'"></span>
                     <span ng-bind="',每层'+item.grp_cnt+'组'"></span>
                     <span ng-bind="',每组'+item.dsk_cnt+'个盘位'"></span>
-                </h6></a>
+                </h6>
             </div>
         </div>
     </div>
