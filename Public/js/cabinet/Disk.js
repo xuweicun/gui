@@ -370,8 +370,21 @@ Disk.prototype = {
                         var bridged_cnt = 0;
                         var _lvls = this.parent.parent.parent.levels;
                         for (var i = 0; i < _lvls.length; ++i) {
-                            if (_lvls[i].bridged) {
-                                bridged_cnt++;
+                            var _grps = _lvls[i].groups;
+                            for (var j = 0; j < _grps.length; ++j) {
+                                var _dsks = _grps[j].disks;
+                                var gb = false;
+                                for (var k = 0; k < _dsks.length; ++k) {
+                                    var _dsk = _dsks[k];
+                                    if (_dsk.is_bridged() || _dsk.curr_cmd.cmd == 'BRIDGE') {
+                                        gb = true;
+                                        break;
+                                    }
+                                }
+                                if (gb) {
+                                    bridged_cnt++;
+                                    break;
+                                }
                             }
                         }
 
