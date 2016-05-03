@@ -375,8 +375,8 @@ Disk.prototype = {
                                 var _dsks = _grps[j].disks;
                                 var gb = false;
                                 for (var k = 0; k < _dsks.length; ++k) {
-                                    var _dsk = _dsks[k];
-                                    if (_dsk.is_bridged() || _dsk.curr_cmd.cmd == 'BRIDGE') {
+                                    var _dsk = _dsks[k];                                  
+                                    if (_dsk.is_bridged()) {
                                         gb = true;
                                         break;
                                     }
@@ -387,7 +387,7 @@ Disk.prototype = {
                                 }
                             }
                         }
-
+                        console.log(bridged_cnt);
                         return bridged_cnt>=2? 'TwoBridgedBusy':'Start';
                     }
                 }
