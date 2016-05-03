@@ -19,10 +19,6 @@ function Cabinet() {
     this.current = 0;
     // 电量
     this.electricity = 0;
-    // 温度
-    this.temperature = 0;
-    // 湿度
-    this.humidity = 0;
     // 在位查询命令
     this.cmd_device_status = null;
 }
@@ -46,7 +42,13 @@ Cabinet.prototype = {
         this.dsk_cnt = disk_cnt;
         for (var i = 0; i < level_cnt; ++i) {
             // 每一层
-            var level_obj = { groups: [] };
+            var level_obj = {                
+                // 温度
+                temperature: 0,
+                // 湿度
+                humidity: 0,
+                groups: []
+            };
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组
                 var group_obj = {
