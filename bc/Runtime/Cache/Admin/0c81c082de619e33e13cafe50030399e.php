@@ -54,6 +54,9 @@
         div.selected{
             border: 2px solid darkred !important;
         }
+        div.non-selected{
+            border: 2px solid white !important;
+        }
         .btn-selected {
             border: 2px solid darkred !important;
             color: darkred;
@@ -296,7 +299,7 @@
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
-                            <i class="fa fa-building-o"></i>离线存储柜
+                            <i class="fa fa-building-o"></i>离线存储柜({{cab.id}}#)
                             <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();" title="刷新柜子信息">刷新</a>
                             <a href="#modalAnimDeviceStatusCmd" 
                                class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
@@ -311,8 +314,13 @@
                                     <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
                                         <a data-toggle="tab" href="#pane-cab-level{{$index}}">
                                             <i class="glyphicon glyphicon-align-justify"></i>
-                                            <span ng-bind="'第'+{{$index+1}}+'层'"></span>
+                                            <span ng-bind="'第'+{{$index+1}}+'层'"></span>                                            
                                         </a>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                温度：{{item.temperature}}℃，湿度：{{item.humidity}}%RH
+                                            </div>
+                                        </div> 
                                     </li>
                                 </ul>
                                 <div class="tab-content">
@@ -600,7 +608,7 @@
                                     您确定停止硬盘（<span
                                         ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.is_bridged()]"><i
                                         class="glyphicon glyphicon-hdd"></i>
-                                {{cab.curr.get_title()}}</span>）正在执行的[{{cab.curr.get_extent_title()}}]命令？
+                                {{cab.curr.get_title()}}</span>）正在执行的[{{cab.curr.get_curr_cmd_title()}}]命令？
                                 </p>
                             </div>
                         </div>
