@@ -314,13 +314,12 @@
                                     <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
                                         <a data-toggle="tab" href="#pane-cab-level{{$index}}">
                                             <i class="glyphicon glyphicon-align-justify"></i>
-                                            <span ng-bind="'第'+{{$index+1}}+'层'"></span>                                            
-                                        </a>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                温度：{{item.temperature}}℃，湿度：{{item.humidity}}%RH
-                                            </div>
-                                        </div> 
+                                            <span ng-bind="'第'+{{$index+1}}+'层'" style="margin-right:30px"></span>
+                                            <span style="position:absolute;font-size:8px;right:10px;top:8px">
+                                                <span>{{_lvl.temperature}}℃</span><br />
+                                                <span>{{_lvl.humidity}}% RH</span>
+                                            </span>                              
+                                        </a> 
                                     </li>
                                 </ul>
                                 <div class="tab-content">
