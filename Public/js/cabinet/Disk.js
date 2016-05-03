@@ -366,7 +366,16 @@ Disk.prototype = {
                         return 'Busy';
                     }
                     else {
-                        return 'Start';
+                        // 判断柜子是否已经桥接了2组以上的硬盘
+                        var bridged_cnt = 0;
+                        var _lvls = this.parent.parent.parent.levels;
+                        for (var i = 0; i < _lvls.length; ++i) {
+                            if (_lvls[i].bridged) {
+                                bridged_cnt++;
+                            }
+                        }
+
+                        return bridged_cnt>=2? 'TwoBridgedBusy':'Start';
                     }
                 }
                 break;
