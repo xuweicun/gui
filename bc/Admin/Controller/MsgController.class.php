@@ -641,6 +641,7 @@ class MsgController extends Controller
             $db = M('Device');
             $levels = $_POST['levels'];
             $map['loaded'] = array('eq', 1);
+            $map['cab_id'] = array('eq',$this->msg->cab_id);
             //找出所有之前在位的硬盘；
             $items = $db->where($map)->select();
             //更新在位信息；
@@ -649,7 +650,7 @@ class MsgController extends Controller
                 $item['time'] = time();
                 $db->save($item);
             }
-            $testDb = M('test');
+      //      $testDb = M('test');
 
             foreach ($levels as $level) {
 
@@ -659,7 +660,7 @@ class MsgController extends Controller
                     $group_id = $group['id'];
                     $disks = $group['disks'];
                     foreach ($disks as $disk) {
-                        $data['response'] = "$level_id-$group_id-$disk";
+                  //      $data['response'] = "$level_id-$group_id-$disk";
                         //清空map
                         $map = array();
                         $map['level'] = array('eq', $level_id);
@@ -672,12 +673,14 @@ class MsgController extends Controller
                             $item['loaded'] = 1;
                             $item['time'] = time();
                             $db->save($item);
-                            $data['response'] = $data['response'] . "-added";
-                            $this->RTLog('<change info>');
+                   //         $data['response'] = $data['response'] . "-added";
+
                         } else {
-                            $data['response'] = $data['response'] . "-fail";
+
+                           // $db->add($data);
+                        //    $data['response'] = $data['response'] . "-fail";
                         }
-                        $testDb->add($data);
+                     //   $testDb->add($data);
                     }
                 }
             }

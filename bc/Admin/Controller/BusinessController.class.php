@@ -414,6 +414,10 @@ class BusinessController extends Controller {
 		if($id)
 		{
             $data = $db->find($id);
+			$msg = $_POST['msg'];
+			//修改msg
+			$data['msg'] = $this->addMsgId($msg,$id);
+			$db->save($data);
 			$this->AjaxReturn($data);
 		}
 		else
@@ -422,6 +426,16 @@ class BusinessController extends Controller {
             $this->notFoundError("fail to insert the cmd log");
 		}
 		
+	}
+
+	/*********
+	 * @param $msg 原始JSON字符串
+	 * @param $id  命令ID
+	 */
+	private function  addMsgId($msg,$id){
+		$idStr = "\"CMD_ID\":\"".$id."\",\"cmd\"";
+		$rst = str_replace("\"cmd\"",$idStr,$msg);
+		return $rst;
 	}
 	/***
 	* add the disks refered in an commond excutation
