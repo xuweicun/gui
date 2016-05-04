@@ -1,0 +1,1666 @@
+[ 2016-04-09T07:39:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.016662s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.075683s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.075862s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000190s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000326s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.285541s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.285721s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.060668s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.060789s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.056537s ]
+INFO: [ app_end ] --END-- [ RunTime:0.056661s ]
+
+[ 2016-04-09T07:42:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000546s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001443s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001559s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000279s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000438s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.036028s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.036221s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.002071s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002268s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002442s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002661s ]
+
+[ 2016-04-09T07:52:50+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000622s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000979s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001126s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000261s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000395s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.026455s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.026626s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000786s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000908s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000970s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001084s ]
+
+[ 2016-04-09T07:53:49+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000615s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001425s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001546s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000287s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000427s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.033380s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.033569s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001681s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001888s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001676s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001833s ]
+
+[ 2016-04-09T07:59:19+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000634s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001434s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001572s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000280s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000429s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.034227s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.034382s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001391s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001505s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001559s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001673s ]
+
+[ 2016-04-09T08:00:42+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000594s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000974s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001092s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000221s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000358s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.030511s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.030719s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000796s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000917s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000947s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001096s ]
+
+[ 2016-04-09T08:02:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=firsttime
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000104s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000824s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001617s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001771s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+ERR: 非法操作:firsttime
+
+[ 2016-04-09T08:02:36+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=first
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000632s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001514s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001671s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+ERR: 非法操作:first
+
+[ 2016-04-09T08:03:24+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000569s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001585s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001738s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000089s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000238s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.068563s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.068743s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001892s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002091s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001905s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002120s ]
+
+[ 2016-04-09T08:03:25+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getDeviceInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000070s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001415s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002431s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002677s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0528s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0014s ]
+
+[ 2016-04-09T08:03:26+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getDiskInfo&type=0
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000616s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001681s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001830s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0162s ]
+SQL: SELECT * FROM `gui_device` WHERE ( level=1 and zu=1 and disk=1 ) LIMIT 1   [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `gui_disk` [ RunTime:0.0178s ]
+SQL: SELECT * FROM `gui_disk` WHERE `id` = 1 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:03:45+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=systeminit
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000565s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001727s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001907s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0271s ]
+SQL: DELETE FROM `gui_device` WHERE ( 1 ) [ RunTime:0.1183s ]
+SQL: SHOW COLUMNS FROM `gui_disk` [ RunTime:0.0180s ]
+SQL: DELETE FROM `gui_disk` WHERE ( 1 ) [ RunTime:0.1975s ]
+SQL: SHOW COLUMNS FROM `gui_disk_smart` [ RunTime:0.0189s ]
+SQL: DELETE FROM `gui_disk_smart` WHERE ( 1 ) [ RunTime:0.0002s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0193s ]
+SQL: DELETE FROM `gui_cmd_log` WHERE ( 1 ) [ RunTime:0.1266s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','1','1','0') [ RunTime:0.0881s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','3','1','0') [ RunTime:0.0886s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','4','1','0') [ RunTime:0.0881s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','3','1','0') [ RunTime:0.0874s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','1','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','2','1','0') [ RunTime:0.0886s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','1','1','0') [ RunTime:0.0853s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','2','1','0') [ RunTime:0.0804s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','4','1','0') [ RunTime:0.1187s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','1','1','0') [ RunTime:0.1662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','2','1','0') [ RunTime:0.0803s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','3','1','0') [ RunTime:0.1105s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','4','1','0') [ RunTime:0.1551s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','1','1','0') [ RunTime:0.1106s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','4','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','3','1','0') [ RunTime:0.1187s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','4','1','0') [ RunTime:0.1796s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','1','1','0') [ RunTime:0.2551s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','2','1','0') [ RunTime:0.1884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','3','1','0') [ RunTime:0.2221s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','4','1','0') [ RunTime:0.1884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','1','1','0') [ RunTime:0.2662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','2','1','0') [ RunTime:0.0988s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','3','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','4','1','0') [ RunTime:0.1218s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','1','1','0') [ RunTime:0.1185s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','2','1','0') [ RunTime:0.0804s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','1','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','4','1','0') [ RunTime:0.1187s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','1','1','0') [ RunTime:0.1441s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','2','1','0') [ RunTime:0.0800s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','4','1','0') [ RunTime:0.1217s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','1','1','0') [ RunTime:0.0996s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','4','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','2','1','0') [ RunTime:0.1007s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','3','1','0') [ RunTime:0.1285s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','4','1','0') [ RunTime:0.1021s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','4','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','2','1','0') [ RunTime:0.1218s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','2','1','0') [ RunTime:0.1217s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','3','1','0') [ RunTime:0.1326s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','4','1','0') [ RunTime:0.0886s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','1','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','1','1','0') [ RunTime:0.1438s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','2','1','0') [ RunTime:0.0881s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','4','1','0') [ RunTime:0.1216s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','3','1','0') [ RunTime:0.1551s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','4','1','0') [ RunTime:0.0923s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001758s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001872s ]
+
+[ 2016-04-09T08:03:46+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000582s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001429s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001556s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0205s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 252 行.
+NOTIC: [8] Undefined index: subcmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 261 行.
+NOTIC: [8] Use of undefined constant CMD_GOING - assumed 'CMD_GOING' C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 262 行.
+SQL: INSERT INTO `gui_cmd_log` (`cmd`,`status`) VALUES ('DEVICESTATUS','0') [ RunTime:0.2754s ]
+
+[ 2016-04-09T08:03:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000033s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000739s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001753s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001884s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0471s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:03:49+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000595s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001462s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001597s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0288s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:03:51+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000593s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001445s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001568s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0706s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:03:53+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000667s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001445s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001566s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0229s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:03:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000549s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001725s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001875s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0314s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:03:57+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000046s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000599s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001717s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001862s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0585s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:03:59+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000038s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000585s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001429s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001561s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0433s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:01+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000554s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001521s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001660s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0212s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:03+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000557s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001469s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001604s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0163s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:05+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000593s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001429s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001551s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0275s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:07+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000032s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000624s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001505s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001644s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0612s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:09+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000052s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000624s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001543s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001683s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0149s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000585s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001405s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001528s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0215s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000583s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001470s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001609s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0218s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000564s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001699s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001875s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0145s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:16+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000581s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001433s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001559s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000271s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000539s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.032084s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.032222s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001458s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001625s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002389s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002622s ]
+
+[ 2016-04-09T08:04:19+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000588s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001519s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001674s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0273s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:19+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000536s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001609s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001724s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0189s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:21+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000538s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001407s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001542s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0117s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:23+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000495s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001434s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001570s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0242s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:25+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000487s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001371s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001507s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0241s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:27+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000047s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000921s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004557s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004973s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0111s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000631s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001494s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001659s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0193s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000496s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001452s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001569s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0194s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:33+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000047s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000519s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001592s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001721s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0109s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:35+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000506s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001456s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001596s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0220s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:37+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000529s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001396s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001563s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0186s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:39+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000500s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001448s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001567s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0161s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:41+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000513s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001649s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001855s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0223s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:43+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000497s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001332s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001448s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0212s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:45+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000516s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001876s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002019s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0212s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000466s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001505s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001627s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0273s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:49+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000569s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001555s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001777s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0230s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:04:51+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000048s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000852s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003802s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004033s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.1082s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:53+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000717s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001407s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001585s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0355s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:04:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000510s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001478s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001594s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0192s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:07:58+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=systeminit
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000762s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001412s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001568s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0150s ]
+SQL: DELETE FROM `gui_device` WHERE ( 1 ) [ RunTime:0.0930s ]
+SQL: SHOW COLUMNS FROM `gui_disk` [ RunTime:0.0178s ]
+SQL: DELETE FROM `gui_disk` WHERE ( 1 ) [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `gui_disk_smart` [ RunTime:0.0162s ]
+SQL: DELETE FROM `gui_disk_smart` WHERE ( 1 ) [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0205s ]
+SQL: DELETE FROM `gui_cmd_log` WHERE ( 1 ) [ RunTime:0.0872s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','4','1','0') [ RunTime:0.1106s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','1','1','0') [ RunTime:0.1328s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','1','1','0') [ RunTime:0.0770s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','4','1','0') [ RunTime:0.1107s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','4','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','2','1','0') [ RunTime:0.0880s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','3','1','0') [ RunTime:0.0770s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','3','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','4','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','1','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','2','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','3','1','0') [ RunTime:0.1440s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','1','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','3','1','0') [ RunTime:0.0968s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','4','1','0') [ RunTime:0.1326s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','1','1','0') [ RunTime:0.0800s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','1','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','3','1','0') [ RunTime:0.0857s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','4','1','0') [ RunTime:0.0688s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','1','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','1','1','0') [ RunTime:0.1468s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','2','1','0') [ RunTime:0.0744s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','3','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','1','1','0') [ RunTime:0.0662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','4','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','4','1','0') [ RunTime:0.0879s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','1','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','1','1','0') [ RunTime:0.1217s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','1','1','0') [ RunTime:0.3774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','2','1','0') [ RunTime:0.2774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','3','1','0') [ RunTime:0.2212s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','4','1','0') [ RunTime:0.1544s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','1','1','0') [ RunTime:0.1001s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','2','1','0') [ RunTime:0.0992s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','4','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','1','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','3','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','4','1','0') [ RunTime:0.1106s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','3','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','1','1','0') [ RunTime:0.0964s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','2','1','0') [ RunTime:0.1246s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','3','1','0') [ RunTime:0.0985s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','4','1','0') [ RunTime:0.0752s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','1','1','0') [ RunTime:0.0682s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','3','1','0') [ RunTime:0.0862s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','4','1','0') [ RunTime:0.0794s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','2','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','4','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','2','1','0') [ RunTime:0.0973s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','3','1','0') [ RunTime:0.0791s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','2','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','4','1','0') [ RunTime:0.0882s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001794s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001941s ]
+
+[ 2016-04-09T08:07:58+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000732s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001512s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001663s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0191s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 252 行.
+NOTIC: [8] Undefined index: subcmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 261 行.
+NOTIC: [8] Use of undefined constant CMD_GOING - assumed 'CMD_GOING' C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 262 行.
+SQL: INSERT INTO `gui_cmd_log` (`cmd`,`status`) VALUES ('DEVICESTATUS','0') [ RunTime:0.1505s ]
+
+[ 2016-04-09T08:08:00+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000033s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000760s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001425s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001580s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0379s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:08:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000032s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000715s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001335s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001464s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000198s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000342s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.032830s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.032986s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001296s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001416s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001460s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001572s ]
+
+[ 2016-04-09T08:09:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=systeminit
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000567s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001310s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001435s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0166s ]
+SQL: DELETE FROM `gui_device` WHERE ( 1 ) [ RunTime:0.0864s ]
+SQL: SHOW COLUMNS FROM `gui_disk` [ RunTime:0.0206s ]
+SQL: DELETE FROM `gui_disk` WHERE ( 1 ) [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `gui_disk_smart` [ RunTime:0.0217s ]
+SQL: DELETE FROM `gui_disk_smart` WHERE ( 1 ) [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0239s ]
+SQL: DELETE FROM `gui_cmd_log` WHERE ( 1 ) [ RunTime:0.1191s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','1','4','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','1','1','0') [ RunTime:0.0993s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','2','4','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','1','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','2','1','0') [ RunTime:0.0995s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','3','4','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','1','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','2','1','0') [ RunTime:0.1108s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','3','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','4','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','5','4','1','0') [ RunTime:0.0993s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','3','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('1','6','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','1','1','0') [ RunTime:0.0996s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','3','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','1','4','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','2','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','2','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','1','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','3','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','3','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','2','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','4','4','1','0') [ RunTime:0.0993s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','2','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','5','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','1','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','2','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('2','6','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','1','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','2','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','1','4','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','1','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','3','1','0') [ RunTime:0.0994s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','2','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','1','1','0') [ RunTime:0.0880s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','2','1','0') [ RunTime:0.0880s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','3','4','1','0') [ RunTime:0.1640s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','1','1','0') [ RunTime:0.0683s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','4','4','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','1','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','2','1','0') [ RunTime:0.1108s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','5','4','1','0') [ RunTime:0.0817s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','1','1','0') [ RunTime:0.0724s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','2','1','0') [ RunTime:0.0881s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','3','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('3','6','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','1','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','2','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','3','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','1','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','2','4','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','2','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','3','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','3','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','1','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','4','4','1','0') [ RunTime:0.0751s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','1','1','0') [ RunTime:0.0683s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','2','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','3','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','5','4','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','3','1','0') [ RunTime:0.0750s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('4','6','4','1','0') [ RunTime:0.0683s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','1','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','1','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','2','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','1','1','0') [ RunTime:0.0933s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','2','1','0') [ RunTime:0.0714s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','3','1','0') [ RunTime:0.0661s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','3','4','1','0') [ RunTime:0.0774s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','1','1','0') [ RunTime:0.0662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','2','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','3','1','0') [ RunTime:0.0663s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','4','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','1','1','0') [ RunTime:0.0770s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','2','1','0') [ RunTime:0.0890s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','3','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','5','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','2','1','0') [ RunTime:0.0770s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','3','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('5','6','4','1','0') [ RunTime:0.5001s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','1','1','0') [ RunTime:0.2878s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','2','1','0') [ RunTime:0.1439s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','3','1','0') [ RunTime:0.0882s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','1','4','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','2','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','3','1','0') [ RunTime:0.0769s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','2','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','2','1','0') [ RunTime:0.0662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','3','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','3','4','1','0') [ RunTime:0.0772s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','1','1','0') [ RunTime:0.0885s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','2','1','0') [ RunTime:0.0987s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','3','1','0') [ RunTime:0.0661s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','4','4','1','0') [ RunTime:0.0883s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','1','1','0') [ RunTime:0.0662s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','2','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','3','1','0') [ RunTime:0.0661s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','5','4','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','1','1','0') [ RunTime:0.0773s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','2','1','0') [ RunTime:0.0771s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','3','1','0') [ RunTime:0.0884s ]
+SQL: INSERT INTO `gui_device` (`level`,`zu`,`disk`,`loaded`,`bridged`) VALUES ('6','6','4','1','0') [ RunTime:0.0773s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001599s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001713s ]
+
+[ 2016-04-09T08:09:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000597s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001388s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001518s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.1606s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 252 行.
+NOTIC: [8] Undefined index: subcmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 261 行.
+NOTIC: [8] Use of undefined constant CMD_GOING - assumed 'CMD_GOING' C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 262 行.
+SQL: INSERT INTO `gui_cmd_log` (`cmd`,`status`) VALUES ('DEVICESTATUS','0') [ RunTime:0.0858s ]
+
+[ 2016-04-09T08:09:30+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000033s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000632s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001399s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001520s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0411s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:25:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000054s ]
+INFO: [ app_init ] --END-- [ RunTime:0.008351s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.012436s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012597s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000086s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000229s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.077352s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.077504s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.007683s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.007859s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.007423s ]
+INFO: [ app_end ] --END-- [ RunTime:0.007578s ]
+
+[ 2016-04-09T08:25:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getDeviceInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000040s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000910s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001572s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001724s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0167s ]
+SQL: SELECT * FROM `gui_device`  [ RunTime:0.0013s ]
+
+[ 2016-04-09T08:25:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getDiskInfo&type=0
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000637s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001735s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001909s ]
+SQL: SHOW COLUMNS FROM `gui_device` [ RunTime:0.0132s ]
+SQL: SELECT * FROM `gui_device` WHERE ( level=1 and zu=1 and disk=1 ) LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:25:23+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000500s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001330s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001479s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0221s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 252 行.
+NOTIC: [8] Undefined index: subcmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 261 行.
+NOTIC: [8] Use of undefined constant CMD_GOING - assumed 'CMD_GOING' C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 262 行.
+SQL: INSERT INTO `gui_cmd_log` (`cmd`,`status`) VALUES ('DEVICESTATUS','0') [ RunTime:0.0755s ]
+
+[ 2016-04-09T08:25:25+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000504s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001333s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001457s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0218s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:25:27+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000032s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000557s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001498s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001653s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0286s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:25:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000628s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001396s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001533s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0255s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:25:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000496s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001386s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001532s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0218s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:25:33+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000786s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001383s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001524s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0237s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:26:53+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000508s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001341s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001463s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000087s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000229s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.024893s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025031s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001312s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001432s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001353s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001457s ]
+
+[ 2016-04-09T08:27:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000582s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001416s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001542s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000085s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000219s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.012687s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.012822s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001351s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001463s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001587s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001703s ]
+
+[ 2016-04-09T08:27:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000582s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001398s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001521s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000087s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000215s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.023232s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.023376s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001350s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001459s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001573s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001691s ]
+
+[ 2016-04-09T08:28:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000049s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000883s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001897s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002107s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000158s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000408s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.033510s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.033693s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001451s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001593s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001639s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001784s ]
+
+[ 2016-04-09T08:29:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000600s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001506s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001657s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000087s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000231s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.025360s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025498s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001836s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001999s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002490s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002694s ]
+
+[ 2016-04-09T08:29:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000051s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000990s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001510s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001652s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000139s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000348s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.027055s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.027229s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001625s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001763s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001837s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002002s ]
+
+[ 2016-04-09T08:30:02+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000787s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001427s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001567s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0217s ]
+NOTIC: [8] Undefined index: id C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 252 行.
+NOTIC: [8] Undefined index: subcmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 261 行.
+NOTIC: [8] Use of undefined constant CMD_GOING - assumed 'CMD_GOING' C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 262 行.
+SQL: INSERT INTO `gui_cmd_log` (`cmd`,`status`) VALUES ('DEVICESTATUS','0') [ RunTime:0.1012s ]
+
+[ 2016-04-09T08:30:02+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=addcmdlog
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000028s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000566s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001612s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001768s ]
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0200s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 3 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `gui_cmd_log` SET `user_id`=NULL,`cmd`='DEVICESTATUS',`sub_cmd`='',`start_time`='2016-04-09 08:30:01',`status`='0',`progress`=NULL,`msg`='{\"cmd\":\"DEVICESTATUS\",\"CMD_ID\":\"3\"}' WHERE `id` = 3 [ RunTime:0.1140s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001715s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001831s ]
+
+[ 2016-04-09T08:30:03+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000572s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001453s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001585s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0245s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:30:05+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000056s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000954s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001609s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001779s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0236s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:07+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000582s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001447s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001574s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0273s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:09+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000644s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002272s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002466s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0216s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:30:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000032s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000628s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001409s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001552s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0196s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000557s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002106s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002306s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0200s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000030s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000568s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001417s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001540s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0245s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:17+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000723s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001803s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001958s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0245s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:19+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000713s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001638s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001796s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0217s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0004s ]
+
+[ 2016-04-09T08:30:21+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getCmdResult&cmd=DEVICESTATUS
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000585s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002207s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0201s ]
+NOTIC: [8] Undefined variable: cmd C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 160 行.
+SQL: SELECT * FROM `gui_cmd_log` WHERE `id` = 0 LIMIT 1   [ RunTime:0.0003s ]
+
+[ 2016-04-09T08:30:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000033s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000770s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001447s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001572s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000198s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000338s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.045297s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.045438s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001399s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001510s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001543s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001653s ]
+
+[ 2016-04-09T08:31:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000031s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000909s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001480s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001616s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000204s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000351s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.033800s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.033942s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001581s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001741s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001637s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001783s ]
+
+[ 2016-04-09T13:25:30+08:00 ] 127.0.0.1 /index.php?m=admin&c=business
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000642s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001447s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001574s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000207s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000361s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.029118s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.029325s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001560s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001708s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.002129s ]
+
+[ 2016-04-09T13:25:35+08:00 ] 127.0.0.1 /index.php?m=admin&c=business&a=getGoingTasks
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000558s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001312s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001432s ]
+NOTIC: [8] Undefined index: CONTENT_TYPE C:\wamp\www\gui\bc\Admin\Controller\BusinessController.class.php 第 6 行.
+SQL: SHOW COLUMNS FROM `gui_cmd_log` [ RunTime:0.0190s ]
+SQL: SELECT * FROM `gui_cmd_log` WHERE ( status = -1 )  [ RunTime:0.0004s ]
+
