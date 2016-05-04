@@ -23,7 +23,6 @@ function Cabinet() {
     this.cmd_device_status = null;
 }
 
-
 // 柜子Cabinet类的原型
 Cabinet.prototype = {
     // 是否正在在位查询

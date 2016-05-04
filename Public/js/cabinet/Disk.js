@@ -268,10 +268,10 @@ Disk.prototype = {
     get_extent_title: function () {        
         var _name = this.get_cmd_name();
         if (_name == 'DISKINFO' || _name == 'BRIDGE') {
-            return this.curr_cmd.usedTime + 's';
+            return '用时' + this.curr_cmd.usedTime + 's';
         }
         else if (_name == 'MD5' || _name == 'COPY') {
-            return this.curr_cmd.progress + '%，' + this.temperature + '℃';
+            return '已完成'+this.curr_cmd.progress + '%，' + this.temperature + '℃';
         }
         else {
             return '';
