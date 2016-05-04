@@ -15,6 +15,7 @@ function Disk(l, g, d) {
     this.isto_bridge = false;
     // 用于辅助执行“复制”命令时，指定另一块目的/源硬盘对象
     this.copy_disk = null;
+    this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
     // 硬盘基本信息集合
     this.base_info = {
         // 是否在位
@@ -69,6 +70,8 @@ Disk.prototype = {
         else if (cmd_name == 'COPY') {
             var bdsk = this.get_copy_busy_disk();
             if (bdsk != null) this.busy_disk = bdsk;
+
+            this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
         }
         else if (cmd_name == 'BRIDGE') {
             var bdsk = this.get_bridge_busy_disk();
@@ -174,6 +177,9 @@ Disk.prototype = {
                 return '未知';
         }
     },
+    is_copy_dsk: function () {
+        return this.curr_cmd != null && this.curr_cmd.cmd == 'COPY' && (this.l + 1).toString() == this.curr_cmd.dstLevel && (this.g+1).toString() == this.curr_cmd.dstGroup && (this.d+1).toString() == this.curr_cmd.dstDisk;
+    },
     // 依据硬盘状态计算出命令按钮的中文描述
     get_btn_title: function (cmd_name) {
         var title = '';
@@ -258,20 +264,30 @@ Disk.prototype = {
             return 'MD5';
         }
         else if (_name == 'COPY') {
-            return '复制-' + (this.g % 2 == 0 ? '源' : '目');
+            if (!this.is_copy_dsk()) {
+                return '复制-源';
+            }
+            else {
+                return '复制-目';
+            }
         }
         else {
             return '';
         }
     },
     // 依据硬盘状态计算出插槽栏的中文附加描述
-    get_extent_title: function () {        
+    get_extent_title: function () {      
+        var ex_title = '';
+        if (this.curr_cmd) {
+            ex_title = '用时' + this.curr_cmd.usedTime + 's，进度' + this.curr_cmd.progress + '%';
+        }
+
         var _name = this.get_cmd_name();
         if (_name == 'DISKINFO' || _name == 'BRIDGE') {
-            return '用时' + this.curr_cmd.usedTime + 's';
+            return ex_title;
         }
         else if (_name == 'MD5' || _name == 'COPY') {
-            return '已完成'+this.curr_cmd.progress + '%，' + this.temperature + '℃';
+            return ex_title + '，' + this.temperature + '℃';
         }
         else {
             return '';
@@ -446,6 +462,9 @@ Disk.prototype = {
         }
         return false;
     },
+    get_copy_disk:function(){
+        return this.get_copy_disks()[parseInt(copy_disk)];
+    },
     // 用于辅助“复制”命令执行，查找可匹配的目的/源硬盘集合
     get_copy_disks: function () {
         return this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks;
@@ -493,7 +512,7 @@ Disk.prototype = {
             cmd_obj.subcmd = 'START';
 
             // 源盘
-            if (this.g % 2 == 0) {
+            if (this.copy_src_or_dst == 'src') {
                 cmd_obj.srcLevel = (this.l + 1).toString();
                 cmd_obj.srcGroup = (this.g + 1).toString();
                 cmd_obj.srcDisk = (this.d + 1).toString();
@@ -507,7 +526,6 @@ Disk.prototype = {
                 cmd_obj.dstGroup = (_dsk.g + 1).toString();
                 cmd_obj.dstDisk = (_dsk.d + 1).toString();
                 _dsk.curr_cmd = cmd_obj;
-                _dsk.curr_cmd.progress = 0;
             }
             else {
                 cmd_obj.dstLevel = (this.l + 1).toString();
