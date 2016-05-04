@@ -156,35 +156,35 @@ CabCmdHelper.prototype = {
         if (this.isDeviceNeeded(msg)) {
             msg.device_id = global_cabinet.id.toString();
         }
-        global_http.post(global_server, msg).
+        var toSave  = msg;
+        toSave.msg = JSON.stringify(msg);
+        global_http.post(global_server, toSave).
         success(function (data) {
             if (data['errmsg']) {
                 global_err_pool.add(data);
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
-
             msg.CMD_ID = data['id'].toString();
-
-            var msgStr = JSON.stringify(msg);
             //服务器收到通知后，联系APP，发送指令；
             global_http.post(global_app, msg).success(function () {
                 //命令池更新
-                data['msg'] = msgStr;
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
             }).
             error(function (data) {
                 global_err_pool.add();
                 //delete from log;
+                //弹出失败提示
                 global_cmd_helper.delete(data['id']);
             });
             // data['msg'] = msgStr;
             //var newCmd = $scope.cmd.createCmd(data);
             //$scope.taskPool.add(newCmd);
             //更新日志内容，将命令所涉及的插槽信息发送给日志
-            global_http.post(global_server, { msg: msgStr, id: data['id'] });
+           // global_http.post(global_server, { msg: msgStr, id: data['id'] });
         }).
         error(function (data) {
+            //弹出失败提示
             global_err_pool.add();
         });
     }

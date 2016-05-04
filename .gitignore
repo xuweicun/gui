@@ -46,10 +46,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-<<<<<<< HEAD
+
 bc/Runtime
 *.log
-=======
 /bc/Runtime
 /.idea/workspace.xml
->>>>>>> ee95d05373459bc5f0f65261039d964f71ed4c47
