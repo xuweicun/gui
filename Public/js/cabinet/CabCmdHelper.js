@@ -156,8 +156,18 @@ CabCmdHelper.prototype = {
         if (this.isDeviceNeeded(msg)) {
             msg.device_id = global_cabinet.id.toString();
         }
+        var dstId = 0;
+        if(msg.CMD_ID)
+        {
+            dstId = msg.CMD_ID;
+            delete msg.CMD_ID;
+        }
         var toSave  = msg;
         toSave.msg = JSON.stringify(msg);
+        if(dstId > 0)
+        {
+            toSave.CMD_ID = dstId;
+        }
         global_http.post(global_server, toSave).
         success(function (data) {
             if (data['errmsg']) {
