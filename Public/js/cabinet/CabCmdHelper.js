@@ -9,7 +9,7 @@ CabCmdHelper.prototype = {
             method: 'GET'
         }).success(function (data) {
             // 用户切换了柜子
-            if (!global_cabinet.selected) return;
+            if (data.length <= 0 || data[0].cab_id != global_cabinet.id) return;
 
             global_cabinet.i_load_disks_base_info(data);
 
@@ -20,7 +20,7 @@ CabCmdHelper.prototype = {
                     global_cmd_helper.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);
                 }
             }
-        }).error(function (data) {
+        }).error(function () {
             console.log("更新存储柜信息失败.");
         });
     },
@@ -57,7 +57,7 @@ CabCmdHelper.prototype = {
             url: localUrl,
             data: msg.md5,
             method: 'POST'
-        }).success(function (data) {
+        }).success(function () {
             alert("done");
         });
     },
@@ -69,7 +69,7 @@ CabCmdHelper.prototype = {
             url: realUrl,
             data: msg.md5,
             method: 'POST'
-        }).success(function (data) {
+        }).success(function () {
             alert("done");
 
         });
@@ -83,7 +83,6 @@ CabCmdHelper.prototype = {
         this.sendcmd(msg);
     },
     stop: function (id, subcmd) {
-        var that = this;
         //获取命令参数
         global_http({
             url: '/index.php?m=admin&c=business&a=getCmdResult&cmdid=' + id,
@@ -137,21 +136,17 @@ CabCmdHelper.prototype = {
         this.sendcmd(msg);
     },
     isDeviceNeeded : function (msg) {
-        if (msg.cmd == 'DEVICEINFO') {
-            return false;
-        }
-        return true;
+        return msg.cmd != 'DEVICEINFO';
     },
     delete : function (id) {
         global_http({
             url: '/index.php?m=admin&c=business&a=deleteLog&id=' + id,
             method: 'GET'
-        }).error(function (data) {
+        }).error(function () {
             console.log("更新存储柜信息失败.");
         });
     },
     sendcmd: function (msg) {
-        var that = this;
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg)) {
             msg.device_id = global_cabinet.id.toString();
@@ -193,7 +188,7 @@ CabCmdHelper.prototype = {
             //更新日志内容，将命令所涉及的插槽信息发送给日志
            // global_http.post(global_server, { msg: msgStr, id: data['id'] });
         }).
-        error(function (data) {
+        error(function () {
             //弹出失败提示
             global_err_pool.add();
         });
