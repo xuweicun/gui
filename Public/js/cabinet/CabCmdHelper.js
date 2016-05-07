@@ -182,11 +182,6 @@ CabCmdHelper.prototype = {
                 //弹出失败提示
                 global_cmd_helper.delete(data['id']);
             });
-            // data['msg'] = msgStr;
-            //var newCmd = $scope.cmd.createCmd(data);
-            //$scope.taskPool.add(newCmd);
-            //更新日志内容，将命令所涉及的插槽信息发送给日志
-           // global_http.post(global_server, { msg: msgStr, id: data['id'] });
         }).
         error(function () {
             //弹出失败提示
