@@ -318,6 +318,7 @@ Disk.prototype = {
             var _dsk = sibs[i];
             if (_dsk.is_busy()) {
                 return _dsk;
+
             }
         }
 
