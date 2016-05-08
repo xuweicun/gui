@@ -1,30 +1,31 @@
 ﻿function TaskPool() {
-    this.isWatching= false;
+    this.isWatching = false;
     //用于异步处理的锁标识，防止异步处理过程中池子发生变化
-    this.locked= false;
-    this.ready= false;
+    this.locked = false;
+    this.ready = false;
     //池子里有完成的命令
-    this.dirty= false;
+    this.dirty = false;
     //正在执行的任务
-    this.going= [];
+    this.going = [];
     //停止的任务
-    this.done= [];
+    this.done = [];
     //最小轮询时间单元
-    this.unitTimer= 1000;
+    this.unitTimer = 1000;
     //小号放大器
-    this.smAmp= 5;
+    this.smAmp = 5;
     //中号放大器
-    this.mdAmp= 10;
+    this.mdAmp = 10;
     //大号放大器
-    this.lgAmp= 20;
+    this.lgAmp = 20;
     //轮询次数计数器
-    this.queryCnt= 0;
-    this.stopFlag= false;
-    this.maxPoolSize= 50;
+    this.queryCnt = 0;
+    this.stopFlag = false;
+    this.maxPoolSize = 50;
+    this.cabChanged = false;
 }
 
 TaskPool.prototype = {
-    
+
     add: function (task) {
         this.going.forEach(function (e) {
             if (e.id == task.id) {
@@ -94,8 +95,29 @@ TaskPool.prototype = {
             this.done.push(task);
         }
     },
+    forCab: function () {
+        if (!this.cabChanged || global_cabinet_helper.getLth() == 0) {
+            return;
+        }
+        var pool = global_task_pool;
+        if (pool.going.length == 0) {
+            return;
+        }
+
+        //更新时间
+        for (var idx = 0; idx < pool.going.length; idx++) {
+            var task = pool.going[idx];
+            if (task.isDone()) {
+                //如果命令执行完毕
+                continue;
+            }
+            //绑定命令
+            global_cabinet.i_on_cmd_changed(task, true);
+        }
+        this.cabChanged = false;
+    },
     startGlobalWatch: function () {
-        if (this.isWatching) reutrn;
+        //if (this.isWatching) return;
 
         this.isWatching = true;
         global_interval(function () {
@@ -103,7 +125,8 @@ TaskPool.prototype = {
             if (pool.going.length == 0) {
                 return;
             }
-
+            //命令与柜子绑定
+            this.forCab();
             //更新时间
             for (var idx = 0; idx < pool.going.length; idx++) {
                 var task = pool.going[idx];
@@ -114,6 +137,7 @@ TaskPool.prototype = {
                     //如果命令执行完毕
                     continue;
                 }
+                //检查当前柜子id是否有变化
                 task.usedTime += 1;
                 //console.log(task.usedTime);
                 if (task.usedTime >= task.timeLimit) {
@@ -147,7 +171,7 @@ TaskPool.prototype = {
             global_http({
                 url: '/index.php?m=admin&c=business&a=getCmdResult',
                 method: 'POST',
-                data: { tasks: _tasks }
+                data: {tasks: _tasks}
             }).success(function (data) {
                 if (data['errmsg']) {
                     global_err_pool.add(data);
@@ -167,16 +191,16 @@ TaskPool.prototype = {
     //更新桥接状态
     hdlBridgeMsg: function (msg) {
         /* msg.paths = [];
-            for (var i in msg.disks) {
-            var _dsk = msg.disks[i];
-            msg.paths.push({
-            "status": "0",
-            // 硬盘号，类型int，取值：1-4
-            "id": _dsk.id.toString(),
-            //路径，类型字符串，长度16字节
-            "value": "sdb" + _dsk.id
-            });
-            }*/
+         for (var i in msg.disks) {
+         var _dsk = msg.disks[i];
+         msg.paths.push({
+         "status": "0",
+         // 硬盘号，类型int，取值：1-4
+         "id": _dsk.id.toString(),
+         //路径，类型字符串，长度16字节
+         "value": "sdb" + _dsk.id
+         });
+         }*/
         // if(msg)
         // global_cabinet.i_on_bridge_resp(msg);
     },
@@ -282,9 +306,9 @@ TaskPool.prototype = {
         });
     },
     /*
-        * success:成功处理
-        * error:失败处理
-        * */
+     * success:成功处理
+     * error:失败处理
+     * */
     success: function (idx, msg) {
         var task = this.going[idx];
         //如果是START，按下面的方式处理
@@ -328,7 +352,7 @@ TaskPool.prototype = {
                 }
 
 
-                //如果断开
+            //如果断开
         }
 
     },

@@ -32,7 +32,7 @@ CabinetHelper.prototype = {
         this.curr.get_select();
         global_cabinet = this.curr;
         global_cmd_helper.updateDeviceStatus();
-
+        global_task_pool.cabChanged = true;
         this.on_cabinet_select(this.curr);
     },
     getLth: function () {
