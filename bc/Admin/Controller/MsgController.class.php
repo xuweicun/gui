@@ -366,6 +366,12 @@ class MsgController extends Controller
             $cabDb = M('Cab');
             //查看cab是否存在
             $cabs = $_POST['cabinets'];
+            //将所有柜子设为不在位
+            $items = $cabDb->select();
+            foreach($items as $i){
+                $i['loaded'] = 0;
+                $cabDb->save($i);
+            }
             foreach ($cabs as $cab) {
                 $map['sn'] = array('eq', (int)$cab);
                 $item = $cabDb->where($map)->find();
@@ -374,7 +380,13 @@ class MsgController extends Controller
                     $data = array();
                     $data['id'] = $cab;
                     $data['sn'] = $cab;
+                    $data['loaded'] = 1;
                     $cabDb->add($data);
+                    //增加插槽信息
+                }
+                else{
+                    $item['loaded'] = 1;
+                    $cabDb->save($item);
                 }
             }
         }

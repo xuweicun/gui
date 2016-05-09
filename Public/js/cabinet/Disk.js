@@ -279,7 +279,7 @@ Disk.prototype = {
     get_extent_title: function () {      
         var ex_title = '';
         if (this.curr_cmd) {
-            ex_title = 'T' + this.curr_cmd.usedTime + 's，P' + this.curr_cmd.progress + '%';
+            ex_title = 'T: ' + this.curr_cmd.usedTime + 's，P: ' + this.curr_cmd.progress + '%';
         }
 
         var _name = this.get_cmd_name();
@@ -318,6 +318,7 @@ Disk.prototype = {
             var _dsk = sibs[i];
             if (_dsk.is_busy()) {
                 return _dsk;
+
             }
         }
 
