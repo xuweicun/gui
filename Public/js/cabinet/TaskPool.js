@@ -126,7 +126,7 @@ TaskPool.prototype = {
                 return;
             }
             //命令与柜子绑定
-            this.forCab();
+            pool.forCab();
             //更新时间
             for (var idx = 0; idx < pool.going.length; idx++) {
                 var task = pool.going[idx];
