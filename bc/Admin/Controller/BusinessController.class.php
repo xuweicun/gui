@@ -210,7 +210,7 @@ class BusinessController extends Controller {
 	public function getCabInfo()
 	{
 		$db = M('Cab');
-        $items = $db->select();
+        $items = $db->where('loaded=1')->select();
         $this->AjaxReturn($items);
 	}
 	public function getDeviceInfo()

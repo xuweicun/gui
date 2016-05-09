@@ -117,8 +117,7 @@ TaskPool.prototype = {
         this.cabChanged = false;
     },
     startGlobalWatch: function () {
-        //if (this.isWatching) return;
-
+        if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;
         global_interval(function () {
             var pool = global_task_pool;

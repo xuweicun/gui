@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
         <div class="panel bk-widget bk-border-off" ng-class="{true:'selected',false:'non-selected'}[item.selected]" ng-click="cabs.on_select($index)">
-            <div class="panel-body bk-bg-primary">
+            <div class="panel-body" ng-class="{true:'bk-bg-primary',false:'bk-bg-default'}[item.selected]">
                 <div style="position:absolute;width:16px;right:45px;top:10px">
                     <div style="position:absolute;left:0px;top:4px;height:8px;width:2px;background-color:white;"></div>
                     <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
