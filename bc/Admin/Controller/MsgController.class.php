@@ -369,6 +369,7 @@ class MsgController extends Controller
             foreach ($cabs as $cab) {
                 $map['sn'] = array('eq', (int)$cab);
                 $item = $cabDb->where($map)->find();
+                //如果不存在，新建
                 if (!$item) {
                     $data = array();
                     $data['id'] = $cab;
