@@ -665,10 +665,7 @@ class MsgController extends Controller
                 $item['time'] = time();
                 $db->save($item);
             }
-      //      $testDb = M('test');
-
             foreach ($levels as $level) {
-
                 $level_id = $level['id'];
                 $groups = $level['groups'];
                 foreach ($groups as $group) {
@@ -691,9 +688,12 @@ class MsgController extends Controller
                    //         $data['response'] = $data['response'] . "-added";
 
                         } else {
-
-                           // $db->add($data);
-                        //    $data['response'] = $data['response'] . "-fail";
+                            $data['level'] = $level_id;
+                            $data['zu'] = $group_id;
+                            $data['disk'] = $disk;
+                            $data['cab_id'] = $dsk->cab;
+                            $data['loaded'] = 1;
+                            $db->add($data);
                         }
                      //   $testDb->add($data);
                     }
