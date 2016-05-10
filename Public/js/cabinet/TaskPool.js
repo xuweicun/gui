@@ -107,7 +107,7 @@ TaskPool.prototype = {
         //更新时间
         for (var idx = 0; idx < pool.going.length; idx++) {
             var task = pool.going[idx];
-            if (task.isDone()) {
+            if (task.isDone() || task.device_id != global_cabinet_helper.curr.id) {
                 //如果命令执行完毕
                 continue;
             }
