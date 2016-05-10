@@ -148,7 +148,7 @@ CabCmdHelper.prototype = {
     },
     sendcmd: function (msg) {
         //先发送消息告知服务器即将发送指令；
-        if (this.isDeviceNeeded(msg)) {
+        if (this.isDeviceNeeded(msg) && !msg.device_id) {
             msg.device_id = global_cabinet.id.toString();
         }
         var dstId = 0;

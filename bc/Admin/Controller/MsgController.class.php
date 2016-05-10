@@ -375,10 +375,13 @@ class MsgController extends Controller
             foreach ($cabs as $cab) {
                 $map['sn'] = array('eq', (int)$cab);
                 $item = $cabDb->where($map)->find();
+                //如果不存在，新建
                 if (!$item) {
                     $data = array();
-                    $data['id'] = $cab;
-                    $data['sn'] = $cab;
+                    $data['sn'] = $cab['id'];
+                    $data['level_cnt'] = $cab['level_cnt'];
+                    $data['group_cnt'] = $cab['group_cnt'];
+                    $data['disk_cnt'] = $cab['disk_cnt'];
                     $data['loaded'] = 1;
                     $cabDb->add($data);
                     //增加插槽信息

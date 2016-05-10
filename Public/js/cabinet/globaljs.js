@@ -13,6 +13,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
     var proxy = "http://222.35.224.230:8080";
     global_server = server;
+    global_root = businessRoot;
     global_app = proxy;
     $scope.systReset = function () {
         $http({method: 'GET', url: '/index.php?m=admin&c=business&a=systReset'}).success(function (data) {
@@ -20,6 +21,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
         });
     }
     global_cmd_helper = new CabCmdHelper($scope);
+    global_deployer = new Deployer($scope);
     $scope.cmd = global_cmd_helper;
 
     global_lang = Lang;
@@ -93,6 +95,13 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
                 $scope.cabs.i_on_init(data);
             }
         });
+    }
+    $scope.deploy = function(cab){
+        if(!global_deployer.available()){
+            return;
+        }
+        global_deployer.on_init(cab);
+        global_deployer.startDeploy();
     }
     $scope.getDiskInfo = function (cab, lvl, grp, dsk) {
         //read cab info from database

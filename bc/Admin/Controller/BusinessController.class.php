@@ -210,7 +210,7 @@ class BusinessController extends Controller {
 	public function getCabInfo()
 	{
 		$db = M('Cab');
-        $items = $db->select();
+        $items = $db->where('loaded=1')->select();
         $this->AjaxReturn($items);
 	}
 	public function getDeviceInfo()
@@ -308,6 +308,7 @@ class BusinessController extends Controller {
 		$result=mysqli_query($conn,$sql4);
                 mysqli_close($conn);
 	}
+
 	/****
 	* 系统初始化函数
 	*/

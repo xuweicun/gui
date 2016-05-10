@@ -1,7 +1,30 @@
 ﻿//        $scope.cab = new Cabinet();
+//CabView: 存储柜子的基本信息
+function CabPicker(){
+    this.lvl_cnt = 0;
+    this.id = 0;
+    this.grp_cnt = 0;
+    this.dsk_cnt = 0;
+    this.selected = false;
+}
+CabPicker.prototype = {
+    i_on_init: function(c,l,g,d){
+        this.lvl_cnt = l;
+        this.id = c;
+        this.grp_cnt = g;
+        this.dsk_cnt = d;
+    },
+    on_select: function(){
+        this.selected = true;
+    },
+    on_drop: function(){
+        this.selected = false;
+    }
+}
 function CabinetHelper(on_cabinet_select) {
     this.cabs = [];
     this.curr = null;
+    this.cab = null;
     this.on_cabinet_select = on_cabinet_select;
 }
 
@@ -9,31 +32,32 @@ CabinetHelper.prototype = {
     //获取一块盘的指针
     i_get_disk: function (c, l, g, d) {
         //找到硬盘
-        for (var idx = 0; idx < this.cabs.length; idx++) {
-            //找到柜子
-            if (this.cabs[idx].id == c) {
-                var thisCab = this.cabs[idx];
-                var disk = thisCab.i_get_disk(l - 1, g - 1, d - 1);
-                return disk;
-
-            }
+        if(c != this.curr.id)
+        {
+            //柜子未选中
+            return null;
         }
-        return null;
+        return this.cab.i_get_disk((l - 1,g - 1,d - 1));
     },
     on_select: function (idx) {
         if (this.curr === this.cabs[idx]) {
             return;
         }
-        if (this.curr != null) {
-            this.curr.selected = false;
+        if(this.curr)
+        {
+           this.curr.on_drop();
         }
-
         this.curr = this.cabs[idx];
-        this.curr.get_select();
-        global_cabinet = this.curr;
+        this.curr.on_select();
+        if(!this.cab)
+        {
+            this.cab = new Cabinet();
+        }
+        this.cab.i_on_init(this.curr.id,this.curr.lvl_cnt,this.curr.grp_cnt,this.curr.dsk_cnt);
+        global_cabinet = this.cab;
         global_cmd_helper.updateDeviceStatus();
-
-        this.on_cabinet_select(this.curr);
+        global_task_pool.cabChanged = true;
+        this.on_cabinet_select(this.cab);
     },
     getLth: function () {
         return this.cabs.length;
@@ -54,7 +78,7 @@ CabinetHelper.prototype = {
                 return;
             if (!data['err_msg']) {
                 data.forEach(function (e) {
-                    var cab = new Cabinet();
+                    var cab = new CabPicker();
                     cab.i_on_init(e.sn, e.level_cnt, e.group_cnt, e.disk_cnt);
                     global_cabinet_helper.i_on_add(cab);
                 });
