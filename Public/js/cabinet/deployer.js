@@ -47,14 +47,14 @@ Deployer.prototype = {
         });
     },
     startDeploy: function () {
-        if (this.working || !this.ready) {
+        if (this.working ) {
             //防止重复启动
             return;
         }
         this.working = true;
         var that = this;
         this.worker = global_interval(function () {
-            if (!that.finished) {
+            if (!that.finished || !that.ready) {
                 return;
             }
             //全部完成
