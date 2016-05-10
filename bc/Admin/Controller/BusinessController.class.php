@@ -308,6 +308,7 @@ class BusinessController extends Controller {
 		$result=mysqli_query($conn,$sql4);
                 mysqli_close($conn);
 	}
+
 	/****
 	* 系统初始化函数
 	*/
