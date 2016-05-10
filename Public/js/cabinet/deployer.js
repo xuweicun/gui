@@ -26,7 +26,7 @@ Deployer.prototype = {
         this.disks = [];
         //从数据库中读取在位且未桥接的磁盘
         global_http({
-            url: global_root + "&a=getdeviceinfo&cabid=" + c,
+            url: global_root + "&a=getdeviceinfo&cab=" + c,
             method: 'GET'
         }).success(function (data) {
             data.forEach(function (e) {
