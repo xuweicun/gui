@@ -79,6 +79,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     
     global_cabinet_helper = new CabinetHelper(on_cab_select);
     $scope.cabs = global_cabinet_helper;
+    $scope.deployer = global_deployer;
     $scope.start = function () {
         $scope.errCodes.init();
         //read cab information
