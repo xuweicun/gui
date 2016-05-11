@@ -6,6 +6,7 @@ function CabPicker(){
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
     this.selected = false;
+    this.deploying = false;
 }
 CabPicker.prototype = {
     i_on_init: function(c,l,g,d){
@@ -38,6 +39,13 @@ CabinetHelper.prototype = {
             return null;
         }
         return this.cab.i_get_disk((l - 1,g - 1,d - 1));
+    },
+    i_on_deploy: function(c,going){
+     this.cabs.forEach(function(e){
+         if(e.id.toString() == c){
+             e.deploying = going;
+         }
+     });
     },
     on_select: function (idx) {
         if (this.curr === this.cabs[idx]) {
