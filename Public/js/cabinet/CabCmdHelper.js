@@ -150,7 +150,7 @@ CabCmdHelper.prototype = {
         if ((typeof obj) == 'object') {
             var res = (!obj.sort) ? {} : [];
             for (var i in obj) {
-                res[i] = objectClone(obj[i], preventName);
+                res[i] = obj[i];
             }
             return res;
         } else if ((typeof obj) == 'function') {
