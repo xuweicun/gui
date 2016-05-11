@@ -6,6 +6,7 @@
     this.d = 0;
     //所有待执行的任务
     this.disks = [];
+
     //表示当前正在进行批量磁盘信息获取操作
     this.working = false;
     //finished=true表示上一次磁盘信息查询操作已经完成
@@ -17,6 +18,9 @@
 Deployer.prototype = {
     available: function(){
       return !this.working;
+    },
+    getLength: function(){
+     return this.disks.length;
     },
     on_init: function (c) {
         this.cab_id = c.toString();
@@ -53,6 +57,7 @@ Deployer.prototype = {
         }
         this.working = true;
         var that = this;
+        global_cabinet_helper.i_on_deploy(this.cab_id,true);
         this.worker = global_interval(function () {
             if (!that.finished || !that.ready) {
                 return;
@@ -60,10 +65,12 @@ Deployer.prototype = {
             //全部完成
             if (that.is_done()) {
                 this.working = false;
+                global_cabinet_helper.i_on_deploy(that.cab_id,false);
                 global_interval.cancel(that.worker);
                 return;
             }
             var disks = that.disks;
+            var idx = that.idx;
             var msg = {
                 cmd: 'DISKINFO',
                 device_id: disks[idx].c,

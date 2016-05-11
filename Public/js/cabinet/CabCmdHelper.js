@@ -3,7 +3,7 @@
 }
 
 CabCmdHelper.prototype = {
-    updateDeviceStatus : function () {
+    updateDeviceStatus: function () {
         global_http({
             url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + global_cabinet.id,
             method: 'GET'
@@ -24,15 +24,15 @@ CabCmdHelper.prototype = {
             console.log("更新存储柜信息失败.");
         });
     },
-    createCmd : function (log) {
+    createCmd: function (log) {
         var newcmd = new CabCmd(log);
         newcmd.init();
         return newcmd;
     },
-    getdiskinfo : function (level, group, disk, cab) {
+    getdiskinfo: function (level, group, disk, cab) {
         global_http({
             url: '/index.php?m=admin&c=business&a=getDiskInfo',
-            data: { level: level, group: group, disk: disk, cab_id: cab },
+            data: {level: level, group: group, disk: disk, cab_id: cab},
             method: 'POST'
         }).success(function (data) {
             if (data['errmsg']) {//不存在
@@ -46,11 +46,11 @@ CabCmdHelper.prototype = {
 
         });
     },
-    devicestatus : function () {
-        var msg = { cmd: 'DEVICESTATUS' };
+    devicestatus: function () {
+        var msg = {cmd: 'DEVICESTATUS'};
         return this.sendcmd(msg);
     },
-    localTest : function () {
+    localTest: function () {
         var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         var localUrl = '/index.php?m=admin&c=msg';
         global_http({
@@ -61,7 +61,7 @@ CabCmdHelper.prototype = {
             alert("done");
         });
     },
-    testPost : function () {
+    testPost: function () {
         var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         console.log('Test starting');
         var realUrl = 'http://222.35.224.230/index.php?m=admin&c=msg';
@@ -74,12 +74,12 @@ CabCmdHelper.prototype = {
 
         });
     },
-    writeprotect : function (level) {
-        var msg = { cmd: "WRITEPROTECT", subcmd: 'START', level: level };
+    writeprotect: function (level) {
+        var msg = {cmd: "WRITEPROTECT", subcmd: 'START', level: level};
         this.sendcmd(msg);
     },
-    md5 : function (level, group, disk) {
-        var msg = { cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk };
+    md5: function (level, group, disk) {
+        var msg = {cmd: 'MD5', subcmd: 'START', level: level, group: group, disk: disk};
         this.sendcmd(msg);
     },
     stop: function (id, subcmd) {
@@ -95,7 +95,7 @@ CabCmdHelper.prototype = {
                 var msg = JSON.parse(data['msg']);
                 msg.CMD_ID = id.toString();
                 msg.subcmd = subcmd;
-                global_http.post({ data: msg, url: global_app }).error(function () {
+                global_http.post({data: msg, url: global_app}).error(function () {
                     console.log('向APP发送消息 失败');
                 });
             }
@@ -103,7 +103,7 @@ CabCmdHelper.prototype = {
         //增加命令日志
         //发送命令
     },
-    copy : function (srcLvl, srcGrp, srcDisk, dstLvl, dstGrp, dstDisk) {
+    copy: function (srcLvl, srcGrp, srcDisk, dstLvl, dstGrp, dstDisk) {
         var msg = {
             cmd: 'COPY',
             subcmd: 'START',
@@ -116,29 +116,29 @@ CabCmdHelper.prototype = {
         };
         this.sendcmd(msg);
     },
-    diskinfo : function (level, group, disk) {
-        var msg = { cmd: 'DISKINFO', level: level.toString(), group: group.toString(), disk: disk.toString() };
+    diskinfo: function (level, group, disk) {
+        var msg = {cmd: 'DISKINFO', level: level.toString(), group: group.toString(), disk: disk.toString()};
         this.sendcmd(msg);
 
     },
-    bridge : function (level, group, disk) {
+    bridge: function (level, group, disk) {
         var msg = {
             cmd: 'BRIDGE', subcmd: 'START', level: disk.level.toString(), group: disk.group.toString(), disks: [
-                { id: disk.disk.toString(), SN: disk.sn }
+                {id: disk.disk.toString(), SN: disk.sn}
             ], filetree: 1
         };
         this.sendcmd(msg);
     },
-    cabinfo : function () {
+    cabinfo: function () {
         var msg = {
             cmd: 'DEVICEINFO'
         };
         this.sendcmd(msg);
     },
-    isDeviceNeeded : function (msg) {
+    isDeviceNeeded: function (msg) {
         return msg.cmd != 'DEVICEINFO';
     },
-    delete : function (id) {
+    delete: function (id) {
         global_http({
             url: '/index.php?m=admin&c=business&a=deleteLog&id=' + id,
             method: 'GET'
@@ -146,21 +146,31 @@ CabCmdHelper.prototype = {
             console.log("更新存储柜信息失败.");
         });
     },
+    objectClone: function (obj) {
+        if ((typeof obj) == 'object') {
+            var res = (!obj.sort) ? {} : [];
+            for (var i in obj) {
+                res[i] = objectClone(obj[i], preventName);
+            }
+            return res;
+        } else if ((typeof obj) == 'function') {
+            return (new obj()).constructor;
+        }
+        return obj;
+    },
     sendcmd: function (msg) {
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg) && !msg.device_id) {
             msg.device_id = global_cabinet.id.toString();
         }
         var dstId = 0;
-        if(msg.CMD_ID)
-        {
+        if (msg.CMD_ID) {
             dstId = msg.CMD_ID;
             delete msg.CMD_ID;
         }
-        var toSave  = msg;
+        var toSave = this.objectClone(msg);
         toSave.msg = JSON.stringify(msg);
-        if(dstId > 0)
-        {
+        if (dstId > 0) {
             toSave.CMD_ID = dstId;
         }
         global_http.post(global_server, toSave).
