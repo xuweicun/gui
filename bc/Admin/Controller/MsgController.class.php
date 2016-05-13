@@ -714,7 +714,9 @@ class MsgController extends Controller
             $level = $_POST['level'];
             $group = $_POST['group'];
             $disk = $_POST['disk'];
-            $map = "level=$level and zu=$group and disk=$disk";
+            $cab_id = $_POST['device_id'];
+
+            $map = "level=$level and zu=$group and disk=$disk and device_id=$cab_id";
             $db = M('Device');
             $diskDb = M('Disk');
             $item = $db->where($map)->find();
