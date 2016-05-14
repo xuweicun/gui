@@ -69,7 +69,7 @@ Deployer.prototype = {
 
             //全部完成
             if (that.is_done()) {
-                this.working = false;
+                that.working = false;
                 global_cabinet_helper.i_on_deploy(that.cab_id,false);
                 global_interval.cancel(that.worker);
                 return;
