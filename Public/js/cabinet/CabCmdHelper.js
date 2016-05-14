@@ -15,6 +15,9 @@ CabCmdHelper.prototype = {
 
             //获取每个硬盘的信息
             for (var idx = 0; idx < data.length; idx++) {
+                //已经取到过sn的就不需要再取了
+                if(data[idx].sn)
+                continue;
                 //如果硬盘在位且有disk_id,获取详细信息；防止有的盘在位但是没有详细信息的
                 if (data[idx].loaded == 1 && data[idx].disk_id && data[idx].disk_id > 0) {
                     global_cmd_helper.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);

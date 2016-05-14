@@ -5,7 +5,7 @@ include_once(COMMON_PATH."Common/bc.common.php");
 
 	class DeviceViewModel extends ViewModel{
 		public $viewFields = array(
-		'Device'   => array('id','loaded','level','zu','disk','bridged','path','time'),
+		'Device'   => array('id','cab_id','loaded','level','zu','disk','bridged','path','time'),
 		'Disk' => array(
 			'sn','md5','capacity',
 			'_on'   =>'Device.disk_id=Disk.id',
