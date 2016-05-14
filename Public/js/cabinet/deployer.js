@@ -57,7 +57,9 @@ Deployer.prototype = {
         }
         this.working = true;
         var that = this;
+
         global_cabinet_helper.i_on_deploy(this.cab_id,true);
+
         this.worker = global_interval(function () {
             if (!that.finished || !that.ready) {
                 return;
