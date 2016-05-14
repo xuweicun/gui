@@ -189,7 +189,22 @@ class Dsk
     public function  updateDiskInfo($keys, $values)
     {
         $room = $this->db->where($this->map)->find();
+        if($room){
+            return false;
+        }
         $dskDb = M('Disk');
+        if(!$room['disk_id'] || $room['disk_id'] <= 0)
+        {
+            //新增条目
+            $data = array();
+            foreach ($keys as $idx => $key) {
+                $data[$key] = $values[$idx];
+            }
+            $disk_id = $dskDb->add($data);
+            $room['disk_id'] = $disk_id;
+            $this->db->save($room);
+            return true;
+        }
         $dsk = $dskDb->find($room['disk_id']);
         if ($dsk) {
             foreach ($keys as $idx => $key) {
@@ -202,6 +217,11 @@ class Dsk
 
             }
             $dskDb->save($dsk);
+            return true;
+        }
+        else{
+            return false;
+
         }
     }
 
@@ -421,7 +441,12 @@ class MsgController extends Controller
             case 'RESULT':
                 if ($status == CMD_SUCCESS) {
                     //将对应命令设为已取消
-                    $this->updateDiskMd5();
+                    $dsk = new Dsk();
+                    $keys = array('md5');
+                    $values = array();
+                    $values[] = $_POST['result'];
+                    $dsk->updateDiskInfo($keys,$values);
+                    //$this->updateDiskMd5();
                 } else {
                     $this->handleError();
                 }
@@ -438,13 +463,18 @@ class MsgController extends Controller
         //没什么需要处理的
         //将备份盘进行标记
     }
-
-    private function updateDiskMd5()
+    private function getDiskMap()
     {
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk = $_POST['disk'];
-        $map = "level=$level and zu=$group and disk=$disk";
+        $cab_id = $_POST['device_id'];
+        $map = "level=$level and zu=$group and disk=$disk and cab_id = $cab_id";
+        return $map;
+    }
+    private function updateDiskMd5()
+    {
+        $map = $this->getDiskMap();
         $db = M('Device');
         $diskDb = M('Disk');
         $item = $db->where($map)->find();
@@ -711,12 +741,8 @@ class MsgController extends Controller
         if ($_POST['status'] == 0) {
             //查看是否对应盘位绑定了硬盘
             //若未绑定
-            $level = $_POST['level'];
-            $group = $_POST['group'];
-            $disk = $_POST['disk'];
-            $cab_id = $_POST['device_id'];
 
-            $map = "level=$level and zu=$group and disk=$disk and device_id=$cab_id";
+            $map = $this->getDiskMap();//"level=$level and zu=$group and disk=$disk and device_id=$cab_id";
             $db = M('Device');
             $diskDb = M('Disk');
             $item = $db->where($map)->find();
