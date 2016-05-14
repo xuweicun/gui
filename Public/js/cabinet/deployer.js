@@ -53,8 +53,10 @@ Deployer.prototype = {
     startDeploy: function () {
         if (this.working == true) {
             //防止重复启动
+            console.log("部署中，请稍后");
             return;
         }
+        console.log("开始部署");
         this.working = true;
         var that = this;
 

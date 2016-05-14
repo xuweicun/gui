@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
+              <caret line="58" column="25" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -631,7 +630,7 @@
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
+          <caret line="58" column="25" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
           <folding />
         </state>
       </provider>
