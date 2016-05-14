@@ -21,10 +21,10 @@
                 <div class="row bk-margin-bottom-15">
                     <div class="col-lg-6">
                         共{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}个插槽
-                        <p ng-show="item.deploying">插槽信息获取中，当前进度（{deployer.idx}}/{{deployer.getLength()}}）</p>
+                        <p ng-show="item.deploying">插槽信息获取中，当前进度（{{deployer.idx}}/{{deployer.getLength()}}）</p>
                     </div>
                     <div class="col-lg-6">
-                        <a href="#" ng-click="deploy(item.id);" ng-disabled="global_deployer.working;" class="btn btn-sm btn-danger">重置</a>
+                        <a href="#" ng-click="deploy(item.id);" ng-disabled="deployer.working;" class="btn btn-sm btn-danger">重置</a>
                     </div>
                 </div>              
                 <h6 class="text-right bk-margin-off">

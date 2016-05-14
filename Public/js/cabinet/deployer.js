@@ -51,7 +51,7 @@ Deployer.prototype = {
         });
     },
     startDeploy: function () {
-        if (this.working ) {
+        if (this.working == true) {
             //防止重复启动
             return;
         }
