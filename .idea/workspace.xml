@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_02.log" afterPath="$PROJECT_DIR$/bc/Runtime/Logs/Admin/16_05_02.log" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,7 +27,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6785714">
+            <state vertical-scroll-proportion="0.0">
               <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
               <folding />
             </state>
@@ -53,10 +44,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deployer.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="deployer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.03259005">
+            <state vertical-scroll-proportion="0.0">
               <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
             </state>
@@ -66,7 +57,7 @@
       <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="57.535713">
+            <state vertical-scroll-proportion="0.0">
               <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
               <folding>
                 <marker date="1462884997170" expanded="true" signature="6404:6443" placeholder="alter table gui_device..." />
@@ -78,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.5357144">
-              <caret line="706" column="20" selection-start-line="706" selection-start-column="20" selection-end-line="706" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.4018018">
+              <caret line="781" column="0" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -122,9 +113,9 @@
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/index.html" />
         <option value="$PROJECT_DIR$/Public/js/services.js" />
         <option value="$PROJECT_DIR$/Public/js/globaljs.js" />
-        <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
       </list>
     </option>
   </component>
@@ -249,7 +240,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20045386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20347957" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -288,7 +279,52 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6785714">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="108" column="6" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
+          <folding>
+            <marker date="1462884997170" expanded="true" signature="6404:6443" placeholder="alter table gui_device..." />
+            <marker date="1462884997170" expanded="true" signature="6457:6494" placeholder="alter table gui_disk..." />
+            <marker date="1462884997170" expanded="true" signature="6508:6551" placeholder="alter table gui_disk_smart..." />
+            <marker date="1462884997170" expanded="true" signature="6565:6605" placeholder="alter table gui_cmd_log..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="706" column="20" selection-start-line="706" selection-start-column="20" selection-end-line="706" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
           <folding />
         </state>
@@ -527,7 +563,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="57.535713">
+        <state vertical-scroll-proportion="0.0">
           <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
           <folding>
             <marker date="1462884997170" expanded="true" signature="6404:6443" placeholder="alter table gui_device..." />
@@ -535,14 +571,6 @@
             <marker date="1462884997170" expanded="true" signature="6508:6551" placeholder="alter table gui_disk_smart..." />
             <marker date="1462884997170" expanded="true" signature="6565:6605" placeholder="alter table gui_cmd_log..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5357144">
-          <caret line="706" column="20" selection-start-line="706" selection-start-column="20" selection-end-line="706" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -556,8 +584,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.03259005">
+        <state vertical-scroll-proportion="0.0">
           <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4018018">
+          <caret line="781" column="0" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
           <folding />
         </state>
       </provider>

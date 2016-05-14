@@ -770,6 +770,7 @@ class MsgController extends Controller
      */
     private function updateSmart($id)
     {
+        return;//暂时未调试好，先不处理
         $db = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
         $testDb = M('test');
