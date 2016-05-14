@@ -241,7 +241,7 @@ class MsgController extends Controller
     public function index()
     {
         $this->file = fopen("rtlog.txt", "a");
-        $this->RTLog("------RETURN MSG HANDLING START-----------");
+        $this->RTLog("------START AT ".date("h:i:sa")."-----------");
         $this->msg = new Msg();
         $this->msg->init();
         $this->db = M("CmdLog");

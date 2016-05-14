@@ -53,6 +53,7 @@ Deployer.prototype = {
         }
         this.working = true;
         var that = this;
+        var idx = this.idx;
         this.worker = global_interval(function () {
             if (!that.finished || !that.ready) {
                 return;
