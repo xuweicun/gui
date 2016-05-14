@@ -62,6 +62,7 @@ Deployer.prototype = {
             if (!that.finished || !that.ready) {
                 return;
             }
+
             //全部完成
             if (that.is_done()) {
                 this.working = false;

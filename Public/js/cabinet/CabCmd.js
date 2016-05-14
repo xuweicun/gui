@@ -4,6 +4,7 @@
     this._ctime = log.current_time;
 
     this.device_id = this.msg.device_id;
+    this.cab_id = this.msg.device_id;
     this.id = log.id;//log.id和CMD_ID有时不同
     this.dst_id = log.dst_id;//STOP命令需要dst_id;
     this.cmd = this.msg.cmd;
