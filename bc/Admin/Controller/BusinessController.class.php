@@ -535,7 +535,7 @@ class BusinessController extends Controller {
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk  = $_POST['disk'];
-		$cab  = $_POST['cab']||$_POST['cab_id'];
+		$cab  =  $_POST['cab_id'];
         $db = D('DeviceView');
         $map = "level=$level and zu=$group and disk=$disk and cab_id=$cab";
         $item = $db->where($map)->select();
