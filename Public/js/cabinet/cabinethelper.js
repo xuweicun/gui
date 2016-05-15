@@ -38,7 +38,7 @@ CabinetHelper.prototype = {
             //柜子未选中
             return null;
         }
-        return this.cab.i_get_disk((l - 1,g - 1,d - 1));
+        return this.cab.i_get_disk(l - 1,g - 1,d - 1);
     },
     i_on_deploy: function(c,going){
      this.cabs.forEach(function(e){
