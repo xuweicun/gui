@@ -344,10 +344,8 @@ TaskPool.prototype = {
                 var return_msg = JSON.parse(msg['return_msg']);
                 var paths = return_msg.paths;
                 var disks = return_msg.disks;
-                console.log(return_msg);
                 //遍历硬盘
                 for (var idx = 0; idx < disks.length; idx++) {
-                    console.log(task.cab_id,task.level,task.group,task[idx].id);
                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                     if (disk) {
                         if (task.subcmd == 'START') {
