@@ -95,6 +95,7 @@ Cabinet.prototype = {
     },
     //获取某块盘的指针
     i_get_disk: function (l, g, d) {
+        console.log(l,g,d);
         return this.levels[l].groups[g].disks[d];
     },
     on_cmd_disk_info: function (json_cmd, is_add) {
