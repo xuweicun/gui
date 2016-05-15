@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,16 +26,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="cabs.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -77,11 +68,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cabinet.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cabinet.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3327616">
-              <caret line="96" column="4" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="4" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.2743683">
+              <caret line="692" column="12" selection-start-line="692" selection-start-column="12" selection-end-line="692" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -91,8 +92,11 @@
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="337" column="44" selection-start-line="337" selection-start-column="44" selection-end-line="337" selection-end-column="44" />
-              <folding />
+              <caret line="339" column="44" selection-start-line="339" selection-start-column="44" selection-end-line="339" selection-end-column="44" />
+              <folding>
+                <marker date="1463298125476" expanded="true" signature="1024:1059" placeholder="{...}" />
+                <marker date="1463298125476" expanded="true" signature="5452:5467" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -172,6 +176,8 @@
         <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
       </list>
     </option>
   </component>
@@ -289,14 +295,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1382" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25718608" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2065053" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2065053" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -333,14 +339,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -672,8 +670,11 @@
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="337" column="44" selection-start-line="337" selection-start-column="44" selection-end-line="337" selection-end-column="44" />
-          <folding />
+          <caret line="339" column="44" selection-start-line="339" selection-start-column="44" selection-end-line="339" selection-end-column="44" />
+          <folding>
+            <marker date="1463298125476" expanded="true" signature="1024:1059" placeholder="{...}" />
+            <marker date="1463298125476" expanded="true" signature="5452:5467" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -718,8 +719,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3327616">
-          <caret line="96" column="4" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="4" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2743683">
+          <caret line="692" column="12" selection-start-line="692" selection-start-column="12" selection-end-line="692" selection-end-column="12" />
           <folding />
         </state>
       </provider>

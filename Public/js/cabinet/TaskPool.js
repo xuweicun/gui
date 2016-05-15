@@ -44,6 +44,8 @@ TaskPool.prototype = {
     },
     updateTask: function (data) {
         var pool = this;
+        pool.locked = true;
+
         //找到命令
         if (!data) {
             console.log("无返回的命令结果");
@@ -68,6 +70,7 @@ TaskPool.prototype = {
                 }
             }
         });
+        pool.locked = false;
 
     },
     updateQueryCnt: function () {
@@ -162,7 +165,7 @@ TaskPool.prototype = {
                 return;
             }
             //console.log('查询执行结果', task.id);
-            pool.locked = true;
+
             var _tasks = [];
             for (var idx = 0; idx < pool.going.length; idx++) {
                 _tasks.push(pool.going[idx].id);
@@ -179,10 +182,9 @@ TaskPool.prototype = {
                     //console.log('结果查询完毕，开始对结果进行处理');
                     pool.updateTask(data);
                 }
-                pool.locked = false;
+
             }).error(function () {
                 global_err_pool.add();
-                pool.locked = false;
             });
         }, this.unitTimer);
     },
