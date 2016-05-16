@@ -75,7 +75,7 @@ class BusinessController extends Controller
         foreach ($items as $item) {
             $item['status'] = C('CMD_CANCELED');
             $item['finished'] = 1;
-<<<<<<< HEAD
+
 			$db->save($item);
 		}
 	}
@@ -205,135 +205,7 @@ class BusinessController extends Controller
 		$item['finished'] = 1;
 		$db->save($item);
 	}
-=======
-            $db->save($item);
-        }
-    }
 
-    public function deleteLog()
-    {
-        $db = M('CmdLog');
-        $id = I('get.id', 0, 'intval');
-        if ($db->find($id)) {
-            $map['id'] = array('eq', $id);
-            $db->where($map)->delete();
-        } else {
-            $this->notFoundError('Cmd not found');
-        }
-    }
-
-    public function insertUser()
-    {
-        if (IS_POST) {
-        } else {
-            $user = I('get.user');
-            $pwd = I('get.pwd');
-            $db = M('Super');
-            $data['name'] = $user;
-            $data['pwd'] = md5($pwd);
-            if ($db->where("name='$user'")->find()) {
-                $this->error('用户名重复', U('login'));
-                return;
-            }
-            if ($db->add($data)) {
-                $this->success("增加成功", U('login'));
-            } else {
-                $this->error('插入失败', U('login'));
-            }
-        }
-    }
-
-    public function login()
-    {
-        if (session('?user')) {
-            $this->redirect('index');
-            die();
-        }
-        if (IS_POST) {
-            $User = M('super');
-            $uname = I('post.uname');
-            $item = null;
-            $cond['name'] = array('eq', $uname);
-            $cond['pwd'] = array('eq', md5(I('post.pwd')));
-
-            if (!$item = $User->where($cond)->find()) {
-                $this->error('登录失败');;
-            } else {
-                session('user', $uname);
-                session('userid', $item['id']);
-                $this->success('成功登录', U('index'));
-            }
-        } else {
-            $this->display();
-        }
-    }
-
-    public function bridge()
-    {
-        $this->display('bridge');
-    }
-
-    public function temp()
-    {
-
-
-    }
-
-    public function search()
-    {
-        $this->display("search");
-
-    }
-
-    /**
-     * 获取正在进行的任务清单
-     *
-     */
-    public function getGoingTasks()
-    {
-        $db = M('CmdLog');
-        $items = $db->where("finished = 0")->select();
-        foreach ($items as $index => $item) {
-            $items[$index]['msg'] = stripslashes($item['msg']);
-            $items[$index]['current_time'] = time();
-        }
-        $this->AjaxReturn($items);
-    }
-
-    public function getTestResults()
-    {
-        $db = M('Test');
-        $items = $db->select();
-        foreach ($items as $item) {
-            var_dump($item);
-
-            echo "<br/>";
-        }
-    }
-
-    public function waitTilDone($cmd, $maxTime)
-    {
-        $exctTime = 0;
-        $cmdDb = M('CmdLog');
-        $status = -1;//未完成
-        $map['cmd'] = array('eq', $cmd);
-        $map['status'] = array('eq', $status);
-        while ($exctTime < $maxTime) {
-            sleep(1);
-            $exctTime = $exctTime + 1;
-        }
-    }
-
-    public function setTimeOut()
-    {
-        $db = M('CmdLog');
-        $map['id'] = array('eq', I('get.id'));
-        $item = $db->where($map)->find();
-        $item['status'] = C('CMD_TIMEOUT');
-        $db->save($item);
-    }
-
->>>>>>> c0ec95f72fd6a4814bb30978bb051b7fd1c76bea
     public function getBridgeStatus()
     {
         $cmd = 'BRIDGE';
