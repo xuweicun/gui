@@ -383,6 +383,7 @@ class MsgController extends Controller
     private function hdlDevInfo()
     {
         if ($this->msg->isSuccess()) {
+            $this->RTLog("START TO HANDLE DEVINFO MSG");
             $cabDb = M('Cab');
             //查看cab是否存在
             $cabs = $_POST['cabinets'];
@@ -393,6 +394,7 @@ class MsgController extends Controller
                 $cabDb->save($i);
             }
             foreach ($cabs as $cab) {
+                $this->RTLog("CAB-ID:".$cab['id']);
                 $map['sn'] = array('eq', (int)$cab['id']);
                 $item = $cabDb->where($map)->find();
                 //如果不存在，新建
