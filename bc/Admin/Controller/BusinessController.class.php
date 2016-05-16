@@ -40,7 +40,18 @@ class BusinessController extends Controller
                 $this->display();
         }
     }
+    public function checkPermission(){
+        if (!session('?user')) {
+            $this->redirect('login');
+            die();
 
+        } else {
+            $Username = session('user');
+            $this->assign('username', $Username);
+            $this->assign('userid', session('userid'));
+        }
+
+    }
     public function systReset()
     {
         //所有硬盘桥接、在位状态清零
@@ -316,6 +327,7 @@ class BusinessController extends Controller
      */
     public function SystemInit()
     {
+        $this->checkPermission();
         $this->display('deploy');
         die();
         $level = $_POST['level'];

@@ -802,6 +802,7 @@ class MsgController extends Controller
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
             if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
                 $log['finished'] = 1;
+            $log['return_msg'] = file_get_contents('php://input');
             $this->db->save($log);
         }
     }

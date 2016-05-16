@@ -2,10 +2,11 @@
     <div class="panel panel-default col-lg-12">
         <div class="panel-heading">
             <i class="fa fa-gears"></i>存储柜基本信息
-            <a href="#" ng-click="cagInit();">重置</a>
+            <a href="#" ng-click="cagInit();" class="pull-right btn-danger btn-xs bk-margin-5"> <i class="fa fa-refresh"></i> 重置</a>
         </div>
         <div class="panel-body">
-            <p ng-show="cabs.getLength() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a> </p>
+            <p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a> </p>
+            <p ng-show="cabs.changed">存储柜信息发生变化,你可以 <a href="#" onclick="location.reload(true);">刷新页面</a> 查看</p>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
                 <div class="panel bk-widget bk-border-off"
                      ng-class="{true:'selected',false:'non-selected'}[item.selected]">
