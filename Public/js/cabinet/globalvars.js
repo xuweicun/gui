@@ -1,6 +1,8 @@
 ﻿var app = angular.module('device', ['device.controllers', 'device.services']);
 var app_device = angular.module('device.controllers', ['datatables']);
 
+
+
 // 以下全局变量在globaljs.js中初始化
 var global_cmd_helper;
 var global_cabinet;
