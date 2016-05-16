@@ -393,7 +393,7 @@ class MsgController extends Controller
                 $cabDb->save($i);
             }
             foreach ($cabs as $cab) {
-                $map['sn'] = array('eq', (int)$cab);
+                $map['sn'] = array('eq', (int)$cab['id']);
                 $item = $cabDb->where($map)->find();
                 //如果不存在，新建
                 if (!$item) {
