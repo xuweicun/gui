@@ -264,10 +264,9 @@ TaskPool.prototype = {
                 this.done.push(pool[i]);
                 global_cabinet.i_on_cmd_changed(pool[i], false);
                 //如果正在进行部署，对部署器进行更新
-                if(global_deployer && pool[i].cmd == 'DISKINFO')
-                {
-                    if(global_deployer.working){
-                        global_deployer.success(pool[i].device_id.toString(),pool[i].level.toString(),pool[i].group.toString(),pool[i].disk.toString());
+                if (global_deployer && pool[i].cmd == 'DISKINFO') {
+                    if (global_deployer.working) {
+                        global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
                     }
                 }
                 this.notify(pool[i]);
@@ -321,6 +320,9 @@ TaskPool.prototype = {
         var task = this.going[idx];
         //如果是START，按下面的方式处理
         switch (task.cmd) {
+            case 'DEVICEINFO':
+                global_cabinet_helper.checkChg(msg);
+                break;
             case 'MD5':
                 if (task.subcmd == 'START') {
                     //更新硬盘MD5值
