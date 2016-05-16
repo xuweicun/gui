@@ -295,21 +295,6 @@
         <div class="main">
             <!-- Start: Content -->
             <div ng-include="cabUrl"></div>
-            <div class="container-fluid content">
-                <div class="row">
-                    <div class="panel panel-default col-lg-9">
-                        <div class="panel-heading">
-                            <i class="fa fa-gears"></i>系统部署
-                        </div>
-                        <div class="panel-body">
-                                <p>当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a> </p>
-                            <div ng-include="cabUrl"></div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
             <!--/container-->
             <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
                 <div class="row">
