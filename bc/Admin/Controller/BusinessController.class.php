@@ -180,6 +180,7 @@ class BusinessController extends Controller {
 		$map['id'] = array('eq',I('get.id'));
 		$item = $db->where($map)->find();
 		$item['status'] = C('CMD_TIMEOUT');
+		$item['finished'] = 1;
 		$db->save($item);
 	}
     public function getBridgeStatus()
