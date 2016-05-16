@@ -1,37 +1,51 @@
-﻿
-<div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
-        <div class="panel bk-widget bk-border-off" ng-class="{true:'selected',false:'non-selected'}[item.selected]" >
-            <div class="panel-body" ng-class="{true:'bk-bg-primary',false:'bk-bg-default'}[item.selected]">
-                <div style="position:absolute;width:16px;right:45px;top:10px">
-                    <div style="position:absolute;left:0px;top:4px;height:8px;width:2px;background-color:white;"></div>
-                    <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
-                        <div style="background-color:white;height:12px;margin:1px;width:{{item.electricity}}%;float:right"></div>
-                        <div style="position:absolute;font-size:11px;text-align:center;width:inherit"
-                             title="剩余电量">{{item.electricity}}%</div>
+﻿<div class="row">
+    <div class="panel panel-default col-lg-12">
+        <div class="panel-heading">
+            <i class="fa fa-gears"></i>存储柜基本信息
+            <a href="#" ng-click="cagInit();">重置</a>
+        </div>
+        <div class="panel-body">
+            <p ng-show="cabs.getLength() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a> </p>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
+                <div class="panel bk-widget bk-border-off"
+                     ng-class="{true:'selected',false:'non-selected'}[item.selected]">
+                    <div class="panel-body" ng-class="{true:'bk-bg-primary',false:'bk-bg-default'}[item.selected]">
+                        <div style="position:absolute;width:16px;right:45px;top:10px">
+                            <div style="position:absolute;left:0px;top:4px;height:8px;width:2px;background-color:white;"></div>
+                            <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
+                                <div style="background-color:white;height:12px;margin:1px;width:{{item.electricity}}%;float:right"></div>
+                                <div style="position:absolute;font-size:11px;text-align:center;width:inherit"
+                                     title="剩余电量">{{item.electricity}}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-click="cabs.on_select($index)">
+                            <div class="col-lg-12">
+                                <span style="font-size:18px;width:inherit;margin-right:10px">存储柜({{item.id}}#)</span>
+                                <i class="fa fa-leaf" title="电压"></i> {{item.voltage}}V <i class="fa fa-flash"
+                                                                                           style="margin-left:10px"
+                                                                                           title="电流"></i>
+                                {{item.current}}A
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row bk-margin-bottom-15">
+                            <div class="col-lg-6">
+                                共{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}个插槽
+                                <p ng-show="item.deploying">插槽信息获取中，当前进度（{{deployer.idx}}/{{deployer.getLength()}}）</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <a href="#" ng-click="deploy(item.id);" ng-disabled="deployer.working;"
+                                   class="btn btn-sm btn-danger">重置</a>
+                            </div>
+                        </div>
+                        <h6 class="text-right bk-margin-off">
+                            <span ng-bind="'共'+item.lvl_cnt+'层'"></span>
+                            <span ng-bind="',每层'+item.grp_cnt+'组'"></span>
+                            <span ng-bind="',每组'+item.dsk_cnt+'个盘位'"></span>
+                        </h6>
                     </div>
                 </div>
-                <div class="row" ng-click="cabs.on_select($index)">
-                    <div class="col-lg-12">
-                        <span style="font-size:18px;width:inherit;margin-right:10px">存储柜({{item.id}}#)</span>
-                        <i class="fa fa-leaf" title="电压"></i> {{item.voltage}}V <i class="fa fa-flash" style="margin-left:10px" title="电流"></i> {{item.current}}A
-                    </div>
-                </div>
-                <br />
-                <div class="row bk-margin-bottom-15">
-                    <div class="col-lg-6">
-                        共{{item.lvl_cnt*item.grp_cnt*item.dsk_cnt}}个插槽
-                        <p ng-show="item.deploying">插槽信息获取中，当前进度（{{deployer.idx}}/{{deployer.getLength()}}）</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="#" ng-click="deploy(item.id);" ng-disabled="deployer.working;" class="btn btn-sm btn-danger">重置</a>
-                    </div>
-                </div>              
-                <h6 class="text-right bk-margin-off">
-                    <span ng-bind="'共'+item.lvl_cnt+'层'"></span>
-                    <span ng-bind="',每层'+item.grp_cnt+'组'"></span>
-                    <span ng-bind="',每组'+item.dsk_cnt+'个盘位'"></span>
-                </h6>
             </div>
         </div>
     </div>
