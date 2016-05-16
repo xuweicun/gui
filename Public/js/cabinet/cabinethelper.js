@@ -57,10 +57,13 @@ CabinetHelper.prototype = {
         }
         this.curr = this.cabs[idx];
         this.curr.on_select();
-        if(!this.cab)
+        if(this.cab)
         {
-            this.cab = new Cabinet();
+            delete this.cab;
+            this.cab = null;
         }
+        this.cab = new Cabinet();
+
         this.cab.i_on_init(this.curr.id,this.curr.lvl_cnt,this.curr.grp_cnt,this.curr.dsk_cnt);
         global_cabinet = this.cab;
         global_cmd_helper.updateDeviceStatus();
