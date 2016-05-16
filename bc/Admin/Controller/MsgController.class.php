@@ -274,7 +274,7 @@ class MsgController extends Controller
         $this->updateCmdLog();
         //update related table
         switch ($this->msg->cmd) {
-            case 'DIVICEINFO':
+            case 'DEVICEINFO':
                 $this->hdlDevInfo();
                 break;
             case 'DEVICESTATUS':
