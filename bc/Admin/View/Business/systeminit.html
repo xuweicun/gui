@@ -63,8 +63,8 @@
 		<![endif]-->		
 		
 	</head>
-	
-	<body ng-app="device" ng-controller="statusMonitor">
+
+	<body ng-app="device" ng-controller="statusMonitor  as showCase">
 	
 		<!-- Start: Header -->
 
@@ -235,7 +235,7 @@
 		<script src="/Public/js/cabinet/CabCmdHelper.js"></script>
 		<script src="/Public/js/cabinet/TaskPool.js"></script>
 		<script src="/Public/js/cabinet/cabinethelper.js"></script>
-
+		<script src="/Public/js/cabinet/deployer.js"></script>
 		<!-- cabinet.js 必须放到 globaljs.js之前 -->
 		<script src="/Public/js/cabinet/Disk.js"></script>
 		<script src="/Public/js/cabinet/cabinet.js"></script>

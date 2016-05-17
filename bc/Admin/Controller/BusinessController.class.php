@@ -75,132 +75,136 @@ class BusinessController extends Controller
         foreach ($items as $item) {
             $item['status'] = C('CMD_CANCELED');
             $item['finished'] = 1;
-            $db->save($item);
-        }
-    }
 
-    public function deleteLog()
-    {
-        $db = M('CmdLog');
-        $id = I('get.id', 0, 'intval');
-        if ($db->find($id)) {
-            $map['id'] = array('eq', $id);
-            $db->where($map)->delete();
-        } else {
-            $this->notFoundError('Cmd not found');
-        }
-    }
+			$db->save($item);
+		}
+	}
+	public function deleteLog(){
+		$db = M('CmdLog');
+		$id = I('get.id',0,'intval');
+		if($db->find($id))
+		{
+			$map['id'] = array('eq',$id);
+			$db->where($map)->delete();
+		}
+		else{
+			$this->notFoundError('Cmd not found');
+		}
+	}
+	public function insertUser(){
+		if(IS_POST){
+		}
+		else{
+			$user = I('get.user');
+			$pwd = I('get.pwd');
+			$db = M('Super');
+			$data['name'] = $user;
+			$data['pwd'] = md5($pwd);
+			if($db->where("name='$user'")->find())
+			{
+				$this->error('用户名重复',U('login'));
+				return;
+			}
+			if($db->add($data))
+			{
+				$this->success("增加成功",U('login'));
+			}
+			else{
+				$this->error('插入失败',U('login'));
+			}
+		}
+	}
+	public function login(){
+		if(session('?user')){
+			$this->redirect('index');
+			die();
+		}
+		if(IS_POST)
+		{
+			$User = M('super');
+			$uname = I('post.uname');
+			$item = null;
+			$cond['name'] = array('eq',$uname);
+			$cond['pwd'] = array('eq',md5(I('post.pwd')));
 
-    public function insertUser()
-    {
-        if (IS_POST) {
-        } else {
-            $user = I('get.user');
-            $pwd = I('get.pwd');
-            $db = M('Super');
-            $data['name'] = $user;
-            $data['pwd'] = md5($pwd);
-            if ($db->where("name='$user'")->find()) {
-                $this->error('用户名重复', U('login'));
-                return;
-            }
-            if ($db->add($data)) {
-                $this->success("增加成功", U('login'));
-            } else {
-                $this->error('插入失败', U('login'));
-            }
-        }
-    }
+			if(!$item = $User->where($cond)->find()){
+				$this->error('登录失败');                     ;
+			}
+			else{
+				session('user', $uname);
+				session('userid',$item['id']);
+				$this->success('成功登录', U('index'));
+			}
+		}
+		else{
+			$this->display();
+		}
+	}
+	public function bridge()
+	{
+		$this->display('bridge');
+	}
 
-    public function login()
-    {
-        if (session('?user')) {
-            $this->redirect('index');
-            die();
-        }
-        if (IS_POST) {
-            $User = M('super');
-            $uname = I('post.uname');
-            $item = null;
-            $cond['name'] = array('eq', $uname);
-            $cond['pwd'] = array('eq', md5(I('post.pwd')));
-
-            if (!$item = $User->where($cond)->find()) {
-                $this->error('登录失败');;
-            } else {
-                session('user', $uname);
-                session('userid', $item['id']);
-                $this->success('成功登录', U('index'));
-            }
-        } else {
-            $this->display();
-        }
-    }
-
-    public function bridge()
-    {
-        $this->display('bridge');
-    }
-
-    public function temp()
-    {
+	public function temp()
+	{
 
 
-    }
 
-    public function search()
-    {
-        $this->display("search");
+		
+	}
+	public function search(){
+		$this->display("search");
+	
+	}
 
-    }
+	/**
+	 * 获取正在进行的任务清单
+	 *
+	 */
+	public function getGoingTasks(){
+		$db = M('CmdLog');
+		$items = $db->where("finished = 0")->select();
+		foreach($items as $index=>$item)
+		{      
+			$items[$index]['msg'] = stripslashes($item['msg']);
+            $items[$index]['current_time'] = time();     
+		}                 
+		$this->AjaxReturn($items);
+	}
+	public function getTestResults()
+	{
+		$db = M('Test');
+		$items = $db->select();
+		foreach($items as $item)
+		{
+			var_dump($item);
 
-    /**
-     * 获取正在进行的任务清单
-     *
-     */
-    public function getGoingTasks()
-    {
-        $db = M('CmdLog');
-        $items = $db->where("finished = 0")->select();
-        foreach ($items as $index => $item) {
-            $items[$index]['msg'] = stripslashes($item['msg']);
-            $items[$index]['current_time'] = time();
-        }
-        $this->AjaxReturn($items);
-    }
+			echo "<br/>";
+		}
+	}
 
-    public function getTestResults()
-    {
-        $db = M('Test');
-        $items = $db->select();
-        foreach ($items as $item) {
-            var_dump($item);
-
-            echo "<br/>";
-        }
-    }
-
-    public function waitTilDone($cmd, $maxTime)
-    {
-        $exctTime = 0;
-        $cmdDb = M('CmdLog');
-        $status = -1;//未完成
-        $map['cmd'] = array('eq', $cmd);
-        $map['status'] = array('eq', $status);
-        while ($exctTime < $maxTime) {
-            sleep(1);
-            $exctTime = $exctTime + 1;
-        }
-    }
-
-    public function setTimeOut()
-    {
-        $db = M('CmdLog');
-        $map['id'] = array('eq', I('get.id'));
-        $item = $db->where($map)->find();
-        $item['status'] = C('CMD_TIMEOUT');
-        $db->save($item);
-    }
+	public function waitTilDone($cmd,$maxTime)
+	{            
+		$exctTime = 0;        
+		$cmdDb = M('CmdLog');
+		$status = -1;//未完成
+		$map['cmd'] = array('eq',$cmd);
+		$map['status'] = array('eq',$status);
+		while($exctTime < $maxTime)
+		{
+			sleep(1);
+			$exctTime = $exctTime + 1;
+		}
+	}
+	public function setTimeOut()
+	{
+		$db = M('CmdLog');
+		$map['id'] = array('eq',I('get.id'));
+		$item = $db->where($map)->find();
+		$item['status'] = C('CMD_TIMEOUT');
+		$item['finished'] = 1;
+		$db->save($item);
+	}
 
     public function getBridgeStatus()
     {
@@ -315,10 +319,14 @@ class BusinessController extends Controller
         $sql2 = "alter table gui_disk auto_increment=1";
         $sql3 = "alter table gui_disk_smart auto_increment=1";
         $sql4 = "alter table gui_cmd_log auto_increment=1";
+        $sql5 = "alter table gui_cab auto_increment=1";
+        $sql6 = "alter table gui_chg_log auto_increment=1";
         $result = mysqli_query($conn, $sql1);
         $result = mysqli_query($conn, $sql2);
         $result = mysqli_query($conn, $sql3);
-        $result = mysqli_query($conn, $sql4);
+        mysqli_query($conn, $sql5);
+        mysqli_query($conn, $sql4);
+        mysqli_query($conn, $sql6);
         mysqli_close($conn);
     }
 
@@ -328,47 +336,26 @@ class BusinessController extends Controller
     public function SystemInit()
     {
         $this->checkPermission();
+        //安装时所有信息重新初始化
+        if(I('get.install',0,'intval') == 1) {
+            $db = M('Device');
+            $db->where('1')->delete();
+            $newDb = M('Disk');
+            $newDb->where('1')->delete();
+            $newDb = M('DiskSmart');
+            $newDb->where('1')->delete();
+            $newDb = M('CmdLog');
+            $newDb->where('1')->delete();
+            $newDb = M('Cab');
+            $newDb->where('1')->delete();
+            $newDb = M('ChgLog');
+            $newDb->where('1')->delete();
+            $newDb = M('DiskChgLog');
+            $newDb->where('1')->delete();
+            $this->originSql();
+        }
         $this->display('deploy');
         die();
-        $level = $_POST['level'];
-        if (!$level) {
-            $errmsg = 'inadequate infomation';
-            $this->AjaxReturn($errmsg);
-            die();
-        }
-        $group = $_POST['group'];
-        $disk = $_POST['disk'];
-        $db = M('Device');
-        $db->where('1')->delete();
-        $newDb = M('Disk');
-        $newDb->where('1')->delete();
-        $newDb = M('DiskSmart');
-        $newDb->where('1')->delete();
-        $newDb = M('CmdLog');
-        $newDb->where('1')->delete();
-        $this->originSql();
-        $gui_device = 'gui_device';
-        //循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
-        for ($i = 1; ; $i++) {
-            if ($i > $level)
-                break;
-            $data['level'] = $i;
-            for ($j = 1; ; $j++) {
-                if ($j > $group)
-                    break;
-                $data['zu'] = $j;
-                for ($k = 1; $k <= $disk; $k++) {
-                    if ($k > $disk)
-                        break;
-                    $data['disk'] = $k;
-                    $data['loaded'] = 1;
-                    $data['bridged'] = 0;
-
-                    $db->add($data);
-                }
-            }
-        }
-
     }
 
     public function filetree()

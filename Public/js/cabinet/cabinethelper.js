@@ -26,7 +26,7 @@ function CabinetHelper(on_cabinet_select) {
     this.cabs = [];
     this.curr = null;
     this.cab = null;
-    that.changed = false;
+    this.changed = false;
     this.on_cabinet_select = on_cabinet_select;
 }
 

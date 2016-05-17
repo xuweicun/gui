@@ -1,16 +1,15 @@
 ﻿<div class="row">
-    <div class="panel panel-default col-lg-12">
+    <div class="panel panel-success col-lg-12 ">
         <div class="panel-heading">
-            <i class="fa fa-gears"></i>存储柜基本信息
-            <a href="#" ng-click="cagInit();" class="pull-right btn-danger btn-xs bk-margin-5"> <i class="fa fa-refresh"></i> 重置</a>
+            <i class="fa fa-gears"></i>基本信息
+            <a href="#" ng-click="initCab();" class="pull-right btn-danger btn-xs bk-margin-5"> <i class="fa fa-refresh"></i> 重置</a>
         </div>
-        <div class="panel-body">
+        <div class="panel-body ">
             <p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a> </p>
-            <p ng-show="cabs.changed">存储柜信息发生变化,你可以 <a href="#" onclick="location.reload(true);">刷新页面</a> 查看</p>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
                 <div class="panel bk-widget bk-border-off"
                      ng-class="{true:'selected',false:'non-selected'}[item.selected]">
-                    <div class="panel-body" ng-class="{true:'bk-bg-primary',false:'bk-bg-default'}[item.selected]">
+                    <div class="panel-body" ng-class="{true:'bk-bg-info',false:'bk-bg-primary'}[item.selected]">
                         <div style="position:absolute;width:16px;right:45px;top:10px">
                             <div style="position:absolute;left:0px;top:4px;height:8px;width:2px;background-color:white;"></div>
                             <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
@@ -48,6 +47,12 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+
+            </div>
+        </div>
+        <div class="panel-body bk-bg-very-light-gray bk-padding-5 text-center" ng-show="cabs.changed">
+            <p  class="bk-fg-primary bk-fg-lighten">存储柜信息发生变化,请 <a href="#" onclick="location.reload();">点此刷新页面</a> 查看</p>
         </div>
     </div>
 </div>
