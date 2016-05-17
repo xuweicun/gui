@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
+<<<<<<< HEAD
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+    </list>
+    <ignored path="gui.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="gui" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="cabs.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="180">
+              <caret line="52" column="6" selection-start-line="52" selection-start-column="6" selection-end-line="52" selection-end-column="6" />
+              <folding>
+                <element signature="n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+              </folding>
+=======
+            <state vertical-scroll-proportion="-57.088234">
+              <caret line="243" column="0" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
+              <folding />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="302" column="90" selection-start-line="302" selection-start-column="61" selection-end-line="302" selection-end-column="90" />
+=======
+      <file leaf-file-name="deploy.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.352941">
+              <caret line="528" column="44" selection-start-line="528" selection-start-column="44" selection-end-line="528" selection-end-column="44" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="deploy.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+              <folding>
+                <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
+=======
+      <file leaf-file-name="cabs.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.147059">
+              <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+              <folding />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="globalvars.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globalvars.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+=======
+      <file leaf-file-name="CabCmdHelper.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="182" column="38" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="38" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cabinethelper.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-310">
+              <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="globaljs.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="TaskPool.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="115">
+              <caret line="323" column="50" selection-start-line="323" selection-start-column="47" selection-end-line="323" selection-end-column="50" />
+=======
+      <file leaf-file-name="globaljs.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5652174">
+              <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SystInit.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/SystInit.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="585">
+              <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4935">
+              <caret line="329" column="33" selection-start-line="329" selection-start-column="33" selection-end-line="329" selection-end-column="33" />
+              <folding>
+                <marker date="1463382599000" expanded="true" signature="8113:8152" placeholder="alter table gui_device... " />
+                <marker date="1463382599000" expanded="true" signature="8172:8209" placeholder="alter table gui_disk... " />
+                <marker date="1463382599000" expanded="true" signature="8229:8272" placeholder="alter table gui_disk_smart... " />
+                <marker date="1463382599000" expanded="true" signature="8292:8332" placeholder="alter table gui_cmd_log... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="177">
+              <caret line="382" column="21" selection-start-line="382" selection-start-column="21" selection-end-line="382" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/ui-basic-elements.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/bridge.html" />
+        <option value="$PROJECT_DIR$/Public/js/bridge.html" />
+        <option value="$PROJECT_DIR$/Public/js/controllers.js" />
+        <option value="$USER_HOME$/Desktop/runde/mainpage.html" />
+        <option value="$USER_HOME$/Desktop/runde/runde-login.html" />
+        <option value="$PROJECT_DIR$/Public/js/link.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/doneTask.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/index2.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/Conf/db.inc.php" />
+        <option value="$PROJECT_DIR$/bc/Admin/Conf/config.php" />
+        <option value="$PROJECT_DIR$/bc/Admin/Model/BrandViewModel.class.php" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/goingTask.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/login.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/index.html" />
+        <option value="$PROJECT_DIR$/Public/js/services.js" />
+        <option value="$PROJECT_DIR$/Public/js/globaljs.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/SystInit.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/globalvars.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
+        <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
+=======
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Public/js/cabinet" />
+      <recent name="$PROJECT_DIR$/bc/Admin/View/Business" />
+      <recent name="C:\wamp\www\gui\bc\Admin\View\Business" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="" />
+      <created>1458738755759</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1458738755759</updated>
+      <workItem from="1463363688805" duration="9296000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="9296000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25718608" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20625" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1463444952911" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="706:803" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463444952911" expanded="true" signature="829:1163" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463444952911" expanded="true" signature="1445:2542" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1481:1569" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1766:2518" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1907:2107" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="2198:2396" placeholder="{&quot;cmd&quot;: 'DISKINFO'...}" />
+            <marker date="1463444952911" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="541" column="9" selection-start-line="541" selection-start-column="9" selection-end-line="541" selection-end-column="9" />
+          <folding>
+            <marker date="1463444952958" expanded="true" signature="7498:7537" placeholder="alter table gui_device..." />
+            <marker date="1463444952958" expanded="true" signature="7557:7594" placeholder="alter table gui_disk..." />
+            <marker date="1463444952958" expanded="true" signature="7614:7657" placeholder="alter table gui_disk_smart..." />
+            <marker date="1463444952958" expanded="true" signature="7677:7717" placeholder="alter table gui_cmd_log..." />
+            <marker date="1463444952958" expanded="true" signature="7737:7773" placeholder="alter table gui_cab..." />
+            <marker date="1463444952958" expanded="true" signature="7793:7833" placeholder="alter table gui_chg_log..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="46" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="108" column="6" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1463363659000" expanded="true" signature="348:3124" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="375:410" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463363659000" expanded="true" signature="1445:1472" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
+          <folding>
+            <marker date="1463382599000" expanded="true" signature="8113:8152" placeholder="alter table gui_device... " />
+            <marker date="1463382599000" expanded="true" signature="8172:8209" placeholder="alter table gui_disk... " />
+            <marker date="1463382599000" expanded="true" signature="8229:8272" placeholder="alter table gui_disk_smart... " />
+            <marker date="1463382599000" expanded="true" signature="8292:8332" placeholder="alter table gui_cmd_log... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="706" column="20" selection-start-line="706" selection-start-column="20" selection-end-line="706" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="440" column="42" selection-start-line="432" selection-start-column="36" selection-end-line="440" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="103" column="35" selection-start-line="103" selection-start-column="35" selection-end-line="103" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="53" column="139" selection-start-line="53" selection-start-column="139" selection-end-line="53" selection-end-column="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="65" column="9" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="95" column="33" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="447" column="13" selection-start-line="447" selection-start-column="13" selection-end-line="447" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="413" column="36" selection-start-line="413" selection-start-column="36" selection-end-line="413" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="194" column="33" selection-start-line="194" selection-start-column="33" selection-end-line="194" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/ui-basic-elements.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="96" column="58" selection-start-line="83" selection-start-column="0" selection-end-line="171" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/runde/runde-login.html" />
+    <entry file="file://$USER_HOME$/Desktop/runde/mainpage.html" />
+    <entry file="file://$USER_HOME$/Desktop/npts_10_cvl/link.html" />
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="125" column="46" selection-start-line="125" selection-start-column="12" selection-end-line="125" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/tpl/cab.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/ueditor.all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/bridge.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="10" column="52" selection-start-line="10" selection-start-column="52" selection-end-line="10" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/link.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="628" column="53" selection-start-line="628" selection-start-column="53" selection-end-line="628" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="48" column="70" selection-start-line="48" selection-start-column="70" selection-end-line="48" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/install/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/logout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="8" column="52" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Conf/db.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Conf/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/goingTask.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="79" column="38" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/doneTask.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="80" column="24" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="94" column="50" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1620">
+          <caret line="108" column="6" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+          <folding>
+            <marker date="1463276349000" expanded="true" signature="30:58" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="123:1023" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="145:273" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463276349000" expanded="true" signature="299:945" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="544:935" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="786:921" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="965:1015" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1055:1146" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1200:1714" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1222:1397" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getDiskInfo'...}" />
+            <marker date="1463276349000" expanded="true" signature="1423:1706" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1457:1638" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1746:1828" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1857:2159" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1999:2091" placeholder="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1463276349000" expanded="true" signature="2113:2151" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2187:2547" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2387:2478" placeholder="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1463276349000" expanded="true" signature="2500:2539" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2584:2690" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2731:2854" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2888:3525" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2927:3041" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463276349000" expanded="true" signature="3067:3485" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3101:3159" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3177:3475" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3392:3459" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3496:3519" placeholder="//..." />
+            <marker date="1463276349000" expanded="true" signature="3597:3895" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3617:3861" placeholder="{&quot;cmd&quot;: 'COPY'...}" />
+            <marker date="1463276349000" expanded="true" signature="3941:4086" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4130:4391" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4150:4357" placeholder="{&quot;cmd&quot;: 'BRIDGE'...}" />
+            <marker date="1463276349000" expanded="true" signature="4418:4513" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4438:4479" placeholder="{&quot;cmd&quot;: 'DEVICEINFO'...}" />
+            <marker date="1463276349000" expanded="true" signature="4550:4597" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4625:4833" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4647:4755" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463276349000" expanded="true" signature="4775:4825" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4867:5186" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4907:5067" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4985:5033" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5105:5160" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5302:5371" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5419:5493" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5603:5649" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5731:6385" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5765:5823" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6019:6168" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6205:6373" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6262:6305" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1455">
+          <caret line="99" column="6" selection-start-line="99" selection-start-column="6" selection-end-line="99" selection-end-column="6" />
+          <folding>
+            <marker date="1463276349000" expanded="true" signature="38:471" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="876:1969" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1071:1900" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1120:1290" placeholder="{&quot;temperature&quot;: 0...}" />
+            <marker date="1463276349000" expanded="true" signature="1340:1812" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1397:1474" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="1527:1701" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2026:2259" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2086:2172" placeholder="{&quot;cmd&quot;: 'DEVICESTATUS'...}" />
+            <marker date="1463276349000" expanded="true" signature="2289:2326" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2386:2488" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2540:2625" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2677:3156" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="2941:3033" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3205:3927" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3434:3524" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3582:3921" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3684:3786" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="3973:4422" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4232:4324" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="4469:5239" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5295:5422" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5557:6705" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5605:6699" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5814:5923" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="5964:6073" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6114:6222" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6453:6521" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6931:6962" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="6993:7933" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7041:7148" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7192:7296" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7337:7438" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7480:7582" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7632:7743" placeholder="{...}" />
+            <marker date="1463276349000" expanded="true" signature="7782:7923" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11640">
+          <caret line="776" column="12" selection-start-line="776" selection-start-column="12" selection-end-line="776" selection-end-column="12" />
+          <folding>
+            <marker date="1463387411000" expanded="true" signature="52590:52638" placeholder="..." />
+            <marker date="1463387411000" expanded="true" signature="52590:52653" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1410">
+          <caret line="101" column="40" selection-start-line="101" selection-start-column="40" selection-end-line="101" selection-end-column="40" />
+          <folding>
+            <marker date="1463363659000" expanded="true" signature="348:3124" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="375:410" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463363659000" expanded="true" signature="1445:1472" placeholder="{...}" />
+            <marker date="1463363659000" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globalvars.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/SystInit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+          <folding>
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="270">
+          <caret line="302" column="90" selection-start-line="302" selection-start-column="61" selection-end-line="302" selection-end-column="90" />
+=======
+        <state vertical-scroll-proportion="-3.764706">
+          <caret line="1089" column="32" selection-start-line="1084" selection-start-column="3" selection-end-line="1101" selection-end-column="23" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+=======
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="182" column="38" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.147059">
+          <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="4935">
+          <caret line="329" column="33" selection-start-line="329" selection-start-column="33" selection-end-line="329" selection-end-column="33" />
+          <folding>
+            <marker date="1463382599000" expanded="true" signature="8113:8152" placeholder="alter table gui_device... " />
+            <marker date="1463382599000" expanded="true" signature="8172:8209" placeholder="alter table gui_disk... " />
+            <marker date="1463382599000" expanded="true" signature="8229:8272" placeholder="alter table gui_disk_smart... " />
+            <marker date="1463382599000" expanded="true" signature="8292:8332" placeholder="alter table gui_cmd_log... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="382" column="21" selection-start-line="382" selection-start-column="21" selection-end-line="382" selection-end-column="21" />
+=======
+        <state vertical-scroll-proportion="-57.088234">
+          <caret line="243" column="0" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.352941">
+          <caret line="528" column="44" selection-start-line="528" selection-start-column="44" selection-end-line="528" selection-end-column="44" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="323" column="50" selection-start-line="323" selection-start-column="47" selection-end-line="323" selection-end-column="50" />
+=======
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5652174">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+>>>>>>> 6f9c0aaf998e35da994e439c5bb904b681750c49
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-310">
+          <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="52" column="6" selection-start-line="52" selection-start-column="6" selection-end-line="52" selection-end-column="6" />
+          <folding>
+            <element signature="n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
