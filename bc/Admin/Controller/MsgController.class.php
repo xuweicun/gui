@@ -274,7 +274,7 @@ class MsgController extends Controller
         $this->updateCmdLog();
         //update related table
         switch ($this->msg->cmd) {
-            case 'DIVICEINFO':
+            case 'DEVICEINFO':
                 $this->hdlDevInfo();
                 break;
             case 'DEVICESTATUS':
@@ -383,6 +383,7 @@ class MsgController extends Controller
     private function hdlDevInfo()
     {
         if ($this->msg->isSuccess()) {
+            $this->RTLog("START TO HANDLE DEVINFO MSG");
             $cabDb = M('Cab');
             //查看cab是否存在
             $cabs = $_POST['cabinets'];
@@ -393,7 +394,8 @@ class MsgController extends Controller
                 $cabDb->save($i);
             }
             foreach ($cabs as $cab) {
-                $map['sn'] = array('eq', (int)$cab);
+                $this->RTLog("CAB-ID:".$cab['id']);
+                $map['sn'] = array('eq', (int)$cab['id']);
                 $item = $cabDb->where($map)->find();
                 //如果不存在，新建
                 if (!$item) {
@@ -802,6 +804,7 @@ class MsgController extends Controller
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
             if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
                 $log['finished'] = 1;
+            $log['return_msg'] = file_get_contents('php://input');
             $this->db->save($log);
         }
     }

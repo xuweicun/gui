@@ -1,9 +1,7 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
+app_device.controller('DeployCtrl', function ($scope, $http, $interval, $timeout, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
-    $scope.bridgeUrl = '/Public/js/bridge.html';
-    $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
-    $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
+
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
@@ -85,7 +83,6 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
         //read cab information
         $scope.cabs.on_init();
     }
-    $scope.start();
     $scope.getCabInfo = function () {
         //read cab info from database
         $http({
@@ -119,9 +116,5 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
             }
         });
     }
-}).controller('testCtrl', function ($scope, TestMsg) {
-var Test = function () {
-    this.server = '/index.php?m=admin&c=msg';
-}
-
+    $scope.start();
 });

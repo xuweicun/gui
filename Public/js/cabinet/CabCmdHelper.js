@@ -146,7 +146,7 @@ CabCmdHelper.prototype = {
             url: '/index.php?m=admin&c=business&a=deleteLog&id=' + id,
             method: 'GET'
         }).error(function () {
-            console.log("更新存储柜信息失败.");
+            console.log("命令删除失败.");
         });
     },
     objectClone: function (obj) {

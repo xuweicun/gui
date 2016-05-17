@@ -26,6 +26,7 @@ function CabinetHelper(on_cabinet_select) {
     this.cabs = [];
     this.curr = null;
     this.cab = null;
+    this.changed = false;
     this.on_cabinet_select = on_cabinet_select;
 }
 
@@ -38,7 +39,7 @@ CabinetHelper.prototype = {
             //柜子未选中
             return null;
         }
-        return this.cab.i_get_disk((l - 1,g - 1,d - 1));
+        return this.cab.i_get_disk(l - 1,g - 1,d - 1);
     },
     i_on_deploy: function(c,going){
      this.cabs.forEach(function(e){
@@ -46,6 +47,34 @@ CabinetHelper.prototype = {
              e.deploying = going;
          }
      });
+    },
+    //检查柜子是否发生变化,包括连接情况、数量
+    checkChg: function (e) {
+        var msg = JSON.parse(e['return_msg']);
+        var cabinets = msg.cabinets;
+        var that = this;
+        var flag = false;
+        //数量变化
+        if(e.length != that.getLth()){
+            that.changed = true;
+            return;
+        }
+        //柜子标识符发生变化
+        cabinets.forEach(function (e) {
+            if(that.changed) {
+                return;
+            }
+            flag = false;
+            for(var idx = 0;idx < that.cabs.length;idx++){
+                if(e.id == that.cabs[idx].id){
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag == false){
+                that.changed = true;
+            }
+        });
     },
     on_select: function (idx) {
         if (this.curr === this.cabs[idx]) {
@@ -57,10 +86,13 @@ CabinetHelper.prototype = {
         }
         this.curr = this.cabs[idx];
         this.curr.on_select();
-        if(!this.cab)
+        if(this.cab)
         {
-            this.cab = new Cabinet();
+            delete this.cab;
+            this.cab = null;
         }
+        this.cab = new Cabinet();
+
         this.cab.i_on_init(this.curr.id,this.curr.lvl_cnt,this.curr.grp_cnt,this.curr.dsk_cnt);
         global_cabinet = this.cab;
         global_cmd_helper.updateDeviceStatus();

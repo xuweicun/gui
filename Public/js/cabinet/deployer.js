@@ -88,8 +88,11 @@ Deployer.prototype = {
             that.finished = false;
         }, that.time_unit);
     },
+    stopDeploy: function(){
+        this.idx = this.disks.length + 1;
+    },
     is_done: function () {
-        if (this.idx >= this.disks.length) {
+        if (this.idx >= this.disks.length && this.finished) {
             return true;
         }
         return false;
