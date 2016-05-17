@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;" />
+    <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/9357d1ff480909d22c02de6d377a8b12.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/9357d1ff480909d22c02de6d377a8b12.php" />
+    </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -25,8 +31,18 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
+            <state vertical-scroll-proportion="-3.764706">
+              <caret line="1089" column="32" selection-start-line="1084" selection-start-column="3" selection-end-line="1101" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="systeminit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.823529">
+              <caret line="243" column="0" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -35,8 +51,8 @@
       <file leaf-file-name="cabs.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+            <state vertical-scroll-proportion="-4.147059">
+              <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -52,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CabCmdHelper.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CabCmdHelper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.47826087">
+              <caret line="182" column="38" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -66,19 +82,46 @@
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
+              <caret line="62" column="4" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <marker date="1463444952896" expanded="true" signature="79:220" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="243:512" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="277:383" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="410:447" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="472:510" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="555:629" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2262:2533" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2262:3697" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2559:2599" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2634:2674" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2701:3695" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="2814:2914" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getCabInfo'...}" />
+                <marker date="1463444952896" expanded="true" signature="2940:3687" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="3031:3677" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="3075:3277" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="3339:3453" placeholder="{...}" />
+                <marker date="1463444952896" expanded="true" signature="3475:3566" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cabinet.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cabinet.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5565217">
-              <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="27" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="globaljs.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -88,18 +131,61 @@
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="348" column="0" selection-start-line="348" selection-start-column="0" selection-end-line="348" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="deployer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="13" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
-              <folding />
+              <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+              <folding>
+                <marker date="1463444952864" expanded="true" signature="524:11553" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="552:990" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="594:721" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="629:711" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="772:840" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="940:984" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1024:1962" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1114:1182" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1217:1924" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1281:1914" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1371:1900" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1458:1855" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1663:1707" placeholder="//..." />
+                <marker date="1463444952864" expanded="true" signature="1756:1833" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="1996:2106" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2140:2656" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2209:2479" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2286:2469" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2339:2432" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2493:2543" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2682:3281" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="2964:3242" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="3317:5503" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="3439:5479" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="3522:3561" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="3692:4354" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="3792:3823" placeholder="//..." />
+                <marker date="1463444952864" expanded="true" signature="3859:3939" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="4107:4340" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="4418:4466" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="4562:4638" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="4688:4727" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="4955:5109" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getCmdResult'...}" />
+                <marker date="1463444952864" expanded="true" signature="5135:5393" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="5173:5239" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="5261:5378" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="5413:5467" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="5552:5925" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="5562:5851" placeholder="/*...*/" />
+                <marker date="1463444952864" expanded="true" signature="5860:5919" placeholder="//..." />
+                <marker date="1463444952864" expanded="true" signature="5954:5991" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="6020:6065" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="6176:7156" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="6351:6906" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="6927:7148" placeholder="{&quot;title&quot;: '命令执行结果'...}" />
+                <marker date="1463444952864" expanded="true" signature="7200:7690" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="7236:7316" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="7342:7414" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="7492:7690" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="7528:7690" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="9819:11508" placeholder="{...}" />
+                <marker date="1463444952864" expanded="true" signature="9819:11515" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,19 +193,16 @@
       <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="541" column="9" selection-start-line="541" selection-start-column="9" selection-end-line="541" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeviceViewModel.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-              <folding />
+            <state vertical-scroll-proportion="-0.88235295">
+              <caret line="392" column="20" selection-start-line="392" selection-start-column="20" selection-end-line="392" selection-end-column="20" />
+              <folding>
+                <marker date="1463444952958" expanded="true" signature="7498:7537" placeholder="alter table gui_device..." />
+                <marker date="1463444952958" expanded="true" signature="7557:7594" placeholder="alter table gui_disk..." />
+                <marker date="1463444952958" expanded="true" signature="7614:7657" placeholder="alter table gui_disk_smart..." />
+                <marker date="1463444952958" expanded="true" signature="7677:7717" placeholder="alter table gui_cmd_log..." />
+                <marker date="1463444952958" expanded="true" signature="7737:7773" placeholder="alter table gui_cab..." />
+                <marker date="1463444952958" expanded="true" signature="7793:7833" placeholder="alter table gui_chg_log..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,11 +244,13 @@
         <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
         <option value="$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php" />
-        <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/deployer.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/globaljs.js" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js" />
       </list>
     </option>
   </component>
@@ -283,14 +368,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25718608" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29210925" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29742032" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -327,29 +412,64 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="337" column="44" selection-start-line="337" selection-start-column="44" selection-end-line="337" selection-end-column="44" />
-          <folding />
+          <folding>
+            <marker date="1463444952864" expanded="true" signature="524:11553" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="552:990" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="594:721" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="629:711" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="772:840" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="940:984" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1024:1962" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1114:1182" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1217:1924" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1281:1914" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1371:1900" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1458:1855" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1663:1707" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="1756:1833" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1996:2106" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2140:2656" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2209:2479" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2286:2469" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2339:2432" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2493:2543" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2682:3281" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2964:3242" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3317:5503" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3439:5479" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3522:3561" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3692:4354" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3792:3823" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="3859:3939" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4107:4340" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4418:4466" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4562:4638" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4688:4727" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4955:5109" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getCmdResult'...}" />
+            <marker date="1463444952864" expanded="true" signature="5135:5393" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5173:5239" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5261:5378" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5413:5467" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5552:5925" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5562:5851" placeholder="/*...*/" />
+            <marker date="1463444952864" expanded="true" signature="5860:5919" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="5954:5991" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6020:6065" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6176:7156" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6351:6906" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6927:7148" placeholder="{&quot;title&quot;: '命令执行结果'...}" />
+            <marker date="1463444952864" expanded="true" signature="7200:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7236:7316" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7342:7414" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7492:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7528:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="9819:11508" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="9819:11515" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -357,7 +477,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1463444952911" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="706:803" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463444952911" expanded="true" signature="829:1163" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463444952911" expanded="true" signature="1445:2542" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1481:1569" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1766:2518" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1907:2107" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="2198:2396" placeholder="{&quot;cmd&quot;: 'DISKINFO'...}" />
+            <marker date="1463444952911" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -365,7 +500,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="541" column="9" selection-start-line="541" selection-start-column="9" selection-end-line="541" selection-end-column="9" />
-          <folding />
+          <folding>
+            <marker date="1463444952958" expanded="true" signature="7498:7537" placeholder="alter table gui_device..." />
+            <marker date="1463444952958" expanded="true" signature="7557:7594" placeholder="alter table gui_disk..." />
+            <marker date="1463444952958" expanded="true" signature="7614:7657" placeholder="alter table gui_disk_smart..." />
+            <marker date="1463444952958" expanded="true" signature="7677:7717" placeholder="alter table gui_cmd_log..." />
+            <marker date="1463444952958" expanded="true" signature="7737:7773" placeholder="alter table gui_cab..." />
+            <marker date="1463444952958" expanded="true" signature="7793:7833" placeholder="alter table gui_chg_log..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -397,7 +539,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1463444952911" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="706:803" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463444952911" expanded="true" signature="829:1163" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463444952911" expanded="true" signature="1445:2542" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1481:1569" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1766:2518" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1907:2107" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="2198:2396" placeholder="{&quot;cmd&quot;: 'DISKINFO'...}" />
+            <marker date="1463444952911" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -405,7 +562,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
-          <folding />
+          <folding>
+            <marker date="1463444952958" expanded="true" signature="7498:7537" placeholder="alter table gui_device..." />
+            <marker date="1463444952958" expanded="true" signature="7557:7594" placeholder="alter table gui_disk..." />
+            <marker date="1463444952958" expanded="true" signature="7614:7657" placeholder="alter table gui_disk_smart..." />
+            <marker date="1463444952958" expanded="true" signature="7677:7717" placeholder="alter table gui_cmd_log..." />
+            <marker date="1463444952958" expanded="true" signature="7737:7773" placeholder="alter table gui_cab..." />
+            <marker date="1463444952958" expanded="true" signature="7793:7833" placeholder="alter table gui_chg_log..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -628,22 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Model/DeviceViewModel.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -652,19 +800,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="541" column="9" selection-start-line="541" selection-start-column="9" selection-end-line="541" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/deployer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="13" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
-          <folding />
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
+          <folding>
+            <marker date="1463444952911" expanded="true" signature="437:475" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="503:1414" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="706:803" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1463444952911" expanded="true" signature="829:1163" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="869:1120" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="924:1106" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1183:1406" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1209:1394" placeholder="{&quot;title&quot;: '批量硬盘信息获取'...}" />
+            <marker date="1463444952911" expanded="true" signature="1445:2542" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1481:1569" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1766:2518" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="1907:2107" placeholder="{...}" />
+            <marker date="1463444952911" expanded="true" signature="2198:2396" placeholder="{&quot;cmd&quot;: 'DISKINFO'...}" />
+            <marker date="1463444952911" expanded="true" signature="2708:2744" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -679,33 +834,150 @@
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/TaskPool.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="348" column="0" selection-start-line="348" selection-start-column="0" selection-end-line="348" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
-          <folding />
+          <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+          <folding>
+            <marker date="1463444952864" expanded="true" signature="524:11553" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="552:990" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="594:721" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="629:711" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="772:840" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="940:984" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1024:1962" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1114:1182" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1217:1924" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1281:1914" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1371:1900" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1458:1855" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1663:1707" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="1756:1833" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="1996:2106" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2140:2656" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2209:2479" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2286:2469" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2339:2432" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2493:2543" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2682:3281" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="2964:3242" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3317:5503" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3439:5479" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3522:3561" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3692:4354" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="3792:3823" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="3859:3939" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4107:4340" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4418:4466" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4562:4638" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4688:4727" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="4955:5109" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getCmdResult'...}" />
+            <marker date="1463444952864" expanded="true" signature="5135:5393" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5173:5239" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5261:5378" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5413:5467" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5552:5925" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="5562:5851" placeholder="/*...*/" />
+            <marker date="1463444952864" expanded="true" signature="5860:5919" placeholder="//..." />
+            <marker date="1463444952864" expanded="true" signature="5954:5991" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6020:6065" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6176:7156" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6351:6906" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="6927:7148" placeholder="{&quot;title&quot;: '命令执行结果'...}" />
+            <marker date="1463444952864" expanded="true" signature="7200:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7236:7316" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7342:7414" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7492:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="7528:7690" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="9819:11508" placeholder="{...}" />
+            <marker date="1463444952864" expanded="true" signature="9819:11515" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
+          <caret line="62" column="4" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+            <marker date="1463444952896" expanded="true" signature="79:220" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="243:512" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="277:383" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="410:447" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="472:510" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="555:629" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2262:2533" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2262:3697" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2559:2599" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2634:2674" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2701:3695" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="2814:2914" placeholder="{&quot;url&quot;: '/index.php?m=admin&amp;c=business&amp;a=getCabInfo'...}" />
+            <marker date="1463444952896" expanded="true" signature="2940:3687" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="3031:3677" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="3075:3277" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="3339:3453" placeholder="{...}" />
+            <marker date="1463444952896" expanded="true" signature="3475:3566" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5565217">
-          <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="27" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.88235295">
+          <caret line="392" column="20" selection-start-line="392" selection-start-column="20" selection-end-line="392" selection-end-column="20" />
+          <folding>
+            <marker date="1463444952958" expanded="true" signature="7498:7537" placeholder="alter table gui_device..." />
+            <marker date="1463444952958" expanded="true" signature="7557:7594" placeholder="alter table gui_disk..." />
+            <marker date="1463444952958" expanded="true" signature="7614:7657" placeholder="alter table gui_disk_smart..." />
+            <marker date="1463444952958" expanded="true" signature="7677:7717" placeholder="alter table gui_cmd_log..." />
+            <marker date="1463444952958" expanded="true" signature="7737:7773" placeholder="alter table gui_cab..." />
+            <marker date="1463444952958" expanded="true" signature="7793:7833" placeholder="alter table gui_chg_log..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.147059">
+          <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.764706">
+          <caret line="1089" column="32" selection-start-line="1084" selection-start-column="3" selection-end-line="1101" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/systeminit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.823529">
+          <caret line="243" column="0" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmdHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47826087">
+          <caret line="182" column="38" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="38" />
           <folding />
         </state>
       </provider>
