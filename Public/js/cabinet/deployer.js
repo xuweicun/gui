@@ -58,6 +58,7 @@ Deployer.prototype = {
         }
         console.log("开始部署");
         this.working = true;
+        this.idx = 0;
         var that = this;
 
         global_cabinet_helper.i_on_deploy(this.cab_id,true);
