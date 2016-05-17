@@ -409,7 +409,7 @@
                                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
                                             <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
                                                ng-if="cab.curr.is_loaded()" target="_blank">离线</a>
-                                            <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" 
+                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}" 
                                                ng-if="cab.curr.is_bridged()"
                                                class="btn btn-primary btn-xs">在线</a>
                                             <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
