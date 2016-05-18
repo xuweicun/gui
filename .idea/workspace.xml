@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/index.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/0c81c082de619e33e13cafe50030399e.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
     </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deploy.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="deploy.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4621072">
+            <state vertical-scroll-proportion="-7.352941">
               <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
               <folding />
             </state>
@@ -74,9 +71,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-              <folding>
-                <marker date="1463530956840" expanded="true" signature="814:3904" placeholder="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,12 +96,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cabinet.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinet.js">
+      <file leaf-file-name="cabinethelper.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="206" column="31" selection-start-line="206" selection-start-column="31" selection-end-line="206" selection-end-column="31" />
-              <folding />
+            <state vertical-scroll-proportion="0.17391305">
+              <caret line="118" column="23" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -179,7 +176,6 @@
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/globalvars.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
-        <option value="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
@@ -189,6 +185,7 @@
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/index.html" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/cabs.html" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
       </list>
     </option>
   </component>
@@ -604,6 +601,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="101" column="40" selection-start-line="101" selection-start-column="40" selection-end-line="101" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -625,13 +623,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="325" column="23" selection-start-line="325" selection-start-column="23" selection-end-line="325" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -659,16 +651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-          <folding>
-            <marker date="1463530956840" expanded="true" signature="814:3904" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/SystInit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -681,14 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="197" column="0" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="341" column="8" selection-start-line="341" selection-start-column="8" selection-end-line="341" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -710,6 +684,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.352941">
+          <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/globaljs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/cabs.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.088235">
@@ -721,11 +711,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/deploy.html">
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/services.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4621072">
-          <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="341" column="8" selection-start-line="341" selection-start-column="8" selection-end-line="341" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17391305">
+          <caret line="118" column="23" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
