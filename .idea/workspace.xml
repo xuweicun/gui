@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;" />
+    <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/login.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/cf9c8617803a213ab46a3b2ddb214758.php" afterPath="$PROJECT_DIR$/bc/Runtime/Cache/Admin/cf9c8617803a213ab46a3b2ddb214758.php" />
+    </list>
     <ignored path="gui.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -35,16 +38,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="siderBar.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="siderBar.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19646366">
+            <state vertical-scroll-proportion="-1.5151515">
               <caret line="4" column="125" selection-start-line="4" selection-start-column="125" selection-end-line="4" selection-end-column="125" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.36968577">
+              <caret line="56" column="152" selection-start-line="56" selection-start-column="152" selection-end-line="56" selection-end-column="152" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -160,7 +173,6 @@
         <option value="$PROJECT_DIR$/bc/Admin/Conf/config.php" />
         <option value="$PROJECT_DIR$/bc/Admin/Model/BrandViewModel.class.php" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/goingTask.html" />
-        <option value="$PROJECT_DIR$/bc/Admin/View/Business/login.html" />
         <option value="$PROJECT_DIR$/Public/js/services.js" />
         <option value="$PROJECT_DIR$/Public/js/globaljs.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/CabCmd.js" />
@@ -180,6 +192,7 @@
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/deploy.html" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/cabinethelper.js" />
         <option value="$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html" />
+        <option value="$PROJECT_DIR$/bc/Admin/View/Business/login.html" />
       </list>
     </option>
   </component>
@@ -547,13 +560,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="94" column="50" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Public/js/cabinet/CabCmd.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -714,13 +720,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19646366">
+        <state vertical-scroll-proportion="-1.5151515">
           <caret line="4" column="125" selection-start-line="4" selection-start-column="125" selection-end-line="4" selection-end-column="125" />
           <folding>
             <element signature="n#style#0;n#h4#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36968577">
+          <caret line="56" column="152" selection-start-line="56" selection-start-column="152" selection-end-line="56" selection-end-column="152" />
+          <folding />
         </state>
       </provider>
     </entry>
