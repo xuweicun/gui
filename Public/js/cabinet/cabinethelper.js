@@ -118,7 +118,6 @@ CabinetHelper.prototype = {
                 global_task_pool.init();
                 return;
             }
-                return;
             if (!data['err_msg']) {
                 data.forEach(function (e) {
                     var cab = new CabPicker();
