@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Public/assets/img/flags/cn.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Public/assets/img/hlsqlogo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html" afterPath="$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html" />
     </list>
     <ignored path="gui.iws" />
@@ -43,9 +40,10 @@
       <file leaf-file-name="siderBar.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58939093">
-              <caret line="12" column="111" selection-start-line="12" selection-start-column="111" selection-end-line="12" selection-end-column="111" />
+            <state vertical-scroll-proportion="0.19646366">
+              <caret line="10" column="77" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
               <folding>
+                <element signature="n#style#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
@@ -717,9 +715,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/View/Business/siderBar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58939093">
-          <caret line="12" column="111" selection-start-line="12" selection-start-column="111" selection-end-line="12" selection-end-column="111" />
+        <state vertical-scroll-proportion="0.19646366">
+          <caret line="10" column="77" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
           <folding>
+            <element signature="n#style#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#ul#0;n#nav#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
