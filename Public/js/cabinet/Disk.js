@@ -73,7 +73,7 @@ Disk.prototype = {
             };
             global_http.post(global_root+"&a=getPartition", _data).success(function(data){
                 try{
-                    var _data = JSON.parse(data);
+                    var _data = _data;
                     if (_data.partitions){
                         // 必须为当前柜子ID
                         if (parseInt(_data.device_id) != global_cabinet.id){
@@ -89,7 +89,7 @@ Disk.prototype = {
                         }
 
                         // 更新信息
-                        _disk.partitions = _data.partitions;
+                        _disk.partitions = JSON.parse(_data.partitions);
                     }
                 }
                 catch(e){
