@@ -329,10 +329,12 @@ class MsgController extends Controller
         $dsk->init();
 
         $return_msg = file_get_contents('php://input');
-        var_dump($return_msg);
+        //var_dump($return_msg);
         self::RTLog($return_msg);
         $db = M('Device');
+        $dsk->map['disk'] = $_POST['disk'];
         $item = $db->where($dsk->map)->find();
+        var_dump($item);
         if($item){
             $item['partition'] = $return_msg;
             $db->save($item);
