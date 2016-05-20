@@ -11,6 +11,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
     $scope.testCmdId = 0;
+    $scope.to_post = null;
     var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
     var proxy = "http://"+ $scope.local_host +":8080";
     global_server = server;
