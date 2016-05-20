@@ -73,7 +73,7 @@ Disk.prototype = {
             };
             global_http.post(global_root+"&a=getPartition", _data).success(function(data){
                 try{
-                    var _data = _data;
+                    var _data = data;
                     if (_data.partitions){
                         // 必须为当前柜子ID
                         if (parseInt(_data.device_id) != global_cabinet.id){
