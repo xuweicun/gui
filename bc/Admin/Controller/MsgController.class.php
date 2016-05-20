@@ -327,6 +327,9 @@ class MsgController extends Controller
     {
         $dsk = new Dsk();
         $keys = array('partition');
+        $partition = '[';
+        foreach($_POST['partitions'] as $item){
+        }
         $values = array($_POST['partitions']);
         $dsk->updateDisk($keys, $values);
     }
