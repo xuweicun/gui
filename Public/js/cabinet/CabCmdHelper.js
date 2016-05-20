@@ -53,12 +53,12 @@ CabCmdHelper.prototype = {
         var msg = {cmd: 'DEVICESTATUS'};
         return this.sendcmd(msg);
     },
-    localTest: function () {
-        var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
+    localTest: function (to_post) {
+        var msg = to_post;//this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         var localUrl = '/index.php?m=admin&c=msg';
         global_http({
             url: localUrl,
-            data: msg.md5,
+            data: msg,
             method: 'POST'
         }).success(function () {
             alert("done");
