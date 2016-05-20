@@ -256,10 +256,13 @@ class MsgController extends Controller
     public function index()
     {
 
-
+        global $return_msg;
         $this->msg = new Msg();
         $this->msg->init();
-        if (!$this->msg->id) {
+        //CMD-ID 不允许为空
+        if (is_null($this->msg->id)) {
+            self::RTLog("This msg does not contain an id");
+            self::RTLog($return_msg);
             die();
         }
         $this->file = fopen("rtlog.txt", "a");
@@ -324,6 +327,9 @@ class MsgController extends Controller
     {
         $dsk = new Dsk();
         $keys = array('partition');
+        $partition = '[';
+        foreach($_POST['partitions'] as $item){
+        }
         $values = array($_POST['partitions']);
         $dsk->updateDisk($keys, $values);
     }
