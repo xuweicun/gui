@@ -114,8 +114,10 @@ CabinetHelper.prototype = {
             url: '/index.php?m=admin&c=business&a=getCabInfo',
             method: 'GET'
         }).success(function (data) {
-            if (data === null)
+            if (data === null){
+                global_task_pool.init();
                 return;
+            }
             if (!data['err_msg']) {
                 data.forEach(function (e) {
                     var cab = new CabPicker();

@@ -270,7 +270,7 @@
                                     <div class="panel-footer">
                                         <div class="row">
                                             <div class="col-md-12 text-right">
-                                                <a href="/index.php?m=Admin&c=business&a=logout" class="btn btn-warning modal-dismiss">确定</a>
+                                                <a href="/index.php?m=Admin&c=Business&a=logout" class="btn btn-warning">确定</a>
                                                 <a class="btn btn-warning modal-dismiss">取消</a>
                                             </div>
                                         </div>
@@ -300,7 +300,7 @@
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>离线存储柜({{cab.id}}#)
-                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="updateDeviceStatus();" title="刷新柜子信息">刷新</a>
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id);" ng-disabled="deployer.working;" title="刷新柜子信息">刷新</a>
                             <a href="#modalAnimDeviceStatusCmd" 
                                class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
                                ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
@@ -408,9 +408,9 @@
                                                    }[cab.curr.is_bridged()]"></i>
                                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
                                             <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
-                                               ng-if="cab.curr.is_loaded()" target="_blank">离线</a>
-                                            <a ng-href="file://///222.35.224.230/public/{{cab.curr.base_info.bridge_path}}" 
-                                               ng-if="cab.curr.is_bridged()"
+                                               ng-show="cab.curr.is_loaded()" target="_blank">离线</a>
+                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}" 
+                                               ng-show="cab.curr.is_bridged()"
                                                class="btn btn-primary btn-xs">在线</a>
                                             <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
                                                ng-show="cab.curr.is_bridged()">重建索引</a>
@@ -927,7 +927,7 @@
                                                         ng-class-even="even">
                                                         <td class="sorting_1" ng-bind="lang.getLang(task.cmd)"></td>
                                                         <td ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
-                                                        <td ng-bind="task.start_time|date:'yyyy-MM-dd hh:mm:ss'"></td>
+                                                        <td ng-bind="task.start_time|date:'yyyy-MM-dd HH:mm:ss'"></td>
                                                         <td>
                                                             <div class="panel bk-widget bk-border-off bk-margin-off" >
                                                                 <div class="progress progress-striped light progress-xl active" style="margin-top:10;">

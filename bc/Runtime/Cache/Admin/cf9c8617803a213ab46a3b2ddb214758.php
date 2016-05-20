@@ -54,8 +54,8 @@
 							<div class="panel">
 								<div class="panel-body">								
 									<div class="header bk-margin-bottom-20 text-center">										
-										<img src="/Public/assets/img/logo.png" class="img-responsive" alt="" />
-										<h4>系统登录</h4>
+										<img src="/Public/assets/img/hlsqlogo2.png" class="img-responsive" alt="" style="display: inline-block;width: 20%;"/>
+										<h4>离线硬盘存储管理系统</h4>
 									</div>
 									<div class="bk-padding-left-20 bk-padding-right-20">
 										<form action="/index.php?m=admin&c=business&a=login" method="post">

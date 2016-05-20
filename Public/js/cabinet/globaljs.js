@@ -1,4 +1,4 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
+app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -6,12 +6,13 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
+    $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
     $scope.testCmdId = 0;
     var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
-    var proxy = "http://222.35.224.230:8080";
+    var proxy = "http://"+ $scope.local_host +":8080";
     global_server = server;
     global_root = businessRoot;
     global_app = proxy;
