@@ -63,8 +63,8 @@
 		<![endif]-->		
 		
 	</head>
-	
-	<body ng-app="device" ng-controller="statusMonitor">
+
+	<body ng-app="device" ng-controller="statusMonitor  as showCase">
 	
 		<!-- Start: Header -->
 
@@ -223,25 +223,30 @@
 		<script src="/Public/assets/js/core.min.js"></script>
 
 		<!-- Pages JS -->
-		<script src="/Public/assets/js/pages/index.js"></script>
 		<script src="/Public/assets/js/pages/ui-modals.js"></script>
 		<script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 		<script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
-        <script src="/Public/js/cabinet/globalvars.js"></script>
+		<!-- global variables define -->
+		<script src="/Public/js/cabinet/globalvars.js"></script>
 
-        <!-- 用于前端命令处理 -->
-        <script src="/Public/js/cabinet/CabCmd.js"></script>
-        <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
+		<!-- 用于前端命令处理 -->
+		<script src="/Public/js/cabinet/CabCmd.js"></script>
+		<script src="/Public/js/cabinet/CabCmdHelper.js"></script>
+		<script src="/Public/js/cabinet/TaskPool.js"></script>
+		<script src="/Public/js/cabinet/cabinethelper.js"></script>
+		<script src="/Public/js/cabinet/deployer.js"></script>
+		<!-- cabinet.js 必须放到 globaljs.js之前 -->
+		<script src="/Public/js/cabinet/Disk.js"></script>
+		<script src="/Public/js/cabinet/cabinet.js"></script>
 
-        <!-- cabinet.js 必须放到 globaljs.js之前 -->
-        <script src="/Public/js/cabinet/cabinet.js"></script>
+		<script src="/Public/js/cabinet/globaljs.js"></script>
 
-        <script src="/Public/js/cabinet/globaljs.js"></script>
+		<!-- page_init.js 必须放到 globaljs.js之后 -->
+		<script src="/Public/js/cabinet/page_init.js"></script>
+		<script src="/Public/js/cabinet/services.js"></script>
 
-        <!-- page_init.js 必须放到 globaljs.js之后 -->
-        <script src="/Public/js/cabinet/page_init.js"></script>
-        <script src="/Public/js/cabinet/services.js"></script>
+		<script src="/Public/js/angular-datatables.min.js"></script>
 		<!-- end: JavaScript-->
 
 

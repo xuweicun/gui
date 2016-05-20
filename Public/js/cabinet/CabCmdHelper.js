@@ -180,6 +180,8 @@ CabCmdHelper.prototype = {
         success(function (data) {
             if (data['errmsg']) {
                 global_err_pool.add(data);
+                console.log("发送命令失败");
+                return;
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
             msg.CMD_ID = data['id'].toString();
@@ -189,11 +191,11 @@ CabCmdHelper.prototype = {
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
             }).
-            error(function (data) {
+            error(function () {
                 global_err_pool.add();
                 //delete from log;
                 //弹出失败提示
-                global_cmd_helper.delete(data['id']);
+                global_cmd_helper.delete(msg.CMD_ID);
             });
         }).
         error(function () {

@@ -6,6 +6,9 @@ function Disk(l, g, d) {
     this.g = g;
     this.d = d;
 
+    // 分区情况
+    this.partitions = [];
+
     // 温度
     this.temperature = '-';
     // 是否写保护
@@ -54,6 +57,51 @@ function Disk(l, g, d) {
 
 // 硬盘Disk类的原型
 Disk.prototype = {
+    // 获得柜子ID
+    get_cabinet_id:function(){
+        return this.parent.parent.parent.id;
+    },
+    // 更新分区大小
+    update_partitions: function(){
+        // 分区大小只有在已桥接的状态下才能获取
+        if (this.is_bridged()){
+            var _data = {
+                device_id: this.get_cabinet_id().toString(),
+                level: (this.l + 1).toString(),
+                group: (this.g + 1).toString(),
+                disk: (this.d + 1).toString()
+            };
+            global_http.post(global_server, _data).success(function(data){
+                try{
+                    var _data = JSON.parse(data);
+                    if (_data.partitions){
+                        // 必须为当前柜子ID
+                        if (parseInt(_data.device_id) != global_cabinet.id){
+                            throw "invalid cabinet id: " + _data.device_id;
+                        }
+
+                        var lvl = parseInt(_data.level) - 1;
+                        var grp = parseInt(_data.group) - 1;
+                        var dsk = parseInt(_data.disk) - 1;
+                        var _disk = global_cabinet.levels[lvl].groups[grp].disks[dsk];
+                        if (!_disk || !_disk.is_bridged()){
+                            throw "invalid disk";
+                        }
+
+                        // 更新信息
+                        _disk.partitions = _data.partitions;
+                    }
+                }
+                catch(e){
+                    console.log('error', e);
+                }
+                finally{
+                    delete _data;
+                    _data = undefined;
+                }
+            });
+        }
+    },
     // 用户提交命令
     cmd_commit: function (cmd_name) {
         this.clear_status();

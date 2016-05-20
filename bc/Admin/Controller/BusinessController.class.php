@@ -67,6 +67,30 @@ class BusinessController extends Controller
         $this->cancelAllCmds();
     }
 
+    /******
+     * 获得分区
+     */
+    public function getPartition(){
+        $db = M('Device');
+        $cab_id = $_POST['device_id'];
+        $level = $_POST['level'];
+        $group = $_POST['group'];
+        $disk = $_POST['disk'];
+        $map['cab_id'] = array('eq',$cab_id);
+        $map['level'] = array('eq',$level);
+        $map['zu'] = array('eq',$group);
+        $map['disk'] = array('eq',$disk);
+        $item = $db->where($map)->find();
+        if($item){
+            if($item['loaded'] == 0 || $item['bridged'] == 0)
+            {
+                $item['partition'] = null;
+                $db->save($item);
+            }
+        }
+        $this->AjaxReturn($item);
+
+    }
     private function cancelAllCmds()
     {
         $db = M('CmdLog');
@@ -319,10 +343,14 @@ class BusinessController extends Controller
         $sql2 = "alter table gui_disk auto_increment=1";
         $sql3 = "alter table gui_disk_smart auto_increment=1";
         $sql4 = "alter table gui_cmd_log auto_increment=1";
+        $sql5 = "alter table gui_cab auto_increment=1";
+        $sql6 = "alter table gui_chg_log auto_increment=1";
         $result = mysqli_query($conn, $sql1);
         $result = mysqli_query($conn, $sql2);
         $result = mysqli_query($conn, $sql3);
-        $result = mysqli_query($conn, $sql4);
+        mysqli_query($conn, $sql5);
+        mysqli_query($conn, $sql4);
+        mysqli_query($conn, $sql6);
         mysqli_close($conn);
     }
 
@@ -332,47 +360,26 @@ class BusinessController extends Controller
     public function SystemInit()
     {
         $this->checkPermission();
+        //安装时所有信息重新初始化
+        if(I('get.install',0,'intval') == 1) {
+            $db = M('Device');
+            $db->where('1')->delete();
+            $newDb = M('Disk');
+            $newDb->where('1')->delete();
+            $newDb = M('DiskSmart');
+            $newDb->where('1')->delete();
+            $newDb = M('CmdLog');
+            $newDb->where('1')->delete();
+            $newDb = M('Cab');
+            $newDb->where('1')->delete();
+            $newDb = M('ChgLog');
+            $newDb->where('1')->delete();
+            $newDb = M('DiskChgLog');
+            $newDb->where('1')->delete();
+            $this->originSql();
+        }
         $this->display('deploy');
         die();
-        $level = $_POST['level'];
-        if (!$level) {
-            $errmsg = 'inadequate infomation';
-            $this->AjaxReturn($errmsg);
-            die();
-        }
-        $group = $_POST['group'];
-        $disk = $_POST['disk'];
-        $db = M('Device');
-        $db->where('1')->delete();
-        $newDb = M('Disk');
-        $newDb->where('1')->delete();
-        $newDb = M('DiskSmart');
-        $newDb->where('1')->delete();
-        $newDb = M('CmdLog');
-        $newDb->where('1')->delete();
-        $this->originSql();
-        $gui_device = 'gui_device';
-        //循环插入信息值Device表中，并初始化为已经在位，尚未桥接。
-        for ($i = 1; ; $i++) {
-            if ($i > $level)
-                break;
-            $data['level'] = $i;
-            for ($j = 1; ; $j++) {
-                if ($j > $group)
-                    break;
-                $data['zu'] = $j;
-                for ($k = 1; $k <= $disk; $k++) {
-                    if ($k > $disk)
-                        break;
-                    $data['disk'] = $k;
-                    $data['loaded'] = 1;
-                    $data['bridged'] = 0;
-
-                    $db->add($data);
-                }
-            }
-        }
-
     }
 
     public function filetree()
