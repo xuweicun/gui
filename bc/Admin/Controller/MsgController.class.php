@@ -327,6 +327,7 @@ class MsgController extends Controller
     {
         $dsk = new Dsk();
         global $return_msg;
+        self::RTLog($return_msg);
         $keys = array('partition');
         $values = array($return_msg);
         $dsk->updateDisk($keys, $values);
