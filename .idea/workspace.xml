@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecf6fe96-83b0-4ba2-802f-f618196619dd" name="Default" comment="Merge branch 'master' of https://github.com/xuweicun/gui&#10;&#10;# Conflicts:&#10;#&#9;Public/js/globaljs.js&#10;#&#9;bc/Admin/View/Business/systeminit.html&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Public/js/cabinet/Disk.js" afterPath="$PROJECT_DIR$/Public/js/cabinet/Disk.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" afterPath="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
     </list>
@@ -67,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Disk.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Disk.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Public/js/cabinet/Disk.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+            <state relative-caret-position="225">
+              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,18 +108,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BusinessController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="561" column="52" selection-start-line="561" selection-start-column="52" selection-end-line="561" selection-end-column="52" />
+            <state relative-caret-position="285">
+              <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
               <folding>
-                <marker date="1463728407000" expanded="true" signature="8839:8878" placeholder="alter table gui_device... " />
-                <marker date="1463728407000" expanded="true" signature="8898:8935" placeholder="alter table gui_disk... " />
-                <marker date="1463728407000" expanded="true" signature="8955:8998" placeholder="alter table gui_disk_smart... " />
-                <marker date="1463728407000" expanded="true" signature="9018:9058" placeholder="alter table gui_cmd_log... " />
-                <marker date="1463728407000" expanded="true" signature="9078:9114" placeholder="alter table gui_cab... " />
-                <marker date="1463728407000" expanded="true" signature="9134:9174" placeholder="alter table gui_chg_log... " />
+                <marker date="1463730014000" expanded="true" signature="8859:8898" placeholder="alter table gui_device... " />
+                <marker date="1463730014000" expanded="true" signature="8918:8955" placeholder="alter table gui_disk... " />
+                <marker date="1463730014000" expanded="true" signature="8975:9018" placeholder="alter table gui_disk_smart... " />
+                <marker date="1463730014000" expanded="true" signature="9038:9078" placeholder="alter table gui_cmd_log... " />
+                <marker date="1463730014000" expanded="true" signature="9098:9134" placeholder="alter table gui_cab... " />
+                <marker date="1463730014000" expanded="true" signature="9154:9194" placeholder="alter table gui_chg_log... " />
               </folding>
             </state>
           </provider>
@@ -127,8 +128,8 @@
       <file leaf-file-name="MsgController.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="796" column="21" selection-start-line="796" selection-start-column="21" selection-end-line="796" selection-end-column="21" />
+            <state relative-caret-position="180">
+              <caret line="330" column="37" selection-start-line="330" selection-start-column="37" selection-end-line="330" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -175,6 +176,7 @@
         <option value="$PROJECT_DIR$/Public/js/cabinet/TaskPool.js" />
         <option value="$PROJECT_DIR$/Public/js/cabinet/cabinet.js" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php" />
+        <option value="$PROJECT_DIR$/Public/js/cabinet/Disk.js" />
         <option value="$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php" />
       </list>
     </option>
@@ -280,12 +282,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1458738755759</updated>
-      <workItem from="1463718327505" duration="3103000" />
+      <workItem from="1463718327505" duration="4300000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3103000" />
+    <option name="totallyTimeSpent" value="4300000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
@@ -354,12 +356,12 @@
         <state relative-caret-position="0">
           <caret line="541" column="9" selection-start-line="541" selection-start-column="9" selection-end-line="541" selection-end-column="9" />
           <folding>
-            <marker date="1463728407000" expanded="true" signature="8839:8878" placeholder="alter table gui_device... " />
-            <marker date="1463728407000" expanded="true" signature="8898:8935" placeholder="alter table gui_disk... " />
-            <marker date="1463728407000" expanded="true" signature="8955:8998" placeholder="alter table gui_disk_smart... " />
-            <marker date="1463728407000" expanded="true" signature="9018:9058" placeholder="alter table gui_cmd_log... " />
-            <marker date="1463728407000" expanded="true" signature="9078:9114" placeholder="alter table gui_cab... " />
-            <marker date="1463728407000" expanded="true" signature="9134:9174" placeholder="alter table gui_chg_log... " />
+            <marker date="1463730014000" expanded="true" signature="8859:8898" placeholder="alter table gui_device... " />
+            <marker date="1463730014000" expanded="true" signature="8918:8955" placeholder="alter table gui_disk... " />
+            <marker date="1463730014000" expanded="true" signature="8975:9018" placeholder="alter table gui_disk_smart... " />
+            <marker date="1463730014000" expanded="true" signature="9038:9078" placeholder="alter table gui_cmd_log... " />
+            <marker date="1463730014000" expanded="true" signature="9098:9134" placeholder="alter table gui_cab... " />
+            <marker date="1463730014000" expanded="true" signature="9154:9194" placeholder="alter table gui_chg_log... " />
           </folding>
         </state>
       </provider>
@@ -401,12 +403,12 @@
         <state relative-caret-position="0">
           <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
           <folding>
-            <marker date="1463728407000" expanded="true" signature="8839:8878" placeholder="alter table gui_device... " />
-            <marker date="1463728407000" expanded="true" signature="8898:8935" placeholder="alter table gui_disk... " />
-            <marker date="1463728407000" expanded="true" signature="8955:8998" placeholder="alter table gui_disk_smart... " />
-            <marker date="1463728407000" expanded="true" signature="9018:9058" placeholder="alter table gui_cmd_log... " />
-            <marker date="1463728407000" expanded="true" signature="9078:9114" placeholder="alter table gui_cab... " />
-            <marker date="1463728407000" expanded="true" signature="9134:9174" placeholder="alter table gui_chg_log... " />
+            <marker date="1463730014000" expanded="true" signature="8859:8898" placeholder="alter table gui_device... " />
+            <marker date="1463730014000" expanded="true" signature="8918:8955" placeholder="alter table gui_disk... " />
+            <marker date="1463730014000" expanded="true" signature="8975:9018" placeholder="alter table gui_disk_smart... " />
+            <marker date="1463730014000" expanded="true" signature="9038:9078" placeholder="alter table gui_cmd_log... " />
+            <marker date="1463730014000" expanded="true" signature="9098:9134" placeholder="alter table gui_cab... " />
+            <marker date="1463730014000" expanded="true" signature="9154:9194" placeholder="alter table gui_chg_log... " />
           </folding>
         </state>
       </provider>
@@ -696,14 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/Disk.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Documents/Code/workerman-chat-master/start.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -714,24 +708,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/MsgController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="796" column="21" selection-start-line="796" selection-start-column="21" selection-end-line="796" selection-end-column="21" />
+        <state relative-caret-position="180">
+          <caret line="330" column="37" selection-start-line="330" selection-start-column="37" selection-end-line="330" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bc/Admin/Controller/BusinessController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="561" column="52" selection-start-line="561" selection-start-column="52" selection-end-line="561" selection-end-column="52" />
+        <state relative-caret-position="285">
+          <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
           <folding>
-            <marker date="1463728407000" expanded="true" signature="8839:8878" placeholder="alter table gui_device... " />
-            <marker date="1463728407000" expanded="true" signature="8898:8935" placeholder="alter table gui_disk... " />
-            <marker date="1463728407000" expanded="true" signature="8955:8998" placeholder="alter table gui_disk_smart... " />
-            <marker date="1463728407000" expanded="true" signature="9018:9058" placeholder="alter table gui_cmd_log... " />
-            <marker date="1463728407000" expanded="true" signature="9078:9114" placeholder="alter table gui_cab... " />
-            <marker date="1463728407000" expanded="true" signature="9134:9174" placeholder="alter table gui_chg_log... " />
+            <marker date="1463730014000" expanded="true" signature="8859:8898" placeholder="alter table gui_device... " />
+            <marker date="1463730014000" expanded="true" signature="8918:8955" placeholder="alter table gui_disk... " />
+            <marker date="1463730014000" expanded="true" signature="8975:9018" placeholder="alter table gui_disk_smart... " />
+            <marker date="1463730014000" expanded="true" signature="9038:9078" placeholder="alter table gui_cmd_log... " />
+            <marker date="1463730014000" expanded="true" signature="9098:9134" placeholder="alter table gui_cab... " />
+            <marker date="1463730014000" expanded="true" signature="9154:9194" placeholder="alter table gui_chg_log... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/js/cabinet/Disk.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

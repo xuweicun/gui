@@ -326,11 +326,9 @@ class MsgController extends Controller
     private function hdlPartMsg()
     {
         $dsk = new Dsk();
+        global $return_msg;
         $keys = array('partition');
-        $partition = '[';
-        foreach($_POST['partitions'] as $item){
-        }
-        $values = array($_POST['partitions']);
+        $values = array($return_msg);
         $dsk->updateDisk($keys, $values);
     }
 

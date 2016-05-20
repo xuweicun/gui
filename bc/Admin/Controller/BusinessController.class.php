@@ -84,7 +84,7 @@ class BusinessController extends Controller
         $map['level'] = array('eq', $level);
         $map['zu'] = array('eq', $group);
         $map['disk'] = array('eq', $disk);
-        $item = $db->where($map)->find();
+        $item = $db->where($map)->field('partition')->find();
         if ($item) {
             if ($item['loaded'] == 0 || $item['bridged'] == 0) {
                 $item['partition'] = null;
