@@ -71,7 +71,7 @@ Disk.prototype = {
                 group: (this.g + 1).toString(),
                 disk: (this.d + 1).toString()
             };
-            global_http.post(global_server, _data).success(function(data){
+            global_http.post(global_root+"&a=getPartition", _data).success(function(data){
                 try{
                     var _data = JSON.parse(data);
                     if (_data.partitions){
