@@ -71,9 +71,9 @@ Disk.prototype = {
                 group: (this.g + 1).toString(),
                 disk: (this.d + 1).toString()
             };
-            global_http.post(global_server, _data).success(function(data){
+            global_http.post(global_root+"&a=getPartition", _data).success(function(data){
                 try{
-                    var _data = JSON.parse(data);
+                    var _data = JSON.parse(data['partition']);
                     if (_data.partitions){
                         // 必须为当前柜子ID
                         if (parseInt(_data.device_id) != global_cabinet.id){

@@ -40,7 +40,9 @@ class BusinessController extends Controller
                 $this->display();
         }
     }
-    public function checkPermission(){
+
+    public function checkPermission()
+    {
         if (!session('?user')) {
             $this->redirect('login');
             die();
@@ -52,6 +54,7 @@ class BusinessController extends Controller
         }
 
     }
+
     public function systReset()
     {
         //所有硬盘桥接、在位状态清零
@@ -67,6 +70,31 @@ class BusinessController extends Controller
         $this->cancelAllCmds();
     }
 
+    /******
+     * 获得分区
+     */
+    public function getPartition()
+    {
+        $db = M('Device');
+        $cab_id = $_POST['device_id'];
+        $level = $_POST['level'];
+        $group = $_POST['group'];
+        $disk = $_POST['disk'];
+        $map['cab_id'] = array('eq', (int)$cab_id);
+        $map['level'] = array('eq', (int)$level);
+        $map['zu'] = array('eq', (int)$group);
+        $map['disk'] = array('eq', (int)$disk);
+        $item = $db->where($map)->find();
+        if ($item) {
+            if ($item['loaded'] == 0 || $item['bridged'] == 0) {
+                $item['partition'] = null;
+                $db->save($item);
+            }
+        }
+        $this->AjaxReturn($item);
+
+    }
+
     private function cancelAllCmds()
     {
         $db = M('CmdLog');
@@ -76,135 +104,133 @@ class BusinessController extends Controller
             $item['status'] = C('CMD_CANCELED');
             $item['finished'] = 1;
 
-			$db->save($item);
-		}
-	}
-	public function deleteLog(){
-		$db = M('CmdLog');
-		$id = I('get.id',0,'intval');
-		if($db->find($id))
-		{
-			$map['id'] = array('eq',$id);
-			$db->where($map)->delete();
-		}
-		else{
-			$this->notFoundError('Cmd not found');
-		}
-	}
-	public function insertUser(){
-		if(IS_POST){
-		}
-		else{
-			$user = I('get.user');
-			$pwd = I('get.pwd');
-			$db = M('Super');
-			$data['name'] = $user;
-			$data['pwd'] = md5($pwd);
-			if($db->where("name='$user'")->find())
-			{
-				$this->error('用户名重复',U('login'));
-				return;
-			}
-			if($db->add($data))
-			{
-				$this->success("增加成功",U('login'));
-			}
-			else{
-				$this->error('插入失败',U('login'));
-			}
-		}
-	}
-	public function login(){
-		if(session('?user')){
-			$this->redirect('index');
-			die();
-		}
-		if(IS_POST)
-		{
-			$User = M('super');
-			$uname = I('post.uname');
-			$item = null;
-			$cond['name'] = array('eq',$uname);
-			$cond['pwd'] = array('eq',md5(I('post.pwd')));
+            $db->save($item);
+        }
+    }
 
-			if(!$item = $User->where($cond)->find()){
-				$this->error('登录失败');                     ;
-			}
-			else{
-				session('user', $uname);
-				session('userid',$item['id']);
-				$this->success('成功登录', U('index'));
-			}
-		}
-		else{
-			$this->display();
-		}
-	}
-	public function bridge()
-	{
-		$this->display('bridge');
-	}
+    public function deleteLog()
+    {
+        $db = M('CmdLog');
+        $id = I('get.id', 0, 'intval');
+        if ($db->find($id)) {
+            $map['id'] = array('eq', $id);
+            $db->where($map)->delete();
+        } else {
+            $this->notFoundError('Cmd not found');
+        }
+    }
 
-	public function temp()
-	{
+    public function insertUser()
+    {
+        if (IS_POST) {
+        } else {
+            $user = I('get.user');
+            $pwd = I('get.pwd');
+            $db = M('Super');
+            $data['name'] = $user;
+            $data['pwd'] = md5($pwd);
+            if ($db->where("name='$user'")->find()) {
+                $this->error('用户名重复', U('login'));
+                return;
+            }
+            if ($db->add($data)) {
+                $this->success("增加成功", U('login'));
+            } else {
+                $this->error('插入失败', U('login'));
+            }
+        }
+    }
+
+    public function login()
+    {
+        if (session('?user')) {
+            $this->redirect('index');
+            die();
+        }
+        if (IS_POST) {
+            $User = M('super');
+            $uname = I('post.uname');
+            $item = null;
+            $cond['name'] = array('eq', $uname);
+            $cond['pwd'] = array('eq', md5(I('post.pwd')));
+
+            if (!$item = $User->where($cond)->find()) {
+                $this->error('登录失败');;
+            } else {
+                session('user', $uname);
+                session('userid', $item['id']);
+                $this->success('成功登录', U('index'));
+            }
+        } else {
+            $this->display();
+        }
+    }
+
+    public function bridge()
+    {
+        $this->display('bridge');
+    }
+
+    public function temp()
+    {
 
 
+    }
 
-		
-	}
-	public function search(){
-		$this->display("search");
-	
-	}
+    public function search()
+    {
+        $this->display("search");
 
-	/**
-	 * 获取正在进行的任务清单
-	 *
-	 */
-	public function getGoingTasks(){
-		$db = M('CmdLog');
-		$items = $db->where("finished = 0")->select();
-		foreach($items as $index=>$item)
-		{      
-			$items[$index]['msg'] = stripslashes($item['msg']);
-            $items[$index]['current_time'] = time();     
-		}                 
-		$this->AjaxReturn($items);
-	}
-	public function getTestResults()
-	{
-		$db = M('Test');
-		$items = $db->select();
-		foreach($items as $item)
-		{
-			var_dump($item);
+    }
 
-			echo "<br/>";
-		}
-	}
+    /**
+     * 获取正在进行的任务清单
+     *
+     */
+    public function getGoingTasks()
+    {
+        $db = M('CmdLog');
+        $items = $db->where("finished = 0")->select();
+        foreach ($items as $index => $item) {
+            $items[$index]['msg'] = stripslashes($item['msg']);
+            $items[$index]['current_time'] = time();
+        }
+        $this->AjaxReturn($items);
+    }
 
-	public function waitTilDone($cmd,$maxTime)
-	{            
-		$exctTime = 0;        
-		$cmdDb = M('CmdLog');
-		$status = -1;//未完成
-		$map['cmd'] = array('eq',$cmd);
-		$map['status'] = array('eq',$status);
-		while($exctTime < $maxTime)
-		{
-			sleep(1);
-			$exctTime = $exctTime + 1;
-		}
-	}
-	public function setTimeOut()
-	{
-		$db = M('CmdLog');
-		$map['id'] = array('eq',I('get.id'));
-		$item = $db->where($map)->find();
-		$item['status'] = C('CMD_TIMEOUT');
-		$item['finished'] = 1;
-		$db->save($item);
-	}
+    public function getTestResults()
+    {
+        $db = M('Test');
+        $items = $db->select();
+        foreach ($items as $item) {
+            var_dump($item);
+
+            echo "<br/>";
+        }
+    }
+
+    public function waitTilDone($cmd, $maxTime)
+    {
+        $exctTime = 0;
+        $cmdDb = M('CmdLog');
+        $status = -1;//未完成
+        $map['cmd'] = array('eq', $cmd);
+        $map['status'] = array('eq', $status);
+        while ($exctTime < $maxTime) {
+            sleep(1);
+            $exctTime = $exctTime + 1;
+        }
+    }
+
+    public function setTimeOut()
+    {
+        $db = M('CmdLog');
+        $map['id'] = array('eq', I('get.id'));
+        $item = $db->where($map)->find();
+        $item['status'] = C('CMD_TIMEOUT');
+        $item['finished'] = 1;
+        $db->save($item);
+    }
 
     public function getBridgeStatus()
     {
@@ -337,7 +363,7 @@ class BusinessController extends Controller
     {
         $this->checkPermission();
         //安装时所有信息重新初始化
-        if(I('get.install',0,'intval') == 1) {
+        if (I('get.install', 0, 'intval') == 1) {
             $db = M('Device');
             $db->where('1')->delete();
             $newDb = M('Disk');
@@ -529,6 +555,14 @@ class BusinessController extends Controller
 
         //query database
         //return
+    }
+
+    public function testJson()
+    {
+        $str = '{"CMD_ID":"0","cmd":"PARTSIZE","device_id":"1","disk":"4","group":"5","level":"2","partitions":[{"left":"908776040","name":"C","total":"976758780","used":"67982740"}],"status":"0","substatus":"0"} 
+ ';
+        $item = json_decode($str);
+        var_dump($item);
     }
 
     public function init()
