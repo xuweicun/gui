@@ -152,11 +152,16 @@
 							<p class="help-block">{{info}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<a href="" class="btn btn-block btn-danger" ng-click="cmd.localTest();">本地测试</a>
+							<a href="" class="btn btn-block btn-danger" ng-click="cmd.localTest(to_post);">本地测试</a>
 							<p class="help-block">{{info}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 							<input type="text" ng-model="testCmdId">{{testCmdId}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+							<input type="text" ng-model="to_post" style="width: auto;">{{to_post}}
 						</div>
 					</div>
 					<div class="container-fluid content">

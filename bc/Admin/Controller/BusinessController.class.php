@@ -80,11 +80,11 @@ class BusinessController extends Controller
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk = $_POST['disk'];
-        $map['cab_id'] = array('eq', $cab_id);
-        $map['level'] = array('eq', $level);
-        $map['zu'] = array('eq', $group);
-        $map['disk'] = array('eq', $disk);
-        $item = $db->where($map)->field('partition')->find();
+        $map['cab_id'] = array('eq', (int)$cab_id);
+        $map['level'] = array('eq', (int)$level);
+        $map['zu'] = array('eq', (int)$group);
+        $map['disk'] = array('eq', (int)$disk);
+        $item = $db->where($map)->find();
         if ($item) {
             if ($item['loaded'] == 0 || $item['bridged'] == 0) {
                 $item['partition'] = null;

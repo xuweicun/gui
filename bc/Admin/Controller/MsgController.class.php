@@ -326,11 +326,19 @@ class MsgController extends Controller
     private function hdlPartMsg()
     {
         $dsk = new Dsk();
-        global $return_msg;
+        $dsk->init();
+
+        $return_msg = file_get_contents('php://input');
+        //var_dump($return_msg);
         self::RTLog($return_msg);
-        $keys = array('partition');
-        $values = array($return_msg);
-        $dsk->updateDisk($keys, $values);
+        $db = M('Device');
+        $dsk->map['disk'] = $_POST['disk'];
+        $item = $db->where($dsk->map)->find();
+        var_dump($item);
+        if($item){
+            $item['partition'] = $return_msg;
+            $db->save($item);
+        }
     }
 
     public function restartTimeMsgHdl()
