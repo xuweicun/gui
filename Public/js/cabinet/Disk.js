@@ -452,7 +452,18 @@ Disk.prototype = {
                                 }
                             }
                         }
-                        return bridged_cnt>=2? 'TwoBridgedBusy':'Start';
+						
+						if (bridged_cnt >= 2){
+							return 'TwoBridgedBusy';
+						}
+						else{
+							if (this.detail_info.SN && this.detail_info.SN != ''){
+								return 'Start';
+							}
+							else{
+								return 'NoSN';
+							}
+						}
                     }
                 }
                 break;
