@@ -130,6 +130,8 @@ Cabinet.prototype = {
             var _dsk = this.levels[idx_l].groups[idx_g].disks[idx_d];
             _dsk.curr_cmd = is_add ? json_cmd : null;
         }
+
+        this.curr.update_partitions();
     },
     on_cmd_md5: function (json_cmd, is_add) {
         if (json_cmd.cmd != 'MD5') return;
