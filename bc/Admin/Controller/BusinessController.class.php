@@ -166,6 +166,81 @@ class BusinessController extends Controller
         }
     }
 
+    public function userMainPage(){
+
+        $this->display();
+    }
+    public  function get_users(){
+        $db = M('user');
+
+        $this->AjaxReturn($db->where('status=1')->select());
+    }
+    public function user_set_write(){
+        $db = M('user');
+        $map['id'] = $_POST['id'];
+        $item = $db->where($map)->find();
+        if ($item){
+            $item['write'] = $_POST['write'];
+            $db->save($item);
+            $_POST['status'] = 'success';
+        }
+        else{
+            $_POST['status'] = 'failure';
+        }
+        $this->AjaxReturn(json_encode($_POST));
+    }
+
+    public function user_add(){
+        $db = M('user');
+        $map['username'] = $_POST['username'];
+
+        $item['username'] = $_POST['username'];
+        $item['password'] = $_POST['password'];
+        $item['status'] = 1;
+        $item['register_time'] = time();
+
+        $one = $db->where($map)->find();
+        if ($one){
+            $item['status'] = 'failure';
+            $item['errmsg'] = '已经存在该用户';
+        }
+        else{
+            $db->add($item);
+            $item['status'] = 'success';
+        }
+        $this->AjaxReturn(json_encode($item));
+    }
+
+    public function user_passwd_reset(){
+        $db = M('user');
+        $map['id'] = $_POST['id'];
+        $item = $db->where($map)->find();
+        if ($item){
+            $item['password'] = $_POST['password'];
+            $db->save($item);
+            $_POST['status'] = 'success';
+        }
+        else{
+            $_POST['status'] = 'failure';
+        }
+        $this->AjaxReturn(json_encode($_POST));
+    }
+
+    public function user_remove(){
+        $db = M('user');
+        $map['id'] = $_POST['id'];
+        $item = $db->where($map)->find();
+        if ($item){
+            $item['status'] = 0;
+            $db->save($item);
+            $_POST['status'] = 'success';
+        }
+        else{
+            $_POST['status'] = 'failure';
+        }
+        $this->AjaxReturn(json_encode($_POST));
+    }
+
     public function bridge()
     {
         $this->display('bridge');
