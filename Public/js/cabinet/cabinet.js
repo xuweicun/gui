@@ -92,6 +92,7 @@ Cabinet.prototype = {
     select_disk: function (l, g, d) {
         this.curr = this.levels[l].groups[g].disks[d];
         this.curr.get_copy_busy_disk();
+        this.curr.update_partitions();
     },
     //获取某块盘的指针
     i_get_disk: function (l, g, d) {
