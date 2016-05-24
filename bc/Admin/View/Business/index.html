@@ -299,13 +299,13 @@
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
-                            <i class="fa fa-building-o"></i>离线存储柜({{cab.id}}#)
-                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id);" ng-disabled="deployer.working;" title="刷新柜子信息">刷新</a>
+                            <i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id);" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜磁盘信息查询</a>
                             <a href="#modalAnimDeviceStatusCmd" 
                                class="btn btn-xs pull-right bk-margin-5 modal-with-move-anim" 
                                ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
-                               title="查询柜子在位信息">
-                                {{cab.get_device_status_btn_text()}}
+                               title="查询当前柜磁盘在位信息">
+                                当前柜磁盘在位查询
                             </a> 
                         </div>
                         <div class="panel-body">
@@ -447,14 +447,15 @@
                                                 <tr>
                                                     <th>盘符</th>
                                                     <th>大小</th>
-                                                    <th>使用情况</th>
+                                                    <th>剩余空间</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr ng-repeat="_partition in cab.curr.partitions">
                                                     <td>{{_partition.name}}</td>
                                                     <td>{{(_partition.total / 1048576.0).toFixed(2)}} G</td>
-                                                    <td>
+                                                    <td>{{(_partition.left / 1048576.0).toFixed(2)}} G
+													<!--
                                                         <div class="progress" style="margin:0px">
                                                             <div class="progress-bar progress-bar-success"
                                                                  role="progressbar"
@@ -463,6 +464,7 @@
                                                                 {{(_partition.used * 100.0 / _partition.total).toFixed(2)}}%
                                                             </div>
                                                         </div>
+														-->
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -667,6 +669,35 @@
                     </div>
                 </div>
             </div>
+			<div id="modalAnimNoSN" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">硬盘命令[{{cab.curr.get_commit_cmd_title()}}] -- 无SN号</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa fa-warning"></i>
+                            </div>
+                            <div class="modal-text">
+                                <p>
+								硬盘组（{{cab.curr.busy_disk.g+1}}#）中硬盘（<span
+                                        ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk.is_bridged()]"><i
+                                        class="glyphicon glyphicon-hdd"></i>
+                                {{cab.curr.get_title()}}</span>）无SN号，请先通过“查询”命令获取SN号后，再继续。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-warning modal-dismiss">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="modalAnimBusy" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -764,13 +795,13 @@
                                 <div class="col-md-10">
                                     <div class="checkbox-custom" ng-repeat="_dsk in cab.curr.get_siblings()">
                                         <input id="selected-disk{{$index}}" type="checkbox" name="to_bridged_disks[]"
-                                               ng-model="_dsk.isto_bridge" ng-disabled="!_dsk.is_loaded()"
+                                               ng-model="_dsk.isto_bridge" ng-disabled="!_dsk.is_loaded() || !_dsk.detail_info.SN"
                                                value="{{_dsk.get_title()}}" ng-model="_dsk.isto_bridge" required>
                                         <label for="selected-disk{{$index}}"
                                                ng-class="{'bk-fg-primary':_dsk.is_loaded() && !_dsk.is_bridged(), 'bk-fg-success': _dsk.is_bridged()}">
                                             <i class="glyphicon bk-margin-left-5"
                                                ng-class="{true:'glyphicon-hdd', false:'glyphicon-ban-circle'}[_dsk.is_loaded()]"></i>
-                                            {{_dsk.get_title()}}{{_dsk === cab.curr?'(当前)':''}}
+                                            {{_dsk.get_title()}}{{_dsk === cab.curr?'(当前)':''}}{{_dsk.is_loaded() && !_dsk.detail_info.SN?'(没有SN号)':''}}
                                         </label>
                                     </div>
                                 </div>
