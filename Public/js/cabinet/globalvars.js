@@ -17,3 +17,4 @@ var global_server;
 var global_app;
 var global_root;
 var global_deployer;
+var global_ws_watcher;
