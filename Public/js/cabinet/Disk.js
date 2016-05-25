@@ -12,7 +12,7 @@ function Disk(l, g, d) {
     // 温度
     this.temperature = '-';
     // 是否写保护
-    this.write_protected = true,
+    this.write_protected = false,
 
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
     this.isto_bridge = false;
@@ -93,7 +93,7 @@ Disk.prototype = {
                     }
                 }
                 catch(e){
-                    console.log('error', e);
+                    //console.log('error', e);
                 }
                 finally{
                     delete _data;
@@ -132,6 +132,11 @@ Disk.prototype = {
         }
 
         this.cmd_name_to_commit = cmd_name;
+    },
+
+    // 提交写保护命令
+    cmd_write_protect_commit:function(){
+        $('#modalWriteProtect').modal('toggle');
     },
 
     get_cmd_error: function () {
@@ -195,6 +200,10 @@ Disk.prototype = {
     // 判断是否已桥接
     is_bridged: function () {
         return this.base_info.loaded && this.base_info.bridged;
+    },
+    // 判断是否开启了写保护
+    is_write_protected: function(){
+        return  this.is_bridged() && this.write_protected;
     },
     // 获得硬盘位置描述，如1-1-1#等
     get_title: function () {

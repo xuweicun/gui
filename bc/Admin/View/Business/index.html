@@ -413,7 +413,35 @@
                                                ng-show="cab.curr.is_bridged()"
                                                class="btn btn-primary btn-xs">在线</a>
                                             <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
-                                               ng-show="cab.curr.is_bridged()">重建索引</a>
+                                               ng-show="cab.curr.is_bridged()">索引</a>
+                                            <a class="btn btn-danger btn-xs" ng-show="cab.curr.is_bridged()"
+                                               ng-click="cab.curr.cmd_write_protect_commit()">
+                                                {{cab.curr.is_write_protected()?'关闭':'恢复'}}写保护
+                                            </a>
+                                            <div class="modal fade" id="modalWriteProtect" tabindex="-1" role="dialog"
+                                                 aria-labelledby="myModalLabelWP" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-hidden="true">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabelWP">
+                                                                硬盘写保护
+                                                            </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>系统调试中...攻城狮正在努力修复，请稍候！</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-warning"
+                                                                    data-dismiss="modal">确定
+                                                            </button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
                                         </p>
                                     </div>
                                 </div>
@@ -431,7 +459,6 @@
                                         </p>
                                     </div>
                                 </div>
-
                                 <div class="row" ng-if="cab.curr.is_bridged()">
                                     <br>
                                     <div class="col-lg-12">
@@ -1118,6 +1145,8 @@
         </div>
     </div>
 </div>
+
+
 <!-- start: JavaScript-->
 
 <!-- Vendor JS-->
