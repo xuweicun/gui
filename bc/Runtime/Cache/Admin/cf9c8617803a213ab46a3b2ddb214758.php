@@ -90,7 +90,7 @@
 												</div>
 												<div class="col-sm-4 text-right">
 													<button type="submit" class="btn btn-primary hidden-xs">登录</button>
-													<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs bk-margin-top-20">Log In</button>
+													<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs bk-margin-top-20">登录</button>
 												</div>
 											</div>
 										</form>

@@ -1,4 +1,4 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, DTOptionsBuilder, DTDefaultOptions) {
+app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -10,6 +10,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
     $scope.testMsg = TestMsg;
+    $scope.wsWatcher = WebSock;
     $scope.testCmdId = 0;
     $scope.to_post = null;
     var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
@@ -24,6 +25,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     }
     global_cmd_helper = new CabCmdHelper($scope);
     global_deployer = new Deployer($scope);
+    global_ws_watcher = $scope.wsWatcher;
     $scope.cmd = global_cmd_helper;
 
     global_lang = Lang;
@@ -86,6 +88,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
         $scope.errCodes.init();
         //read cab information
         $scope.cabs.on_init();
+        $scope.wsWatcher.onInit(1,1);
     }
     $scope.start();
     $scope.getCabInfo = function () {
