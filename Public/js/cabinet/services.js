@@ -13,91 +13,91 @@ angular.module('device.services', [])
         }
     ).factory('TestMsg', function () {
 
-    var msg = {
-        diskinfo: {
-            "CMD_ID": "144",
-            "cmd": "DISKINFO",
-            "device_id": "1",
-            "disk": "3",
-            "group": "1",
-            "level": "2",
-            "status": "0",
-            "substatus": "1"
-        },
-        devicestatus: {
-            "CMD_ID": "121",
-            "cmd": "DEVICESTATUS",
-            "device_id": "1",
-            "levels": [{"groups": [{"disks": ["1"], "id": "2"}], "id": "1"}, {
-                "groups": [{"disks": ["3"], "id": "1"}],
-                "id": "2"
-            }, {"groups": [{"disks": ["3"], "id": "3"}], "id": "3"}],
-            "status": "0",
-            "substatus": "0"
-        },
-        bridge: {
-            "CMD_ID": "124",
-            "cmd": "BRIDGE",
-            "device_id": "1",
-            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
-            "group": "2",
-            "level": "1",
-            "paths": [{"id": "1", "status": "0", "value": ""}],
-            "progress": "75",
-            "subcmd": "START",
-            "substatus": "2",
-            "workingstatus": "59"
-        },
-        bridge_done: {
-            "CMD_ID": "1",
-            "cmd": "BRIDGE",
-            "device_id": "1",
-            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
-            "group": "2",
-            "level": "1",
-            "paths": [{"id": "1", "status": "0", "value": "sdb"}],
-            "subcmd": "START",
-            "substatus": "0"
-        },
+        var msg = {
+            diskinfo: {
+                "CMD_ID": "144",
+                "cmd": "DISKINFO",
+                "device_id": "1",
+                "disk": "3",
+                "group": "1",
+                "level": "2",
+                "status": "0",
+                "substatus": "1"
+            },
+            devicestatus: {
+                "CMD_ID": "121",
+                "cmd": "DEVICESTATUS",
+                "device_id": "1",
+                "levels": [{"groups": [{"disks": ["1"], "id": "2"}], "id": "1"}, {
+                    "groups": [{"disks": ["3"], "id": "1"}],
+                    "id": "2"
+                }, {"groups": [{"disks": ["3"], "id": "3"}], "id": "3"}],
+                "status": "0",
+                "substatus": "0"
+            },
+            bridge: {
+                "CMD_ID": "124",
+                "cmd": "BRIDGE",
+                "device_id": "1",
+                "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+                "group": "2",
+                "level": "1",
+                "paths": [{"id": "1", "status": "0", "value": ""}],
+                "progress": "75",
+                "subcmd": "START",
+                "substatus": "2",
+                "workingstatus": "59"
+            },
+            bridge_done: {
+                "CMD_ID": "1",
+                "cmd": "BRIDGE",
+                "device_id": "1",
+                "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+                "group": "2",
+                "level": "1",
+                "paths": [{"id": "1", "status": "0", "value": "sdb"}],
+                "subcmd": "START",
+                "substatus": "0"
+            },
 
-        md5: {
-            "CMD_ID": "703",
-            "cmd": "MD5",
-            "device_id": "1",
-            "disk": "1",
-            "group": "1",
-            "level": "1",
-            "status": "0",
-            "subcmd": "STOP",
-            "substatus": "0"
-        },
-        bridge_stop: {
-            "CMD_ID": "134",
-            "cmd": "BRIDGE",
-            "device_id": "1",
-            "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
-            "group": "2",
-            "level": "1",
-            "paths": [{"id": "1", "status": "0", "value": ""}],
-            "subcmd": "STOP",
-            "substatus": "0"
+            md5: {
+                "CMD_ID": "703",
+                "cmd": "MD5",
+                "device_id": "1",
+                "disk": "1",
+                "group": "1",
+                "level": "1",
+                "status": "0",
+                "subcmd": "STOP",
+                "substatus": "0"
+            },
+            bridge_stop: {
+                "CMD_ID": "134",
+                "cmd": "BRIDGE",
+                "device_id": "1",
+                "disks": [{"SN": "5LY3PRKJ", "id": "1"}],
+                "group": "2",
+                "level": "1",
+                "paths": [{"id": "1", "status": "0", "value": ""}],
+                "subcmd": "STOP",
+                "substatus": "0"
+            }
         }
-    }
-    return {
-        i_getMsg: function (id) {
-            //  if(parseInt(id) == 0)
-            // return msg;
+        return {
+            i_getMsg: function (id) {
+                //  if(parseInt(id) == 0)
+                // return msg;
 
-            msg.diskinfo['CMD_ID'] = id;
-            msg.devicestatus['CMD_ID'] = id;
-            msg.bridge['CMD_ID'] = id;
-            msg.bridge_done['CMD_ID'] = id;
-            msg.bridge_stop['CMD_ID'] = id;
-            msg.md5['CMD_ID'] = id;
-            return msg;
-        }
-    };
-})
+                msg.diskinfo['CMD_ID'] = id;
+                msg.devicestatus['CMD_ID'] = id;
+                msg.bridge['CMD_ID'] = id;
+                msg.bridge_done['CMD_ID'] = id;
+                msg.bridge_stop['CMD_ID'] = id;
+                msg.md5['CMD_ID'] = id;
+                return msg;
+            }
+        };
+    })
     .factory('Lang', function () {
         var param = {
             'success': 0,
@@ -374,67 +374,64 @@ angular.module('device.services', [])
         };
     })
     .factory('WebSock', function () {
-        var SockWatcher = function () {
-            this.host = "222.35.224.230";
-            this.port = "8383";
-            this.ws = null;
-            //用户ID和用户登录时所选择的用户组
-            this.user_id = "";
-            this.user_grp = "";
-        }
+
+        var ws = null;
+        var user_grp = '';
+        var user_id = '';
         WEB_SOCKET_SWF_LOCATION = "/swf/WebSocketMain.swf";
         WEB_SOCKET_DEBUG = true;
-        SockWatcher.prototype = {
-            connect: function () {
-                // 创建websocket
-                this.ws = new WebSocket("ws://222.35.224.230:8383");
-            },
-            onOpen: function () {
-                // 登录
-                var login_data = '{"type":"login","user_grp":"' + this.user_grp + '","user_id":"' + this.user_id + '"}';
-                console.log("websocket握手成功，发送登录数据:" + login_data);
-                this.ws.send(login_data);
-            },
-            onClose: function () {
 
-            },
-            onMessage: function (e) {
-                console.log(e.data);
-                var data = eval("(" + e.data + ")");
-                try {
-                    switch (data['type']) {
-                        // 服务端ping客户端
-                        case 'ping':
-                            this.ws.send('{"type":"pong"}');
-                            break;
-                        // 登录 更新用户列表
-                        case 'login':
-                            //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
-                            console.log("new User:",data['user_name']);
-                            break;
+        var open = function () {
+            // 登录
+            var login_data = '{"type":"login","user_grp":"' + user_grp + '","user_id":"' + user_id +
+                '","client_name":"wilson","room_id":"1"}';
+            console.log("websocket握手成功，发送登录数据:" + login_data);
+            ws.send(login_data);
+        }
 
-                        case 'logout':
-                            //{"type":"logout","client_id":xxx,"time":"xxx"}
-                            console.log("其他用户退出登录");
+        var onmessage = function (e) {
+            console.log(e.data);
+            var data = eval("(" + e.data + ")");
+
+            switch (data['type']) {
+                // 服务端ping客户端
+                case 'ping':
+                    console.log(ws);
+                    try {
+                        ws.send('{"type":"pong"}');
+                        //throw new Error("发送消息失败");
+                    } catch (e) {
+                        console.log("解析出错", e.message);
+                    }finally {
+                        console.log("right");
                     }
-                    throw new Error("消息解析失效,请检查消息内容");
-                }
-                catch (e)
-                {
-                    console.log("解析出错",e.message);
-                }
-            },
-            onInit: function (id,grp) {
-                //创建WS连接
-                this.ws = new WebSocket("ws://222.35.224.230:8383");
-                this.user_id = id;
-                this.user_grp = grp;
-                this.ws.onmessage = this.onMessage;
-                this.ws.onclose = function () {
+                    break;
+                // 登录 更新用户列表
+                case 'login':
+                    //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+                    console.log("new User:", data['user_name']);
+                    break;
+
+                case 'logout':
+                    //{"type":"logout","client_id":xxx,"time":"xxx"}
+                    console.log("其他用户退出登录");
+            }
+
+
+        }
+
+
+        return {
+            connect: function (id, grp) {
+                user_id = id;
+                user_grp = grp;
+                ws = new WebSocket("ws://222.35.224.230:8383");
+                ws.onmessage = onmessage;
+                ws.onclose = function () {
                     console.log("连接关闭,请检查网络和服务器状态");
                 }
-                this.ws.onopen = this.onOpen;
+                ws.onopen = open;
+                return ws;
             }
-        };
-        return SockWatcher;
+        }
     });

@@ -25,7 +25,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     }
     global_cmd_helper = new CabCmdHelper($scope);
     global_deployer = new Deployer($scope);
-    global_ws_watcher = $scope.wsWatcher;
+
     $scope.cmd = global_cmd_helper;
 
     global_lang = Lang;
@@ -88,7 +88,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
         $scope.errCodes.init();
         //read cab information
         $scope.cabs.on_init();
-        $scope.wsWatcher.onInit(1,1);
+        global_ws_watcher = $scope.wsWatcher.connect(1,1);
     }
     $scope.start();
     $scope.getCabInfo = function () {
