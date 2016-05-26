@@ -400,25 +400,49 @@
                                    </div>-->
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div title="桥接">
+                                        <div title="桥接" 
+                                             ng-show="cab.curr.is_loaded()"
+                                               ng-class="{
+                                                       true:'bk-fg-success',
+                                                       false:'bk-fg-primary'
+                                                   }[cab.curr.is_bridged()]">
                                             <i class="fa "
                                                ng-class="{
                                                        true:'fa-link',
                                                        false:'fa-unlink'
                                                    }[cab.curr.is_bridged()]"></i>
-                                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
+                                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}      
+
+                                            <i class="fa fa-folder-open-o bk-margin-left-10"></i>
                                             <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
                                                ng-show="cab.curr.is_loaded()" target="_blank">离线</a>
-                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}" 
-                                               ng-show="cab.curr.is_bridged()"
-                                               class="btn btn-primary btn-xs">在线</a>
-                                            <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
+
+                                            <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim"
                                                ng-show="cab.curr.is_bridged()">索引</a>
-                                            <a class="btn btn-danger btn-xs" ng-show="cab.curr.is_bridged()"
-                                               ng-click="cab.curr.cmd_write_protect_commit()">
-                                                {{cab.curr.is_write_protected()?'关闭':'恢复'}}写保护
-                                            </a>                                            
+
+                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
+                                               ng-show="cab.curr.is_bridged()"
+                                               class="btn btn-primary btn-xs">在线</a>                      
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row bk-margin-top-5">
+                                    <div class="col-lg-12">
+                                           
+                                    </div>
+                                </div>
+                                <div class="row bk-margin-top-5" ng-show="cab.curr.is_bridged()">                                    
+                                    <div class="col-lg-12" 
+                                               ng-class="{
+                                                       true:'bk-fg-primary',
+                                                       false:'bk-fg-danger'
+                                                   }[cab.curr.is_write_protected()]">
+                                        <i class="fa fa-shield"></i>
+                                        写保护（{{cab.curr.is_write_protected()?'有':'无'}}）
+                                        <a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()"
+                                           ng-click="cab.curr.cmd_write_protect_commit()">
+                                            {{cab.curr.is_write_protected()?'关闭':'恢复'}}
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -539,7 +563,7 @@
                             <div class="modal-text">
                                 <div class="row">
                                     <div class="panel bk-widget bk-margin-off col-lg-12">
-                                        系统调试中...攻城狮正在努力修复，请稍候！
+                                        攻城狮正在努力修复中...，请稍候！
                                     </div>                                    
                                 </div>
                             </div>
