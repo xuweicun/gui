@@ -136,7 +136,17 @@ Disk.prototype = {
 
     // 提交写保护命令
     cmd_write_protect_commit:function(){
-        $('#modalWriteProtect').modal('toggle');
+        //$('#modalWriteProtect').modal('toggle');
+        $.magnificPopup.open({
+            items: {
+                src: '#modalWriteProtect', // can be a HTML string, jQuery object, or CSS selector
+                type: 'inline'
+            },
+            closeOnBgClick: false,
+            removalDelay: 300,
+            mainClass: 'my-mfp-slide-bottom',
+            modal: true
+        });
     },
 
     get_cmd_error: function () {
