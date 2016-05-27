@@ -156,6 +156,10 @@
 							<p class="help-block">{{info}}</p>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<a href="" class="btn btn-block btn-danger" ng-click="testWs();">WorkerMan测试</a>
+							<p class="help-block">{{info}}</p>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 							<input type="text" ng-model="testCmdId">{{testCmdId}}
 						</div>
 					</div>

@@ -109,6 +109,10 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
         global_deployer.on_init(cab);
         global_deployer.startDeploy();
     }
+    $scope.testWs = function () {
+        var msg = this.testMsg.i_getMsg(this.testCmdId);
+        global_ws_watcher.sendcmd("1",msg.md5);
+    }
     $scope.getDiskInfo = function (cab, lvl, grp, dsk) {
         //read cab info from database
         $http({

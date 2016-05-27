@@ -423,10 +423,15 @@ angular.module('device.services', [])
 
         }
 
-        var sendcmd = function (usr_id,cmd_str) {
-            var to_client_id = "all";
-            var to_client_name = 1;
-            ws.send('{"type":"say","to_client_id":"'+to_client_id+'","to_client_name":"'+to_client_name+'","content":"'+cmd_str+'"}');
+        var sendcmd = function (usr_id,cmd) {
+            cmd.to_client_id = "all";
+            cmd.to_client_name = 1;
+            //cmd_str = "test string";
+            cmd.type = "say";
+            cmd.content = "test string";
+            var cmd_str = JSON.stringify(cmd);
+            ws.send(cmd_str);
+            ws.send(cmd);
         }
         return {
             connect: function (id, grp) {

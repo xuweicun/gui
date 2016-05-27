@@ -400,21 +400,49 @@
                                    </div>-->
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <p title="桥接">
+                                        <div 
+                                             ng-show="cab.curr.is_loaded()"
+                                               ng-class="{
+                                                       true:'bk-fg-success',
+                                                       false:'bk-fg-primary'
+                                                   }[cab.curr.is_bridged()]">
                                             <i class="fa "
                                                ng-class="{
                                                        true:'fa-link',
                                                        false:'fa-unlink'
                                                    }[cab.curr.is_bridged()]"></i>
-                                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'-')}}
+                                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}      
+
+                                            <i class="fa fa-folder-open-o bk-margin-left-10"></i>
                                             <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
                                                ng-show="cab.curr.is_loaded()" target="_blank">离线</a>
-                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}" 
+
+                                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
                                                ng-show="cab.curr.is_bridged()"
-                                               class="btn btn-primary btn-xs">在线</a>
-                                            <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim" 
-                                               ng-show="cab.curr.is_bridged()">重建索引</a>
-                                        </p>
+                                               class="btn btn-primary btn-xs">在线</a>       
+
+                                            <a href="#modalAnimFileTreeCmd" class="btn btn-danger btn-xs modal-with-move-anim"
+                                               ng-show="cab.curr.is_bridged()">索引</a>               
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row bk-margin-top-5">
+                                    <div class="col-lg-12">
+                                           
+                                    </div>
+                                </div>
+                                <div class="row bk-margin-top-5" ng-show="cab.curr.is_bridged()">                                    
+                                    <div class="col-lg-12" 
+                                               ng-class="{
+                                                       true:'bk-fg-primary',
+                                                       false:'bk-fg-danger'
+                                                   }[cab.curr.is_write_protected()]">
+                                        <i class="fa fa-shield"></i>
+                                        写保护（{{cab.curr.is_write_protected()?'有':'无'}}）
+                                        <a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()"
+                                           ng-click="cab.curr.cmd_write_protect_commit()">
+                                            {{cab.curr.is_write_protected()?'关闭':'恢复'}}
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -431,7 +459,6 @@
                                         </p>
                                     </div>
                                 </div>
-
                                 <div class="row" ng-if="cab.curr.is_bridged()">
                                     <br>
                                     <div class="col-lg-12">
@@ -518,6 +545,34 @@
                                         </a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modalWriteProtect" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">硬盘写保护</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa fa-warning"></i>
+                            </div>
+                            <div class="modal-text">
+                                <div class="row">
+                                    <div class="panel bk-widget bk-margin-off col-lg-12">
+                                        老板们 <i class="fa fa-users"></i> 不要着急，攻城狮 <i class="glyphicon glyphicon-user bk-fg-success"></i> 和攻城狮 <i class="fa fa-user bk-fg-danger"></i> 正在针对该功能努力Coding完善中...
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-warning modal-dismiss">确认</button>
                             </div>
                         </div>
                     </div>
@@ -1118,6 +1173,8 @@
         </div>
     </div>
 </div>
+
+
 <!-- start: JavaScript-->
 
 <!-- Vendor JS-->

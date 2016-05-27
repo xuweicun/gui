@@ -503,6 +503,7 @@ class BusinessController extends Controller
         $data['user_id'] = I('get.userid', 0, 'intval');
         $data['cmd'] = $_POST['cmd'];
         $data['sub_cmd'] = $_POST['subcmd'];
+        $data['sub_cmd'] || $data['sub_cmd'] = "START";
         $data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
         $data['start_time'] = time();
         $data['finished'] = 0;
