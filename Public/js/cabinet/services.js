@@ -424,7 +424,7 @@ angular.module('device.services', [])
         }
 
         var sendcmd = function (usr_id,cmd_str) {
-            var to_client_id = 1;
+            var to_client_id = "all";
             var to_client_name = 1;
             ws.send('{"type":"say","to_client_id":"'+to_client_id+'","to_client_name":"'+to_client_name+'","content":"'+cmd_str+'"}');
         }
