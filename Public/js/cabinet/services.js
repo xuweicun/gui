@@ -411,16 +411,23 @@ angular.module('device.services', [])
                     //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
                     console.log("new User:", data['user_name']);
                     break;
-
+                case 'say':
+                    console.log("new cmd:", data['content']);
+                    break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
                     console.log("其他用户退出登录");
+
             }
 
 
         }
 
-
+        var sendcmd = function (usr_id,cmd_str) {
+            var to_client_id = 1;
+            var to_client_name = 1;
+            ws.send('{"type":"say","to_client_id":"'+to_client_id+'","to_client_name":"'+to_client_name+'","content":"'+cmd_str+'"}');
+        }
         return {
             connect: function (id, grp) {
                 user_id = id;
@@ -431,6 +438,7 @@ angular.module('device.services', [])
                     console.log("连接关闭,请检查网络和服务器状态");
                 }
                 ws.onopen = open;
+                ws.sendcmd = sendcmd;
                 return ws;
             }
         }

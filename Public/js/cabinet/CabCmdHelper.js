@@ -190,6 +190,7 @@ CabCmdHelper.prototype = {
                 //命令池更新
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
+                global_ws_watcher.sendcmd($("#userid").val(), toSave.msg);
             }).
             error(function () {
                 global_err_pool.add();
