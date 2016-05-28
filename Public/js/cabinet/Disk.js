@@ -138,7 +138,6 @@ Disk.prototype = {
     cmd_write_protect_commit:function(){
         //$('#modalWriteProtect').modal('toggle');
         var modal_name = '#modal' + (this.is_write_protected() ? 'Stop' : 'Start') + 'WriteProtect';
-        console.log(modal_name);
         $.magnificPopup.open({
             items: {
                 src: modal_name, // can be a HTML string, jQuery object, or CSS selector
