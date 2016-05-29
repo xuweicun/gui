@@ -826,8 +826,7 @@
                             </div>
                             <div class="modal-text">
                                 <p>
-                                    {{cab.curr.cmd_name_to_commit ==
-                                    'COPY'?(cab.curr.busy_disk.g%2==0?'源':'目的'):''}}硬盘组（{{cab.curr.busy_disk.g+1}}#）中硬盘（<span
+                                    硬盘组（{{cab.curr.busy_disk.g+1}}#）中硬盘（<span
                                         ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk.is_bridged()]"><i
                                         class="glyphicon glyphicon-hdd"></i>
                                 {{cab.curr.busy_disk.get_title()}}</span>）{{cab.curr.to_modal_busy_msg()}}<a href="#">获得帮助?</a>
