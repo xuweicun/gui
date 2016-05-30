@@ -7,6 +7,12 @@ function CabPicker(){
     this.dsk_cnt = 0;
     this.selected = false;
     this.deploying = false;
+    // 电压
+    this.voltage = 0;
+    // 电流
+    this.current = 0;
+    // 电量
+    this.electricity = 0;
 }
 CabPicker.prototype = {
     i_on_init: function(c,l,g,d){

@@ -13,12 +13,6 @@ function Cabinet() {
     this.ready = false;
     // 是否已选中
     this.selected = false;
-    // 电压
-    this.voltage = 0;
-    // 电流
-    this.current = 0;
-    // 电量
-    this.electricity = 0;
     // 在位查询命令
     this.cmd_device_status = null;
 }
