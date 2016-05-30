@@ -14,6 +14,7 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.cabinetViewUrl = '/bc/Admin/View/Business/cabinetView.html';
     $scope.diskViewUrl = '/bc/Admin/View/Business/diskView.html';
     $scope.userModalsUrl = '/bc/Admin/View/Business/userModals.html';
+    $scope.taskViewUrl = '/bc/Admin/View/Business/taskView.html';
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
@@ -118,12 +119,20 @@ app_device.filter('to_trusted', function ($sce) {
             }
         });
     }
-    $scope.deploy = function(cab){
-        if(!global_deployer.available()){
-            return;
-        }
-        global_deployer.on_init(cab);
-        global_deployer.startDeploy();
+    $scope.deploy = function (cab) {
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '当前柜磁盘信息查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> [磁盘在位查询] </span>命令？',
+            on_click_handle: function (cab_id) {
+                if (!global_deployer.available()) {
+                    return;
+                }
+                global_deployer.on_init(cab);
+                global_deployer.startDeploy();
+            },
+            on_click_param: cab
+        });
     }
     $scope.testWs = function () {
         var msg = this.testMsg.i_getMsg(this.testCmdId);
