@@ -11,6 +11,9 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
     $scope.modalHelperUrl = '/bc/Admin/View/Business/modalhelper.html';
+    $scope.cabinetViewUrl = '/bc/Admin/View/Business/cabinetView.html';
+    $scope.diskViewUrl = '/bc/Admin/View/Business/diskView.html';
+    $scope.userModalsUrl = '/bc/Admin/View/Business/userModals.html';
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
@@ -81,7 +84,13 @@ app_device.filter('to_trusted', function ($sce) {
     };
 
     $scope.initCab = function () {
-        global_cmd_helper.cabinfo();
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '存储柜在位信息查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜在位信息查询] </span>操作？以重新获取在位存储柜的数量和基本信息。',
+            on_click_target: global_cmd_helper,
+            on_click_handle: "cabinfo"
+        });
     }
 
     function on_cab_select(cab) {
