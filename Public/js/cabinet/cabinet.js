@@ -74,16 +74,24 @@ Cabinet.prototype = {
     },
     // 获得在位信息
     start_cmd_device_status: function () {
+        if (this.is_device_status_cmd_going()) return;
         if (this.id <= 0) return;
 
-        var json_cmd = {
-            cmd: 'DEVICESTATUS',
-            device_id: this.id.toString()
-        };
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '磁盘在位查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>的<span class="bk-fg-primary"> [磁盘在位查询] </span>命令？',
+            on_click_handle: function (id) {
+                var cmd_obj = {
+                    cmd: 'DEVICESTATUS',
+                    device_id: id
+                };
 
-        global_cmd_helper.sendcmd(json_cmd);
-
-        $.magnificPopup.close();
+                global_cmd_helper.sendcmd(cmd_obj);
+                console.log(id);
+            },
+            on_click_param: this.id.toString()
+        });
     },
     get_select: function () {
         this.selected = true;

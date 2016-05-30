@@ -123,7 +123,7 @@ app_device.filter('to_trusted', function ($sce) {
         global_modal_helper.show_modal({
             type: 'question',
             title: '当前柜磁盘信息查询',
-            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> [磁盘在位查询] </span>命令？',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> [磁盘信息查询] </span>命令？',
             on_click_handle: function (cab_id) {
                 if (!global_deployer.available()) {
                     return;
