@@ -5,6 +5,9 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
+
+bc/Runtime
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
@@ -47,7 +50,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-bc/Runtime
 *.log
-/bc/Runtime
 /.idea/workspace.xml

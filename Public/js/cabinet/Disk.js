@@ -105,7 +105,7 @@ Disk.prototype = {
     // 用户提交命令
     cmd_commit: function (cmd_name) {
         this.clear_status();
-        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY') {
+        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY' && cmd_name != 'WRITEPROTECT') {
 
             console.log('unknown cmd = ' + cmd_name);
             return;
@@ -136,10 +136,9 @@ Disk.prototype = {
 
     // 提交写保护命令
     cmd_write_protect_commit:function(){
-        //$('#modalWriteProtect').modal('toggle');
         $.magnificPopup.open({
             items: {
-                src: '#modalWriteProtect', // can be a HTML string, jQuery object, or CSS selector
+                src: '#modalWorking', // can be a HTML string, jQuery object, or CSS selector
                 type: 'inline'
             },
             closeOnBgClick: false,
@@ -147,6 +146,34 @@ Disk.prototype = {
             mainClass: 'my-mfp-slide-bottom',
             modal: true
         });
+        return;
+        var modal_name = '#modal' + (this.is_write_protected() ? 'Stop' : 'Start') + 'WriteProtect';
+        $.magnificPopup.open({
+            items: {
+                src: modal_name, // can be a HTML string, jQuery object, or CSS selector
+                type: 'inline'
+            },
+            closeOnBgClick: false,
+            removalDelay: 300,
+            mainClass: 'my-mfp-slide-bottom',
+            modal: true
+        });
+    },
+    // 发送写保护命令
+    cmd_send_write_protect: function (subcmd) {
+        var cmd_obj = {
+            cmd: 'WRITEPROTECT',
+            subcmd: subcmd,
+            level: (this.l + 1).toString()            
+        };
+        if (subcmd != 'START' && subcmd != 'STOP'){
+            console.log('send write protect cmd with unknown subcmd:', subcmd);
+            return;
+        }
+        // send cmd;
+        global_cmd_helper.sendcmd(cmd_obj);
+
+        $.magnificPopup.close();
     },
 
     get_cmd_error: function () {
@@ -581,6 +608,11 @@ Disk.prototype = {
                 return false;
             }
         }
+        else if(cnd_name == 'WRITEPROTECT')
+        {
+            cmd_obj.subcmd = 'START';
+            cmd_obj.level = (this.l + 1).toString();
+        }
         else if (cmd_name == 'MD5') {
             cmd_obj.subcmd = 'START';
             cmd_obj.level = (this.l + 1).toString();
@@ -663,7 +695,6 @@ Disk.prototype = {
                 group: (this.g + 1).toString(),
                 disks: disk_array
             };
-
         }
         else {
             cmd_obj = JSON.parse(this.curr_cmd.msgStr);

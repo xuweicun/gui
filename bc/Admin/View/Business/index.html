@@ -438,11 +438,10 @@
                                                        false:'bk-fg-danger'
                                                    }[cab.curr.is_write_protected()]">
                                         <i class="fa fa-shield"></i>
-                                        写保护（{{cab.curr.is_write_protected()?'有':'无'}}）
-                                        <a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()"
-                                           ng-click="cab.curr.cmd_write_protect_commit()">
-                                            {{cab.curr.is_write_protected()?'关闭':'恢复'}}
-                                        </a>
+                                        写保护（<a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()"
+   ng-click="cab.curr.cmd_write_protect_commit()">
+    {{cab.curr.is_write_protected()?'关闭':'开启'}}
+</a>）                                        
                                     </div>
                                 </div>
                                 <div class="row">
@@ -550,7 +549,37 @@
                     </div>
                 </div>
             </div>
-            <div id="modalWriteProtect" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+            <div id="modalStartWriteProtect" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">硬盘写保护</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa fa-question-circle"></i>
+                            </div>
+                            <div class="modal-text">
+                                <div class="row">
+                                    <div class="panel bk-widget bk-margin-off col-lg-12">
+                                        您确定恢复硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>
+                                        {{cab.curr.get_title()}}</span>）的“<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>”功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-primary" ng-click="cab.curr.cmd_send_write_protect('START')">确定</button>
+                                <button class="btn btn-default modal-dismiss">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modalStopWriteProtect" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">硬盘写保护</h4>
@@ -563,7 +592,39 @@
                             <div class="modal-text">
                                 <div class="row">
                                     <div class="panel bk-widget bk-margin-off col-lg-12">
-                                        老板们 <i class="fa fa-users"></i> 不要着急，攻城狮 <i class="glyphicon glyphicon-user bk-fg-success"></i> 和攻城狮 <i class="fa fa-user bk-fg-danger"></i> 正在针对该功能努力Coding完善中...
+                                        您确定关闭硬盘（<span class="bk-fg-primary">
+                                            <i class="glyphicon glyphicon-hdd"></i>
+                                            {{cab.curr.get_title()}}
+                                        </span>）的“<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>”功能？关闭写保护后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-primary" ng-click="cab.curr.cmd_send_write_protect('STOP')">确定</button>
+                                <button class="btn btn-default modal-dismiss">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modalWorking" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">功能完善中</h4>
+                    </div>
+                    <div class="panel-body bk-noradius">
+                        <div class="modal-wrapper">
+                            <div class="modal-icon">
+                                <i class="fa fa-warning"></i>
+                            </div>
+                            <div class="modal-text">
+                                <div class="row">
+                                    <div class="panel bk-widget bk-margin-off col-lg-12">
+                                        老板们 <i class="fa fa-users"></i> 不要着急，攻城狮 <i class="glyphicon glyphicon-user bk-fg-success"></i> 和攻城狮 <i class="fa fa-user bk-fg-danger"></i> 正在努力Coding，完善功能。
                                     </div>                                    
                                 </div>
                             </div>
@@ -765,8 +826,7 @@
                             </div>
                             <div class="modal-text">
                                 <p>
-                                    {{cab.curr.cmd_name_to_commit ==
-                                    'COPY'?(cab.curr.busy_disk.g%2==0?'源':'目的'):''}}硬盘组（{{cab.curr.busy_disk.g+1}}#）中硬盘（<span
+                                    硬盘组（{{cab.curr.busy_disk.g+1}}#）中硬盘（<span
                                         ng-class="{true:'bk-fg-success', false:'bk-fg-primary'}[cab.curr.busy_disk.is_bridged()]"><i
                                         class="glyphicon glyphicon-hdd"></i>
                                 {{cab.curr.busy_disk.get_title()}}</span>）{{cab.curr.to_modal_busy_msg()}}<a href="#">获得帮助?</a>
