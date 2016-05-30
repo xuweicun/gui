@@ -413,6 +413,8 @@ angular.module('device.services', [])
                     break;
                 case 'say':
                     console.log("new cmd:", data['content']);
+                    var cmd = global_cmd_helper.createCmd(data);
+                    global_task_pool.add(cmd);
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
@@ -431,7 +433,7 @@ angular.module('device.services', [])
             cmd.content = "test string";
             var cmd_str = JSON.stringify(cmd);
             ws.send(cmd_str);
-            ws.send(cmd);
+            //ws.send(cmd);
         }
         return {
             connect: function (id, grp) {

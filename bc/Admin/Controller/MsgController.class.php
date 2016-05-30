@@ -616,6 +616,7 @@ class MsgController extends Controller
 
     public function  RTLog($txt = 'love you')
     {
+        return;//only for debug
         $txt = $txt . "++\r\n";
         fwrite($this->file, $txt);
     }
