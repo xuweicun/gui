@@ -80,6 +80,7 @@
 
 
 <body ng-app="device" ng-controller="statusMonitor  as showCase">
+<div ng-include="modalHelperUrl"></div>
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">
@@ -544,96 +545,6 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="modalStartWriteProtect" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">硬盘写保护</h4>
-                    </div>
-                    <div class="panel-body bk-noradius">
-                        <div class="modal-wrapper">
-                            <div class="modal-icon">
-                                <i class="fa fa-question-circle"></i>
-                            </div>
-                            <div class="modal-text">
-                                <div class="row">
-                                    <div class="panel bk-widget bk-margin-off col-lg-12">
-                                        您确定恢复硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>
-                                        {{cab.curr.get_title()}}</span>）的“<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>”功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button class="btn btn-primary" ng-click="cab.curr.cmd_send_write_protect('START')">确定</button>
-                                <button class="btn btn-default modal-dismiss">取消</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="modalStopWriteProtect" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">硬盘写保护</h4>
-                    </div>
-                    <div class="panel-body bk-noradius">
-                        <div class="modal-wrapper">
-                            <div class="modal-icon">
-                                <i class="fa fa-warning"></i>
-                            </div>
-                            <div class="modal-text">
-                                <div class="row">
-                                    <div class="panel bk-widget bk-margin-off col-lg-12">
-                                        您确定关闭硬盘（<span class="bk-fg-primary">
-                                            <i class="glyphicon glyphicon-hdd"></i>
-                                            {{cab.curr.get_title()}}
-                                        </span>）的“<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>”功能？关闭写保护后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button class="btn btn-primary" ng-click="cab.curr.cmd_send_write_protect('STOP')">确定</button>
-                                <button class="btn btn-default modal-dismiss">取消</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="modalWorking" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">功能完善中</h4>
-                    </div>
-                    <div class="panel-body bk-noradius">
-                        <div class="modal-wrapper">
-                            <div class="modal-icon">
-                                <i class="fa fa-warning"></i>
-                            </div>
-                            <div class="modal-text">
-                                <div class="row">
-                                    <div class="panel bk-widget bk-margin-off col-lg-12">
-                                        老板们 <i class="fa fa-users"></i> 不要着急，攻城狮 <i class="glyphicon glyphicon-user bk-fg-success"></i> 和攻城狮 <i class="fa fa-user bk-fg-danger"></i> 正在努力Coding，完善功能。
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button class="btn btn-warning modal-dismiss">确认</button>
                             </div>
                         </div>
                     </div>
@@ -1266,10 +1177,15 @@
 <script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
 
+    <script src="/Public/js/angular-sanitize.min.js"></script>
+
     <!-- global variables define -->
     <script src="/Public/js/cabinet/globalvars.js"></script>
 
     <!-- 用于前端命令处理 -->
+
+    <script src="/Public/js/cabinet/modalhelper.js"></script>
+    <script src="/Public/js/cabinet/CabCmd.js"></script>
     <script src="/Public/js/cabinet/CabCmd.js"></script>
     <script src="/Public/js/cabinet/CabCmdHelper.js"></script>
     <script src="/Public/js/cabinet/TaskPool.js"></script>

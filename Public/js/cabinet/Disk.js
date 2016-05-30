@@ -135,16 +135,43 @@ Disk.prototype = {
     },
 
     // 提交写保护命令
-    cmd_write_protect_commit:function(){
-        $.magnificPopup.open({
-            items: {
-                src: '#modalWorking', // can be a HTML string, jQuery object, or CSS selector
-                type: 'inline'
-            },
-            closeOnBgClick: false,
-            removalDelay: 300,
-            mainClass: 'my-mfp-slide-bottom',
-            modal: true
+    cmd_write_protect_commit: function () {
+        global_modal_helper.show_modal_working();
+        return;
+
+        var html = '';
+        var on_click = {};
+        var param = this;
+        if (!this.is_write_protected()) {
+            html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+            '</span>）的[<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>]功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。';
+            on_click = function (param) {
+                // send cmd;
+                global_cmd_helper.sendcmd({
+                    cmd: 'WRITEPROTECT',
+                    subcmd: 'START',
+                    level: (param.l + 1).toString()
+                });
+            };
+        }
+        else {
+            html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+                '</span>）的[<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>]功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
+            on_click = function (param) {
+                // send cmd;
+                global_cmd_helper.sendcmd({
+                    cmd: 'WRITEPROTECT',
+                    subcmd: 'STOP',
+                    level: (param.l + 1).toString()
+                });
+            };
+        }
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '写保护功能',
+            html: html,
+            on_click_handle: on_click,
+            on_click_param : this
         });
         return;
         var modal_name = '#modal' + (this.is_write_protected() ? 'Stop' : 'Start') + 'WriteProtect';
@@ -174,6 +201,14 @@ Disk.prototype = {
         global_cmd_helper.sendcmd(cmd_obj);
 
         $.magnificPopup.close();
+    },
+
+    cmd_send_write_protect_start: function () {
+        console.log(this);
+        this.cmd_send_write_protect('START');
+    },
+    cmd_send_write_protect_stop: function () {
+        this.cmd_send_write_protect('STOP');
     },
 
     get_cmd_error: function () {

@@ -1,4 +1,8 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
+app_device.filter('to_trusted', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    }
+}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -6,6 +10,7 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
+    $scope.modalHelperUrl = '/bc/Admin/View/Business/modalhelper.html';
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
@@ -34,6 +39,8 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     global_http = $http;
     global_interval = $interval;
     global_timeout = $timeout;
+    global_modal_helper = new ModalHelper();
+    $scope.curr_modal = global_modal_helper;
 
     global_err_pool = {
         pool: [],
@@ -128,7 +135,9 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
             }
         });
     }
-}).controller('testCtrl', function ($scope, TestMsg) {
+})
+    
+    .controller('testCtrl', function ($scope, TestMsg) {
 var Test = function () {
     this.server = '/index.php?m=admin&c=msg';
 }
