@@ -116,6 +116,7 @@ class Events
                     $rst = $db->select('msg')->from('gui_cmd_log')->query();
                     $rst['type'] = 'say';
                     $rst['usr_id'] = $message_data['user_id'];
+                    return Gateway::sendToGroup($room_id ,json_encode($rst));//json_encode($new_message));
                 }
                 $new_message = array(
                     'type'=>'say', 
