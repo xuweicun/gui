@@ -6,15 +6,19 @@ app_device.filter('to_trusted', function ($sce) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
-    $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
-    $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
-    $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
-    $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
-    $scope.modalHelperUrl = '/bc/Admin/View/Business/modalhelper.html';
-    $scope.cabinetViewUrl = '/bc/Admin/View/Business/cabinetView.html';
-    $scope.diskViewUrl = '/bc/Admin/View/Business/diskView.html';
-    $scope.userModalsUrl = '/bc/Admin/View/Business/userModals.html';
-    $scope.taskViewUrl = '/bc/Admin/View/Business/taskView.html';
+
+    var url_dir = '/bc/Admin/View/Business/'
+    $scope.pageViewUrls = {
+        siderBarUrl: url_dir + 'siderBar.html',
+        cabUrl: url_dir + 'cabs.html',
+        modalHelperUrl: url_dir + 'modalhelper.html',
+        cabinetViewUrl: url_dir + 'cabinetView.html',
+        diskViewUrl: url_dir + 'diskView.html',
+        userModalsUrl: url_dir + 'userModals.html',
+        taskViewUrl: url_dir + 'taskView.html',
+        notifyViewUrl: url_dir + 'taskView.html'
+    };
+
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();

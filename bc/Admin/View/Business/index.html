@@ -80,8 +80,8 @@
 
 
 <body ng-app="device" ng-controller="statusMonitor  as showCase">
-<div ng-include="modalHelperUrl"></div>
-<div ng-include="userModalsUrl"></div>
+<div ng-include="pageViewUrls.modalHelperUrl"></div>
+<div ng-include="pageViewUrls.userModalsUrl"></div>
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">
@@ -104,116 +104,9 @@
         </div>
         <!-- Navbar Right -->
         <div class="navbar-right">
-            <!-- Notifications -->
-            <ul class="notifications hidden-xs" style="display:none;">
-                <li>
-                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                        <i class="fa fa-tasks"></i>
-                        <span class="badge">10</span>
-                    </a>
-                    <ul class="dropdown-menu update-menu" role="menu">
-                        <li><a href="#"><i class="fa fa-database bk-fg-primary"></i> Database </a></li>
-                        <li><a href="#"><i class="fa fa-bar-chart-o bk-fg-primary"></i> Connection </a></li>
-                        <li><a href="#"><i class="fa fa-bell bk-fg-primary"></i> Notification </a></li>
-                        <li><a href="#"><i class="fa fa-envelope bk-fg-primary"></i> Message </a></li>
-                        <li><a href="#"><i class="fa fa-flash bk-fg-primary"></i> Traffic </a></li>
-                        <li><a href="#"><i class="fa fa-credit-card bk-fg-primary"></i> Invoices </a></li>
-                        <li><a href="#"><i class="fa fa-dollar bk-fg-primary"></i> Finances </a></li>
-                        <li><a href="#"><i class="fa fa-thumbs-o-up bk-fg-primary"></i> Orders </a></li>
-                        <li><a href="#"><i class="fa fa-folder bk-fg-primary"></i> Directories </a></li>
-                        <li><a href="#"><i class="fa fa-users bk-fg-primary"></i> Users </a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                        <i class="fa fa-envelope"></i>
-                        <span class="badge">5</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-menu-header">
-                            <strong>Messages</strong>
-
-                            <div class="progress progress-xs  progress-striped active">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
-                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                    60%
-                                </div>
-                            </div>
-                        </li>
-                        <li class="avatar">
-                            <a href="page-inbox.html">
-                                <img class="avatar" src="/Public/assets/img/avatar1.jpg" alt=""/>
-
-                                <div>
-                                    <div class="point point-primary point-lg"></div>
-                                    New message
-                                </div>
-                                <span><small>1 minute ago</small></span>
-                            </a>
-                        </li>
-                        <li class="dropdown-menu-footer text-center">
-                            <a href="page-inbox.html">View all messages</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge">3</span>
-                    </a>
-                    <ul class="dropdown-menu list-group">
-                        <li class="dropdown-menu-header">
-                            <strong>Notifications</strong>
-
-                            <div class="progress progress-xs  progress-striped active">
-                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60"
-                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                    60%
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-item">
-                            <a href="page-inbox.html">
-                                <div class="pull-left">
-                                    <i class="fa fa-envelope-o bk-fg-primary"></i>
-                                </div>
-                                <div class="media-body clearfix">
-                                    <div>Unread Message</div>
-                                    <h6>You have 10 unread message</h6>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#">
-                                <div class="pull-left">
-                                    <i class="fa fa-cogs bk-fg-primary"></i>
-                                </div>
-                                <div class="media-body clearfix">
-                                    <div>New Settings</div>
-                                    <h6>There are new settings available</h6>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#">
-                                <div class="pull-left">
-                                    <i class="fa fa-fire bk-fg-primary"></i>
-                                </div>
-                                <div class="media-body clearfix">
-                                    <div>Update</div>
-                                    <h6>There are new updates available</h6>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-item-last">
-                            <a href="#">
-                                <h6>Unread notifications</h6>
-                                <span class="badge">15</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <!-- Notifications
+            <div ng-include="pageViewUrls.notifyViewUrl"></div>
+                 -->
             <!-- End Notifications -->
             <!-- Userbox -->
             <div class="userbox">
@@ -292,11 +185,11 @@
 <div class="container-fluid content">
     <div class="row">
         <div class="sidebar">
-            <div ng-include="siderBarUrl"></div>
+            <div ng-include="pageViewUrls.siderBarUrl"></div>
         </div>
         <div class="main">
             <!-- Start: Content -->
-            <div ng-include="cabUrl"></div>
+            <div ng-include="pageViewUrls.cabUrl"></div>
             <div class="container-fluid content">
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
@@ -310,14 +203,14 @@
                                 当前柜磁盘在位查询
                             </a> 
                         </div>
-                        <div class="panel-body" ng-include="cabinetViewUrl">
+                        <div class="panel-body" ng-include="pageViewUrls.cabinetViewUrl">
                         </div>
                     </div>
                     <div class="panel panel-default col-lg-3">
                         <div class="panel-heading">
                             <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>插槽信息
                         </div>
-                        <div class="panel-body" ng-include="diskViewUrl">
+                        <div class="panel-body" ng-include="pageViewUrls.diskViewUrl">
                         </div>
                     </div>
                 </div>
@@ -365,7 +258,7 @@
             </div>
             <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-include="taskViewUrl">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-include="pageViewUrls.taskViewUrl">
                     </div>
                 </div>
             </div>
