@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 	<head>
@@ -43,7 +43,7 @@
 		
 	</head>
 
-	<body>
+	<body ng-app="loginApp" ng-controller="loginCtrl">
 		<!-- Start: Content -->
 		<div class="container-fluid content">
 			<div class="row">
@@ -60,9 +60,9 @@
 									<div class="bk-padding-left-20 bk-padding-right-20">
 										<form action="/index.php?m=admin&c=business&a=login" method="post">
 											<div class="form-group">
-												<label>用户名</label>
+												<label for="uname">用户名<span class="bk-fg-danger" ng-show="has_commit && !uname">（必填）</span></label>
 												<div class="input-group input-group-icon">
-													<input type="text" class="form-control bk-radius" name="uname" id="username" placeholder="请输入用户名"/>
+													<input type="text" class="form-control bk-radius" id="uname" ng-model="uname" placeholder="请输入用户名"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-user"></i>
@@ -71,9 +71,9 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label>密码</label>
+												<label for="pwd">密码<span class="bk-fg-danger" ng-show="has_commit && !pwd">（必填）</span></label>
 												<div class="input-group input-group-icon">
-													<input type="password" class="form-control bk-radius"  name="pwd" id="password" placeholder="请输入密码"/>
+													<input type="password" class="form-control bk-radius"  id="pwd" ng-model="pwd" placeholder="请输入密码"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-key"></i>
@@ -81,19 +81,21 @@
 													</span>
 												</div>
 											</div>
-											<div class="row bk-margin-top-20 bk-margin-bottom-10">
-												<div class="col-sm-8">
-													<div class="checkbox-custom checkbox-default">
-														<input id="RememberMe" name="rememberme" type="checkbox" />
-														<label for="RememberMe">记住我</label>
-													</div>
-												</div>
-												<div class="col-sm-4 text-right">
-													<button type="submit" class="btn btn-primary hidden-xs">登录</button>
-													<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs bk-margin-top-20">登录</button>
-												</div>
-											</div>
-										</form>
+                                            <div class="row" ng-if="err_msg">
+                                                <span ng-bind="err_msg" class="bk-margin-left-30 bk-fg-danger"></span>
+                                            </div>
+                                            <div class="row bk-margin-top-20 bk-margin-bottom-10">
+                                                <div class="col-sm-8">
+                                                    <div class="checkbox-custom checkbox-default">
+                                                        <input id="RememberMe" name="rememberme" type="checkbox" />
+                                                        <label for="RememberMe">记住我</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 text-right">
+                                                    <button type="button" class="btn btn-primary btn-block" ng-click="onBtnLogin()">登录</button>
+                                                </div>
+                                            </div>
+                                        </form>
 									</div>
 								</div>
 							</div>
@@ -122,7 +124,51 @@
 		<script src="/Public/assets/js/core.min.js"></script>
 		
 		<!-- Pages JS -->
-		<script src="assets/js/pages/page-login.js"></script>
+        <script src="/Public/js/angular-1.4.min.js"></script>
+        <script src="/Public/js/md5.js"></script>
+        <script>
+            angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location) {
+                $scope.err_msg = "";
+                $scope.uname = '';
+                $scope.pwd = '';
+                $scope.has_commit = false;
+                $scope.onBtnLogin = function () {
+                    $scope.has_commit = true;
+                    $scope.err_msg = '';
+
+                    if ($scope.form_required()) return;
+
+                    $http.post('/index.php?m=admin&c=business&a=login', {
+                        username: $scope.uname,
+                        password: hex_md5($scope.pwd)
+                    }).success(function (data) {
+                        try{
+                            var obj = JSON.parse(data);
+                            if (obj.status && obj.status == 1) {
+                                window.location = '/index.php?m=admin&c=business&a=loginSuccessPage';
+                            }
+                            else {
+                                throw 1;
+                            }
+                        }
+                        catch (e) {
+                            $scope.err_msg = '登录失败';
+                        }
+                    }).error(function (data) {
+                        $scope.err_msg = '登录服务器失败';
+                    });
+                };
+
+                $scope.form_required = function () {
+                    if (!$scope.uname.trim() || !$scope.pwd.trim()) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            });
+        </script>
 		
 		<!-- end: JavaScript-->
 		

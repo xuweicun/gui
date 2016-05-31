@@ -19,6 +19,14 @@ app_device.filter('to_trusted', function ($sce) {
         notifyViewUrl: url_dir + 'taskView.html'
     };
 
+    // 用户对象
+    global_user = new User(
+        parseInt($('#userid').text()),
+        $('#username').text(),
+        parseInt($('#can_write').text())
+        );
+    $scope.user_profile = global_user;
+    
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();

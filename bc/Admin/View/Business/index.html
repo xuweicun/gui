@@ -115,9 +115,11 @@
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
                     </figure>-->
                     <div class="profile-info">
-                        <span class="name" id="username">您好,<{$username}></span>
-                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> 高级权限</span>
-                        <input type="text" value="<{$userid}>" style="display: none;" id="userid">
+                        <span class="name">您好,<{$username}></span>
+                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> {{user_profile.can_write==1?'高级':'只读'}}权限</span>
+                        <span id="username" style="display:none"><{$username}></span>
+                        <span id="userid" style="display:none"><{$userid}></span>
+                        <span id="can_write" style="display:none"><{$can_write}></span>
                     </div>
                     <i class="fa custom-caret"></i>
                 </a>
@@ -316,6 +318,7 @@
      <!-- cabinet.js 必须放到 globaljs.js之前 -->
     <script src="/Public/js/cabinet/Disk.js"></script>
     <script src="/Public/js/cabinet/cabinet.js"></script>
+    <script src="/Public/js/cabinet/user.js"></script>
 
     <script src="/Public/js/cabinet/globaljs.js"></script>   
      

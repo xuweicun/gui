@@ -27,9 +27,10 @@ class BusinessController extends Controller
             $this->redirect('login');
 
         } else {
-            $Username = session('user');
-            $this->assign('username', $Username);
+            $this->assign('username', session('user'));
             $this->assign('userid', session('userid'));
+            $this->assign('can_write', session('can_write'));
+
             //generate the page
             //先检查有没有柜子
             $db = M('Cab');
@@ -143,28 +144,43 @@ class BusinessController extends Controller
 
     public function login()
     {
-        if (session('?user')) {
-            $this->redirect('index');
-            die();
-        }
         if (IS_POST) {
-            $User = M('super');
-            $uname = I('post.uname');
+            $User = M('user');
             $item = null;
-            $cond['name'] = array('eq', $uname);
-            $cond['pwd'] = array('eq', md5(I('post.pwd')));
+			
+            $cond['username'] = $_POST['username'];
+            $cond['password'] = $_POST['password'];
+            $cond['status'] = 1;
+			$item = $User->where($cond)->find();
+			//var_dump($cond);
+			//die();
 
-            if (!$item = $User->where($cond)->find()) {
-                $this->error('登录失败');;
+            if (!$item) {
+				$ret['status']='0';
             } else {
-                session('user', $uname);
+				$item['last_login_time'] = time();
+				$User->save($item);
+
+                session('user', $item['username']);
                 session('userid', $item['id']);
-                $this->success('成功登录', U('index'));
+                session('can_write', $item['write']);
+
+				$ret['status']='1';
             }
-        } else {
+			$this->AjaxReturn(json_encode($ret));
+        } else {		
+			if (session('?user')) {
+				$this->redirect('index');
+				die();
+			}
+
             $this->display();
         }
     }
+
+	public function loginSuccessPage(){
+		$this->success('成功登录', U('index'));
+	}
 
     public function userMainPage(){
 
@@ -656,7 +672,7 @@ class BusinessController extends Controller
     {
         session_unset();
         session_destroy();
-        $this->display("logout");
+        $this->success('成功注销', U("login"));
     }
 
     public function chg_pwd()
