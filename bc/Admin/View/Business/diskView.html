@@ -2,8 +2,7 @@
     <div class="row">
         <div class="col-lg-12 panel bk-margin-10">
             <h4>当前硬盘：{{cab.curr.get_title()}}
-            <button ng-show="cab.curr.is_bridged()" class="btn btn-xs"
-                  ng-class="{ true:'btn-primary', false:'btn-danger' }[cab.curr.is_write_protected()]">{{cab.curr.is_write_protected()?'只读':'读+写'}}</button></h4>
+            <span ng-show="cab.curr.is_bridged()" class="bk-fg-danger" title="数据可写">[ <i class="fa fa-edit"></i> ]</span></h4>
         </div>
     </div>
     <div class="panel bk-margin-10 bk-margin-bottom-20 row ">
