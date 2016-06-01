@@ -412,8 +412,9 @@ angular.module('device.services', [])
                     console.log("new User:", data['user_name']);
                     break;
                 case 'say':
-                    console.log("new cmd:", data['content']);
+                    console.log("new cmd:", data['user_id']);
                     //增加新消息
+                    
                     global_cmd_helper.newCmdMsg(data['CMD_ID'],data['user_id']);
                     break;
                 case 'logout':
@@ -431,6 +432,7 @@ angular.module('device.services', [])
             //cmd_str = "test string";
             cmd.type = "say";
             cmd.content = "test string";
+            cmd.user_id = global_user.id;
             var cmd_str = JSON.stringify(cmd);
             ws.send(cmd_str);
           //  ws.send(cmd);
