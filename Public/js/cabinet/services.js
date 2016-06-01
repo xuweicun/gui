@@ -416,7 +416,7 @@ angular.module('device.services', [])
                    // console.log(data['0']);
                     //增加新消息
                     var cmd_log = data['0'];
-                    global_cmd_helper.newCmdMsg(cmd_log);
+                    global_cmd_helper.onWsMsg(cmd_log);
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}

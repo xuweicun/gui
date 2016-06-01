@@ -161,8 +161,13 @@ CabCmdHelper.prototype = {
         }
         return obj;
     },
-    newCmdMsg: function (cmd_log) {
-       //取这条消息的记录
+    onWsMsg: function (cmd_log) {
+       //长连接推送的命令同步消息
+        //首先判断是否是本用户的消息
+        if(cmd_log.user_id.toString() == global_user.id.toString())
+        {
+            console.log("是本用户自己创建的命令,忽略",cmd_log.user_id);
+        }
         var new_task = this.createCmd(cmd_log);
         global_task_pool.add(new_task);
     }
