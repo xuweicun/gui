@@ -114,8 +114,8 @@ class Events
                     //新的命令
                     $db = Db::instance("db1");
                     $rst = $db->select('msg')->from('gui_cmd_log')->where("id={$message_data['CMD_ID']}")->single();
-                    $attached = array('type'=>'say','user_id'=>$message_data['user_id']);
-                    $rst = array_merge($rst,$attached);
+                    //$attached = array('type'=>'say','user_id'=>$message_data['user_id']);
+                    //$rst = array_merge($rst,$attached);
                     return Gateway::sendToGroup($room_id ,json_encode($rst));//json_encode($new_message));
                 }
                 $new_message = array(
