@@ -1,5 +1,6 @@
 <?php
-
+phpinfo();
+die();
 if (isset($_GET['dir'])){ //设置文件目录 
 $basedir=$_GET['dir']; 
 }else{ 
