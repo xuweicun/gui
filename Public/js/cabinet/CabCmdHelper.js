@@ -161,9 +161,10 @@ CabCmdHelper.prototype = {
         }
         return obj;
     },
-    newCmdMsg: function (cmd_id) {
+    newCmdMsg: function (cmd_log) {
        //取这条消息的记录
-        
+        var new_task = this.createCmd(cmd_log);
+        global_task_pool.add(new_task);
     }
     ,
     sendcmd: function (msg) {

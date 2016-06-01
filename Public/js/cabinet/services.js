@@ -412,9 +412,11 @@ angular.module('device.services', [])
                     console.log("new User:", data['user_name']);
                     break;
                 case 'say':
-                    console.log("new cmd:", data['user_id']);
+                   // console.log("new cmd:", data['user_id']);
+                   // console.log(data['0']);
                     //增加新消息
-                    //global_cmd_helper.newCmdMsg(data['CMD_ID'],data['user_id']);
+                    var cmd_log = data['0'];
+                    global_cmd_helper.newCmdMsg(cmd_log);
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
