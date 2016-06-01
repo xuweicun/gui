@@ -433,7 +433,7 @@ angular.module('device.services', [])
             cmd.content = "test string";
             var cmd_str = JSON.stringify(cmd);
             ws.send(cmd_str);
-            ws.send(cmd);
+          //  ws.send(cmd);
         }
         return {
             connect: function (id, grp) {
