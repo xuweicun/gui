@@ -60,9 +60,9 @@
 									<div class="bk-padding-left-20 bk-padding-right-20">
 										<form action="/index.php?m=admin&c=business&a=login" method="post">
 											<div class="form-group">
-												<label for="uname">用户名<span class="bk-fg-danger" ng-show="has_commit && !uname">（必填）</span></label>
+												<label for="uname">用户名</label>
 												<div class="input-group input-group-icon">
-													<input type="text" class="form-control bk-radius" id="uname" ng-model="uname" placeholder="请输入用户名"/>
+													<input type="text" class="form-control bk-radius" ng-model="uname" placeholder="请输入用户名"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-user"></i>
@@ -71,9 +71,9 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="pwd">密码<span class="bk-fg-danger" ng-show="has_commit && !pwd">（必填）</span></label>
+												<label for="pwd">密码</label>
 												<div class="input-group input-group-icon">
-													<input type="password" class="form-control bk-radius"  id="pwd" ng-model="pwd" placeholder="请输入密码"/>
+													<input type="password" class="form-control bk-radius" ng-model="pwd" placeholder="请输入密码"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-key"></i>
@@ -129,15 +129,20 @@
         <script>
             angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location) {
                 $scope.err_msg = "";
-                $scope.uname = '';
-                $scope.pwd = '';
-                $scope.has_commit = false;
                 $scope.onBtnLogin = function () {
-                    $scope.has_commit = true;
                     $scope.err_msg = '';
 
-                    if ($scope.form_required()) return;
+                    if (!$scope.uname) {
+                        $scope.err_msg = '用户名不能为空';
+                        return;
+                    }
+                    if (!$scope.pwd) {
+                        $scope.err_msg = '密码不能为空';
+                        return;
+                    }
 
+                    console.log($scope.uname, $scope.pwd);
+                    
                     $http.post('/index.php?m=admin&c=business&a=login', {
                         username: $scope.uname,
                         password: hex_md5($scope.pwd)

@@ -119,7 +119,7 @@
                 </a>
 
                 <!-- MD5 -->
-                <a href="#modalAnim{{cab.curr.get_modal_type('MD5')}}"
+                <a href=""
                    class="btn btn-xs modal-with-move-anim"
                    ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'MD5']"
                    ng-disabled="!cab.curr.is_loaded()"
@@ -129,7 +129,7 @@
                 </a>
 
                 <!-- Copy -->
-                <a href="#modalAnim{{cab.curr.get_modal_type('COPY')}}"
+                <a href="" ng-show="user_profile.can_write"
                    class="btn btn-xs modal-with-move-anim"
                    ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'COPY']"
                    ng-disabled="!cab.curr.is_loaded()"

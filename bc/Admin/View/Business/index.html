@@ -116,7 +116,7 @@
                     </figure>-->
                     <div class="profile-info">
                         <span class="name">您好,<{$username}></span>
-                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> {{user_profile.can_write==1?'高级':'只读'}}权限</span>
+                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> <span ng-bind="role"></span>权限</span>
                         <span id="username" style="display:none"><{$username}></span>
                         <span id="userid" style="display:none"><{$userid}></span>
                         <span id="can_write" style="display:none"><{$can_write}></span>

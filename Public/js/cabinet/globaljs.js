@@ -3,7 +3,6 @@ app_device.filter('to_trusted', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 }).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
-
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
 
@@ -26,6 +25,7 @@ app_device.filter('to_trusted', function ($sce) {
         parseInt($('#can_write').text())
         );
     $scope.user_profile = global_user;
+    $scope.role = global_user.can_write == 1 ? '高级' : '只读';
     
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
