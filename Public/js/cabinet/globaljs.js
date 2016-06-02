@@ -3,17 +3,30 @@ app_device.filter('to_trusted', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 }).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
-
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
-    $scope.goingTaskUrl = '/bc/Admin/View/Business/goingTask.html';
-    $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
-    $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
-    $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
-    $scope.modalHelperUrl = '/bc/Admin/View/Business/modalhelper.html';
-    $scope.cabinetViewUrl = '/bc/Admin/View/Business/cabinetView.html';
-    $scope.diskViewUrl = '/bc/Admin/View/Business/diskView.html';
-    $scope.userModalsUrl = '/bc/Admin/View/Business/userModals.html';
+
+    var url_dir = '/bc/Admin/View/Business/'
+    $scope.pageViewUrls = {
+        siderBarUrl: url_dir + 'siderBar.html',
+        cabUrl: url_dir + 'cabs.html',
+        modalHelperUrl: url_dir + 'modalhelper.html',
+        cabinetViewUrl: url_dir + 'cabinetView.html',
+        diskViewUrl: url_dir + 'diskView.html',
+        userModalsUrl: url_dir + 'userModals.html',
+        taskViewUrl: url_dir + 'taskView.html',
+        notifyViewUrl: url_dir + 'taskView.html'
+    };
+
+    // 用户对象
+    global_user = new User(
+        parseInt($('#userid').text()),
+        $('#username').text(),
+        parseInt($('#can_write').text())
+        );
+    $scope.user_profile = global_user;
+    $scope.role = global_user.can_write == 1 ? '高级' : '只读';
+    
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
@@ -118,12 +131,20 @@ app_device.filter('to_trusted', function ($sce) {
             }
         });
     }
-    $scope.deploy = function(cab){
-        if(!global_deployer.available()){
-            return;
-        }
-        global_deployer.on_init(cab);
-        global_deployer.startDeploy();
+    $scope.deploy = function (cab) {
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '当前柜磁盘信息查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> [磁盘信息查询] </span>命令？',
+            on_click_handle: function (cab_id) {
+                if (!global_deployer.available()) {
+                    return;
+                }
+                global_deployer.on_init(cab);
+                global_deployer.startDeploy();
+            },
+            on_click_param: cab
+        });
     }
     $scope.testWs = function () {
         var msg = this.testMsg.i_getMsg(this.testCmdId);

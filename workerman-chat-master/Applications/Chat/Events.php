@@ -113,9 +113,10 @@ class Events
                 if($message_data['CMD_ID'] && (int)$message_data['CMD_ID'] > 0){
                     //新的命令
                     $db = Db::instance("db1");
-                    $rst = $db->select('msg')->from('gui_cmd_log')->query();
-                    $rst['type'] = 'say';
-                    $rst['usr_id'] = $message_data['user_id'];
+                    $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id={$message_data['CMD_ID']}")->query();
+                    $attached = array('type'=>'say');
+                    $rst = array_merge($rst,$attached);
+                    return Gateway::sendToGroup($room_id ,json_encode($rst));//json_encode($new_message));
                 }
                 $new_message = array(
                     'type'=>'say', 

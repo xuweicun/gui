@@ -409,14 +409,27 @@ angular.module('device.services', [])
                 // 登录 更新用户列表
                 case 'login':
                     //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+                    //token检查是否冲突
+                    if(data['token'] == global_user.token)
+                    {
+                        console.log("自己发出的消息,忽略",data['token'],global_user.token);
+                        break;
+                    }
+                    else{
+                        if(data['user_id'] == global_user.id){
+                            //异地登录,需要退出
+                            //global_user.()
+                        }
+                    }
                     console.log("new User:", data['user_name']);
                     break;
                 case 'say':
-                    console.log("new cmd:", data['content']);
 
+                   // console.log("new cmd:", data['user_id']);
+                   // console.log(data['0']);
                     //增加新消息
-                    global_cmd_helper.newCmdMsg(data['CMD_ID'],data['user_id']);
-
+                    var cmd_log = data['0'];
+                    global_cmd_helper.onWsMsg(cmd_log);
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
@@ -433,9 +446,14 @@ angular.module('device.services', [])
             //cmd_str = "test string";
             cmd.type = "say";
             cmd.content = "test string";
+            cmd.user_id = global_user.id;
             var cmd_str = JSON.stringify(cmd);
             ws.send(cmd_str);
+<<<<<<< HEAD
             //ws.send(cmd);
+=======
+          //  ws.send(cmd);
+>>>>>>> 6a80e9e1b6fd967a48fcef5655cdafe18c8a6346
         }
         return {
             connect: function (id, grp) {
