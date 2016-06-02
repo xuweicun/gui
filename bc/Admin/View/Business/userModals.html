@@ -1,0 +1,211 @@
+<div id="userModelBridge" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <form class="chk-radios-form" name="myFormBridge">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">硬盘命令 -- 桥接</h4>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-text form-group">
+                    <label class="col-md-2 control-label">请选择
+                        <span style="color: red">*</span>
+                        <br>
+                        <span style="color:red" ng-show="myFormBridge.$invalid">
+                            <span ng-show="myFormBridge.$error.required">（必填）</span>
+                        </span>
+                    </label>
+
+                    <div class="col-md-10">
+                        <div class="checkbox-custom" ng-repeat="_dsk in cab.curr.get_siblings()">
+                            <input id="selected-disk{{$index}}" type="checkbox" name="to_bridged_disks[]"
+                                   ng-model="_dsk.isto_bridge" ng-disabled="!_dsk.is_loaded() || !_dsk.detail_info.SN"
+                                   value="{{_dsk.get_title()}}" ng-required="!_dsk.has_bridge_disk_selected()">
+                            <label for="selected-disk{{$index}}"
+                                   ng-class="{'bk-fg-primary':_dsk.is_loaded() && !_dsk.is_bridged(), 'bk-fg-success': _dsk.is_bridged()}">
+                                <i class="glyphicon bk-margin-left-5"
+                                   ng-class="{true:'glyphicon-hdd', false:'glyphicon-ban-circle'}[_dsk.is_loaded()]"></i>
+                                {{_dsk.get_title()}}{{_dsk === cab.curr?'(当前)':''}}{{_dsk.is_loaded() && !_dsk.detail_info.SN?'(没有SN号)':''}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('BRIDGE')" ng-show="cab.curr.has_bridge_disk_selected()">
+                            确认
+                        </button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="userModalCopy" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <form class="chk-radios-form" name="myFormCopy">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">硬盘命令 -- 复制</h4>
+            </div>
+            <div class="panel-body bk-noradius">
+                <div class="modal-text form-group">
+                    <div ng-if="cab.curr.g%2==0">
+                        <div class="row">
+                            <label class="control-label col-md-2">硬盘复制</label>
+
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <label class="bk-fg-primary bk-margin-off control-label col-lg-4" style="float:left">
+                                        <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
+                                        {{cab.curr.get_title()}}（当前）
+                                    </label>
+                                    <div class="col-lg-8" style="top:-6px">
+                                        <div class="radio-custom radio-inline">
+                                            <input id="radioBoxCopyDirection0" type="radio" name="RBoxDirection" value="src" ng-model="cab.curr.copy_src_or_dst"/>
+                                            <label for="radioBoxCopyDirection0">源盘</label>
+                                        </div>
+                                        <div class="radio-custom radio-inline" style="margin-top:0">
+                                            <input id="radioBoxCopyDirection1" type="radio" name="RBoxDirection" value="dst" ng-model="cab.curr.copy_src_or_dst"/>
+                                            <label for="radioBoxCopyDirection1">目的</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-md-2">选择硬盘
+                                <span style="color: red">*</span>
+                                <br>
+                                <span style="color:red" ng-show="!cab.curr.copy_disk">
+                                    （必选）
+                                </span>
+                            </label>
+
+                            <div class="col-md-10 bk-margin-bottom-10">
+                                <div class="radio-custom" ng-repeat="_disk in cab.curr.get_copy_disks()">
+                                    <input id="radioBoxCopyDst{{$index}}" type="radio"
+                                           ng-model="cab.curr.copy_disk"
+                                           name="dstDisks" ng-disabled="!_disk.is_loaded()"
+                                           value="{{_disk.d}}"                                           
+                                           ng-required="cab.curr.copy_disk">
+                                    <label for="radioBoxCopyDst{{$index}}"
+                                           ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()), 'bk-fg-success':(_disk.is_bridged())}">
+                                        <i class="glyphicon bk-margin-left-5"
+                                           ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>
+                                        {{_disk.get_title()}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="cab.curr.g%2==1">
+                        <div class="row form-group">
+                            <label class="control-label col-md-2">选择硬盘
+                                <span style="color: red">*</span>
+                                <br>
+                                <span style="color:red" ng-show="!cab.curr.copy_disk">
+                                    （必选）
+                                </span>
+                            </label>
+
+                            <div class="col-md-10">
+                                <div class="radio-custom" ng-repeat="_disk in cab.curr.get_copy_disks()">
+                                    <input id="radioBoxCopySrc{{$index}}" type="radio"
+                                           ng-model="cab.curr.copy_disk"
+                                           name="srcDisks" ng-disabled="!_disk.is_loaded()"
+                                           value="{{_disk.d}}"
+                                           ng-required="cab.curr.copy_disk">
+                                    <label for="radioBoxCopySrc{{$index}}" ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()),
+																			'bk-fg-success':(_disk.is_bridged())}">
+                                        <i class="glyphicon bk-margin-left-5"
+                                           ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>{{_disk.get_title()}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-md-2">硬盘复制</label>
+                            <div class="col-md-10" style="padding-left:0px">
+                                <label class="bk-fg-primary bk-margin-off control-label col-lg-4" style="float:left"><i
+                                        class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
+                                    {{cab.curr.get_title()}}（当前）</label>
+                                <div class="col-lg-8" style="top:-6px">
+                                    <div class="radio-custom radio-inline">
+                                        <input id="radioBoxCopyDirection0" type="radio" name="RBoxDirection" value="src" ng-model="cab.curr.copy_src_or_dst" />
+                                        <label for="radioBoxCopyDirection0">源盘</label>
+                                    </div>
+                                    <div class="radio-custom radio-inline" style="margin-top:0">
+                                        <input id="radioBoxCopyDirection1" type="radio" name="RBoxDirection" value="dst" ng-model="cab.curr.copy_src_or_dst" />
+                                        <label for="radioBoxCopyDirection1">目的</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-primary" href="" ng-click="cab.curr.cmd_commit_copy_confirm()" ng-show="cab.curr.copy_disk">
+                            确认
+                        </a>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div id="userModalCopyConfirm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">硬盘命令 -- 复制</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <div class="modal-text">
+                    <div class="row">
+                        <div class="panel bk-widget bk-margin-off col-lg-5">
+                            <div class="panel-body bk-bg-warning text-center">
+                                源盘
+                                <i class="glyphicon glyphicon-hdd"></i>
+                                {{cab.curr.copy_src_or_dst == 'src'?cab.curr.get_title():cab.curr.get_copy_disks()[cab.curr.copy_disk].get_title()}}
+                            </div>
+                        </div>
+                        <div class="panel bk-widget bk-margin-off col-lg-1">
+                            <div class="panel-body text-center" style="padding-left:0px">
+                                <i class="fa-arrow-right fa"></i>
+                            </div>
+                        </div>
+                        <div class="panel bk-widget bk-margin-off col-lg-5">
+                            <div class="panel-body bk-bg-danger text-center">
+                                目标盘
+                                <i class="glyphicon glyphicon-hdd"></i>
+                                {{cab.curr.copy_src_or_dst == 'src'?cab.curr.get_copy_disks()[cab.curr.copy_disk].get_title():cab.curr.get_title()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary"
+                            ng-click="cab.curr.cmd_start('COPY')">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

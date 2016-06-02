@@ -102,10 +102,178 @@ Disk.prototype = {
             });
         }
     },
+    has_bridge_disk_selected: function(){
+        for (var i=0;i<this.parent.disks.length;++i){
+            if (this.parent.disks[i].isto_bridge){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    cmd_commit_copy_confirm: function(){
+        global_modal_helper.show_modal_user('userModalCopyConfirm');
+    },
+    can_stop: function(cmd_name){
+        return cmd_name == 'BRIDGE' || cmd_name == 'COPY' || cmd_name == 'MD5';
+    },
     // 用户提交命令
     cmd_commit: function (cmd_name) {
         this.clear_status();
-        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY') {
+
+        if (cmd_name == 'FILETREE' && this.is_bridged()) {
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘命令 -- MD5',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [重建索引] </span>操作？以支持硬盘的离线访问。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
+            return;
+        }
+
+        var bdsk = this.get_busy_disk();
+
+        // 停止命令
+        if (bdsk === this && this.can_stop(cmd_name)) {
+            if (bdsk.is_bridged() && cmd_name == 'BRIDGE') {
+                global_modal_helper.show_modal({
+                    type: 'question',
+                    title: '桥接断开',
+                    html: '您确定断开与硬盘（<span class="bk-fg-' + (this.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）之间的 <span class="bk-fg-success">[桥接]</span> 状态？',
+                    on_click_target: this,
+                    on_click_handle: 'cmd_stop'
+                });
+            }
+            else if (this.curr_cmd != null && this.curr_cmd.cmd == cmd_name) {
+                global_modal_helper.show_modal({
+                    type: 'question',
+                    title: '命令停止 -- ' + this.cmd2chs(cmd_name),
+                    html: '您确定停止硬盘（<span class="bk-fg-' + (this.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的 <span class="bk-fg-primary">[' + this.cmd2chs(cmd_name) + ']</span> 命令？',
+                    on_click_target: this,
+                    on_click_handle: 'cmd_stop'
+                });
+            }
+            else {
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+            }
+            
+            return;
+        }
+
+        if (bdsk) {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '总线忙',
+                html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+            });
+            return;
+        }        
+
+        if (cmd_name == 'DISKINFO') {
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘信息查询',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [查询] </span>操作？以重新获取硬盘的基本信息。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
+        }
+        else if (cmd_name == 'BRIDGE'){
+            // 如果有桥接Busy硬盘
+            bdsk = this.get_bridge_busy_disk();
+            if (bdsk != null) {
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+                return;
+            }
+            else {
+                // 判断柜子是否已经桥接了2组以上的硬盘
+                var bridged_cnt = 0;
+                var html = '';
+                var _lvls = this.parent.parent.parent.levels;
+                for (var i = 0; i < _lvls.length; ++i) {
+                    var _grps = _lvls[i].groups;
+                    for (var j = 0; j < _grps.length; ++j) {
+                        var _grp = _grps[j];
+                        var _dsks = _grp.disks;
+                        var gb = false;
+                        var htmlGrp = '硬盘组'+(i+1)+'-'+(j+1)+'#：'
+                        for (var k = 0; k < _dsks.length; ++k) {
+                            var _dsk = _dsks[k];
+                            if (_dsk.is_bridged()) {
+                                if (gb) htmlGrp += '，';
+
+                                htmlGrp += '<span class="bk-fg-success"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>';
+
+                                gb = true;
+                            }
+                        }
+                        if (gb) {
+                            bridged_cnt++;
+                            if (html){
+                                html += '<br>';
+                            }
+                            html += '(' + bridged_cnt + ') ' + htmlGrp;
+                            break;
+                        }
+                    }
+                }
+
+                if (bridged_cnt >= 2){
+                    global_modal_helper.show_modal({
+                        type: 'warning',
+                        title: '总线忙',
+                        html: '当前柜子已经同时桥接了两组硬盘，详情如下：<br>' + html + '<br>无法再桥接更多的硬盘！'
+                    });
+                    return;
+                }
+            }
+
+            global_modal_helper.show_modal_user('userModelBridge');
+        }
+        else if (cmd_name == 'COPY'){
+            bdsk = this.get_copy_busy_disk();
+            if (bdsk){
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+                return;
+            }
+
+            global_modal_helper.show_modal_user('userModalCopy');
+        }
+        else if(cmd_name == 'MD5'){
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘命令 -- MD5',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
+        }
+        else {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '硬盘命令 -- 未知',
+                html: '未知命令 <span class="bk-fg-primary"> [MD5] </span>，请联系系统维护人员！'
+            });
+        }
+        return;
+
+        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY' && cmd_name != 'WRITEPROTECT') {
 
             console.log('unknown cmd = ' + cmd_name);
             return;
@@ -135,17 +303,43 @@ Disk.prototype = {
     },
 
     // 提交写保护命令
-    cmd_write_protect_commit:function(){
-        //$('#modalWriteProtect').modal('toggle');
-        $.magnificPopup.open({
-            items: {
-                src: '#modalWriteProtect', // can be a HTML string, jQuery object, or CSS selector
-                type: 'inline'
-            },
-            closeOnBgClick: false,
-            removalDelay: 300,
-            mainClass: 'my-mfp-slide-bottom',
-            modal: true
+    cmd_write_protect_commit: function () {
+        // 弹出功能完善功能模态框
+        //global_modal_helper.show_modal_working();return;
+
+        var html = '';
+        var on_click = {};
+        var param = this;
+        if (!this.is_write_protected()) {
+            html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+            '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。';
+            on_click = function (param) {
+                // send cmd;
+                global_cmd_helper.sendcmd({
+                    cmd: 'WRITEPROTECT',
+                    subcmd: 'START',
+                    level: (param.l + 1).toString()
+                });
+            };
+        }
+        else {
+            html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+                '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
+            on_click = function (param) {
+                // send cmd;
+                global_cmd_helper.sendcmd({
+                    cmd: 'WRITEPROTECT',
+                    subcmd: 'STOP',
+                    level: (param.l + 1).toString()
+                });
+            };
+        }
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '写保护功能',
+            html: html,
+            on_click_handle: on_click,
+            on_click_param: this
         });
     },
 
@@ -229,9 +423,8 @@ Disk.prototype = {
         return this.base_info.loaded ? this.detail_info.SN : '';
     },
 
-    // 获得命令中文名
-    get_commit_cmd_title: function () {
-        switch (this.cmd_name_to_commit) {
+    cmd2chs:function(cmd_name){
+        switch (cmd_name) {
             case 'DISKINFO':
                 return '查询';
             case 'BRIDGE':
@@ -240,9 +433,15 @@ Disk.prototype = {
                 return 'MD5';
             case 'COPY':
                 return '复制';
+            case 'WRITEPROTECT':
+                return '写保护';
             default:
                 return '未知';
         }
+    },
+    // 获得命令中文名
+    get_commit_cmd_title: function () {
+        return this.cmd2chs(this.cmd_name_to_commit);
     },
     is_copy_dsk: function () {
         return this.curr_cmd != null && this.curr_cmd.cmd == 'COPY' && (this.l + 1).toString() == this.curr_cmd.dstLevel && (this.g+1).toString() == this.curr_cmd.dstGroup && (this.d+1).toString() == this.curr_cmd.dstDisk;
@@ -393,8 +592,8 @@ Disk.prototype = {
     },
     // 在执行“复制”命令时，查找可能导致命令执行失败的Busy硬盘
     get_copy_busy_disk: function () {
-        var _sdisk = this.get_busy_disk();
-        if (_sdisk != null) return _sdisk;
+        //var _sdisk = this.get_busy_disk();
+        //if (_sdisk != null) return _sdisk;
 
         return this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks[0].get_busy_disk();
     },
@@ -420,8 +619,7 @@ Disk.prototype = {
     },
     // 命令执行时，构建“硬盘忙”模态框的显示信息
     to_modal_busy_msg: function () {
-        var _dsk = this.busy_disk;
-        if (_dsk == null) return '';
+        var _dsk = this;
 
         var _msg = '';
 
@@ -432,7 +630,7 @@ Disk.prototype = {
             _msg += '正在执行[' + _dsk.get_curr_cmd_title() + ']命令';
         }
 
-        _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行其他操作！';
+        _msg += '（需要持续占用总线资源），无法对受本硬盘影响的其他硬盘进行任意操作！';
 
         return _msg;
     },
@@ -581,6 +779,11 @@ Disk.prototype = {
                 return false;
             }
         }
+        else if(cmd_name == 'WRITEPROTECT')
+        {
+            cmd_obj.subcmd = 'START';
+            cmd_obj.level = (this.l + 1).toString();
+        }
         else if (cmd_name == 'MD5') {
             cmd_obj.subcmd = 'START';
             cmd_obj.level = (this.l + 1).toString();
@@ -663,7 +866,6 @@ Disk.prototype = {
                 group: (this.g + 1).toString(),
                 disks: disk_array
             };
-
         }
         else {
             cmd_obj = JSON.parse(this.curr_cmd.msgStr);

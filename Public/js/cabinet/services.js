@@ -413,8 +413,10 @@ angular.module('device.services', [])
                     break;
                 case 'say':
                     console.log("new cmd:", data['content']);
-                    var cmd = global_cmd_helper.createCmd(data);
-                    global_task_pool.add(cmd);
+
+                    //增加新消息
+                    global_cmd_helper.newCmdMsg(data['CMD_ID'],data['user_id']);
+
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}

@@ -1,4 +1,8 @@
-app_device.controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
+app_device.filter('to_trusted', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    }
+}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
 
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -6,6 +10,10 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     $scope.doneTaskUrl = '/bc/Admin/View/Business/doneTask.html';
     $scope.siderBarUrl = '/bc/Admin/View/Business/siderBar.html';
     $scope.cabUrl = '/bc/Admin/View/Business/cabs.html';
+    $scope.modalHelperUrl = '/bc/Admin/View/Business/modalhelper.html';
+    $scope.cabinetViewUrl = '/bc/Admin/View/Business/cabinetView.html';
+    $scope.diskViewUrl = '/bc/Admin/View/Business/diskView.html';
+    $scope.userModalsUrl = '/bc/Admin/View/Business/userModals.html';
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = $("#userid").val();
@@ -34,6 +42,8 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     global_http = $http;
     global_interval = $interval;
     global_timeout = $timeout;
+    global_modal_helper = new ModalHelper();
+    $scope.curr_modal = global_modal_helper;
 
     global_err_pool = {
         pool: [],
@@ -74,7 +84,13 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
     };
 
     $scope.initCab = function () {
-        global_cmd_helper.cabinfo();
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '存储柜在位信息查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜在位信息查询] </span>操作？以重新获取在位存储柜的数量和基本信息。',
+            on_click_target: global_cmd_helper,
+            on_click_handle: "cabinfo"
+        });
     }
 
     function on_cab_select(cab) {
@@ -128,7 +144,9 @@ app_device.controller('statusMonitor', function ($scope, $http, $interval, $time
             }
         });
     }
-}).controller('testCtrl', function ($scope, TestMsg) {
+})
+    
+    .controller('testCtrl', function ($scope, TestMsg) {
 var Test = function () {
     this.server = '/index.php?m=admin&c=msg';
 }

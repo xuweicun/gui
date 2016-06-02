@@ -161,6 +161,11 @@ CabCmdHelper.prototype = {
         }
         return obj;
     },
+    newCmdMsg: function (cmd_id) {
+       //取这条消息的记录
+        
+    }
+    ,
     sendcmd: function (msg) {
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg) && !msg.device_id) {
