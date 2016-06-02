@@ -449,11 +449,7 @@ angular.module('device.services', [])
             cmd.user_id = global_user.id;
             var cmd_str = JSON.stringify(cmd);
             ws.send(cmd_str);
-<<<<<<< HEAD
-            //ws.send(cmd);
-=======
-          //  ws.send(cmd);
->>>>>>> 6a80e9e1b6fd967a48fcef5655cdafe18c8a6346
+
         }
         return {
             connect: function (id, grp) {
