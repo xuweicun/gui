@@ -418,7 +418,7 @@ angular.module('device.services', [])
                     else{
                         if(data['user_id'] == global_user.id){
                             //异地登录,需要退出
-                            //global_user.()
+                            global_user.loged_out();
                         }
                     }
                     console.log("new User:", data['user_name']);

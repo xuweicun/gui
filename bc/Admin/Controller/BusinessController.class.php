@@ -30,6 +30,7 @@ class BusinessController extends Controller
             $this->assign('username', session('user'));
             $this->assign('userid', session('userid'));
             $this->assign('can_write', session('can_write'));
+            $this->assign('token',session('token'));
 
             //generate the page
             //先检查有没有柜子
@@ -49,9 +50,10 @@ class BusinessController extends Controller
             die();
 
         } else {
-            $Username = session('user');
-            $this->assign('username', $Username);
+            $this->assign('username', session('user'));
             $this->assign('userid', session('userid'));
+            $this->assign('can_write', session('can_write'));
+            $this->assign('token',session('token'));
         }
 
     }
@@ -147,66 +149,76 @@ class BusinessController extends Controller
         if (IS_POST) {
             $User = M('user');
             $item = null;
-			
+
             $cond['username'] = $_POST['username'];
             $cond['password'] = $_POST['password'];
             $cond['status'] = 1;
-			$item = $User->where($cond)->find();
-			//var_dump($cond);
-			//die();
+            $item = $User->where($cond)->find();
+            //var_dump($cond);
+            //die();
 
             if (!$item) {
-				$ret['status']='0';
+                $ret['status'] = '0';
             } else {
-				$item['last_login_time'] = time();
-				$User->save($item);
+                $item['last_login_time'] = time();
+                $User->save($item);
 
                 session('user', $item['username']);
                 session('userid', $item['id']);
                 session('can_write', $item['write']);
+                if(!session('?token')){
+                    $token = self::grante_key();
+                    session('token',$token);
+                }
 
-				$ret['status']='1';
+                $ret['status'] = '1';
             }
-			$this->AjaxReturn(json_encode($ret));
-        } else {		
-			if (session('?user')) {
-				$this->redirect('index');
-				die();
-			}
+            $this->AjaxReturn(json_encode($ret));
+        } else {
+            if (session('?user')) {
+                $this->redirect('index');
+                die();
+            }
 
             $this->display();
         }
     }
 
-	public function loginSuccessPage(){
-		$this->success('成功登录', U('index'));
-	}
+    public function loginSuccessPage()
+    {
+        $this->success('成功登录', U('index'));
+    }
 
-    public function userMainPage(){
+    public function userMainPage()
+    {
 
         $this->display();
     }
-    public  function get_users(){
+
+    public function get_users()
+    {
         $db = M('user');
 
         $this->AjaxReturn($db->where('status=1')->select());
     }
-    public function user_set_write(){
+
+    public function user_set_write()
+    {
         $db = M('user');
         $map['id'] = $_POST['id'];
         $item = $db->where($map)->find();
-        if ($item){
+        if ($item) {
             $item['write'] = $_POST['write'];
             $db->save($item);
             $_POST['status'] = 'success';
-        }
-        else{
+        } else {
             $_POST['status'] = 'failure';
         }
         $this->AjaxReturn(json_encode($_POST));
     }
 
-    public function user_add(){
+    public function user_add()
+    {
         $db = M('user');
         $map['username'] = $_POST['username'];
 
@@ -216,42 +228,41 @@ class BusinessController extends Controller
         $item['register_time'] = time();
 
         $one = $db->where($map)->find();
-        if ($one){
+        if ($one) {
             $item['status'] = 'failure';
             $item['errmsg'] = '已经存在该用户';
-        }
-        else{
+        } else {
             $db->add($item);
             $item['status'] = 'success';
         }
         $this->AjaxReturn(json_encode($item));
     }
 
-    public function user_passwd_reset(){
+    public function user_passwd_reset()
+    {
         $db = M('user');
         $map['id'] = $_POST['id'];
         $item = $db->where($map)->find();
-        if ($item){
+        if ($item) {
             $item['password'] = $_POST['password'];
             $db->save($item);
             $_POST['status'] = 'success';
-        }
-        else{
+        } else {
             $_POST['status'] = 'failure';
         }
         $this->AjaxReturn(json_encode($_POST));
     }
 
-    public function user_remove(){
+    public function user_remove()
+    {
         $db = M('user');
         $map['id'] = $_POST['id'];
         $item = $db->where($map)->find();
-        if ($item){
+        if ($item) {
             $item['status'] = 0;
             $db->save($item);
             $_POST['status'] = 'success';
-        }
-        else{
+        } else {
             $_POST['status'] = 'failure';
         }
         $this->AjaxReturn(json_encode($_POST));
@@ -445,6 +456,12 @@ class BusinessController extends Controller
         mysqli_query($conn, $sql4);
         mysqli_query($conn, $sql6);
         mysqli_close($conn);
+    }
+
+    public static function grante_key()
+    {
+        $encrypt_key = md5(((float)date("YmdHis") + rand(100, 999)) . rand(1000, 9999));
+        return $encrypt_key;
     }
 
     /****
@@ -672,6 +689,11 @@ class BusinessController extends Controller
     {
         session_unset();
         session_destroy();
+        if(IS_POST){
+            $rst = array('success'=>1);
+            $this->AjaxReturn($rst);
+        }
+        else
         $this->success('成功注销', U("login"));
     }
 
