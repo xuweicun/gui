@@ -167,6 +167,7 @@ CabCmdHelper.prototype = {
         if(cmd_log.user_id.toString() == global_user.id.toString())
         {
             console.log("是本用户自己创建的命令,忽略",cmd_log.user_id);
+            return;
         }
         var new_task = this.createCmd(cmd_log);
         global_task_pool.add(new_task);
