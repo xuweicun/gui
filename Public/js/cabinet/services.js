@@ -409,6 +409,18 @@ angular.module('device.services', [])
                 // 登录 更新用户列表
                 case 'login':
                     //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+                    //token检查是否冲突
+                    if(data['token'] == global_user.token)
+                    {
+                        console.log("自己发出的消息,忽略",data['token'],global_user.token);
+                        break;
+                    }
+                    else{
+                        if(data['user_id'] == global_user.id){
+                            //异地登录,需要退出
+                            global_user.()
+                        }
+                    }
                     console.log("new User:", data['user_name']);
                     break;
                 case 'say':
