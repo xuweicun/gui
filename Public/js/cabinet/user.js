@@ -7,6 +7,8 @@
     this.can_write = write;
     this.token = token;
     this.off_line = false;
+    this.new_pwd = '';
+    this.new_pwd_confirm = '';
 }
 User.prototype = {
     loged_out: function(){
