@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,28 +7,28 @@
 
 
     <!-- Vendor CSS-->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/vendor/skycons/css/skycons.css" rel="stylesheet" />
-    <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="assets/vendor/css/pace.preloader.css" rel="stylesheet" />
+    <link href="/Public/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Public/assets/vendor/skycons/css/skycons.css" rel="stylesheet" />
+    <link href="/Public/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Public/assets/vendor/css/pace.preloader.css" rel="stylesheet" />
 
     <!-- Plugins CSS-->
-    <link href="assets/plugins/bootkit/css/bootkit.css" rel="stylesheet" />
-    <link href="assets/plugins/select2/select2.css" rel="stylesheet" />
-    <link href="assets/plugins/jquery-datatables-bs3/css/datatables.css" rel="stylesheet" />
+    <link href="/Public/assets/plugins/bootkit/css/bootkit.css" rel="stylesheet" />
+    <link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="/Public/assets/plugins/jquery-datatables-bs3/css/datatables.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
-    <link href="assets/css/jquery.mmenu.css" rel="stylesheet" />
+    <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet" />
 
     <!-- Page CSS -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <link href="assets/css/add-ons.min.css" rel="stylesheet" />
+    <link href="/Public/assets/css/style.css" rel="stylesheet" />
+    <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet" />
 
     <!-- end: CSS file-->
 
 
     <!-- Head Libs -->
-    <script src="assets/plugins/modernizr/js/modernizr.js"></script>
+    <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
 
     <style>
         a{
@@ -38,12 +38,12 @@
 </head>
 <body>
 <div>
-    <div class="panel panel-primary">
+    <div class="panel panel-primary bk-margin-15">
         <div class="panel-heading ">
             <h6><i class="fa fa-table red"></i><span class="break"></span>文件检索</h6>
         </div>
-        <div class="panel-body">
-            <div class="search bk-padding-5">
+        <div class="panel-body bk-padding-15">
+            <div class="search bk-padding-5 row">
                 <div class="input-group input-search">
                     <input type="text" class="form-control" name="q" id="keyword" placeholder="请输入关键词..." />
                             <span class="input-group-btn">
@@ -51,37 +51,33 @@
                             </span>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading ">
-            <h6><i class="fa fa-table red"></i><span class="break"></span>检索结果</h6>
-        </div>
-        <div class="panel-body">
-            <table class="table table-bordered table-striped" id="datatable-my">
-                <thead>
-                <tr>
-                    <th>硬盘</th>
-                    <th>路径</th>
-                    <th>文件名</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <br />
+            <div class="row">
+                <table class="table table-bordered table-striped" id="datatable-my">
+                    <thead>
+                        <tr>
+                            <th>硬盘</th>
+                            <th>路径</th>
+                            <th>文件名</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 </body>
+</html>
 
-<script src="assets/vendor/js/jquery-2.1.1.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/Public/assets/vendor/js/jquery-2.1.1.min.js"></script>
+<script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Plugins JS-->
-<script src="assets/plugins/select2/select2.js"></script>
-<script src="assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
-<script src="assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-<script src="assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
+<script src="/Public/assets/plugins/select2/select2.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
 
 <script>
     // Data Tables - Config
@@ -148,7 +144,7 @@
                 "sInfoFiltered": "(从 _MAX_ 条数据中检索)"
             },
             ajax:{
-                url:"http://localhost/search.php",
+                url:"/search.php",
                 type:"POST",
                 data: function(d){
                     d.key= $("#keyword").val();
@@ -174,4 +170,3 @@
     })
    * */
 </script>
-</html>
