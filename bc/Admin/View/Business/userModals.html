@@ -209,3 +209,44 @@
         </div>
     </div>
 </div>
+
+<div id="userModalChangePassword" class="mfp-hide zoom-anim-dialog modal-block modal-block-primary">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">用户管理 修改密码</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd">新密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm"  ng-model="user_profile.new_pwd_confirm" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-9">
+                        <span ng-bind="user_profile.err_msg" class="bk-fg-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary"
+                            ng-click="user_profile.changePassword()">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
