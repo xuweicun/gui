@@ -22,7 +22,8 @@ app_device.filter('to_trusted', function ($sce) {
     global_user = new User(
         parseInt($('#userid').text()),
         $('#username').text(),
-        parseInt($('#can_write').text())
+        parseInt($('#can_write').text()),
+        $('#token').text()
         );
     $scope.user_profile = global_user;
     $scope.role = global_user.can_write == 1 ? '高级' : '只读';
