@@ -95,15 +95,15 @@
                           }  
                       }    
                       
-                      $index = 1;
+                      $index = 0;
 
                       function Search($dirPath, $namedPath, $key, $disk, &$idx){     
                           $xmlObj = json_decode(file_get_contents($dirPath.'/items.json'));
         
                           foreach($xmlObj->data as $i){            
                               if (stristr($i->text, $key)){ 
-                                  echo '<tr><td>'.$idx.'</td><td>'.$disk.'</td><td>'.$namedPath.'</td><td>'.$i->text.'</td><tr>';
                                   $idx++;
+                                  echo '<tr><td>'.$idx.'</td><td>'.$disk.'</td><td>'.$namedPath.'</td><td>'.$i->text.'</td><tr>';
                                   flush();
                               }
             
@@ -120,8 +120,11 @@
                           Search($xmlPath . '/' . $disk, '', $obj["key"], $disk, $index);        
                       }     
                       
-                      if ($idx == 1){
+                      if ($index == 0){
                           echo '<tr><td colspan="4">没有找到任何文件或文件夹</td><td><tr>';
+                      }
+                      else{
+                          echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><td><tr>';                          
                       }
                   ?>                
               </tbody>
