@@ -45,10 +45,10 @@
           </h6>
         </div>
         <div class="panel-body bk-padding-15">
-          <div class="search bk-padding-5 row">
+          <div class="search bk-padding-5 row  bk-padding-15">
             <form action="search.php" method="post">
               <div class="input-group input-search">
-                <input type="text" class="form-control" name="key" id="keyword" placeholder="请输入关键词..." value="<?php echo $_POST['key']; ?>" />
+                <input type="text" class="form-control bk-radius" name="key" id="keyword" placeholder="请输入关键词..." value="<?php echo $_POST['key']; ?>" />
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="submit" id="btnSearch">
                     <i class="fa fa-search"></i>
@@ -58,7 +58,7 @@
             </form>
           </div>
           <br />
-          <div class="row bk-padding-15">
+          <div class="row  bk-padding-15">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
