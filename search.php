@@ -121,10 +121,10 @@
                       }     
                       
                       if ($index == 0){
-                          echo '<tr><td colspan="4">没有找到任何文件或文件夹</td><td><tr>';
+                          echo '<tr><td colspan="4">没有找到任何文件或文件夹</td><tr>';
                       }
                       else{
-                          echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><td><tr>';                          
+                          echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><tr>';                          
                       }
                   ?>                
               </tbody>
