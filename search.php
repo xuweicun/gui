@@ -99,7 +99,7 @@
 
                       $obj = $_POST;                       
                       if(empty($obj["key"])){   
-                          echo '[]';
+                          echo '<tr><td colspan="4">请输入要查询的关键字</td><tr>'
                           return;   
                       }           
       
