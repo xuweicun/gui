@@ -271,42 +271,13 @@ Disk.prototype = {
                 html: '未知命令 <span class="bk-fg-primary"> [MD5] </span>，请联系系统维护人员！'
             });
         }
-        return;
-
-        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY' && cmd_name != 'WRITEPROTECT') {
-
-            console.log('unknown cmd = ' + cmd_name);
-            return;
-        }
-
-        if (cmd_name == 'DISKINFO' || cmd_name == 'MD5') {
-            var bdsk = this.get_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
-        }
-        else if (cmd_name == 'COPY') {
-            var bdsk = this.get_copy_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
-
-            this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
-        }
-        else if (cmd_name == 'BRIDGE') {
-            var bdsk = this.get_bridge_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
-        }
-
-
-        if (cmd_name == 'BRIDGE') {
-            this.isto_bridge = true;
-        }
-
-        this.cmd_name_to_commit = cmd_name;
     },
 
     // 提交写保护命令
     cmd_write_protect_commit: function () {
         // 弹出功能完善功能模态框
         //global_modal_helper.show_modal_working();return;
-
+        
         var html = '';
         var on_click = {};
         var param = this;
@@ -314,24 +285,30 @@ Disk.prototype = {
             html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
             '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。';
             on_click = function (param) {
-                // send cmd;
-                global_cmd_helper.sendcmd({
-                    cmd: 'WRITEPROTECT',
-                    subcmd: 'START',
-                    level: (param.l + 1).toString()
-                });
+                global_user.show_second_pwd_modal_with_action(function (lvl) {
+                    console.log(1);
+                    // send cmd;
+                    global_cmd_helper.sendcmd({
+                        cmd: 'WRITEPROTECT',
+                        subcmd: 'START',
+                        level: lvl 
+                        });
+                }, (param.l + 1).toString());                
             };
         }
         else {
             html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
                 '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
             on_click = function (param) {
-                // send cmd;
-                global_cmd_helper.sendcmd({
-                    cmd: 'WRITEPROTECT',
-                    subcmd: 'STOP',
-                    level: (param.l + 1).toString()
-                });
+                global_user.show_second_pwd_modal_with_action(function (lvl) {
+                    console.log(1);
+                    // send cmd;
+                    global_cmd_helper.sendcmd({
+                        cmd: 'WRITEPROTECT',
+                        subcmd: 'STOP',
+                        level: lvl
+                    });
+                }, (param.l + 1).toString());
             };
         }
         global_modal_helper.show_modal({
@@ -339,7 +316,8 @@ Disk.prototype = {
             title: '写保护功能',
             html: html,
             on_click_handle: on_click,
-            on_click_param: this
+            on_click_param: this,
+            on_click_close: false
         });
     },
 
@@ -807,7 +785,6 @@ Disk.prototype = {
                 cmd_obj.dstLevel = (_dsk.l + 1).toString();
                 cmd_obj.dstGroup = (_dsk.g + 1).toString();
                 cmd_obj.dstDisk = (_dsk.d + 1).toString();
-                _dsk.curr_cmd = cmd_obj;
             }
             else {
                 cmd_obj.dstLevel = (this.l + 1).toString();
@@ -822,7 +799,6 @@ Disk.prototype = {
                 cmd_obj.srcLevel = (_dsk.l + 1).toString();
                 cmd_obj.srcGroup = (_dsk.g + 1).toString();
                 cmd_obj.srcDisk = (_dsk.d + 1).toString();
-                _dsk.curr_cmd = cmd_obj;
             }
         }
         else if (cmd_name == 'FILETREE') {
@@ -837,9 +813,17 @@ Disk.prototype = {
         }
 
         // send cmd;
-        global_cmd_helper.sendcmd(cmd_obj);
+        // 需要二次验证
+        if (cmd_name == 'COPY') {
+            global_user.show_second_pwd_modal_with_action(function (obj) {
+                global_cmd_helper.sendcmd(obj);
+            }, cmd_obj);
+        }
+        else {
+            global_cmd_helper.sendcmd(cmd_obj);
 
-        $.magnificPopup.close();
+            $.magnificPopup.close();
+        }
 
         //console.log(cmd_obj);
         return true;
