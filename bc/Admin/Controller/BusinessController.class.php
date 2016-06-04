@@ -296,13 +296,7 @@ class BusinessController extends Controller
         }
         $this->AjaxReturn(json_encode($ret));
 	}
-
-    public function search()
-    {
-        $this->display("search");
-
-    }
-
+	
     /**
      * 获取正在进行的任务清单
      *

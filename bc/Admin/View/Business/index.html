@@ -93,9 +93,12 @@
         <!-- Navbar Left -->
         <div class="navbar-left">
             <!-- Search Form -->
-            <form class="search navbar-form">
+            <form class="search navbar-form" action="search.php" target="_blank" method="post">
                 <div class="input-group input-search">
-                    <a href="/index.php?m=admin&c=business&a=search" target="_blank" class="btn btn-primary btn-xs">文件搜索</a>
+                    <input type="text" class="form-control bk-radius" name="key" id="q" placeholder="搜索...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
                 </div>
             </form>
         </div>
