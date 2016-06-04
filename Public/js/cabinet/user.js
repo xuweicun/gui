@@ -77,6 +77,7 @@ User.prototype = {
         });
     },
     show_second_pwd_modal_with_action: function (action, param) {
+        this.second_pwd = '';
         this.second_pwd_action = action;
         this.second_pwd_param = param;
         
