@@ -119,6 +119,10 @@
                       foreach($diskArray as $disk){
                           Search($xmlPath . '/' . $disk, '', $obj["key"], $disk, $index);        
                       }     
+                      
+                      if ($idx == 1){
+                          echo '<tr><td colspan="4">没有找到任何文件或文件夹</td><td><tr>';
+                      }
                   ?>                
               </tbody>
             </table>
