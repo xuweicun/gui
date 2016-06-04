@@ -109,7 +109,7 @@
                           foreach($items as $item){
                               $itemPath = $xmlPath . '/' . $item;
                               if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
-                                  Search($itemPath, '', $obj["key"], $disk, $index);  
+                                  Search($itemPath, '', $obj["key"], $item, $index);  
                               }  
                           }  
                           
