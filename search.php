@@ -69,34 +69,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php
-                  /**
-                   * Created by PhpStorm.
-                   * User: link
-                   * Date: 2016/3/8
-                   * Time: 19:33
-                   */
-                      header("Access-Control-Allow-Origin:*");
-
-                      $obj = $_POST;                       
-                      if(empty($obj["key"])){   
-                          echo '[]';
-                          return;   
-                      }           
-      
-                      $xmlPath = 'xml';
-                      $diskArray = array();
-                      if($items = scandir($xmlPath)){
-                          foreach($items as $item){
-                              $itemPath = $xmlPath . '/' . $item;
-                              if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
-                                  array_push($diskArray, $item);
-                              }  
-                          }  
-                      }    
-                      
-                      $index = 0;
-
+                <?php                
                       function Search($dirPath, $namedPath, $key, $disk, &$idx){     
                           $xmlObj = json_decode(file_get_contents($dirPath.'/items.json'));
         
@@ -116,16 +89,40 @@
                           }     
                       }  
                       
-                      foreach($diskArray as $disk){
-                          Search($xmlPath . '/' . $disk, '', $obj["key"], $disk, $index);        
-                      }     
-                      
-                      if ($index == 0){
-                          echo '<tr><td colspan="4">没有找到任何文件或文件夹</td><tr>';
-                      }
+                  /**
+                   * Created by PhpStorm.
+                   * User: link
+                   * Date: 2016/3/8
+                   * Time: 19:33
+                   */
+                      header("Access-Control-Allow-Origin:*");
+
+                      $obj = $_POST;                       
+                      if(empty($obj["key"])){   
+                          echo '[]';
+                          return;   
+                      }           
+      
+                      $xmlPath = 'xml';
+                      if($items = scandir($xmlPath)){
+                          $index = 0;
+                          foreach($items as $item){
+                              $itemPath = $xmlPath . '/' . $item;
+                              if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
+                                  Search($itemPath, '', $obj["key"], $disk, $index);  
+                              }  
+                          }  
+                          
+                          if ($index == 0){
+                              echo '<tr><td colspan="4">没有找到任何文件</td><tr>';
+                          }
+                          else{
+                              echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><tr>';                          
+                          }
+                      }   
                       else{
-                          echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><tr>';                          
-                      }
+                          echo '<tr><td colspan="4">没有找到任何离线文件或PHP禁用了scandir函数</td><tr>';                      
+                      }                      
                   ?>                
               </tbody>
             </table>
