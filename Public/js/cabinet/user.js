@@ -6,6 +6,7 @@
     // 写权限
     this.can_write = write;
     this.token = token;
+    console.log("token:",token);
     this.off_line = false;
     this.new_pwd = '';
     this.new_pwd_confirm = '';
