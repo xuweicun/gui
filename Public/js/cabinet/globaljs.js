@@ -30,7 +30,7 @@ app_device.filter('to_trusted', function ($sce) {
     
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
-    $scope.user = $("#userid").val();
+    $scope.user = global_user;
     $scope.testMsg = TestMsg;
     $scope.wsWatcher = WebSock;
     $scope.testCmdId = 0;

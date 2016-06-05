@@ -109,7 +109,7 @@
                  -->
             <!-- End Notifications -->
             <!-- Userbox -->
-            <div class="userbox">
+            <div class="userbox" ng-show="!user.off_line">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <!--<figure class="profile-picture hidden-xs">
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
@@ -193,7 +193,7 @@
         </div>
         <div class="main">
             <!-- Start: Content -->
-            <div ng-include="pageViewUrls.cabUrl"></div>
+            <div ng-include="pageViewUrls.cabUrl" ng-show="!user.off_line"></div>
             <div class="container-fluid content">
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
