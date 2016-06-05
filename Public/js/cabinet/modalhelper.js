@@ -6,6 +6,7 @@ function ModalHelper() {
     this.on_click_handle = function (param) { };
     this.on_click_param = undefined;
     this.on_click_target = undefined;
+    this.on_click_close = true;
 }
 
 ModalHelper.prototype = {
@@ -17,6 +18,9 @@ ModalHelper.prototype = {
             this.on_click_handle = cfg.on_click_handle;
             this.on_click_param = cfg.on_click_param;
             this.on_click_target = cfg.on_click_target;
+            if (cfg.on_click_close != undefined) {
+                this.on_click_close = cfg.on_click_close;
+            }
         }
         
         $.magnificPopup.open({
@@ -38,7 +42,9 @@ ModalHelper.prototype = {
             this.on_click_handle(this.on_click_param);
         }
 
-        $.magnificPopup.close();
+        if (this.on_click_close) {
+            $.magnificPopup.close();
+        }
     },
     show_modal_working: function () {
         this.show_modal({

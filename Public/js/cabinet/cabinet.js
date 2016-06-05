@@ -201,7 +201,7 @@ Cabinet.prototype = {
             _dsk.detail_info.capacity = e.capacity;
         }
 
-        this.curr.update_partitions();
+        //this.curr.update_partitions();
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove

@@ -32,7 +32,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('BRIDGE')" ng-show="cab.curr.has_bridge_disk_selected()">
+                        <button class="btn btn-primary" ng-click="cab.curr.cmd_start('BRIDGE')" ng-disabled="!cab.curr.has_bridge_disk_selected()">
                             确认
                         </button>
                         <button class="btn btn-default modal-dismiss">取消</button>
@@ -149,7 +149,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <a class="btn btn-primary" href="" ng-click="cab.curr.cmd_commit_copy_confirm()" ng-show="cab.curr.copy_disk">
+                        <a class="btn btn-primary" href="" ng-click="cab.curr.cmd_commit_copy_confirm()" ng-disabled="!cab.curr.copy_disk">
                             确认
                         </a>
                         <button class="btn btn-default modal-dismiss">取消</button>
@@ -201,6 +201,83 @@
                 <div class="col-md-12 text-right">
                     <button class="btn btn-primary"
                             ng-click="cab.curr.cmd_start('COPY')">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userModalChangePassword" class="mfp-hide zoom-anim-dialog modal-block modal-block-primary">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">用户管理 修改密码</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd">新密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm"  ng-model="user_profile.new_pwd_confirm" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-9">
+                        <span ng-bind="user_profile.err_msg" class="bk-fg-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary"
+                            ng-click="user_profile.changePassword()">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userModalSecondPassword" class="mfp-hide zoom-anim-dialog modal-block modal-block-primary">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">关键操作 -- 二次密码确认</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd">二次密码<span class="bk-fg-danger" title="不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-second-pwd-value" class="form-control" type="password" placeholder="请输入密码" name="text-input-second-pwd-value" ng-model="user_profile.second_pwd" required>
+                        <span class="help-block">关键操作需要进行二次密码确认</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="user_profile.err_msg">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-9">
+                        <span ng-bind="user_profile.err_msg" class="bk-fg-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary"
+                            ng-click="user_profile.second_pwd_validate_with_action()">
                         确认
                     </button>
                     <button class="btn btn-default modal-dismiss">取消</button>

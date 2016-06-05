@@ -279,12 +279,24 @@ class BusinessController extends Controller
 
     }
 
-    public function search()
-    {
-        $this->display("search");
+	// 二次密码校验
+	public function passwordValidate()
+	{
+		$db = M('user');
+        $map['id'] = $_POST['id'];
+        $map['password'] = $_POST['password'];
 
-    }
+		$ret = array();
 
+        $item = $db->where($map)->find();
+        if ($item) {
+            $ret['status'] = 'success';
+        } else {
+            $ret['status'] = 'failure';
+        }
+        $this->AjaxReturn(json_encode($ret));
+	}
+	
     /**
      * 获取正在进行的任务清单
      *
