@@ -24,7 +24,8 @@ class Msg
     public $subcmd = null;
     public $status = null;
     public $substatus = null;
-    public $errno = null;
+    public $errno;
+    public $errmsg;
     public $progress = 0;
     public $cab_id = 0;
     public $isStop = false;
@@ -50,6 +51,8 @@ class Msg
         $this->id = $_POST['CMD_ID'];
         $this->stage = $_POST['workingstatus'];
         $this->db = M("CmdLog");
+        $this->errno = $_POST['errno'];
+        $this->errmsg = $_POST['errmsg'];
         $this->getDstId();
         $this->getResult();
     }
@@ -399,12 +402,30 @@ class MsgController extends Controller
             $this->terminate($log, $log['status']);
         }
     }
-
+    public function  halErrMsg(){
+        //处理返回的错误消息语义
+    }
     public function terminate($log, $status)
     {
         $log['status'] = $status;
         $log['finished'] = 1;
         $this->db->save($log);
+        if($this->msg->cmd == 'COPY' && $this->msg->subcmd == 'STOP' && (int)$this->msg->errno == 42)
+        {
+            //42表示拷贝未开始
+            $id = (int)$log['dst_id'];
+            if(!$id || $id<=0){
+                die();
+            }
+
+            $log = $this->getLog($id);
+            if($log){
+                $log['status'] = $this->msg->errno;
+                $log['finished'] = 1;
+                $log['msg'] = $this->msg->errmsg;
+                $this->db->save($log);
+            }
+        }
     }
 
     /***
