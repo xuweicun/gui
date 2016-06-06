@@ -821,8 +821,6 @@ Disk.prototype = {
         }
         else {
             global_cmd_helper.sendcmd(cmd_obj);
-
-            $.magnificPopup.close();
         }
 
         //console.log(cmd_obj);

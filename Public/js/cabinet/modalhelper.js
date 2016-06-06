@@ -1,5 +1,6 @@
 ﻿
 function ModalHelper() {
+    this.id = 0;
     this.type = 'info';
     this.title = 'Modal Default';
     this.html = '<h1>Modal Uninitialized</h1>';
@@ -12,7 +13,6 @@ function ModalHelper() {
 ModalHelper.prototype = {
     show_modal: function (cfg) {
         if (cfg) {
-            console.log("show it");
             this.type = cfg.type;
             this.title = cfg.title;
             this.html = cfg.html;
@@ -23,7 +23,7 @@ ModalHelper.prototype = {
                 this.on_click_close = cfg.on_click_close;
             }
         }
-        
+
         $.magnificPopup.open({
             items: {
                 src: '#modalTemplate', // can be a HTML string, jQuery object, or CSS selector
@@ -34,27 +34,36 @@ ModalHelper.prototype = {
             mainClass: 'my-mfp-slide-bottom',
             modal: true
         });
+
+        this.id++;
     },
+
     on_click: function () {
+        // 判断handle中是否又弹出了模态框
+        var last_id = this.id;
+
         if (this.on_click_target) {
             this.on_click_target[this.on_click_handle](this.on_click_param);
         }
-        else {
+        else if (this.on_click_handle) {
             this.on_click_handle(this.on_click_param);
         }
 
-        if (this.on_click_close) {
+        // handle中没有弹出模态框时才进入
+        if (last_id == this.id && this.on_click_close) {
             $.magnificPopup.close();
         }
     },
+
     show_modal_working: function () {
         this.show_modal({
             type: 'warning',
-            title: '写保护功能',
+            title: '功能完善',
             html: '老板们 <i class="fa fa-users"></i> 不要着急，攻城狮 <i class="glyphicon glyphicon-user bk-fg-success"></i> 和攻城狮 <i class="fa fa-user bk-fg-danger"></i> 正在努力Coding，完善功能。'
         });
     },
-    show_modal_user: function(id){
+
+    show_modal_user: function (id) {
         $.magnificPopup.open({
             items: {
                 src: '#' + id, // can be a HTML string, jQuery object, or CSS selector
@@ -65,5 +74,7 @@ ModalHelper.prototype = {
             mainClass: 'my-mfp-slide-bottom',
             modal: true
         });
+
+        this.id++;
     }
 };
