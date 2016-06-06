@@ -135,6 +135,7 @@ User.prototype = {
         });
     },
     showChangePasswordModal: function () {
+        this.err_msg = '';
         this.new_pwd = '';
         this.new_pwd_confirm = '';
         global_modal_helper.show_modal_user('userModalChangePassword');
