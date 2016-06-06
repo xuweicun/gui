@@ -10,6 +10,7 @@
     this.off_line = false;
     this.new_pwd = '';
     this.new_pwd_confirm = '';
+    this.err_msg = "";
 
     // 二次密码是否验证通过
     this.second_pwd = '';
@@ -82,6 +83,7 @@ User.prototype = {
         });
     },
     show_second_pwd_modal_with_action: function (action, param) {
+        this.err_msg = "";
         this.second_pwd = '';
         this.second_pwd_action = action;
         this.second_pwd_param = param;
@@ -132,7 +134,10 @@ User.prototype = {
             });
         });
     },
-    showChangePasswordModal:function(){
+    showChangePasswordModal: function () {
+        this.err_msg = '';
+        this.new_pwd = '';
+        this.new_pwd_confirm = '';
         global_modal_helper.show_modal_user('userModalChangePassword');
     },
     changePassword: function () {

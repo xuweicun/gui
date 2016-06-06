@@ -180,8 +180,7 @@ CabCmdHelper.prototype = {
         //先判断是否退出登录
         console.log("是否离线?",global_user.off_line);
         if(global_user.off_line){
-            console.log("lets do it");
-            global_modal_helper.show_modal({type:'question',title:'发送命令',html:'<h3>您已退出,如需发送命令,请点击确定前往重新登录页面。</h3>',
+            global_modal_helper.show_modal({type:'question',title:'发送命令',html:'您已退出,如需发送命令,请点击确定前往重新登录页面。',
             on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
             return;
         }
