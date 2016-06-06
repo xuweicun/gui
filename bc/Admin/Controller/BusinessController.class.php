@@ -166,10 +166,8 @@ class BusinessController extends Controller
                 session('user', $item['username']);
                 session('userid', $item['id']);
                 session('can_write', $item['write']);
-                if(!session('?token')){
                     $token = self::grante_key();
                     session('token',$token);
-                }
 
                 $ret['status'] = '1';
             }
