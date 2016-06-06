@@ -819,11 +819,11 @@ Disk.prototype = {
             }, cmd_obj);
         }
         else {
-	    var mid = global_modal_helper.id;
+	    var mid = global_modal_helper.get_id;
+
             global_cmd_helper.sendcmd(cmd_obj);
-	    if (mid == global_modal_helper.id){
-	    	$.magnificPopup.close();
-	    }
+
+	    global_modal_helper.close_modal(mid);
         }
 
         return true;

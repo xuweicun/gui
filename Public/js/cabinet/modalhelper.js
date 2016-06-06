@@ -11,6 +11,7 @@ function ModalHelper() {
 }
 
 ModalHelper.prototype = {
+    get_curr_id: function(){ return this.id; },
     show_modal: function (cfg) {
         if (cfg) {
             this.type = cfg.type;
@@ -36,6 +37,8 @@ ModalHelper.prototype = {
         });
 
         this.id++;
+
+	return this.id;
     },
 
     on_click: function () {
@@ -76,5 +79,13 @@ ModalHelper.prototype = {
         });
 
         this.id++;
+
+	return this.id;
+    },
+
+    close_modal: function(modal_id){
+	if (this.id == modal_id){
+	    $.magnificPopup.close();
+	}
     }
 };
