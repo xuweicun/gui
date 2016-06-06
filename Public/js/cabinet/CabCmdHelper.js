@@ -171,9 +171,20 @@ CabCmdHelper.prototype = {
         }
         var new_task = this.createCmd(cmd_log);
         global_task_pool.add(new_task);
+    },
+    go_login_page: function () {
+        alert("do nothing");
     }
     ,
     sendcmd: function (msg) {
+        //先判断是否退出登录
+        console.log("是否离线?",global_user.off_line);
+        if(global_user.off_line){
+            console.log("lets do it");
+            global_modal_helper.show_modal({type:'question',title:'发送命令',html:'<h3>您已退出,如需发送命令,请点击确定前往重新登录页面。</h3>',
+            on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
+            return;
+        }
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg) && !msg.device_id) {
             msg.device_id = global_cabinet.id.toString();

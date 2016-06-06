@@ -27,6 +27,10 @@ User.prototype = {
             that.off_line = true;
         });
     },
+    go_login_page: function(){
+        self.location("/index.php?m=admin&c=business&a=login");
+    }
+    ,
     show_second_pwd_modal: function (modal_id) {
         this.modal_id_after_second_pwd = modal_id;
         this.second_pwd = '';

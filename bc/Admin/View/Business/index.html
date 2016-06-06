@@ -180,6 +180,7 @@
                     </ul>
                 </div>
             </div>
+
             <!-- End Userbox -->
         </div>
         <!-- End Navbar Right -->
@@ -192,6 +193,7 @@
             <div ng-include="pageViewUrls.siderBarUrl"></div>
         </div>
         <div class="main">
+            <div ng-include="pageViewUrls.logOutViewUrl" ng-show="user.off_line"></div>
             <!-- Start: Content -->
             <div ng-include="pageViewUrls.cabUrl" ng-show="!user.off_line"></div>
             <div class="container-fluid content">

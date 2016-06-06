@@ -15,7 +15,8 @@ app_device.filter('to_trusted', function ($sce) {
         diskViewUrl: url_dir + 'diskView.html',
         userModalsUrl: url_dir + 'userModals.html',
         taskViewUrl: url_dir + 'taskView.html',
-        notifyViewUrl: url_dir + 'taskView.html'
+        notifyViewUrl: url_dir + 'taskView.html',
+        logOutViewUrl: url_dir + 'logedOutNotify.html'
     };
 
     // 用户对象

@@ -12,6 +12,7 @@ function ModalHelper() {
 ModalHelper.prototype = {
     show_modal: function (cfg) {
         if (cfg) {
+            console.log("show it");
             this.type = cfg.type;
             this.title = cfg.title;
             this.html = cfg.html;

@@ -422,6 +422,10 @@ angular.module('device.services', [])
                             console.log("new User:", data['user_name']);
                             global_user.loged_out();
                         }
+                        else{
+                            //for debug
+                            global_user.loged_out();
+                        }
                     }
 
                     break;
