@@ -422,10 +422,7 @@ angular.module('device.services', [])
                             console.log("new User:", data['user_name']);
                             global_user.loged_out();
                         }
-                        else{
-                            //for debug
-                            global_user.loged_out();
-                        }
+
                     }
 
                     break;
@@ -446,7 +443,7 @@ angular.module('device.services', [])
 
         }
 
-        var sendcmd = function (usr_id,cmd) {
+        var sendcmd = function (cmd) {
             cmd.to_client_id = "all";
             cmd.to_client_name = 1;
             //cmd_str = "test string";

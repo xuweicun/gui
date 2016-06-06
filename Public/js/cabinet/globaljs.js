@@ -36,7 +36,7 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.wsWatcher = WebSock;
     $scope.testCmdId = 0;
     $scope.to_post = null;
-    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user;
+    var server = businessRoot + '&a=addcmdlog&userid=' + $scope.user.id;
     var proxy = "http://"+ $scope.local_host +":8080";
     global_server = server;
     global_root = businessRoot;
