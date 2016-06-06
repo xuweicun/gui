@@ -383,7 +383,7 @@ angular.module('device.services', [])
 
         var open = function () {
             // 登录
-            var login_data = '{"type":"login","user_grp":"' + user_grp + '","user_id":"' + user_id +
+            var login_data = '{"type":"login","user_grp":"' + user_grp + '","user_id":"' + global_user.id +
                 '","client_name":"wilson","room_id":"1","token":"'+global_user.token+'"}';
             console.log("websocket握手成功，发送登录数据:" + login_data);
             ws.send(login_data);
@@ -416,6 +416,7 @@ angular.module('device.services', [])
                         break;
                     }
                     else{
+                        console.log(data['user_id'],global_user.id);
                         if(data['user_id'].toString() == global_user.id.toString()){
                             //异地登录,需要退出
                             console.log("new User:", data['user_name']);
