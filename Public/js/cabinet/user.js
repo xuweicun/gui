@@ -134,7 +134,9 @@ User.prototype = {
             });
         });
     },
-    showChangePasswordModal:function(){
+    showChangePasswordModal: function () {
+        this.new_pwd = '';
+        this.new_pwd_confirm = '';
         global_modal_helper.show_modal_user('userModalChangePassword');
     },
     changePassword: function () {
