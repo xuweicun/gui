@@ -12,7 +12,7 @@ function Disk(l, g, d) {
     // 温度
     this.temperature = '-';
     // 是否写保护
-    this.write_protected = false,
+    this.write_protected = true,
 
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
     this.isto_bridge = false;
@@ -301,7 +301,6 @@ Disk.prototype = {
                 '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
             on_click = function (param) {
                 global_user.show_second_pwd_modal_with_action(function (lvl) {
-                    console.log(1);
                     // send cmd;
                     global_cmd_helper.sendcmd({
                         cmd: 'WRITEPROTECT',

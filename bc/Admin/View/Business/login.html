@@ -62,7 +62,7 @@
 											<div class="form-group">
 												<label for="uname">用户名</label>
 												<div class="input-group input-group-icon">
-													<input type="text" class="form-control bk-radius" ng-model="uname" placeholder="请输入用户名"/>
+													<input type="text" class="form-control bk-radius" id="uname" ng-model="uname" placeholder="请输入用户名"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-user"></i>
@@ -73,7 +73,7 @@
 											<div class="form-group">
 												<label for="pwd">密码</label>
 												<div class="input-group input-group-icon">
-													<input type="password" class="form-control bk-radius" ng-model="pwd" placeholder="请输入密码"/>
+													<input type="password" class="form-control bk-radius" id="pwd" ng-model="pwd" placeholder="请输入密码"/>
 													<span class="input-group-addon">
 														<span class="icon">
 															<i class="fa fa-key"></i>
@@ -132,20 +132,21 @@
                 $scope.onBtnLogin = function () {
                     $scope.err_msg = '';
 
-                    if (!$scope.uname) {
+                    var uname = $('#uname').val();
+                    var pwd = $('#pwd').val();
+                    
+                    if (!uname) {
                         $scope.err_msg = '用户名不能为空';
                         return;
                     }
-                    if (!$scope.pwd) {
+                    if (!pwd) {
                         $scope.err_msg = '密码不能为空';
                         return;
                     }
-
-                    console.log($scope.uname, $scope.pwd);
-                    
+                                        
                     $http.post('/index.php?m=admin&c=business&a=login', {
-                        username: $scope.uname,
-                        password: hex_md5($scope.pwd)
+                        username: uname,
+                        password: hex_md5(pwd)
                     }).success(function (data) {
                         try{
                             var obj = JSON.parse(data);
@@ -165,7 +166,7 @@
                 };
 
                 $scope.form_required = function () {
-                    if (!$scope.uname.trim() || !$scope.pwd.trim()) {
+                    if (!uname.trim() || !pwd.trim()) {
                         return true;
                     }
                     else {
