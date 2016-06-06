@@ -432,6 +432,7 @@ angular.module('device.services', [])
                    // console.log(data['0']);
                     //增加新消息
                     var cmd_log = data['0'];
+                    cmd_log.user_name = data['user_name'];
                     global_cmd_helper.onWsMsg(cmd_log);
                     break;
                 case 'logout':

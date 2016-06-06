@@ -2,7 +2,7 @@
     this.msg = JSON.parse(log.msg);
     this._stime = log.start_time;
     this._ctime = log.current_time;
-
+    this.userName = log.user_name;
     this.device_id = this.msg.device_id;
     this.cab_id = this.msg.device_id;
     this.id = log.id;//log.id和CMD_ID有时不同
