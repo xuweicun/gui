@@ -109,18 +109,22 @@
                  -->
             <!-- End Notifications -->
             <!-- Userbox -->
-            <div class="userbox" ng-show="!user.off_line">
+            <div class="userbox" >
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <!--<figure class="profile-picture hidden-xs">
                         <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
                     </figure>-->
                     <div class="profile-info">
                         <span class="name">您好,<{$username}></span>
-                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> <span ng-bind="role"></span>权限</span>
-                        <span id="username" style="display:none"><{$username}></span>
-                        <span id="userid" style="display:none"><{$userid}></span>
-                        <span id="can_write" style="display:none"><{$can_write}></span>
-                        <span id="token" style="display:none"><{$token}></span>
+                        <span class="role">
+                            <i class="fa fa-circle" ng-class="{false:'bk-fg-success',true:'bk-fg-default'}[user.off_line]"></i>
+                            <span ng-bind="role+'权限'" ng-show="!user.off_line"></span>
+                            <span ng-show="user.off_line">离线</span>
+                        </span>
+                        <span id="username" style="display:none" ng-disabled="user.off_line"><{$username}></span>
+                        <span id="userid" style="display:none" ng-disabled="user.off_line"><{$userid}></span>
+                        <span id="can_write" style="display:none" ng-disabled="user.off_line"><{$can_write}></span>
+                        <span id="token" style="display:none" ng-disabled="user.off_line"><{$token}></span>
                     </div>
                     <i class="fa custom-caret"></i>
                 </a>
@@ -196,7 +200,7 @@
             <div ng-include="pageViewUrls.logOutViewUrl" ng-show="user.off_line"></div>
             <!-- Start: Content -->
             <div ng-include="pageViewUrls.cabUrl" ng-show="!user.off_line"></div>
-            <div class="container-fluid content">
+            <div class="container-fluid content" ng-show="!user.off_line">
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">

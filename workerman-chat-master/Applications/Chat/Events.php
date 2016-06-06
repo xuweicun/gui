@@ -51,6 +51,7 @@ class Events
         {
             // 客户端回应服务端的心跳
             case 'pong':
+                
                 return;
             // 客户端登录 message格式: {type:login, name:xx, room_id:1} ，添加到客户端，广播给所有客户端xx进入聊天室
             case 'login':
@@ -117,7 +118,7 @@ class Events
                     //新的命令
                     $db = Db::instance("db1");
                     $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id={$message_data['CMD_ID']}")->query();
-                    $attached = array('type'=>'say');
+                    $attached = array('type'=>'say','user_name'=>$client_name);
                     $rst = array_merge($rst,$attached);
                     return Gateway::sendToGroup($room_id ,json_encode($rst));//json_encode($new_message));
                 }
