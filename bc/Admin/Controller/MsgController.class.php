@@ -738,10 +738,17 @@ class MsgController extends Controller
         $dsk->init();
         //在位信息以后改为用Redis维护
         if ($this->msg->isSuccess()) {
+            //电压电流信息
+            $cab_db = M('cab');
+            $map['cab_id'] = array('eq', $this->msg->cab_id);
+            $log = $cab_db->find($this->msg->cab_id);
+            $log['voltage'] = $_POST['voltage'];
+            $log['charge'] = $_POST['current'];
+            $log['electricity'] = $_POST['electricity'];
+            $log['status'] = $this->msg->
             $db = M('Device');
             $levels = $_POST['levels'];
             $map['loaded'] = array('eq', 1);
-            $map['cab_id'] = array('eq', $this->msg->cab_id);
             //找出所有之前在位的硬盘；
             $items = $db->where($map)->select();
             //更新在位信息；
