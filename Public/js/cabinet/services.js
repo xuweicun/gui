@@ -438,6 +438,10 @@ angular.module('device.services', [])
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
                     console.log("其他用户退出登录");
+                    break;
+                case 'status':
+                    console.log('收到推送的状态信息');
+
 
             }
 

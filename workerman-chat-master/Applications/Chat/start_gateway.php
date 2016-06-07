@@ -66,11 +66,16 @@ $gateway->onWorkerStart = function($worker)
         //检查用户数量,如果无用户就不查询
         $cnt = ExtendGateWay::getAllClientCount();
         if($cnt <= 0)
+        {
+            echo "No user";
             return;
+        }
         $db = Db::instance('db1');
         //查询多进程
         $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
-        ExtendGateWay::sendToAll();
+        $attached = array('type'=>'status');
+        $ret = array_merge($ret,$attached);
+        ExtendGateWay::sendToAll(json_encode($ret));
     });
 
 };
