@@ -14,6 +14,7 @@
 use \Workerman\Worker;
 use \GatewayWorker\Gateway;
 use \Workerman\Autoloader;
+use \Workerman\Lib\Timer;
 
 // 自动加载类
 require_once __DIR__ . '/../../Workerman/Autoloader.php';
@@ -37,6 +38,8 @@ $gateway->pingData = '{"type":"ping"}';
 // 服务注册地址
 $gateway->registerAddress = '127.0.0.1:1236';
 
+
+
 /* 
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
 $gateway->onConnect = function($connection)
@@ -54,7 +57,23 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
+$gateway->onWorkerStart = function($worker)
+{
+    // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
+    $deviceStatusTimer = Timer::add(60, function(){
+        //检查用户数量
+        $cnt = Gateway::getAllClientCount();
+        if($cnt <= 0)
+        {
+            return;
+        }
+        $db = Db::instance('db1');
+        //查询多进程
+        $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
+        Gateway::sendToAll();
+    });
 
+};
 // 如果不是在根目录启动，则运行runAll方法
 if(!defined('GLOBAL_START'))
 {

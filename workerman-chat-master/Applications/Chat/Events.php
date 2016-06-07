@@ -51,7 +51,7 @@ class Events
         {
             // 客户端回应服务端的心跳
             case 'pong':
-                
+
                 return;
             // 客户端登录 message格式: {type:login, name:xx, room_id:1} ，添加到客户端，广播给所有客户端xx进入聊天室
             case 'login':
