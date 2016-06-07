@@ -15,6 +15,8 @@ use \Workerman\Worker;
 use \GatewayWorker\Gateway;
 use \Workerman\Autoloader;
 use \Workerman\Lib\Timer;
+use \GatewayWorker\Lib\Db;
+
 
 // 自动加载类
 require_once __DIR__ . '/../../Workerman/Autoloader.php';
@@ -63,7 +65,7 @@ $gateway->onWorkerStart = function($worker)
     $deviceStatusTimer = Timer::add(60, function(){
         //检查用户数量
        // $cnt = Gateway::getAllClientCount();
-       
+
         $db = Db::instance('db1');
         //查询多进程
         $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
