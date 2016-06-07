@@ -62,11 +62,8 @@ $gateway->onWorkerStart = function($worker)
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
     $deviceStatusTimer = Timer::add(60, function(){
         //检查用户数量
-        $cnt = Gateway::getAllClientCount();
-        if($cnt <= 0)
-        {
-            return;
-        }
+       // $cnt = Gateway::getAllClientCount();
+       
         $db = Db::instance('db1');
         //查询多进程
         $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
