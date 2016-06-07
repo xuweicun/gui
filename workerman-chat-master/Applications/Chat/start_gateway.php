@@ -12,7 +12,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 use \Workerman\Worker;
-use \GatewayWorker\Gateway;
+use \GatewayWorker\Gateway as BaseGateway;
 use \Workerman\Autoloader;
 use \Workerman\Lib\Timer;
 use \GatewayWorker\Lib\Db;
