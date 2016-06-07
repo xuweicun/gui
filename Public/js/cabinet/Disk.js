@@ -819,10 +819,13 @@ Disk.prototype = {
             }, cmd_obj);
         }
         else {
+	    var mid = global_modal_helper.get_curr_id();
+
             global_cmd_helper.sendcmd(cmd_obj);
+
+	    global_modal_helper.close_modal(mid);
         }
 
-        //console.log(cmd_obj);
         return true;
     },
     // 用于发送“MD5”和“复制”命令的“STOP”子命令
