@@ -72,7 +72,7 @@ $gateway->onWorkerStart = function($worker)
         }
         $db = Db::instance('db1');
         //查询多进程
-        $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
+        $ret = $db->select('*')->from('gui_cab')->where('id>0')->query();
         $attached = array('type'=>'status');
         $ret = array_merge($ret,$attached);
         ExtendGateWay::sendToAll(json_encode($ret));

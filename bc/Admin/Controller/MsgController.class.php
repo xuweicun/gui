@@ -724,7 +724,17 @@ class MsgController extends Controller
         //return msg
 
     }
-
+    public  function updateCab(){
+        $cab_db = M('cab');
+        $map['cab_id'] = array('eq', $this->msg->cab_id);
+        $log = $cab_db->find($this->msg->cab_id);
+        $log['voltage'] = $_POST['voltage'];
+        $log['charge'] = $_POST['electricity'];//电量
+        $log['electricity'] = $_POST['current'];//电流
+        $log['status'] = $this->msg->return_msg;
+        $cab_db->save($log);
+        return $map;
+    }
     /***
      * 获取硬盘在位信息返回数据处理函数
      * @作者 Wilson Xu
@@ -739,13 +749,7 @@ class MsgController extends Controller
         //在位信息以后改为用Redis维护
         if ($this->msg->isSuccess()) {
             //电压电流信息
-            $cab_db = M('cab');
-            $map['cab_id'] = array('eq', $this->msg->cab_id);
-            $log = $cab_db->find($this->msg->cab_id);
-            $log['voltage'] = $_POST['voltage'];
-            $log['charge'] = $_POST['current'];
-            $log['electricity'] = $_POST['electricity'];
-            $log['status'] = $this->msg->
+           $map = self::updateCab();
             $db = M('Device');
             $levels = $_POST['levels'];
             $map['loaded'] = array('eq', 1);
