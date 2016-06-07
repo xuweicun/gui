@@ -12,11 +12,11 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 use \Workerman\Worker;
-use \GatewayWorker\Gateway as BaseGateway;
+use \GatewayWorker\Gateway;
 use \Workerman\Autoloader;
 use \Workerman\Lib\Timer;
 use \GatewayWorker\Lib\Db;
-use \GatewayWorker\Lib\Gateway;
+use \GatewayWorker\Lib\Gateway as ExtendGateWay;
 
 // 自动加载类
 require_once __DIR__ . '/../../Workerman/Autoloader.php';
@@ -63,14 +63,14 @@ $gateway->onWorkerStart = function($worker)
 {
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
     $deviceStatusTimer = Timer::add(60, function(){
-        //检查用户数量
-        $cnt = Gateway::getAllClientCount();
+        //检查用户数量,如果无用户就不查询
+        $cnt = ExtendGateWay::getAllClientCount();
         if($cnt <= 0)
             return;
         $db = Db::instance('db1');
         //查询多进程
         $ret = $db->select('*')->from('gui_device')->where('id=1')->query();
-        Gateway::sendToAll();
+        ExtendGateWay::sendToAll();
     });
 
 };
