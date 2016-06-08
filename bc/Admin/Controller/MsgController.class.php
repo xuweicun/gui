@@ -37,6 +37,7 @@ class Msg
     public $rstNeeded = array('MD5');
     public $multiDsk = array('BRIDGE');
     public $srp = array('STOP', 'RESULT', 'PROGRESS');
+    public $return_msg;
 
     public function init()
     {
@@ -55,6 +56,7 @@ class Msg
         $this->errmsg = $_POST['errmsg'];
         $this->getDstId();
         $this->getResult();
+        $this->return_msg = file_get_contents('php://input');
     }
 
     public function isStop()
@@ -736,7 +738,7 @@ class MsgController extends Controller
         $log['electricity'] = $_POST['current'];//电流
         $log['status'] = $this->msg->return_msg;
         $cab_db->save($log);
-        return $map;
+        var_dump($cab_db->where($map)->find());
     }
     /***
      * 获取硬盘在位信息返回数据处理函数
