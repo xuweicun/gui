@@ -819,6 +819,7 @@ class MsgController extends Controller
             $db = M('Device');
             $diskDb = M('Disk');
             $item = $db->where($map)->find();
+            var_dump($item);
             $data['sn'] = $_POST['SN'];
             $data['smart'] = 0;
             $data['capacity'] = $_POST['capacity'];
@@ -843,28 +844,42 @@ class MsgController extends Controller
      */
     private function updateSmart($id)
     {
-        return;//暂时未调试好，先不处理
+        //return;//暂时未调试好，先不处理
         $db = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
         $testDb = M('test');
-        $test['response'] = count($attrs);
-        $testDb->add($test);
+        //$test['response'] = count($attrs);
+        //$testDb->add($test);
         foreach ($attrs as $attr) {
             //查找是否存在
-            $attr = $attr;
+            //$attr = $attr;
 
             $map['disk_id'] = array('eq', $id);
-            $map['attrname'] = array('eq', $attr['Attribute_ID']);
+            $map['attrname'] = array('eq', $attr['id']);
             if ($item = $db->where($map)->find()) {
-                $item['value'] = $attr['Current_value'];
+                $item['dat'] = $attr['dat'];
+                $item['ex_dat'] = $attr['ex_dat'];
+                $item['flag'] = $attr['flag'];
+                $item['thd'] = $attr['thd'];
+                $item['val'] = $attr['val'];
+                $item['w_val'] = $attr['w_val'];
+
                 $db->save($item);
             } else {
-                $item['value'] = $attr['Current_value'];
-                $item['attrname'] = $attr['Attribute_ID'];
+                $item = array();
+                $item['dat'] = $attr['dat'];
+                $item['ex_dat'] = $attr['ex_dat'];
+                $item['flag'] = $attr['flag'];
+                $item['thd'] = $attr['thd'];
+                $item['val'] = $attr['val'];
+                $item['w_val'] = $attr['w_val'];
+                $item['attrname'] = $attr['id'];
                 $item['disk_id'] = $id;
                 $db->add($item);
             }
         }
+        echo "添加完成,结果如下:<br>";
+        var_dump($db->where("1=1")->select());
     }
 
     public function hdlSuccess()
