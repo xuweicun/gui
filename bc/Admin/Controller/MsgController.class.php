@@ -726,8 +726,11 @@ class MsgController extends Controller
     }
     public  function updateCab(){
         $cab_db = M('Cab');
+        echo "cab handle start";
         $map['cab_id'] = array('eq', $this->msg->cab_id);
+
         $log = $cab_db->find($this->msg->cab_id);
+        var_dump($log);
         $log['voltage'] = $_POST['voltage'];
         $log['charge'] = $_POST['electricity'];//电量
         $log['electricity'] = $_POST['current'];//电流
