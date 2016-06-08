@@ -441,6 +441,11 @@ angular.module('device.services', [])
                     break;
                 case 'status':
                     console.log('收到推送的状态信息');
+                    
+                    break;
+                case 'partition':
+                    console.log('收到推送的分区容量信息');
+                    break;
 
 
             }

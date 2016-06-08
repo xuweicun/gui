@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This file is part of workerman.
  *
@@ -41,8 +41,7 @@ $gateway->pingData = '{"type":"ping"}';
 $gateway->registerAddress = '127.0.0.1:1236';
 
 
-
-/* 
+/*
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
 $gateway->onConnect = function($connection)
 {
@@ -59,36 +58,40 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
-$gateway->onWorkerStart = function($worker)
-{
+$gateway->onWorkerStart = function ($worker) {
 
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
-    $deviceStatusTimer = Timer::add(60, function(){
+    $deviceStatusTimer = Timer::add(60, function () {
         //检查用户数量,如果无用户就不查询
         $cnt = ExtendGateWay::getAllClientCount();
-        if($cnt <= 0)
-        {
+        if ($cnt <= 0) {
             echo "No user";
             return;
         }
         $db = Db::instance('db1');
         //查询多进程
         $ret = $db->select('*')->from('gui_cab')->where('loaded=1')->query();
-        $attached = array('type'=>'status');
-        $ret = array_merge($ret,$attached);
-        ExtendGateWay::sendToAll(json_encode($ret));
-        //查询磁盘容量
-        $ret = $db->select('partition')->from('gui_device')->where('loaded=1 and bridged=1')->query();
-        $attached = array('type'=>'status');
-        $ret = array_merge($ret,$attached);
-        ExtendGateWay::sendToAll(json_encode($ret));
+        //有连接的柜子存在
+        if ($ret) {
+            $attached = array('type' => 'status');
+            $ret = array_merge($ret, $attached);
+            ExtendGateWay::sendToAll(json_encode($ret));
+            //查询磁盘容量
+            $ret = $db->select('partition')->from('gui_device')->where('loaded=1 and bridged=1')->query();
+
+            if (!$ret) {
+                return;
+            }
+            $attached = array('type' => 'partition');
+            $ret = array_merge($ret, $attached);
+            ExtendGateWay::sendToAll(json_encode($ret));
+        }
     });
 
 
 };
 // 如果不是在根目录启动，则运行runAll方法
-if(!defined('GLOBAL_START'))
-{
+if (!defined('GLOBAL_START')) {
     Worker::runAll();
 }
 

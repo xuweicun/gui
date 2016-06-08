@@ -725,7 +725,7 @@ class MsgController extends Controller
 
     }
     public  function updateCab(){
-        $cab_db = M('cab');
+        $cab_db = M('Cab');
         $map['cab_id'] = array('eq', $this->msg->cab_id);
         $log = $cab_db->find($this->msg->cab_id);
         $log['voltage'] = $_POST['voltage'];
