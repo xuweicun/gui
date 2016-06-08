@@ -521,6 +521,23 @@ Disk.prototype = {
     // 依据硬盘状态计算出插槽栏的中文附加描述
     get_extent_title: function () {      
         var ex_title = '';
+/*
+	var time_text = '';
+	var use_time = this.curr_cmd.usedTime;
+	
+	if (use_time < 60){
+		time_text = use_time + 's';
+	}
+	else if (use_time < 3600){
+		time_text = use_time / 60 + 'm';
+	}
+	else if (use_time < 3600 * 24){
+		time_text = use_time / 3600 + 'h';
+	}
+	else {
+		time_text = use_time / 3600 / 24 + 'd';
+	}
+*/
         if (this.curr_cmd) {
             ex_title = 'T: ' + this.curr_cmd.usedTime + 's，P: ' + this.curr_cmd.progress + '%';
         }
