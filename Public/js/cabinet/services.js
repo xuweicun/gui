@@ -22,7 +22,9 @@ angular.module('device.services', [])
                 "group": "1",
                 "level": "2",
                 "status": "0",
-                "substatus": "1"
+                "substatus": "1",
+                'SN':'43JFEI',
+                'capacity':'3030'
             },
             devicestatus: {
                 "CMD_ID": "121",
@@ -441,7 +443,7 @@ angular.module('device.services', [])
                     break;
                 case 'status':
                     console.log('收到推送的状态信息');
-                    
+
                     break;
                 case 'partition':
                     console.log('收到推送的分区容量信息');
