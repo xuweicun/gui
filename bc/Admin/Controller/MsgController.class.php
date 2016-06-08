@@ -727,9 +727,9 @@ class MsgController extends Controller
     public  function updateCab(){
         $cab_db = M('Cab');
         echo "cab handle start";
-        $map['cab_id'] = array('eq', $this->msg->cab_id);
+        $map['sn'] = array('eq', $this->msg->cab_id);
 
-        $log = $cab_db->find($this->msg->cab_id);
+        $log = $cab_db->where($map)->find();
         var_dump($log);
         $log['voltage'] = $_POST['voltage'];
         $log['charge'] = $_POST['electricity'];//电量
@@ -752,9 +752,11 @@ class MsgController extends Controller
         //在位信息以后改为用Redis维护
         if ($this->msg->isSuccess()) {
             //电压电流信息
-           $map = self::updateCab();
+            echo "voltage of the cab updating--处理电流电压";
+            self::updateCab();
             $db = M('Device');
             $levels = $_POST['levels'];
+            $map['cab_id'] = array('eq', $this->msg->cab_id);
             $map['loaded'] = array('eq', 1);
             //找出所有之前在位的硬盘；
             $items = $db->where($map)->select();
