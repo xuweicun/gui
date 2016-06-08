@@ -38,9 +38,9 @@ Cabinet.prototype = {
             // 每一层
             var level_obj = {
                 // 温度
-                temperature: 0,
+                temperature: '-',
                 // 湿度
-                humidity: 0,
+                humidity: '-',
                 // 硬盘组
                 groups: []
             };

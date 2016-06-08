@@ -1,25 +1,34 @@
 ﻿//        $scope.cab = new Cabinet();
 //CabView: 存储柜子的基本信息
-function CabPicker(){
-    this.lvl_cnt = 0;
+function CabPicker() {
     this.id = 0;
+    this.lvl_cnt = 0;
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
     this.selected = false;
     this.deploying = false;
     // 电压
-    this.voltage = 0;
+    this.voltage = '-';
     // 电流
-    this.current = 0;
+    this.current = '-';
     // 电量
-    this.electricity = 0;
+    this.electricity = '-';
+    // 各层的温湿度
+    this.lvls_info = [];
 }
 CabPicker.prototype = {
-    i_on_init: function(c,l,g,d){
-        this.lvl_cnt = l;
+    i_on_init: function (c, l, g, d) {
         this.id = c;
+        this.lvl_cnt = l;
         this.grp_cnt = g;
         this.dsk_cnt = d;
+
+        for (var i = 0; i < l; ++i) {
+            this.lvls_info.push({
+                temperature: '-',
+                humidity: '-'
+            });
+        }
     },
     on_select: function(){
         this.selected = true;
@@ -29,14 +38,81 @@ CabPicker.prototype = {
     }
 }
 function CabinetHelper(on_cabinet_select) {
+    // 柜子选择器集合
     this.cabs = [];
+    // 当前柜子选择器
     this.curr = null;
+    // 当前柜子详细信息
     this.cab = null;
+
     this.changed = false;
+
     this.on_cabinet_select = on_cabinet_select;
 }
 
 CabinetHelper.prototype = {
+    read_temp_hum_info_by_resp: function (status, lvl_id) {
+        if (!status || !status.levels) return null;
+
+        for (var i = 0; i < status.levels.length; ++i) {
+            var _lvl = status.levels[i];
+            if (_lvl.id == lvl_id) {
+                return _lvl;
+            }
+        }
+
+        return null;
+    },
+    // 更新当前柜子的温湿度信息
+    update_TempAndHum: function () {
+        var lvls = this.curr.lvls_info;
+        var dst_lvls = this.cab.levels;
+
+        for (var i = 0; i < lvls.length; ++i) {
+            var th = lvls[i];
+            var d_lvl = dst_lvls[i];
+
+            d_lvl.temperature = th.temperature;
+            d_lvl.humidity = th.humidity;
+        }
+    },
+    // 当收到服务器推送消息时
+    i_on_msg_push_status: function (msg) {
+        if (!msg) return;
+
+        for (var i = 0; i < this.cabs.length; ++i) {
+            var _cab = this.cabs[i];
+            if (msg.sn != _cab.id) continue;
+
+            _cab.electricity = msg.electricity;
+            _cab.current = msg.charge;
+            _cab.voltage = msg.voltage;
+
+            for (var j = 0; j < _cab.lvls_info.length; ++j) {
+                var _lvl_info = _cab.lvls_info[j];
+
+                var th = read_temp_hum_info_by_resp(msg.status, j + 1)
+                if (th) {
+                    _lvl_info.temperature = th.temperature;
+                    _lvl_info.humidity = th.humidity;
+
+                    update_TempAndHum();
+                }
+            }
+        }
+    },
+    i_on_msg_push_partition: function (msg) {
+        if (!msg) return;
+
+        // 只有当前选中的硬盘才更新
+        var resp = msg.partition;
+        if (!resp) return;
+
+        var _dsk = this.cab.curr;
+        if (_dsk.l == resp.level - 1 && _dsk.g == resp.group - 1 && _dsk.d == resp.disk - 1) {
+            _dsk.partitions = resp.partitions;
+        }
+    },
     //获取一块盘的指针
     i_get_disk: function (c, l, g, d) {
         //找到硬盘
@@ -104,6 +180,8 @@ CabinetHelper.prototype = {
         global_cmd_helper.updateDeviceStatus();
         global_task_pool.cabChanged = true;
         this.on_cabinet_select(this.cab);
+
+        update_TempAndHum();
     },
     getLth: function () {
         return this.cabs.length;
