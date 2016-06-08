@@ -81,13 +81,16 @@ CabinetHelper.prototype = {
         if (!msg) return;
 
         for (var i = 0; i < this.cabs.length; ++i) {
+            // 依次判断选择器是否为与所推送消息的ID相同
             var _cab = this.cabs[i];
             if (msg.sn != _cab.id) continue;
 
+            // 更新电量、电流、电压
             _cab.electricity = msg.electricity;
             _cab.current = msg.charge;
             _cab.voltage = msg.voltage;
 
+            // 更新温湿度，临时存储
             for (var j = 0; j < _cab.lvls_info.length; ++j) {
                 var _lvl_info = _cab.lvls_info[j];
 
@@ -96,7 +99,8 @@ CabinetHelper.prototype = {
                     _lvl_info.temperature = th.temperature;
                     _lvl_info.humidity = th.humidity;
 
-                    this.update_TempAndHum();
+                    // 若为当前柜子，将温湿度信息更新到cabinet中
+                    if (_cab === this.curr) this.update_TempAndHum();
                 }
             }
         }
