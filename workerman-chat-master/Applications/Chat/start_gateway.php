@@ -61,6 +61,7 @@ $gateway->onConnect = function($connection)
 */
 $gateway->onWorkerStart = function($worker)
 {
+
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
     $deviceStatusTimer = Timer::add(60, function(){
         //检查用户数量,如果无用户就不查询
@@ -72,11 +73,17 @@ $gateway->onWorkerStart = function($worker)
         }
         $db = Db::instance('db1');
         //查询多进程
-        $ret = $db->select('*')->from('gui_cab')->where('id>0')->query();
+        $ret = $db->select('*')->from('gui_cab')->where('loaded=1')->query();
+        $attached = array('type'=>'status');
+        $ret = array_merge($ret,$attached);
+        ExtendGateWay::sendToAll(json_encode($ret));
+        //查询磁盘容量
+        $ret = $db->select('partition')->from('gui_device')->where('loaded=1 and bridged=1')->query();
         $attached = array('type'=>'status');
         $ret = array_merge($ret,$attached);
         ExtendGateWay::sendToAll(json_encode($ret));
     });
+
 
 };
 // 如果不是在根目录启动，则运行runAll方法

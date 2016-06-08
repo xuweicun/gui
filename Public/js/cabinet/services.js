@@ -459,15 +459,21 @@ angular.module('device.services', [])
             ws.send(cmd_str);
 
         }
+        var close = function () {
+            console.log("连接关闭,正在重新连接中");
+            ws = new WebSocket("ws://222.35.224.230:8383");
+            ws.onmessage = onmessage;
+            ws.onclose = close;
+            ws.onopen = open;
+            ws.sendcmd = sendcmd;
+        }
         return {
             connect: function (id, grp) {
                 user_id = id;
                 user_grp = grp;
                 ws = new WebSocket("ws://222.35.224.230:8383");
                 ws.onmessage = onmessage;
-                ws.onclose = function () {
-                    console.log("连接关闭,请检查网络和服务器状态");
-                }
+                ws.onclose = close;
                 ws.onopen = open;
                 ws.sendcmd = sendcmd;
                 return ws;
