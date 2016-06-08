@@ -96,7 +96,7 @@ CabinetHelper.prototype = {
                     _lvl_info.temperature = th.temperature;
                     _lvl_info.humidity = th.humidity;
 
-                    update_TempAndHum();
+                    this.update_TempAndHum();
                 }
             }
         }
@@ -181,7 +181,7 @@ CabinetHelper.prototype = {
         global_task_pool.cabChanged = true;
         this.on_cabinet_select(this.cab);
 
-        update_TempAndHum();
+        this.update_TempAndHum();
     },
     getLth: function () {
         return this.cabs.length;
