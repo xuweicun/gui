@@ -524,7 +524,7 @@ Disk.prototype = {
 /*
 	var time_text = '';
 	var use_time = this.curr_cmd.usedTime;
-	
+	if (use_time)
 	if (use_time < 60){
 		time_text = use_time + 's';
 	}
@@ -539,7 +539,22 @@ Disk.prototype = {
 	}
 */
         if (this.curr_cmd) {
-            ex_title = 'T: ' + this.curr_cmd.usedTime + 's，P: ' + this.curr_cmd.progress + '%';
+        	var time_text = '';
+		var use_time = this.curr_cmd.usedTime;
+		if (use_time)
+		if (use_time < 60){
+			time_text = use_time + 's';
+		}
+		else if (use_time < 3600){
+			time_text = (use_time / 60).toFixed(2) + 'm';
+		}
+		else if (use_time < 3600 * 24){
+			time_text = (use_time / 3600).toFixed(2) + 'h';
+		}
+		else {
+			time_text = (use_time / 3600 / 24).toFixed(2) + 'd';
+		}    
+		ex_title = 'T: ' + time_text + '，P: ' + this.curr_cmd.progress + '%';
         }
 
         var _name = this.get_cmd_name();
