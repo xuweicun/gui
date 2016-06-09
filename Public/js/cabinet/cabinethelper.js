@@ -7,6 +7,10 @@ function CabPicker() {
     this.dsk_cnt = 0;
     this.selected = false;
     this.deploying = false;
+    // 在位硬盘数
+    this.loaded_disk_cnt = '-';
+    // 已桥接硬盘数
+    this.bridged_disk_cnt = '-';
     // 电压
     this.voltage = '-';
     // 电流
@@ -192,6 +196,48 @@ CabinetHelper.prototype = {
     i_on_add: function (new_cab) {
         this.cabs.push(new_cab);
     },
+    // 获得在位硬盘数
+    get_disk_cnt: function () {
+        for (var i = 0; i < this.cabs.length; ++i) {
+            var _cab_h = this.cabs[i];
+
+            global_http({
+                url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + _cab_h.id,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                if (!data) return;
+                
+                var cab_id = -1;
+                if (data.length > 0) {                
+                    cab_id = parseInt(data[0].cab_id);
+                }
+
+                var cnt_l = 0;
+                var cnt_b = 0;
+                for (var i = 0; i < data.length; ++i) {
+                    var _dsk = data[i];
+
+                    if (_dsk.loaded == '1') {
+                        cnt_l++;
+                    }
+
+                    if (_dsk.bridged == '1') {
+                        cnt_b++;
+                    }
+                }
+
+                for (var i = 0; i < global_cabinet_helper.cabs.length; ++i) {
+                    var _cab_h = global_cabinet_helper.cabs[i];
+                    if (_cab_h.id == cab_id) {
+                        _cab_h.loaded_disk_cnt = cnt_l
+                        _cab_h.bridged_disk_cnt = cnt_b;
+                    }
+                }
+            }).error(function () {
+                console.log("更新存储柜信息失败.");
+            });
+        }        
+    },
     on_init: function () {
         //clear
         this.cabs = [];
@@ -213,6 +259,8 @@ CabinetHelper.prototype = {
                 });
                 if (global_cabinet_helper.cabs.length > 0) {
                     global_cabinet_helper.on_select(0);
+
+                    global_cabinet_helper.get_disk_cnt();
                     console.log('ok');
                 }
                 else {
