@@ -61,7 +61,7 @@ $gateway->onConnect = function($connection)
 $gateway->onWorkerStart = function ($worker) {
 
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
-    $deviceStatusTimer = Timer::add(300, function () {
+    $deviceStatusTimer = Timer::add(20, function () {
         //检查用户数量,如果无用户就不查询
         $cnt = ExtendGateWay::getAllClientCount();
         if ($cnt <= 0) {

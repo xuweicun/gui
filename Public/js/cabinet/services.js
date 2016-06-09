@@ -443,11 +443,11 @@ angular.module('device.services', [])
                     break;
                 case 'status':
                     console.log('收到推送的状态信息');
-                    //global_cabinet_helper.i_on_msg_push_status()
+                    global_cabinet_helper.i_on_msg_push_status(data['0']);
                     break;
                 case 'partition':
                     console.log('收到推送的分区容量信息');
-                    //global_cabinet_helper.i_on_msg_push_partition()
+                    global_cabinet_helper.i_on_msg_push_partition(data['0']);
                     break;
 
 

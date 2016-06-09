@@ -79,12 +79,11 @@ CabinetHelper.prototype = {
     // 当收到服务器推送消息时
     i_on_msg_push_status: function (msg) {
         if (!msg) return;
-
+        var status = JSON.parse(msg.status);
         for (var i = 0; i < this.cabs.length; ++i) {
             // 依次判断选择器是否为与所推送消息的ID相同
             var _cab = this.cabs[i];
             if (msg.sn != _cab.id) continue;
-
             // 更新电量、电流、电压
             _cab.electricity = msg.electricity;
             _cab.current = msg.charge;
@@ -94,7 +93,7 @@ CabinetHelper.prototype = {
             for (var j = 0; j < _cab.lvls_info.length; ++j) {
                 var _lvl_info = _cab.lvls_info[j];
 
-                var th = read_temp_hum_info_by_resp(msg.status, j + 1)
+                var th = this.read_temp_hum_info_by_resp(status, j + 1)
                 if (th) {
                     _lvl_info.temperature = th.temperature;
                     _lvl_info.humidity = th.humidity;
