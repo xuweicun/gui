@@ -45,7 +45,7 @@ class Events
         {
             return ;
         }
-        
+       $db = Db::instance("db1");
         // 根据类型执行不同的业务
         switch($message_data['type'])
         {
@@ -82,10 +82,27 @@ class Events
                 $new_message = array('type'=>$message_data['type'], 'client_id'=>$client_id, 'user_id'=>$user_id, 'token'=>$token,'client_name'=>htmlspecialchars($client_name), 'time'=>date('Y-m-d H:i:s'));
                 Gateway::sendToGroup($room_id, json_encode($new_message));
                 Gateway::joinGroup($client_id, $room_id);
-               
+                $ret = $db->select('*')->from('gui_cab')->where('loaded=1')->query();
+                //有连接的柜子存在
+                if ($ret) {
+                    $num = count($ret);
+                    $attached = array('type' => 'status','num'=>$num);
+                    $ret = array_merge($ret, $attached);
+                    GateWay::sendToCurrentClient(json_encode($ret));
+                    //查询磁盘容量
+                    $ret = $db->select('partition')->from('gui_device')->where('loaded=1 and bridged=1')->query();
+
+                    if (!$ret) {
+                        return;
+                    }
+                    $num = count($ret);
+                    $attached = array('type' => 'partition','num'=>$num);
+                    $ret = array_merge($ret, $attached);
+                    GateWay::sendToCurrentClient(json_encode($ret));
+                }
                 // 给当前用户发送用户列表 
-                $new_message['client_list'] = $clients_list;
-                Gateway::sendToCurrentClient(json_encode($new_message));
+               // $new_message['client_list'] = $clients_list;
+               // Gateway::sendToCurrentClient(json_encode($new_message));
                 return;
                 
             // 客户端发言 message: {type:say, to_client_id:xx, content:xx}
@@ -116,7 +133,7 @@ class Events
                 }
                 if($message_data['CMD_ID'] && (int)$message_data['CMD_ID'] > 0){
                     //新的命令
-                    $db = Db::instance("db1");
+
                     $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id={$message_data['CMD_ID']}")->query();
                     $attached = array('type'=>'say','user_name'=>$client_name);
                     $rst = array_merge($rst,$attached);
