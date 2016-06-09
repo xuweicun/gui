@@ -272,7 +272,7 @@ CabinetHelper.prototype = {
                     console.log('failure');
                     return;
                 }
-                global_cmd_helper.updateDeviceStatus();
+                //global_cmd_helper.updateDeviceStatus();
                 global_task_pool.init();
             }
         });
