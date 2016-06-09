@@ -83,7 +83,7 @@ CabinetHelper.prototype = {
         for (var i = 0; i < this.cabs.length; ++i) {
             // 依次判断选择器是否为与所推送消息的ID相同
             var _cab = this.cabs[i];
-            if (msg.sn != _cab.id) continue;
+            if (msg.sn != _cab.id.toString()) continue;
             // 更新电量、电流、电压
             _cab.electricity = msg.electricity;
             _cab.current = msg.charge;

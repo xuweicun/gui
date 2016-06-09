@@ -73,7 +73,8 @@ $gateway->onWorkerStart = function ($worker) {
         $ret = $db->select('*')->from('gui_cab')->where('loaded=1')->query();
         //有连接的柜子存在
         if ($ret) {
-            $attached = array('type' => 'status');
+            $num = count($ret);
+            $attached = array('type' => 'status','num'=>$num);
             $ret = array_merge($ret, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
             //查询磁盘容量
@@ -82,7 +83,8 @@ $gateway->onWorkerStart = function ($worker) {
             if (!$ret) {
                 return;
             }
-            $attached = array('type' => 'partition');
+            $num = count($ret);
+            $attached = array('type' => 'partition','num'=>$num);
             $ret = array_merge($ret, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
         }
