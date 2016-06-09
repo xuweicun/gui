@@ -359,6 +359,8 @@ TaskPool.prototype = {
                     }
                 }
 
+                // 更新桥接数
+                global_cabinet_helper.i_on_bridge_success(task.cab_id);
 
             //如果断开
         }

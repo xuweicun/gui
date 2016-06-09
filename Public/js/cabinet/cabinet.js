@@ -5,10 +5,6 @@ function Cabinet() {
     this.lvl_cnt = 0;
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
-    // 在位盘数
-    this.disk_cnt_loaded = 0;
-    // 在位盘数
-    this.disk_cnt_bridged = 0;
     // 当前选中的硬盘对象
     this.curr = null;
     // 存储柜所有层集合，用于存放存储所有相关数据
@@ -192,13 +188,10 @@ Cabinet.prototype = {
             var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
             // 在位置位
             if (_dsk.base_info.loaded != (e.loaded == 1)) {
-                this.disk_cnt_loaded += _dsk.base_info.loaded ? -1 : 1;
-
                 _dsk.base_info.loaded = (e.loaded == 1);
             }
 
             if (_dsk.base_info.bridged != (e.bridged == 1)) {
-                this.disk_cnt_bridged += _dsk.base_info.bridged ? -1 : 1;
                 _dsk.base_info.bridged = (e.bridged == 1);
             }
 
@@ -211,15 +204,6 @@ Cabinet.prototype = {
             _dsk.detail_info.MD5 = e.md5;
             _dsk.detail_info.capacity = e.capacity;
         }
-
-        for (var i = 0; i < global_cabinet_helper.cabs.length; ++i) {
-            var _cab_h = global_cabinet_helper.cabs[i];
-            if (_cab_h.id == this.id) {
-                _cab_h.loaded_disk_cnt = this.disk_cnt_loaded;
-            }
-        }
-
-        //this.curr.update_partitions();
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove

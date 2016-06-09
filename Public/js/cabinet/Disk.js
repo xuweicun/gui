@@ -61,8 +61,6 @@ Disk.prototype = {
     i_change_brdige_status: function (is_bridged, path) {
         this.base_info.bridged = is_bridged;
         this.base_info.bridge_path = path;
-
-        global_cabinet_helper.get_disk_cnt();
     },
     // 获得柜子ID
     get_cabinet_id:function(){
