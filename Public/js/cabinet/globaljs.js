@@ -202,7 +202,9 @@ app_device.filter('to_trusted', function ($sce) {
 
             }
         });
-    }    
+    }
+
+    $scope.reload_user_log();
 })    
     .controller('testCtrl', function ($scope, TestMsg) {
 var Test = function () {
