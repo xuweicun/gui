@@ -57,6 +57,11 @@ function Disk(l, g, d) {
 
 // 硬盘Disk类的原型
 Disk.prototype = {
+    // 变更桥接状态
+    i_change_brdige_status: function (is_bridged, path) {
+        this.base_info.bridged = is_bridged;
+        this.base_info.bridge_path = path;
+    },
     // 获得柜子ID
     get_cabinet_id:function(){
         return this.parent.parent.parent.id;

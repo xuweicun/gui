@@ -187,21 +187,23 @@ Cabinet.prototype = {
 
             var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
             // 在位置位
-            _dsk.base_info.loaded = (e.loaded == 1);
-            _dsk.base_info.bridged = e.bridged == 1;
+            if (_dsk.base_info.loaded != (e.loaded == 1)) {
+                _dsk.base_info.loaded = (e.loaded == 1);
+            }
+
+            if (_dsk.base_info.bridged != (e.bridged == 1)) {
+                _dsk.base_info.bridged = (e.bridged == 1);
+            }
 
             if (e.bridged == 1) {
                 _dsk.base_info.bridge_path = e.path;
             }
-            // 桥接置位
-            
+            // 桥接置位            
 
             _dsk.detail_info.SN = e.sn;
             _dsk.detail_info.MD5 = e.md5;
             _dsk.detail_info.capacity = e.capacity;
         }
-
-        //this.curr.update_partitions();
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove

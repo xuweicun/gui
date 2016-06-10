@@ -351,16 +351,16 @@ TaskPool.prototype = {
                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                     if (disk) {
                         if (task.subcmd == 'START') {
-                            disk.base_info.bridged = true;
-                            disk.base_info.bridge_path = paths[idx].value;
+                            disk.i_change_brdige_status(true, paths[idx].value);
                         }
-                        if (task.subcmd == 'STOP') {
-                            disk.base_info.bridged = false;
-                            disk.base_info.bridge_path = null;
+                        else if (task.subcmd == 'STOP') {
+                            disk.i_change_brdige_status(false, null);
                         }
                     }
                 }
 
+                // 更新桥接数
+                global_cabinet_helper.i_on_bridge_success(task.cab_id);
 
             //如果断开
         }
