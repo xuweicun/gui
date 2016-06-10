@@ -9,7 +9,7 @@
             <p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a></p>
 
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
-                <a href="#" class="panel bk-widget bk-border-off" ng-click="cabs.on_select($index)"
+                <a href="" class="panel bk-widget bk-border-off" ng-click="cabs.on_select($index)"
                    ng-class="{true:'selected',false:'non-selected'}[item.selected]" style="color:white;">
                     <div class="panel-body" ng-class="{true:'bk-bg-info',false:'bk-bg-primary'}[item.selected]">
                         <div style="position:absolute;width:16px;right:45px;top:10px">
