@@ -127,7 +127,19 @@ class BusinessController extends Controller
         $db = M('CmdLog');               
         $user_id = I('get.userid', -1, 'intval');
         $map['user_id'] = $user_id;
-        $ret = $db->where($map)->order('start_time desc')->select();
+        $ret = $db
+            ->join('gui_user ON gui_cmd_log.user_id = gui_user.id')
+            ->field(array(                         
+                'gui_cmd_log.user_id'=>'user_id', 
+                'gui_cmd_log.cmd'=>'cmd',        
+                'gui_cmd_log.sub_cmd'=>'sub_cmd', 
+                'gui_cmd_log.msg'=>'msg',                
+                'gui_cmd_log.start_time'=>'start_time', 
+                'gui_cmd_log.finished'=>'finished', 
+                'gui_cmd_log.status'=>'status', 
+                'gui_user.username'=>'username', 
+                ))
+            ->where($map)->order('start_time desc')->select();
         
         $this->AjaxReturn($ret);
     }
