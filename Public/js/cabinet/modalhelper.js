@@ -58,6 +58,17 @@ ModalHelper.prototype = {
         }
     },
 
+    on_click_ok: function(){
+        if (this.type == 'question') return;
+
+        if (this.on_click_target) {
+            this.on_click_target[this.on_click_handle](this.on_click_param);
+        }
+        else if (this.on_click_handle) {
+            this.on_click_handle(this.on_click_param);
+        }
+    },
+
     show_modal_working: function () {
         this.show_modal({
             type: 'warning',

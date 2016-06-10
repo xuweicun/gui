@@ -2,7 +2,9 @@ app_device.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
     }
-}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions) {
+}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
+{
+    global_scope = $scope;
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
 

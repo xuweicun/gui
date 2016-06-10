@@ -89,7 +89,7 @@
 </head>
 
 
-<body ng-app="device" ng-controller="statusMonitor  as showCase">
+<body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false">
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">
@@ -176,13 +176,13 @@
         <div class="sidebar">
             <div ng-include="pageViewUrls.siderBarUrl"></div>
         </div>
-        <div class="main" ng-show="user.off_line">
-            <div ng-include="pageViewUrls.logOutViewUrl"></div>
-        </div>
         <div class="main" ng-show="!user.off_line">
+            <div class="container-fluid content" ng-hide="is_ok">
+                <h4>系统正在努力加载中...请稍候！</h4>
+            </div>
             <!-- Start: Content -->
-            <div class="container-fluid content" ng-show="page_index == 'main'">
-                <div ng-include="pageViewUrls.cabUrl"></div>
+            <div class="container-fluid content hidden" ng-class="{'hidden':!is_ok}" ng-show="page_index == 'main'">
+                <include file="cabs" />
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">

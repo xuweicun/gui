@@ -26,19 +26,26 @@ User.prototype = {
             on_click_handle: 'go_logout_page'
         });
     },
-    loged_out: function(){
-        //被异地登录
-        var that = this;
+    loged_out: function () {
         global_http({
-            url: global_root+"&a=logout",
+            url: global_root + "&a=logout",
             method: 'POST',
-            data:{}
-        }).success(function(){
+            data: {}
+        }).success(function () {
             that.off_line = true;
+        });
+
+        //被异地登录
+        global_modal_helper.show_modal({
+            type: 'warning',
+            title: '服务器连接断开',
+            html: '您的账号在其他设备上登录, 当前设备与服务器的连接已中断。',
+            on_click_target: this,
+            on_click_handle: 'go_login_page'
         });
     },
     go_login_page: function(){
-        self.location("/index.php?m=admin&c=business&a=login");
+        window.location = "/index.php?m=admin&c=business&a=login";
     },
     go_logout_page: function () {
         window.location = "/index.php?m=admin&c=business&a=logout";

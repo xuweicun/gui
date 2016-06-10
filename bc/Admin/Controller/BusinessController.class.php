@@ -126,7 +126,9 @@ class BusinessController extends Controller
     public function getLogByUserId(){
         $db = M('CmdLog');               
         $user_id = I('get.userid', -1, 'intval');
-        $map['user_id'] = $user_id;
+        if ($user_id != -1){
+            $map['user_id'] = $user_id;                   
+        }                            
         $ret = $db
             ->join('gui_user ON gui_cmd_log.user_id = gui_user.id')
             ->field(array(                         

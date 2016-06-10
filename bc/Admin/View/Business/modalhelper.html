@@ -34,6 +34,7 @@
                 <div class="col-md-12 text-right">
                     <button class="btn btn-primary" ng-if="curr_modal.type == 'question'" ng-click="curr_modal.on_click()">确认</button>
                     <button class="btn modal-dismiss"
+                        ng-click="curr_modal.on_click_ok()"
                         ng-class="{
                             'btn-info': curr_modal.type == 'info',
                             'btn-default': curr_modal.type == 'question',
