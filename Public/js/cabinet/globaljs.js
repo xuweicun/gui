@@ -16,8 +16,21 @@ app_device.filter('to_trusted', function ($sce) {
         userModalsUrl: url_dir + 'userModals.html',
         taskViewUrl: url_dir + 'taskView.html',
         notifyViewUrl: url_dir + 'taskView.html',
-        logOutViewUrl: url_dir + 'logedOutNotify.html'
+        logOutViewUrl: url_dir + 'logedOutNotify.html',
+        userLogViewUrl: url_dir + 'userLogView.html'
     };
+
+    // 用于主页切换，在主控、用户日志等之间，默认为main
+    $scope.change_page_index = function (name) {
+        switch (name) {
+            case 'user_log':
+                $scope.page_index = name;
+                break;
+            default:
+                $scope.page_index = 'main';
+        }
+    }
+    $scope.change_page_index('main');
 
     // 用户对象
     global_user = new User(
@@ -167,8 +180,30 @@ app_device.filter('to_trusted', function ($sce) {
             }
         });
     }
-})
     
+    /*------------------用户日志--------------------*/
+    $scope.reload_user_log = function () {
+        $http({
+            url: '/index.php',
+            method: 'get',
+            params: {
+                m: 'admin',
+                c: 'business',
+                a: 'getLogByUserId',
+                userid: global_user.id
+            }
+        }).success(function (data) {
+            if (!data) return;
+
+            try {
+                $scope.user_logs = data;
+            }
+            catch (e) {
+
+            }
+        });
+    }    
+})    
     .controller('testCtrl', function ($scope, TestMsg) {
 var Test = function () {
     this.server = '/index.php?m=admin&c=msg';

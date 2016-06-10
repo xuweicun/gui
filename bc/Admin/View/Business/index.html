@@ -196,11 +196,13 @@
         <div class="sidebar">
             <div ng-include="pageViewUrls.siderBarUrl"></div>
         </div>
-        <div class="main">
-            <div ng-include="pageViewUrls.logOutViewUrl" ng-show="user.off_line"></div>
+        <div class="main" ng-show="user.off_line">
+            <div ng-include="pageViewUrls.logOutViewUrl"></div>
+        </div>
+        <div class="main" ng-show="!user.off_line">
             <!-- Start: Content -->
-            <div ng-include="pageViewUrls.cabUrl" ng-show="!user.off_line"></div>
-            <div class="container-fluid content" ng-show="!user.off_line">
+            <div class="container-fluid content" ng-show="page_index == 'main'">
+                <div ng-include="pageViewUrls.cabUrl"></div>
                 <div class="row">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
@@ -224,66 +226,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--/container-->
-            <div id="modalAnimDeviceStatusCmd" class="zoom-anim-dialog modal-block  mfp-hide"
-                 ng-class="{true:'modal-block-primary',false:'modal-block-warning'}[!cab.is_device_status_cmd_going()]" >
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">存储柜命令[在位查询]</h4>
-                    </div>
-                    <div class="panel-body bk-noradius">
-                        <div class="modal-wrapper">
-                            <div class="modal-icon">
-                                <i class="fa"
-                                   ng-class="{true:'fa-warning',false:'fa-question-circle'}[cab.is_device_status_cmd_going()]"
-                                   ></i>
-                            </div>
-                            <div class="modal-text">
-                                <p ng-if="!cab.is_device_status_cmd_going()">
-                                    您确定要提交对存储柜 {{cab.id}}#的“在位查询”命令吗？
-                                </p>
-
-                                <p ng-if="cab.is_device_status_cmd_going()">
-                                    存储柜 {{cab.id}}#正在进行的“在位查询”命令，请稍候。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right" ng-if="!cab.is_device_status_cmd_going()">
-                                <button class="btn btn-primary"
-                                        ng-click="cab.start_cmd_device_status()">
-                                    确认
-                                </button>
-                                <button class="btn btn-default modal-dismiss">取消</button>
-                            </div>
-                            <div class="col-md-12 text-right" ng-if="cab.is_device_status_cmd_going()">
-                                <button class="btn btn-warning modal-dismiss">确认</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid content" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
-                <div class="row">
+                <div class="row" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-include="pageViewUrls.taskViewUrl">
                     </div>
                 </div>
             </div>
-
+            <div class="container-fluid content" ng-show="page_index == 'user_log'">
+                <div ng-include="pageViewUrls.userLogViewUrl"></div>
+            </div>
+            <!--/container-->
         </div>
     </div>
 </div>
 
-
-
-
 <include file="PublicTail"/>
-
-
-
 </body>
-
 </html>

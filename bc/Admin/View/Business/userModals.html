@@ -286,3 +286,43 @@
         </div>
     </div>
 </div>
+
+<div id="modalAnimDeviceStatusCmd" class="zoom-anim-dialog modal-block  mfp-hide"
+     ng-class="{true:'modal-block-primary',false:'modal-block-warning'}[!cab.is_device_status_cmd_going()]">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">存储柜命令[在位查询]</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa"
+                       ng-class="{true:'fa-warning',false:'fa-question-circle'}[cab.is_device_status_cmd_going()]"></i>
+                </div>
+                <div class="modal-text">
+                    <p ng-if="!cab.is_device_status_cmd_going()">
+                        您确定要提交对存储柜 {{cab.id}}#的“在位查询”命令吗？
+                    </p>
+
+                    <p ng-if="cab.is_device_status_cmd_going()">
+                        存储柜 {{cab.id}}#正在进行的“在位查询”命令，请稍候。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right" ng-if="!cab.is_device_status_cmd_going()">
+                    <button class="btn btn-primary"
+                            ng-click="cab.start_cmd_device_status()">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+                <div class="col-md-12 text-right" ng-if="cab.is_device_status_cmd_going()">
+                    <button class="btn btn-warning modal-dismiss">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
