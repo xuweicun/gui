@@ -39,7 +39,7 @@ User.prototype = {
         global_modal_helper.show_modal({
             type: 'warning',
             title: '服务器连接断开',
-            html: '您的账号在其他设备上登录, 当前设备与服务器的连接已中断。',
+            html: '您的账号[<span class="bk-fg-primary">'+ this.username +'</span>]在其他设备上登录, 与服务器的连接已中断，请重新登录。',
             on_click_target: this,
             on_click_handle: 'go_login_page'
         });
