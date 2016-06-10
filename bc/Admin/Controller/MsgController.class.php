@@ -823,6 +823,7 @@ class MsgController extends Controller
             $data['sn'] = $_POST['SN'];
             $data['smart'] = 0;
             $data['capacity'] = $_POST['capacity'];
+            $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1: 0;
             $data['time'] = time();
             if (!$item['disk_id'] || is_null($item['disk_id'])) {
                 $item['disk_id'] = $diskDb->add($data);
@@ -847,7 +848,7 @@ class MsgController extends Controller
         //return;//暂时未调试好，先不处理
         $db = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
-        $testDb = M('test');
+        //$testDb = M('test');
         //$test['response'] = count($attrs);
         //$testDb->add($test);
         foreach ($attrs as $attr) {
@@ -863,7 +864,7 @@ class MsgController extends Controller
                 $item['thd'] = $attr['thd'];
                 $item['val'] = $attr['val'];
                 $item['w_val'] = $attr['w_val'];
-
+                $item['normal'] = $attr['sts'] && $attr['sts']=='1' ? 0 : 1;
                 $db->save($item);
             } else {
                 $item = array();
@@ -874,6 +875,7 @@ class MsgController extends Controller
                 $item['val'] = $attr['val'];
                 $item['w_val'] = $attr['w_val'];
                 $item['attrname'] = $attr['id'];
+                $item['normal'] = $attr['sts'] && $attr['sts']=='1' ? 0 : 1;
                 $item['disk_id'] = $id;
                 $db->add($item);
             }
