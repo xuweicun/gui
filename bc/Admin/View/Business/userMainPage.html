@@ -6,366 +6,193 @@
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-    <!-- Import google fonts -->
-
-    <!-- start: CSS file-->
-
-    <!-- Vendor CSS-->
-    <link href="/Public/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/Public/assets/vendor/skycons/css/skycons.css" rel="stylesheet"/>
-    <link href="/Public/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-    <link href="/Public/assets/vendor/css/pace.preloader.css" rel="stylesheet"/>
-
-    <!-- Plugins CSS-->
-    <link href="/Public/assets/plugins/jquery-ui/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/scrollbar/css/mCustomScrollbar.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/bootkit/css/bootkit.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/magnific-popup/css/magnific-popup.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/fullcalendar/css/fullcalendar.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/jqvmap/jqvmap.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/pnotify/css/pnotify.custom.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />
-    <!-- Theme CSS -->
-    <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet"/>
-
-    <!-- Page CSS -->
-    <link href="/Public/assets/css/style.css" rel="stylesheet" />
-
-    <link href="/Public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="/Public/assets/css/angular-datatables.min.css" rel="stylesheet" />
-    <link href="/Public/assets/css/datatables.bootstrap.min.css" rel="stylesheet" />
-
-    <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet"/>
-
-    <!-- end: CSS file-->
-    <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
-
-    <style>
-        .warning{
-            color:red
-        }
-
-        .dataTables_filter label{
-            width:unset !important;
-        }
-
-        .dataTables_filter input{
-            width:unset !important;
-        }
-    </style>
+    <include file="PublicHeader" />
 </head>
-<body>
+<body ng-app="user_module" ng-controller="user_controller as showCase">
 
-<div ng-app="user_module" ng-controller="user_controller as showCase">
-    <div class="content container-fluid bk-margin-10">
-        <div class="row">
-            <div class="panel panel-default col-12">
-                <div class="panel-heading">
-                    <h4 class="panel-title">用户管理</h4>
-                </div>
-                <div class="panel-body bk-noradius">
-                    <div class="row bk-margin-10">
-                        <div class="col-12">
-                            <a href="" class="btn btn-primary" ng-click="user_add()">
-                                <i class="glyphicon glyphicon-plus-sign"></i>
-                                新增用户
-                            </a>
-                        </div>
+    <div class="navbar" role="navigation">
+        <div class="container-fluid container-nav">
+            <!-- Navbar Action -->
+            <ul class="nav navbar-nav navbar-actions navbar-left">
+                <li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-th-large"></i></a></li>
+                <li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
+            </ul>
+            <!-- Navbar Left -->
+            <div class="navbar-left">
+                <!-- Search Form -->
+                <form class="search navbar-form" >
+                    <div class="input-group input-search">
+                        <input type="text" class="form-control bk-radius" name="key" id="q" placeholder="搜索...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
                     </div>
+                </form>
+            </div>
+            <!-- Navbar Right -->
+            <div class="navbar-right">
+                <div class="userbox">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="profile-info">
+                            <span class="name">您好，超级管理员<{$username}></span>
+                            <span class="role">
+                                <i class="fa fa-circle bk-fg-success"></i>
+                                <span>用户管理权限</span>
+                            </span>
+                            <span id="username" style="display:none" ng-disabled="user.off_line"><{$username}></span>
+                            <span id="userid" style="display:none" ng-disabled="user.off_line"><{$userid}></span>
+                            <span id="can_write" style="display:none" ng-disabled="user.off_line"><{$can_write}></span>
+                            <span id="token" style="display:none" ng-disabled="user.off_line"><{$token}></span>
+                        </div>
+                        <i class="fa custom-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled">
+                            <li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
+                                <div class="progress progress-xs  progress-striped active">
+                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                        60%
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><i class="fa fa-user"></i> 管理员信息</a>
+                            </li>
+                            <li>
+                                <a href=""><i class="fa fa-wrench"></i> 参数配置</a>
+                            </li>
+
+                            <li>
+                                <a href="" ng-click="user_profile.showChangePasswordModal()"><i class="fa fa-usd"></i> 修改密码</a>
+                            </li>
+
+                            <li>
+                                <a href="" ng-click="user_profile.show_logout_modal();"><i class="fa fa-power-off"></i> 注销</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- End Userbox -->
+            </div>
+            <!-- End Navbar Right -->
+        </div>
+    </div>
+    <div class="container-fluid content">
+        <div class="row">
+            <div class="sidebar">
+                <div class="sidebar-collapse">
+                    <!-- Sidebar Header Logo-->
+                    <div class="sidebar-header">
+                        <img src="/Public/assets/img/hlsqlogo2.png" class="img-responsive" alt="" style="display: inline-block;width: 50%;" />
+                    </div>
+                    <!-- Sidebar Menu-->
+                    <div class="sidebar-menu">
+                        <nav id="menu" class="nav-main" role="navigation">
+                            <div class="panel-body text-center">
+                                <h4 style="color: white;">离线硬盘存储管理系统</h4>
+                                <div class="flag" style="display: none;">
+                                    <img src="/Public/assets/img/flags/cn.jpg" style="display: inline-block;width: 50%;" class="img-flags" alt="" />
+                                </div>
+                            </div>
+                            <ul class="nav nav-sidebar">
+                                <li ng-class="{'active':page_index=='main'}">
+                                    <a href="" ng-click="change_page_index('main')">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i><span>主页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" ng-click="change_page_index('user_manage')">
+                                        <i class="fa fa-users" aria-hidden="true"></i><span>用户管理</span>
+                                    </a>
+                                </li>
+                                <li ng-class="{'active':page_index=='user_log'}">
+                                    <a href="" ng-click="change_page_index('user_log');reload_user_log()">
+                                        <i class="fa  fa-gears" aria-hidden="true"></i><span>操作日志</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" ng-click="change_page_index('manul')">
+                                        <i class="fa  fa-book" aria-hidden="true"></i><span>操作说明</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" ng-click="user_profile.show_logout_modal();">
+                                        <i class="fa  fa-hand-o-left" aria-hidden="true"></i><span>退出</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- End Sidebar Menu-->
+                </div>
+            </div>
+            <div class="main">
+                <div>
+                    <div class="content container-fluid bk-margin-10">
+                        <div class="row">
+                            <div class="panel panel-primary col-12">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">用户管理</h4>
+                                </div>
+                                <div class="panel-body bk-noradius">
+                                    <div class="row bk-margin-10">
+                                        <div class="col-12">
+                                            <a href="" class="btn btn-primary" ng-click="user_add()">
+                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                新增用户
+                                            </a>
+                                        </div>
+                                    </div>
 
 
-                    <div class="table-responsive">
-                        <table class="table table-striped dataTable no-footer"
-                                datatable="ng" dt-options="showCase.dtOptions" >
-                            <thead>
-                            <tr>
-                                <td>序号</td>
-                                <td>用户名</td>
-                                <td>权限</td>
-                                <td>编辑</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="user in users_model">
-                                <td>{{$index+1}}</td>
-                                <td>{{user.username}}</td>
-                                <td>{{user.write != 0?'读/写':'只读'}}</td>
-                                <td>
-                                    <a class="btn btn-info btn-xs" href="" ng-click="user_edit($index)">
-                                        <i class="fa fa-edit "></i> 权限
-                                    </a>
-                                    <a class="btn btn-info btn-xs" href="" ng-click="user_passwd_reset($index)">
-                                        <i class="glyphicon glyphicon-refresh"></i> 密码
-                                    </a>
-                                    <a href="" class="btn btn-danger btn-xs" ng-click="user_remove($index)">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        删除
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped dataTable no-footer"
+                                               datatable="ng" dt-options="showCase.dtOptions">
+                                            <thead>
+                                                <tr>
+                                                    <td>序号</td>
+                                                    <td>用户名</td>
+                                                    <td>权限</td>
+                                                    <td>编辑</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="user in users_model">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{user.username}}</td>
+                                                    <td>{{user.write != 0?'读/写':'只读'}}</td>
+                                                    <td>
+                                                        <a class="btn btn-info btn-xs" href="" ng-click="user_edit($index)">
+                                                            <i class="fa fa-edit "></i> 权限
+                                                        </a>
+                                                        <a class="btn btn-info btn-xs" href="" ng-click="user_passwd_reset($index)">
+                                                            <i class="glyphicon glyphicon-refresh"></i> 密码
+                                                        </a>
+                                                        <a href="" class="btn btn-danger btn-xs" ng-click="user_remove($index)">
+                                                            <i class="glyphicon glyphicon-trash"></i>
+                                                            删除
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="modalUserEdit" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        账号编辑
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal " enctype="multipart/form-data" method="post" action="">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">用户名</label>
-                            <div class="col-md-9">
-                                <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">写权限</label>
-                            <div class="col-md-9">
-                                <div class="radio-custom radio-inline">
-                                    <input id="inline-radio_yes" type="radio" value="1"
-                                           name="inline-radios" ng-model="can_write"
-                                    >
-                                    <label for="inline-radio_yes"> 允许</label>
-                                </div>
-                                <div class="radio-custom radio-inline">
-                                    <input id="inline-radio_no" type="radio" value="0" name="inline-radios" ng-model="can_write">
-                                    <label for="inline-radio_no"> 拒绝</label>
-                                </div>
-                                <span class="help-block">赋予用户“写权限”将有可能导致用户修改或删除重要数据，请慎重！</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="user_edit_commit()"
-                    >
-                        提交
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-
-    <div class="modal fade" id="modalUserPasswd" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        账号密码重置
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal " name="myFormPassword">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">用户名</label>
-                            <div class="col-md-9">
-                                <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">新密码
-                                <span style="color: red">*</span>
-                                <br>
-                                <span style="color:red" ng-show="myFormPassword.pwd.$invalid">
-                                    <span ng-show="myFormPassword.pwd.$error.required">（必填）</span>
-                                </span>
-                            </label>
-                            <div class="col-md-9">
-                                <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
-                                       ng-model="new_password" required>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="user_password_reset_commit()"
-                    >
-                        提交
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-
-    <div class="modal fade" id="modalUserRemove" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        账号删除
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal " enctype="multipart/form-data" method="post" action="">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">用户名</label>
-                            <div class="col-md-9">
-                                <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label"></label>
-                            <div class="col-md-9">
-                                <p>您确定删除账号？账号将彻底禁用，删除后将无法恢复！</p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-danger"
-                            ng-click="user_remove_commit()"
-                    >
-                        提交
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-
-    <div class="modal fade" id="modalUserAdd" tabindex="-1">
-        <form class="form-horizontal" name="myFormUserAdd" novalidate>
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        新增账号
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">用户名
-                            <span style="color: red">*</span>
-                            <br>
-                                <span style="color:red" ng-show="myFormUserAdd.user.$invalid">
-                                    <span ng-show="myFormUserAdd.user.$error.required">（必填）</span>
-                                </span>
-                        </label>
-                        <div class="col-md-9">
-                            <input class="form-control" type="text" placeholder="请输入用户名"
-                                   name="user" ng-model="new_user.username" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">密码
-                            <span style="color: red">*</span>
-                            <br>
-                                <span style="color:red" ng-show="myFormUserAdd.pwd.$invalid">
-                                    <span ng-show="myFormUserAdd.pwd.$error.required">（必填）</span>
-                                </span>
-                        </label>
-                        <div class="col-md-9">
-                            <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
-                                   ng-model="new_user.password" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="user_add_commit()"
-                    >
-                        提交
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-        </form>
-    </div>
-
-    <div class="modal fade" id="modalUserEditFail" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        账号操作
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p>任务提交失败</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning"
-                            data-dismiss="modal">确定
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="modalUserEditSuccess" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">
-                        账号操作
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p>任务提交成功</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">确定
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-</div>
-
+    <include file="super-user-modals" />
 </body>
 
+</html>
 <!-- Vendor JS-->
 <script src="/Public/assets/vendor/js/jquery.min.js"></script>
 <script src="/Public/assets/vendor/js/jquery-2.1.1.min.js"></script>
@@ -636,4 +463,3 @@
         $scope.reload_users();
     });
 </script>
-</html>

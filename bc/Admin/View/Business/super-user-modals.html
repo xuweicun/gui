@@ -1,0 +1,257 @@
+﻿
+
+<div class="modal fade" id="modalUserEdit" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    账号编辑
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal " enctype="multipart/form-data" method="post" action="">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">用户名</label>
+                        <div class="col-md-9">
+                            <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">写权限</label>
+                        <div class="col-md-9">
+                            <div class="radio-custom radio-inline">
+                                <input id="inline-radio_yes" type="radio" value="1"
+                                       name="inline-radios" ng-model="can_write">
+                                <label for="inline-radio_yes"> 允许</label>
+                            </div>
+                            <div class="radio-custom radio-inline">
+                                <input id="inline-radio_no" type="radio" value="0" name="inline-radios" ng-model="can_write">
+                                <label for="inline-radio_no"> 拒绝</label>
+                            </div>
+                            <span class="help-block">赋予用户“写权限”将有可能导致用户修改或删除重要数据，请慎重！</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary"
+                        ng-click="user_edit_commit()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="modalUserPasswd" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    账号密码重置
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal " name="myFormPassword">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">用户名</label>
+                        <div class="col-md-9">
+                            <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            新密码
+                            <span style="color: red">*</span>
+                            <br>
+                            <span style="color:red" ng-show="myFormPassword.pwd.$invalid">
+                                <span ng-show="myFormPassword.pwd.$error.required">（必填）</span>
+                            </span>
+                        </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
+                                   ng-model="new_password" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary"
+                        ng-click="user_password_reset_commit()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="modalUserRemove" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    账号删除
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal " enctype="multipart/form-data" method="post" action="">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">用户名</label>
+                        <div class="col-md-9">
+                            <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-9">
+                            <p>您确定删除账号？账号将彻底禁用，删除后将无法恢复！</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-danger"
+                        ng-click="user_remove_commit()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="modalUserAdd" tabindex="-1">
+    <form class="form-horizontal" name="myFormUserAdd" novalidate>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        新增账号
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            用户名
+                            <span style="color: red">*</span>
+                            <br>
+                            <span style="color:red" ng-show="myFormUserAdd.user.$invalid">
+                                <span ng-show="myFormUserAdd.user.$error.required">（必填）</span>
+                            </span>
+                        </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" placeholder="请输入用户名"
+                                   name="user" ng-model="new_user.username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            密码
+                            <span style="color: red">*</span>
+                            <br>
+                            <span style="color:red" ng-show="myFormUserAdd.pwd.$invalid">
+                                <span ng-show="myFormUserAdd.pwd.$error.required">（必填）</span>
+                            </span>
+                        </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
+                                   ng-model="new_user.password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                            ng-click="user_add_commit()">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </form>
+</div>
+
+<div class="modal fade" id="modalUserEditFail" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    账号操作
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>任务提交失败</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"
+                        data-dismiss="modal">
+                    确定
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="modalUserEditSuccess" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    账号操作
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>任务提交成功</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"
+                        data-dismiss="modal">
+                    确定
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
