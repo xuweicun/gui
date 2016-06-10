@@ -1,6 +1,6 @@
 ﻿app_device.controller('InitCtrl', function ($scope, DTOptionsBuilder, DTDefaultOptions) {
-    var vm = this;
-    vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
+    
+    $scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
     DTDefaultOptions.setLanguage({
         "sProcessing": "加载中...",
         "sLengthMenu": "每页显示 _MENU_ 条",
