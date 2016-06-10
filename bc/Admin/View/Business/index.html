@@ -30,15 +30,13 @@
     <link href="/Public/assets/plugins/fullcalendar/css/fullcalendar.css" rel="stylesheet"/>
     <link href="/Public/assets/plugins/jqvmap/jqvmap.css" rel="stylesheet"/>
     <link href="/Public/assets/plugins/pnotify/css/pnotify.custom.css" rel="stylesheet"/>
-    <link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />
-    <link href="/Public/assets/plugins/jquery-datatables-bs3/css/datatables.css" rel="stylesheet" />		
+    <link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />	
     <!-- Theme CSS -->
     <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet"/>
 
     <!-- Page CSS -->
     <link href="/Public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="/Public/assets/css/angular-datatables.min.css" rel="stylesheet" />
-    <link href="/Public/assets/css/datatables.bootstrap.min.css" rel="stylesheet" />
     <link href="/Public/assets/css/style.css" rel="stylesheet"/>
     <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet"/>
 
@@ -68,6 +66,14 @@
         body {
             min-height: 1000px;
         }
+        
+        .dataTables_filter label{
+            width:unset !important;
+        }
+
+        .dataTables_filter input{
+            width:unset !important;
+        }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -80,8 +86,6 @@
 
 
 <body ng-app="device" ng-controller="statusMonitor  as showCase">
-<div ng-include="pageViewUrls.modalHelperUrl"></div>
-<div ng-include="pageViewUrls.userModalsUrl"></div>
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">

@@ -25,15 +25,16 @@
     <link href="/Public/assets/plugins/jqvmap/jqvmap.css" rel="stylesheet"/>
     <link href="/Public/assets/plugins/pnotify/css/pnotify.custom.css" rel="stylesheet"/>
     <link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />
-    <link href="/Public/assets/plugins/jquery-datatables-bs3/css/datatables.css" rel="stylesheet" />
     <!-- Theme CSS -->
     <link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet"/>
 
     <!-- Page CSS -->
+    <link href="/Public/assets/css/style.css" rel="stylesheet" />
+
     <link href="/Public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="/Public/assets/css/angular-datatables.min.css" rel="stylesheet" />
     <link href="/Public/assets/css/datatables.bootstrap.min.css" rel="stylesheet" />
-    <link href="/Public/assets/css/style.css" rel="stylesheet"/>
+
     <link href="/Public/assets/css/add-ons.min.css" rel="stylesheet"/>
 
     <!-- end: CSS file-->
@@ -42,6 +43,14 @@
     <style>
         .warning{
             color:red
+        }
+
+        .dataTables_filter label{
+            width:unset !important;
+        }
+
+        .dataTables_filter input{
+            width:unset !important;
         }
     </style>
 </head>
@@ -66,7 +75,7 @@
 
 
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped dataTable no-footer"
+                        <table class="table table-striped dataTable no-footer"
                                 datatable="ng" dt-options="showCase.dtOptions" >
                             <thead>
                             <tr>
@@ -375,8 +384,6 @@
 
 <script src="/Public/assets/plugins/select2/select2.js"></script>
 <script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
-<script src="/Public/assets/plugins/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-<script src="/Public/assets/plugins/jquery-datatables-bs3/js/datatables.js"></script>
 <!-- Theme JS -->
 <script src="/Public/assets/js/jquery.mmenu.min.js"></script>
 <script src="/Public/assets/js/core.min.js"></script>
@@ -414,7 +421,8 @@
             "oAria": {
                 "sSortAscending": ": 以升序排列此列",
                 "sSortDescending": ": 以降序排列此列"
-            }
+            },
+            "sSearch":'查找:'
         });
 
         $scope.user_add = function(){

@@ -182,7 +182,11 @@ app_device.filter('to_trusted', function ($sce) {
     }
     
     /*------------------用户日志--------------------*/
+    $scope.user_log_loading = false;
     $scope.reload_user_log = function () {
+        if ($scope.user_log_loading) return;
+
+        $scope.user_log_loading = true;
         $http({
             url: '/index.php',
             method: 'get',
@@ -193,7 +197,10 @@ app_device.filter('to_trusted', function ($sce) {
                 userid: global_user.id
             }
         }).success(function (data) {
-            if (!data) return;
+            if (!data) {
+                $scope.user_log_loading = false;
+                return;
+            }
 
             try {
                 $scope.user_logs = data;
@@ -201,6 +208,13 @@ app_device.filter('to_trusted', function ($sce) {
             catch (e) {
 
             }
+            finally {
+                $timeout(function () {
+                    $scope.user_log_loading = false;
+                }, 200);
+            }
+        }).error(function () {
+            $scope.user_log_loading = false;
         });
     }
 
