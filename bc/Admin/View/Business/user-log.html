@@ -169,9 +169,10 @@
                         break;
                     }
                     case 'COPY': {
-                        ret_str = msg_obj.srcLevel + '-' + msg_obj.srcGroup + '-' + msg_obj.srcDisk
-                                + '# --> '
-                                + msg_obj.dstLevel + '-' + msg_obj.dstGroup + '-' + msg_obj.dstDisk;
+                        ret_str = '源盘' + msg_obj.srcLevel + '-' + msg_obj.srcGroup + '-' + msg_obj.srcDisk
+                                + '# --> 目标盘'
+                                + msg_obj.dstLevel + '-' + msg_obj.dstGroup + '-' + msg_obj.dstDisk
+                                + '#';
                         break;
                     }
                     case 'DEVICEINFO':
@@ -199,12 +200,21 @@
             }
         }
     }).filter('ERRCODE', function(ErrCode){
-        return function(err){
+        return function (err) {
+            if (err == -1) {
+                return '启动中...';
+            }
+            else if (err == -2) {
+                return '用户停止';
+            }
+            else if (err == 0) {
+                return '正常';
+            }
             return ErrCode[err]?ErrCode[err] + '(' + err + ')':err;
         }
     }).filter('FINISHED', function(){
         return function(f){
-            switch (f){
+            switch (f) {
                 case '0': return '进行中...';
                 case '1': return '已完成';
                 default : return f;
