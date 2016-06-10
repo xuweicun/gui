@@ -122,6 +122,15 @@ class BusinessController extends Controller
             $this->notFoundError('Cmd not found');
         }
     }
+    
+    public function getLogByUserId(){
+        $db = M('CmdLog');               
+        $user_id = I('get.userid', -1, 'intval');
+        $map['user_id'] = $user_id;
+        $ret = $db->where($map)->order('start_time desc')->select();
+        
+        $this->AjaxReturn($ret);
+    }
 
     public function insertUser()
     {
@@ -342,6 +351,24 @@ class BusinessController extends Controller
         $item['status'] = C('CMD_TIMEOUT');
         $item['finished'] = 1;
         $db->save($item);
+    }
+
+    public function userLog(){
+        $id = I("get.userid");
+        $db = M('User');
+        $map['id'] = $id;
+        $item = $db->where($map)->find();
+        if (!$item){
+            echo 'invalid userid';
+            die();
+        }
+
+        //var_dump($item); die();
+        $this->assign('user_id', $id);
+        $this->assign('user_name', $item['username']);
+
+        //var_dump(I("get.userid")); die();
+        $this->display('user-log');
     }
 
     public function getBridgeStatus()
