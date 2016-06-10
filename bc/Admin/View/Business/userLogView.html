@@ -16,6 +16,7 @@
                             <td style="min-width:180px;">硬盘(层)</td>
                             <td style="min-width:50px;">状态</td>
                             <td style="width:100%">执行情况</td>
+                            <td style="min-width:70px;">用户名</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@
                             <td class="text-left" ng-bind="log.msg | DISK_INFO"></td>
                             <td>{{log.finished | FINISHED}}</td>
                             <td>{{log.status | ERRCODE}}</td>
+                            <td ng-bind="user_profile.username"></td>
                         </tr>
                     </tbody>
                 </table>  

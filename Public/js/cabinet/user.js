@@ -17,6 +17,15 @@
     this.modal_id_after_second_pwd = '';
 }
 User.prototype = {
+    show_logout_modal: function(){
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '用户注销',
+            html: '您确定要注销用户[<span class="bk-fg-primary">' + this.username + '</span>]，注销后需要重新登录。',
+            on_click_target: this,
+            on_click_handle: 'go_logout_page'
+        });
+    },
     loged_out: function(){
         //被异地登录
         var that = this;
@@ -30,6 +39,9 @@ User.prototype = {
     },
     go_login_page: function(){
         self.location("/index.php?m=admin&c=business&a=login");
+    },
+    go_logout_page: function () {
+        window.location = "/index.php?m=admin&c=business&a=logout";
     }
     ,
     show_second_pwd_modal: function (modal_id) {

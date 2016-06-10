@@ -3,7 +3,7 @@
         switch (cmd) {
             case 'BRIDGE': return '桥接';
             case 'COPY': return '复制';
-            case 'DEVICEINFO': return '存储柜在位查询';
+            case 'DEVICEINFO': return '存储柜查询';
             case 'DEVICESTATUS': return '在位查询';
             case 'DISKINFO': return '查询';
             case 'FILETREE': return '构建索引';
