@@ -17,7 +17,8 @@ app_device.filter('to_trusted', function ($sce) {
         taskViewUrl: url_dir + 'taskView.html',
         notifyViewUrl: url_dir + 'taskView.html',
         logOutViewUrl: url_dir + 'logedOutNotify.html',
-        userLogViewUrl: url_dir + 'userLogView.html'
+        userLogViewUrl: url_dir + 'userLogView.html',
+        manulViewUrl: url_dir + 'manul.html'
     };
 
     // 用于主页切换，在主控、用户日志等之间，默认为main
@@ -25,6 +26,9 @@ app_device.filter('to_trusted', function ($sce) {
         switch (name) {
             case 'user_log':
                 $scope.page_index = name;
+                break;
+            case 'manul':
+                $scope.page_index = name
                 break;
             default:
                 $scope.page_index = 'main';
