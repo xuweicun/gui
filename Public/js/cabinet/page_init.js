@@ -1,4 +1,4 @@
-﻿app_device.controller('InitCtrl', function ($scope, DTOptionsBuilder, DTDefaultOptions) {
+﻿app_device.controller('InitCtrl', function ($scope, DTOptionsBuilder, DTDefaultOptions, DTColumnDefBuilder) {
     
     $scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
     DTDefaultOptions.setLanguage({
@@ -25,4 +25,13 @@
         },
         "sSearch": '查找:'
     });
+    $scope.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6)
+    ];
 });
