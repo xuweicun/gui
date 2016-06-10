@@ -108,7 +108,7 @@ CabinetHelper.prototype = {
         if (!msg) return;
 
         // 只有当前选中的硬盘才更新
-        var resp = msg.partition;
+        var resp = JSON.parse(msg.partition);
         if (!resp) return;
 
         var _dsk = this.cab.curr;
