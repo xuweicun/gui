@@ -92,7 +92,7 @@
         else if (err == 0) {
             return '正常';
         }
-        return ErrCode[err] ? ErrCode[err] + '(' + err + ')' : err;
+        return '异常: ' + (ErrCode[err] ? ErrCode[err] + '(' + err + ')' : err);
     }
 }).filter('FINISHED', function () {
     return function (f) {

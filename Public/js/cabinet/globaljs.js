@@ -217,7 +217,7 @@ app_device.filter('to_trusted', function ($sce) {
             finally {
                 $timeout(function () {
                     $scope.user_log_loading = false;
-                }, 200);
+                }, 100);
             }
         }).error(function () {
             $scope.user_log_loading = false;
