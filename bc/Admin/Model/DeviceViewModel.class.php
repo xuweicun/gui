@@ -13,11 +13,11 @@ class DeviceViewModel extends ViewModel
             'sn', 'md5', 'capacity',
             '_on' => 'Device.disk_id=Disk.id',
             '_type' => 'LEFT'
-        ),
+        )/*,
         'Smart' => array(
             'attrname', 'val', 'dat', 'ex_dat', 'flat', 'normal', 'w_val', 'thd', '_on' => 'Disk.id=Smart.disk_id',
             '_type' => 'LEFT'
-        )
+        )*/
     );
 
     protected $_validate = array(
