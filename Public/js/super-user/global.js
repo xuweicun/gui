@@ -1,10 +1,16 @@
 ﻿var user_app = angular.module('user_module', ['datatables']);
+
+register_filters(user_app);
+
 user_app.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
     }
 });
-user_app.controller('user_controller', function($scope, $http, DTOptionsBuilder, DTDefaultOptions){
+user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
+
+    $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
+
     var vm = this;
     vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
     DTDefaultOptions.setLanguage({
@@ -31,8 +37,24 @@ user_app.controller('user_controller', function($scope, $http, DTOptionsBuilder,
         },
         "sSearch":'查找:'
     });
-
+    
     $scope.curr_modal = new ModalHelper();
+
+    // 用于主页切换，在主控、用户日志等之间，默认为main
+    $scope.change_page_index = function (name) {
+        switch (name) {
+            case 'user_log':
+                $scope.page_index = name;
+                break;
+            case 'manul':
+                $scope.page_index = name
+                break;
+            default:
+                $scope.page_index = 'main';
+        }
+    }
+    $scope.change_page_index('main');
+    console.log($scope.page_index);
 
     $scope.user_add = function(){
         $scope.new_user = {username:'', password:''};
@@ -286,7 +308,6 @@ user_app.controller('user_controller', function($scope, $http, DTOptionsBuilder,
         }).success(function(data,header,config,status){
             //响应成功
             $scope.users_model = data;
-            console.log(data);
         }).error(function(data,header,config,status){
             //处理响应失败
             $scope.users_model = undefined;
@@ -298,7 +319,6 @@ user_app.controller('user_controller', function($scope, $http, DTOptionsBuilder,
         }).success(function (data, header, config, status) {
             //响应成功
             $scope.users_model_removed = data;
-            console.log(data);
         }).error(function (data, header, config, status) {
             //处理响应失败
             $scope.users_model_removed = undefined;
@@ -306,4 +326,43 @@ user_app.controller('user_controller', function($scope, $http, DTOptionsBuilder,
     }
 
     $scope.reload_users();
+
+    /*------------------用户日志--------------------*/
+    $scope.url_user_log_view = '/bc/Admin/View/Business/userLogView.html';
+    $scope.user_log_loading = false;
+    $scope.reload_user_log = function () {
+        if ($scope.user_log_loading) return;
+
+        $scope.user_log_loading = true;
+        $http({
+            url: '/index.php',
+            method: 'get',
+            params: {
+                m: 'admin',
+                c: 'business',
+                a: 'getLogByUserId'
+            }
+        }).success(function (data) {
+            if (!data) {
+                $scope.user_log_loading = false;
+                return;
+            }
+
+            try {
+                $scope.user_logs = data;
+            }
+            catch (e) {
+
+            }
+            finally {
+                $timeout(function () {
+                    $scope.user_log_loading = false;
+                }, 100);
+            }
+        }).error(function () {
+            $scope.user_log_loading = false;
+        });
+    }
+
+    $scope.reload_user_log();
 });

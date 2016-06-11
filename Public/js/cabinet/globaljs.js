@@ -1,3 +1,5 @@
+
+register_filters(app_device);
 app_device.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
