@@ -1,0 +1,38 @@
+﻿<div class="panel panel-danger col-12">
+    <div class="panel-heading">
+        <h4 class="panel-title">用户管理 - [已删除]</h4>
+    </div>
+    <div class="panel-body bk-noradius">
+        <div class="table-responsive" ng-cloak>
+            <table class="table table-striped dataTable no-footer"
+                   datatable="ng" dt-options="showCase.dtOptions">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>用户名</td>
+                        <td>创建时间</td>
+                        <td>最后登录时间</td>
+                        <td>最后登录IP</td>
+                        <td>权限</td>
+                        <td>编辑</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users_model_removed">
+                        <td>{{$index+1}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.register_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{user.last_login_time ? (user.last_login_time*1000 | date:'yyyy-MM-dd HH:mm:ss'):'-'}}</td>
+                        <td>{{user.last_login_ip}}</td>
+                        <td>{{user.write != 0?'读/写':'只读'}}</td>
+                        <td>
+                            <a class="btn btn-info btn-xs" href="" ng-click="user_revive($index)">
+                                <i class="fa fa-edit "></i> 恢复
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

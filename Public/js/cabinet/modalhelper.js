@@ -91,12 +91,12 @@ ModalHelper.prototype = {
 
         this.id++;
 
-	return this.id;
+	    return this.id;
     },
 
     close_modal: function(modal_id){
-	if (this.id == modal_id){
-	    $.magnificPopup.close();
-	}
+	    if (this.id == modal_id){
+	        $.magnificPopup.close();
+	    }
     }
 };
