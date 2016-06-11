@@ -184,6 +184,9 @@ class BusinessController extends Controller
                 $ret['status'] = '0';
             } else {
                 $item['last_login_time'] = time();
+                $user_IP = ($_SERVER["HTTP_VIA"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
+                $user_IP = ($user_IP) ? $user_IP : $_SERVER["REMOTE_ADDR"];
+                $item['last_login_ip'] = $_SERVER["REMOTE_ADDR"];
                 $User->save($item);
 
                 session('user', $item['username']);
@@ -211,9 +214,28 @@ class BusinessController extends Controller
     }
 
     public function userMainPage()
-    {
+    {                      
+        $this->display('super-user-main');
+    }
+    public function get_users_removed()
+    {                
+        $db = M('user');
 
-        $this->display();
+        $this->AjaxReturn($db->where('status=0')->select());
+    }
+    public function user_revive()
+    {
+        $db = M('user');
+        $map['id'] = $_POST['id'];
+        $item = $db->where($map)->find();
+        if ($item) {
+            $item['status'] = 1;
+            $db->save($item);
+            $_POST['status'] = 'success';
+        } else {
+            $_POST['status'] = 'failure';
+        }
+        $this->AjaxReturn($_POST);
     }
 
     public function get_users()
