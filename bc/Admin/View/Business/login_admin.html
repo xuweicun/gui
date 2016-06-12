@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+	
+		<!-- Basic -->
+    	<meta charset="UTF-8" />
+
+		<title>[超级管理员] | 离线硬盘存储管理系统</title>
+	
+		<!-- Mobile Metas -->
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	    <!-- start: CSS file-->
+		
+		<!-- Vendor CSS-->
+		<link href="/Public/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/Public/assets/vendor/skycons/css/skycons.css" rel="stylesheet" />
+		<link href="/Public/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		
+		<!-- Plugins CSS-->
+		<link href="/Public/assets/plugins/bootkit/css/bootkit.css" rel="stylesheet" />
+		
+		<!-- Theme CSS -->
+		<link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet" />
+		
+		<!-- Page CSS -->		
+		<link href="/Public/assets/css/style.css" rel="stylesheet" />
+		<link href="/Public/assets/css/add-ons.min.css" rel="stylesheet" />
+		
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+		
+		<!-- end: CSS file-->	
+	    
+		
+		<!-- Head Libs -->
+		<script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
+
+		
+	</head>
+
+	<body ng-app="loginApp" ng-controller="loginCtrl">
+		<!-- Start: Content -->
+		<div class="container-fluid content">
+			<div class="row">
+				<!-- Main Page -->
+				<div id="content" class="col-sm-12 full">
+					<div class="row">
+						<div class="login-box">
+							<div class="panel">
+								<div class="panel-body">								
+									<div class="header bk-margin-bottom-20 text-center">										
+										<img src="/Public/assets/img/hlsqlogo2.png" class="img-responsive" alt="" style="display: inline-block;width: 45%;"/>
+										<h4>离线硬盘存储管理系统 [超级管理员]</h4>
+									</div>
+									<div class="bk-padding-left-20 bk-padding-right-20">
+										<form action="/index.php?m=admin&c=business&a=login" method="post">
+											<div class="form-group">
+												<label for="uname">用户名</label>
+												<div class="input-group input-group-icon">
+													<input type="text" class="form-control bk-radius" id="uname" ng-model="uname" placeholder="请输入用户名" ng-keydown="on_commit($event)" />
+													<span class="input-group-addon">
+														<span class="icon">
+															<i class="fa fa-user"></i>
+														</span>
+													</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="pwd">密码</label>
+												<div class="input-group input-group-icon">
+													<input type="password" class="form-control bk-radius" id="pwd" ng-model="pwd" placeholder="请输入密码" ng-keydown="on_commit($event)" />
+													<span class="input-group-addon">
+														<span class="icon">
+															<i class="fa fa-key"></i>
+														</span>
+													</span>
+												</div>
+											</div>
+                                            <div class="row" ng-if="err_msg">
+                                                <span ng-bind="err_msg" class="bk-margin-left-30 bk-fg-danger"></span>
+                                            </div>
+                                            <div class="row bk-margin-top-20 bk-margin-bottom-10">
+                                                <div class="col-sm-8">
+                                                    <div class="checkbox-custom checkbox-default">
+                                                        <input id="RememberMe" name="rememberme" type="checkbox" />
+                                                        <label for="RememberMe">记住我</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 text-right">
+                                                    <button type="button" class="btn btn-primary btn-block" ng-click="onBtnLogin()">登录</button>
+                                                </div>
+                                            </div>
+                                        </form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>			
+				</div>
+				<!-- End Main Page -->
+			</div>
+		</div><!--/container-->
+		
+		
+		<!-- start: JavaScript-->
+		
+		<!-- Vendor JS-->				
+		<script src="/Public/assets/vendor/js/jquery.min.js"></script>
+		<script src="/Public/assets/vendor/js/jquery-2.1.1.min.js"></script>
+		<script src="/Public/assets/vendor/js/jquery-migrate-1.2.1.min.js"></script>
+		<script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/Public/assets/vendor/skycons/js/skycons.js"></script>
+		
+		<!-- Plugins JS-->
+		<script src="/Public/assets/plugins/bootkit/js/bootkit.js"></script>
+		
+		<!-- Theme JS -->		
+		<script src="/Public/assets/js/jquery.mmenu.min.js"></script>
+		<script src="/Public/assets/js/core.min.js"></script>
+		
+		<!-- Pages JS -->
+        <script src="/Public/js/angular-1.4.min.js"></script>
+        <script src="/Public/js/md5.js"></script>
+        <script>
+            angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location) {
+                $scope.err_msg = "";
+                $scope.onBtnLogin = function () {
+                    $scope.err_msg = '';
+
+                    var uname = $('#uname').val();
+                    var pwd = $('#pwd').val();
+                    
+                    if (!uname) {
+                        $scope.err_msg = '用户名不能为空';
+                        return;
+                    }
+                    if (!pwd) {
+                        $scope.err_msg = '密码不能为空';
+                        return;
+                    }
+                                        
+                    $http.post('/index.php?m=admin&c=business&a=login_admin', {
+                        username: uname,
+                        password: hex_md5(pwd)
+                    }).success(function (obj) {
+                        try{
+                            if (obj.status == 1) {
+                                window.location = '/index.php?m=admin&c=business&a=super_user_main';
+                            }
+                            else {
+                                throw 1;
+                            }
+                        }
+                        catch (e) {
+                            $scope.err_msg = '登录失败';
+                        }
+                    }).error(function (data) {
+                        $scope.err_msg = '登录服务器失败';
+                    });
+                };
+
+                $scope.form_required = function () {
+                    if (!uname.trim() || !pwd.trim()) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                $scope.on_commit = function (e) {
+                    var keycode = window.event ? e.keyCode : e.which;
+                    if (keycode == 13) {
+                        $scope.onBtnLogin();
+                    }
+                }
+            });
+        </script>
+		
+		<!-- end: JavaScript-->
+		
+	</body>
+	
+</html>

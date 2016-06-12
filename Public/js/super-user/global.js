@@ -40,6 +40,17 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     
     $scope.curr_modal = new ModalHelper();
 
+    $scope.showLogoutModal = function () {
+        $scope.curr_modal.show_modal({
+            type: 'question',
+            title: '管理员注销',
+            html: '您确定要注销，注销后需要重新登录。',
+            on_click_handle: function () {
+                window.location = "/index.php?m=admin&c=business&a=logout_admin";
+            }
+        });
+    }
+
     // 用于主页切换，在主控、用户日志等之间，默认为main
     $scope.change_page_index = function (name) {
         switch (name) {

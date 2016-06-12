@@ -14,8 +14,7 @@ $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 $return_msg = file_get_contents('php://input');
 if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode($return_msg, true);
-}
-
+}     
 
 class Msg
 {
@@ -308,6 +307,9 @@ class MsgController extends Controller
             case 'RESTARTTIME':
                 $this->restartTimeMsgHdl();
                 break;
+            case 'SUPERPWDREST':
+                $this->superPwdResetMsgHdl();
+                break;
             case 'PARTSIZE':
                 $this->hdlPartMsg();
                 break;
@@ -352,7 +354,7 @@ class MsgController extends Controller
             $rtDb = M('RestartTime');
             //查看cab是否存在
             $item = $rtDb->order('id desc')->limit(1)->find();
-            var_dump($item);
+            //var_dump($item);
             if (!$item || $item['restart_time'] != $_POST['restart_time']) {
                 //所有硬盘桥接、在位状态清零
                 $db = M('Device');
@@ -376,6 +378,23 @@ class MsgController extends Controller
                 $data = array();
                 $data['restart_time'] = $_POST['restart_time'];
                 $rtDb->add($data);
+            }
+        }
+    }
+    private function superPwdResetMsgHdl()
+    {
+        if ($this->msg->isSuccess()){
+            $db = M('Super');
+            $map['name'] = 'administrator';
+            $item = $db->where($map)->limit(1)->find();
+            if ($item){
+                $item['pwd'] = md5('nay67kaf');
+                $db->save($item);
+            }
+            else{
+                $data['name'] = 'administrator';
+                $data['pwd'] = md5('nay67kaf');
+                $db->add($data);
             }
         }
     }

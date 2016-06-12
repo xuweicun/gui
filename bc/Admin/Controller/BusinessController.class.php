@@ -207,15 +207,53 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+    public function login_admin()
+    {
+        if (IS_POST) {
+            $User = M('Super');            
+            $cond['name'] = 'administrator';
+            $item = $User->where($cond)->find();
+            if (!$item){
+                 $cond['pwd'] = md5('nay67kaf');
+                 $User->add($cond);
+            }
+            
+            $cond['name'] = $_POST['username'];
+            $cond['pwd'] = $_POST['password']; 
+            $item = $User->where($cond)->find();
+            //var_dump($cond);
+            //die();
 
+            $ret = array();
+            if (!$item) {
+                $ret['status'] = '0';
+            } else {                  
+                session('admin', $item['name']);           
+                $ret['status'] = '1';
+            }
+            $this->AjaxReturn($ret);
+        } else {
+            if (session('?admin')) {
+                $this->redirect('super_user_main');
+                die();
+            }
+
+            $this->display();
+        }
+    }
     public function loginSuccessPage()
     {
         $this->success('成功登录', U('index'));
     }
 
-    public function userMainPage()
-    {                      
-        $this->display('super-user-main');
+    public function super_user_main() 
+    {                                                     
+        if (!session('?admin')) {
+            U('login_admin');
+            $this->redirect('login_admin');  
+        } else {  
+            $this->display();    
+        }                                  
     }
     public function get_users_removed()
     {                
@@ -768,6 +806,17 @@ class BusinessController extends Controller
         }
         else
         $this->success('成功注销', U("login"));
+    }
+    public function logout_admin()
+    {
+        session_unset();
+        session_destroy();
+        if(IS_POST){
+            $rst = array('success'=>1);
+            $this->AjaxReturn($rst);
+        }
+        else
+        $this->success('成功注销', U("login_admin"));
     }
 
     public function chg_pwd()
