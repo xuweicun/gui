@@ -273,8 +273,7 @@ class MsgController extends Controller
         $this->file = fopen("rtlog.txt", "a");
         $this->RTLog("------START AT " . date("h:i:sa") . "-----------");
         $this->db = M("CmdLog");
-        $this->RTLog("CMD-ID  :" . $this->msg->id);
-        $this->RTLog("CMD-TYPE:" . $this->msg->cmd);
+
 
 
         //update the log
@@ -302,7 +301,7 @@ class MsgController extends Controller
                 $this->copyMsgHandle();
                 break;
             case 'WRITEPROTECT':
-                $this->protectMsgHdl();
+                $this->hdlWriteProtectMsg();
                 break;
 
             case 'RESTARTTIME':
@@ -896,7 +895,16 @@ class MsgController extends Controller
             $this->db->save($log);
         }
     }
-
+   public function hdlWriteProtectMsg(){
+       //获取对应的层
+       $db = M('Device');
+       $level = $_POST['level'];
+       $disks = $db->where("level=%d and device_id=%d",$level,$this->msg->cab_id)->select();
+       foreach($disks as $disk){
+           $disk['protected'] = $_POST['subcmd'] == 'START' ? 1 : 0;
+           $db->save($disk);
+       }
+   }
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
