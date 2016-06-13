@@ -21,6 +21,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "gui", ".", "{F0CF4CDE-D034-
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "56704"
+		SlnRelativePath = "..\gui\"
 	EndProjectSection
 EndProject
 Global
