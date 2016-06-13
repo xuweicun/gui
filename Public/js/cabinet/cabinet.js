@@ -204,8 +204,9 @@ Cabinet.prototype = {
             _dsk.detail_info.MD5 = e.md5;
             _dsk.detail_info.capacity = e.capacity;
         }
-
         global_scope.is_ok = true;
+
+        console.log('is_ok: ', global_scope.is_ok);
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
