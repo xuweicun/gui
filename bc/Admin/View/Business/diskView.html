@@ -30,7 +30,7 @@
 
             </div>
         </div>
-        <div class="row bk-margin-top-5" ng-show="false && cab.curr.is_bridged() && user_profile.can_write">
+        <div class="row bk-margin-5" ng-show="false && cab.curr.is_bridged() && user_profile.can_write">
             <div class="col-lg-12" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                 <i class="fa fa-shield"></i>
                 写保护（<a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
@@ -39,13 +39,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <p title="硬盘容量">
                     <i class="fa fa-tachometer"></i>
                     {{cab.curr.is_loaded()?cab.curr.get_capacity() : '-'}} GB
                 </p>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <p title="get_SN">
                     <i class="fa fa-list-ul"></i>
                     {{cab.curr.is_loaded()?cab.curr.get_SN() : '-'}}
