@@ -16,7 +16,7 @@
 </head>
 
 
-<body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false">
+<body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak>
 <!-- Start: Header -->
 <div class="navbar" role="navigation">
     <div class="container-fluid container-nav">
@@ -98,7 +98,7 @@
     </div>
 </div>
 <!-- End: Header -->
-<div class="container-fluid content">
+<div class="container-fluid content" ng-init="is_ok = true">
     <div class="row">
         <div class="sidebar">
             <div ng-include="pageViewUrls.siderBarUrl"></div>
@@ -108,9 +108,9 @@
                 <h4>系统正在努力加载中...请稍候！</h4>
             </div>
             <!-- Start: Content -->
-            <div class="container-fluid content hidden" ng-class="{'hidden':!is_ok}" ng-show="page_index == 'main'">
+            <div class="container-fluid content" ng-show="page_index == 'main'">
                 <include file="cabs" />
-                <div class="row">
+                <div class="row" ng-hide="cabs.getLth() == 0">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
