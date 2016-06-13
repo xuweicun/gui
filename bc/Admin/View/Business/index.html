@@ -110,7 +110,7 @@
             <!-- Start: Content -->
             <div class="container-fluid content" ng-show="page_index == 'main'">
                 <include file="cabs" />
-                <div class="row">
+                <div class="row" ng-hide="cabs.getLth() == 0">
                     <div class="panel panel-default col-lg-9">
                         <div class="panel-heading">
                             <i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
