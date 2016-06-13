@@ -255,6 +255,28 @@ class BusinessController extends Controller
             $this->display();    
         }                                  
     }
+
+	public function super_change_pwd()
+	{
+		$db = M('Super');
+		$map['uname'] = $_POST['username'];
+		$map['pwd'] = $_POST['oldpwd'];
+		$item = $db->where($map)->limit(1)->find();
+
+		$ret = array();
+		if ($item) {
+			$item['pwd'] = $_POST['newpwd'];
+			$db->save($item);
+
+			$ret['status'] = '1';
+		}
+		else {		
+			$ret['status'] = '0';
+		}
+
+		$this->AjaxReturn($ret);
+	}
+
     public function get_users_removed()
     {                
         $db = M('user');

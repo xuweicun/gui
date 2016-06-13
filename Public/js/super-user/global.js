@@ -51,6 +51,84 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
+    $scope.show_password_change_modal = function () {
+        $scope.user_profile.err_msg = '';
+        $scope.user_profile.curr_pwd = '';
+        $scope.user_profile.new_pwd = '';
+        $scope.user_profile.new_pwd_confirm = '';
+
+        $scope.curr_modal.show_modal_user('superModalChangePassword');        
+    }
+
+    $scope.user_profile = {
+        username: 'administrator',
+        curr_pwd: '',
+        new_pwd: '',
+        new_pwd_confirm: '',
+        err_msg: '',
+        changePassword: function ()
+        {
+            this.curr_pwd = this.curr_pwd.trim();
+            if (this.curr_pwd == '') {
+                $('#text-input-pwd-curr').focus();
+                this.err_msg = '当前密码不能为空';
+                return;
+            }
+            this.new_pwd = this.new_pwd.trim()
+            if (this.new_pwd == '') {
+                $('#text-input-pwd').focus();
+                this.err_msg = '新密码不能为空';
+                return;
+            }
+            this.new_pwd_confirm = this.new_pwd_confirm.trim();
+            if (this.new_pwd_confirm == '') {
+                $('#text-input-pwd-confirm').focus();
+                this.err_msg = '新密码确认不能为空';
+                return;
+            }
+
+            if (this.new_pwd != this.new_pwd_confirm) {
+                $('#text-input-pwd-confirm').focus();
+                this.err_msg = '新密码确认不一致';
+                return;
+            }
+
+            $http({
+                url: '/index.php?m=admin&c=business&a=super_change_pwd',
+                method: 'post',
+                data: {
+                    username: this.username,
+                    oldpwd: hex_md5(this.curr_pwd),
+                    newpwd: hex_md5(this.new_pwd)
+                }
+            }).success(function (data)
+            {
+                if(!data) return;
+
+                if (data.status == 1) {
+                    new PNotify({
+                        title: '密码修改',
+                        text: '成功修改!',
+                        type: 'success',
+                        shadow: true,
+                        icon: 'fa fa-check-o'
+                    });
+
+                    $.magnificPopup.close();
+                }
+                else {
+                    $scope.user_profile.err_msg = '修改密码失败，当前密码不正确！';
+                }
+                
+            }).error(function (data)
+            {
+                $scope.user_profile.err_msg = '修改密码失败';
+            });
+
+        }
+    };
+
+
     // 用于主页切换，在主控、用户日志等之间，默认为main
     $scope.change_page_index = function (name) {
         switch (name) {
