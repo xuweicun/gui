@@ -1,17 +1,21 @@
 ﻿// 硬盘Disk类的构造函数
-function Disk(l, g, d) {
+function Disk(lvl_obj, grp_obj, d) {
     // l：层索引；g：组索引；d：位索引
     // 索引下标均为0
-    this.l = l;
-    this.g = g;
+    this.l = lvl_obj.idx;
+    this.g = grp_obj.idx;
     this.d = d;
+
+    this.level_obj = lvl_obj;
+    this.group_obj = grp_obj;
 
     // 分区情况
     this.partitions = [];
 
     // 温度
     this.temperature = '-';
-    // 是否写保护
+
+    // 是否写保护, 已过期，使用层对象的写保护，由于写保护是针对层的
     this.write_protected = true,
 
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
@@ -388,8 +392,8 @@ Disk.prototype = {
         return this.base_info.loaded && this.base_info.bridged;
     },
     // 判断是否开启了写保护
-    is_write_protected: function(){
-        return  this.is_bridged() && this.write_protected;
+    is_write_protected: function () {
+        return  this.is_bridged() && this.level_obj.write_protect;
     },
     // 获得硬盘位置描述，如1-1-1#等
     get_title: function () {

@@ -37,6 +37,9 @@ Cabinet.prototype = {
         for (var i = 0; i < level_cnt; ++i) {
             // 每一层
             var level_obj = {
+                idx: i,
+                // 写保护
+                write_protect: true,
                 // 温度
                 temperature: '-',
                 // 湿度
@@ -47,11 +50,12 @@ Cabinet.prototype = {
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组
                 var group_obj = {
+                    idx: j,
                     // 硬盘插槽
                     disks: []
                 };
                 for (var k = 0; k < disk_cnt; ++k) {
-                    var disk_obj = new Disk(i, j, k);
+                    var disk_obj = new Disk(level_obj, group_obj, k);
                     disk_obj.parent = group_obj;
                     group_obj.disks.push(disk_obj);
                 }
@@ -163,6 +167,13 @@ Cabinet.prototype = {
         
         this.cmd_device_status = is_add ? json_cmd : null;
     },
+    on_cmd_write_protect: function (json_cmd, is_add) {
+        if (json_cmd.cmd != 'WRITEPROTECT') return;
+
+        if (!is_add) {
+        }
+    },
+
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
     i_load_disks_base_info: function (data) {
@@ -240,6 +251,11 @@ Cabinet.prototype = {
             case 'DEVICESTATUS':
                 {
                     this.on_cmd_device_status(json_cmd, bol_op);
+                    break;
+                }
+            case 'WRITEPROTECT':
+                {
+                    this.on_cmd_write_protect(json_cmd, bol_op);
                     break;
                 }
 
