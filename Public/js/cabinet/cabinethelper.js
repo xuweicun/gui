@@ -200,6 +200,37 @@ CabinetHelper.prototype = {
     i_on_bridge_success: function (cab_id) {
         this.get_disk_cnt(cab_id);
     },
+    // 接口：用于写保护成功后调用
+    i_on_write_protect_success: function (ret_msg) {
+        if (ret_msg.device_id != this.cab.id.toString()) return;
+
+        if (ret_msg.cmd != 'WRITEPROTECT') {
+            console.log('not write protect cmd.');
+            return;
+        }
+        
+        if (ret_msg.status == '0' && ret_msg.substatus == '0') {
+            var int_lvl = -1;
+            try {
+                int_lvl = parseInt(ret_msg.level) - 1;
+
+                if (int_lvl < 0 || int_lvl >= this.cab.levels.length) {
+                    throw -1;
+                }
+            }
+            catch (e) {
+                console.log('error when read write protect level: ' + ret_msg.level);
+                return;
+            }
+
+            if (ret_msg.subcmd == 'START' || ret_msg.subcmd == 'STOP') {
+                this.cab.levels[int_lvl].write_protect = (ret_msg.subcmd == 'START');
+            }
+            else {
+                console.log('unknown write protect subcmd: ' + ret_msg.subcmd);
+            }
+        }
+    },
     get_all_disk_cnt: function () {
         for (var i = 0; i < this.cabs.length; ++i) {
             this.get_disk_cnt(this.cabs[i].id);

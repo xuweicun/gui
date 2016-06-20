@@ -198,16 +198,19 @@ Cabinet.prototype = {
 
             var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
             // 在位置位
-            if (_dsk.base_info.loaded != (e.loaded == 1)) {
-                _dsk.base_info.loaded = (e.loaded == 1);
+            if (_dsk.base_info.loaded != (e.loaded == '1')) {
+                _dsk.base_info.loaded = (e.loaded == '1');
             }
 
-            if (_dsk.base_info.bridged != (e.bridged == 1)) {
-                _dsk.base_info.bridged = (e.bridged == 1);
+            if (_dsk.base_info.bridged != (e.bridged == '1')) {
+                _dsk.base_info.bridged = (e.bridged == '1');
             }
 
-            if (e.bridged == 1) {
+            if (e.loaded == '1' && e.bridged == '1') {
                 _dsk.base_info.bridge_path = e.path;
+
+                // 写保护状态置位
+                _dsk.level_obj.write_protect = (e.protected == '1');
             }
             // 桥接置位            
 
