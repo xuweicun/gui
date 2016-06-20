@@ -322,7 +322,7 @@ TaskPool.prototype = {
         switch (task.cmd) {
             case 'WRITEPROTECT':
                 var ret = JSON.parse(msg['return_msg']);
-                i_on_write_protect_success(ret);
+                global_cabinet_helper.i_on_write_protect_success(ret);
                 break;
             case 'DEVICEINFO':
                 global_cabinet_helper.checkChg(msg);
