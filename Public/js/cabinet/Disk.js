@@ -25,6 +25,8 @@ function Disk(lvl_obj, grp_obj, d) {
     this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
     // 硬盘基本信息集合
     this.base_info = {
+        // 是否健康
+        normal: true,
         // 是否在位
         loaded: false,
         // 是否桥接

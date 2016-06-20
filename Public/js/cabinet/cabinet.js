@@ -206,6 +206,8 @@ Cabinet.prototype = {
                 _dsk.base_info.bridged = (e.bridged == '1');
             }
 
+            _dsk.base_info.normal = (e.normal == '1');
+
             if (e.loaded == '1' && e.bridged == '1') {
                 _dsk.base_info.bridge_path = e.path;
 

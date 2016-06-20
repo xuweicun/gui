@@ -13,6 +13,6 @@ $config = array(
 		'TMPL_L_DELIM'=>'<{',
 		'TMPL_R_DELIM'=>'}>',
         'URL_MODEL'=>0,
-	    'AUTO_PROTECT_ON'=>0
+	    'AUTO_PROTECT_ON'=>1
 );
 return array_merge($dbconfig,$config);

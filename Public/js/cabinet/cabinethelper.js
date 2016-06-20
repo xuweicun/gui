@@ -11,6 +11,7 @@ function CabPicker() {
     this.loaded_disk_cnt = '-';
     // 已桥接硬盘数
     this.bridged_disk_cnt = '-';
+    this.bad_disk_cnt = 0;
     // 电压
     this.voltage = '-';
     // 电流
@@ -251,6 +252,7 @@ CabinetHelper.prototype = {
 
             var cnt_l = 0;
             var cnt_b = 0;
+            var cnt_x = 0;//有问题的硬盘数量
             for (var i = 0; i < data.length; ++i) {
                 var _dsk = data[i];
 
@@ -261,6 +263,9 @@ CabinetHelper.prototype = {
                 if (_dsk.bridged == '1') {
                     cnt_b++;
                 }
+                if (_dsk.normal == '0'){
+                    cnt_x++;
+                }
             }
 
             for (var i = 0; i < global_cabinet_helper.cabs.length; ++i) {
@@ -268,6 +273,7 @@ CabinetHelper.prototype = {
                 if (_cab_h.id == cab_id) {
                     _cab_h.loaded_disk_cnt = cnt_l
                     _cab_h.bridged_disk_cnt = cnt_b;
+                    _cab_h.bad_disk_cnt = cnt_x;
                 }
             }
         }).error(function () {

@@ -237,13 +237,17 @@ class Dsk
         //检查字段的值是不是发生了变化
         if ($dsk[$key] != null && ($value != $dsk[$key])) {
             //更新更改记录
+            echo $key."发生变化<br>";
             $data['obj_id'] = $dsk['id'];
             $data['value'] = $value;
             $data['handled'] = 0;
             $data['type'] = $key;
             $data['time'] = time();
-            $logDb = M('ChgLog');
+            $data['is_new'] = 1;
+            $data['disk_id'] = $dsk['id'];
+            $logDb = M('DiskChgLog');
             $logDb->add($data);
+            var_dump($logDb->select());
             //返回true表示发生了变化
             return true;
         }
@@ -559,6 +563,14 @@ class MsgController extends Controller
             $db->save($item);
         } else {
             $data['id'] = $item['disk_id'];
+            $disk = $diskDb->find($data['id']);
+            if($disk['md5'] != $data['md5'])
+            {
+                $log_db = M("DiskChgLog");
+                $dsk_hdler = new Dsk();
+                $dsk_hdler->hdlDskChg($disk,'md5', $data['md5']);
+
+            }
             $diskDb->save($data);
         }
     }
@@ -848,9 +860,10 @@ class MsgController extends Controller
                 die("Disk not found");
             }
             $data['sn'] = $_POST['SN'];
-            $data['smart'] = 0;
+           // $data['smart'] = 0;
             $data['capacity'] = $_POST['capacity'];
             $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1: 0;
+            var_dump($data['normal']);
             $data['time'] = time();
             if (!$item['disk_id'] || is_null($item['disk_id'])) {
                 $item['disk_id'] = $diskDb->add($data);
@@ -859,7 +872,15 @@ class MsgController extends Controller
 
             } else {
                 $data['id'] = $item['disk_id'];
+                //检查sn是否变化
+                $disk = $diskDb->find($data['id']);
+                if($disk['sn'] != $data['sn'])
+                {
+                    $log_db = M("DiskChgLog");
+                    $dsk_hdler = new Dsk();
+                    $dsk_hdler->hdlDskChg($disk,'sn', $data['sn']);
 
+                }
                 $diskDb->save($data);
                 $this->updateSmart($item['disk_id']);
             }
@@ -908,7 +929,7 @@ class MsgController extends Controller
             }
         }
         echo "添加完成,结果如下:<br>";
-        var_dump($db->where("1=1")->select());
+       // var_dump($db->where("1=1")->select());
     }
 
     public function hdlSuccess()
