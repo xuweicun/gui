@@ -320,6 +320,10 @@ TaskPool.prototype = {
         var task = this.going[idx];
         //如果是START，按下面的方式处理
         switch (task.cmd) {
+            case 'WRITEPROTECT':
+                var ret = JSON.parse(msg['return_msg']);
+                i_on_write_protect_success(ret);
+                break;
             case 'DEVICEINFO':
                 global_cabinet_helper.checkChg(msg);
                 break;
