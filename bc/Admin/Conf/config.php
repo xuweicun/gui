@@ -12,6 +12,7 @@ $config = array(
 	    'BRG_DIR_ROOT' => "/home/share/mount/",
 		'TMPL_L_DELIM'=>'<{',
 		'TMPL_R_DELIM'=>'}>',
-        'URL_MODEL'=>0
+        'URL_MODEL'=>0,
+	    'AUTO_PROTECT_ON'=>0
 );
 return array_merge($dbconfig,$config);

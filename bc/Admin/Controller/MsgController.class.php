@@ -699,8 +699,8 @@ class MsgController extends Controller
         $dsk = new Dsk();
         $dsk->init();
         //for dsk object
-        $keys = array('bridged', 'path');
-        $values = array(0, '');
+        $keys = array('bridged', 'path','protected');
+        $values = array(0, '',0);
         foreach ($disks as $key => $disk) {
             $status = (int)$paths[$key]['status'];
             if ($status == C('CMD_SUCCESS')) {
@@ -709,6 +709,7 @@ class MsgController extends Controller
                 //if bridged
                 if (!$stop) {
                     $values[1] = $paths[$key]['value'];
+                    $values[2] = C('AUTO_PROTECT_ON');//如果开启,则状态改为被保护;否则为无保护状态;
                 } else {
                     $values[1] = '';
                 }
@@ -724,6 +725,10 @@ class MsgController extends Controller
         } else {
             $this->RTLog("SUCCESS");
             $log['status'] = C('CMD_SUCCESS');
+            $device_db = M('Device');
+            $map['cab_id'] = array('eq',$this->msg->cab_id);
+            $map['level'] = array('eq',$_POST['level']);
+            $device_db->where($map)->select();
             if (stop) {
                 //处理被桥接的命令，其实一般用不到
                 $this->RTLog("This is a stop Msg");
@@ -837,7 +842,11 @@ class MsgController extends Controller
             $db = M('Device');
             $diskDb = M('Disk');
             $item = $db->where($map)->find();
-            var_dump($item);
+            //var_dump($item);
+            if(!$item)
+            {
+                die("Disk not found");
+            }
             $data['sn'] = $_POST['SN'];
             $data['smart'] = 0;
             $data['capacity'] = $_POST['capacity'];
