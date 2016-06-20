@@ -103,7 +103,7 @@ class Msg
 
     public function isSRP()
     {
-        if ($this->isBridge())
+        if ($this->isBridge() || $this->cmd=='WRITEPROTECT')
             return false;
         return in_array($this->subcmd, $this->srp);
     }
@@ -927,11 +927,13 @@ class MsgController extends Controller
        //获取对应的层
        $db = M('Device');
        $level = $_POST['level'];
-       $disks = $db->where("level=%d and device_id=%d",$level,$this->msg->cab_id)->select();
+       $disks = $db->where("level=%d and cab_id=%d",$level,$this->msg->cab_id)->select();
        foreach($disks as $disk){
            $disk['protected'] = $_POST['subcmd'] == 'START' ? 1 : 0;
            $db->save($disk);
        }
+       $disks = $db->field('protected,cab_id,level')->where("level=%d and cab_id=%d",$level,$this->msg->cab_id)->select();
+       var_dump($disks);
    }
     public function handleError()
     {
