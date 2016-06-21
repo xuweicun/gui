@@ -7,7 +7,7 @@
     </div>
     <div class="panel bk-margin-10 bk-margin-bottom-20 row" ng-show="cab.curr.is_loaded()">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 bk-margin-top-5">
                 <div ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
                     <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
                     {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
@@ -24,8 +24,8 @@
                 </div>
             </div>
         </div>
-        <div class="row bk-margin-5" ng-show="cab.curr.is_bridged() && user_profile.can_write">
-            <div class="col-lg-12 bk-padding-off" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+        <div class="row" ng-show="cab.curr.is_bridged() && user_profile.can_write">
+            <div class="col-lg-12  bk-margin-top-5" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                 <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
 				{{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
                 <a class="btn btn-primary btn-xs" 
@@ -36,19 +36,15 @@
             </div>
         </div>
         <div class="row" ng-show="cab.curr.is_loaded()">
-            <div class="col-lg-12">
-                <p title="硬盘容量" class="bk-margin-5 bk-fg-primary">
-                    <i class="fa fa-tachometer"></i>
-                    {{cab.curr.get_capacity()}} GB
-                </p>
+            <div class="col-lg-12 bk-margin-top-5 bk-fg-info">
+                <i class="fa fa-tachometer"></i>
+                {{cab.curr.get_capacity()}} GB
             </div>
         </div>
         <div class="row" ng-show="cab.curr.is_loaded()">
-            <div class="col-lg-12">
-                <p title="get_SN" class="bk-margin-5 bk-fg-primary">
-                    <i class="fa fa-qrcode"></i>
-                    {{cab.curr.get_SN()}}
-                </p>
+            <div class="col-lg-12 bk-margin-top-5 bk-fg-info">
+                <i class="fa fa-qrcode"></i>
+                {{cab.curr.get_SN()}}
             </div>
         </div>
         <div class="row" ng-if="cab.curr.is_bridged()">
