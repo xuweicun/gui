@@ -63,17 +63,13 @@
 
                                 <a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
                                    ng-show="cab.curr.is_bridged()">索引</a>
-                            </td>
-                        </tr>
-                        <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
-                            <td>
+
                                 <i class="fa fa-folder-open-o"></i>
-                                浏览
                                 <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
 
                                 <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
                                    ng-show="cab.curr.is_bridged()"
-                                   class="btn btn-primary btn-xs">在线</a>                                
+                                   class="btn btn-primary btn-xs">在线</a>   
                             </td>
                         </tr>
                         <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
