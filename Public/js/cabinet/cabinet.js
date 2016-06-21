@@ -72,7 +72,14 @@ Cabinet.prototype = {
     },
     // 获得在位信息
     start_cmd_device_status: function () {
-        if (this.is_device_status_cmd_going()) return;
+        if (this.is_device_status_cmd_going()) {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '磁盘在位查询',
+                html: '<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>正在进行<span class="bk-fg-primary"> [磁盘在位查询] </span>中，请稍候再试在！'
+            });
+            return;
+        }
         if (this.id <= 0) return;
 
         global_modal_helper.show_modal({
