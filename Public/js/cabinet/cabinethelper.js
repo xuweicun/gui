@@ -277,13 +277,13 @@ CabinetHelper.prototype = {
 
                 if (_dsk.loaded == '1') {
                     cnt_l++;
-                }
-
-                if (_dsk.bridged == '1') {
-                    cnt_b++;
-                }
-                if (_dsk.normal == '0'){
-                    cnt_x++;
+					
+					if (_dsk.bridged == '1') {
+						cnt_b++;
+					}
+					if (_dsk.normal == '0'){
+						cnt_x++;
+					}
                 }
             }
 
