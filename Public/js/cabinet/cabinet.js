@@ -76,7 +76,7 @@ Cabinet.prototype = {
             global_modal_helper.show_modal({
                 type: 'warning',
                 title: '磁盘在位查询',
-                html: '<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>正在进行<span class="bk-fg-primary"> [磁盘在位查询] </span>中，请稍候再试在！'
+                html: '您所选择的<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>，正在进行<span class="bk-fg-primary"> [磁盘在位查询] </span>命令，请稍候再试！'
             });
             return;
         }
