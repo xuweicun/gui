@@ -49,6 +49,7 @@ function CabinetHelper(on_cabinet_select) {
     this.curr = null;
     // 当前柜子详细信息
     this.cab = null;
+    this.modal_index = -1;
 
     this.changed = false;
 
@@ -67,6 +68,13 @@ CabinetHelper.prototype = {
         }
 
         return null;
+    },
+    modal_pick: function (idx) {
+      this.modal_index = idx;
+    },
+    show_select_modal: function(){
+        this.modal_index = -1;
+        global_modal_helper.show_modal_user('modalSelectCab');
     },
     // 更新当前柜子的温湿度信息
     update_TempAndHum: function () {
@@ -114,7 +122,8 @@ CabinetHelper.prototype = {
 
         // 只有当前选中的硬盘才更新
         var resp = JSON.parse(msg.partition);
-        if (!resp) return;
+        if (!resp || !this.cab)
+            return;
 
         var _dsk = this.cab.curr;
         if (_dsk.l == resp.level - 1 && _dsk.g == resp.group - 1 && _dsk.d == resp.disk - 1) {
@@ -167,7 +176,8 @@ CabinetHelper.prototype = {
         });
     },
     on_select: function (idx) {
-        if (this.curr === this.cabs[idx]) {
+        $.magnificPopup.close();
+        if (this.curr === this.cabs[idx] || idx < 0) {
             return;
         }
         if(this.curr)

@@ -461,7 +461,11 @@ angular.module('device.services', [])
 
 
         }
-
+        var domain = document.domain;
+        var port   = '8383';
+        if(domain == 'localhost')
+            domain = '222.35.224.230';
+        var wm_server = "ws://"+domain+":"+port;
         var sendcmd = function (cmd) {
             cmd.to_client_id = "all";
             cmd.to_client_name = 1;
@@ -475,7 +479,7 @@ angular.module('device.services', [])
         }
         var close = function () {
             console.log("连接关闭,正在重新连接中");
-            ws = new WebSocket("ws://222.35.224.230:8383");
+            ws = new WebSocket(wm_server);
             ws.onmessage = onmessage;
             ws.onclose = close;
             ws.onopen = open;
@@ -485,12 +489,13 @@ angular.module('device.services', [])
             connect: function (id, grp) {
                 user_id = id;
                 user_grp = grp;
-                ws = new WebSocket("ws://222.35.224.230:8383");
+                ws = new WebSocket(wm_server);
                 ws.onmessage = onmessage;
                 ws.onclose = close;
                 ws.onopen = open;
                 ws.sendcmd = sendcmd;
                 return ws;
-            }
+            },
+            wm_server: wm_server
         }
     });
