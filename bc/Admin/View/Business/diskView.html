@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="row bk-margin-5" ng-show="cab.curr.is_bridged() && user_profile.can_write">
-            <div class="col-lg-12" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+            <div class="col-lg-12 bk-padding-off" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                 <i class="fa fa-shield"></i>
                 写保护（<a class="btn btn-primary btn-xs" ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
                     {{cab.curr.is_write_protected()?'关闭':'开启'}}
@@ -102,7 +102,7 @@
 
                 <a href=""
                    title="查询硬盘详细信息"
-                   class="btn btn-xs modal-with-move-anim"
+                   class="btn btn-xs modal-with-move-anim bk-margin-5"
                    ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
                    ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
                     <i class="fa fa-info-circle"></i>
@@ -111,7 +111,7 @@
 
                 <!-- Bridge -->
                 <a href=""
-                   class="btn btn-primary btn-xs modal-with-move-anim"
+                   class="btn btn-primary btn-xs modal-with-move-anim bk-margin-5"
                    ng-class="{'btn-danger':cab.curr.is_bridged(), 'btn-warning':cab.curr.get_cmd_name() == 'BRIDGE'}"
                    ng-disabled="!cab.curr.is_loaded()"
                    ng-click="cab.curr.cmd_commit('BRIDGE')">
@@ -122,7 +122,7 @@
 
                 <!-- MD5 -->
                 <a href=""
-                   class="btn btn-xs modal-with-move-anim"
+                   class="btn btn-xs modal-with-move-anim bk-margin-5"
                    ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'MD5']"
                    ng-disabled="!cab.curr.is_loaded()"
                    ng-click="cab.curr.cmd_commit('MD5')">
@@ -132,7 +132,7 @@
 
                 <!-- Copy -->
                 <a href="" ng-show="user_profile.can_write"
-                   class="btn btn-xs modal-with-move-anim"
+                   class="btn btn-xs modal-with-move-anim bk-margin-5"
                    ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'COPY']"
                    ng-disabled="!cab.curr.is_loaded()"
                    ng-click="cab.curr.cmd_commit('COPY')">
