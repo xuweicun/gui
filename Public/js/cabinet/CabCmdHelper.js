@@ -23,8 +23,13 @@ CabCmdHelper.prototype = {
                     global_cmd_helper.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);
                 }
             }
-        }).error(function () {
+        }).error(function (data) {
             console.log("更新存储柜信息失败.");
+			global_modal_helper.show_modal({
+				type: 'error',
+				title: 'Fatal Error',
+				html: data
+			});
         });
     },
     createCmd: function (log) {
