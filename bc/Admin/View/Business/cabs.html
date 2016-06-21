@@ -32,19 +32,17 @@
                         </div>
                         <hr style="margin-top:10px;margin-bottom:10px">
                         <div class="row">
-                            <span class="col-lg-12">
+                            <span class="col-lg-5">
                             <i class="fa fa-leaf" title="电压"></i> {{cabs.curr.voltage}}V <i class="fa fa-flash"
                                                                                        style="margin-left:10px"
                                                                                        title="电流"></i>
                             {{cabs.curr.current}}A
                                 </span>
-                        </div>
-                        <br/>
-                        <div class="row bk-margin-bottom-15" ng-show="deployer.idx>0">
-                            <div class="col-lg-12">
-                                <p>插槽信息获取中，当前进度（{{deployer.idx}}/{{deployer.getLength()}}）</p>
+                            <div class="col-lg-7"  ng-show="deployer.idx>0">
+                                <p>硬盘信息获取中（{{deployer.idx}}/{{deployer.getLength()}}）</p>
                             </div>
                         </div>
+                        <br/>
                         <div class="row">
                             <div class="col-lg-7">
                                 在位[<b><span class="bk-fg-danger"
@@ -63,12 +61,28 @@
                     <div class="panel-body bk-bg-info">
                         <div class="row">
                             <div class="col-lg-12">
-                                <span style="font-size:18px;width:inherit;margin-right:10px">健康状况异常磁盘数量:{{cabs.curr.bad_disk_cnt}}</span>
-                                <hr style="margin-top:10px;margin-bottom:10px">
-                                <span style="font-size:18px;width:inherit;margin-right:10px">SN异常磁盘数量:{{cabs.curr.bad_disk_cnt}}</span>
-                                <hr style="margin-top:10px;margin-bottom:10px">
-                                <span style="font-size:18px;width:inherit;margin-right:10px">数据异常磁盘数量:{{cabs.curr.bad_disk_cnt}}</span>
-
+                                <span style="font-size:18px;width:inherit;margin-right:10px">健康状况信息</span>
+                            </div>
+                        </div>
+                        <hr style="margin-top:10px;margin-bottom:10px">
+                        <div class="row">
+                            <span class="col-lg-4">
+                                Smart异常{{cabs.curr.bad_disk_cnt}}块
+                            </span>
+                            <span class="col-lg-4">
+                                SN异常{{cabs.curr.bad_disk_cnt}}块
+                            </span>
+                            <span class="col-lg-4">
+                                MD5异常{{cabs.curr.bad_disk_cnt}}块
+                            </span>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-7">
+                                
+                            </div>
+                            <div class="col-lg-5 text-right">
+                               
                             </div>
                         </div>
                     </div>
