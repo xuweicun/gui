@@ -49,95 +49,94 @@
             </a>
         </div>
     </div>
-    <div class="panel" ng-show="cab.curr.is_loaded()">
-        <div class="row">
-            <div class="col-lg-12">
+
+    <div class="row" ng-show="cab.curr.is_loaded()">
+        <div class="col-lg-12">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
+                        <td>
+                            <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
+                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
+
+                            <a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
+                               ng-show="cab.curr.is_bridged()">索引</a>
+
+                            <i class="fa fa-folder-open-o"></i>
+                            <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
+
+                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
+                               ng-show="cab.curr.is_bridged()"
+                               class="btn btn-primary btn-xs">在线</a>
+                        </td>
+                    </tr>
+                    <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
+                        ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+                        <td>
+                            <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
+                            {{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
+                            <a class="btn btn-primary btn-xs"
+                               ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
+                               ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
+                                {{cab.curr.is_write_protected()?'关闭':'开启'}}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="cab.curr.is_loaded()">
+                        <td>
+                            <i class="fa fa-tachometer"></i>
+                            容量
+                            {{cab.curr.get_capacity()}} GB
+                        </td>
+                    </tr>
+                    <tr ng-show="cab.curr.is_loaded()">
+                        <td>
+                            <i class="fa fa-qrcode"></i>
+                            SN: [{{cab.curr.get_SN()}}]
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" ng-if="cab.curr.is_bridged()">
+        <br>
+        <div class="col-lg-12">
+            <div class="table-responsive">
                 <table class="table table-bordered">
+                    <caption align="top">
+                        硬盘分区情况
+                        <a class="btn btn-primary btn-xs" href="" ng-click="cab.curr.update_partitions()">
+                            刷新
+                        </a>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>盘符</th>
+                            <th>大小</th>
+                            <th>剩余空间</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
+                        <tr ng-repeat="_partition in cab.curr.partitions">
+                            <td>{{_partition.name}}</td>
+                            <td>{{(_partition.total / 1048576.0).toFixed(2)}} G</td>
                             <td>
-                                <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
-                                {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
-
-                                <a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
-                                   ng-show="cab.curr.is_bridged()">索引</a>
-
-                                <i class="fa fa-folder-open-o"></i>
-                                <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
-
-                                <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
-                                   ng-show="cab.curr.is_bridged()"
-                                   class="btn btn-primary btn-xs">在线</a>   
-                            </td>
-                        </tr>
-                        <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
-                            ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
-                            <td>
-                                <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
-                                {{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
-                                <a class="btn btn-primary btn-xs"
-                                   ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
-                                   ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
-                                    {{cab.curr.is_write_protected()?'关闭':'开启'}}
-                                </a>
-                            </td>
-                        </tr>
-                        <tr ng-show="cab.curr.is_loaded()">
-                            <td>
-                                <i class="fa fa-tachometer"></i>
-                                容量
-                                 {{cab.curr.get_capacity()}} GB
-                            </td>
-                        </tr>
-                        <tr ng-show="cab.curr.is_loaded()">
-                            <td>
-                                <i class="fa fa-qrcode"></i>
-                                SN: [{{cab.curr.get_SN()}}]
+                                {{(_partition.left / 1048576.0).toFixed(2)}} G
+                                <!--
+                                    <div class="progress" style="margin:0px">
+                                        <div class="progress-bar progress-bar-success"
+                                             role="progressbar"
+                                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: {{(_partition.used * 1.0 / _partition.total).toFixed(2)}}%;">
+                                            {{(_partition.used * 100.0 / _partition.total).toFixed(2)}}%
+                                        </div>
+                                    </div>
+                                    -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="row" ng-if="cab.curr.is_bridged()">
-            <br>
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <caption align="top">
-                            硬盘分区情况
-                            <a class="btn btn-primary btn-xs" href="" ng-click="cab.curr.update_partitions()">
-                                刷新
-                            </a>
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>盘符</th>
-                                <th>大小</th>
-                                <th>剩余空间</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="_partition in cab.curr.partitions">
-                                <td>{{_partition.name}}</td>
-                                <td>{{(_partition.total / 1048576.0).toFixed(2)}} G</td>
-                                <td>
-                                    {{(_partition.left / 1048576.0).toFixed(2)}} G
-                                    <!--
-                                        <div class="progress" style="margin:0px">
-                                            <div class="progress-bar progress-bar-success"
-                                                 role="progressbar"
-                                                 aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-                                                 style="width: {{(_partition.used * 1.0 / _partition.total).toFixed(2)}}%;">
-                                                {{(_partition.used * 100.0 / _partition.total).toFixed(2)}}%
-                                            </div>
-                                        </div>
-                                        -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
