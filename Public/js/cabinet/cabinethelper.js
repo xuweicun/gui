@@ -200,6 +200,25 @@ CabinetHelper.prototype = {
     // 接口：用于桥接成功后调用
     i_on_bridge_success: function (cab_id) {
         this.get_disk_cnt(cab_id);
+    },	
+    // 接口：用于桥接成功后调用
+    i_update_write_protect_on_bridge_success: function (cab_id, str_lvl) {
+		// 若为当前柜子，重置写保护信息
+		if (cab_id == this.cab.id) {
+			var int_lvl = 0;
+			try{			
+				int_lvl = parseInt(str_lvl) - 1;	
+				if (int_lvl < 0 || int_lvl > 5){
+					throw -1;
+				}
+			}
+			catch(e){
+				console.log('invalid level: ' + str_lvl);
+				return;
+			}
+			
+			this.cab.levels[int_lvl].write_protect = true;
+		}
     },
     // 接口：用于写保护成功后调用
     i_on_write_protect_success: function (ret_msg) {

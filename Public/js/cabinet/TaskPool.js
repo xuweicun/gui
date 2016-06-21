@@ -365,6 +365,9 @@ TaskPool.prototype = {
 
                 // 更新桥接数
                 global_cabinet_helper.i_on_bridge_success(task.cab_id);
+				
+                // 更新写保护
+                global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
 
             //如果断开
         }
