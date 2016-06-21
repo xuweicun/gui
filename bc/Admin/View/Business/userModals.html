@@ -330,12 +330,12 @@
 <div id="modalSelectCab" class="zoom-anim-dialog modal-block  mfp-hide odal-block-primary">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">选择存储柜（共{{cabs.cabs.length}}个）</h4>
+            <h4 class="panel-title">选择存储柜(共{{cabs.cabs.length}}个)</h4>
         </div>
         <div class="panel-body bk-noradius">
             <div class="modal-wrapper">
                 <div class="col-lg-3 col-sm-6 col-xs-12">
-                    <a class="btn btn-primary btn-block" ng-class="{true:'btn-selected',false:'btn-not-selected'}[cabs.modal_index==$idx]" ng-repeat="item in cabs.cabs" ng-bind="'存储柜#'+item.id" ng-click="cabs.modal_pick($idx);"
+                    <a class="btn btn-primary btn-block" ng-class="{true:'btn-selected',false:'btn-not-selected'}[cabs.modal_index==$idx]" ng-repeat="item in cabs.cabs" ng-bind="'存储柜'+item.id +'#'" ng-click="cabs.modal_pick($idx);"
                        ng-disabled="cabs.curr.id==item.id"></a>
                 </div>
             </div>
