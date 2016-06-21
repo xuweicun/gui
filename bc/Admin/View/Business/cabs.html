@@ -2,7 +2,9 @@
     <div class="panel panel-success col-lg-12 ">
         <div class="panel-heading">
             <i class="fa fa-gears"></i>基本信息
-            <a href="#" ng-click="initCab();" class="pull-right btn-danger btn-xs bk-margin-5"
+            <a href="" class="btn btn-primary btn-xs" ng-show="cabs.getLth() > 0"
+               ng-click="cabs.show_select_modal();"><i class="fa fa-refresh"></i>选择其他存储柜</a>
+            <a href="" ng-click="initCab();" class="pull-right btn-danger btn-xs bk-margin-5"
                title="重新获取在位存储柜的数量和基本信息"> <i
                     class="fa fa-refresh"></i> 存储柜在位状态查询</a>
         </div>
@@ -27,8 +29,6 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <span style="font-size:18px;width:inherit;margin-right:10px">存储柜({{cabs.curr.id}}#)</span>
-                                <a href="#" class="btn btn-primary btn-small" ng-show="cabs.getLth() > 0"
-                                   ng-click="cabs.show_select_modal();"> <i class="fa fa-refresh"></i> 更换</a>
                             </div>
                         </div>
                         <hr style="margin-top:10px;margin-bottom:10px">
