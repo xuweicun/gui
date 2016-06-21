@@ -86,12 +86,15 @@
                         </tr>
                         <tr ng-show="cab.curr.is_loaded()">
                             <td>
-                                <i class="fa fa-tachometer"></i> {{cab.curr.get_capacity()}} GB
+                                <i class="fa fa-tachometer"></i>
+                                容量
+                                 {{cab.curr.get_capacity()}} GB
                             </td>
                         </tr>
                         <tr ng-show="cab.curr.is_loaded()">
                             <td>
-                                <i class="fa fa-qrcode"></i> {{cab.curr.get_SN()}}
+                                <i class="fa fa-qrcode"></i>
+                                SN: [{{cab.curr.get_SN()}}]
                             </td>
                         </tr>
                     </tbody>
