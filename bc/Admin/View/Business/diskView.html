@@ -32,7 +32,7 @@
         </div>
         <div class="row bk-margin-5" ng-show="cab.curr.is_bridged() && user_profile.can_write">
             <div class="col-lg-12 bk-padding-off" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
-                <i class="fa fa-shield"></i>
+                <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
 				{{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
                 <a class="btn btn-primary btn-xs" 
 					ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
