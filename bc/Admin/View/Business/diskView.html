@@ -56,7 +56,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered">
-                    <thead><tr><td></td></tr></thead>
                     <tbody>
                         <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
                             <td colspan="2">
@@ -66,7 +65,8 @@
                         </tr>
                         <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
                             <td>
-                                <i class="fa fa-folder-open-o bk-margin-left-10"></i>浏览
+                                <i class="fa fa-folder-open-o"></i>
+                                浏览
                             </td>
                             <td>
                                 <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
@@ -83,9 +83,10 @@
                             ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                             <td>
                                 <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
-                                {{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
+                                写保护
                             </td>
                             <td>
+                                {{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
                                 <a class="btn btn-primary btn-xs"
                                    ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
                                    ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
@@ -93,8 +94,7 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr ng-show="cab.curr.is_loaded()"
-                            ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+                        <tr ng-show="cab.curr.is_loaded()">
                             <td>
                                 <i class="fa fa-tachometer"></i> 容量
                             </td>
@@ -102,8 +102,7 @@
                                 {{cab.curr.get_capacity()}} GB
                             </td>
                         </tr>
-                        <tr ng-show="cab.curr.is_loaded()"
-                            ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+                        <tr ng-show="cab.curr.is_loaded()">
                             <td>
                                 <i class="fa fa-qrcode"></i> SN
                             </td>
