@@ -11,6 +11,7 @@ function CabPicker() {
     this.loaded_disk_cnt = '-';
     // 已桥接硬盘数
     this.bridged_disk_cnt = '-';
+    // 异常硬盘数
     this.bad_disk_cnt = 0;
     // 电压
     this.voltage = '-';
