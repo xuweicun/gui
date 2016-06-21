@@ -1,7 +1,7 @@
 ﻿<div>
     <div class="row">
         <div class="col-lg-12 panel bk-margin-10">
-            <h4>当前：<i class="glyphicon" ng-class="{ true:'glyphicon-hdd', false:'glyphicon-ban-circle' }[cab.curr.is_loaded()]"></i> <span ng-class="{ true:'bk-fg-primary', false:'bk-fg-default' }[cab.curr.is_loaded()]">{{cab.curr.get_title()}} {{cab.curr.is_loaded()?'':'(无盘)'}}</span>
+            <h4>当前：<span ng-class="{ true:'bk-fg-primary', false:'bk-fg-default' }[cab.curr.is_loaded()]"><i class="glyphicon" ng-class="{ true:'glyphicon-hdd', false:'glyphicon-ban-circle' }[cab.curr.is_loaded()]"></i> {{cab.curr.get_title()}} {{cab.curr.is_loaded()?'':'(无盘)'}}</span>
             <span ng-show="cab.curr.is_bridged() && !cab.curr.is_write_protected()" class="bk-fg-danger" title="数据可写">[ <i class="fa fa-edit"></i> ]</span></h4>
         </div>
     </div>
