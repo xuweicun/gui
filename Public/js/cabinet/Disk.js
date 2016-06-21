@@ -125,8 +125,13 @@ Disk.prototype = {
     cmd_commit_copy_confirm: function(){
         global_modal_helper.show_modal_user('userModalCopyConfirm');
     },
-    can_stop: function(cmd_name){
-        return cmd_name == 'BRIDGE' || cmd_name == 'COPY' || cmd_name == 'MD5';
+    can_stop: function (cmd_name) {
+        if (cmd_name == 'BRIDGE') {
+            return this.is_bridged();
+        }
+        else {
+            return cmd_name == 'COPY' || cmd_name == 'MD5';
+        }        
     },
     // 用户提交命令
     cmd_commit: function (cmd_name) {
