@@ -37,11 +37,12 @@
                                                                                        style="margin-left:10px"
                                                                                        title="电流"></i>
                             {{cabs.curr.current}}A
-                                </span>                            
+							<p class="pull-right">硬盘信息获取: {{deployer.idx}}/{{deployer.getLength()}}</p>
+                                </span>   							
                         </div>
                         <div class="row">
 							<div class="col-lg-12"  ng-show="deployer.idx>0">
-								<p>硬盘信息获取中（{{deployer.idx}}/{{deployer.getLength()}}）</p>
+								<p></p>
 							</div>
 						</div>
                         <div class="row">
