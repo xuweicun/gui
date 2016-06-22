@@ -58,9 +58,6 @@
                         <td>
                             <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
-
-                            <a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
-                               ng-show="cab.curr.is_bridged()">索引</a>
 						</td>
 						<td>
                             <i class="fa fa-folder-open-o"></i>
@@ -71,6 +68,14 @@
                                class="btn btn-primary btn-xs">在线</a>
                         </td>
                     </tr>
+					<tr>
+						<td colspan="2">
+							<i class="fa fa-list-ol"></i>
+							索引
+							<a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
+                               ng-show="cab.curr.is_bridged()">构建</a>
+						</td>
+					</tr>
                     <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
                         ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                         <td colspan="2">
