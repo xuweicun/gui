@@ -33,13 +33,8 @@ class BusinessController extends Controller
             $this->assign('token',session('token'));
 
             //generate the page
-            //先检查有没有柜子
-            $db = M('Cab');
-            $items = $db->select();
-            if (!$items) {
-                $this->redirect('SystemInit');
-            } else
-                $this->display();
+            $this->display();
+                
         }
     }
 

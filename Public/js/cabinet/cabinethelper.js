@@ -329,6 +329,7 @@ CabinetHelper.prototype = {
             method: 'GET'
         }).success(function (data) {
             if (data === null){
+				global_scope.is_ok = true;
                 global_task_pool.init();
                 return;
             }

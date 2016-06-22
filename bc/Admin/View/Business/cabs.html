@@ -7,8 +7,10 @@
             <a href="" class="btn btn-primary btn-xs pull-right  bk-margin-top-5 bk-margin-right-5" ng-show="cabs.getLth() > 0"
                ng-click="cabs.show_select_modal();"><i class="fa fa-refresh"></i>选择存储柜</a>
         </div>
-        <div class="panel-body bk-padding-off">
-            <p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="#" ng-click="cabinfo();">系统初始化</a></p>
+        <div class="panel-body">
+			<div class="col-lg-12">
+				<p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="" class="btn btn-primary btn-xs" ng-click="initCab();">系统初始化</a></p>
+			</div>            
 
             <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
                  <a href="" class="panel bk-widget bk-border-off" ng-click="cabs.on_select($index)"
