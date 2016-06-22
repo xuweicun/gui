@@ -37,14 +37,10 @@
                                                                                        style="margin-left:10px"
                                                                                        title="电流"></i>
                             {{cabs.curr.current}}A
-							<p class="pull-right">硬盘信息获取: {{deployer.idx}}/{{deployer.getLength()}}</p>
-                                </span>   							
+							<p class="pull-right" ng-show="deployer.idx>0">硬盘信息获取: {{deployer.idx}}/{{deployer.getLength()}}</p>
+							</span>   							
                         </div>
-                        <div class="row">
-							<div class="col-lg-12"  ng-show="deployer.idx>0">
-								<p></p>
-							</div>
-						</div>
+                        <br/>
                         <div class="row">
                             <div class="col-lg-12">
                                 在位[<b><span class="bk-fg-danger"
