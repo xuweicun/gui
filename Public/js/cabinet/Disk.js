@@ -577,8 +577,9 @@ Disk.prototype = {
         if (_name == 'DISKINFO' || _name == 'BRIDGE') {
             return ex_title;
         }
-        else if (_name == 'MD5' || _name == 'COPY') {
-            return ex_title + '，' + this.temperature + '℃';
+        else if (_name == 'MD5' || _name == 'COPY') {			
+            return ex_title;
+            //return ex_title + '，' + this.temperature + '℃';
         }
         else {
             return '';
