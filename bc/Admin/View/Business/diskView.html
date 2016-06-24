@@ -86,20 +86,23 @@
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="cab.curr.is_loaded()">
-                        <td colspan="2">
-                            <i class="fa fa-tachometer"></i>
-                            容量
-                            {{cab.curr.get_capacity()}} GB
-                        </td>
-                    </tr>
-                    <tr ng-show="cab.curr.is_loaded()">
-                        <td colspan="2">
-                            <i class="fa fa-qrcode"></i>
-                            SN: [{{cab.curr.get_SN()}}]
-                        </td>
-                    </tr>
                 </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" ng-show="cab.curr.is_loaded()">
+        <div class="col-lg-12">
+            <table>
+                <tr>
+                    <td><i class="fa fa-tachometer"></i>
+                            容量</td>
+                    <td>{{cab.curr.get_capacity()}} GB</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-qrcode"></i>
+                            SN</td>
+                    <td>{{cab.curr.get_SN()}}</td>
+                </tr>
             </table>
         </div>
     </div>
