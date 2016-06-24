@@ -54,12 +54,14 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
+                        <!--
                         <td>
                             <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
                             {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
 						</td>
-						<td>
-                            <i class="fa fa-folder-open-o"></i>
+                            -->
+						<td colspan="2">
+                            <i class="fa fa-folder-open-o"></i> 浏览
                             <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">查看缓存</a>
 
                             <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
