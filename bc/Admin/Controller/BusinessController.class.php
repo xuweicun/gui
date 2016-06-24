@@ -906,8 +906,9 @@ class BusinessController extends Controller
         }
         $data = array(
             'type'=>$_POST['type'],
-            'index'=>(int)$_POST['index'],
+            'cnt'=>(int)$_POST['cnt'],
             'unit'=>(int)$_POST['unit'],
+            'start_time'=>$_POST['start_time'],
             'time'=>time(),
             'by'=>'user_id',
             'is_current'=>1
@@ -915,10 +916,7 @@ class BusinessController extends Controller
         $db->startTrans();
         $rs1 = $db->add($data);
         $plan_db = M('AutoCheckPlan');
-        $plan = array(
-            'type'=>$data['type'],
-            ///'time'=>,
-        );
+        $plan = getPlan($data,$_POST['start_date']);
         $rs2 = $plan_db->add($plan);
         $ret['status'] = '1';
         if($rs1 && $rs2){
@@ -930,6 +928,10 @@ class BusinessController extends Controller
             $ret['status'] = '0';
         }
         $this->AjaxReturn(json_encode($ret));
+    }
+    public function getPlan($config,$start_date){
+        //根据配置信息获取时间
+
     }
     public function getTime(){
 

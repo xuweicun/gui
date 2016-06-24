@@ -609,12 +609,17 @@ class MsgController extends Controller
                     $this->db->save($cmd);
                     break;
                 case 'RESULT':
-                    $this->RTLog('Handling Result');
+                    echo 'Handling Result';
                     $keys = array('md5');
                     $values = array($_POST['result']);
                     $dsk = new Dsk();
                     $dsk->init();
-                    $dsk->updateDiskInfo($keys, $values);
+                    //$dsk->updateDiskInfo($keys, $values);
+                    if($this->msg->cmd=='MD5')
+                    {
+                        echo 'MD5 RESULT';
+                        $this->updateDiskMd5();
+                    }
                     //将状态更新为等待停止
                     $cmd['stage'] = 'STOP';
                     $this->RTLog($cmd['stage']);
