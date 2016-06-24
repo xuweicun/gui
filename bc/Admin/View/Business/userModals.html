@@ -120,7 +120,8 @@
                                     <label for="radioBoxCopySrc{{$index}}" ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()),
 																			'bk-fg-success':(_disk.is_bridged())}">
                                         <i class="glyphicon bk-margin-left-5"
-                                           ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>{{_disk.get_title()}}
+                                           ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>
+										   {{_disk.get_title()}}
                                     </label>
                                 </div>
                             </div>
