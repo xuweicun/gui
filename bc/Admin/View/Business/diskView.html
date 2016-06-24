@@ -105,9 +105,25 @@
     </div>
     <div class="row" ng-show="cab.curr.curr_cmd != null">
         <div class="col-lg-12">
+            <table class="table table-bordered">
+                <tbody>                    
+                    <tr>
+                        <td>当前命令</td>
+                        <td>{{cab.curr.cmd2chs(cab.curr.get_cmd_name())}}</td>
+                    </tr>                    
+                    <tr>
+                        <td>进度</td>
+                        <td>{{cab.curr.curr_cmd.progress}} %</td>
+                    </tr>                    
+                    <tr>
+                        <td>耗时</td>
+                        <td>{{cab.curr.curr_cmd.usedTime}} s</td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="row">
                 <div class="col-lg-12">
-                    当前命令：{{cab.curr.cmd2chs(cab.curr.get_cmd_name())}}
+                    当前命令：
                 </div>
             </div>
         </div>
