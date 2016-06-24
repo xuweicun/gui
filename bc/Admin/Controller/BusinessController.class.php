@@ -30,7 +30,7 @@ class BusinessController extends Controller
             $this->assign('username', session('user'));
             $this->assign('userid', session('userid'));
             $this->assign('can_write', session('can_write'));
-            $this->assign('token',session('token'));
+            $this->assign('token', session('token'));
 
             //generate the page
             //先检查有没有柜子
@@ -53,7 +53,7 @@ class BusinessController extends Controller
             $this->assign('username', session('user'));
             $this->assign('userid', session('userid'));
             $this->assign('can_write', session('can_write'));
-            $this->assign('token',session('token'));
+            $this->assign('token', session('token'));
         }
 
     }
@@ -122,27 +122,28 @@ class BusinessController extends Controller
             $this->notFoundError('Cmd not found');
         }
     }
-    
-    public function getLogByUserId(){
-        $db = M('CmdLog');               
+
+    public function getLogByUserId()
+    {
+        $db = M('CmdLog');
         $user_id = I('get.userid', -1, 'intval');
-        if ($user_id != -1){
-            $map['user_id'] = $user_id;                   
-        }                            
+        if ($user_id != -1) {
+            $map['user_id'] = $user_id;
+        }
         $ret = $db
             ->join('gui_user ON gui_cmd_log.user_id = gui_user.id')
-            ->field(array(                         
-                'gui_cmd_log.user_id'=>'user_id', 
-                'gui_cmd_log.cmd'=>'cmd',        
-                'gui_cmd_log.sub_cmd'=>'sub_cmd', 
-                'gui_cmd_log.msg'=>'msg',                
-                'gui_cmd_log.start_time'=>'start_time', 
-                'gui_cmd_log.finished'=>'finished', 
-                'gui_cmd_log.status'=>'status', 
-                'gui_user.username'=>'username', 
-                ))
+            ->field(array(
+                'gui_cmd_log.user_id' => 'user_id',
+                'gui_cmd_log.cmd' => 'cmd',
+                'gui_cmd_log.sub_cmd' => 'sub_cmd',
+                'gui_cmd_log.msg' => 'msg',
+                'gui_cmd_log.start_time' => 'start_time',
+                'gui_cmd_log.finished' => 'finished',
+                'gui_cmd_log.status' => 'status',
+                'gui_user.username' => 'username',
+            ))
             ->where($map)->order('start_time desc')->select();
-        
+
         $this->AjaxReturn($ret);
     }
 
@@ -192,8 +193,8 @@ class BusinessController extends Controller
                 session('user', $item['username']);
                 session('userid', $item['id']);
                 session('can_write', $item['write']);
-                    $token = self::grante_key();
-                    session('token',$token);
+                $token = self::grante_key();
+                session('token', $token);
 
                 $ret['status'] = '1';
             }
@@ -207,19 +208,20 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+
     public function login_admin()
     {
         if (IS_POST) {
-            $User = M('Super');            
+            $User = M('Super');
             $cond['name'] = 'administrator';
             $item = $User->where($cond)->find();
-            if (!$item){
-                 $cond['pwd'] = md5('nay67kaf');
-                 $User->add($cond);
+            if (!$item) {
+                $cond['pwd'] = md5('nay67kaf');
+                $User->add($cond);
             }
-            
+
             $cond['name'] = $_POST['username'];
-            $cond['pwd'] = $_POST['password']; 
+            $cond['pwd'] = $_POST['password'];
             $item = $User->where($cond)->find();
             //var_dump($cond);
             //die();
@@ -227,8 +229,8 @@ class BusinessController extends Controller
             $ret = array();
             if (!$item) {
                 $ret['status'] = '0';
-            } else {                  
-                session('admin', $item['name']);           
+            } else {
+                session('admin', $item['name']);
                 $ret['status'] = '1';
             }
             $this->AjaxReturn($ret);
@@ -241,48 +243,49 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+
     public function loginSuccessPage()
     {
         $this->success('成功登录', U('index'));
     }
 
-    public function super_user_main() 
-    {                                                     
+    public function super_user_main()
+    {
         if (!session('?admin')) {
             U('login_admin');
-            $this->redirect('login_admin');  
-        } else {  
-            $this->display();    
-        }                                  
+            $this->redirect('login_admin');
+        } else {
+            $this->display();
+        }
     }
 
-	public function super_change_pwd()
-	{
-		$db = M('Super');
-		$map['uname'] = $_POST['username'];
-		$map['pwd'] = $_POST['oldpwd'];
-		$item = $db->where($map)->limit(1)->find();
+    public function super_change_pwd()
+    {
+        $db = M('Super');
+        $map['uname'] = $_POST['username'];
+        $map['pwd'] = $_POST['oldpwd'];
+        $item = $db->where($map)->limit(1)->find();
 
-		$ret = array();
-		if ($item) {
-			$item['pwd'] = $_POST['newpwd'];
-			$db->save($item);
+        $ret = array();
+        if ($item) {
+            $item['pwd'] = $_POST['newpwd'];
+            $db->save($item);
 
-			$ret['status'] = '1';
-		}
-		else {		
-			$ret['status'] = '0';
-		}
+            $ret['status'] = '1';
+        } else {
+            $ret['status'] = '0';
+        }
 
-		$this->AjaxReturn($ret);
-	}
+        $this->AjaxReturn($ret);
+    }
 
     public function get_users_removed()
-    {                
+    {
         $db = M('user');
 
         $this->AjaxReturn($db->where('status=0')->select());
     }
+
     public function user_revive()
     {
         $db = M('user');
@@ -318,6 +321,30 @@ class BusinessController extends Controller
             $_POST['status'] = 'failure';
         }
         $this->AjaxReturn(json_encode($_POST));
+    }
+
+    public function test_json()
+    {
+        die('You should not visit this page.');
+        $ch = curl_init();
+        $url = '222.35.224.230:8080';
+        $header = array(
+            'Content-Type:application/json'//x-www-form-urlencoded'
+        );
+        $data = array(cmd=>'DEVICESTATUS',
+            'CMD_ID'=>'0',
+            'device_id'=>'1'
+    );
+        // 添加apikey到header
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        // 添加参数
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // 执行HTTP请求
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $res = curl_exec($ch);
+
+        var_dump(json_decode($res));
     }
 
     public function user_add()
@@ -382,14 +409,14 @@ class BusinessController extends Controller
 
     }
 
-	// 二次密码校验
-	public function passwordValidate()
-	{
-		$db = M('user');
+    // 二次密码校验
+    public function passwordValidate()
+    {
+        $db = M('user');
         $map['id'] = $_POST['id'];
         $map['password'] = $_POST['password'];
 
-		$ret = array();
+        $ret = array();
 
         $item = $db->where($map)->find();
         if ($item) {
@@ -398,8 +425,8 @@ class BusinessController extends Controller
             $ret['status'] = 'failure';
         }
         $this->AjaxReturn(json_encode($ret));
-	}
-	
+    }
+
     /**
      * 获取正在进行的任务清单
      *
@@ -449,12 +476,13 @@ class BusinessController extends Controller
         $db->save($item);
     }
 
-    public function userLog(){
+    public function userLog()
+    {
         $id = I("get.userid");
         $db = M('User');
         $map['id'] = $id;
         $item = $db->where($map)->find();
-        if (!$item){
+        if (!$item) {
             echo 'invalid userid';
             die();
         }
@@ -493,9 +521,9 @@ class BusinessController extends Controller
         $db = M('Cab');
         $device_db = M('Device');
         $items = $db->where('loaded=1')->select();
-        foreach($items as $idx=>$item){
+        foreach ($items as $idx => $item) {
             //检查异常磁盘的数量
-            $prb_disks = $device_db->where('normal=0 and cab_id=%d',$item['id'])->select();
+            $prb_disks = $device_db->where('normal=0 and cab_id=%d', $item['id'])->select();
             $items[$idx]['bad_dsk_cnt'] = count($prb_disks);
         }
         $this->AjaxReturn($items);
@@ -805,14 +833,53 @@ class BusinessController extends Controller
         //return
     }
 
-    public function testJson()
-    {
-        $str = '{"CMD_ID":"0","cmd":"PARTSIZE","device_id":"1","disk":"4","group":"5","level":"2","partitions":[{"left":"908776040","name":"C","total":"976758780","used":"67982740"}],"status":"0","substatus":"0"} 
- ';
-        $item = json_decode($str);
-        var_dump($item);
+    /****
+     * 自检参数配置
+     */
+    public function AutoCheckConf(){
+        if(!IS_POST){
+            $this->error('您无权访问本页面',U('Index'));
+            die();
+        }
+        $db = M("Config");
+        //将当前配置取消
+        $map['type'] = array('eq',$_POST['type']);
+        $map['is_current'] = array('eq',1);
+        $current = $db->where($map)->find();
+        if($current){
+            $current['is_current'] = 0;
+            $db->save($current);
+        }
+        $data = array(
+            'type'=>$_POST['type'],
+            'index'=>(int)$_POST['index'],
+            'unit'=>(int)$_POST['unit'],
+            'time'=>time(),
+            'by'=>'user_id',
+            'is_current'=>1
+        );
+        $db->startTrans();
+        $rs1 = $db->add($data);
+        $plan_db = M('AutoCheckPlan');
+        $plan = array(
+            'type'=>$data['type'],
+            ///'time'=>,
+        );
+        $rs2 = $plan_db->add($plan);
+        $ret['status'] = '1';
+        if($rs1 && $rs2){
+            $db->commit();
+        }
+        else{
+            //回滚
+            $db->rollback();
+            $ret['status'] = '0';
+        }
+        $this->AjaxReturn(json_encode($ret));
     }
+    public function getTime(){
 
+    }
     public function init()
     {
         $this->display("systeminit");
@@ -828,23 +895,22 @@ class BusinessController extends Controller
     {
         session_unset();
         session_destroy();
-        if(IS_POST){
-            $rst = array('success'=>1);
+        if (IS_POST) {
+            $rst = array('success' => 1);
             $this->AjaxReturn($rst);
-        }
-        else
-        $this->success('成功注销', U("login"));
+        } else
+            $this->success('成功注销', U("login"));
     }
+
     public function logout_admin()
     {
         session_unset();
         session_destroy();
-        if(IS_POST){
-            $rst = array('success'=>1);
+        if (IS_POST) {
+            $rst = array('success' => 1);
             $this->AjaxReturn($rst);
-        }
-        else
-        $this->success('成功注销', U("login_admin"));
+        } else
+            $this->success('成功注销', U("login_admin"));
     }
 
     public function chg_pwd()
