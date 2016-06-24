@@ -52,3 +52,4 @@ Temporary Items
 
 *.log
 /.idea/workspace.xml
+/install_lock

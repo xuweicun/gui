@@ -1,147 +1,146 @@
 ﻿<div>
     <div class="row">
-        <div class="col-lg-12 panel bk-margin-10">
-            <h4>当前硬盘：{{cab.curr.get_title()}}
+        <div class="col-lg-12 panel">
+            <h4>当前：<span ng-class="{ true:'bk-fg-primary', false:'bk-fg-default' }[cab.curr.is_loaded()]"><i class="glyphicon" ng-class="{ true:'glyphicon-hdd', false:'glyphicon-ban-circle' }[cab.curr.is_loaded()]"></i> {{cab.curr.get_title()}} {{cab.curr.is_loaded()?'':'(无盘)'}}</span>
             <span ng-show="cab.curr.is_bridged() && !cab.curr.is_write_protected()" class="bk-fg-danger" title="数据可写">[ <i class="fa fa-edit"></i> ]</span></h4>
         </div>
     </div>
-    <div class="panel bk-margin-10 bk-margin-bottom-20 row ">
-        <div class="row">
-            <div class="col-lg-12">
-                <div ng-show="cab.curr.is_loaded()" ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
-                    <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
-                    {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
 
-                    <i class="fa fa-folder-open-o bk-margin-left-10"></i>
-                    <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
-                       ng-show="cab.curr.is_loaded()" target="_blank">离线</a>
+    <div class="row bk-margin-bottom-5" ng-show="cab.curr.is_loaded()">
+        <div class="col-lg-12">
+            <a href=""
+               title="查询硬盘详细信息"
+               class="btn btn-xs modal-with-move-anim bk-margin-top-5"
+               ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
+               ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
+                <i class="fa fa-info-circle"></i>
+                {{cab.curr.get_btn_title('DISKINFO')}}
+            </a>
 
-                    <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
-                       ng-show="cab.curr.is_bridged()"
-                       class="btn btn-primary btn-xs">在线</a>
+            <!-- Bridge -->
+            <a href=""
+               class="btn btn-primary btn-xs modal-with-move-anim bk-margin-top-5"
+               ng-class="{'btn-danger':cab.curr.is_bridged(), 'btn-warning':cab.curr.get_cmd_name() == 'BRIDGE'}"
+               ng-disabled="!cab.curr.is_loaded()"
+               ng-click="cab.curr.cmd_commit('BRIDGE')">
+                <i class="fa"
+                   ng-class="{true:'fa-unlink', false:'fa-link'}[cab.curr.is_bridged()]"></i>
+                {{cab.curr.get_btn_title('BRIDGE')}}
+            </a>
 
-                    <a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')"
-                       ng-show="cab.curr.is_bridged()">索引</a>
-                </div>
-            </div>
-        </div>
-        <div class="row bk-margin-top-5">
-            <div class="col-lg-12">
+            <!-- MD5 -->
+            <a href=""
+               class="btn btn-xs modal-with-move-anim bk-margin-top-5"
+               ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'MD5']"
+               ng-disabled="!cab.curr.is_loaded()"
+               ng-click="cab.curr.cmd_commit('MD5')">
+                <i class="fa fa-check-circle"></i>
+                {{cab.curr.get_btn_title('MD5')}}
+            </a>
 
-            </div>
-        </div>
-        <div class="row bk-margin-5" ng-show="cab.curr.is_bridged() && user_profile.can_write">
-            <div class="col-lg-12 bk-padding-off" ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
-                <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
-				{{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
-                <a class="btn btn-primary btn-xs" 
-					ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
-				ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
-                    {{cab.curr.is_write_protected()?'关闭':'开启'}}
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <p title="硬盘容量">
-                    <i class="fa fa-tachometer"></i>
-                    {{cab.curr.is_loaded()?cab.curr.get_capacity() : '-'}} GB
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <p title="get_SN">
-                    <i class="fa fa-list-ul"></i>
-                    {{cab.curr.is_loaded()?cab.curr.get_SN() : '-'}}
-                </p>
-            </div>
-        </div>
-        <div class="row" ng-if="cab.curr.is_bridged()">
-            <br>
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <caption align="top">
-                            硬盘分区情况
-                            <a class="btn btn-primary btn-xs" href="" ng-click="cab.curr.update_partitions()">
-                                刷新
-                            </a>
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>盘符</th>
-                                <th>大小</th>
-                                <th>剩余空间</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="_partition in cab.curr.partitions">
-                                <td>{{_partition.name}}</td>
-                                <td>{{(_partition.total / 1048576.0).toFixed(2)}} G</td>
-                                <td>
-                                    {{(_partition.left / 1048576.0).toFixed(2)}} G
-                                    <!--
-                                        <div class="progress" style="margin:0px">
-                                            <div class="progress-bar progress-bar-success"
-                                                 role="progressbar"
-                                                 aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-                                                 style="width: {{(_partition.used * 1.0 / _partition.total).toFixed(2)}}%;">
-                                                {{(_partition.used * 100.0 / _partition.total).toFixed(2)}}%
-                                            </div>
-                                        </div>
-                                        -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <!-- Copy -->
+            <a href="" ng-show="user_profile.can_write"
+               class="btn btn-xs modal-with-move-anim bk-margin-top-5"
+               ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'COPY']"
+               ng-disabled="!cab.curr.is_loaded()"
+               ng-click="cab.curr.cmd_commit('COPY')">
+                <i class="fa fa-copy"></i>
+                {{cab.curr.get_btn_title('COPY')}}
+            </a>
         </div>
     </div>
-    <div class="panel bk-margin-10">
-        <div class="row bk-margin-top-10">
-            <div class="col-lg-12">
+    <div class="row bk-margin-top-15" ng-show="cab.curr.is_loaded()">
+        <div class="col-lg-12">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
+                        <td>
+                            <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
+                            {{cab.curr.is_bridged()?'已桥接':(cab.curr.is_loaded()?'未桥接':'')}}
+						</td>
+						<td>
+                            <i class="fa fa-folder-open-o"></i>
+                            <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
 
-                <a href=""
-                   title="查询硬盘详细信息"
-                   class="btn btn-xs modal-with-move-anim bk-margin-top-5"
-                   ng-class="{true:'btn-warning', false:'btn-primary'}[cab.curr.get_cmd_name() == 'DISKINFO']"
-                   ng-disabled="!cab.curr.is_loaded()" ng-click="cab.curr.cmd_commit('DISKINFO')">
-                    <i class="fa fa-info-circle"></i>
-                    {{cab.curr.get_btn_title('DISKINFO')}}
-                </a>
-
-                <!-- Bridge -->
-                <a href=""
-                   class="btn btn-primary btn-xs modal-with-move-anim bk-margin-top-5"
-                   ng-class="{'btn-danger':cab.curr.is_bridged(), 'btn-warning':cab.curr.get_cmd_name() == 'BRIDGE'}"
-                   ng-disabled="!cab.curr.is_loaded()"
-                   ng-click="cab.curr.cmd_commit('BRIDGE')">
-                    <i class="fa"
-                       ng-class="{true:'fa-unlink', false:'fa-link'}[cab.curr.is_bridged()]"></i>
-                    {{cab.curr.get_btn_title('BRIDGE')}}
-                </a>
-
-                <!-- MD5 -->
-                <a href=""
-                   class="btn btn-xs modal-with-move-anim bk-margin-top-5"
-                   ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'MD5']"
-                   ng-disabled="!cab.curr.is_loaded()"
-                   ng-click="cab.curr.cmd_commit('MD5')">
-                    <i class="fa fa-check-circle"></i>
-                    {{cab.curr.get_btn_title('MD5')}}
-                </a>
-
-                <!-- Copy -->
-                <a href="" ng-show="user_profile.can_write"
-                   class="btn btn-xs modal-with-move-anim bk-margin-top-5"
-                   ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.is_loaded() && cab.curr.get_cmd_name() == 'COPY']"
-                   ng-disabled="!cab.curr.is_loaded()"
-                   ng-click="cab.curr.cmd_commit('COPY')">
-                    <i class="fa fa-copy"></i>
-                    {{cab.curr.get_btn_title('COPY')}}
-                </a>
+                            <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
+                               ng-show="cab.curr.is_bridged()"
+                               class="btn btn-primary btn-xs">在线</a>
+                        </td>
+                    </tr>
+					<tr ng-show="cab.curr.is_bridged()">
+						<td colspan="2" class="bk-fg-success">
+							<i class="fa fa-list-ol"></i>
+							索引
+							<a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')">构建</a>
+						</td>
+					</tr>
+                    <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
+                        ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
+                        <td colspan="2">
+                            <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>
+                            {{cab.curr.is_write_protected()?'写保护中':'无写保护'}}
+                            <a class="btn btn-primary btn-xs"
+                               ng-class="{ true:'btn-danger', false:'btn-success' }[cab.curr.is_write_protected()]"
+                               ng-show="cab.curr.is_bridged()" ng-click="cab.curr.cmd_write_protect_commit()">
+                                {{cab.curr.is_write_protected()?'关闭':'开启'}}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-show="cab.curr.is_loaded()">
+                        <td colspan="2">
+                            <i class="fa fa-tachometer"></i>
+                            容量
+                            {{cab.curr.get_capacity()}} GB
+                        </td>
+                    </tr>
+                    <tr ng-show="cab.curr.is_loaded()">
+                        <td colspan="2">
+                            <i class="fa fa-qrcode"></i>
+                            SN: [{{cab.curr.get_SN()}}]
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" ng-if="cab.curr.is_bridged()">
+        <br>
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <caption align="top" ng-show="false">
+                        硬盘分区情况
+                        <a class="btn btn-primary btn-xs" href="" ng-click="cab.curr.update_partitions()">
+                            刷新
+                        </a>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>盘符</th>
+                            <th>大小</th>
+                            <th>剩余空间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="_partition in cab.curr.partitions">
+                            <td>{{_partition.name}}</td>
+                            <td>{{(_partition.total / 1048576.0).toFixed(2)}} G</td>
+                            <td>
+                                {{(_partition.left / 1048576.0).toFixed(2)}} G
+                                <!--
+                                    <div class="progress" style="margin:0px">
+                                        <div class="progress-bar progress-bar-success"
+                                             role="progressbar"
+                                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: {{(_partition.used * 1.0 / _partition.total).toFixed(2)}}%;">
+                                            {{(_partition.used * 100.0 / _partition.total).toFixed(2)}}%
+                                        </div>
+                                    </div>
+                                    -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

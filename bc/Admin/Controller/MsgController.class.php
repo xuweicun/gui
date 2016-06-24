@@ -769,8 +769,8 @@ class MsgController extends Controller
         $log = $cab_db->where($map)->find();
         var_dump($log);
         $log['voltage'] = $_POST['voltage'];
-        $log['charge'] = $_POST['electricity'];//电量
-        $log['electricity'] = $_POST['current'];//电流
+        $log['charge'] = $_POST['current'];//电量
+        $log['electricity'] = $_POST['electricity'];//电流
         $log['status'] = $this->msg->return_msg;
         $cab_db->save($log);
         var_dump($cab_db->where($map)->find());

@@ -11,6 +11,7 @@ function CabPicker() {
     this.loaded_disk_cnt = '-';
     // 已桥接硬盘数
     this.bridged_disk_cnt = '-';
+    // 异常硬盘数
     this.bad_disk_cnt = 0;
     // 电压
     this.voltage = '-';
@@ -266,45 +267,54 @@ CabinetHelper.prototype = {
             this.get_disk_cnt(this.cabs[i].id);
         }
     },
+    update_disk_cnt: function (data) {
+        if (!data || data.length <= 0) return;
+
+        var cab_id = -1;
+        try {
+            cab_id = parseInt(data[0].cab_id);
+        }
+        catch (e) {
+            console.log('invalid device info');
+            return;
+        }
+
+        var cnt_l = 0;
+        var cnt_b = 0;
+        var cnt_x = 0;//有问题的硬盘数量
+        for (var i = 0; i < data.length; ++i) {
+            var _dsk = data[i];
+            if (_dsk.cab_id != cab_id) continue;
+
+            if (_dsk.loaded == '1') {
+                cnt_l++;
+
+                if (_dsk.bridged == '1') {
+                    cnt_b++;
+                }
+                if (_dsk.normal == '0') {
+                    cnt_x++;
+                }
+            }
+        }
+
+        for (var i = 0; i < global_cabinet_helper.cabs.length; ++i) {
+            var _cab_h = global_cabinet_helper.cabs[i];
+            if (_cab_h.id == cab_id) {
+                _cab_h.loaded_disk_cnt = cnt_l
+                _cab_h.bridged_disk_cnt = cnt_b;
+                _cab_h.bad_disk_cnt = cnt_x;
+                break;
+            }
+        }
+    },
     // 更新在位硬盘数
     get_disk_cnt: function (cab_id) {
         global_http({
             url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + cab_id,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-            if (!data) return;
-
-            var cab_id = -1;
-            if (data.length > 0) {
-                cab_id = parseInt(data[0].cab_id);
-            }
-
-            var cnt_l = 0;
-            var cnt_b = 0;
-            var cnt_x = 0;//有问题的硬盘数量
-            for (var i = 0; i < data.length; ++i) {
-                var _dsk = data[i];
-
-                if (_dsk.loaded == '1') {
-                    cnt_l++;
-					
-					if (_dsk.bridged == '1') {
-						cnt_b++;
-					}
-					if (_dsk.normal == '0'){
-						cnt_x++;
-					}
-                }
-            }
-
-            for (var i = 0; i < global_cabinet_helper.cabs.length; ++i) {
-                var _cab_h = global_cabinet_helper.cabs[i];
-                if (_cab_h.id == cab_id) {
-                    _cab_h.loaded_disk_cnt = cnt_l
-                    _cab_h.bridged_disk_cnt = cnt_b;
-                    _cab_h.bad_disk_cnt = cnt_x;
-                }
-            }
+            global_cabinet_helper.update_disk_cnt(data);
         }).error(function () {
             console.log("更新存储柜信息失败.");
         });
@@ -319,6 +329,7 @@ CabinetHelper.prototype = {
             method: 'GET'
         }).success(function (data) {
             if (data === null){
+				global_scope.is_ok = true;
                 global_task_pool.init();
                 return;
             }

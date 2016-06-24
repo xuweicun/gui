@@ -72,7 +72,14 @@ Cabinet.prototype = {
     },
     // 获得在位信息
     start_cmd_device_status: function () {
-        if (this.is_device_status_cmd_going()) return;
+        if (this.is_device_status_cmd_going()) {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '磁盘在位查询',
+                html: '您所选择的<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>，正在进行<span class="bk-fg-primary"> [磁盘在位查询] </span>命令，请稍候再试！'
+            });
+            return;
+        }
         if (this.id <= 0) return;
 
         global_modal_helper.show_modal({
@@ -222,6 +229,8 @@ Cabinet.prototype = {
         }
 
         global_scope.is_ok = true;
+
+        global_cabinet_helper.update_disk_cnt(data);
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
