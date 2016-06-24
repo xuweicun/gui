@@ -49,6 +49,46 @@ app_device.filter('to_trusted', function ($sce) {
         );
     $scope.user_profile = global_user;
     $scope.role = global_user.can_write == 1 ? '高级' : '只读';
+
+    /*
+        配置信息
+    */
+    $scope.user_settings = new UserSettings();
+    $http({
+        url: '/index.php?m=admin&c=business&a=getUserSettings',
+        method: 'GET'
+    }).success(function (data) {
+        console.log(data);
+        if (!data) {
+            global_modal_helper.show_modal({
+                type: 'error',
+                title: 'Fatal Error',
+                html: 'empty data'
+            });
+            return;
+        }
+
+    }).error(function (data) {
+        console.log("获取用户配置信息失败.");
+        return;
+        global_modal_helper.show_modal({
+            type: 'error',
+            title: 'Fatal Error',
+            html: data
+        });
+    });
+
+    $('[data-plugin-datepicker]').each(function () {
+        var $this = $(this),
+            opts = {};
+
+        var pluginOptions = $this.data('plugin-options');
+        if (pluginOptions)
+            opts = pluginOptions;
+
+        $this.themePluginDatePicker(opts);
+    });
+
     
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
@@ -234,3 +274,4 @@ var Test = function () {
 }
 
 });
+

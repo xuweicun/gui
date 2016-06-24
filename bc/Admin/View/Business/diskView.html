@@ -60,11 +60,11 @@
 						</td>
 						<td>
                             <i class="fa fa-folder-open-o"></i>
-                            <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">离线</a>
+                            <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">查看缓存</a>
 
                             <a ng-href="file://///{{local_host}}/public/{{cab.curr.base_info.bridge_path}}"
                                ng-show="cab.curr.is_bridged()"
-                               class="btn btn-primary btn-xs">在线</a>
+                               class="btn btn-primary btn-xs">打开目录</a>
                         </td>
                     </tr>
 					<tr ng-show="cab.curr.is_bridged()">
@@ -94,7 +94,7 @@
         <div class="col-lg-12">
             <table class="table table-bordered">
                 <tr>
-                    <td style="min-width:60px"><i class="fa fa-tachometer"></i> 容量</td>
+                    <td style="min-width:60px">容量</td>
                     <td style="width:100%">{{cab.curr.get_capacity()}} GB</td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                     <td>{{cab.curr.get_SN()}}</td>
                 </tr>                
                 <tr>
-                    <td>MD5</td>
+                    <td>MD5值</td>
                     <td>{{cab.curr.get_MD5()}}</td>
                 </tr>
             </table>
