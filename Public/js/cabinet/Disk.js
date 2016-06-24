@@ -141,7 +141,7 @@ Disk.prototype = {
             global_modal_helper.show_modal({
                 type: 'question',
                 title: '硬盘命令 -- MD5',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [重建索引] </span>操作？以支持硬盘的离线访问。',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [重建索引] </span>操作？以支持硬盘的离线访问。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
@@ -195,7 +195,7 @@ Disk.prototype = {
             global_modal_helper.show_modal({
                 type: 'question',
                 title: '硬盘信息查询',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [查询] </span>操作？以重新获取硬盘的基本信息。',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [查询] </span>操作？以重新获取硬盘的基本信息。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
@@ -274,7 +274,7 @@ Disk.prototype = {
             global_modal_helper.show_modal({
                 type: 'question',
                 title: '硬盘命令 -- MD5',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
@@ -298,7 +298,7 @@ Disk.prototype = {
         var on_click = {};
         var param = this;
         if (!this.is_write_protected()) {
-            html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+            html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() +
             '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。';
             on_click = function (param) {
                 global_user.show_second_pwd_modal_with_action(function (lvl) {
@@ -313,7 +313,7 @@ Disk.prototype = {
             };
         }
         else {
-            html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i>' + this.get_title() +
+            html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() +
                 '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
             on_click = function (param) {
                 global_user.show_second_pwd_modal_with_action(function (lvl) {
