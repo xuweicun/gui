@@ -76,10 +76,10 @@
 														<td>
 															<span class="label" ng-class="{true:'label-success', false:'label-danger'}[_dsk.normal=='1']">{{_dsk.normal=='1'?'健康':'异常'}}</span>
 														</td>	
-														<td>-</td>
-														<td>-</td>	
-														<td>-</td>	
-														<td>-</td>											
+														<td>{{_dsk.md5_first_time==null?'-':_dsk.md5_first_time}}</td>
+														<td>{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>
+														<td>{{_dsk.md5_last_time==null?'-':_dsk.md5_last_time}}</td>
+														<td>{{_dsk.md5_last==null?'-':_dsk.md5_last}}</td>											
 														<td></td>
 													</tr>
 												</tbody>

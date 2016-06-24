@@ -450,13 +450,18 @@ class BusinessController extends Controller
             'level',
             'zu'=>'group',
             'disk',
-            'disk_id',
+            'gui_device.disk_id'=>'disk_id',
             'gui_device.normal'=>'normal',
 			'sn',
-			'capacity'
+			'capacity',
+			'gui_disk.md5'=>'md5_first',
+			'gui_disk_chg_log.md5'=>'md5_last',
+			'gui_disk_chg_log.time'=>'md5_last_time'
             );
         foreach ($items_cabs as $key => $value) {
-			$items_cabs[$key]['disks'] = $db_device->field($fields)->join('gui_disk on gui_device.disk_id = gui_disk.id')
+			$items_cabs[$key]['disks'] = $db_device->field($fields)
+				->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
+				->join('left join gui_disk_chg_log on gui_device.disk_id = gui_disk_chg_log.disk_id')
 				->where(array(
 					'cab_id'=>$value['cab_id'],
 					'loaded'=>'1'
