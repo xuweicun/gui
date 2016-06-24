@@ -268,13 +268,8 @@ class MsgController extends Controller
         $this->msg = new Msg();
         $this->msg->init();
         //CMD-ID 不允许为空
-        if (is_null($this->msg->id)) {
-            self::RTLog("This msg does not contain an id");
-            self::RTLog($return_msg);
-            die();
-        }
-        $this->file = fopen("rtlog.txt", "a");
-        $this->RTLog("------START AT " . date("h:i:sa") . "-----------");
+
+
         $this->db = M("CmdLog");
 
 
@@ -326,7 +321,6 @@ class MsgController extends Controller
 
     private function quit()
     {
-        fclose($this->file);
         die();
     }
 
@@ -675,8 +669,8 @@ class MsgController extends Controller
     public function  RTLog($txt = 'love you')
     {
         return;//only for debug
-        $txt = $txt . "++\r\n";
-        fwrite($this->file, $txt);
+       // $txt = $txt . "++\r\n";
+       // fwrite($this->file, $txt);
     }
 
     public function rdLog()
