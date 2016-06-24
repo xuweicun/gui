@@ -451,7 +451,7 @@ class BusinessController extends Controller
             'zu'=>'group',
             'disk',
             'disk_id',
-            'normal',
+            'gui_device.normal'=>'normal',
 			'sn',
 			'capacity'
             );
