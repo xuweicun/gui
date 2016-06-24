@@ -103,8 +103,17 @@
             </table>
         </div>
     </div>
+    <div class="row" ng-show="cab.curr.curr_cmd != null">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    当前命令：{{cab.curr.cmd2chs(cab.curr.curr_cmd)}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="row" ng-if="cab.curr.is_bridged()">
-        <br>
         <div class="col-lg-12">
             <div class="table-responsive">
                 <table class="table table-bordered">
