@@ -419,17 +419,29 @@ class BusinessController extends Controller
 
         $db_device = M('Device');
         $fields = array(
-            "level",
-            "zu"=>"group",
-            "disk",
-            "disk_id",
-            "normal"
+            'level',
+            'zu'=>'group',
+            'disk',
+            'disk_id',
+            'normal',
+			'sn',
+			'capacity'
             );
         foreach ($items_cabs as $key => $value) {
-            $items_cabs[$key]['disks'] = $db_device->field($fields)->where(array(
-				'cab_id'=>$value['cab_id'],
-				'loaded'=>'1'
+			$items_cabs[$key]['disks'] = $db_device->field($fields)->join('gui_disk on gui_device.disk_id = gui_disk.id')
+				->where(array(
+					'cab_id'=>$value['cab_id'],
+					'loaded'=>'1'
 				))->select();
+				
+			$ab_cnt = 0;
+			foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
+				if ($value['normal'] != '1') {
+					$ab_cnt++;
+				}
+			}
+			
+			$items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
         }
 
         $this->AjaxReturn($items_cabs);
