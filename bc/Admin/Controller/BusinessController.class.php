@@ -33,8 +33,8 @@ class BusinessController extends Controller
             $this->assign('token',session('token'));
 
             //generate the page
-            $this->display();
-                
+			//var_dump($_SESSION);
+            $this->display();                
         }
     }
 
@@ -394,6 +394,46 @@ class BusinessController extends Controller
         }
         $this->AjaxReturn(json_encode($ret));
 	}
+	
+	public function report()
+	{
+		$this->display();
+	}
+	
+	/*
+		构建报表所需要的全部数据
+	*/
+	public function generate_report_data()
+	{
+		// 1. 存储柜概述        
+        $db_cabs = M('Cab');
+        $fields = array(
+            'sn' => 'cab_id', 
+            'level_cnt', 
+            'group_cnt', 
+            'disk_cnt',
+            'charge' => 'electricity',
+            'voltage',
+            'electricity' => 'current');
+        $items_cabs = $db_cabs->field($fields)->select();
+
+        $db_device = M('Device');
+        $fields = array(
+            "level",
+            "zu"=>"group",
+            "disk",
+            "disk_id",
+            "normal"
+            );
+        foreach ($items_cabs as $key => $value) {
+            $items_cabs[$key]['disks'] = $db_device->field($fields)->where(array(
+				'cab_id'=>$value['cab_id'],
+				'loaded'=>'1'
+				))->select();
+        }
+
+        $this->AjaxReturn($items_cabs);
+    }
 	
     /**
      * 获取正在进行的任务清单

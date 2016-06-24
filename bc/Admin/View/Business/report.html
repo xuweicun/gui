@@ -1,0 +1,123 @@
+<html>
+<head>
+	<!-- Basic -->
+	<meta charset="UTF-8" />
+	<title>系统报表</title>
+
+	<!-- Vendor CSS-->
+	<link href="/Public/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/Public/assets/vendor/skycons/css/skycons.css" rel="stylesheet" />
+	<link href="/Public/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="/Public/assets/vendor/css/pace.preloader.css" rel="stylesheet" />
+
+	<!-- Plugins CSS-->
+
+	<link href="/Public/assets/plugins/select2/select2.css" rel="stylesheet" />
+
+	<!-- Theme CSS -->
+	<link href="/Public/assets/css/jquery.mmenu.css" rel="stylesheet" />
+
+	<!-- Page CSS -->
+	<link href="/Public/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+	<link href="/Public/assets/css/angular-datatables.min.css" rel="stylesheet" />
+	<link href="/Public/assets/css/style.css" rel="stylesheet" />
+	<link href="/Public/assets/plugins/bootkit/css/bootkit.css" rel="stylesheet" />
+
+</head>
+<body ng-app="app" ng-controller="app-ctrl" ng-cloak>
+	<div class="content">
+		<div class="row">
+			<div class="col-lg-12">
+				<textarea name="" id="" cols="30" rows="10" ng-bind="report_data" class="form-control"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">概述</div>
+				<div class="panel-body">
+					<p>系统共连接了{{report_obj['cabinets'].length}}台数据存储柜，分别为<span class="bk-fg-primary" ng-repeat="cab in report_obj['cabinets']">{{$index==0?'':'，'}}[数据存储柜 {{cab.cab_id}}#]</span>。详细信息如下：</p>
+					<div class="row" ng-repeat="cab in report_obj['cabinets']">
+						<div class="col-lg-12">
+							<div class="panel panel-danger">
+								<div class="panel-heading">数据存储柜 {{cab.cab_id}}#</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-12">
+											本<span class="bk-fg-primary">[数据存储柜 {{cab.cab_id}}#]</span>编号为“{{cab.cab_id}}”，含有<span class="bk-fg-danger">[{{cab.level_cnt}}]</span>层，每层<span class="bk-fg-danger">[{{cab.group_cnt}}]</span>组，每组<span class="bk-fg-danger">[{{cab.disk_cnt}}]</span>个硬盘插槽。
+										</div>										
+									</div>	
+									<div class="row bk-margin-top-15">
+										<div class="col-lg-12">
+											<table class="table table-bordered table-stripped">
+												<thead>
+													<tr>
+														<td>序号</td>
+														<td>硬盘编号</td>
+														<td>层</td>
+														<td>组</td>
+														<td>插槽</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="_dsk in cab.disks">
+														<td>{{$index}}</td>
+														<td>{{_dsk.disk_id}}</td>
+														<td>{{_dsk.level}}</td>
+														<td>{{_dsk.group}}</td>
+														<td>{{_dsk.disk}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>				
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
+<!-- Vendor JS-->
+<script src="/Public/assets/vendor/js/jquery.min.js"></script>
+<script src="/Public/assets/vendor/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/Public/assets/vendor/skycons/js/skycons.js"></script>
+
+<!-- Plugins JS-->
+<script src="/Public/assets/plugins/jquery-ui/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/Public/assets/plugins/magnific-popup/js/magnific-popup.js"></script>
+
+<script src="/Public/assets/plugins/select2/select2.js"></script>
+<script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script src="/Public/js/angular-1.4.min.js"></script>
+<script src="/Public/js/angular-datatables.min.js"></script>
+
+<script type="text/javascript">
+	var app = angular.module('app', []);
+	app.controller('app-ctrl', function($scope, $http){
+		$scope.report_obj = {
+			'cabinets': []
+		};
+
+		$http({
+			url: '/index.php?m=admin&c=business&a=generate_report_data',
+			method:'get'
+		}).success(function(data){
+			if (!data){
+				$scope.report_data = 'empty data';	
+			}
+			else{
+				$scope.report_data = JSON.stringify(data);
+				$scope.report_obj['cabinets'] = data;				
+			}			
+		}).error(function(data){
+			$scope.report_data = data;
+		});
+	})
+</script>
