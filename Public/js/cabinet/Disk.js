@@ -415,6 +415,10 @@ Disk.prototype = {
     get_SN: function () {
         return this.base_info.loaded ? this.detail_info.SN : '';
     },
+    // 获得硬盘MD5
+    get_MD5: function () {
+        return this.base_info.loaded ? this.detail_info.MD5 : '';
+    },
 
     cmd2chs:function(cmd_name){
         switch (cmd_name) {
