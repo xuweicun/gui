@@ -29,9 +29,8 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.change_page_index = function (name) {
         switch (name) {
             case 'user_log':
-                $scope.page_index = name;
-                break;
             case 'manul':
+            case 'settings':
                 $scope.page_index = name
                 break;
             default:
@@ -78,18 +77,11 @@ app_device.filter('to_trusted', function ($sce) {
         });
     });
 
-    $('[data-plugin-datepicker]').each(function () {
-        var $this = $(this),
-            opts = {};
-
-        var pluginOptions = $this.data('plugin-options');
-        if (pluginOptions)
-            opts = pluginOptions;
-
-        $this.themePluginDatePicker(opts);
-    });
-
-    
+    $scope.init_date_picker = function ()
+    {
+        $("[data-plugin-datepicker]").datepicker();
+    }
+        
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = global_user;
