@@ -520,6 +520,7 @@ class MsgController extends Controller
                 } else {
                     $this->handleError();
                 }
+            break;
             default:
                 $item = $db->find($id);
                 $item['status'] = $status;

@@ -33,8 +33,8 @@ class BusinessController extends Controller
             $this->assign('token', session('token'));
 
             //generate the page
-			//var_dump($_SESSION);
-            $this->display();                
+            //var_dump($_SESSION);
+            $this->display();
         }
     }
 
@@ -326,10 +326,10 @@ class BusinessController extends Controller
         $header = array(
             'Content-Type:application/json'//x-www-form-urlencoded'
         );
-        $data = array(cmd=>'DEVICESTATUS',
-            'CMD_ID'=>'0',
-            'device_id'=>'1'
-    );
+        $data = array(cmd => 'DEVICESTATUS',
+            'CMD_ID' => '0',
+            'device_id' => '1'
+        );
         // 添加apikey到header
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         // 添加参数
@@ -421,24 +421,24 @@ class BusinessController extends Controller
         }
         $this->AjaxReturn(json_encode($ret));
 
-	}
-	
-	public function report()
-	{
-		$this->display();
-	}
-	
-	/*
-		构建报表所需要的全部数据
-	*/
-	public function generate_report_data()
-	{
-		// 1. 存储柜概述        
+    }
+
+    public function report()
+    {
+        $this->display();
+    }
+
+    /*
+        构建报表所需要的全部数据
+    */
+    public function generate_report_data()
+    {
+        // 1. 存储柜概述
         $db_cabs = M('Cab');
         $fields = array(
-            'sn' => 'cab_id', 
-            'level_cnt', 
-            'group_cnt', 
+            'sn' => 'cab_id',
+            'level_cnt',
+            'group_cnt',
             'disk_cnt',
             'charge' => 'electricity',
             'voltage',
@@ -448,38 +448,38 @@ class BusinessController extends Controller
         $db_device = M('Device');
         $fields = array(
             'level',
-            'zu'=>'group',
+            'zu' => 'group',
             'disk',
-            'gui_device.disk_id'=>'disk_id',
-            'gui_device.normal'=>'normal',
-			'sn',
-			'capacity',
-			'gui_disk.md5'=>'md5_first',
-			'gui_disk_chg_log.md5'=>'md5_last',
-			'gui_disk_chg_log.time'=>'md5_last_time'
-            );
+            'gui_device.disk_id' => 'disk_id',
+            'gui_device.normal' => 'normal',
+            'sn',
+            'capacity',
+            'gui_disk.md5' => 'md5_first',
+            'gui_disk_chg_log.md5' => 'md5_last',
+            'gui_disk_chg_log.time' => 'md5_last_time'
+        );
         foreach ($items_cabs as $key => $value) {
-			$items_cabs[$key]['disks'] = $db_device->field($fields)
-				->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
-				->join('left join gui_disk_chg_log on gui_device.disk_id = gui_disk_chg_log.disk_id')
-				->where(array(
-					'cab_id'=>$value['cab_id'],
-					'loaded'=>'1'
-				))->select();
-				
-			$ab_cnt = 0;
-			foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
-				if ($value['normal'] != '1') {
-					$ab_cnt++;
-				}
-			}
-			
-			$items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
+            $items_cabs[$key]['disks'] = $db_device->field($fields)
+                ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
+                ->join('left join gui_disk_chg_log on gui_device.disk_id = gui_disk_chg_log.disk_id')
+                ->where(array(
+                    'cab_id' => $value['cab_id'],
+                    'loaded' => '1'
+                ))->select();
+
+            $ab_cnt = 0;
+            foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
+                if ($value['normal'] != '1') {
+                    $ab_cnt++;
+                }
+            }
+
+            $items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
         }
 
         $this->AjaxReturn($items_cabs);
     }
-	
+
 
     /**
      * 获取正在进行的任务清单
@@ -890,52 +890,114 @@ class BusinessController extends Controller
     /****
      * 自检参数配置
      */
-    public function AutoCheckConf(){
-        if(!IS_POST){
-            $this->error('您无权访问本页面',U('Index'));
+    public function AutoCheckConf()
+    {
+        if (!IS_POST) {
+            $this->error('您无权访问本页面', U('Index'));
             die();
         }
         $db = M("Config");
         //将当前配置取消
-        $map['type'] = array('eq',$_POST['type']);
-        $map['is_current'] = array('eq',1);
+        $map['type'] = array('eq', $_POST['type']);
+        $map['is_current'] = array('eq', 1);
         $current = $db->where($map)->find();
-        if($current){
+        if ($current) {
             $current['is_current'] = 0;
             $db->save($current);
         }
         $data = array(
-            'type'=>$_POST['type'],
-            'cnt'=>(int)$_POST['cnt'],
-            'unit'=>(int)$_POST['unit'],
-            'start_time'=>$_POST['start_time'],
-            'time'=>time(),
-            'by'=>'user_id',
-            'is_current'=>1
+            'type' => $_POST['type'],
+            'cnt' => (int)$_POST['cnt'],
+            'unit' => (int)$_POST['unit'],
+            'start_time' => $_POST['start_time'],
+            'time' => time(),
+            'by' => 'user_id',
+            'is_current' => 1
         );
         $db->startTrans();
         $rs1 = $db->add($data);
         $plan_db = M('AutoCheckPlan');
-        $plan = getPlan($data,$_POST['start_date']);
+        $plan = getPlan($data, $_POST['start_date']);
+        $plan['type'] = $data['type'];
         $rs2 = $plan_db->add($plan);
         $ret['status'] = '1';
-        if($rs1 && $rs2){
+        if ($rs1 && $rs2) {
             $db->commit();
-        }
-        else{
+        } else {
             //回滚
             $db->rollback();
             $ret['status'] = '0';
         }
         $this->AjaxReturn(json_encode($ret));
     }
-    public function getPlan($config,$start_date){
+
+    public function getPlan($config, $start_date)
+    {
         //根据配置信息获取时间
+        //Unit是天时
+        $plan_t = null;
+        switch($config['unit']){
+            case 'day':
+                $start_t = strtotime($start_date);
+                $plan_t = $start_t + $config['cnt']*24*3600 + $config['start_time']*3600;//开始日期加天数加起始时间
+                break;
+            case 'week':
+                $start_t = strtotime($start_date);
+                $plan_t = $start_t + $config['cnt']*24*3600 + $config['start_time']*3600;//开始日期加天数加起始时间
+            break;
+            case 'month':
+                //获取月份
+                $date_param = explode('-',$start_date);
+                $yr  = (int)$date_param[0] + floor(((int)$date_param[1]+$config['cnt'])/12);
+                $mth = ((int)$date_param[1] + $config['cnt'])%12;
+                if($mth == 0){
+                    $mth = 12;
+                }
+                $day_cnt = self::getDaysPerMonth($yr,$mth);
+                $day = (int)$date_param[2] <=  $day_cnt? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr."-".$mth."-".$day);
+                break;
+            case 'season':
+                $date_param = explode('-',$start_date);
+                $yr  = (int)$date_param[0] + floor(((int)$date_param[1]+$config['cnt'] * 3)/12);
+                $mth = ((int)$date_param[1] + $config['cnt']*3)%12;
+                if($mth == 0){
+                    $mth = 12;
+                }
+                $day_cnt = self::getDaysPerMonth($yr,$mth);
+                $day = (int)$date_param[2] <=  $day_cnt? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr."-".$mth."-".$day);
+
+        }
+        //生成计划
+        $plan = array(
+            'modify_time'=>time(),
+            'start_time'=>$plan_t,
+            'status'=>'waiting'
+        );
+        return $plan;
+    }
+    public function test()
+    {
+        echo 13%12;
+    }
+    public function getDaysPerMonth($y,$m)
+    {
+        if($m >= 12){
+            return 30;
+        }
+        $next_mth = $m+1;
+        $t = (strtotime("1-".$next_mth."-".$y) - strtotime("1-".$m."-".$y));
+        $days = $t / (60 * 60 * 24);
+        echo $days;
+        return $days;
+    }
+
+    public function getTime()
+    {
 
     }
-    public function getTime(){
 
-    }
     public function init()
     {
         $this->display("systeminit");
