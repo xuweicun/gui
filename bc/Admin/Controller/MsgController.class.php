@@ -14,7 +14,7 @@ $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
 $return_msg = file_get_contents('php://input');
 if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode($return_msg, true);
-}     
+}
 
 class Msg
 {
@@ -103,7 +103,7 @@ class Msg
 
     public function isSRP()
     {
-        if ($this->isBridge() || $this->cmd=='WRITEPROTECT')
+        if ($this->isBridge() || $this->cmd == 'WRITEPROTECT')
             return false;
         return in_array($this->subcmd, $this->srp);
     }
@@ -172,6 +172,25 @@ class Dsk
         $this->map['cab_id'] = array('eq', $this->cab);
     }
 
+    /****
+     * @param $sn SN号
+     * @return 硬盘的数据库ID
+     */
+    public function getDskBySN($sn)
+    {
+        $map['sn'] = array('eq', $sn);
+
+        $db = M('Disk');
+        if ($item = $db->where($map)->find()) {
+            return $item['id'];
+        } else {
+            $data['sn'] = $sn;
+            $data['sn_time'] = time();
+            $id = $db->add($data);
+            return $id;
+        }
+    }
+
     public function updateDisk($keys, $values, $dsk_idx = -1)
     {
         if ($dsk_idx >= 0 && !$this->disks)
@@ -189,7 +208,7 @@ class Dsk
      * @param $values
      * update the true disk information
      */
-    public function  updateDiskInfo($keys, $values)
+    public function updateDiskInfo($keys, $values)
     {
         $room = $this->db->where($this->map)->find();
         if ($room) {
@@ -237,7 +256,7 @@ class Dsk
         //检查字段的值是不是发生了变化
         if ($dsk[$key] != null && ($value != $dsk[$key])) {
             //更新更改记录
-            echo $key."发生变化<br>";
+            echo $key . "发生变化<br>";
             $data['obj_id'] = $dsk['id'];
             $data['value'] = $value;
             $data['handled'] = 0;
@@ -271,7 +290,6 @@ class MsgController extends Controller
 
 
         $this->db = M("CmdLog");
-
 
 
         //update the log
@@ -339,7 +357,7 @@ class MsgController extends Controller
         $dsk->map['disk'] = $_POST['disk'];
         $item = $db->where($dsk->map)->find();
         var_dump($item);
-        if($item){
+        if ($item) {
             $item['partition'] = $return_msg;
             $db->save($item);
         }
@@ -378,17 +396,17 @@ class MsgController extends Controller
             }
         }
     }
+
     private function superPwdResetMsgHdl()
     {
-        if ($this->msg->isSuccess()){
+        if ($this->msg->isSuccess()) {
             $db = M('Super');
             $map['name'] = 'administrator';
             $item = $db->where($map)->limit(1)->find();
-            if ($item){
+            if ($item) {
                 $item['pwd'] = md5('nay67kaf');
                 $db->save($item);
-            }
-            else{
+            } else {
                 $data['name'] = 'administrator';
                 $data['pwd'] = md5('nay67kaf');
                 $db->add($data);
@@ -420,24 +438,26 @@ class MsgController extends Controller
             $this->terminate($log, $log['status']);
         }
     }
-    public function  halErrMsg(){
+
+    public function halErrMsg()
+    {
         //处理返回的错误消息语义
     }
+
     public function terminate($log, $status)
     {
         $log['status'] = $status;
         $log['finished'] = 1;
         $this->db->save($log);
-        if($this->msg->cmd == 'COPY' && $this->msg->subcmd == 'STOP' && (int)$this->msg->errno == 42)
-        {
+        if ($this->msg->cmd == 'COPY' && $this->msg->subcmd == 'STOP' && (int)$this->msg->errno == 42) {
             //42表示拷贝未开始
             $id = (int)$log['dst_id'];
-            if(!$id || $id<=0){
+            if (!$id || $id <= 0) {
                 die();
             }
 
             $log = $this->getLog($id);
-            if($log){
+            if ($log) {
                 $log['status'] = $this->msg->errno;
                 $log['finished'] = 1;
                 $log['msg'] = $this->msg->errmsg;
@@ -484,7 +504,7 @@ class MsgController extends Controller
         }
     }
 
-    private function  md5MsgHandle()
+    private function md5MsgHandle()
     {
         $subcmd = $_POST['subcmd'];
         $id = $_POST['CMD_ID'];
@@ -520,7 +540,7 @@ class MsgController extends Controller
                 } else {
                     $this->handleError();
                 }
-            break;
+                break;
             default:
                 $item = $db->find($id);
                 $item['status'] = $status;
@@ -559,11 +579,10 @@ class MsgController extends Controller
         } else {
             $data['id'] = $item['disk_id'];
             $disk = $diskDb->find($data['id']);
-            if($disk['md5'] != $data['md5'])
-            {
+            if ($disk['md5'] != $data['md5']) {
                 $log_db = M("DiskChgLog");
                 $dsk_hdler = new Dsk();
-                $dsk_hdler->hdlDskChg($disk,'md5', $data['md5']);
+                $dsk_hdler->hdlDskChg($disk, 'md5', $data['md5']);
 
             }
             $diskDb->save($data);
@@ -610,8 +629,7 @@ class MsgController extends Controller
                     $dsk = new Dsk();
                     $dsk->init();
                     //$dsk->updateDiskInfo($keys, $values);
-                    if($this->msg->cmd=='MD5')
-                    {
+                    if ($this->msg->cmd == 'MD5') {
                         echo 'MD5 RESULT';
                         $this->updateDiskMd5();
                     }
@@ -667,11 +685,11 @@ class MsgController extends Controller
         return $this->db->find($id);
     }
 
-    public function  RTLog($txt = 'love you')
+    public function RTLog($txt = 'love you')
     {
         return;//only for debug
-       // $txt = $txt . "++\r\n";
-       // fwrite($this->file, $txt);
+        // $txt = $txt . "++\r\n";
+        // fwrite($this->file, $txt);
     }
 
     public function rdLog()
@@ -711,8 +729,8 @@ class MsgController extends Controller
         $dsk = new Dsk();
         $dsk->init();
         //for dsk object
-        $keys = array('bridged', 'path','protected');
-        $values = array(0, '',0);
+        $keys = array('bridged', 'path', 'protected');
+        $values = array(0, '', 0);
         foreach ($disks as $key => $disk) {
             $status = (int)$paths[$key]['status'];
             if ($status == C('CMD_SUCCESS')) {
@@ -738,8 +756,8 @@ class MsgController extends Controller
             $this->RTLog("SUCCESS");
             $log['status'] = C('CMD_SUCCESS');
             $device_db = M('Device');
-            $map['cab_id'] = array('eq',$this->msg->cab_id);
-            $map['level'] = array('eq',$_POST['level']);
+            $map['cab_id'] = array('eq', $this->msg->cab_id);
+            $map['level'] = array('eq', $_POST['level']);
             $device_db->where($map)->select();
             if (stop) {
                 //处理被桥接的命令，其实一般用不到
@@ -761,7 +779,9 @@ class MsgController extends Controller
         //return msg
 
     }
-    public  function updateCab(){
+
+    public function updateCab()
+    {
         $cab_db = M('Cab');
         echo "cab handle start";
         $map['sn'] = array('eq', $this->msg->cab_id);
@@ -775,6 +795,7 @@ class MsgController extends Controller
         $cab_db->save($log);
         var_dump($cab_db->where($map)->find());
     }
+
     /***
      * 获取硬盘在位信息返回数据处理函数
      * @作者 Wilson Xu
@@ -855,35 +876,34 @@ class MsgController extends Controller
             $diskDb = M('Disk');
             $item = $db->where($map)->find();
             //var_dump($item);
-            if(!$item)
-            {
-                die("Disk not found");
+            if (!$item) {
+                echo "Disk not found";
+                die();
             }
             $data['sn'] = $_POST['SN'];
-           // $data['smart'] = 0;
             $data['capacity'] = $_POST['capacity'];
-            $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1: 0;
-            var_dump($data['normal']);
-            $data['time'] = time();
-            if (!$item['disk_id'] || is_null($item['disk_id'])) {
-                $item['disk_id'] = $diskDb->add($data);
-                $db->save($item);
-                $this->updateSmart($item['disk_id']);
-
-            } else {
-                $data['id'] = $item['disk_id'];
-                //检查sn是否变化
-                $disk = $diskDb->find($data['id']);
-                if($disk['sn'] != $data['sn'])
-                {
-                    $log_db = M("DiskChgLog");
-                    $dsk_hdler = new Dsk();
-                    $dsk_hdler->hdlDskChg($disk,'sn', $data['sn']);
-
+            $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1 : 0;
+            //检查该sn号的硬盘是否已存在,如果不存在,新建条目
+            $dsk_hdler = new Dsk();
+            $disk_id = $data['id'] = $dsk_hdler->getDskBySN($data['sn']);
+            //初次获取信息或者sn号发生变化
+            if ($item['disk_id'] != $disk_id) {
+                if ($item['disk_id']) {
+                    //检查sn是否变化
+                    $disk = $diskDb->find($item['disk_id']);
+                    if ($disk &&$disk['sn'] != $data['sn']) {
+                        //sn发生变化,记录日志
+                        $log_db = M("DiskChgLog");
+                        $dsk_hdler->hdlDskChg($disk, 'sn', $data['sn']);
+                    }
                 }
-                $diskDb->save($data);
-                $this->updateSmart($item['disk_id']);
+                $item['disk_id'] = $disk_id;
+                $db->save($item);
             }
+            //更新修改时间
+            $data['sn_time'] = time();
+            $diskDb->save($data);
+            $this->updateSmart($disk_id);
         }
     }
 
@@ -912,7 +932,7 @@ class MsgController extends Controller
                 $item['thd'] = $attr['thd'];
                 $item['val'] = $attr['val'];
                 $item['w_val'] = $attr['w_val'];
-                $item['normal'] = $attr['sts'] && $attr['sts']=='1' ? 0 : 1;
+                $item['normal'] = $attr['sts'] && $attr['sts'] == '1' ? 0 : 1;
                 $db->save($item);
             } else {
                 $item = array();
@@ -923,13 +943,13 @@ class MsgController extends Controller
                 $item['val'] = $attr['val'];
                 $item['w_val'] = $attr['w_val'];
                 $item['attrname'] = $attr['id'];
-                $item['normal'] = $attr['sts'] && $attr['sts']=='1' ? 0 : 1;
+                $item['normal'] = $attr['sts'] && $attr['sts'] == '1' ? 0 : 1;
                 $item['disk_id'] = $id;
                 $db->add($item);
             }
         }
         echo "添加完成,结果如下:<br>";
-       // var_dump($db->where("1=1")->select());
+        // var_dump($db->where("1=1")->select());
     }
 
     public function hdlSuccess()
@@ -944,18 +964,21 @@ class MsgController extends Controller
             $this->db->save($log);
         }
     }
-   public function hdlWriteProtectMsg(){
-       //获取对应的层
-       $db = M('Device');
-       $level = $_POST['level'];
-       $disks = $db->where("level=%d and cab_id=%d",$level,$this->msg->cab_id)->select();
-       foreach($disks as $disk){
-           $disk['protected'] = $_POST['subcmd'] == 'START' ? 1 : 0;
-           $db->save($disk);
-       }
-       $disks = $db->field('protected,cab_id,level')->where("level=%d and cab_id=%d",$level,$this->msg->cab_id)->select();
-       var_dump($disks);
-   }
+
+    public function hdlWriteProtectMsg()
+    {
+        //获取对应的层
+        $db = M('Device');
+        $level = $_POST['level'];
+        $disks = $db->where("level=%d and cab_id=%d", $level, $this->msg->cab_id)->select();
+        foreach ($disks as $disk) {
+            $disk['protected'] = $_POST['subcmd'] == 'START' ? 1 : 0;
+            $db->save($disk);
+        }
+        $disks = $db->field('protected,cab_id,level')->where("level=%d and cab_id=%d", $level, $this->msg->cab_id)->select();
+        var_dump($disks);
+    }
+
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
