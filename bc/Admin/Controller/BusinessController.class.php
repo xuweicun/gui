@@ -919,9 +919,19 @@ class BusinessController extends Controller
         $plan_db = M('AutoCheckPlan');
         $plan = getPlan($data, $_POST['start_date']);
         $plan['type'] = $data['type'];
+        $map['type'] = array('eq', $_POST['type']);
+        $map['status'] = array('neq', 'canceled');
+        $old_plan = $plan_db->find($map);
+
         $rs2 = $plan_db->add($plan);
+        $rs3 = true;
+        if($old_plan){
+            $old_plan['status'] = 'canceled';
+            $old_plan['modify_time'] = time();
+            $rs3 = $plan_db->save($old_plan);
+        }
         $ret['status'] = '1';
-        if ($rs1 && $rs2) {
+        if ($rs1 && $rs2 && $rs3) {
             $db->commit();
         } else {
             //回滚
