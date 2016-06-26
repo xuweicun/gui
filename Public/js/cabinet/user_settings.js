@@ -9,6 +9,10 @@
 
 Check_t.prototype = {
     save: function () {
+        if (!this.type || !this.unit || !this.cnt || !this.start_date || this.start_time < 0) {
+            return;
+        }
+
         /*
         var _data = {
             user_id: global_user.id, //xx,
@@ -73,22 +77,5 @@ function UserSettings(settings) {
 }
 
 UserSettings.prototype = {
-    time_options: [],
-    show_modal: function ()
-    {
-        $('[data-plugin-datepicker]').each(function () {
-            console.log('test');
-            var $this = $(this),
-                opts = {};
-
-            var pluginOptions = $this.data('plugin-options');
-            if (pluginOptions)
-                opts = pluginOptions;
-
-            $this.datepicker(opts);
-        });
-
-        global_modal_helper.show_modal_user('modalSettingMD5');
-        console.log('test');
-    }
+    time_options: []
 }
