@@ -79,7 +79,9 @@ app_device.filter('to_trusted', function ($sce) {
 
     $scope.init_date_picker = function ()
     {
-        $("[data-plugin-datepicker]").datepicker();
+        $("[data-plugin-datepicker]").datepicker({
+            altFormat: "yyyy-mm-dd"
+        });
     }
         
     $scope.local_host = $location.host();
