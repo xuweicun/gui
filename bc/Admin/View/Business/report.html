@@ -128,7 +128,8 @@
 			}
 			else{
 				$scope.report_data = JSON.stringify(data);
-				$scope.report_obj['cabinets'] = data;				
+				$scope.report_obj['cabinets'] = data;
+				console.log($scope.report_data);
 			}			
 		}).error(function(data){
 			$scope.report_data = data;
