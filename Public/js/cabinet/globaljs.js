@@ -77,12 +77,10 @@ app_device.filter('to_trusted', function ($sce) {
         });
     });
 
-    $scope.init_date_picker = function ()
-    {
-        $("[data-plugin-datepicker]").datepicker({
-            altFormat: "yyyy-mm-dd"
-        });
-    }
+    ($scope.init_date_picker = function () {
+        $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
+        $("[data-plugin-datepicker]").datepicker();
+    })();
         
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
