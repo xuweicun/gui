@@ -475,7 +475,7 @@ class BusinessController extends Controller
                 $item_md5 = $db_disk_chg_log->field(array('value', 'time'))
                     ->where(array('obj_id'=>$value['disk_id']))
                     ->order('time desc')
-                    >find();
+                    ->find();
                 if ($item_md5) {
                     $items_cabs[$key]['disks']['md5_last'] = $item_md5['value'];
                     $items_cabs[$key]['disks']['md5_last_time'] = $item_md5['time'];
