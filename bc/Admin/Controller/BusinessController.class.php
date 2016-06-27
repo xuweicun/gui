@@ -454,8 +454,8 @@ class BusinessController extends Controller
             'gui_device.normal' => 'normal',
             'sn',
             'capacity',
-            'gui_disk.md5' => 'md5_start',
-            'gui_disk.md5_time' => 'md5_start_time'
+            'gui_disk.md5' => 'md5_first',
+            'gui_disk.md5_time' => 'md5_first_time'
         );
 
         $db_disk_chg_log = M('DiskChgLog');
