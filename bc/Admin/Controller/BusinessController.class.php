@@ -453,6 +453,7 @@ class BusinessController extends Controller
             'gui_device.disk_id' => 'disk_id',
             'gui_device.normal' => 'normal',
             'sn',
+            'sn_time',
             'capacity',
             'gui_disk.md5' => 'md5_first',
             'gui_disk.md5_time' => 'md5_first_time'

@@ -47,39 +47,68 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-lg-12">
-											本<span class="bk-fg-primary">[数据存储柜 {{cab.cab_id}}#]</span>编号为“{{cab.cab_id}}”，含有<span class="bk-fg-danger">[{{cab.level_cnt}}]</span>层，每层<span class="bk-fg-danger">[{{cab.group_cnt}}]</span>组，每组<span class="bk-fg-danger">[{{cab.disk_cnt}}]</span>个硬盘插槽。健康硬盘<span class="bk-fg-success">[{{cab['disks'].length - cab['abnormal_cnt']}}]</span>块，异常硬盘<span class="bk-fg-danger">[{{cab['abnormal_cnt']}}]</span>块。
+											<table class="table table-bordered table-stripped" style="font-size:11px">
+												<thead>
+													<tr>
+														<td colspan="2">数据存储柜 {{cab.cab_id}}#</td>														
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td style="min-width:80px">存储柜ID</td>
+														<td style="width:100%">{{cab.cab_id}}</td>
+													</tr>
+													<tr>
+														<td>插槽数</td>
+														<td>{{cab.level_cnt}}层×{{cab.group_cnt}}组×{{cab.disk_cnt}}插槽</td>
+													</tr>
+													<tr>
+														<td>已安装硬盘数</td>
+														<td>{{cab['disks'].length}} 块</td>
+													</tr>
+													<tr>
+														<td>正常</td>
+														<td>{{cab['disks'].length - cab['abnormal_cnt']}} 块</td>
+													</tr>
+													<tr>
+														<td>异常</td>
+														<td>{{cab['abnormal_cnt']}} 块</td>
+													</tr>
+												</tbody>
+											</table>
 										</div>										
 									</div>	
 									<div class="row bk-margin-top-15">
 										<div class="col-lg-12" style="overflow-x:auto">
 											<table class="table table-bordered table-stripped" style="font-size:11px">
+												<caption><h4>{{cab.cab_id}}# 硬盘柜硬盘健康状况报表 — {{today.getFullYear()}}年{{today.getMonth()}}月{{today.getDate()}}日</h4></caption>
 												<thead>
 													<tr>
-														<td style="min-width:25px">序号</td>
-														<td style="min-width:20px">ID</td>
-														<td style="min-width:45px">物理位置</td>
-														<td style="min-width:50px">SN</td>
-														<td style="min-width:50px">容量</td>
-														<td style="min-width:50px">健康状态</td>
-														<td style="min-width:100px">首次MD5时间</td>
-														<td style="min-width:120px">首次MD5值</td>
-														<td style="min-width:100px">上次MD5时间</td>
-														<td style="min-width:120px">上次MD5值</td>
-														<td style="min-width:100px">最近MD5时间</td>
-														<td style="min-width:120px">最近MD5值</td>
-														<td style="width:80%">其他</td>
+														<td style="min-width:10px">序号</td>
+														<td style="min-width:30px">物理位置</td>
+														<td style="min-width:50px">SN号</td>
+														<td style="min-width:40px">健康容量</td>
+														<td style="min-width:30px">状态</td>
+														<td style="min-width:60px">健康状态检测时间</td>
+														<td style="min-width:60px">首次MD5时间</td>
+														<td style="min-width:110px">首次MD5值</td>
+														<td style="min-width:60px">上次MD5时间</td>
+														<td style="min-width:110px">上次MD5值</td>
+														<td style="min-width:60px">最近MD5时间</td>
+														<td style="min-width:110px">最近MD5值</td>
+														<td style="width:80%">备注</td>
 													</tr>
 												</thead>
 												<tbody>
 													<tr ng-repeat="_dsk in cab.disks">
 														<td>{{$index + 1}}</td>
-														<td>{{_dsk.disk_id}}</td>
 														<td>{{_dsk.level}}-{{_dsk.group}}-{{_dsk.disk}}</td>
 														<td>{{_dsk.sn}}</td>
 														<td>{{_dsk.capacity | formatnumber}} GB</td>
 														<td>
 															<span class="label" ng-class="{true:'label-success', false:'label-danger'}[_dsk.normal=='1']">{{_dsk.normal=='1'?'健康':'异常'}}</span>
-														</td>	
+														</td>
+														<td>{{_dsk.sn_time==null?'-':(_dsk.sn_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>	
 														<td >{{_dsk.md5_first_time==null?'-':(_dsk.md5_first_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
 														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>														
 														<td>{{_dsk.md5_last_time==null?'-':(_dsk.md5_last_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
@@ -91,7 +120,38 @@
 												</tbody>
 											</table>
 										</div>
-									</div>				
+									</div>	
+									<div class="row bk-margin-top-15" ng-repeat="_dsk in cab.disks">
+										<div class="col-lg-12" style="overflow-x:auto">
+											<table class="table table-bordered table-stripped" style="font-size:11px">
+												<caption><h4>{{cab.cab_id}}# 硬盘柜 {{_dsk.level}}-{{_dsk.group}}-{{_dsk.disk}} 盘位硬盘健康状况报表 — {{today.getFullYear()}}年{{today.getMonth()}}月{{today.getDate()}}日</h4></caption>
+												<thead>
+													<tr>
+														<td style="min-width:10px">序号</td>
+														<td style="min-width:50px">SN号</td>
+														<td style="min-width:40px">容量</td>
+														<td style="min-width:30px">健康状态</td>
+														<td style="min-width:60px">健康状态检测时间</td>
+														<td style="min-width:60px">MD5时间</td>
+														<td style="min-width:110px">MD5值</td>
+														<td style="width:80%">备注</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>					
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>			
 								</div>
 							</div>
 						</div>
@@ -124,6 +184,8 @@
 		$scope.report_obj = {
 			'cabinets': []
 		};
+
+		$scope.today = new Date();
 
 		$http({
 			url: '/index.php?m=admin&c=business&a=generate_report_data',
