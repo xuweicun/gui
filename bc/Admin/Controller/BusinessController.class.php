@@ -454,14 +454,14 @@ class BusinessController extends Controller
             'gui_device.normal' => 'normal',
             'sn',
             'capacity',
-            'gui_disk.md5' => 'md5_first',
-            'gui_disk_chg_log.md5' => 'md5_last',
-            'gui_disk_chg_log.time' => 'md5_last_time'
+            'gui_disk.md5' => 'md5_start',
+            'gui_disk.md5_time' => 'md5_start_time'
         );
+
+        $db_disk_chg_log = M('DiskChgLog');
         foreach ($items_cabs as $key => $value) {
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
-                ->join('left join gui_disk_chg_log on gui_device.disk_id = gui_disk_chg_log.disk_id')
                 ->where(array(
                     'cab_id' => $value['cab_id'],
                     'loaded' => '1'
@@ -469,6 +469,18 @@ class BusinessController extends Controller
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
+                /*
+            'gui_disk_chg_log.md5' => 'md5_last',
+            'gui_disk_chg_log.time' => 'md5_last_time'*/
+                $item_md5 = $db_disk_chg_log->field(array('value', 'time'))
+                    ->where(array('obj_id'=>$value['disk_id']))
+                    ->order('time desc')
+                    >find();
+                if ($item_md5) {
+                    $items_cabs[$key]['disks']['md5_last'] = $item_md5['value'];
+                    $items_cabs[$key]['disks']['md5_last_time'] = $item_md5['time'];
+                }
+
                 if ($value['normal'] != '1') {
                     $ab_cnt++;
                 }
