@@ -254,12 +254,11 @@ class Dsk
     public function hdlDskChg($dsk, $key, $value)
     {
         //检查字段的值是不是发生了变化
-        if ($dsk[$key] != null && ($value != $dsk[$key])) {
+        if ( ($value != $dsk[$key])) {
             //更新更改记录
             echo $key . "发生变化<br>";
             $data['obj_id'] = $dsk['id'];
             $data['value'] = $value;
-            $data['handled'] = 0;
             $data['type'] = $key;
             $data['time'] = time();
             $data['is_new'] = 1;
