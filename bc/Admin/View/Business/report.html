@@ -41,7 +41,7 @@
 					<p>系统共连接了{{report_obj['cabinets'].length}}台数据存储柜，分别为<span class="bk-fg-primary" ng-repeat="cab in report_obj['cabinets']">{{$index==0?'':'，'}}[数据存储柜 {{cab.cab_id}}#]</span>。详细信息如下：</p>
 					<div class="row" ng-repeat="cab in report_obj['cabinets']">
 						<div class="col-lg-12">
-							<div class="panel panel-danger">
+							<div class="panel panel-default">
 								<div class="panel-heading">{{$index + 1}}. 数据存储柜({{cab.cab_id}}#)</div>
 								<div class="panel-body">
 									<div class="row">
@@ -86,15 +86,15 @@
 														<td style="min-width:10px">序号</td>
 														<td style="min-width:30px">物理位置</td>
 														<td style="min-width:50px">SN号</td>
-														<td style="min-width:40px">健康容量</td>
-														<td style="min-width:30px">状态</td>
+														<td style="min-width:40px">容量</td>
+														<td style="min-width:30px">健康状态</td>
 														<td style="min-width:60px">健康状态检测时间</td>
 														<td style="min-width:60px">首次MD5时间</td>
-														<td style="min-width:110px">首次MD5值</td>
+														<td style="min-width:90px">首次MD5值</td>
 														<td style="min-width:60px">上次MD5时间</td>
-														<td style="min-width:110px">上次MD5值</td>
+														<td style="min-width:90px">上次MD5值</td>
 														<td style="min-width:60px">最近MD5时间</td>
-														<td style="min-width:110px">最近MD5值</td>
+														<td style="min-width:90px">最近MD5值</td>
 														<td style="width:80%">备注</td>
 													</tr>
 												</thead>
