@@ -477,8 +477,8 @@ class BusinessController extends Controller
                     ->order('time desc')
                     ->find();
                 if ($item_md5) {
-                    $items_cabs[$key]['disks']['md5_last'] = $item_md5['value'];
-                    $items_cabs[$key]['disks']['md5_last_time'] = $item_md5['time'];
+                    $items_cabs[$key]['md5_last'] = $item_md5['value'];
+                    $items_cabs[$key]['md5_last_time'] = $item_md5['time'];
                 }
 
                 if ($value['normal'] != '1') {
