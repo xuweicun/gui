@@ -261,8 +261,7 @@ class Dsk
             $data['value'] = $value;
             $data['type'] = $key;
             $data['time'] = time();
-            $data['is_new'] = 1;
-            $data['disk_id'] = $dsk['id'];
+            $data['is_new'] = 1;            
             $logDb = M('DiskChgLog');
             $logDb->add($data);
             var_dump($logDb->select());
