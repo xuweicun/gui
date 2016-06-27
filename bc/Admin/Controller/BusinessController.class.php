@@ -469,17 +469,23 @@ class BusinessController extends Controller
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
-                /*
-            'gui_disk_chg_log.md5' => 'md5_last',
-            'gui_disk_chg_log.time' => 'md5_last_time'*/
-                $item_md5 = $db_disk_chg_log->field(array('value', 'time'))
+                $items_md5 = $db_disk_chg_log->field(array('value', 'time'))
                     ->where(array('obj_id'=>$value['disk_id']))
-                    ->order('time desc')
-                    ->find();
-                if ($item_md5) {
-                    $items_cabs[$key]['disks'][$key_1]['md5_last'] = $item_md5['value'];
-                    $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $item_md5['time'];
+                    ->order('time desc')->limit(2)->select();
+				$items_md5_cnt = count($items_md5);
+				
+                if ($items_md5_cnt >= 2) {
+                    $items_cabs[$key]['disks'][$key_1]['md5_curr'] = $items_md5[0]['value'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_curr_time'] = $items_md5[0]['time'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5[1]['value'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5[1]['time'];
                 }
+				else if ($items_md5_cnt >= 1) {					
+                    $items_cabs[$key]['disks'][$key_1]['md5_curr'] = $items_md5[0]['value'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_curr_time'] = $items_md5[0]['time'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5[0]['value'];
+                    $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5[0]['time'];
+				}
 
                 if ($value['normal'] != '1') {
                     $ab_cnt++;

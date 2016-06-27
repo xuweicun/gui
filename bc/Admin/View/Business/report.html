@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 	<!-- Basic -->
 	<meta charset="UTF-8" />
@@ -65,6 +65,8 @@
 														<td style="min-width:150px">首次MD5值</td>
 														<td style="min-width:110px">上次MD5时间</td>
 														<td style="min-width:150px">上次MD5值</td>
+														<td style="min-width:110px">最近MD5时间</td>
+														<td style="min-width:150px">最近MD5值</td>
 														<td style="width:80%">其他</td>
 													</tr>
 												</thead>
@@ -79,9 +81,11 @@
 															<span class="label" ng-class="{true:'label-success', false:'label-danger'}[_dsk.normal=='1']">{{_dsk.normal=='1'?'健康':'异常'}}</span>
 														</td>	
 														<td>{{_dsk.md5_first_time==null?'-':(_dsk.md5_first_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
-														<td>{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>
+														<td>{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>														
 														<td>{{_dsk.md5_last_time==null?'-':(_dsk.md5_last_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
-														<td>{{_dsk.md5_last==null?'-':_dsk.md5_last}}</td>											
+														<td>{{_dsk.md5_last==null?'-':_dsk.md5_last}}</td>	
+														<td>{{_dsk.md5_curr_time==null?'-':(_dsk.md5_curr_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
+														<td>{{_dsk.md5_curr==null?'-':_dsk.md5_curr}}</td>											
 														<td></td>
 													</tr>
 												</tbody>
