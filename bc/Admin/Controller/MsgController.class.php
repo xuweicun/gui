@@ -285,6 +285,10 @@ class MsgController extends Controller
         $this->msg = new Msg();
         $this->msg->init();
         //CMD-ID 不允许为空
+		
+		
+		// 记录所有DISKINFO和MD5命令用于报表统计
+		$this->logs_for_report();
 
 
         $this->db = M("CmdLog");
@@ -334,6 +338,54 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
     }
+	
+	private function logs_for_report()
+	{
+		$_msg = $this->msg;
+		
+		if (!$_msg || $_msg->cmd != 'DISKINFO' && $_msg->cmd != 'MD5'){
+			return;
+		}
+		
+		if ($_msg->cmd == 'DISKINFO'){
+			// 只记录成功的
+			if ($_msg->status !='0' || $_msg->substatus != '0'){
+				return;
+			}
+			
+			$item['time'] = time();
+			$item['device_id'] = $_msg->device_id;
+			$item['level'] = $_msg->level;
+			$item['zu'] = $_msg->group;
+			$item['disk'] = $_msg->disk;
+			
+			$db_dev = M('Device')
+			$_dsk = $db_dev->field(array('disk_id'))
+				->where(array(
+					'cab_id'=>$item['device_id'],
+					'level'=>$item['level'],
+					'zu'=>$item['zu'],
+					'disk'=>$item['disk']
+				))->find();
+			if (!$_dsk){
+				return;
+			}
+			
+			$item['disk_id'] = $_dsk['disk_id'];
+			
+			$item['sn'] = $_msg->SN;
+			$item['smart'] = json_encode($_msg->SmartAttrs);
+			$item['status'] = '1';
+			$item['status_comment'] = $_msg->disk;			
+			
+			M('DiskSmartLog')->add($item);
+		}
+		else if ($_msg->cmd == 'MD5'){
+			
+		}
+		
+		if ($_msg->status != '0'){}
+	}
 
     private function quit()
     {
