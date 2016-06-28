@@ -354,10 +354,10 @@ class MsgController extends Controller
 			}
 			
 			$item['time'] = time();
-			$item['device_id'] = $_msg->device_id;
-			$item['level'] = $_msg->level;
-			$item['zu'] = $_msg->group;
-			$item['disk'] = $_msg->disk;
+			$item['device_id'] = $_POST['device_id'];
+			$item['level'] = $_POST['level'];
+			$item['zu'] = $_POST['group'];
+			$item['disk'] = $_POST['disk'];
 			
 			$db_dev = M('Device');
 			$dsk = $db_dev->field(array('disk_id'))
@@ -373,10 +373,10 @@ class MsgController extends Controller
 			
 			$item['disk_id'] = $dsk['disk_id'];
 			
-			$item['sn'] = $_msg->SN;
-			$item['smart'] = json_encode($_msg->SmartAttrs);
+			$item['sn'] = $_POST['SN'];
+			$item['smart'] = json_encode($_POST['SmartAttrs']);
 			$item['status'] = '1';
-			$item['status_comment'] = $_msg->disk;			
+			$item['status_comment'] = '';			
 			
 			M('DiskSmartLog')->add($item);
 		}
