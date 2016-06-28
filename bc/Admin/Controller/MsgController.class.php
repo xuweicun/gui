@@ -359,7 +359,7 @@ class MsgController extends Controller
 			$item['zu'] = $_msg->group;
 			$item['disk'] = $_msg->disk;
 			
-			$db_dev = M('Device')
+			$db_dev = M('Device');
 			$dsk = $db_dev->field(array('disk_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
