@@ -359,8 +359,7 @@ class MsgController extends Controller
 			$item['zu'] = $_POST['group'];
 			$item['disk'] = $_POST['disk'];
 			
-			$db_dev = M('Device');
-			$dsk = $db_dev->field(array('disk_id'))
+			$dsk = M('Device')->field(array('disk_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
 					'level'=>$item['level'],
@@ -369,8 +368,7 @@ class MsgController extends Controller
 				))->find();
 			if (!$dsk){
 				return;
-			}
-			
+			}			
 			$item['disk_id'] = $dsk['disk_id'];
 			
 			$item['sn'] = $_POST['SN'];
@@ -381,7 +379,68 @@ class MsgController extends Controller
 			M('DiskSmartLog')->add($item);
 		}
 		else if ($_msg->cmd == 'MD5'){
+			if ($_msg->status !='0' || $_msg->substatus != '0') {
+				return;
+			}
 			
+			if ($_msg->sub_cmd == 'START'){
+				$item['time'] = time();
+				$item['device_id'] = $_POST['device_id'];
+				$item['level'] = $_POST['level'];
+				$item['zu'] = $_POST['group'];
+				$item['disk'] = $_POST['disk'];
+									
+				// 清除历史记录
+				$_db = M('DiskMd5Log');
+				$old_items = $_db->field(array('id', 'status'))->where(array(
+						'device_id'=>$item['device_id'],
+						'level'=>$item['level'],
+						'zu'=>$item['zu'],
+						'disk'=>$item['disk'],
+						'status'=>'0'
+					))->select();
+					
+				foreach($old_items as $o_item){
+					$o_item['status'] = '2';
+					$_db->save($o_item);
+				}
+					
+				$dsk = M('Device')->field(array('disk_id'))
+					->where(array(
+						'cab_id'=>$item['device_id'],
+						'level'=>$item['level'],
+						'zu'=>$item['zu'],
+						'disk'=>$item['disk']
+					))->find();
+				if (!$dsk){
+					return;
+				}
+				$item['disk_id'] = $dsk['disk_id'];				
+				$item['status'] = '0';
+				
+				M('DiskMd5Log')->add($item);
+			}
+			else if($_msg->sub_cmd == 'RESULT'){
+				$_db = M('DiskMd5Log');
+				$item = $_db->field(array('id', 'md5_value'))
+					->where(array(
+						'device_id'=>$_POST['device_id'],
+						'level'=>$_POST['level'],
+						'zu'=>$_POST['group'],
+						'disk'=>$_POST['disk'],
+						'status'=>'0'
+					))->find();
+				
+				if (!$item){
+					return;
+				}
+				
+				$item['md5_value'] = $_POST['result'];
+				$item['md5_time'] = time();
+				$item['status'] = '1';
+				
+				$_db->save($item);
+			}
 		}
 		
 		if ($_msg->status != '0'){}
