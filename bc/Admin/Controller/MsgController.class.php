@@ -383,7 +383,7 @@ class MsgController extends Controller
 				return;
 			}
 			
-			if ($_msg->sub_cmd == 'START'){
+			if ($_POST['subcmd'] == 'START'){
 				$item['time'] = time();
 				$item['device_id'] = $_POST['device_id'];
 				$item['level'] = $_POST['level'];
@@ -420,7 +420,7 @@ class MsgController extends Controller
 				
 				M('DiskMd5Log')->add($item);
 			}
-			else if($_msg->sub_cmd == 'RESULT'){
+			else if($_POST['subcmd'] == 'RESULT'){
 				$_db = M('DiskMd5Log');
 				$item = $_db->field(array('id', 'md5_value'))
 					->where(array(
@@ -431,15 +431,36 @@ class MsgController extends Controller
 						'status'=>'0'
 					))->find();
 				
-				if (!$item){
-					return;
+				if ($item){
+					$item['md5_value'] = $_POST['result'];
+					$item['md5_time'] = time();
+					$item['status'] = '1';
+					
+					$_db->save($item);
 				}
-				
-				$item['md5_value'] = $_POST['result'];
-				$item['md5_time'] = time();
-				$item['status'] = '1';
-				
-				$_db->save($item);
+				else{
+					$item['time'] = time();
+					$item['device_id'] = $_POST['device_id'];
+					$item['level'] = $_POST['level'];
+					$item['zu'] = $_POST['group'];
+					$item['disk'] = $_POST['disk'];
+										
+					// 清除历史记录
+					$dsk = M('Device')->field(array('disk_id'))
+						->where(array(
+							'cab_id'=>$item['device_id'],
+							'level'=>$item['level'],
+							'zu'=>$item['zu'],
+							'disk'=>$item['disk']
+						))->find();
+					if (!$dsk){
+						return;
+					}
+					$item['disk_id'] = $dsk['disk_id'];				
+					$item['status'] = '1';
+					
+					M('DiskMd5Log')->add($item);
+				}				
 			}
 		}
 		
