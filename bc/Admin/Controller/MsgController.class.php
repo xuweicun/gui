@@ -360,18 +360,18 @@ class MsgController extends Controller
 			$item['disk'] = $_msg->disk;
 			
 			$db_dev = M('Device')
-			$_dsk = $db_dev->field(array('disk_id'))
+			$dsk = $db_dev->field(array('disk_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
 					'level'=>$item['level'],
 					'zu'=>$item['zu'],
 					'disk'=>$item['disk']
 				))->find();
-			if (!$_dsk){
+			if (!$dsk){
 				return;
 			}
 			
-			$item['disk_id'] = $_dsk['disk_id'];
+			$item['disk_id'] = $dsk['disk_id'];
 			
 			$item['sn'] = $_msg->SN;
 			$item['smart'] = json_encode($_msg->SmartAttrs);
