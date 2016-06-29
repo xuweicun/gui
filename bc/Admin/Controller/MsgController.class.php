@@ -261,7 +261,8 @@ class Dsk
             $data['value'] = $value;
             $data['type'] = $key;
             $data['time'] = time();
-            $data['is_new'] = 1;
+
+            $data['is_new'] = 1;            
             $logDb = M('DiskChgLog');
             $logDb->add($data);
             var_dump($logDb->select());
@@ -285,6 +286,10 @@ class MsgController extends Controller
         $this->msg = new Msg();
         $this->msg->init();
         //CMD-ID 不允许为空
+		
+		
+		// 记录所有DISKINFO和MD5命令用于报表统计
+		$this->logs_for_report();
 
 
         $this->db = M("CmdLog");
@@ -334,6 +339,150 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
     }
+	
+	private function logs_for_report()
+	{
+		$_msg = $this->msg;
+		
+		if (!$_msg || $_msg->cmd != 'DISKINFO' && $_msg->cmd != 'MD5'){
+			return;
+		}
+		
+		if ($_msg->cmd == 'DISKINFO'){
+			// 只记录成功的
+			if ($_msg->status !='0' || $_msg->substatus != '0'){
+				return;
+			}
+			
+			$item['time'] = time();
+			$item['device_id'] = $_POST['device_id'];
+			$item['level'] = $_POST['level'];
+			$item['zu'] = $_POST['group'];
+			$item['disk'] = $_POST['disk'];
+			
+			$dsk = M('Device')->field(array('disk_id'))
+				->where(array(
+					'cab_id'=>$item['device_id'],
+					'level'=>$item['level'],
+					'zu'=>$item['zu'],
+					'disk'=>$item['disk']
+				))->find();
+			if (!$dsk){
+				return;
+			}			
+			$item['disk_id'] = $dsk['disk_id'];
+			
+			$item['sn'] = $_POST['SN'];
+			$item['smart'] = json_encode($_POST['SmartAttrs']);
+			$item['status'] = '1';
+			$item['status_comment'] = '';			
+			
+			M('DiskSmartLog')->add($item);
+		}
+		else if ($_msg->cmd == 'MD5'){
+			if ($_msg->status !='0' || $_msg->substatus != '0') {
+				return;
+			}
+			
+			if ($_POST['subcmd'] == 'START'){
+				$item['time'] = time();
+				$item['device_id'] = $_POST['device_id'];
+				$item['level'] = $_POST['level'];
+				$item['zu'] = $_POST['group'];
+				$item['disk'] = $_POST['disk'];
+									
+				// 清除历史记录
+				$_db = M('DiskMd5Log');
+				$old_items = $_db->field(array('id', 'status'))->where(array(
+						'device_id'=>$item['device_id'],
+						'level'=>$item['level'],
+						'zu'=>$item['zu'],
+						'disk'=>$item['disk'],
+						'status'=>'0'
+					))->select();
+					
+				foreach($old_items as $o_item){
+					$o_item['status'] = '2';
+					$_db->save($o_item);
+				}
+					
+				$dsk = M('Device')->field(array('disk_id'))
+					->where(array(
+						'cab_id'=>$item['device_id'],
+						'level'=>$item['level'],
+						'zu'=>$item['zu'],
+						'disk'=>$item['disk']
+					))->find();
+				if (!$dsk){
+					return;
+				}
+				
+				$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$dsk['disk_id'], 'status'=>1))->order('time desc')->find();
+				
+				if ($sn){
+					$item['sn']	= $sn['sn'];
+				}
+					
+				$item['disk_id'] = $dsk['disk_id'];				
+				$item['status'] = '0';
+				
+				M('DiskMd5Log')->add($item);
+			}
+			else if($_POST['subcmd'] == 'RESULT'){
+				$_db = M('DiskMd5Log');
+				$item = $_db->field(array('id', 'md5_value', 'disk_id'))
+					->where(array(
+						'device_id'=>$_POST['device_id'],
+						'level'=>$_POST['level'],
+						'zu'=>$_POST['group'],
+						'disk'=>$_POST['disk'],
+						'status'=>'0'
+					))->find();
+				
+				if ($item){
+					$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$item['disk_id'], 'status'=>1))->order('time desc')->find();
+					if ($sn){
+						$item['sn']	= $sn['sn'];
+					}
+					
+					$item['md5_value'] = $_POST['result'];
+					$item['md5_time'] = time();
+					$item['status'] = '1';
+					
+					$_db->save($item);
+				}
+				else{
+					$item['time'] = time();
+					$item['device_id'] = $_POST['device_id'];
+					$item['level'] = $_POST['level'];
+					$item['zu'] = $_POST['group'];
+					$item['disk'] = $_POST['disk'];
+										
+					// 清除历史记录
+					$dsk = M('Device')->field(array('disk_id'))
+						->where(array(
+							'cab_id'=>$item['device_id'],
+							'level'=>$item['level'],
+							'zu'=>$item['zu'],
+							'disk'=>$item['disk']
+						))->find();
+					if (!$dsk){
+						return;
+					}
+					$item['disk_id'] = $dsk['disk_id'];		
+					$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$item['disk_id'], 'status'=>1))->order('time desc')->find();
+					if ($sn){
+						$item['sn']	= $sn['sn'];
+					}					
+					$item['status'] = '1';
+					
+					M('DiskMd5Log')->add($item);
+				}				
+			}
+		}
+		
+		if ($_msg->status != '0'){}
+	}
 
     private function quit()
     {
@@ -570,7 +719,7 @@ class MsgController extends Controller
         $diskDb = M('Disk');
         $item = $db->where($map)->find();
         $data['md5'] = $_POST['result'];
-        $data['time'] = time();
+        $data['md5_time'] = time();
         if (!$item['disk_id'] || is_null($item['disk_id'])) {
             $item['disk_id'] = $diskDb->add($data);
             $db->save($item);

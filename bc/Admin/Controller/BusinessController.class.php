@@ -445,6 +445,7 @@ class BusinessController extends Controller
             'electricity' => 'current');
         $items_cabs = $db_cabs->field($fields)->select();
 
+		// 2. 各在位硬盘
         $db_device = M('Device');
         $fields = array(
             'level',
@@ -453,15 +454,18 @@ class BusinessController extends Controller
             'gui_device.disk_id' => 'disk_id',
             'gui_device.normal' => 'normal',
             'sn',
+            'sn_time',
             'capacity',
-            'gui_disk.md5' => 'md5_first',
-            'gui_disk_chg_log.md5' => 'md5_last',
-            'gui_disk_chg_log.time' => 'md5_last_time'
+            'gui_disk.md5' => 'md5_curr',
+            'gui_disk.md5_time' => 'md5_curr_time'
         );
+
+		$db_disk_md5_log = M('DiskMd5Log');
+		$db_disk_smart_log = M('DiskSmartLog');
         foreach ($items_cabs as $key => $value) {
+			// 找出所有的硬盘
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
-                ->join('left join gui_disk_chg_log on gui_device.disk_id = gui_disk_chg_log.disk_id')
                 ->where(array(
                     'cab_id' => $value['cab_id'],
                     'loaded' => '1'
@@ -469,6 +473,24 @@ class BusinessController extends Controller
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
+				// 首次md5
+				$item_md5_first = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
+				->where(array('disk_id'=>$value['disk_id'], 'status'=>1))
+				->order('time asc')->find();
+				if (!$item_md5_first) continue;
+				
+				$items_cabs[$key]['disks'][$key_1]['md5_first'] = $item_md5_first['md5_value'];
+				$items_cabs[$key]['disks'][$key_1]['md5_first_time'] = $item_md5_first['md5_time'];
+				
+				// 上次md5
+				$items_md5_last = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
+				->where(array('disk_id'=>$value['disk_id'], 'status'=>1))
+				->order('time desc')->limit(2)->select();				
+								
+				$index = count($items_md5_last) == 2?1:0;				
+				$items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last[$index]['md5_value'];
+				$items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last[$index]['md5_time'];		
+				
                 if ($value['normal'] != '1') {
                     $ab_cnt++;
                 }
@@ -476,6 +498,48 @@ class BusinessController extends Controller
 
             $items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
         }
+		
+		// 3. 各盘位
+		foreach ($items_cabs as $key => $value) {
+			$slots = array();
+			
+			// 历史md5
+			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			foreach ($items as $item_value) {
+				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+				
+				if (!$slots[$slot_name]){
+					$slots[$slot_name]['name'] = $slot_name;
+					$slots[$slot_name]['md5'] = array();
+					$slots[$slot_name]['smart'] = array();		
+				}
+				
+				array_push($slots[$slot_name]['md5'], $item_value);
+			}
+			
+			// 历史Smart
+			$items = $db_disk_smart_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			//var_dump($items); die();
+			foreach ($items as $item_value) {
+				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+				
+				if (!$slots[$slot_name]){
+					$slots[$slot_name]['name'] = $slot_name;
+					$slots[$slot_name]['md5'] = array();
+					$slots[$slot_name]['smart'] = array();	
+				}
+				
+				array_push($slots[$slot_name]['smart'], $item_value);
+			}
+			
+			asort($slots);
+			
+			$items_cabs[$key]['slots'] = array();
+			foreach ($slots as $slot) {
+				array_push($items_cabs[$key]['slots'], $slot);
+				//var_dump($items_cabs[$key]['slots']); die();
+			}
+		}
 
         $this->AjaxReturn($items_cabs);
     }
