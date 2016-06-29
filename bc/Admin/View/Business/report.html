@@ -38,6 +38,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">概述</div>
 				<div class="panel-body">
+					<p>报表导出：<a href="/reports/report.docx" class="btn btn-danger">下载</a></p>
 					<p>系统共连接了{{report_obj['cabinets'].length}}台数据存储柜，分别为<span class="bk-fg-primary" ng-repeat="cab in report_obj['cabinets']">{{$index==0?'':'，'}}[数据存储柜 {{cab.cab_id}}#]</span>。详细信息如下：</p>
 					<div class="row" ng-repeat="cab in report_obj['cabinets']">
 						<div class="col-lg-12">
