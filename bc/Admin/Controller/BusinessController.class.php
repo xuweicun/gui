@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-require_once '\PHPWord-master\src\PhpWord\Autoloader.php';
+require_once 'PHPWord-master/src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
 use Think\Controller;
@@ -675,7 +675,7 @@ class BusinessController extends Controller
 		if (!is_dir('reports')){
 			mkdir('reports');
 		}
-		$objWriter->save('reports\report.docx');
+		$objWriter->save('reports/report.docx');
 	}
 
 
