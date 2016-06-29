@@ -445,6 +445,7 @@ class BusinessController extends Controller
             'electricity' => 'current');
         $items_cabs = $db_cabs->field($fields)->select();
 
+		// 2. 各在位硬盘
         $db_device = M('Device');
         $fields = array(
             'level',
@@ -460,7 +461,6 @@ class BusinessController extends Controller
         );
 
 		$db_disk_md5_log = M('DiskMd5Log');
-        $db_disk_chg_log = M('DiskChgLog');
         foreach ($items_cabs as $key => $value) {
 			// 找出所有的硬盘
             $items_cabs[$key]['disks'] = $db_device->field($fields)
@@ -497,6 +497,28 @@ class BusinessController extends Controller
 
             $items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
         }
+		
+		// 3. 各盘位
+		foreach ($items_cabs as $key => $value) {
+			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			
+			$slots = array();
+			foreach ($items as $item_value) {
+				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+				
+				if (!$slots[$slot_name]){
+					$slots[$slot_name]['name'] = $slot_name;
+					$slots[$slot_name]['md5'] = array();	
+				}
+				
+				array_push($slots[$slot_name]['md5'], $item_value);
+			}
+			$items_cabs[$key]['slots'] = array();
+			foreach ($slots as $slot) {
+				array_push($items_cabs[$key]['slots'], $slot);
+				//var_dump($items_cabs[$key]['slots']); die();
+			}
+		}
 
         $this->AjaxReturn($items_cabs);
     }
