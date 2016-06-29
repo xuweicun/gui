@@ -422,7 +422,7 @@ class MsgController extends Controller
 			}
 			else if($_POST['subcmd'] == 'RESULT'){
 				$_db = M('DiskMd5Log');
-				$item = $_db->field(array('id', 'md5_value'))
+				$item = $_db->field(array('id', 'md5_value', 'disk_id'))
 					->where(array(
 						'device_id'=>$_POST['device_id'],
 						'level'=>$_POST['level'],
@@ -432,6 +432,11 @@ class MsgController extends Controller
 					))->find();
 				
 				if ($item){
+					$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$item['disk_id'], 'status'=1))->order('time desc')->find();
+					if ($sn){
+						$item['sn']	= $sn['sn'];
+					}
+					
 					$item['md5_value'] = $_POST['result'];
 					$item['md5_time'] = time();
 					$item['status'] = '1';
@@ -456,7 +461,11 @@ class MsgController extends Controller
 					if (!$dsk){
 						return;
 					}
-					$item['disk_id'] = $dsk['disk_id'];				
+					$item['disk_id'] = $dsk['disk_id'];		
+					$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$item['disk_id'], 'status'=1))->order('time desc')->find();
+					if ($sn){
+						$item['sn']	= $sn['sn'];
+					}					
 					$item['status'] = '1';
 					
 					M('DiskMd5Log')->add($item);
