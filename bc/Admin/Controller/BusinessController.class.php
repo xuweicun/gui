@@ -532,6 +532,8 @@ class BusinessController extends Controller
 				array_push($slots[$slot_name]['smart'], $item_value);
 			}
 			
+			asort($slots);
+			
 			$items_cabs[$key]['slots'] = array();
 			foreach ($slots as $slot) {
 				array_push($items_cabs[$key]['slots'], $slot);
