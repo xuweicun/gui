@@ -461,6 +461,7 @@ class BusinessController extends Controller
         );
 
 		$db_disk_md5_log = M('DiskMd5Log');
+		$db_disk_smart_log = M('DiskSmartLog');
         foreach ($items_cabs as $key => $value) {
 			// 找出所有的硬盘
             $items_cabs[$key]['disks'] = $db_device->field($fields)
@@ -500,19 +501,37 @@ class BusinessController extends Controller
 		
 		// 3. 各盘位
 		foreach ($items_cabs as $key => $value) {
-			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
-			
 			$slots = array();
+			
+			// 历史md5
+			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
 			foreach ($items as $item_value) {
 				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
 				
 				if (!$slots[$slot_name]){
 					$slots[$slot_name]['name'] = $slot_name;
-					$slots[$slot_name]['md5'] = array();	
+					$slots[$slot_name]['md5'] = array();
+					$slots[$slot_name]['smart'] = array();		
 				}
 				
 				array_push($slots[$slot_name]['md5'], $item_value);
 			}
+			
+			// 历史Smart
+			$items = $db_disk_smart_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			//var_dump($items); die();
+			foreach ($items as $item_value) {
+				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+				
+				if (!$slots[$slot_name]){
+					$slots[$slot_name]['name'] = $slot_name;
+					$slots[$slot_name]['md5'] = array();
+					$slots[$slot_name]['smart'] = array();	
+				}
+				
+				array_push($slots[$slot_name]['smart'], $item_value);
+			}
+			
 			$items_cabs[$key]['slots'] = array();
 			foreach ($slots as $slot) {
 				array_push($items_cabs[$key]['slots'], $slot);

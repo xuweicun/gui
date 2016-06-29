@@ -121,9 +121,13 @@
 										</div>
 									</div>	
 									<div class="row bk-margin-top-15" ng-repeat="_slt in cab.slots">
-										<div class="col-lg-12" style="overflow-x:auto">
+										<div class="panel panel-default">
+											<div class="panel-heading">{{cab.cab_id}}# 硬盘柜 {{_slt.name}} 盘位硬盘健康状况报表 — {{today.getFullYear()}}年{{today.getMonth()}}月{{today.getDate()}}日</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-lg-6" style="overflow-x:auto">
 											<table class="table table-bordered table-stripped" style="font-size:11px">
-												<caption><h4>{{cab.cab_id}}# 硬盘柜 {{_slt.name}} 盘位硬盘健康状况（MD5）报表 — {{today.getFullYear()}}年{{today.getMonth()}}月{{today.getDate()}}日</h4></caption>
+												<caption><h4>MD5报表</h4></caption>
 												<thead>
 													<tr>
 														<td style="min-width:10px">序号</td>
@@ -144,7 +148,31 @@
 												</tbody>
 											</table>
 										</div>
-									</div>			
+										<div class="col-lg-6" style="overflow-x:auto">
+											<table class="table table-bordered table-stripped" style="font-size:11px">
+												<caption><h4>Smart报表</h4></caption>
+												<thead>
+													<tr>
+														<td style="min-width:10px">序号</td>
+														<td style="min-width:50px">SN号</td>
+														<td style="min-width:60px">SN号检测时间</td>
+														<td style="width:80%">备注</td>
+													</tr>
+												</thead>
+												<tbody>				
+													<tr ng-repeat="_smt in _slt.smart">
+														<td>{{$index+1}}</td>		
+														<td>{{_smt.sn}}</td>				
+														<td>{{_smt.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+												</div>
+											</div>
+										</div>										
+									</div>											
 								</div>
 							</div>
 						</div>
