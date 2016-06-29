@@ -416,7 +416,8 @@ class MsgController extends Controller
 					return;
 				}
 				
-				$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$item['disk_id'], 'status'=>1))->order('time desc')->find();
+				$sn = M('DiskSmartLog')->field(array('sn'))->where(array('disk_id'=>$dsk['disk_id'], 'status'=>1))->order('time desc')->find();
+				
 				if ($sn){
 					$item['sn']	= $sn['sn'];
 				}
