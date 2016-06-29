@@ -127,6 +127,7 @@
 												<thead>
 													<tr>
 														<td style="min-width:10px">序号</td>
+														<td style="min-width:50px">sn</td>
 														<td style="min-width:60px">MD5检测时间</td>
 														<td style="min-width:110px">MD5检测值</td>
 														<td style="width:80%">备注</td>
@@ -134,7 +135,8 @@
 												</thead>
 												<tbody>				
 													<tr ng-repeat="_md5 in _slt.md5">
-														<td>{{$index+1}}</td>					
+														<td>{{$index+1}}</td>		
+														<td>{{_md5.sn}}</td>				
 														<td>{{_md5.md5_time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 														<td>{{_md5.md5_value}}</td>
 														<td></td>
