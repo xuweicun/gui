@@ -485,7 +485,7 @@ class BusinessController extends Controller
 				$items_md5_last = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
 				->where(array('disk_id'=>$value['disk_id'], 'status'=>1))
 				->order('time desc')->limit(2)->select();				
-				
+								
 				$index = count($items_md5_last) == 2?1:0;				
 				$items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last[$index]['md5_value'];
 				$items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last[$index]['md5_time'];		
