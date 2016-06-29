@@ -155,6 +155,7 @@ Class AutoChecker
                         foreach ($dsks as $dsk){
                             if($this->isDskReady($dsk)){
                                 //发送SN命令
+
                                 //发送自检命令
                                 break;
                             }
@@ -167,6 +168,24 @@ Class AutoChecker
     public function isDskReady($dsk){
         $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
         if ($status == PLAN_STATUS_WAITING) {
+            if($this->type == 'md5'){
+                if($dsk['sn_authed'] == 0) {
+                    switch($dsk['sn_check_status']){
+                        case PLAN_STATUS_WAITING:
+                            //发送查验指令
+                            //修改查验状态
+                            return false;
+                        break;
+                        default:
+                            return false;
+                        break;
+                    }
+
+                }
+                else{
+                    return true;
+                }
+            }
             //如果该盘被标记为跳过,检查是否到达跳过时间
             if($dsk[$this->type.'_skipped'] == 1){
                 $time = date('Y-m-d',time());
@@ -181,11 +200,10 @@ Class AutoChecker
                 }
             }
             else{
-
+                return true;
             }
-            $dsk[$this->type . '_priority'] = (int)$dsk[$this->type . '_priority'] + 1;
         } else {
-            $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+           return false;
         }
     }
     /******
