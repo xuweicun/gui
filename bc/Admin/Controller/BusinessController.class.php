@@ -1105,6 +1105,16 @@ class BusinessController extends Controller
             $this->success('成功注销', U("login_admin"));
     }
 
+    /*****
+     * To get the current configs
+     */
+    public function getCheckConfig(){
+        if(IS_POST){
+            $db = M('CheckConfig');
+            $conf = $db->where("is_current=1")->select();
+            $this->AjaxReturn($conf);
+        }
+    }
     public function chg_pwd()
     {
         //check permission
