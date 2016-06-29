@@ -371,6 +371,7 @@ class MsgController extends Controller
 				return;
 			}			
 			$item['disk_id'] = $dsk['disk_id'];
+			$item['disk_status'] = $dsk['disk_status'];
 			
 			$item['sn'] = $_POST['SN'];
 			$item['smart'] = json_encode($_POST['SmartAttrs']);
