@@ -461,6 +461,7 @@ class BusinessController extends Controller
 
         $db_disk_chg_log = M('DiskChgLog');
         foreach ($items_cabs as $key => $value) {
+			// 找出所有的硬盘
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
                 ->where(array(

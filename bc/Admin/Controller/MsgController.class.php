@@ -702,7 +702,7 @@ class MsgController extends Controller
         $diskDb = M('Disk');
         $item = $db->where($map)->find();
         $data['md5'] = $_POST['result'];
-        $data['time'] = time();
+        $data['md5_time'] = time();
         if (!$item['disk_id'] || is_null($item['disk_id'])) {
             $item['disk_id'] = $diskDb->add($data);
             $db->save($item);
