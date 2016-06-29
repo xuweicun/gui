@@ -262,7 +262,6 @@ class Dsk
             $data['type'] = $key;
             $data['time'] = time();
             $data['is_new'] = 1;
-            $data['disk_id'] = $dsk['id'];
             $logDb = M('DiskChgLog');
             $logDb->add($data);
             var_dump($logDb->select());
@@ -587,7 +586,7 @@ class MsgController extends Controller
             $diskDb->save($data);
         }
     }
-
+    
     public function hdlSRPMsg()
     {
         //  处理不涉及桥接的SRP消息

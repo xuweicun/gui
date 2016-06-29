@@ -21,52 +21,294 @@ use \GatewayWorker\Lib\Gateway as ExtendGateWay;
 // 自动加载类
 require_once __DIR__ . '/../../Workerman/Autoloader.php';
 Autoloader::setRootPath(__DIR__);
+define('PLAN_STATUS_WORKING', 0, true);
+define('PLAN_STATUS_WAITING', -1, true);
+define('PLAN_STATUS_FINISHED', 1, true);
+define('PLAN_STATUS_CANCELED', 2, true);
+define('PLAN_STATUS_OTHER', 3, true);
 
-Class AutoChecker{
+Class AutoChecker
+{
     //类型:md5 or sn
     public $type = 'md5';
     //当前状态
-    public $status = 'waiting';
+    public $status = PLAN_STATUS_WAITING;
     //定时器间隔
-    public $timerInterval = 300;
+    public $timerInterval = 60;
     public $plan_id = 0;
+    //下一计划
+    public $next_plan = 0;
+    public $db = null;
+    //数据库表名
+    public $tbl_plan = 'gui_check_plan';
+    public $tbl_conf = 'gui_autocheck_conf';
 
     /****
      * @param $_t type
      * @param $_i interval
      */
-    public function init($_t,$_i){
+    public function init($_t, $_i, $_db)
+    {
         $this->timerInterval = $_i;
         $this->type = $_t;
+        $this->db = $_db;
+        if ($plan = $this->getCurrPlan()) {
+            $this->plan_id = $plan['id'];
+        }
     }
 
     /***
      * 定时器
      */
-    public function start(){
+    public function Run()
+    {
 
+    }
+
+    public function getCurrPlan()
+    {
+        $db = $this->db;
+        $plan = null;
+        if ($this->plan_id == 0) {
+            $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby("time asc")->query();
+            //取时间最早的计划
+            if ($plans) {
+                $plan = $plans[0];
+                $this->plan_id = $plan['id'];
+                $this->status = $plan['status'];
+            } else {
+                //根据配置项增加新计划
+                $plan = $this->addNewPlan();
+                echo "There is no available plan.";
+            }
+        } else {
+            $plan = $db->select('*')->from($this->tbl_plan)->where("id={$this->plan_id}")->query();
+            if (!$plan) {
+                $plan = $this->addNewPlan();
+                echo "The plan {$this->plan_id} has been removed";
+            }
+        }
+        return $plan;
     }
 
     /****
      * 自检函数
      */
-    public function autoCheck(){
-        //如果状态为未开始,获取计划
-        if($this->status == 'waiting') {
-            $db = Db::instance('db1');
-            $db->select('*')->from('gui_check_plan')->where("status='waiting'")->query();
-            //检查时间
-            
+    public function mainCheck()
+    {
+        $db = $this->db;
+        if (!$db) {
+            echo "Database not connected.";
+            return;
         }
-        //检查是否到达规定时间,如已达规定时间,检查是否完成
-        //如果状态为完成,配置磁盘优先级,修改状态
-        //重新生成计划
-        //遍历检查是否有磁盘
-        //查询存储柜信息
-        $cabs = self::getCabQueue();
+        //如果当前没有自检计划,返回
+        $plan = $this->getCurrPlan();
+        if (!$plan) {
+            return;
+        }
+        //检查当前计划是否仍有效
+        if (!$this->isAlive($plan)) {
+            $this->updateChecker();
+            return;
+        }
+
+        //如果当前计划未开始,检查是否已到时间
+        if ($this->status == PLAN_STATUS_WAITING) {
+            //尝试启动自检计划,如果启动失败则返回
+            if (!$this->startCheck($plan))
+                return;
+        }
+
+        //获取存储柜信息
+        $cabs = $this->getCabQueue();
+
+        //如果已经无盘可查
+        if (!self::checkDisk($cabs)) {
+            //更新信息,进入下一轮
+            $this->updateChecker();
+        }
 
     }
+    public function checkDisk($cabs){
+        if(!cabs)return false;
+        $db = $this->db;
+        foreach ($cabs as $cab) {
+            $cab_id = $cab['sn'];
+            for ($l = 0; $l < $cab['lvl_cnt']; $l++) {
+                $lvl = $l + 1;
+                for ($g = 0; $g < $cab['grp_cnt']; $g++) {
+                    $grp_busy = false;
+                    $grp = $g + 1;
+                    //按照优先级排序
+                    $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->orderby('priority desc')->query();
+                    //检查有没有正在工作的
+                    foreach ($dsks as $dsk){
+                        if($dsk[$this->type.'_status'] == PLAN_STATUS_WORKING){
+                            $grp_busy = true;
+                            break;
+                        }
+                    }
+                    if($grp_busy){
+                        break;
+                    }
+                    else{
+                        foreach ($dsks as $dsk){
+                            if($this->isDskReady($dsk)){
+                                //发送SN命令
+                                //发送自检命令
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public function isDskReady($dsk){
+        $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
+        if ($status == PLAN_STATUS_WAITING) {
+            //如果该盘被标记为跳过,检查是否到达跳过时间
+            if($dsk[$this->type.'_skipped'] == 1){
+                $time = date('Y-m-d',time());
+                $skip_time = date('Y-m-d',(int)$dsk[$this->type.'_skip_time']);
+                $time = explode('-',$time);
+                $skip_time = explode('-',$skip_time);
+                if((int)$time[2]-(int)$skip_time[2]>0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+
+            }
+            $dsk[$this->type . '_priority'] = (int)$dsk[$this->type . '_priority'] + 1;
+        } else {
+            $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+        }
+    }
+    /******
+     * @param $plan 当前计划的时间
+     * @return bool 为真表示已到预定时间,自检开始
+     */
+    public function isChecking($plan)
+    {
+        //如果已经开始,返回真
+        if ($plan['status'] == PLAN_STATUS_WORKING) {
+            return true;
+        }
+        //如果未开始,检查是否到达预定时间
+        $curr_time = time();
+        if ($curr_time >= int($plan['time'])) {
+            $this->startCheck($plan);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /******
+     * @param $plan 启动计划
+     */
+    public function startCheck($plan)
+    {
+        //更改当前计划状态
+        $this->status = $plan['status'] = PLAN_STATUS_WORKING;
+        $this->db->select('*')->from($this->tbl_plan)->where("id={$plan['id']}")->update();//修改状态
+        //如果尚未增加新计划
+        if ($this->next_plan == 0) {
+            if ($next_plan = $this->addNewPlan()) {
+                $this->next_plan = $next_plan['id'];
+            }
+        }
+    }
+
+    //检查当前计划是否过期
+    public function isAlive($plan)
+    {
+        $db = $this->db;
+        //如果处于非工作非等待状态
+        if ($plan['status'] > 0) {
+            return false;
+        }
+        $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby("time asc")->update();//修改状态
+        //如果不存在其他计划,不正常,退出;
+        if (!$plans) {
+            //增加计划
+            //$this->addNewPlan();
+            return true;
+        }
+        foreach ($plans as $plan) {
+            //找到下一个计划
+            if ($plan['id'] != $this->plan_id) {
+                //如果已到下一个计划的时间,则当前计划终止
+                if (time() > (int)$plan['time']) {
+                    return false;
+                }
+                return true;
+            }
+        }
+        return true;
+    }
+
+    public function updateChecker()
+    {
+        $db = $this->db;
+        if(!$cabs = $this->getCabQueue())
+            return;
+        //遍历每个硬盘,如果状态为未完成,设为完成,priority+1;如果已完成,priority=0;
+        foreach ($cabs as $cab) {
+            $cab_id = $cab['sn'];
+            for ($l = 0; $l < $cab['lvl_cnt']; $l++) {
+                $lvl = $l + 1;
+                for ($g = 0; $g < $cab['grp_cnt']; $g++) {
+                    $grp = $g + 1;
+                    for ($d = 0; $d < $cab['dsk_cnt']; $d++) {
+                        $idx = $d + 1;
+                        $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->query();
+                        if ($dsks) {
+                            $dsk = $dsks[0];
+                            $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
+                            if ($status == PLAN_STATUS_WAITING) {
+                                $dsks[0][$this->type . '_priority'] = (int)$dsks[0][$this->type . '_priority'] + 1;
+                            } else {
+                                $dsks[0][$this->type . "_status"] = PLAN_STATUS_WAITING;
+                            }
+                            //update
+                            $db->update($dsk);
+                        }
+
+                    }
+                }
+            }
+        }
+        //将原先的计划
+        $this->status = PLAN_STATUS_WAITING;
+        if ($this->next_plan == 0) {
+            //增加新计划
+            $this->plan_id = $this->addNewPlan();
+        } else {
+            $this->plan_id = $this->next_plan;
+            $this->next_plan = 0;
+        }
+    }
+
+    public function getCabQueue()
+    {
+       $db = $this->db;
+        $cab_tbl = "gui_cab";
+        $cabs = $db->select("*")->from($cab_tbl)->where("loaded=1")->query();
+        return $cabs;
+    }
+
+    public function addNewPlan()
+    {
+
+    }
+
 }
+
 // gateway 进程
 $gateway = new Gateway("Websocket://0.0.0.0:8383");
 // 设置名称，方便status时查看
@@ -119,7 +361,7 @@ $gateway->onWorkerStart = function ($worker) {
         //有连接的柜子存在
         if ($ret) {
             $num = count($ret);
-            $attached = array('type' => 'status','num'=>$num);
+            $attached = array('type' => 'status', 'num' => $num);
             $ret = array_merge($ret, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
             //查询磁盘容量
@@ -129,7 +371,7 @@ $gateway->onWorkerStart = function ($worker) {
                 return;
             }
             $num = count($ret);
-            $attached = array('type' => 'partition','num'=>$num);
+            $attached = array('type' => 'partition', 'num' => $num);
             $ret = array_merge($ret, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
         }
