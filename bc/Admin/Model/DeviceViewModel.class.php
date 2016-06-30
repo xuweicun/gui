@@ -10,7 +10,7 @@ class DeviceViewModel extends ViewModel
     public $viewFields = array(
         'Device' => array('id', 'cab_id', 'loaded', 'protected','level', 'zu', 'disk', 'bridged', 'path', 'time'),
         'Disk' => array(
-            'sn', 'md5', 'capacity',
+            'sn', 'md5', 'md5_time', 'capacity',
             'normal',
             '_on' => 'Device.disk_id=Disk.id',
             '_type' => 'LEFT'
