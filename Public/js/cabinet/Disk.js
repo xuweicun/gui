@@ -41,6 +41,7 @@ function Disk(lvl_obj, grp_obj, d) {
         // 序列号
         SN: '',
         MD5: '',
+        md5_time: '',
         // smart属性
         smarts: [
             {
@@ -419,6 +420,10 @@ Disk.prototype = {
     get_MD5: function () {
         return this.base_info.loaded ? this.detail_info.MD5 : '';
     },
+	get_md5_time: function()
+	{
+		return this.base_info.loaded? this.detail_info.md5_time: '';
+	},
 
     cmd2chs:function(cmd_name){
         switch (cmd_name) {
