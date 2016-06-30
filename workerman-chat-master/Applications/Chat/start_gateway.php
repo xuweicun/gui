@@ -173,6 +173,8 @@ Class AutoChecker
                     switch($dsk['sn_check_status']){
                         case PLAN_STATUS_WAITING:
                             //发送查验指令
+                            $dsk['sn_check_status'] = PLAN_STATUS_WORKING;
+
                             //修改查验状态
                             return false;
                         break;
