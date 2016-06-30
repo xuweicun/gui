@@ -225,6 +225,7 @@ Cabinet.prototype = {
 
             _dsk.detail_info.SN = e.sn;
             _dsk.detail_info.MD5 = e.md5;
+            _dsk.detail_info.md5_time = e.md5_time;
             _dsk.detail_info.capacity = e.capacity;
         }
 

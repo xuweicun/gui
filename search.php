@@ -104,25 +104,20 @@
                       }           
       
                       $xmlPath = 'xml';
-                      if($items = scandir($xmlPath)){
-                          $index = 0;
-                          foreach($items as $item){
-                              $itemPath = $xmlPath . '/' . $item;
-                              if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
-                                  Search($itemPath, '', $obj["key"], $item, $index);  
-                              }  
-                          }  
-                          
-                          if ($index == 0){
-                              echo '<tr><td colspan="4">没有找到任何文件</td><tr>';
-                          }
-                          else{
-                              echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><tr>';                          
-                          }
-                      }   
-                      else{
-                          echo '<tr><td colspan="4">没有找到任何离线文件或PHP禁用了scandir函数</td><tr>';                      
-                      }                      
+					  $dir = opendir($xmlPath);
+					  $index = 0;
+					  while (($item = readdir($dir)) !== false ){
+						  $itemPath = $xmlPath . '/' . $item;
+						  if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
+							  Search($itemPath, '', $obj["key"], $item, $index);  
+						  }  
+					  }
+					  if ($index == 0){
+						  echo '<tr><td colspan="4">没有找到任何文件</td><tr>';
+					  }
+					  else{
+						  echo '<tr><td colspan="4">总共找到条'. $index .'记录</td><tr>';                          
+					  }                    
                   ?>                
               </tbody>
             </table>
