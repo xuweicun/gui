@@ -90,12 +90,12 @@
 														<td style="min-width:40px">容量</td>
 														<td style="min-width:30px">健康状态</td>
 														<td style="min-width:60px">健康状态检测时间</td>
-														<td style="min-width:60px">首次MD5时间</td>
 														<td style="min-width:90px">首次MD5值</td>
-														<td style="min-width:60px">上次MD5时间</td>
+														<td style="min-width:60px">首次MD5时间</td>
 														<td style="min-width:90px">上次MD5值</td>
-														<td style="min-width:60px">最近MD5时间</td>
+														<td style="min-width:60px">上次MD5时间</td>
 														<td style="min-width:90px">最近MD5值</td>
+														<td style="min-width:60px">最近MD5时间</td>
 														<td style="width:80%">备注</td>
 													</tr>
 												</thead>
@@ -109,12 +109,12 @@
 															<span class="label" ng-class="{true:'label-success', false:'label-danger'}[_dsk.normal=='1']">{{_dsk.normal=='1'?'健康':'异常'}}</span>
 														</td>
 														<td>{{_dsk.sn_time==null?'-':(_dsk.sn_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>	
-														<td >{{_dsk.md5_first_time==null?'-':(_dsk.md5_first_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
-														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>														
-														<td>{{_dsk.md5_last_time==null?'-':(_dsk.md5_last_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
+														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_first==null?'-':_dsk.md5_first}}</td>		
+														<td >{{_dsk.md5_first_time==null?'-':(_dsk.md5_first_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>												
 														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_last==null?'-':_dsk.md5_last}}</td>	
-														<td>{{_dsk.md5_curr_time==null?'-':(_dsk.md5_curr_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
-														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_curr==null?'-':_dsk.md5_curr}}</td>											
+														<td>{{_dsk.md5_last_time==null?'-':(_dsk.md5_last_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
+														<td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_curr==null?'-':_dsk.md5_curr}}</td>	
+														<td>{{_dsk.md5_curr_time==null?'-':(_dsk.md5_curr_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>										
 														<td></td>
 													</tr>
 												</tbody>
@@ -157,6 +157,7 @@
 														<td style="min-width:10px">序号</td>
 														<td style="min-width:50px">SN号</td>
 														<td style="min-width:60px">SN号检测时间</td>
+														<td style="min-width:60px">健康状况</td>
 														<td style="width:80%">备注</td>
 													</tr>
 												</thead>
@@ -164,7 +165,8 @@
 													<tr ng-repeat="_smt in _slt.smart">
 														<td>{{$index+1}}</td>		
 														<td>{{_smt.sn}}</td>				
-														<td>{{_smt.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+														<td>{{_smt.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>	
+														<td>{{_smt.disk_status==0?'健康':'异常'}}</td>	
 														<td></td>
 													</tr>
 												</tbody>
