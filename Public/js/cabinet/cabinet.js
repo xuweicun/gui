@@ -180,6 +180,17 @@ Cabinet.prototype = {
         if (!is_add) {
         }
     },
+    on_cmd_filetree: function (json_cmd, is_add) {
+        if (json_cmd.cmd != 'FILETREE') return;
+
+        var idx_l = parseInt(json_cmd.level) - 1, idx_g = parseInt(json_cmd.group) - 1, idx_d = parseInt(json_cmd.disk) - 1;
+        if (idx_l < 0 || idx_l > 5 || idx_g < 0 || idx_g > 5 || idx_d < 0 || idx_d > 3) {
+            console.log("Invalid 'FILETREE' cmd", json_cmd);
+            return;
+        }
+
+        this.levels[idx_l].groups[idx_g].disks[idx_d].curr_cmd = is_add ? json_cmd : null;
+    },
 
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
@@ -269,6 +280,11 @@ Cabinet.prototype = {
             case 'WRITEPROTECT':
                 {
                     this.on_cmd_write_protect(json_cmd, bol_op);
+                    break;
+                }
+            case 'FILETREE':
+                {
+                    this.on_cmd_filetree(json_cmd, bol_op);
                     break;
                 }
 

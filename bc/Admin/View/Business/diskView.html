@@ -70,11 +70,15 @@
                         </td>
                     </tr>
 					<tr ng-show="cab.curr.is_bridged()">
-						<td colspan="2" class="bk-fg-success">
-							<i class="fa fa-list-ol"></i>
-							索引
-							<a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')">构建</a>
-						</td>
+                        <td colspan="2" class="bk-fg-success">
+                            <i class="fa fa-list-ol"></i>
+                            索引
+                            <a href="" class="btn btn-xs"
+                               ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.get_cmd_name() == 'FILETREE']"
+                               ng-click="cab.curr.cmd_commit('FILETREE')">
+                                {{cab.curr.get_btn_title('FILETREE')}}
+                            </a>
+                        </td>
 					</tr>
                     <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
                         ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
