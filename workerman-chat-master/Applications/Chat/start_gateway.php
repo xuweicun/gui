@@ -175,7 +175,7 @@ Class AutoChecker
                             //发送查验指令
                             $this->sendCmd($dsk,'SN');
                             $dsk['sn_check_status'] = PLAN_STATUS_WORKING;
-
+                            
                             //修改查验状态
                             return false;
                         break;
