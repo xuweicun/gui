@@ -70,7 +70,8 @@ Class AutoChecker
         $db = $this->db;
         $plan = null;
         if ($this->plan_id == 0) {
-            $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby("time asc")->query();
+            $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('time','asc'))->query();
+            //->bindValues(array('statys'));
             //取时间最早的计划
             if ($plans) {
                 $plan = $plans[0];
@@ -82,9 +83,9 @@ Class AutoChecker
                 echo "There is no available plan.";
             }
         } else {
-            $plan = $db->select('*')->from($this->tbl_plan)->where("id={$this->plan_id}")->query();
+            $plan = $db->select('*')->from($this->tbl_plan)->where("id={$this->plan_id}")->single();
             if (!$plan) {
-                $plan = $this->addNewPlan();
+                $this->plan_id = 0;
                 echo "The plan {$this->plan_id} has been removed";
             }
         }
@@ -111,26 +112,24 @@ Class AutoChecker
             $this->updateChecker();
             return;
         }
-
         //如果当前计划未开始,检查是否已到时间
         if ($this->status == PLAN_STATUS_WAITING) {
             //尝试启动自检计划,如果启动失败则返回
             if (!$this->startCheck($plan))
                 return;
         }
-
         //获取存储柜信息
         $cabs = $this->getCabQueue();
-
         //如果已经无盘可查
         if (!self::checkDisk($cabs)) {
             //更新信息,进入下一轮
             $this->updateChecker();
         }
-
     }
-    public function checkDisk($cabs){
-        if(!cabs)return false;
+
+    public function checkDisk($cabs)
+    {
+        if (!cabs) return false;
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = $cab['sn'];
@@ -142,21 +141,17 @@ Class AutoChecker
                     //按照优先级排序
                     $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->orderby('priority desc')->query();
                     //检查有没有正在工作的
-                    foreach ($dsks as $dsk){
-                        if($dsk[$this->type.'_status'] == PLAN_STATUS_WORKING){
+                    foreach ($dsks as $dsk) {
+                        if ($dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $grp_busy = true;
                             break;
                         }
                     }
-                    if($grp_busy){
+                    if ($grp_busy) {
                         break;
-                    }
-                    else{
-                        foreach ($dsks as $dsk){
-                            if($this->isDskReady($dsk)){
-                                //发送SN命令
-
-                                //发送自检命令
+                    } else {
+                        foreach ($dsks as $dsk) {
+                            if ($this->tryStartDisk($dsk)) {
                                 break;
                             }
                         }
@@ -165,50 +160,58 @@ Class AutoChecker
             }
         }
     }
-    public function isDskReady($dsk){
+
+    /*****
+     * @param $dsk 待启动的盘位
+     * @return bool 可启动返回真,不可启动返回false,不可启动的盘位被跳过
+     */
+    public function tryStartDisk($dsk)
+    {
         $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
         if ($status == PLAN_STATUS_WAITING) {
-            if($this->type == 'md5'){
-                if($dsk['sn_authed'] == 0) {
-                    switch($dsk['sn_check_status']){
-                        case PLAN_STATUS_WAITING:
-                            //发送查验指令
-                            $this->sendCmd($dsk,'SN');
-                            $dsk['sn_check_status'] = PLAN_STATUS_WORKING;
-                            
-                            //修改查验状态
-                            return false;
-                        break;
-                        default:
-                            return false;
-                        break;
-                    }
 
-                }
-                else{
-                    return true;
-                }
-            }
             //如果该盘被标记为跳过,检查是否到达跳过时间
-            if($dsk[$this->type.'_skipped'] == 1){
-                $time = date('Y-m-d',time());
-                $skip_time = date('Y-m-d',(int)$dsk[$this->type.'_skip_time']);
-                $time = explode('-',$time);
-                $skip_time = explode('-',$skip_time);
-                if((int)$time[2]-(int)$skip_time[2]>0){
-                    return true;
-                }
-                else{
+            if ($dsk[$this->type . '_skipped'] == 1) {
+                $time = date('Y-m-d', time());
+                $skip_time = date('Y-m-d', (int)$dsk[$this->type . '_skip_time']);
+                $time = explode('-', $time);
+                $skip_time = explode('-', $skip_time);
+                if ((int)$time[2] - (int)$skip_time[2] <= 0) {
                     return false;
                 }
             }
-            else{
-                return true;
+            if ($this->type == 'md5') {
+                switch ($dsk['sn_check_status']) {
+                    case PLAN_STATUS_WAITING:
+                        //发送查验指令
+                        $this->sendCmd($dsk, 'SN');
+                        $dsk['sn_check_status'] = PLAN_STATUS_WORKING;
+                        //修改查验状态
+                        return true;
+                        break;
+                    case PLAN_STATUS_WORKING:
+                        return true;
+                    break;
+                    case PLAN_STATUS_FINISHED:
+                        $this->sendCmd($dsk,$this->type);
+                        $dsk[$this->type.'_status'] = PLAN_STATUS_WORKING;
+                        return true;
+                        break;
+                    default:
+                        //SN检查未通过
+                        return false;
+
+                }
             }
+
+
+            return true;
+
         } else {
-           return false;
+            return false;
         }
     }
+
     /******
      * @param $plan 当前计划的时间
      * @return bool 为真表示已到预定时间,自检开始
@@ -221,7 +224,9 @@ Class AutoChecker
         }
         //如果未开始,检查是否到达预定时间
         $curr_time = time();
-        if ($curr_time >= int($plan['time'])) {
+
+        //时间已到,而且当前没有其他自检计划正在进行
+        if ($curr_time >= int($plan['time']) && !$this->isCabBusy()) {
             $this->startCheck($plan);
             return true;
         } else {
@@ -229,6 +234,14 @@ Class AutoChecker
         }
     }
 
+    /*****
+     * @return mixed 检查当前是否有正在执行的计划,如果有,则暂停启动本计划
+     */
+    public function isCabBusy(){
+        $db = $this->db;
+        return $db->select("*")->from($this->tbl_plan)->where('status=1')->query();
+
+    }
     /******
      * @param $plan 启动计划
      */
@@ -250,10 +263,10 @@ Class AutoChecker
     {
         $db = $this->db;
         //如果处于非工作非等待状态
-        if ($plan['status'] > 0) {
+        if ($plan['status'] > PLAN_STATUS_WORKING) {
             return false;
         }
-        $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby("time asc")->update();//修改状态
+        $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('time','asc'))->query();//修改状态
         //如果不存在其他计划,不正常,退出;
         if (!$plans) {
             //增加计划
@@ -276,7 +289,7 @@ Class AutoChecker
     public function updateChecker()
     {
         $db = $this->db;
-        if(!$cabs = $this->getCabQueue())
+        if (!$cabs = $this->getCabQueue())
             return;
         //遍历每个硬盘,如果状态为未完成,设为完成,priority+1;如果已完成,priority=0;
         foreach ($cabs as $cab) {
@@ -317,7 +330,7 @@ Class AutoChecker
 
     public function getCabQueue()
     {
-       $db = $this->db;
+        $db = $this->db;
         $cab_tbl = "gui_cab";
         $cabs = $db->select("*")->from($cab_tbl)->where("loaded=1")->query();
         return $cabs;
