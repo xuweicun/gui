@@ -25,8 +25,6 @@ function Disk(lvl_obj, grp_obj, d) {
     this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
     // 硬盘基本信息集合
     this.base_info = {
-        // 是否健康
-        normal: true,
         // 是否在位
         loaded: false,
         // 是否桥接
@@ -42,6 +40,8 @@ function Disk(lvl_obj, grp_obj, d) {
         SN: '',
         MD5: '',
         md5_time: '',
+        // 健康状况, 1代表健康，0代表异常
+        health:'1',
         // smart属性
         smarts: [
             {
@@ -68,6 +68,10 @@ Disk.prototype = {
     i_change_brdige_status: function (is_bridged, path) {
         this.base_info.bridged = is_bridged;
         this.base_info.bridge_path = path;
+    },
+    // 健康状态
+    get_health: function(){
+        return this.detail_info.health;
     },
     // 获得柜子ID
     get_cabinet_id:function(){
