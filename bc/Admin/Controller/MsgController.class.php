@@ -645,6 +645,9 @@ class MsgController extends Controller
                     $cabDb->add($data);
                     //增加插槽信息
                 } else {
+                    $item['level_cnt'] = $cab['level_cnt'];
+                    $item['group_cnt'] = $cab['group_cnt'];
+                    $item['disk_cnt'] = $cab['disk_cnt'];
                     $item['loaded'] = 1;
                     $cabDb->save($item);
                 }
