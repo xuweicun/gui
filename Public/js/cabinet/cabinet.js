@@ -198,7 +198,7 @@ Cabinet.prototype = {
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
 
-            if (!e.loaded) continue;
+            if (e.loaded != '1') continue;
 
             var int_l = parseInt(e.level) - 1;
             var int_g = parseInt(e.zu) - 1;
