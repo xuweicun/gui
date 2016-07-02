@@ -299,6 +299,7 @@ class MsgController extends Controller
         if ($this->msg->id != "0") {
             $this->updateCmdLog();
         }
+				
         //update related table
         switch ($this->msg->cmd) {
             case 'DEVICEINFO':
@@ -326,7 +327,7 @@ class MsgController extends Controller
             case 'RESTARTTIME':
                 $this->restartTimeMsgHdl();
                 break;
-            case 'SUPERPWDREST':
+            case 'SUPERPWDRESET':
                 $this->superPwdResetMsgHdl();
                 break;
             case 'PARTSIZE':
