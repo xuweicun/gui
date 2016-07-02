@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 
 require_once 'PHPWord-master/src/PhpWord/Autoloader.php';
+//require_once '\PHPWord-master\src\PhpWord\Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
 use Think\Controller;
@@ -554,12 +555,15 @@ class BusinessController extends Controller
 		$styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
 		$styleFirstRow = array();// array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
 		$fontStyle = array('bold' => true, 'align' => 'center');
+		$paraStyle = array('indention'=>'1', 'lineHeight'=>1.5);
 		
 		// Creating the new document...
 		$phpWord = new \PhpOffice\PhpWord\PhpWord();
 		$phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
 		
 		$section = $phpWord->addSection(array('orientation'=>'landscape'));
+		$phpWord->setDefaultFontName('Times New Roman');
+		$phpWord->setDefaultFontSize(12);
 		
 		// 柜子数
 		$cab_cnt = count($cabinets);
@@ -567,109 +571,116 @@ class BusinessController extends Controller
 		// 日期
 		$today = date('Y年m月d日');
 		
-		if ($cab_cnt > 0) {
-			$text_head = "服务器当前已连接 $cab_cnt 台存储柜。";			
-			$section->addText($text_head);
+		$phpWord->addTitleStyle(1, array('bold' => true, 'size' => 16), array('spaceAfter' => 240, 'spaceBefore'=>400));
+		$phpWord->addTitleStyle(2, array('bold' => true, 'size' => 14), array('spaceAfter' => 240, 'spaceBefore'=>400));
+		$phpWord->addTitleStyle(3, array('bold' => true, 'size' => 12), array('spaceAfter' => 240, 'spaceBefore'=>400));
+		$section->addTitle('1. 概述', 1);
+		
+		$text_head = "服务器当前已连接 $cab_cnt 台存储柜。";			
+		$section->addText($text_head, array(), $paraStyle);
+		
+		if (count($cabinets) > 0) {
+			$section->addTitle('2. 数据存储柜基本信息', 1);
+		}
+		
+		foreach ($cabinets as $idx=>$cab) {
+			$section->addTitle('2.' . ($idx+1) . '. 数据存储柜 ' . $cab['cab_id']. '#', 2);
 			
-			foreach ($cabinets as $cab) {
-				$table_cab = $section->addTable('Fancy Table');
-				$table_cab->addRow();
-				$table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
-				$table_cab->addCell(4000)->addText($cab['cab_id'], $fontStyle);
-				$table_cab->addRow();
-				$table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
-				$table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×'. $cab['group_cnt'] .'组×'. $cab['disk_cnt'] .'位', $fontStyle);
-				$table_cab->addRow();
-				$table_cab->addCell(2000)->addText('当前硬盘', $fontStyle);
-				$disk_cnt = count($cab['disks']);
-				$disk_ab_cnt = $cab['abnormal_cnt'];
-				$table_cab->addCell(4000)->addText("共 $disk_cnt 块，其中异常 $disk_ab_cnt 块", $fontStyle);
-				
-				$section->addText('数据存储柜 '.$cab['cab_id'].'#硬盘健康状况报表 - '.$today);
-				$table_cab_diks = $section->addTable('Fancy Table');
+			$table_cab = $section->addTable('Fancy Table', null, array('align' => 'center', 'spaceAfter' => 100));
+			$table_cab->addRow();
+			$table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
+			$table_cab->addCell(3000)->addText($cab['cab_id'], $fontStyle);
+			$table_cab->addRow();
+			$table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
+			$table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×'. $cab['group_cnt'] .'组×'. $cab['disk_cnt'] .'位', $fontStyle);
+			$table_cab->addRow();
+			$table_cab->addCell(2000)->addText('当前硬盘', $fontStyle);
+			$disk_cnt = count($cab['disks']);
+			$disk_ab_cnt = $cab['abnormal_cnt'];
+			$table_cab->addCell(4000)->addText("共 $disk_cnt 块，其中异常 $disk_ab_cnt 块", $fontStyle);
+			
+			$section->addText('数据存储柜 '.$cab['cab_id'].'# 在位硬盘健康状况报表 - '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
+			$table_cab_diks = $section->addTable('Fancy Table');
+			{
+				//序号 	物理位置 	SN号 	容量 	健康状态 	健康状态检测时间 	首次MD5时间 	首次MD5值 	上次MD5时间 	上次MD5值 	最近MD5时间 	最近MD5值 	备注
+				$table_cab_diks->addRow();
+				$table_cab_diks->addCell(1000)->addText('序号', array('size'=>9));	
+				$table_cab_diks->addCell(1000)->addText('物理位置', array('size'=>9));
+				$table_cab_diks->addCell(1000)->addText('SN号', array('size'=>9));	
+				$table_cab_diks->addCell(1000)->addText('容量', array('size'=>9));		
+				$table_cab_diks->addCell(2000)->addText('健康状态', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('健康状态检测时间', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('首次MD5值', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('首次MD5时间', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('上次MD5值', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('上次MD5时间', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('最近MD5值', array('size'=>9));		
+				$table_cab_diks->addCell(1000)->addText('最近MD5时间', array('size'=>9));		
+				$table_cab_diks->addCell()->addText('备注', array('size'=>9));					
+			}
+			foreach ($cab['disks'] as $dsk_idx=>$dsk) {
+				$table_cab_diks->addRow();
+				$table_cab_diks->addCell()->addText($dsk_idx + 1, array('size'=>9));	
+				$table_cab_diks->addCell()->addText($dsk['level'].'-'.$dsk['group'].'-'.$dsk['disk'], array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['sn'], array('size'=>9));
+				$table_cab_diks->addCell()->addText($dsk['capacity'] . 'GB', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['normal']==1?'健康':'异常', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['sn_time']?date("Y-m-d H:i:s", $dsk['sn_time']):'-', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_first'], array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_first_time']?date("Y-m-d H:i:s", $dsk['md5_first_time']):'-', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_last'], array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_last_time']?date("Y-m-d H:i:s", $dsk['md5_last_time']):'-', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_curr'], array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['md5_curr_time']?date("Y-m-d H:i:s", $dsk['md5_curr_time']):'-', array('size'=>9));		
+				$table_cab_diks->addCell()->addText('', array('size'=>9));
+			}
+			
+			foreach ($cab['slots'] as $idx_slt=>$slt) {
+				$section->addTitle('2.' . ($idx+1) . '.' . ($idx_slt+1) .'. 盘位' . $cab['cab_id'] .'-'.$slt['name'], 3);
+				$slt_title = '盘位'.$cab['cab_id'].'-'.$slt['name'].'健康状况报表';				
+				$section->addText($slt_title.'（MD5） — '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
 				{
-					//序号 	物理位置 	SN号 	容量 	健康状态 	健康状态检测时间 	首次MD5时间 	首次MD5值 	上次MD5时间 	上次MD5值 	最近MD5时间 	最近MD5值 	备注
-					$table_cab_diks->addRow();
-					$table_cab_diks->addCell(1000)->addText('序号');	
-					$table_cab_diks->addCell(1000)->addText('物理位置');
-					$table_cab_diks->addCell(1000)->addText('SN号');	
-					$table_cab_diks->addCell(1000)->addText('容量');		
-					$table_cab_diks->addCell(1000)->addText('健康状态');		
-					$table_cab_diks->addCell(1000)->addText('健康状态检测时间');		
-					$table_cab_diks->addCell(1000)->addText('首次MD5值');		
-					$table_cab_diks->addCell(1000)->addText('首次MD5时间');		
-					$table_cab_diks->addCell(1000)->addText('上次MD5值');		
-					$table_cab_diks->addCell(1000)->addText('上次MD5时间');		
-					$table_cab_diks->addCell(1000)->addText('最近MD5值');		
-					$table_cab_diks->addCell(1000)->addText('最近MD5时间');		
-					$table_cab_diks->addCell(1000)->addText('备注');					
-				}
-				foreach ($cab['disks'] as $dsk_idx=>$dsk) {
-					$table_cab_diks->addRow();
-					$table_cab_diks->addCell(1000)->addText($dsk_idx + 1);	
-					$table_cab_diks->addCell(1000)->addText($dsk['level'].'-'.$dsk['group'].'-'.$dsk['disk']);		
-					$table_cab_diks->addCell(1000)->addText($dsk['sn']);
-					$table_cab_diks->addCell(1000)->addText($dsk['capacity'] . 'GB');		
-					$table_cab_diks->addCell(1000)->addText($dsk['normal']==1?'健康':'异常');		
-					$table_cab_diks->addCell(1000)->addText($dsk['sn_time']?date("Y-m-d H:i:s", $dsk['sn_time']):'-');		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_first']);		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_first_time']?date("Y-m-d H:i:s", $dsk['md5_first_time']):'-');		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_last']);		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_last_time']?date("Y-m-d H:i:s", $dsk['md5_last_time']):'-');		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_curr']);		
-					$table_cab_diks->addCell(1000)->addText($dsk['md5_curr_time']?date("Y-m-d H:i:s", $dsk['md5_curr_time']):'-');		
-					$table_cab_diks->addCell(1000)->addText('');
+					$table_cab_slt_md5 = $section->addTable('Fancy Table');
+					// 序号 	sn 	MD5检测时间 	MD5检测值 	备注
+					$table_cab_slt_md5->addRow();
+					$table_cab_slt_md5->addCell(1000)->addText('序号');
+					$table_cab_slt_md5->addCell(3000)->addText('SN号');
+					$table_cab_slt_md5->addCell(3000)->addText('MD5时间');
+					$table_cab_slt_md5->addCell(4000)->addText('MD5检测值');
+					$table_cab_slt_md5->addCell(3000)->addText('备注');
+					
+					foreach ($slt['md5'] as $md5_idx=>$md5) {
+						$table_cab_slt_md5->addRow();
+						$table_cab_slt_md5->addCell()->addText($md5_idx + 1);
+						$table_cab_slt_md5->addCell()->addText($md5['sn']);
+						$table_cab_slt_md5->addCell()->addText(date('Y-m-d H:i:s', $md5['md5_time']));
+						$table_cab_slt_md5->addCell()->addText($md5['md5_value']);
+						$table_cab_slt_md5->addCell()->addText();							
+					}
 				}
 				
-				foreach ($cab['slots'] as $slt) {
-					$slt_title = '硬盘存储柜'.$cab['cab_id'].'# '.$slt['name'].'盘位硬盘健康状况报表';
-					$section->addText($slt_title.'（MD5） — '.$today);
-					{
-						$table_cab_slt_md5 = $section->addTable('Fancy Table');
-						// 序号 	sn 	MD5检测时间 	MD5检测值 	备注
-						$table_cab_slt_md5->addRow();
-						$table_cab_slt_md5->addCell(1000)->addText('序号');
-						$table_cab_slt_md5->addCell(1000)->addText('SN号');
-						$table_cab_slt_md5->addCell(1000)->addText('MD5时间');
-						$table_cab_slt_md5->addCell(1000)->addText('MD5检测值');
-						$table_cab_slt_md5->addCell(1000)->addText('备注');
-						
-						foreach ($slt['md5'] as $md5_idx=>$md5) {
-							$table_cab_slt_md5->addRow();
-							$table_cab_slt_md5->addCell(1000)->addText($md5_idx + 1);
-							$table_cab_slt_md5->addCell(1000)->addText($md5['sn']);
-							$table_cab_slt_md5->addCell(1000)->addText(date('Y-m-d H:i:s', $md5['md5_time']));
-							$table_cab_slt_md5->addCell(1000)->addText($md5['md5_value']);
-							$table_cab_slt_md5->addCell(1000)->addText();							
-						}
-					}
+				$section->addText($slt_title.'（Smart） — '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
+				{
+					$table_cab_slt_smart = $section->addTable('Fancy Table');
+					// 序号 	SN号 	SN号检测时间 	备注
+					$table_cab_slt_smart->addRow();
+					$table_cab_slt_smart->addCell(1000)->addText('序号');
+					$table_cab_slt_smart->addCell(3000)->addText('SN号');
+					$table_cab_slt_smart->addCell(3000)->addText('SN号检测时间');
+					$table_cab_slt_smart->addCell(2000)->addText('健康状态');
+					$table_cab_slt_smart->addCell(5000)->addText('备注');
 					
-					$section->addText($slt_title.'（Smart） — '.$today);
-					{
-						$table_cab_slt_smart = $section->addTable('Fancy Table');
-						// 序号 	SN号 	SN号检测时间 	备注
+					foreach ($slt['smart'] as $smart_idx=>$smart) {
 						$table_cab_slt_smart->addRow();
-						$table_cab_slt_smart->addCell(1000)->addText('序号');
-						$table_cab_slt_smart->addCell(1000)->addText('SN号');
-						$table_cab_slt_smart->addCell(1000)->addText('SN号检测时间');
-						$table_cab_slt_smart->addCell(1000)->addText('健康状态');
-						$table_cab_slt_smart->addCell(1000)->addText('备注');
-						
-						foreach ($slt['smart'] as $smart_idx=>$smart) {
-							$table_cab_slt_smart->addRow();
-							$table_cab_slt_smart->addCell(1000)->addText($smart_idx + 1);
-							$table_cab_slt_smart->addCell(1000)->addText($smart['sn']);
-							$table_cab_slt_smart->addCell(1000)->addText(date('Y-m-d H:i:s', $smart['time']));
-							$table_cab_slt_smart->addCell(1000)->addText($smart['disk_status']==0?'健康':'异常');
-							$table_cab_slt_smart->addCell(1000)->addText();							
-						}
+						$table_cab_slt_smart->addCell()->addText($smart_idx + 1);
+						$table_cab_slt_smart->addCell()->addText($smart['sn']);
+						$table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
+						$table_cab_slt_smart->addCell()->addText($smart['disk_status']==0?'健康':'异常');
+						$table_cab_slt_smart->addCell()->addText();							
 					}
 				}
 			}
-		}
-		else {
-			$section->addText('当前服务器没有连接任何存储柜。');
-		}	
+		}			
 		
 		$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 		if (!is_dir('reports')){
