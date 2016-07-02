@@ -197,6 +197,9 @@ Cabinet.prototype = {
     i_load_disks_base_info: function (data) {
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
+
+            if (!e.loaded) continue;
+
             var int_l = parseInt(e.level) - 1;
             var int_g = parseInt(e.zu) - 1;
             var int_d = parseInt(e.disk) - 1;
