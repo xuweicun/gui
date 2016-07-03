@@ -299,6 +299,7 @@ class MsgController extends Controller
         if ($this->msg->id != "0") {
             $this->updateCmdLog();
         }
+				
         //update related table
         switch ($this->msg->cmd) {
             case 'DEVICEINFO':
@@ -326,7 +327,7 @@ class MsgController extends Controller
             case 'RESTARTTIME':
                 $this->restartTimeMsgHdl();
                 break;
-            case 'SUPERPWDREST':
+            case 'SUPERPWDRESET':
                 $this->superPwdResetMsgHdl();
                 break;
             case 'PARTSIZE':
@@ -633,25 +634,27 @@ class MsgController extends Controller
                     $cabDb->save($i);
                 }
             }
-            if($cabs)
-            {
-                foreach ($cabs as $cab) {
-                    $map['sn'] = array('eq', (int)$cab['id']);
-                    $item = $cabDb->where($map)->find();
-                    //如果不存在，新建
-                    if (!$item) {
-                        $data = array();
-                        $data['sn'] = $cab['id'];
-                        $data['level_cnt'] = $cab['level_cnt'];
-                        $data['group_cnt'] = $cab['group_cnt'];
-                        $data['disk_cnt'] = $cab['disk_cnt'];
-                        $data['loaded'] = 1;
-                        $cabDb->add($data);
-                        //增加插槽信息
-                    } else {
-                        $item['loaded'] = 1;
-                        $cabDb->save($item);
-                    }
+
+            foreach ($cabs as $cab) {
+                $this->RTLog("CAB-ID:" . $cab['id']);
+                $map['sn'] = array('eq', (int)$cab['id']);
+                $item = $cabDb->where($map)->find();
+                //如果不存在，新建
+                if (!$item) {
+                    $data = array();
+                    $data['sn'] = $cab['id'];
+                    $data['level_cnt'] = $cab['level_cnt'];
+                    $data['group_cnt'] = $cab['group_cnt'];
+                    $data['disk_cnt'] = $cab['disk_cnt'];
+                    $data['loaded'] = 1;
+                    $cabDb->add($data);
+                    //增加插槽信息
+                } else {
+                    $item['level_cnt'] = $cab['level_cnt'];
+                    $item['group_cnt'] = $cab['group_cnt'];
+                    $item['disk_cnt'] = $cab['disk_cnt'];
+                    $item['loaded'] = 1;
+                    $cabDb->save($item);
                 }
             }
         }

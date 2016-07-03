@@ -180,12 +180,26 @@ Cabinet.prototype = {
         if (!is_add) {
         }
     },
+    on_cmd_filetree: function (json_cmd, is_add) {
+        if (json_cmd.cmd != 'FILETREE') return;
+
+        var idx_l = parseInt(json_cmd.level) - 1, idx_g = parseInt(json_cmd.group) - 1, idx_d = parseInt(json_cmd.disk) - 1;
+        if (idx_l < 0 || idx_l > 5 || idx_g < 0 || idx_g > 5 || idx_d < 0 || idx_d > 3) {
+            console.log("Invalid 'FILETREE' cmd", json_cmd);
+            return;
+        }
+
+        this.levels[idx_l].groups[idx_g].disks[idx_d].curr_cmd = is_add ? json_cmd : null;
+    },
 
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
     i_load_disks_base_info: function (data,init) {
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
+
+            if (e.loaded != '1') continue;
+
             var int_l = parseInt(e.level) - 1;
             var int_g = parseInt(e.zu) - 1;
             var int_d = parseInt(e.disk) - 1;
@@ -213,7 +227,7 @@ Cabinet.prototype = {
                 _dsk.base_info.bridged = (e.bridged == '1');
             }
 
-            _dsk.base_info.normal = (e.normal == '1');
+            _dsk.detail_info.health = e.normal;
 
             if (e.loaded == '1' && e.bridged == '1') {
                 _dsk.base_info.bridge_path = e.path;
@@ -232,8 +246,6 @@ Cabinet.prototype = {
             return;
         }
         global_scope.is_ok = true;
-
-        global_cabinet_helper.update_disk_cnt(data);
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
@@ -273,6 +285,11 @@ Cabinet.prototype = {
             case 'WRITEPROTECT':
                 {
                     this.on_cmd_write_protect(json_cmd, bol_op);
+                    break;
+                }
+            case 'FILETREE':
+                {
+                    this.on_cmd_filetree(json_cmd, bol_op);
                     break;
                 }
 

@@ -70,11 +70,15 @@
                         </td>
                     </tr>
 					<tr ng-show="cab.curr.is_bridged()">
-						<td colspan="2" class="bk-fg-success">
-							<i class="fa fa-list-ol"></i>
-							索引
-							<a href="" class="btn btn-danger btn-xs" ng-click="cab.curr.cmd_commit('FILETREE')">构建</a>
-						</td>
+                        <td colspan="2" class="bk-fg-success">
+                            <i class="fa fa-list-ol"></i>
+                            索引
+                            <a href="" class="btn btn-xs"
+                               ng-class="{true:'btn-danger', false:'btn-primary'}[cab.curr.get_cmd_name() == 'FILETREE']"
+                               ng-click="cab.curr.cmd_commit('FILETREE')">
+                                {{cab.curr.get_btn_title('FILETREE')}}
+                            </a>
+                        </td>
 					</tr>
                     <tr ng-show="cab.curr.is_bridged() && user_profile.can_write"
                         ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
@@ -96,6 +100,12 @@
         <div class="col-lg-12">
             <table class="table table-bordered">
                 <tr>
+                    <td>状况</td>
+                    <td style="word-wrap:break-word;word-break:break-all;">
+                        <span class="label" ng-class="{true:'label-success', false:'label-danger'}[cab.curr.get_health()=='1']">{{cab.curr.get_health()=='1'?'健康':'异常'}}</span>
+                    </td>
+                </tr> 
+                <tr>
                     <td style="min-width:60px">容量</td>
                     <td style="width:100%">{{cab.curr.get_capacity()}} GB</td>
                 </tr>
@@ -106,7 +116,7 @@
                 <tr>
                     <td>MD5</td>
                     <td style="word-wrap:break-word;word-break:break-all;">{{cab.curr.get_MD5()}}</td>
-                </tr>         
+                </tr>        
                 <!-- 
                 <tr>
                     <td>MD5时间</td>

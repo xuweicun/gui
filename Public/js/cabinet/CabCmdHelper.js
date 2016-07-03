@@ -13,6 +13,8 @@ CabCmdHelper.prototype = {
 
             global_cabinet.i_load_disks_base_info(data);
 
+            global_cabinet_helper.update_disk_cnt(data);
+
             //获取每个硬盘的信息
             for (var idx = 0; idx < data.length; idx++) {
                 //已经取到过sn的就不需要再取了

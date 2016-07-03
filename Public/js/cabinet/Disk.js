@@ -25,8 +25,6 @@ function Disk(lvl_obj, grp_obj, d) {
     this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
     // 硬盘基本信息集合
     this.base_info = {
-        // 是否健康
-        normal: true,
         // 是否在位
         loaded: false,
         // 是否桥接
@@ -42,6 +40,8 @@ function Disk(lvl_obj, grp_obj, d) {
         SN: '',
         MD5: '',
         md5_time: '',
+        // 健康状况, 1代表健康，0代表异常
+        health:'1',
         // smart属性
         smarts: [
             {
@@ -68,6 +68,10 @@ Disk.prototype = {
     i_change_brdige_status: function (is_bridged, path) {
         this.base_info.bridged = is_bridged;
         this.base_info.bridge_path = path;
+    },
+    // 健康状态
+    get_health: function(){
+        return this.detail_info.health;
     },
     // 获得柜子ID
     get_cabinet_id:function(){
@@ -139,10 +143,23 @@ Disk.prototype = {
         this.clear_status();
 
         if (cmd_name == 'FILETREE' && this.is_bridged()) {
+            var sibs = this.get_siblings();
+            for (var i = 0; i < sibs.length; ++i) {
+                var _dsk = sibs[i];
+                if (_dsk.get_cmd_name() == cmd_name) {
+                    global_modal_helper.show_modal({
+                        type: 'warning',
+                        title: '硬盘命令 -- 构建索引',
+                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行改命令，请稍候！'
+                    });
+                    return;
+                }
+            }
+
             global_modal_helper.show_modal({
                 type: 'question',
-                title: '硬盘命令 -- MD5',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [重建索引] </span>操作？以支持硬盘的离线访问。',
+                title: '硬盘命令 -- 构建索引',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
@@ -437,6 +454,8 @@ Disk.prototype = {
                 return '复制';
             case 'WRITEPROTECT':
                 return '写保护';
+            case 'FILETREE':
+                return '重建索引';
             default:
                 return '未知';
         }
@@ -466,6 +485,11 @@ Disk.prototype = {
             }
 
             return title;
+        }
+
+        cmd_key = 'FILETREE';
+        if (cmd_name == cmd_key) {
+            return this.get_cmd_name() == cmd_key ? '索引建立中' : '重建索引';
         }
 
         cmd_key = 'BRIDGE';
@@ -531,6 +555,9 @@ Disk.prototype = {
         else if (_name == 'MD5') {
             return 'MD5';
         }
+        else if (_name == 'FILETREE') {
+            return '索引';
+        }
         else if (_name == 'COPY') {
             if (!this.is_copy_dsk()) {
                 return '复制-源';
@@ -583,7 +610,7 @@ Disk.prototype = {
         }
 
         var _name = this.get_cmd_name();
-        if (_name == 'DISKINFO' || _name == 'BRIDGE') {
+        if (_name == 'DISKINFO' || _name == 'BRIDGE' || _name == 'FILETREE') {
             return ex_title;
         }
         else if (_name == 'MD5' || _name == 'COPY') {			
