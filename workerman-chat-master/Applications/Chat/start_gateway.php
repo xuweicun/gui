@@ -41,7 +41,7 @@ Class AutoChecker
     public $db = null;
     //数据库表名
     public $tbl_plan = 'gui_check_plan';
-    public $tbl_conf = 'gui_autocheck_conf';
+    public $tbl_conf = 'gui_check_conf';
 
     /****
      * @param $_t type
@@ -62,7 +62,7 @@ Class AutoChecker
      */
     public function Run()
     {
-
+          Timer::add($this->timerInterval,array($this,'mainCheck'));
     }
 
     public function getCurrPlan()
@@ -70,7 +70,7 @@ Class AutoChecker
         $db = $this->db;
         $plan = null;
         if ($this->plan_id == 0) {
-            $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('time','asc'))->query();
+            $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->query();
             //->bindValues(array('statys'));
             //取时间最早的计划
             if ($plans) {
@@ -139,7 +139,7 @@ Class AutoChecker
                     $grp_busy = false;
                     $grp = $g + 1;
                     //按照优先级排序
-                    $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->orderby('priority desc')->query();
+                    $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->query();//orderby(priority)
                     //检查有没有正在工作的
                     foreach ($dsks as $dsk) {
                         if ($dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
@@ -191,10 +191,10 @@ Class AutoChecker
                         break;
                     case PLAN_STATUS_WORKING:
                         return true;
-                    break;
+                        break;
                     case PLAN_STATUS_FINISHED:
-                        $this->sendCmd($dsk,$this->type);
-                        $dsk[$this->type.'_status'] = PLAN_STATUS_WORKING;
+                        $this->sendCmd($dsk, $this->type);
+                        $dsk[$this->type . '_status'] = PLAN_STATUS_WORKING;
                         return true;
                         break;
                     default:
@@ -237,11 +237,13 @@ Class AutoChecker
     /*****
      * @return mixed 检查当前是否有正在执行的计划,如果有,则暂停启动本计划
      */
-    public function isCabBusy(){
+    public function isCabBusy()
+    {
         $db = $this->db;
         return $db->select("*")->from($this->tbl_plan)->where('status=1')->query();
 
     }
+
     /******
      * @param $plan 启动计划
      */
@@ -258,7 +260,7 @@ Class AutoChecker
         }
     }
 
-    //检查当前计划是否过期
+    //检查当前计划是否已经结束：超时、被终结、其他计划已开始等
     public function isAlive($plan)
     {
         $db = $this->db;
@@ -266,7 +268,7 @@ Class AutoChecker
         if ($plan['status'] > PLAN_STATUS_WORKING) {
             return false;
         }
-        $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('time','asc'))->query();//修改状态
+        $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->query();//修改状态
         //如果不存在其他计划,不正常,退出;
         if (!$plans) {
             //增加计划
@@ -277,7 +279,7 @@ Class AutoChecker
             //找到下一个计划
             if ($plan['id'] != $this->plan_id) {
                 //如果已到下一个计划的时间,则当前计划终止
-                if (time() > (int)$plan['time']) {
+                if (time() > (int)$plan['start_time']) {
                     return false;
                 }
                 return true;
@@ -302,14 +304,14 @@ Class AutoChecker
                         $idx = $d + 1;
                         $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->query();
                         if ($dsks) {
-                            $dsk = $dsks[0];
-                            $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
+                            $status = $this->type == 'md5' ? $dsks[0]['md5_status'] : $dsks[0]['sn_status'];
                             if ($status == PLAN_STATUS_WAITING) {
                                 $dsks[0][$this->type . '_priority'] = (int)$dsks[0][$this->type . '_priority'] + 1;
                             } else {
                                 $dsks[0][$this->type . "_status"] = PLAN_STATUS_WAITING;
                             }
                             //update
+                            $dsk = $dsks[0];
                             $db->update($dsk);
                         }
 
@@ -321,11 +323,12 @@ Class AutoChecker
         $this->status = PLAN_STATUS_WAITING;
         if ($this->next_plan == 0) {
             //增加新计划
-            $this->plan_id = $this->addNewPlan();
+            $new_plan = $this->addNewPlan();
+            $this->plan_id = $new_plan['id'];
         } else {
             $this->plan_id = $this->next_plan;
-            $this->next_plan = 0;
         }
+        $this->next_plan = 0;
     }
 
     public function getCabQueue()
@@ -336,9 +339,92 @@ Class AutoChecker
         return $cabs;
     }
 
-    public function addNewPlan()
+    public function getPlan($config, $start_t)
     {
+        //根据配置信息获取时间
+        //Unit是天时
+        $plan_t = null;
+        switch ($config['unit']) {
+            case 'day':
+                //$start_t = time();//strtotime($start_date);
+                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                break;
+            case 'week':
+                // $start_t = time();
+                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                break;
+            case 'month':
+                //获取月份
+                $start_date = date("Y-m-d", $start_t);
+                $date_param = explode('-', $start_date);
+                $yr = (int)$date_param[0] + floor(((int)$date_param[1] + $config['cnt']) / 12);
+                $mth = ((int)$date_param[1] + $config['cnt']) % 12;
+                if ($mth == 0) {
+                    $mth = 12;
+                }
+                $day_cnt = self::getDaysPerMonth($yr, $mth);
+                $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
+                break;
+            case 'season':
+                $start_date = date("Y-m-d", $start_t);
+                $date_param = explode('-', $start_date);
+                $yr = (int)$date_param[0] + floor(((int)$date_param[1] + $config['cnt'] * 3) / 12);
+                $mth = ((int)$date_param[1] + $config['cnt'] * 3) % 12;
+                if ($mth == 0) {
+                    $mth = 12;
+                }
+                $day_cnt = self::getDaysPerMonth($yr, $mth);
+                $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
 
+        }
+        //生成计划
+        $plan = array(
+            'modify_time' => time(),
+            'start_time' => $plan_t,
+            'status' => -1,
+            'type'=>$config['type']
+        );
+        return $plan;
+    }
+
+    public function getDaysPerMonth($y, $m)
+    {
+        if ($m >= 12) {
+            return 30;
+        }
+        $next_mth = $m + 1;
+        $t = (strtotime("1-" . $next_mth . "-" . $y) - strtotime("1-" . $m . "-" . $y));
+        $days = $t / (60 * 60 * 24);
+        echo $days;
+        return $days;
+    }
+
+    /*****
+     * @param null $start_t 计划的相对时间，默认为空
+     * @return array|null 返回新增的计划
+     */
+    public function addNewPlan($start_t = null)
+    {
+        $type = $this->type;
+        $db = $this->db;
+        $plan = null;
+        $config = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->single();
+        if ($config) {
+            //根据配置生成新的plan
+            if (!$start_t) {
+                $start_t = time();
+            }
+            $plan = $this->getPlan($config, $start_t);
+            $plan_id = $db->insert($this->tbl_plan)->cols($plan)->query();
+            if (!$plan_id) {
+                $plan = null;
+            } else {
+                $plan['id'] = $plan_id;
+            }
+        }
+        return $plan;
     }
 
 }

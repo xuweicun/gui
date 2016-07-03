@@ -626,27 +626,32 @@ class MsgController extends Controller
             $cabs = $_POST['cabinets'];
             //将所有柜子设为不在位
             $items = $cabDb->select();
-            foreach ($items as $i) {
-                $i['loaded'] = 0;
-                $cabDb->save($i);
+            if($items)
+            {
+                foreach ($items as $i) {
+                    $i['loaded'] = 0;
+                    $cabDb->save($i);
+                }
             }
-            foreach ($cabs as $cab) {
-                $this->RTLog("CAB-ID:" . $cab['id']);
-                $map['sn'] = array('eq', (int)$cab['id']);
-                $item = $cabDb->where($map)->find();
-                //如果不存在，新建
-                if (!$item) {
-                    $data = array();
-                    $data['sn'] = $cab['id'];
-                    $data['level_cnt'] = $cab['level_cnt'];
-                    $data['group_cnt'] = $cab['group_cnt'];
-                    $data['disk_cnt'] = $cab['disk_cnt'];
-                    $data['loaded'] = 1;
-                    $cabDb->add($data);
-                    //增加插槽信息
-                } else {
-                    $item['loaded'] = 1;
-                    $cabDb->save($item);
+            if($cabs)
+            {
+                foreach ($cabs as $cab) {
+                    $map['sn'] = array('eq', (int)$cab['id']);
+                    $item = $cabDb->where($map)->find();
+                    //如果不存在，新建
+                    if (!$item) {
+                        $data = array();
+                        $data['sn'] = $cab['id'];
+                        $data['level_cnt'] = $cab['level_cnt'];
+                        $data['group_cnt'] = $cab['group_cnt'];
+                        $data['disk_cnt'] = $cab['disk_cnt'];
+                        $data['loaded'] = 1;
+                        $cabDb->add($data);
+                        //增加插槽信息
+                    } else {
+                        $item['loaded'] = 1;
+                        $cabDb->save($item);
+                    }
                 }
             }
         }
