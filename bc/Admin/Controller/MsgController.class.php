@@ -278,7 +278,7 @@ class MsgController extends Controller
     public $msg = null;
     public $db = null;
     public $file = null;
-
+    public $selfCheckArr = array('SN','MD5');
     public function index()
     {
 
@@ -297,6 +297,11 @@ class MsgController extends Controller
 
         //update the log
         if ($this->msg->id != "0") {
+            //更新自检计划
+            if(in_array($this->msg->cmd,$this->selfCheckArr)){
+                $cmd = $this->db->find((int)$this->msg->id);
+                    $this->hdlSelfCheck($cmd);
+            }
             $this->updateCmdLog();
         }
 				
@@ -744,7 +749,75 @@ class MsgController extends Controller
             $diskDb->save($data);
         }
     }
-    
+    public function getCheckDsk($cmd_id){
+        $dsk_db = M('device');
+        $map['check_cmd_id']=array('eq',$cmd_id);
+        $dsk = $dsk_db->where($map)->find();
+    }
+    public function hdlSelfCheck($cmd){
+        $cmd['status'] = $_POST['status'];
+        $dsk_db = M('Device');
+        if($cmd['user_id'] != 0){
+            //用户发起的命令
+            $dst_cmd = $this->db->find($cmd['dst_id']);
+            if(!$dst_cmd || $dst_cmd['user_id'] != 0){
+                return;
+            }
+            //用户发起的终止命令
+            $dsk = $this->getCheckDsk($dst_cmd['id']);
+            if($cmd['status'] == C('CMD_SUCCESS')){
+
+                $dsk[strtolower($cmd['cmd'])."_check_status"] = C('PLAN_STATUS_SKIPPED');
+                $dsk_db->save($dsk);
+            }
+            else{
+                //终止命令失败:如果返回值表示MD5未开始
+
+            }
+            return;
+        }
+        //MD5命令的如果返回成功信息,而子命令不是STOP,则证明命令未结束,返回
+        if($cmd['cmd'] == 'MD5' && $cmd['subcmd'] != 'STOP' && $_POST['status'] == C('CMD_SUCCESS'))
+        {
+            return;
+        }
+        //如果
+        $dsk = $this->getCheckDsk($cmd['id']);
+        $status = strtolower($cmd['cmd'])."_check_status";
+        //检查当前是否有在执行的计划
+        $plan_db = M('CheckPlan');
+        $is_plan_alive = false;
+        $map = array(
+            'status'=>array('eq',C('PLAN_STATUS_WORKING')),
+            'type'=>array('eq',strtolower($cmd['cmd']))
+        );
+        if($plan = $plan_db->where($map)->find()){
+            $is_plan_alive = true;
+        }
+        if($dsk) {
+            switch ($cmd['status']){
+                case C('CMD_SUCCESS'):
+                    if($is_plan_alive){
+                        $dsk[$status] =  C('PLAN_STATUS_SUCCESS');
+                    }
+                    else{
+                        $dsk[$status] =  C('PLAN_STATUS_WAITING');
+                    }
+                    break;
+                default:
+                    $dsk[$status] =  C('PLAN_STATUS_WAITING');
+            }
+            $dsk_db->save($dsk);
+        }
+        //修改计划日志
+        $plan_log_db = M('PlanLog');
+        $data['plan_id'] = $cmd['plan_id'];
+        $data['dsk_id'] = $dsk['id'];
+        $data['finish_time'] = time();
+        $data['status'] = $cmd['status'];
+        $plan_log_db->add($data);
+        
+    }
     public function hdlSRPMsg()
     {
         //  处理不涉及桥接的SRP消息
@@ -777,6 +850,11 @@ class MsgController extends Controller
                     $cmd['status'] = C('CMD_SUCCESS');
                     $cmd['finished'] = 1;
                     $this->db->save($cmd);
+
+
+
+
+
                     break;
                 case 'RESULT':
                     echo 'Handling Result';

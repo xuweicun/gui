@@ -24,7 +24,9 @@ Autoloader::setRootPath(__DIR__);
 define('PLAN_STATUS_WORKING', 0, true);
 define('PLAN_STATUS_WAITING', -1, true);
 define('PLAN_STATUS_FINISHED', 1, true);
+define('PLAN_STATUS_SUCCESS',1,true);
 define('PLAN_STATUS_CANCELED', 2, true);
+define('PLAN_STATUS_SKIPPED', 2, true);
 define('PLAN_STATUS_OTHER', 3, true);
 
 Class AutoChecker
@@ -152,6 +154,7 @@ Class AutoChecker
                     } else {
                         foreach ($dsks as $dsk) {
                             if ($this->tryStartDisk($dsk)) {
+                                //更新磁盘状态
                                 break;
                             }
                         }
@@ -160,14 +163,21 @@ Class AutoChecker
             }
         }
     }
-
+    public function isSnNew($sn_time){
+        $now_time = time();
+        if($now_time-(int)$sn_time > 300){
+            return false;
+        }
+        return true;
+    }
     /*****
      * @param $dsk 待启动的盘位
      * @return bool 可启动返回真,不可启动返回false,不可启动的盘位被跳过
      */
-    public function tryStartDisk($dsk)
+    public function tryStartDisk(&$dsk)
     {
         $status = $this->type == 'md5' ? $dsk[0]['md5_status'] : $dsk[0]['sn_status'];
+        $db = $this->db;
         if ($status == PLAN_STATUS_WAITING) {
 
             //如果该盘被标记为跳过,检查是否到达跳过时间
@@ -181,31 +191,45 @@ Class AutoChecker
                 }
             }
             if ($this->type == 'md5') {
-                switch ($dsk['sn_check_status']) {
-                    case PLAN_STATUS_WAITING:
-                        //发送查验指令
-                        $this->sendCmd($dsk, 'SN');
-                        $dsk['sn_check_status'] = PLAN_STATUS_WORKING;
-                        //修改查验状态
+                $dsk_info = $this->db->select('sn_time')->from("gui_disk")->where('id=:I')->bindValues(array('I'=>$dsk['disk_id']))->single();
+                //检查SN是否是最新的
+                if(!$this->isSnNew($dsk_info['sn_time'])){
+                    if($dsk['sn_check_status'] != PLAN_STATUS_WORKING)
+                    {
+                        //发送SN检查指令
+                        if($this->sendCmd($dsk, 'SN'))
+                        {
+                            //发送成功:更新硬盘状态
+                            $db->update("gui_device")->cols(array('sn_check_status'=>PLAN_STATUS_WORKING))->where("id={$dsk['id']}")->query();
+                            return true;
+                        }
+                        else{
+                            //发送失败:下次再试
+                            return false;
+                        }
+                    }
+                    else{
+                        //正在检查,表示已经启动
                         return true;
-                        break;
-                    case PLAN_STATUS_WORKING:
-                        return true;
-                        break;
-                    case PLAN_STATUS_FINISHED:
-                        $this->sendCmd($dsk, $this->type);
-                        $dsk[$this->type . '_status'] = PLAN_STATUS_WORKING;
-                        return true;
-                        break;
-                    default:
-                        //SN检查未通过
-                        return false;
-
+                    }
                 }
+                else{
+                    if($this->sendCmd($dsk, $this->type))
+                    {
+                        //$dsk[$this->type . '_status'] = PLAN_STATUS_WORKING;
+                        $db->update("gui_device")->cols(array($this->type . '_status'=>PLAN_STATUS_WORKING))->where("id={$dsk['id']}")->query();
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+
+            }
+            else{
+                return $this->sendCmd($dsk,$this->type);
             }
 
-
-            return true;
 
         } else {
             return false;
@@ -426,7 +450,47 @@ Class AutoChecker
         }
         return $plan;
     }
-
+    public function sendCmd($dsk,$type){
+        //生成cmd,插入CmdLog
+        $db = $this->db;
+        $tbl_cmd_log = "gui_cmd_log";
+        $new_cmd = array(
+            'cmd'=>strtoupper($type),
+            'sub_cmd'=>'START',
+            'user_id'=>'0',
+            'status'=>PLAN_STATUS_WAITING,
+            'start_time'=>time(),
+            'finished'=>0
+        );
+        $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
+        if($cmd_id){
+            $ch = curl_init();
+            $url = 'localhost:8080';
+            $header = array(
+                'Content-Type:application/json'//x-www-form-urlencoded'
+            );
+            $data = array(cmd => strtoupper($type),
+                'CMD_ID' => $cmd_id,
+                'device_id' => $dsk['cab_id'],
+                'level'=>$dsk['level'],
+                'group'=>$dsk['zu'],
+                'index'=>$dsk['disk'],
+                'subcmd'=>'START'
+            );
+            // 添加apikey到header
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            // 添加参数
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            // 执行HTTP请求
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $res = curl_exec($ch);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
 
 // gateway 进程
