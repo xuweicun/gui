@@ -13,6 +13,10 @@ $config = array(
 		'TMPL_L_DELIM'=>'<{',
 		'TMPL_R_DELIM'=>'}>',
         'URL_MODEL'=>0,
-	    'AUTO_PROTECT_ON'=>1
+	    'AUTO_PROTECT_ON'=>1,
+	'PLAN_STATUS_WAITING'=>-1,
+	'PLAN_STATUS_WORKING'=>0,
+	'PLAN_STATUS_SUCCESS'=>1,
+	'PLAN_STATUS_SKIPPED'=>2
 );
 return array_merge($dbconfig,$config);

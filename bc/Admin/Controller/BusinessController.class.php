@@ -1192,7 +1192,7 @@ class BusinessController extends Controller
         $plan = array(
             'modify_time'=>time(),
             'start_time'=>$plan_t,
-            'status'=>'waiting'
+            'status'=>-1
         );
         return $plan;
     }

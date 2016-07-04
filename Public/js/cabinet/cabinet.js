@@ -194,7 +194,7 @@ Cabinet.prototype = {
 
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
-    i_load_disks_base_info: function (data) {
+    i_load_disks_base_info: function (data,init) {
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
 
@@ -242,7 +242,9 @@ Cabinet.prototype = {
             _dsk.detail_info.md5_time = e.md5_time;
             _dsk.detail_info.capacity = e.capacity;
         }
-
+        if(init === 0){
+            return;
+        }
         global_scope.is_ok = true;
     },
 
