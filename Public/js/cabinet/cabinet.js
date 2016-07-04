@@ -2,6 +2,7 @@
 function Cabinet() {
     // 柜子ID，用于支持多个柜子
     this.id = -1;
+    this.sn = '';
     this.lvl_cnt = 0;
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
@@ -28,8 +29,9 @@ Cabinet.prototype = {
         return '在位查询' + (this.cmd_device_status != null?'中('+ this.cmd_device_status.usedTime +'s)':'');
     },
     // 初始化存储柜的插槽信息
-    i_on_init: function (id, level_cnt, group_cnt, disk_cnt) {
+    i_on_init: function (id, s, level_cnt, group_cnt, disk_cnt) {
         this.id = id;
+        this.sn = s;
         this.lvl_cnt = level_cnt;
         this.grp_cnt = group_cnt;
         this.dsk_cnt = disk_cnt;

@@ -262,7 +262,9 @@ TaskPool.prototype = {
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
-                global_cabinet.i_on_cmd_changed(pool[i], false);
+                if (global_cabinet) {
+                    global_cabinet.i_on_cmd_changed(pool[i], false);
+                }
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer && pool[i].cmd == 'DISKINFO') {
                     if (global_deployer.working) {
