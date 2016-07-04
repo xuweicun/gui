@@ -753,6 +753,7 @@ class MsgController extends Controller
         $dsk_db = M('device');
         $map['check_cmd_id']=array('eq',$cmd_id);
         $dsk = $dsk_db->where($map)->find();
+        return $dsk;
     }
     public function hdlSelfCheck($cmd){
         $cmd['status'] = $_POST['status'];
@@ -766,8 +767,8 @@ class MsgController extends Controller
             //用户发起的终止命令
             $dsk = $this->getCheckDsk($dst_cmd['id']);
             if($cmd['status'] == C('CMD_SUCCESS')){
-
-                $dsk[strtolower($cmd['cmd'])."_check_status"] = C('PLAN_STATUS_SKIPPED');
+                $dsk[strtolower($cmd['cmd'])."_status"] = C('PLAN_STATUS_WAITING');
+                $dsk[strtolower($cmd['cmd'])."_skipped"] = 1;
                 $dsk_db->save($dsk);
             }
             else{
