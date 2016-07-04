@@ -2,6 +2,7 @@
 //CabView: 存储柜子的基本信息
 function CabPicker() {
     this.id = 0;
+    this.sn = '';
     this.lvl_cnt = 0;
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
@@ -23,8 +24,9 @@ function CabPicker() {
     this.lvls_info = [];
 }
 CabPicker.prototype = {
-    i_on_init: function (c, l, g, d) {
+    i_on_init: function (c, s, l, g, d) {
         this.id = c;
+        this.sn = s;
         this.lvl_cnt = l;
         this.grp_cnt = g;
         this.dsk_cnt = d;
@@ -194,7 +196,7 @@ CabinetHelper.prototype = {
         }
         this.cab = new Cabinet();
 
-        this.cab.i_on_init(this.curr.id,this.curr.lvl_cnt,this.curr.grp_cnt,this.curr.dsk_cnt);
+        this.cab.i_on_init(this.curr.id,this.curr.sn, this.curr.lvl_cnt,this.curr.grp_cnt,this.curr.dsk_cnt);
         global_cabinet = this.cab;
         global_cmd_helper.updateDeviceStatus();
         global_task_pool.cabChanged = true;
@@ -336,7 +338,7 @@ CabinetHelper.prototype = {
             if (!data['err_msg']) {
                 data.forEach(function (e) {
                     var cab = new CabPicker();
-                    cab.i_on_init(e.sn, e.level_cnt, e.group_cnt, e.disk_cnt);
+                    cab.i_on_init(e.sn, e.name, e.level_cnt, e.group_cnt, e.disk_cnt);
                     global_cabinet_helper.i_on_add(cab);
                 });
                 if (global_cabinet_helper.cabs.length > 0) {

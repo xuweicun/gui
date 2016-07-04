@@ -648,6 +648,7 @@ class MsgController extends Controller
                 if (!$item) {
                     $data = array();
                     $data['sn'] = $cab['id'];
+                    $data['name'] = $cab['sn'];
                     $data['level_cnt'] = $cab['level_cnt'];
                     $data['group_cnt'] = $cab['group_cnt'];
                     $data['disk_cnt'] = $cab['disk_cnt'];
@@ -655,6 +656,7 @@ class MsgController extends Controller
                     $cabDb->add($data);
                     //增加插槽信息
                 } else {
+                    $item['name'] = $cab['sn'];
                     $item['level_cnt'] = $cab['level_cnt'];
                     $item['group_cnt'] = $cab['group_cnt'];
                     $item['disk_cnt'] = $cab['disk_cnt'];
