@@ -598,13 +598,13 @@ Disk.prototype = {
 				time_text = use_time + 's';
 			}
 			else if (use_time < 3600){
-				time_text = ((int)(use_time / 60)) + 'm';
+				time_text = (use_time / 60).toFixed(0) + 'm';
 			}
 			else if (use_time < 3600 * 24){
-				time_text = (use_time / 3600) + 'h';
+			    time_text = (use_time / 3600).toFixed(0) + 'h';
 			}
 			else {
-				time_text = (use_time / 3600 / 24) + 'd';
+			    time_text = (use_time / 3600 / 24).toFixed(0) + 'd';
 			}    
 			ex_title = 'T: ' + time_text + '，P: ' + this.curr_cmd.progress + '%';
         }
