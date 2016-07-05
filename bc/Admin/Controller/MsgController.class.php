@@ -883,7 +883,7 @@ class MsgController extends Controller
 						$cmd['extra_info'] = json_encode(array('temp'=>$_POST['temperature']));
 					}
 					else if ($cmd['cmd'] == 'COPY'){
-						$cmd['extra_info'] = json_encode(array('src_temp'=>$_POST['srcTemp'],'dst_temp'=>$_POST['dstTemp']));					
+						$cmd['extra_info'] = json_encode(array('src_temp'=>$_POST['src_temp'],'dst_temp'=>$_POST['dst_temp']));					
 					}
                     $this->RTLog("Updating progress: " . $this->msg->progress);
                     //如果进度达到100%，将状态更新为查询结果或等待停止
