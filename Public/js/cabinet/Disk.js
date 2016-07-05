@@ -623,10 +623,10 @@ Disk.prototype = {
         else if (_name == 'COPY') {
 			if (this.curr_cmd.extra_info) {
 				if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
-					ex_title += '，' + this.curr_cmd.extra_info.srcTemp + '℃';
+					ex_title += '，' + this.curr_cmd.extra_info.src_temp + '℃';
 				}
 				else {
-					ex_title += '，' + this.curr_cmd.extra_info.dstTemp + '℃';
+					ex_title += '，' + this.curr_cmd.extra_info.dst_temp + '℃';
 				}
 			}
             return ex_title;
