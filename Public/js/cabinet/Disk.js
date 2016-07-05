@@ -598,13 +598,13 @@ Disk.prototype = {
 				time_text = use_time + 's';
 			}
 			else if (use_time < 3600){
-				time_text = (use_time / 60).toFixed(2) + 'm';
+				time_text = (use_time / 60) + 'm';
 			}
 			else if (use_time < 3600 * 24){
-				time_text = (use_time / 3600).toFixed(2) + 'h';
+				time_text = (use_time / 3600) + 'h';
 			}
 			else {
-				time_text = (use_time / 3600 / 24).toFixed(2) + 'd';
+				time_text = (use_time / 3600 / 24) + 'd';
 			}    
 			ex_title = 'T: ' + time_text + '，P: ' + this.curr_cmd.progress + '%';
         }
@@ -613,9 +613,16 @@ Disk.prototype = {
         if (_name == 'DISKINFO' || _name == 'BRIDGE' || _name == 'FILETREE') {
             return ex_title;
         }
-        else if (_name == 'MD5' || _name == 'COPY') {			
-            return ex_title;
-            //return ex_title + '，' + this.temperature + '℃';
+        else if (_name == 'MD5') {		
+            return ex_title + '，' + this.curr_cmd.temperature + '℃';
+        }
+        else if (_name == 'COPY') {
+            if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
+                return ex_title + '，' + this.curr_cmd.srcTemp + '℃';
+            }
+            else {
+                return ex_title + '，' + this.curr_cmd.dstTemp + '℃';
+            }
         }
         else {
             return '';
