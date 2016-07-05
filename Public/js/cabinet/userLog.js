@@ -33,7 +33,7 @@
                 return msg_obj.device_id ? msg_obj.device_id + '#' : '-';
             }
             catch (e) {
-                console.log(e);
+                console.log(msg);
                 return '-';
             }
         }
