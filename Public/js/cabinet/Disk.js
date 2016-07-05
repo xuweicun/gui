@@ -613,16 +613,23 @@ Disk.prototype = {
         if (_name == 'DISKINFO' || _name == 'BRIDGE' || _name == 'FILETREE') {
             return ex_title;
         }
-        else if (_name == 'MD5') {		
-            return ex_title + '，' + this.curr_cmd.extra_info.temp + '℃';
+        else if (_name == 'MD5') {	
+			if (this.curr_cmd.extra_info){
+				ex_title += '，' + this.curr_cmd.extra_info.temp + '℃';
+			}
+			
+            return ex_title;
         }
         else if (_name == 'COPY') {
-            if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
-                return ex_title + '，' + this.curr_cmd.extra_info.srcTemp + '℃';
-            }
-            else {
-                return ex_title + '，' + this.curr_cmd.extra_info.dstTemp + '℃';
-            }
+			if (this.curr_cmd.extra_info) {
+				if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
+					ex_title += '，' + this.curr_cmd.extra_info.srcTemp + '℃';
+				}
+				else {
+					ex_title += '，' + this.curr_cmd.extra_info.dstTemp + '℃';
+				}
+			}
+            return ex_title;
         }
         else {
             return '';
