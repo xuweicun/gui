@@ -623,8 +623,8 @@ class BusinessController extends Controller
 				$table_cab_diks->addCell()->addText($dsk_idx + 1, array('size'=>9));	
 				$table_cab_diks->addCell()->addText($dsk['level'].'-'.$dsk['group'].'-'.$dsk['disk'], array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['sn'], array('size'=>9));
-				$table_cab_diks->addCell()->addText($dsk['capacity'] . 'GB', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['normal']==1?'健康':'异常', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['capacity']?$dsk['capacity'] . 'GB':'', array('size'=>9));		
+				$table_cab_diks->addCell()->addText($dsk['sn']?($dsk['normal']==1?'健康':'异常'):'', array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['sn_time']?date("Y-m-d H:i:s", $dsk['sn_time']):'-', array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['md5_first'], array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['md5_first_time']?date("Y-m-d H:i:s", $dsk['md5_first_time']):'-', array('size'=>9));		
