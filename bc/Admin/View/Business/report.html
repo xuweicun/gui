@@ -104,7 +104,7 @@
 														<td>{{$index + 1}}</td>
 														<td>{{_dsk.level}}-{{_dsk.group}}-{{_dsk.disk}}</td>
 														<td>{{_dsk.sn}}</td>
-														<td>{{_dsk.capacity | formatnumber}} GB</td>
+														<td>{{_dsk.capacity == null?'':(_dsk.capacity | formatnumber)}} GB</td>
 														<td>
 															<span class="label" ng-class="{true:'label-success', false:'label-danger'}[_dsk.normal=='1']">{{_dsk.normal=='1'?'健康':'异常'}}</span>
 														</td>
