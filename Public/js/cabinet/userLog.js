@@ -79,7 +79,7 @@
                 return ret_str;
             }
             catch (e) {
-                console.log(e);
+                console.log(msg);
                 return '-';
             }
         }
