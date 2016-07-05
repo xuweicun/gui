@@ -15,7 +15,7 @@
             <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
                  <a href="" class="panel bk-widget bk-border-off" ng-click="cabs.on_select($index)"
                     ng-class="{true:'selected',false:'non-selected'}[item.selected]" style="color:white;">-->
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 bk-margin-top-5 bk-margin-bottom-5" ng-show="cabs.getLth()>0">
+            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 bk-margin-top-5 bk-margin-bottom-5" ng-show="cabs.getLth()>0">
                 <div class="panel bk-widget bk-border-off bk-margin-off" style="color:white;">
                     <div class="panel-body" ng-class="{true:'bk-bg-warning',false:'bk-bg-info'}[cabs.curr.bad_disk_cnt > 0]">
                         <div style="position:absolute;width:16px;right:45px;top:10px">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <span style="font-size:18px;width:inherit;margin-right:10px">基本信息（{{cabs.curr.sn}}）</span>
+                                <span style="font-size:16px;width:inherit;margin-right:10px">存储柜（{{cabs.curr.sn}}）</span>
                             </div>
                         </div>
                         <hr style="margin-top:10px;margin-bottom:10px">
@@ -56,12 +56,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 bk-margin-top-5 bk-margin-bottom-5" ng-show="cabs.curr != null">
+            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 bk-margin-top-5 bk-margin-bottom-5" ng-show="cabs.curr != null">
                 <div class="panel bk-widget bk-border-off bk-margin-off" style="color:white;">
                     <div class="panel-body bk-bg-primary">
                         <div class="row">
                             <div class="col-lg-12">
-                                <span style="font-size:18px;width:inherit;margin-right:10px">健康状况</span>
+                                <span style="font-size:16px;width:inherit;margin-right:10px">健康状况</span>
                             </div>
                         </div>
                         <hr style="margin-top:10px;margin-bottom:10px">
