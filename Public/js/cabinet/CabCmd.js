@@ -50,6 +50,8 @@
     this.timeLimit = 0;
     //错误信息
     this.errMsg = '';
+    // 附加信息
+    this.extra_info = null;
 }
 
 CabCmd.prototype = {    
@@ -164,6 +166,13 @@ CabCmd.prototype = {
         }
         if (respData['stage']) {
             task.stage = respData['stage'];
+        }
+        if (respData['extra_info']) {
+            try {
+                task.extra_info = JSON.parse(respData['extra_info']);
+            }
+            catch (e) {
+            }
         }
     }
 };
