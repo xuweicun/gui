@@ -684,6 +684,7 @@ class MsgController extends Controller
                     $item = $db->find($id);
                     if ($item['status'] == CMD_GOING) {
                         $item['progress'] = $_POST['progress'];
+						$item['extra_info'] = $_POST['temperature'];
                         $db->save($item);
                     }
                 } else {
@@ -878,6 +879,12 @@ class MsgController extends Controller
                     //for md5 and copy, update progress
                     $this->RTLog('Handling Progress');
                     $cmd['progress'] = (float)$_POST['progress'];
+					if ($cmd['cmd'] == 'MD5'){
+						$cmd['extra_info'] = json_encode(array('temp'=>$_POST['temperature']));
+					}
+					else if ($cmd['cmd'] == 'COPY'){
+						$cmd['extra_info'] = json_encode(array('src_temp'=>$_POST['srcTemp'],'dst_temp'=>$_POST['dstTemp']));					
+					}
                     $this->RTLog("Updating progress: " . $this->msg->progress);
                     //如果进度达到100%，将状态更新为查询结果或等待停止
                     if ($cmd['progress'] >= 100) {
