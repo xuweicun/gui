@@ -598,7 +598,7 @@ Disk.prototype = {
 				time_text = use_time + 's';
 			}
 			else if (use_time < 3600){
-				time_text = (use_time / 60) + 'm';
+				time_text = ((int)(use_time / 60)) + 'm';
 			}
 			else if (use_time < 3600 * 24){
 				time_text = (use_time / 3600) + 'h';
