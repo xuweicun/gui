@@ -365,20 +365,19 @@ class MsgController extends Controller
 			$item['level'] = $_POST['level'];
 			$item['zu'] = $_POST['group'];
 			$item['disk'] = $_POST['disk'];
-			
+			$item['disk_status'] = $_POST['disk_status'];
+						
 			$dsk = M('Device')->field(array('disk_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
 					'level'=>$item['level'],
 					'zu'=>$item['zu'],
 					'disk'=>$item['disk']
-				))->find();
+				))->find();		
 			if (!$dsk){
 				return;
 			}			
-			$item['disk_id'] = $dsk['disk_id'];
-			$item['disk_status'] = $dsk['disk_status'];
-			
+			$item['disk_id'] = $dsk['disk_id'];			
 			$item['sn'] = $_POST['SN'];
 			$item['smart'] = json_encode($_POST['SmartAttrs']);
 			$item['status'] = '1';
