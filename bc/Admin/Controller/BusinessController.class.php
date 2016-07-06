@@ -1135,7 +1135,7 @@ class BusinessController extends Controller
         $rs2 = $plan_db->add($plan);
         $rs3 = true;
         if($old_plan){
-            $old_plan['status'] = 'canceled';
+            $old_plan['status'] = C('PLAN_STATUS_CANCELED');
             $old_plan['modify_time'] = time();
             $rs3 = $plan_db->save($old_plan);
         }
@@ -1212,9 +1212,11 @@ class BusinessController extends Controller
         return $days;
     }
 
-    public function getTime()
+    public function getCheckConfig()
     {
-
+        $db = M('CheckConf');
+        $conf = $db->where('is_current=1')->select();
+        $this->AjaxReturn($conf);
     }
 
     public function init()

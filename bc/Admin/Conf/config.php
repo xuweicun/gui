@@ -17,6 +17,7 @@ $config = array(
 	'PLAN_STATUS_WAITING'=>-1,
 	'PLAN_STATUS_WORKING'=>0,
 	'PLAN_STATUS_SUCCESS'=>1,
-	'PLAN_STATUS_SKIPPED'=>2
+	'PLAN_STATUS_SKIPPED'=>2,
+	'PLAN_STATUS_SKIPPED'=>3
 );
 return array_merge($dbconfig,$config);

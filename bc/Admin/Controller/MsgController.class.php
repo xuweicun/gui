@@ -854,10 +854,6 @@ class MsgController extends Controller
                     $cmd['finished'] = 1;
                     $this->db->save($cmd);
 
-
-
-
-
                     break;
                 case 'RESULT':
                     echo 'Handling Result';

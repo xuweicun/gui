@@ -51,19 +51,25 @@ Class AutoChecker
      */
     public function init($_t, $_i, $_db)
     {
+        $this->RunLog("Initializing the self check status\n Checker Type:".$_t." \nTime interval: ".$_i."Seconds.");
         $this->timerInterval = $_i;
         $this->type = $_t;
         $this->db = $_db;
         if ($plan = $this->getCurrPlan()) {
             $this->plan_id = $plan['id'];
         }
-    }
 
+    }
+    public function RunLog($str){
+        $msg = array('type' => 'check_status', 'msg'=>"Type: {$this->type}. Status: ".$str);
+        ExtendGateWay::sendToAll(json_encode($msg));
+    }
     /***
      * 定时器
      */
     public function Run()
     {
+        $this->RunLog("Starting the timer.");
         Timer::add($this->timerInterval, array($this, 'mainCheck'));
     }
 
@@ -98,10 +104,11 @@ Class AutoChecker
     {
         $db = $this->db;
         if (!$db) {
-            echo "Database not connected.";
+            $this->RunLog("Database not connected.");
             return;
         }
         //如果当前没有自检计划,返回
+        $this->RunLog("Retriving the plan.");
         $plan = $this->getCurrPlan();
         if (!$plan) {
             return;
@@ -254,8 +261,8 @@ Class AutoChecker
         $curr_time = time();
 
         //时间已到,而且当前没有其他自检计划正在进行
-        if ($curr_time >= int($plan['time']) ) {
-            if($this->isCabBusy())
+        if ($curr_time >= int($plan['time'])) {
+            if ($this->isCabBusy())
                 return false;
             $this->startCheck($plan);
             return true;
@@ -270,8 +277,8 @@ Class AutoChecker
     public function isCabBusy()
     {
         $db = $this->db;
-        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValue(array('F'=>PLAN_STATUS_WORKING))->query();
-        if(!$plans){
+        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValue(array('F' => PLAN_STATUS_WORKING))->query();
+        if (!$plans) {
             return false;
         }
         return true;
@@ -299,6 +306,7 @@ Class AutoChecker
         $db = $this->db;
         //如果处于非工作非等待状态
         if ($plan['status'] > PLAN_STATUS_WORKING) {
+            $this->RunLog("This plan has finished or timed out.");
             return false;
         }
         $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->query();//修改状态
@@ -313,6 +321,7 @@ Class AutoChecker
             if ($item['id'] != $plan['id']) {
                 //如果已到下一个计划的时间,则当前计划终止
                 if (time() > (int)$item['start_time']) {
+                    $this->RunLog("Next plan has dued. This plan is finishing.");
                     return false;
                 }
                 return true;
@@ -326,6 +335,7 @@ Class AutoChecker
         $db = $this->db;
         if (!$cabs = $this->getCabQueue())
             return;
+        $this->RunLog("Plan over. Resetting the status of disks.");
         //遍历每个硬盘,如果状态为未完成,设为完成,priority+1;如果已完成,priority=0;
         foreach ($cabs as $cab) {
             $cab_id = $cab['sn'];
@@ -378,6 +388,7 @@ Class AutoChecker
         //根据配置信息获取时间
         //Unit是天时
         $plan_t = null;
+        $start_t = strtotime(date('Y-m-d', $start_t));
         switch ($config['unit']) {
             case 'day':
                 //$start_t = time();//strtotime($start_date);
@@ -385,7 +396,7 @@ Class AutoChecker
                 break;
             case 'week':
                 // $start_t = time();
-                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                $plan_t = $start_t + $config['cnt'] * 7 * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
                 break;
             case 'month':
                 //获取月份
@@ -399,6 +410,7 @@ Class AutoChecker
                 $day_cnt = self::getDaysPerMonth($yr, $mth);
                 $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
                 $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
+                $plan_t = $plan_t + +$config['start_time'] * 3600;
                 break;
             case 'season':
                 $start_date = date("Y-m-d", $start_t);
@@ -411,15 +423,16 @@ Class AutoChecker
                 $day_cnt = self::getDaysPerMonth($yr, $mth);
                 $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
                 $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
+                $plan_t = $plan_t + +$config['start_time'] * 3600;
 
         }
         //生成计划
         $plan = array(
             'modify_time' => time(),
             'start_time' => $plan_t,
-            'status' => -1,
-            'type' => $config['type']
-        );
+            'status' => PLAN_STATUS_WAITING,
+            'type' => $config['type']);
+        // $this->db->insert($this->tbl_plan)->cols($plan)->query();
         return $plan;
     }
 
@@ -431,7 +444,7 @@ Class AutoChecker
         $next_mth = $m + 1;
         $t = (strtotime("1-" . $next_mth . "-" . $y) - strtotime("1-" . $m . "-" . $y));
         $days = $t / (60 * 60 * 24);
-        echo $days;
+        //  echo $days;
         return $days;
     }
 
@@ -441,6 +454,7 @@ Class AutoChecker
      */
     public function addNewPlan($start_t = null)
     {
+        $this->RunLog("Inserting new plan.");
         $type = $this->type;
         $db = $this->db;
         $plan = null;
@@ -463,6 +477,7 @@ Class AutoChecker
 
     public function sendCmd($dsk, $type)
     {
+
         //生成cmd,插入CmdLog
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
@@ -474,8 +489,10 @@ Class AutoChecker
             'start_time' => time(),
             'finished' => 0
         );
+        $this->RunLog("Sending commond: Adding commond log.");
         $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
         if ($cmd_id) {
+            $this->RunLog("Sending commond: Command log added.");
             $ch = curl_init();
             $url = 'localhost:8080';
             $header = array(
@@ -497,8 +514,15 @@ Class AutoChecker
             // 执行HTTP请求
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
+            $this->RunLog("Sendding commond: Commond sent to app.");
+
+            // 通知前端
+            $msg = array('type' => 'selfcheck', 'user_id'=>0,'dsk'=>$dsk,'cmd'=>strtoupper($type),'subcmd'=>'START','cmd_id'=>$cmd_id);
+            //$ret = array_merge($ret, $attached);
+            ExtendGateWay::sendToAll(json_encode($msg));
             return true;
         } else {
+            $this->RunLog("Sendding commond: Failed to add commond log.");
             return false;
         }
     }
