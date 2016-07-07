@@ -150,7 +150,7 @@ Disk.prototype = {
                     global_modal_helper.show_modal({
                         type: 'warning',
                         title: '硬盘命令 -- 构建索引',
-                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行改命令，请稍候！'
+                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行构建索引命令，请稍候！'
                     });
                     return;
                 }
