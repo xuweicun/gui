@@ -80,6 +80,7 @@ CabCmd.prototype = {
                 break;
             case 'FILETREE':
                 this.timeLimit = this.maxTime;
+                break;
             default:
                 this.timeLimit = this.minTime;
                 break;
