@@ -637,7 +637,19 @@ Disk.prototype = {
     },
     // 获得当前命令
     get_cmd_name: function () {
-        return (this.base_info.loaded && !this.base_info.bridged && this.curr_cmd != null) ? this.curr_cmd.cmd : '';
+		if (!this.base_info.loaded) return '';
+		
+		if (this.base_info.bridged) {
+			if (this.curr_cmd != null && == this.curr_cmd.cmd == 'FILETREE') {
+				return 'FILETREE';
+			}
+			else {
+				return '';
+			}
+		}
+		else {
+			return this.curr_cmd != null ? this.curr_cmd.cmd : '';
+		}
     },
     // 判断硬盘是否busy
     is_busy: function () {
