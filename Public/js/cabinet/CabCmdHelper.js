@@ -13,6 +13,8 @@ CabCmdHelper.prototype = {
 
             global_cabinet.i_load_disks_base_info(data);
 
+            global_cabinet_helper.update_disk_cnt(data);
+
             //获取每个硬盘的信息
             for (var idx = 0; idx < data.length; idx++) {
                 //已经取到过sn的就不需要再取了
@@ -23,8 +25,13 @@ CabCmdHelper.prototype = {
                     global_cmd_helper.getdiskinfo(data[idx].level, data[idx].zu, data[idx].disk, data[idx].cab_id);
                 }
             }
-        }).error(function () {
+        }).error(function (data) {
             console.log("更新存储柜信息失败.");
+			global_modal_helper.show_modal({
+				type: 'error',
+				title: 'Fatal Error',
+				html: data
+			});
         });
     },
     createCmd: function (log) {
@@ -161,7 +168,29 @@ CabCmdHelper.prototype = {
         }
         return obj;
     },
+    onWsMsg: function (cmd_log) {
+       //长连接推送的命令同步消息
+        //首先判断是否是本用户的消息
+        if(cmd_log.user_id.toString() == global_user.id.toString())
+        {
+            console.log("是本用户自己创建的命令,忽略",cmd_log.user_id);
+            return;
+        }
+        var new_task = this.createCmd(cmd_log);
+        global_task_pool.add(new_task);
+    },
+    go_login_page: function () {
+        alert("do nothing");
+    }
+    ,
     sendcmd: function (msg) {
+        //先判断是否退出登录
+        console.log("是否离线?",global_user.off_line);
+        if(global_user.off_line){
+            global_modal_helper.show_modal({type:'question',title:'发送命令',html:'您已退出,如需发送命令,请点击确定前往重新登录页面。',
+            on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
+            return;
+        }
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg) && !msg.device_id) {
             msg.device_id = global_cabinet.id.toString();
@@ -190,6 +219,7 @@ CabCmdHelper.prototype = {
                 //命令池更新
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
+                global_ws_watcher.sendcmd(msg);
             }).
             error(function () {
                 global_err_pool.add();

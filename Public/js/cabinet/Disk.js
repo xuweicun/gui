@@ -1,17 +1,21 @@
 ﻿// 硬盘Disk类的构造函数
-function Disk(l, g, d) {
+function Disk(lvl_obj, grp_obj, d) {
     // l：层索引；g：组索引；d：位索引
     // 索引下标均为0
-    this.l = l;
-    this.g = g;
+    this.l = lvl_obj.idx;
+    this.g = grp_obj.idx;
     this.d = d;
+
+    this.level_obj = lvl_obj;
+    this.group_obj = grp_obj;
 
     // 分区情况
     this.partitions = [];
 
     // 温度
     this.temperature = '-';
-    // 是否写保护
+
+    // 是否写保护, 已过期，使用层对象的写保护，由于写保护是针对层的
     this.write_protected = true,
 
     // 用于辅助执行“桥接”命令时，标志硬盘是否被选中
@@ -35,6 +39,9 @@ function Disk(l, g, d) {
         // 序列号
         SN: '',
         MD5: '',
+        md5_time: '',
+        // 健康状况, 1代表健康，0代表异常
+        health:'1',
         // smart属性
         smarts: [
             {
@@ -57,6 +64,15 @@ function Disk(l, g, d) {
 
 // 硬盘Disk类的原型
 Disk.prototype = {
+    // 变更桥接状态
+    i_change_brdige_status: function (is_bridged, path) {
+        this.base_info.bridged = is_bridged;
+        this.base_info.bridge_path = path;
+    },
+    // 健康状态
+    get_health: function(){
+        return this.detail_info.health;
+    },
     // 获得柜子ID
     get_cabinet_id:function(){
         return this.parent.parent.parent.id;
@@ -93,7 +109,7 @@ Disk.prototype = {
                     }
                 }
                 catch(e){
-                    console.log('error', e);
+                    //console.log('error', e);
                 }
                 finally{
                     delete _data;
@@ -102,36 +118,240 @@ Disk.prototype = {
             });
         }
     },
+    has_bridge_disk_selected: function(){
+        for (var i=0;i<this.parent.disks.length;++i){
+            if (this.parent.disks[i].isto_bridge){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    cmd_commit_copy_confirm: function(){
+        global_modal_helper.show_modal_user('userModalCopyConfirm');
+    },
+    can_stop: function (cmd_name) {
+        if (cmd_name == 'BRIDGE') {
+            return this.is_bridged();
+        }
+        else {
+            return cmd_name == 'COPY' || cmd_name == 'MD5';
+        }        
+    },
     // 用户提交命令
     cmd_commit: function (cmd_name) {
         this.clear_status();
-        if (cmd_name != 'DISKINFO' && cmd_name != 'BRIDGE' && cmd_name != 'MD5' && cmd_name != 'COPY') {
 
-            console.log('unknown cmd = ' + cmd_name);
+        if (cmd_name == 'FILETREE' && this.is_bridged()) {
+            var sibs = this.get_siblings();
+            for (var i = 0; i < sibs.length; ++i) {
+                var _dsk = sibs[i];
+                if (_dsk.get_cmd_name() == cmd_name) {
+                    global_modal_helper.show_modal({
+                        type: 'warning',
+                        title: '硬盘命令 -- 构建索引',
+                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行改命令，请稍候！'
+                    });
+                    return;
+                }
+            }
+
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘命令 -- 构建索引',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
             return;
         }
 
-        if (cmd_name == 'DISKINFO' || cmd_name == 'MD5') {
-            var bdsk = this.get_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
-        }
-        else if (cmd_name == 'COPY') {
-            var bdsk = this.get_copy_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
+        var bdsk = this.get_busy_disk();
 
-            this.copy_src_or_dst = this.g % 2 == 0 ? 'src' : 'dst';
-        }
-        else if (cmd_name == 'BRIDGE') {
-            var bdsk = this.get_bridge_busy_disk();
-            if (bdsk != null) this.busy_disk = bdsk;
+        // 停止命令
+        if (bdsk === this && this.can_stop(cmd_name)) {
+            if (bdsk.is_bridged() && cmd_name == 'BRIDGE') {
+                global_modal_helper.show_modal({
+                    type: 'question',
+                    title: '桥接断开',
+                    html: '您确定断开与硬盘（<span class="bk-fg-' + (this.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）之间的 <span class="bk-fg-success">[桥接]</span> 状态？',
+                    on_click_target: this,
+                    on_click_handle: 'cmd_stop'
+                });
+            }
+            else if (this.curr_cmd != null && this.curr_cmd.cmd == cmd_name) {
+                global_modal_helper.show_modal({
+                    type: 'question',
+                    title: '命令停止 -- ' + this.cmd2chs(cmd_name),
+                    html: '您确定停止硬盘（<span class="bk-fg-' + (this.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的 <span class="bk-fg-primary">[' + this.cmd2chs(cmd_name) + ']</span> 命令？',
+                    on_click_target: this,
+                    on_click_handle: 'cmd_stop'
+                });
+            }
+            else {
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+            }
+            
+            return;
         }
 
+        if (bdsk) {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '总线忙',
+                html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+            });
+            return;
+        }        
 
-        if (cmd_name == 'BRIDGE') {
-            this.isto_bridge = true;
+        if (cmd_name == 'DISKINFO') {
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘信息查询',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [查询] </span>操作？以重新获取硬盘的基本信息。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
         }
+        else if (cmd_name == 'BRIDGE'){
+            // 如果有桥接Busy硬盘
+            bdsk = this.get_bridge_busy_disk();
+            if (bdsk != null) {
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+                return;
+            }
+            else {
+                // 判断柜子是否已经桥接了2组以上的硬盘
+                var bridged_cnt = 0;
+                var html = '';
+                var _lvls = this.parent.parent.parent.levels;
+                for (var i = 0; i < _lvls.length; ++i) {
+                    var _grps = _lvls[i].groups;
+                    for (var j = 0; j < _grps.length; ++j) {
+                        var _grp = _grps[j];
+                        var _dsks = _grp.disks;
+                        var gb = false;
+                        var htmlGrp = '硬盘组'+(i+1)+'-'+(j+1)+'#：'
+                        for (var k = 0; k < _dsks.length; ++k) {
+                            var _dsk = _dsks[k];
+                            if (_dsk.is_bridged()) {
+                                if (gb) htmlGrp += '，';
 
-        this.cmd_name_to_commit = cmd_name;
+                                htmlGrp += '<span class="bk-fg-success"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>';
+
+                                gb = true;
+                            }
+                        }
+                        if (gb) {
+                            bridged_cnt++;
+                            if (html){
+                                html += '<br>';
+                            }
+                            html += '(' + bridged_cnt + ') ' + htmlGrp;
+                            break;
+                        }
+                    }
+                }
+
+                if (bridged_cnt >= 2){
+                    global_modal_helper.show_modal({
+                        type: 'warning',
+                        title: '总线忙',
+                        html: '当前柜子已经同时桥接了两组硬盘，详情如下：<br>' + html + '<br>无法再桥接更多的硬盘！'
+                    });
+                    return;
+                }
+            }
+
+            global_modal_helper.show_modal_user('userModelBridge');
+        }
+        else if (cmd_name == 'COPY'){
+            bdsk = this.get_copy_busy_disk();
+            if (bdsk){
+                global_modal_helper.show_modal({
+                    type: 'warning',
+                    title: '总线忙',
+                    html: '硬盘（<span class="bk-fg-' + (bdsk.is_bridged() ? 'success' : 'primary') + '"><i class="glyphicon glyphicon-hdd"></i> ' + bdsk.get_title() + '</span>）' + bdsk.to_modal_busy_msg()
+                });
+                return;
+            }
+
+            global_modal_helper.show_modal_user('userModalCopy');
+        }
+        else if(cmd_name == 'MD5'){
+            global_modal_helper.show_modal({
+                type: 'question',
+                title: '硬盘命令 -- MD5',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
+                on_click_target: this,
+                on_click_handle: 'cmd_start',
+                on_click_param: cmd_name
+            });
+        }
+        else {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '硬盘命令 -- 未知',
+                html: '未知命令 <span class="bk-fg-primary"> [MD5] </span>，请联系系统维护人员！'
+            });
+        }
+    },
+
+    // 提交写保护命令
+    cmd_write_protect_commit: function () {
+        // 弹出功能完善功能模态框
+        //global_modal_helper.show_modal_working();return;
+        
+        var html = '';
+        var on_click = {};
+        var param = this;
+        if (!this.is_write_protected()) {
+            html = '您确定开启硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() +
+            '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？恢复写保护后，所有针对本层硬盘的数据写入操作将会失败。';
+            on_click = function (param) {
+                global_user.show_second_pwd_modal_with_action(function (lvl) {
+                    console.log(1);
+                    // send cmd;
+                    global_cmd_helper.sendcmd({
+                        cmd: 'WRITEPROTECT',
+                        subcmd: 'START',
+                        level: lvl 
+                        });
+                }, (param.l + 1).toString());                
+            };
+        }
+        else {
+            html = '您确定关闭硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() +
+                '</span>）的 [<span class="bk-fg-danger"><i class="fa fa-shield bk-fg-danger"></i> 写保护</span>] 功能？关闭后，其他用户将有可能篡改(甚至<span class="bk-fg-danger"><b>删除</b></span>)硬盘的重要数据，请慎重！！！';
+            on_click = function (param) {
+                global_user.show_second_pwd_modal_with_action(function (lvl) {
+                    // send cmd;
+                    global_cmd_helper.sendcmd({
+                        cmd: 'WRITEPROTECT',
+                        subcmd: 'STOP',
+                        level: lvl
+                    });
+                }, (param.l + 1).toString());
+            };
+        }
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '写保护功能',
+            html: html,
+            on_click_handle: on_click,
+            on_click_param: this,
+            on_click_close: false
+        });
     },
 
     get_cmd_error: function () {
@@ -196,6 +416,10 @@ Disk.prototype = {
     is_bridged: function () {
         return this.base_info.loaded && this.base_info.bridged;
     },
+    // 判断是否开启了写保护
+    is_write_protected: function () {
+        return  this.is_bridged() && this.level_obj.write_protect;
+    },
     // 获得硬盘位置描述，如1-1-1#等
     get_title: function () {
         return (this.l + 1) + '-' + (this.g + 1) + '-' + (this.d + 1) + ' #';
@@ -209,10 +433,17 @@ Disk.prototype = {
     get_SN: function () {
         return this.base_info.loaded ? this.detail_info.SN : '';
     },
+    // 获得硬盘MD5
+    get_MD5: function () {
+        return this.base_info.loaded ? this.detail_info.MD5 : '';
+    },
+	get_md5_time: function()
+	{
+		return this.base_info.loaded? this.detail_info.md5_time: '';
+	},
 
-    // 获得命令中文名
-    get_commit_cmd_title: function () {
-        switch (this.cmd_name_to_commit) {
+    cmd2chs:function(cmd_name){
+        switch (cmd_name) {
             case 'DISKINFO':
                 return '查询';
             case 'BRIDGE':
@@ -221,9 +452,17 @@ Disk.prototype = {
                 return 'MD5';
             case 'COPY':
                 return '复制';
+            case 'WRITEPROTECT':
+                return '写保护';
+            case 'FILETREE':
+                return '重建索引';
             default:
                 return '未知';
         }
+    },
+    // 获得命令中文名
+    get_commit_cmd_title: function () {
+        return this.cmd2chs(this.cmd_name_to_commit);
     },
     is_copy_dsk: function () {
         return this.curr_cmd != null && this.curr_cmd.cmd == 'COPY' && (this.l + 1).toString() == this.curr_cmd.dstLevel && (this.g+1).toString() == this.curr_cmd.dstGroup && (this.d+1).toString() == this.curr_cmd.dstDisk;
@@ -246,6 +485,11 @@ Disk.prototype = {
             }
 
             return title;
+        }
+
+        cmd_key = 'FILETREE';
+        if (cmd_name == cmd_key) {
+            return this.get_cmd_name() == cmd_key ? '索引建立中' : '重建索引';
         }
 
         cmd_key = 'BRIDGE';
@@ -311,6 +555,9 @@ Disk.prototype = {
         else if (_name == 'MD5') {
             return 'MD5';
         }
+        else if (_name == 'FILETREE') {
+            return '索引';
+        }
         else if (_name == 'COPY') {
             if (!this.is_copy_dsk()) {
                 return '复制-源';
@@ -326,16 +573,63 @@ Disk.prototype = {
     // 依据硬盘状态计算出插槽栏的中文附加描述
     get_extent_title: function () {      
         var ex_title = '';
+/*
+	var time_text = '';
+	var use_time = this.curr_cmd.usedTime;
+	if (use_time)
+	if (use_time < 60){
+		time_text = use_time + 's';
+	}
+	else if (use_time < 3600){
+		time_text = use_time / 60 + 'm';
+	}
+	else if (use_time < 3600 * 24){
+		time_text = use_time / 3600 + 'h';
+	}
+	else {
+		time_text = use_time / 3600 / 24 + 'd';
+	}
+*/
         if (this.curr_cmd) {
-            ex_title = 'T: ' + this.curr_cmd.usedTime + 's，P: ' + this.curr_cmd.progress + '%';
+        	var time_text = '';
+			var use_time = this.curr_cmd.usedTime;
+			if (use_time)
+			if (use_time < 60){
+				time_text = use_time + 's';
+			}
+			else if (use_time < 3600){
+				time_text = (use_time / 60).toFixed(0) + 'm';
+			}
+			else if (use_time < 3600 * 24){
+			    time_text = (use_time / 3600).toFixed(0) + 'h';
+			}
+			else {
+			    time_text = (use_time / 3600 / 24).toFixed(0) + 'd';
+			}    
+			ex_title = '' + time_text + ', ' + this.curr_cmd.progress + '%';
         }
 
         var _name = this.get_cmd_name();
-        if (_name == 'DISKINFO' || _name == 'BRIDGE') {
+        if (_name == 'DISKINFO' || _name == 'BRIDGE' || _name == 'FILETREE') {
             return ex_title;
         }
-        else if (_name == 'MD5' || _name == 'COPY') {
-            return ex_title + '，' + this.temperature + '℃';
+        else if (_name == 'MD5') {	
+			if (this.curr_cmd.extra_info){
+				ex_title += ', ' + this.curr_cmd.extra_info.temp + '℃';
+			}
+			
+            return ex_title;
+        }
+        else if (_name == 'COPY') {
+			if (this.curr_cmd.extra_info) {
+				if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
+					ex_title += ', ' + this.curr_cmd.extra_info.src_temp + '℃';
+				}
+				else {
+					ex_title += ', ' + this.curr_cmd.extra_info.dst_temp + '℃';
+				}
+			}
+            return ex_title;
         }
         else {
             return '';
@@ -374,8 +668,8 @@ Disk.prototype = {
     },
     // 在执行“复制”命令时，查找可能导致命令执行失败的Busy硬盘
     get_copy_busy_disk: function () {
-        var _sdisk = this.get_busy_disk();
-        if (_sdisk != null) return _sdisk;
+        //var _sdisk = this.get_busy_disk();
+        //if (_sdisk != null) return _sdisk;
 
         return this.parent.parent.groups[this.g + (this.g % 2 == 0 ? 1 : -1)].disks[0].get_busy_disk();
     },
@@ -401,8 +695,7 @@ Disk.prototype = {
     },
     // 命令执行时，构建“硬盘忙”模态框的显示信息
     to_modal_busy_msg: function () {
-        var _dsk = this.busy_disk;
-        if (_dsk == null) return '';
+        var _dsk = this;
 
         var _msg = '';
 
@@ -413,7 +706,7 @@ Disk.prototype = {
             _msg += '正在执行[' + _dsk.get_curr_cmd_title() + ']命令';
         }
 
-        _msg += '（需要持续占用总线资源），无法对该组内的硬盘进行其他操作！';
+        _msg += '（需要持续占用总线资源），无法对受本硬盘影响的其他硬盘进行任意操作！';
 
         return _msg;
     },
@@ -562,6 +855,11 @@ Disk.prototype = {
                 return false;
             }
         }
+        else if(cmd_name == 'WRITEPROTECT')
+        {
+            cmd_obj.subcmd = 'START';
+            cmd_obj.level = (this.l + 1).toString();
+        }
         else if (cmd_name == 'MD5') {
             cmd_obj.subcmd = 'START';
             cmd_obj.level = (this.l + 1).toString();
@@ -585,7 +883,6 @@ Disk.prototype = {
                 cmd_obj.dstLevel = (_dsk.l + 1).toString();
                 cmd_obj.dstGroup = (_dsk.g + 1).toString();
                 cmd_obj.dstDisk = (_dsk.d + 1).toString();
-                _dsk.curr_cmd = cmd_obj;
             }
             else {
                 cmd_obj.dstLevel = (this.l + 1).toString();
@@ -600,7 +897,6 @@ Disk.prototype = {
                 cmd_obj.srcLevel = (_dsk.l + 1).toString();
                 cmd_obj.srcGroup = (_dsk.g + 1).toString();
                 cmd_obj.srcDisk = (_dsk.d + 1).toString();
-                _dsk.curr_cmd = cmd_obj;
             }
         }
         else if (cmd_name == 'FILETREE') {
@@ -615,11 +911,20 @@ Disk.prototype = {
         }
 
         // send cmd;
-        global_cmd_helper.sendcmd(cmd_obj);
+        // 需要二次验证
+        if (cmd_name == 'COPY') {
+            global_user.show_second_pwd_modal_with_action(function (obj) {
+                global_cmd_helper.sendcmd(obj);
+            }, cmd_obj);
+        }
+        else {
+	    var mid = global_modal_helper.get_curr_id();
 
-        $.magnificPopup.close();
+            global_cmd_helper.sendcmd(cmd_obj);
 
-        //console.log(cmd_obj);
+	    global_modal_helper.close_modal(mid);
+        }
+
         return true;
     },
     // 用于发送“MD5”和“复制”命令的“STOP”子命令
@@ -644,7 +949,6 @@ Disk.prototype = {
                 group: (this.g + 1).toString(),
                 disks: disk_array
             };
-
         }
         else {
             cmd_obj = JSON.parse(this.curr_cmd.msgStr);

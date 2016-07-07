@@ -1,0 +1,117 @@
+﻿<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                MD5自检参数配置
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" name="form_md5" ng-submit="user_settings.md5.save()" novalidate>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="select_unit">自检周期单位<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <div class="radio-custom radio-inline" ng-repeat="x in [{v:'week',t:'周'}, {v:'month',t:'月'}, {v:'season',t:'季度'}]">
+                                <input id="inline-radio-{{x.v}}" type="radio" value="{{x.v}}" name="inline_radios_md5" ng-model="user_settings.md5.unit">
+                                <label for="inline-radio-{{x.v}}">{{x.t}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_md5.input_cnt_md5.$invalid && form_md5.$submitted }">
+                        <label class="col-lg-3 control-label" for="input_cnt_md5">自检周期长度<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <input type="number" name="input_cnt_md5" class="form-control" id="input_cnt_md5" min="1" max="120" step="1" value="1" ng-model="user_settings.md5.cnt" required>
+                        </div>
+                        <label class="col-lg-3 control-label" style="text-align:left" ng-show="form_md5.input_cnt_md5.$invalid && form_md5.$submitted">必填且为整数</label>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_md5.md5_start_date.$invalid && form_md5.$submitted }">
+                        <label class="col-lg-3 control-label">自检开始日期<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" name="md5_start_date" class="form-control" id="md5_start_date" data-plugin-datepicker="" ng-model="user_settings.md5.start_date" placeholder="点击选择日期" required onkeypress="javascript:return false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_md5.md5_start_time.$invalid && form_md5.$submitted }">
+                        <label class="col-lg-3 control-label">自检开始时间<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                                <select class="form-control" name="md5_start_time" ng-model="user_settings.md5.start_time" ng-options="y.val as y.text for y in user_settings.time_options" required>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-9">
+                            <button type="submit" class="btn btn-primary" ng-disabled="form_md5.$dirty && form_md5.$invalid">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Smart自检参数配置
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" name="form_smart" ng-submit="user_settings.smart.save()" novalidate>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="select_unit">自检周期单位<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-9">
+                            <div class="radio-custom radio-inline" ng-repeat="x in [{v:'week',t:'周'}, {v:'month',t:'月'}, {v:'season',t:'季度'}]">
+                                <input id="inline-radio-smart-{{x.v}}" type="radio" value="{{x.v}}" name="inline-radios-smart" ng-model="user_settings.smart.unit" required>
+                                <label for="inline-radio-smart-{{x.v}}">{{x.t}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_smart.input_cnt_smart.$invalid && form_smart.$submitted }">
+                        <label class="col-lg-3 control-label" for="input_cnt">自检周期长度<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <input type="number" name="input_cnt_smart" class="form-control" id="input_cnt" min="1" max="120" step="1" value="1"  ng-model="user_settings.smart.cnt" required>
+                        </div>
+                        <label class="col-lg-3 control-label" style="text-align:left" ng-show="form_smart.input_cnt_smart.$invalid && form_smart.$submitted">必填且为整数</label>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_smart.input_date_smart.$invalid && form_smart.$submitted }">
+                        <label class="col-lg-3 control-label">自检开始日期<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" name="input_date_smart" class="form-control" data-plugin-datepicker=""  ng-model="user_settings.smart.start_date" placeholder="点击选择日期" required onkeypress="javascript:return false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : form_smart.input_time_smart.$invalid && form_smart.$submitted }">
+                        <label class="col-lg-3 control-label">自检开始时间<span class="bk-fg-danger" title="必选">*</span></label>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                                <select class="form-control" name="input_time_smart" ng-model="user_settings.smart.start_time" ng-options="y.val as y.text for y in user_settings.time_options" required>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-9">
+                            <button type="submit" class="btn btn-primary" ng-disabled="form_smart.$dirty && form_smart.$invalid">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

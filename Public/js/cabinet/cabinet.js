@@ -2,6 +2,7 @@
 function Cabinet() {
     // 柜子ID，用于支持多个柜子
     this.id = -1;
+    this.sn = '';
     this.lvl_cnt = 0;
     this.grp_cnt = 0;
     this.dsk_cnt = 0;
@@ -13,12 +14,6 @@ function Cabinet() {
     this.ready = false;
     // 是否已选中
     this.selected = false;
-    // 电压
-    this.voltage = 0;
-    // 电流
-    this.current = 0;
-    // 电量
-    this.electricity = 0;
     // 在位查询命令
     this.cmd_device_status = null;
 }
@@ -34,8 +29,9 @@ Cabinet.prototype = {
         return '在位查询' + (this.cmd_device_status != null?'中('+ this.cmd_device_status.usedTime +'s)':'');
     },
     // 初始化存储柜的插槽信息
-    i_on_init: function (id, level_cnt, group_cnt, disk_cnt) {
+    i_on_init: function (id, s, level_cnt, group_cnt, disk_cnt) {
         this.id = id;
+        this.sn = s;
         this.lvl_cnt = level_cnt;
         this.grp_cnt = group_cnt;
         this.dsk_cnt = disk_cnt;
@@ -43,21 +39,25 @@ Cabinet.prototype = {
         for (var i = 0; i < level_cnt; ++i) {
             // 每一层
             var level_obj = {
+                idx: i,
+                // 写保护
+                write_protect: true,
                 // 温度
-                temperature: 0,
+                temperature: '-',
                 // 湿度
-                humidity: 0,
+                humidity: '-',
                 // 硬盘组
                 groups: []
             };
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组
                 var group_obj = {
+                    idx: j,
                     // 硬盘插槽
                     disks: []
                 };
                 for (var k = 0; k < disk_cnt; ++k) {
-                    var disk_obj = new Disk(i, j, k);
+                    var disk_obj = new Disk(level_obj, group_obj, k);
                     disk_obj.parent = group_obj;
                     group_obj.disks.push(disk_obj);
                 }
@@ -74,16 +74,31 @@ Cabinet.prototype = {
     },
     // 获得在位信息
     start_cmd_device_status: function () {
+        if (this.is_device_status_cmd_going()) {
+            global_modal_helper.show_modal({
+                type: 'warning',
+                title: '磁盘在位查询',
+                html: '您所选择的<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>，正在进行<span class="bk-fg-primary"> [磁盘在位查询] </span>命令，请稍候再试！'
+            });
+            return;
+        }
         if (this.id <= 0) return;
 
-        var json_cmd = {
-            cmd: 'DEVICESTATUS',
-            device_id: this.id.toString()
-        };
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: '磁盘在位查询',
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + this.id + '#] </span>的<span class="bk-fg-primary"> [磁盘在位查询] </span>命令？',
+            on_click_handle: function (id) {
+                var cmd_obj = {
+                    cmd: 'DEVICESTATUS',
+                    device_id: id
+                };
 
-        global_cmd_helper.sendcmd(json_cmd);
-
-        $.magnificPopup.close();
+                global_cmd_helper.sendcmd(cmd_obj);
+                console.log(id);
+            },
+            on_click_param: this.id.toString()
+        });
     },
     get_select: function () {
         this.selected = true;
@@ -92,6 +107,7 @@ Cabinet.prototype = {
     select_disk: function (l, g, d) {
         this.curr = this.levels[l].groups[g].disks[d];
         this.curr.get_copy_busy_disk();
+        this.curr.update_partitions();
     },
     //获取某块盘的指针
     i_get_disk: function (l, g, d) {
@@ -129,6 +145,8 @@ Cabinet.prototype = {
             var _dsk = this.levels[idx_l].groups[idx_g].disks[idx_d];
             _dsk.curr_cmd = is_add ? json_cmd : null;
         }
+
+        this.curr.update_partitions();
     },
     on_cmd_md5: function (json_cmd, is_add) {
         if (json_cmd.cmd != 'MD5') return;
@@ -158,11 +176,32 @@ Cabinet.prototype = {
         
         this.cmd_device_status = is_add ? json_cmd : null;
     },
+    on_cmd_write_protect: function (json_cmd, is_add) {
+        if (json_cmd.cmd != 'WRITEPROTECT') return;
+
+        if (!is_add) {
+        }
+    },
+    on_cmd_filetree: function (json_cmd, is_add) {
+        if (json_cmd.cmd != 'FILETREE') return;
+
+        var idx_l = parseInt(json_cmd.level) - 1, idx_g = parseInt(json_cmd.group) - 1, idx_d = parseInt(json_cmd.disk) - 1;
+        if (idx_l < 0 || idx_l > 5 || idx_g < 0 || idx_g > 5 || idx_d < 0 || idx_d > 3) {
+            console.log("Invalid 'FILETREE' cmd", json_cmd);
+            return;
+        }
+
+        this.levels[idx_l].groups[idx_g].disks[idx_d].curr_cmd = is_add ? json_cmd : null;
+    },
+
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
-    i_load_disks_base_info: function (data) {
+    i_load_disks_base_info: function (data,init) {
         for (var i = 0; i < data.length; ++i) {
             var e = data[i];
+
+            if (e.loaded != '1') continue;
+
             var int_l = parseInt(e.level) - 1;
             var int_g = parseInt(e.zu) - 1;
             var int_d = parseInt(e.disk) - 1;
@@ -182,19 +221,33 @@ Cabinet.prototype = {
 
             var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
             // 在位置位
-            _dsk.base_info.loaded = (e.loaded == 1);
-            _dsk.base_info.bridged = e.bridged == 1;
-
-            if (e.bridged == 1) {
-                _dsk.base_info.bridge_path = e.path;
+            if (_dsk.base_info.loaded != (e.loaded == '1')) {
+                _dsk.base_info.loaded = (e.loaded == '1');
             }
-            // 桥接置位
-            
+
+            if (_dsk.base_info.bridged != (e.bridged == '1')) {
+                _dsk.base_info.bridged = (e.bridged == '1');
+            }
+
+            _dsk.detail_info.health = e.normal;
+
+            if (e.loaded == '1' && e.bridged == '1') {
+                _dsk.base_info.bridge_path = e.path;
+
+                // 写保护状态置位
+                _dsk.level_obj.write_protect = (e.protected == '1');
+            }
+            // 桥接置位            
 
             _dsk.detail_info.SN = e.sn;
             _dsk.detail_info.MD5 = e.md5;
+            _dsk.detail_info.md5_time = e.md5_time;
             _dsk.detail_info.capacity = e.capacity;
         }
+        if(init === 0){
+            return;
+        }
+        global_scope.is_ok = true;
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove
@@ -229,6 +282,16 @@ Cabinet.prototype = {
             case 'DEVICESTATUS':
                 {
                     this.on_cmd_device_status(json_cmd, bol_op);
+                    break;
+                }
+            case 'WRITEPROTECT':
+                {
+                    this.on_cmd_write_protect(json_cmd, bol_op);
+                    break;
+                }
+            case 'FILETREE':
+                {
+                    this.on_cmd_filetree(json_cmd, bol_op);
                     break;
                 }
 

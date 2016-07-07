@@ -1,0 +1,48 @@
+﻿<div id="modalTemplate" class="mfp-hide zoom-anim-dialog modal-block"
+     ng-class="{
+         'modal-block-info': curr_modal.type == 'info',
+         'modal-block-primary': curr_modal.type == 'question',
+         'modal-block-warning': curr_modal.type == 'warning',
+         'modal-block-danger': curr_modal.type == 'error'
+     }">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{curr_modal.title}}</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa"
+                        ng-class="{
+                            'fa-info': curr_modal.type == 'info',
+                            'fa-question-circle': curr_modal.type == 'question',
+                            'fa-warning': curr_modal.type == 'warning',
+                            'fa-times-circle-o': curr_modal.type == 'error'
+                        }"
+                       ></i>
+                </div>
+                <div class="modal-text">
+                    <div class="row">
+                        <div class="panel bk-widget bk-margin-off col-lg-12" ng-bind-html="curr_modal.html|to_trusted">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary" ng-if="curr_modal.type == 'question'" ng-click="curr_modal.on_click()">确认</button>
+                    <button class="btn modal-dismiss"
+                        ng-click="curr_modal.on_click_ok()"
+                        ng-class="{
+                            'btn-info': curr_modal.type == 'info',
+                            'btn-default': curr_modal.type == 'question',
+                            'btn-warning': curr_modal.type == 'warning',
+                            'btn-danger': curr_modal.type == 'error'
+                        }">{{curr_modal.type != 'question'?'确定':'取消'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

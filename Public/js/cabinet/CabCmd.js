@@ -2,7 +2,7 @@
     this.msg = JSON.parse(log.msg);
     this._stime = log.start_time;
     this._ctime = log.current_time;
-
+    this.userName = log.user_name;
     this.device_id = this.msg.device_id;
     this.cab_id = this.msg.device_id;
     this.id = log.id;//log.id和CMD_ID有时不同
@@ -50,6 +50,8 @@
     this.timeLimit = 0;
     //错误信息
     this.errMsg = '';
+    // 附加信息
+    this.extra_info = null;
 }
 
 CabCmd.prototype = {    
@@ -164,6 +166,13 @@ CabCmd.prototype = {
         }
         if (respData['stage']) {
             task.stage = respData['stage'];
+        }
+        if (respData['extra_info']) {
+            try {
+                task.extra_info = JSON.parse(respData['extra_info']);
+            }
+            catch (e) {
+            }
         }
     }
 };

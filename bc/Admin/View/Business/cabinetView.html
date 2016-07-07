@@ -1,0 +1,44 @@
+﻿<div class="tabs tabs-primary bk-margin-bottom-5">
+    <ul class="nav nav-tabs">
+        <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
+            <a data-toggle="tab" href="#pane-cab-level{{$index}}">
+                <i class="glyphicon glyphicon-align-justify"></i>
+                <span ng-bind="'第'+{{$index+1}}+'层 | '" style="margin-right:35px;width:160px"></span>
+                <span style="position:absolute;font-size:8px;left:78px;top:8px">
+                    <span>{{_lvl.temperature}}℃</span><br />
+                    <span>{{_lvl.humidity}}% RH</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div ng-repeat="_lvl in cab.levels" ng-init="idx_lvl=$index"
+             id="pane-cab-level{{$index}}"
+             class="tab-pane bk-margin-bottom-off"
+             ng-class="{'true': 'active'}[$first]">
+            <div ng-repeat="_grp in _lvl.groups" ng-init="idx_grp = $index" class="row">
+                <div ng-repeat="_dsk in _grp.disks" class="col-lg-3 col-md-6 col-sm-12"
+                     ng-init="idx_dsk = $index">
+                    <div class="btn btn-block btn-sm bk-margin-bottom-15" ng-class="{
+                            'btn-success':_dsk.is_bridged(),
+                            'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
+                            'btn-default':!_dsk.is_loaded(),
+                            'btn-warning' : _dsk.get_cmd_name() != '',
+                            'btn-selected':_dsk === cab.curr,
+                            'btn-not-selected':_dsk !== cab.curr,
+                            'btn-danger': _dsk.is_copy_dsk()
+                        }" ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
+                        <div class="bk-vcenter row">
+                            <i class="fa fa-check-circle" style="position:absolute;right:20px"
+                               ng-show="_dsk == cab.curr"></i>
+                            <div class="bk-vcenter col-lg-12" ng-class="{ true:'text-left', false:'text-center' }[_dsk.base_info.loaded]" style="min-height:38px">
+                                <i class="glyphicon bk-margin-left-5" ng-class="{ true:'glyphicon-hdd', false:'glyphicon-ban-circle' }[_dsk.base_info.loaded]"></i>
+                                {{_dsk.get_title()}} {{_dsk.get_curr_cmd_title()}}<br>{{_dsk.get_extent_title()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

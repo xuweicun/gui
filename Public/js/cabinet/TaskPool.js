@@ -262,7 +262,9 @@ TaskPool.prototype = {
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
-                global_cabinet.i_on_cmd_changed(pool[i], false);
+                if (global_cabinet) {
+                    global_cabinet.i_on_cmd_changed(pool[i], false);
+                }
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer && pool[i].cmd == 'DISKINFO') {
                     if (global_deployer.working) {
@@ -320,6 +322,10 @@ TaskPool.prototype = {
         var task = this.going[idx];
         //如果是START，按下面的方式处理
         switch (task.cmd) {
+            case 'WRITEPROTECT':
+                var ret = JSON.parse(msg['return_msg']);
+                global_cabinet_helper.i_on_write_protect_success(ret);
+                break;
             case 'DEVICEINFO':
                 global_cabinet_helper.checkChg(msg);
                 break;
@@ -351,16 +357,19 @@ TaskPool.prototype = {
                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                     if (disk) {
                         if (task.subcmd == 'START') {
-                            disk.base_info.bridged = true;
-                            disk.base_info.bridge_path = paths[idx].value;
+                            disk.i_change_brdige_status(true, paths[idx].value);
                         }
-                        if (task.subcmd == 'STOP') {
-                            disk.base_info.bridged = false;
-                            disk.base_info.bridge_path = null;
+                        else if (task.subcmd == 'STOP') {
+                            disk.i_change_brdige_status(false, null);
                         }
                     }
                 }
 
+                // 更新桥接数
+                global_cabinet_helper.i_on_bridge_success(task.cab_id);
+				
+                // 更新写保护
+                global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
 
             //如果断开
         }
