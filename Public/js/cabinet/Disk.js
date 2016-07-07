@@ -606,7 +606,7 @@ Disk.prototype = {
 			else {
 			    time_text = (use_time / 3600 / 24).toFixed(0) + 'd';
 			}    
-			ex_title = 'T: ' + time_text + '，P: ' + this.curr_cmd.progress + '%';
+			ex_title = '' + time_text + ', ' + this.curr_cmd.progress + '%';
         }
 
         var _name = this.get_cmd_name();
@@ -615,7 +615,7 @@ Disk.prototype = {
         }
         else if (_name == 'MD5') {	
 			if (this.curr_cmd.extra_info){
-				ex_title += '，' + this.curr_cmd.extra_info.temp + '℃';
+				ex_title += ', ' + this.curr_cmd.extra_info.temp + '℃';
 			}
 			
             return ex_title;
@@ -623,10 +623,10 @@ Disk.prototype = {
         else if (_name == 'COPY') {
 			if (this.curr_cmd.extra_info) {
 				if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
-					ex_title += '，' + this.curr_cmd.extra_info.src_temp + '℃';
+					ex_title += ', ' + this.curr_cmd.extra_info.src_temp + '℃';
 				}
 				else {
-					ex_title += '，' + this.curr_cmd.extra_info.dst_temp + '℃';
+					ex_title += ', ' + this.curr_cmd.extra_info.dst_temp + '℃';
 				}
 			}
             return ex_title;
