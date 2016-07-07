@@ -328,7 +328,9 @@ class MsgController extends Controller
             case 'WRITEPROTECT':
                 $this->hdlWriteProtectMsg();
                 break;
-
+			case 'FILETREE':
+				$this->fileTreeMsgHandle();
+				break;
             case 'RESTARTTIME':
                 $this->restartTimeMsgHdl();
                 break;
@@ -663,6 +665,34 @@ class MsgController extends Controller
                     $cabDb->save($item);
                 }
             }
+        }
+    }
+	
+	private function fileTreeMsgHandle()
+    {
+        $subcmd = $_POST['subcmd'];
+        $id = $_POST['CMD_ID'];
+        $status = $_POST['status'];
+        $db = M('CmdLog');
+        switch ($subcmd) {
+            case 'PROGRESS':
+                //更新进度
+                if ($status == CMD_SUCCESS) {
+                    //将对应命令设为已取消
+                    $item = $db->find($id);
+                    if ($item['status'] == CMD_GOING) {
+                        $item['progress'] = $_POST['progress'];
+                        $db->save($item);
+                    }
+                } else {
+                    $this->handleError();
+                }
+                break;
+            default:
+                $item = $db->find($id);
+                $item['status'] = $status;
+                $db->save($item);
+                break;
         }
     }
 
