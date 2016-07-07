@@ -640,7 +640,7 @@ Disk.prototype = {
 		if (!this.base_info.loaded) return '';
 		
 		if (this.base_info.bridged) {
-			if (this.curr_cmd != null && == this.curr_cmd.cmd == 'FILETREE') {
+			if (this.curr_cmd != null && this.curr_cmd.cmd == 'FILETREE') {
 				return 'FILETREE';
 			}
 			else {
