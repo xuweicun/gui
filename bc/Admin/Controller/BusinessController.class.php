@@ -1125,7 +1125,7 @@ class BusinessController extends Controller
         );
         $db->startTrans();
         $rs1 = $db->add($data);
-        $plan_db = M('AutoCheckPlan');
+        $plan_db = M('CheckPlan');
         $plan = getPlan($data, $_POST['start_date']);
         $plan['type'] = $data['type'];
         $map['type'] = array('eq', $_POST['type']);
