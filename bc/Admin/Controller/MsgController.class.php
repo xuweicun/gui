@@ -673,27 +673,15 @@ class MsgController extends Controller
         $subcmd = $_POST['subcmd'];
         $id = $_POST['CMD_ID'];
         $status = $_POST['status'];
+        $substatus = $_POST['substatus'];
         $db = M('CmdLog');
-        switch ($subcmd) {
-            case 'PROGRESS':
-                //更新进度
-                if ($status == CMD_SUCCESS) {
-                    //将对应命令设为已取消
-                    $item = $db->find($id);
-                    if ($item['status'] == CMD_GOING) {
-                        $item['progress'] = $_POST['progress'];
-                        $db->save($item);
-                    }
-                } else {
-                    $this->handleError();
-                }
-                break;
-            default:
-                $item = $db->find($id);
-                $item['status'] = $status;
-                $db->save($item);
-                break;
-        }
+		if ($status == '0' && $substatus == '2') {
+			$item = $db->find($id);
+			if ($item) {
+				$item['progress'] = $_POST['progress'];
+				$db->save($item);
+			}
+		}
     }
 
     private function md5MsgHandle()
