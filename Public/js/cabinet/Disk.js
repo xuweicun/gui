@@ -150,7 +150,7 @@ Disk.prototype = {
                     global_modal_helper.show_modal({
                         type: 'warning',
                         title: '硬盘命令 -- 构建索引',
-                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行改命令，请稍候！'
+                        html: '硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + _dsk.get_title() + '</span>）正在进行<span class="bk-fg-primary"> [构建索引] </span>命令，受硬件资源限制无法同时进行构建索引命令，请稍候！'
                     });
                     return;
                 }
@@ -606,7 +606,7 @@ Disk.prototype = {
 			else {
 			    time_text = (use_time / 3600 / 24).toFixed(0) + 'd';
 			}    
-			ex_title = 'T: ' + time_text + '，P: ' + this.curr_cmd.progress + '%';
+			ex_title = '' + time_text + ', ' + this.curr_cmd.progress + '%';
         }
 
         var _name = this.get_cmd_name();
@@ -615,7 +615,7 @@ Disk.prototype = {
         }
         else if (_name == 'MD5') {	
 			if (this.curr_cmd.extra_info){
-				ex_title += '，' + this.curr_cmd.extra_info.temp + '℃';
+				ex_title += ', ' + this.curr_cmd.extra_info.temp + '℃';
 			}
 			
             return ex_title;
@@ -623,10 +623,10 @@ Disk.prototype = {
         else if (_name == 'COPY') {
 			if (this.curr_cmd.extra_info) {
 				if (this.curr_cmd.srcLevel == (this.l + 1) && this.curr_cmd.srcGroup == (this.g + 1) && this.curr_cmd.srcDisk == (this.d + 1)) {
-					ex_title += '，' + this.curr_cmd.extra_info.src_temp + '℃';
+					ex_title += ', ' + this.curr_cmd.extra_info.src_temp + '℃';
 				}
 				else {
-					ex_title += '，' + this.curr_cmd.extra_info.dst_temp + '℃';
+					ex_title += ', ' + this.curr_cmd.extra_info.dst_temp + '℃';
 				}
 			}
             return ex_title;
@@ -637,7 +637,19 @@ Disk.prototype = {
     },
     // 获得当前命令
     get_cmd_name: function () {
-        return (this.base_info.loaded && !this.base_info.bridged && this.curr_cmd != null) ? this.curr_cmd.cmd : '';
+		if (!this.base_info.loaded) return '';
+		
+		if (this.base_info.bridged) {
+			if (this.curr_cmd != null && this.curr_cmd.cmd == 'FILETREE') {
+				return 'FILETREE';
+			}
+			else {
+				return '';
+			}
+		}
+		else {
+			return this.curr_cmd != null ? this.curr_cmd.cmd : '';
+		}
     },
     // 判断硬盘是否busy
     is_busy: function () {
