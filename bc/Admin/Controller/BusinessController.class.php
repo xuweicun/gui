@@ -1120,16 +1120,22 @@ class BusinessController extends Controller
             'unit' => (int)$_POST['unit'],
             'start_time' => $_POST['start_time'],
             'time' => time(),
-            'by' => 'user_id',
+            'by' => $_POST['user_id'],
             'is_current' => 1
         );
         $db->startTrans();
         $rs1 = $db->add($data);
         $plan_db = M('CheckPlan');
-        $plan = getPlan($data, $_POST['start_date']);
-        $plan['type'] = $data['type'];
+        //取消还未开始的计划,改为当前计划
+        $plan = array(
+            'start_time'=> strtotime($_POST['start_date']) + (int)$_POST['start_time']*3600,
+            'modify_time'=>time(),
+            'type'=>$data['type'],
+            'status'=>C('PLAN_STATUS_WAITING')
+        );//$this->getPlan($data, $_POST['start_date']);
         $map['type'] = array('eq', $_POST['type']);
-        $map['status'] = array('neq', 'canceled');
+        $map['status'] = array('eq', C('PLAN_STATUS_WAITING'));
+        //应该只有一个计划未开始,否则是bug
         $old_plan = $plan_db->find($map);
 
         $rs2 = $plan_db->add($plan);
@@ -1155,6 +1161,7 @@ class BusinessController extends Controller
         //根据配置信息获取时间
         //Unit是天时
         $plan_t = null;
+
         switch($config['unit']){
             case 'day':
                 $start_t = strtotime($start_date);
