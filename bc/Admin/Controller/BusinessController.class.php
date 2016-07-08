@@ -59,6 +59,20 @@ class BusinessController extends Controller
 
     public function systReset()
     {
+		// 回到初始状态
+		$db = M();
+		$tables = $db->query($sql = 'show tables');				
+		foreach($tables as $table_array) {
+			foreach ($table_array as $table_item){			
+				if ($table_item == 'gui_super') break;	
+				
+				$ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
+				if (!ret) {
+					echo $db->getDbError();
+				}
+			}
+		}
+		/*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
         $items = $db->select();
@@ -70,6 +84,7 @@ class BusinessController extends Controller
         }
         //所有命令状态取消
         $this->cancelAllCmds();
+		*/
     }
 
     /******
