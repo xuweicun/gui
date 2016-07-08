@@ -555,14 +555,22 @@ class MsgController extends Controller
     private function superPwdResetMsgHdl()
     {
         if ($this->msg->isSuccess()) {
+			if ($_POST['admin_type'] == '1') {				
+				$map['name'] = 'useradmin';
+			}
+			else if ($_POST['admin_type'] == '2') {				
+				$map['name'] = 'logadmin';
+			}
+			else {
+				return;
+			}
             $db = M('Super');
-            $map['name'] = 'administrator';
             $item = $db->where($map)->limit(1)->find();
             if ($item) {
                 $item['pwd'] = md5('nay67kaf');
                 $db->save($item);
             } else {
-                $data['name'] = 'administrator';
+                $data['name'] = $map['name'];
                 $data['pwd'] = md5('nay67kaf');
                 $db->add($data);
             }

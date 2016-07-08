@@ -100,6 +100,21 @@
                 </div>
                 <div class="container-fluid content" ng-if="username=='logadmin'">
                     <div class="row">
+                        <div class="col-lg-12">
+                            <label class="col-lg-3 control-label">导出<span class="bk-fg-danger" title="必选">*</span></label>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </span>
+                                    <select class="form-control" name="users" ng-model="user_settings.md5.start_time" ng-options="y.val as y.text for y in user_settings.time_options" required>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <include file="userLogView" />
                     </div>
                 </div>
