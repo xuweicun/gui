@@ -271,10 +271,9 @@ class BusinessController extends Controller
 
     public function super_user_main()
     {
-		return;
         if (!session('?admin')) {
-            U('login_admin');
-            $this->redirect('login_admin');
+            U('login');
+            $this->redirect('login');
         } else {
 			$this->assign('username', session('admin'));
             $this->display();
