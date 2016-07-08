@@ -56,6 +56,11 @@ class BusinessController extends Controller
         }
 
     }
+	
+	public function invalid_browser()
+	{
+		$this->display();
+	}
 
     public function systReset()
     {
