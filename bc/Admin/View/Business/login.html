@@ -131,26 +131,35 @@
         <script>
             angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location) {
                 $scope.err_msg = "";
-                $scope.onBtnLogin = function () {
-                    $scope.err_msg = '';
+                $scope.username = '';
+                $scope.password = '';
 
-                    var uname = $('#uname').val();
-                    var pwd = $('#pwd').val();
-                    
-                    if (!uname) {
-                        $scope.err_msg = '用户名不能为空';
-                        return;
-                    }
-                    if (!pwd) {
-                        $scope.err_msg = '密码不能为空';
-                        return;
-                    }
-                                        
+                $scope.login_user_admin = function () {
+                    $http.post('/index.php?m=admin&c=business&a=login_admin', {
+                        username: $scope.username,
+                        password: $scope.password
+                    }).success(function (obj) {
+                        try {
+                            if (obj.status == 1) {
+                                window.location = '/index.php?m=admin&c=business&a=super_user_main';
+                            }
+                            else {
+                                throw 1;
+                            }
+                        }
+                        catch (e) {
+                            $scope.err_msg = '登录失败';
+                        }
+                    }).error(function (data) {
+                        $scope.err_msg = '登录服务器失败';
+                    });
+                };
+                $scope.login_user = function () {
                     $http.post('/index.php?m=admin&c=business&a=login', {
-                        username: uname,
-                        password: hex_md5(pwd)
+                        username: $scope.username,
+                        password: $scope.password
                     }).success(function (data) {
-                        try{
+                        try {
                             var obj = JSON.parse(data);
                             if (obj.status && obj.status == 1) {
                                 window.location = '/index.php?m=admin&c=business&a=loginSuccessPage';
@@ -165,6 +174,35 @@
                     }).error(function (data) {
                         $scope.err_msg = '登录服务器失败';
                     });
+                };
+
+                $scope.onBtnLogin = function () {
+                    $scope.err_msg = '';
+
+                    var uname = $('#uname').val();
+                    var pwd = $('#pwd').val();
+                    
+                    if (!uname) {
+                        $scope.err_msg = '用户名不能为空';
+                        return;
+                    }
+                    if (!pwd) {
+                        $scope.err_msg = '密码不能为空';
+                        return;
+                    }
+                    $scope.username = uname;
+                    $scope.password = hex_md5(pwd);
+                     
+                    switch (uname) {
+                        case 'useradmin':
+                        case 'logadmin':
+                            $scope.login_user_admin();
+                            break;
+                        default:
+                            $scope.login_user();
+                            break;
+                    }
+                    
                 };
 
                 $scope.form_required = function () {

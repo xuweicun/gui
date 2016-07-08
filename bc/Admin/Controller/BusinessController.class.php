@@ -232,26 +232,27 @@ class BusinessController extends Controller
     {
         if (IS_POST) {
             $User = M('Super');
-            $cond['name'] = 'administrator';
+            $cond['name'] = $_POST['username'];
+			if ($cond['name'] != 'useradmin' && $cond['name'] != 'logadmin') {
+				return;
+			}
+			
             $item = $User->where($cond)->find();
             if (!$item) {
                 $cond['pwd'] = md5('nay67kaf');
                 $User->add($cond);
             }
-
-            $cond['name'] = $_POST['username'];
+			
             $cond['pwd'] = $_POST['password'];
             $item = $User->where($cond)->find();
-            //var_dump($cond);
-            //die();
-
-            $ret = array();
+			
             if (!$item) {
                 $ret['status'] = '0';
             } else {
                 session('admin', $item['name']);
                 $ret['status'] = '1';
             }
+			
             $this->AjaxReturn($ret);
         } else {
             if (session('?admin')) {
@@ -274,6 +275,7 @@ class BusinessController extends Controller
             U('login_admin');
             $this->redirect('login_admin');
         } else {
+			$this->assign('username', session('admin'));
             $this->display();
         }
     }
@@ -1276,7 +1278,7 @@ class BusinessController extends Controller
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
         } else
-            $this->success('成功注销', U("login_admin"));
+            $this->success('成功注销', U("login"));
     }
 
     public function chg_pwd()

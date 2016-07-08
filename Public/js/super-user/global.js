@@ -8,7 +8,7 @@ user_app.filter('to_trusted', function ($sce) {
     }
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
-
+	
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
 
     var vm = this;
@@ -46,7 +46,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             title: '管理员注销',
             html: '您确定要注销，注销后需要重新登录。',
             on_click_handle: function () {
-                window.location = "/index.php?m=admin&c=business&a=logout_admin";
+                window.location = "/index.php?m=admin&c=business&a=logout";
             }
         });
     }
@@ -142,8 +142,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 $scope.page_index = 'main';
         }
     }
-    $scope.change_page_index('main');
-    console.log($scope.page_index);
+    //$scope.change_page_index($scope.username=='useradmin'?'main':'user_log');
 
     $scope.user_add = function(){
         $scope.new_user = {username:'', password:''};
@@ -156,6 +155,10 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         if (username == '' || password == ''){
             return;
         }
+		
+		if (username == 'useradmin' || username == 'logadmin') {
+			return;
+		}
 
         $http({
             url:'/index.php?m=admin&c=business&a=user_add',
@@ -359,7 +362,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             url:'/index.php?m=admin&c=business&a=user_passwd_reset',
             method:'POST',
             data:{
-                id: usr.id,
+                id: $scope.username,
                 password: hex_md5($scope.new_password)
             }
         }).success(function(data){

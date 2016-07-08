@@ -4,13 +4,13 @@
 
     <script src="/Public/js/browser-check.js"></script>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>超级管理员</title>
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <include file="PublicHeader" />
 </head>
-<body ng-app="user_module" ng-controller="user_controller as showCase">
+<body ng-app="user_module" ng-controller="user_controller as showCase" ng-init="username='<{$username}>'" ng-cloak>
 
     <div class="navbar" role="navigation">
         <div class="container-fluid container-nav">
@@ -36,10 +36,10 @@
                 <div class="userbox">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <div class="profile-info">
-                            <span class="name">您好，超级管理员<{$username}></span>
+                            <span class="name">您好，<span ng-bind="username"></span></span>
                             <span class="role">
                                 <i class="fa fa-circle bk-fg-success"></i>
-                                <span>用户管理权限</span>
+                                <span>{{username=='useradmin'?'用户':'日志'}}管理权限</span>
                             </span>
                             <span id="username" style="display:none" ng-disabled="user.off_line"><{$username}></span>
                             <span id="userid" style="display:none" ng-disabled="user.off_line"><{$userid}></span>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="main">
-                <div class="container-fluid content" ng-class="{'hidden':(page_index!='main')}">
+                <div class="container-fluid content" ng-if="username=='useradmin'">
                     <div class="row">
                         <include file="super-users-manage-available" />
                     </div>
@@ -98,7 +98,7 @@
                         <include file="super-users-manage-removed" />
                     </div>
                 </div>
-                <div class="container-fluid content hidden" ng-class="{'hidden':(page_index!='user_log')}">
+                <div class="container-fluid content" ng-if="username=='logadmin'">
                     <div class="row">
                         <include file="userLogView" />
                     </div>
