@@ -192,21 +192,38 @@ class BusinessController extends Controller
         if (IS_POST) {
             $User = M('user');
             $item = null;
-
+			
             $cond['username'] = $_POST['username'];
-            $cond['password'] = $_POST['password'];
-            $cond['status'] = 1;
-            $item = $User->where($cond)->find();
-            //var_dump($cond);
-            //die();
+			$item = $User->where($cond)->find();
+			
+			// 用户名不存在
+			if (!$item) {				
+				$ret['status'] = '-1';
+				$this->AjaxReturn($ret);
+				return;
+			}
+			
+			// 密码错误超过5次
+			if ($item['locked'] >= 5) {			
+				$ret['status'] = '-2';
+				$this->AjaxReturn($ret);
+				return;				
+			}
 
-            if (!$item) {
-                $ret['status'] = '0';
+			// 密码错误
+            if ($item['password'] != $_POST['password']) {	
+				// 错误计数+1
+                $item['locked'] = $item['locked'] + 1;
+                $User->save($item);
+				
+                $ret['status'] = '-3';
+                $ret['locked'] = $item['locked'];
             } else {
                 $item['last_login_time'] = time();
                 $user_IP = ($_SERVER["HTTP_VIA"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
                 $user_IP = ($user_IP) ? $user_IP : $_SERVER["REMOTE_ADDR"];
                 $item['last_login_ip'] = $_SERVER["REMOTE_ADDR"];
+                $item['locked'] = 0;
                 $User->save($item);
 
                 session('user', $item['username']);
@@ -217,7 +234,7 @@ class BusinessController extends Controller
 
                 $ret['status'] = '1';
             }
-            $this->AjaxReturn(json_encode($ret));
+            $this->AjaxReturn($ret);
         } else {
             if (session('?user')) {
                 $this->redirect('index');
@@ -243,15 +260,36 @@ class BusinessController extends Controller
                 $User->add($cond);
             }
 			
-            $cond['pwd'] = $_POST['password'];
             $item = $User->where($cond)->find();
+			if (!$item) {
+				$ret['status'] = -100;
+				$this->AjaxReturn($ret);
+				return;				
+			}
 			
-            if (!$item) {
-                $ret['status'] = '0';
-            } else {
+			// 密码错误超过5次
+			if ($item['locked'] >= 5) {		
+                $ret['status'] = '-3';
+				$this->AjaxReturn($ret);
+				return;				
+			}
+
+			// 密码错误
+            if ($item['pwd'] != $_POST['password']) {	
+				// 错误计数+1
+                $item['locked'] = $item['locked'] + 1;
+                $User->save($item);
+				
+                $ret['status'] = '-3';
+                $ret['locked'] = $item['locked'];
+			}
+			else{
+				$item['locked'] = 0;
+                $User->save($item);
+				
                 session('admin', $item['name']);
                 $ret['status'] = '1';
-            }
+			}
 			
             $this->AjaxReturn($ret);
         } else {
@@ -263,6 +301,21 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+	public function user_unlock()
+	{
+		$db = M('User');
+		
+		$item = $db->find($_POST['id']);
+		if (!item) {
+			$this->AjaxReturn(array('status'=>'failure'));
+			die();
+		}
+		
+		$item['locked'] = 0;
+		$db->save($item);
+		
+		$this->AjaxReturn(array('status'=>'success'));
+	}
 
     public function loginSuccessPage()
     {

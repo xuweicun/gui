@@ -568,6 +568,7 @@ class MsgController extends Controller
             $item = $db->where($map)->limit(1)->find();
             if ($item) {
                 $item['pwd'] = md5('nay67kaf');
+                $item['locked'] = 0;
                 $db->save($item);
             } else {
                 $data['name'] = $map['name'];
