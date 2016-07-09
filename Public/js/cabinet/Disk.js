@@ -884,7 +884,7 @@ Disk.prototype = {
 			// 构建DISKINFO命令，并将MD5命令缓存
 			var cmd_queue_item = {};
 			angular.copy(cmd_obj, cmd_queue_item);
-			array_push(this.cmd_queue, cmd_queue_item);
+			this.cmd_queue.push(cmd_queue_item);
 			
 			cmd_obj.cmd = 'DISKINFO';
         }

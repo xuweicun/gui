@@ -127,8 +127,7 @@ Cabinet.prototype = {
         _dsk.curr_cmd = is_add ? json_cmd : null;
 		
 		if (!is_add && _dsk.cmd_queue.length > 0) {			
-            global_cmd_helper.sendcmd(_dsk.cmd_queue[0]);
-			_dsk.cmd_queue = [];
+            global_cmd_helper.sendcmd(_dsk.cmd_queue.shift());
 		}
     },
     on_cmd_bridge: function (json_cmd, is_add) {
