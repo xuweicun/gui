@@ -60,6 +60,9 @@ function Disk(lvl_obj, grp_obj, d) {
     this.busy_disk = null;
     // 用户尝试提交的命令名称
     this.cmd_name_to_commit = '';
+	
+	// 待发送队列
+	this.cmd_queue = [];
 }
 
 // 硬盘Disk类的原型
@@ -877,6 +880,13 @@ Disk.prototype = {
             cmd_obj.level = (this.l + 1).toString();
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
+			
+			// 构建DISKINFO命令，并将MD5命令缓存
+			var cmd_queue_item = {};
+			angular.copy(cmd_obj, cmd_queue_item);
+			array_push(this.cmd_queue, cmd_queue_item);
+			
+			cmd_obj.cmd = 'DISKINFO';
         }
         else if (cmd_name == 'COPY') {
             cmd_obj.subcmd = 'START';
