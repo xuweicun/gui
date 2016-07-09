@@ -228,7 +228,7 @@ class BusinessController extends Controller
         }
     }
 
-    public function login_admin()
+    private function login_admin()
     {
         if (IS_POST) {
             $User = M('Super');
