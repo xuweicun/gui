@@ -295,7 +295,7 @@ Disk.prototype = {
             global_modal_helper.show_modal({
                 type: 'question',
                 title: '硬盘命令 -- MD5',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性（为保证数据一致性，系统将自动发送<span class="bk-fg-primary"> [查询] </span>命令）。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
