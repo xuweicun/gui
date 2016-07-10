@@ -133,7 +133,7 @@ TaskPool.prototype = {
         this.isWatching = true;
         global_interval(function () {
 			// 检测用户空闲是否超过5分钟
-			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 300);
+			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 300;
 			if (!global_task_pool.user_left && has_left) {
 				global_scope.on_user_left();
 			}
