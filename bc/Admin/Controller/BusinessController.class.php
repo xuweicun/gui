@@ -1311,6 +1311,14 @@ class BusinessController extends Controller
         $data['errmsg'] = 'item does not exists--' . $appended;
         $this->AjaxReturn($data);
     }
+	
+	public function logout_immediate()
+	{
+		session_unset();
+        session_destroy();
+		
+		$this->display('login');
+	}
 
     public function logout()
     {

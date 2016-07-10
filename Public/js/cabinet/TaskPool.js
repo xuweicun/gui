@@ -22,9 +22,18 @@
     this.stopFlag = false;
     this.maxPoolSize = 50;
     this.cabChanged = false;
+	
+	// 用户是否已经离开超过5分钟
+	this.user_left = false;
+	
+	// 用户最后操作时间
+	this.last_user_operate_time = Date.parse(new Date());
 }
 
 TaskPool.prototype = {
+	reset_user_operate_time: function(){
+		this.last_user_operate_time = Date.parse(new Date());
+	},
 
     add: function (task) {
         this.going.forEach(function (e) {
@@ -123,6 +132,13 @@ TaskPool.prototype = {
         if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;
         global_interval(function () {
+			// 检测用户空闲是否超过5分钟
+			var has_left = (Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000 > (300000);
+			if (!global_task_pool.user_left && has_left) {
+				global_scope.on_user_left();
+			}
+			global_task_pool.user_left = has_left;
+			
             var pool = global_task_pool;
             if (pool.going.length == 0) {
                 return;
