@@ -382,7 +382,9 @@ class MsgController extends Controller
 			$item['sn'] = $_POST['SN'];
 			$item['smart'] = json_encode($_POST['SmartAttrs']);
 			$item['status'] = '1';
-			$item['status_comment'] = '';			
+			$item['status_comment'] = '';	
+						
+			$item['cabinet_id'] = M('Cab')->where(array('sn'=>$item['device_id']))->find()['id'];			
 			
 			M('DiskSmartLog')->add($item);
 		}
@@ -430,6 +432,7 @@ class MsgController extends Controller
 			
 			$item['sn']	= $sn['sn'];					
 			$item['status'] = '1';
+			$item['cabinet_id'] = M('Cab')->where(array('sn'=>$item['device_id']))->find()['id'];	
 			
 			M('DiskMd5Log')->add($item);	
 		}

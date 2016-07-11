@@ -69,7 +69,7 @@ class BusinessController extends Controller
 		$tables = $db->query($sql = 'show tables');				
 		foreach($tables as $table_array) {
 			foreach ($table_array as $table_item){			
-				if ($table_item == 'gui_super') break;	
+				if ($table_item == 'gui_super' || $table_item == 'gui_user') break;	
 				
 				$ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
 				if (!ret) {
@@ -524,7 +524,7 @@ class BusinessController extends Controller
             'charge' => 'electricity',
             'voltage',
             'electricity' => 'current');
-        $items_cabs = $db_cabs->field($fields)->order('sn asc')->select();
+        $items_cabs = $db_cabs->field($fields)->where(array('loaded'=>1))->order('sn asc')->select();
 
 		// 2. 各在位硬盘
         $db_device = M('Device');
@@ -585,7 +585,7 @@ class BusinessController extends Controller
 			$slots = array();
 			
 			// 历史md5
-			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			$items = $db_disk_md5_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
 			foreach ($items as $item_value) {
 				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
 				
@@ -599,7 +599,7 @@ class BusinessController extends Controller
 			}
 			
 			// 历史Smart
-			$items = $db_disk_smart_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			$items = $db_disk_smart_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
 			//var_dump($items); die();
 			foreach ($items as $item_value) {
 				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
@@ -875,9 +875,12 @@ class BusinessController extends Controller
     public function getDeviceInfo()
     {
         //initiate database   --generate model
+		$cabinet = M('Cab')->where(array('sn'=>I('get.cab')))->find();
+		if (!$cabinet) return;
+		
         $db = M('Device');
         $viewDb = D('DeviceView');
-        $map['cab_id'] = array('eq', I('get.cab'));
+        $map['cabinet_id'] = array('eq', $cabinet['id']);
         $rooms = $db->where($map)->select();
         $roomView = $viewDb->where($map)->select();
         $rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
