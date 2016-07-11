@@ -862,7 +862,7 @@ class BusinessController extends Controller
     {
         $db = M('Cab');
         $device_db = M('Device');
-        $items = $db->where('loaded=1')->select();
+        $items = $db->where('loaded=1')->order('sn asc')->select();
         foreach ($items as $idx => $item) {
             //检查异常磁盘的数量
             $prb_disks = $device_db->where('normal=0 and cab_id=%d', $item['id'])->select();
