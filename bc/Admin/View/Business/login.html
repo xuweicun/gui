@@ -129,7 +129,7 @@
         <script src="/Public/js/angular-1.4.min.js"></script>
         <script src="/Public/js/md5.js"></script>
         <script>
-            angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location) {
+            angular.module("loginApp", []).controller('loginCtrl', function ($scope, $http, $location, $window) {
                 $scope.err_msg = "";
                 $scope.username = '';
                 $scope.password = '';
@@ -166,6 +166,7 @@
                     }).success(function (obj) {
                         try {
                             if (obj.status == '1') {
+                                $window.localStorage['user_left'] = 0;
                                 window.location = '/index.php?m=admin&c=business&a=loginSuccessPage';
                             }
                             else if (obj.status == '-1') {
