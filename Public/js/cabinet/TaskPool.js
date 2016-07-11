@@ -235,30 +235,36 @@ TaskPool.prototype = {
         var result = '成功';
         var type = 'success';
         var icon = 'fa fa-check';
-        console.log("状态值:" + task.status);
-        switch (parseInt(task.status)) {
+        var int_status = parseInt(task.status);
+        var str_text = '[' + global_lang.getLang(task.cmd) + ']命令';
+        switch (int_status) {
             case task.timeout:
                 type = 'error';
                 icon = 'fa fa-clock-o';
+                str_text += '执行超时';
                 break;
             case task.canceled:
                 type = 'info';
                 icon = 'fa fa-alarm';
+                str_text += '被取消';
                 break;
             case task.success:
                 type = 'success';
                 icon = 'fa fa-check-o';
+                str_text += '执行成功';
                 break;
             default:
                 //失败
                 result = '失败';
                 type = 'error';
                 icon = 'fa fa-alarm';
+                str_text += '执行失败：' + global_lang.getLang(int_status);
                 break;
         }
+        var local_text = task.status
         new PNotify({
             title: '命令执行结果',
-            text: '[' + global_lang.getLang(task.cmd) + ']命令执行完毕，执行结果：' + global_lang.getLang(task.status),
+            text: str_text,
             type: type,
             shadow: true,
             icon: icon

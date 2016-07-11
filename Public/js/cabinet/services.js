@@ -335,7 +335,7 @@ angular.module('device.services', [])
 
                 if (typeof (code) == 'number') {
                     if (code > param.success) {
-                        return '失败' + errCodes[code];
+                        return errCodes[code] + '[' + code + ']';
                     }
                     code = code.toString();
                 }
