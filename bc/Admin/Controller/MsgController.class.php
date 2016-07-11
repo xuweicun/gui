@@ -234,7 +234,6 @@ class Dsk
                     //处理md5和sn的变化
                     $this->hdlDskChg($dsk, $key, $values[$idx]);
                 }
-
             }
             $dskDb->save($dsk);
             return true;
@@ -402,6 +401,8 @@ class MsgController extends Controller
 			$item['level'] = $_POST['level'];
 			$item['zu'] = $_POST['group'];
 			$item['disk'] = $_POST['disk'];
+			$item['md5_value'] = $_POST['result'];
+			$item['md5_time'] = $item['time'];
 								
 			// 获得硬盘ID
 			$dsk = M('Device')->field(array('disk_id'))
