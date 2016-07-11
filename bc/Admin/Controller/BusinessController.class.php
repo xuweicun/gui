@@ -514,8 +514,9 @@ class BusinessController extends Controller
     {
         // 1. 存储柜概述
         $db_cabs = M('Cab');
-        $fields = array(
+        $fields = array(			
             'sn' => 'cab_id',
+			'name' => 'cab_name',
             'level_cnt',
             'group_cnt',
             'disk_cnt',
@@ -651,7 +652,7 @@ class BusinessController extends Controller
 		$phpWord->addTitleStyle(3, array('bold' => true, 'size' => 12), array('spaceAfter' => 240, 'spaceBefore'=>400));
 		$section->addTitle('1. 概述', 1);
 		
-		$text_head = "服务器当前已连接 $cab_cnt 台存储柜。";			
+		$text_head = "服务器曾经连接过 $cab_cnt 台存储柜。";			
 		$section->addText($text_head, array(), $paraStyle);
 		
 		if (count($cabinets) > 0) {
@@ -665,6 +666,9 @@ class BusinessController extends Controller
 			$table_cab->addRow();
 			$table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
 			$table_cab->addCell(3000)->addText($cab['cab_id'], $fontStyle);
+			$table_cab->addRow();
+			$table_cab->addCell(2000)->addText('编号', $fontStyle);
+			$table_cab->addCell(3000)->addText($cab['cab_name'], $fontStyle);
 			$table_cab->addRow();
 			$table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
 			$table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×'. $cab['group_cnt'] .'组×'. $cab['disk_cnt'] .'位', $fontStyle);
