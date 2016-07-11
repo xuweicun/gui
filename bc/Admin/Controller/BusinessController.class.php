@@ -523,7 +523,7 @@ class BusinessController extends Controller
             'charge' => 'electricity',
             'voltage',
             'electricity' => 'current');
-        $items_cabs = $db_cabs->field($fields)->select();
+        $items_cabs = $db_cabs->field($fields)->order('sn asc')->select();
 
 		// 2. 各在位硬盘
         $db_device = M('Device');
