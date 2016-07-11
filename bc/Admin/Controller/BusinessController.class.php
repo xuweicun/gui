@@ -514,7 +514,8 @@ class BusinessController extends Controller
     {
         // 1. 存储柜概述
         $db_cabs = M('Cab');
-        $fields = array(			
+        $fields = array(
+			'id',
             'sn' => 'cab_id',
 			'name' => 'cab_name',
             'level_cnt',
@@ -547,7 +548,7 @@ class BusinessController extends Controller
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
                 ->where(array(
-                    'cab_id' => $value['cab_id'],
+					'cabinet_id'=>$value['id'],
                     'loaded' => '1'
                 ))->order('level, zu, disk asc')->select();
 
