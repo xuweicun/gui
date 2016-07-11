@@ -31,15 +31,6 @@ CREATE TABLE `gui_admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `gui_admin`
---
-
-LOCK TABLES `gui_admin` WRITE;
-/*!40000 ALTER TABLE `gui_admin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `gui_admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `gui_cab`
 --
 
@@ -58,13 +49,12 @@ CREATE TABLE `gui_cab` (
   `voltage` varchar(10) DEFAULT NULL,
   `electricity` varchar(10) DEFAULT NULL,
   `charge` varchar(10) DEFAULT NULL,
-  `status` varchar(1000) DEFAULT NULL,
+  `status` varchar(4096) DEFAULT NULL,
   `name` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sn` (`sn`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Table structure for table `gui_chg_log`
@@ -84,15 +74,6 @@ CREATE TABLE `gui_chg_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='异常记录';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_chg_log`
---
-
-LOCK TABLES `gui_chg_log` WRITE;
-/*!40000 ALTER TABLE `gui_chg_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `gui_chg_log` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `gui_cmd_log`
@@ -117,13 +98,8 @@ CREATE TABLE `gui_cmd_log` (
   `finished` smallint(1) DEFAULT '1' COMMENT '命令完成标识，1：已经完成；0：未完成；',
   `extra_info` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=391 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=657 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_cmd_log`
---
-
 
 --
 -- Table structure for table `gui_device`
@@ -151,13 +127,8 @@ CREATE TABLE `gui_device` (
   `normal` tinyint(1) DEFAULT '1',
   `protected` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_device`
---
-
 
 --
 -- Table structure for table `gui_disk`
@@ -177,13 +148,8 @@ CREATE TABLE `gui_disk` (
   `md5_time` varchar(500) DEFAULT NULL,
   `sn_time` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_disk`
---
-
 
 --
 -- Table structure for table `gui_disk_chg_log`
@@ -200,13 +166,8 @@ CREATE TABLE `gui_disk_chg_log` (
   `obj_id` int(10) NOT NULL,
   `value` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_disk_chg_log`
---
-
 
 --
 -- Table structure for table `gui_disk_md5_log`
@@ -228,13 +189,8 @@ CREATE TABLE `gui_disk_md5_log` (
   `md5_value` varchar(45) DEFAULT NULL COMMENT '当status为1时，md5_value记录md5值，md5_time记录成功时间\n当status为2时，md5_value记录错误号，md5_time记录失败时间',
   `md5_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_disk_md5_log`
---
-
 
 --
 -- Table structure for table `gui_disk_smart`
@@ -257,13 +213,8 @@ CREATE TABLE `gui_disk_smart` (
   `w_val` varchar(50) DEFAULT NULL,
   `normal` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 COMMENT='smart value';
+) ENGINE=InnoDB AUTO_INCREMENT=220 DEFAULT CHARSET=utf8 COMMENT='smart value';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_disk_smart`
---
-
 
 --
 -- Table structure for table `gui_disk_smart_log`
@@ -286,13 +237,8 @@ CREATE TABLE `gui_disk_smart_log` (
   `status_comment` varchar(45) DEFAULT NULL COMMENT '当status为2时，status_comment中记录错误号',
   `disk_status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_disk_smart_log`
---
-
 
 --
 -- Table structure for table `gui_level`
@@ -310,11 +256,6 @@ CREATE TABLE `gui_level` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `gui_level`
---
-
-
---
 -- Table structure for table `gui_restart_time`
 --
 
@@ -325,13 +266,8 @@ CREATE TABLE `gui_restart_time` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `restart_time` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_restart_time`
---
-
 
 --
 -- Table structure for table `gui_super`
@@ -344,14 +280,10 @@ CREATE TABLE `gui_super` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pwd` varchar(500) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `locked` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_super`
---
-
 
 --
 -- Table structure for table `gui_test`
@@ -367,11 +299,6 @@ CREATE TABLE `gui_test` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_test`
---
-
 
 --
 -- Table structure for table `gui_user`
@@ -393,14 +320,10 @@ CREATE TABLE `gui_user` (
   `last_login_ip` text,
   `last_login_time` int(11) DEFAULT NULL,
   `write` int(11) NOT NULL DEFAULT '0' COMMENT '写权限：0代表无，非0代表有；默认无写权限',
+  `locked` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `gui_user`
---
-
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -411,4 +334,4 @@ CREATE TABLE `gui_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-05 22:41:35
+-- Dump completed on 2016-07-11 16:32:06
