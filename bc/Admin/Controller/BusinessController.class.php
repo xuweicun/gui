@@ -549,7 +549,7 @@ class BusinessController extends Controller
                 ->where(array(
                     'cab_id' => $value['cab_id'],
                     'loaded' => '1'
-                ))->select();
+                ))->order('level, zu, disk asc')->select();
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
