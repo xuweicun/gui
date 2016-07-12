@@ -645,6 +645,5 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     ($scope.init_date_picker = function () {
         $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
         $("[data-plugin-datepicker]").datepicker();
-        console.log($("[data-plugin-datepicker]").length);
     })();
 });
