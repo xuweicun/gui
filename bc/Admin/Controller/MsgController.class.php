@@ -426,7 +426,7 @@ class MsgController extends Controller
 				'disk_id'=>$item['disk_id'], 
 				'status'=>1))
 				->order('time desc')->find();
-			if (!sn) {
+			if (!$sn) {
 				return;
 			}
 			
