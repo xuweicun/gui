@@ -57,7 +57,10 @@ app_device.filter('to_trusted', function ($sce) {
 	}
 	
 	$scope.user_unlock = function()
-	{	
+	{
+	    if (!$scope.user_unlock_pwd) {
+	        return;
+	    }
 		$http({
             url: "/index.php?m=admin&c=business&a=passwordValidate",
             method: 'POST',
