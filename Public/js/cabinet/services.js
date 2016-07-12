@@ -337,6 +337,9 @@ angular.module('device.services', [])
                     if (code > param.success) {
                         return errCodes[code] + '[' + code + ']';
                     }
+                    else {
+                        return '成功';
+                    }
                     code = code.toString();
                 }
                 for (var idx = 0; idx < lang.length; idx++) {
