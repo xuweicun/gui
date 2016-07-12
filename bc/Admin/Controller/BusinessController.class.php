@@ -502,16 +502,6 @@ class BusinessController extends Controller
 
     }
 
-    public function report()
-    {
-		if (session('admin') != 'logadmin') {
-			$this->redirect('login');
-			die();
-		}
-		
-        $this->display();
-    }
-
     /*
         构建报表所需要的全部数据
     */

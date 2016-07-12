@@ -30,7 +30,6 @@ app_device.filter('to_trusted', function ($sce) {
         switch (name) {
             case 'user_log':
             case 'manul':
-            case 'settings':
                 $scope.page_index = name
                 break;
             default:
@@ -86,34 +85,6 @@ app_device.filter('to_trusted', function ($sce) {
 		$scope.user_unlock_pwd = '';
 	}
 	
-    /*
-        配置信息
-    */
-    $scope.user_settings = new UserSettings();
-    $http({
-        url: '/index.php?m=admin&c=business&a=getUserSettings',
-        method: 'GET'
-    }).success(function (data) {
-        console.log(data);
-        if (!data) {
-            global_modal_helper.show_modal({
-                type: 'error',
-                title: 'Fatal Error',
-                html: 'empty data'
-            });
-            return;
-        }
-
-    }).error(function (data) {
-        console.log("获取用户配置信息失败.");
-        return;
-        global_modal_helper.show_modal({
-            type: 'error',
-            title: 'Fatal Error',
-            html: data
-        });
-    });
-
     ($scope.init_date_picker = function () {
         $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
         $("[data-plugin-datepicker]").datepicker();

@@ -2,14 +2,47 @@
 
 register_filters(user_app);
 
+var global_http;
+
 user_app.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
     }
+}).filter('formatnumber', function () {
+    return function (input) {
+        return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
-	
+    global_http = $http;
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
+
+    $scope.report_obj = {
+        'cabinets': []
+    };
+
+    $scope.make_report = function () {
+        $scope.is_ok = false;
+
+        $scope.today = new Date();
+
+        $http({
+            url: '/index.php?m=admin&c=business&a=generate_report_data',
+            method: 'get'
+        }).success(function (data) {
+            if (!data) {
+                $scope.report_data = 'empty data';
+            }
+            else {
+                $scope.report_data = JSON.stringify(data);
+                $scope.report_obj['cabinets'] = data;
+
+                $scope.is_ok = true;
+            }
+        }).error(function (data) {
+            $scope.err_data = data;
+        });
+    }    
 	
 	//校验密码,校验成功返回0，若长度小于8字，返回-1；若包含非数字或字母，返回-2；或只包含数字或字母，返回-3,；
 	$scope.checkPassword = function(password){
@@ -189,16 +222,46 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     $scope.change_page_index = function (name) {
         switch (name) {
             case 'user_log':
-                $scope.page_index = name;
-                break;
             case 'manul':
+            case 'settings':
+            case 'report':
                 $scope.page_index = name
                 break;
             default:
                 $scope.page_index = 'main';
         }
     }
-    //$scope.change_page_index($scope.username=='useradmin'?'main':'user_log');
+    $scope.change_page_index($scope.username == 'useradmin' ? 'main' : 'user_log');
+
+
+    /*
+        配置信息
+    */
+    $scope.user_settings = new UserSettings();
+    $http({
+        url: '/index.php?m=admin&c=business&a=getUserSettings',
+        method: 'GET'
+    }).success(function (data) {
+        console.log(data);
+        if (!data) {
+            global_modal_helper.show_modal({
+                type: 'error',
+                title: 'Fatal Error',
+                html: 'empty data'
+            });
+            return;
+        }
+
+    }).error(function (data) {
+        console.log("获取用户配置信息失败.");
+        return;
+        global_modal_helper.show_modal({
+            type: 'error',
+            title: 'Fatal Error',
+            html: data
+        });
+    });
+
 	
 	$scope.user_unlock = function(idx){		
         $scope.curr_user_idx = idx;
@@ -539,8 +602,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    $scope.reload_users();
-
     /*------------------用户日志--------------------*/
     $scope.url_user_log_view = '/bc/Admin/View/Business/userLogView.html';
     $scope.user_log_loading = false;
@@ -578,5 +639,16 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    $scope.reload_user_log();
+    if ($scope.username == 'logadmin') {
+        $scope.reload_user_log();
+    }
+    if ($scope.username == 'useradmin') {
+        $scope.reload_users();
+    }
+
+    ($scope.init_date_picker = function () {
+        $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
+        $("[data-plugin-datepicker]").datepicker();
+        console.log($("[data-plugin-datepicker]").length);
+    })();
 });

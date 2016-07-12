@@ -21,7 +21,7 @@
             <!-- Navbar Left -->
             <div class="navbar-left">
                 <!-- Search Form -->
-                <form class="search navbar-form" >
+                <form class="search navbar-form">
                     <div class="input-group input-search">
                         <input type="text" class="form-control bk-radius" name="key" id="q" placeholder="搜索...">
                         <span class="input-group-btn">
@@ -97,9 +97,26 @@
                         <include file="super-users-manage-removed" />
                     </div>
                 </div>
-                <div class="container-fluid content" ng-if="username=='logadmin'">                    
+                <div class="container-fluid content" ng-show="page_index == 'user_log'" ng-if="username=='logadmin'">
                     <div class="row">
                         <include file="userLogView" />
+                    </div>
+                </div>
+                <div class="container-fluid content" ng-show="page_index == 'settings'" ng-show="username=='logadmin'">
+                    <include file="settings" />
+                </div>
+                <div class="container-fluid content" ng-show="page_index == 'report'" ng-if="username=='logadmin'">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            系统报表
+                        </div>
+                        <div class="panel-body">
+                            <a href="" class="btn btn-primary" ng-click="make_report()">生成</a>
+                            <a href="/reports/report.docx" class="btn btn-danger" ng-show="is_ok">下载</a>
+                            <div ng-show="is_ok">
+                                <include file="report" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,26 +132,32 @@
 <script src="/Public/assets/vendor/js/jquery-2.1.1.min.js"></script>
 <script src="/Public/assets/vendor/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/vendor/skycons/js/skycons.js"></script>
 <script src="/Public/assets/vendor/js/pace.min.js"></script>
+<script src="/Public/js/md5.js"></script>
 
 <!-- Plugins JS-->
 <script src="/Public/assets/plugins/jquery-ui/js/jquery-ui-1.10.4.min.js"></script>
 <script src="/Public/assets/plugins/scrollbar/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="/Public/assets/plugins/bootkit/js/bootkit.js"></script>
+<script src="/Public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script src="/Public/assets/plugins/magnific-popup/js/magnific-popup.js"></script>
 <script src="/Public/assets/plugins/moment/js/moment.min.js"></script>
 
 <script src="/Public/assets/plugins/select2/select2.js"></script>
 <script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script src="/Public/js/angular-1.4.min.js"></script>
+<script src="/Public/js/angular-datatables.min.js"></script>
 <!-- Theme JS -->
 <script src="/Public/assets/js/jquery.mmenu.min.js"></script>
 <script src="/Public/assets/js/core.min.js"></script>
 
 <!-- Pages JS -->
 <script src="/Public/assets/js/pages/ui-modals.js"></script>
+<script src="/Public/assets/plugins/jquery-validation/js/jquery.validate.js"></script>
 <script src="/Public/assets/plugins/pnotify/js/pnotify.custom.js"></script>
+
+<script src="/Public/js/angular-sanitize.min.js"></script>
 
 <script src="/Public/js/md5.js"></script>
 <script src="/Public/js/angular-1.4.min.js"></script>
@@ -142,4 +165,5 @@
 <script src="/Public/js/cabinet/userLog.js"></script>
 <script src="/Public/js/cabinet/modalhelper.js"></script>
 
+<script src="/Public/js/super-user/user_settings.js"></script>
 <script src="/Public/js/super-user/global.js"></script>

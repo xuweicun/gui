@@ -1,5 +1,5 @@
 ﻿function Check_t(type) {
-    this.user_id = global_user.id;
+    this.user_id = 0;
     this.type = type;
     this.unit = 'week';
     this.cnt = '';
