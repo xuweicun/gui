@@ -56,7 +56,7 @@ app_device.filter('to_trusted', function ($sce) {
 		return;
 	}
 	
-	$scope.user_unlock = function()
+	$scope.user_unlock = function ()
 	{
 	    if (!$scope.user_unlock_pwd) {
 	        return;
@@ -87,12 +87,7 @@ app_device.filter('to_trusted', function ($sce) {
 		
 		$scope.user_unlock_pwd = '';
 	}
-	
-    ($scope.init_date_picker = function () {
-        $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
-        $("[data-plugin-datepicker]").datepicker();
-    })();
-        
+	        
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = global_user;
