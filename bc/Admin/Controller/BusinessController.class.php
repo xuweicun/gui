@@ -504,6 +504,11 @@ class BusinessController extends Controller
 
     public function report()
     {
+		if (session('admin') != 'logadmin') {
+			$this->redirect('login');
+			die();
+		}
+		
         $this->display();
     }
 
@@ -512,6 +517,10 @@ class BusinessController extends Controller
     */
     public function generate_report_data()
     {
+		if (session('admin') != 'logadmin') {
+			die();
+		}
+		
         // 1. 存储柜概述
         $db_cabs = M('Cab');
         $fields = array(
@@ -1324,16 +1333,15 @@ class BusinessController extends Controller
 	
 	public function logout_immediate()
 	{
-		session_unset();
-        session_destroy();
+		session('user', null);
 		
-		$this->display('login');
+		$this->redirect('login');
 	}
 
     public function logout()
     {
-        session_unset();
-        session_destroy();
+		session('user', null);
+		
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
@@ -1343,8 +1351,8 @@ class BusinessController extends Controller
 
     public function logout_admin()
     {
-        session_unset();
-        session_destroy();
+		session('admin', null);
+		
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
