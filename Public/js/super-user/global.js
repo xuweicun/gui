@@ -639,12 +639,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    if ($scope.username == 'logadmin') {
-        $scope.reload_user_log();
-    }
-    if ($scope.username == 'useradmin') {
-        $scope.reload_users();
-    }
+    $scope.reload_user_log();
+    $scope.reload_users();
 
     ($scope.init_date_picker = function () {
         $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
