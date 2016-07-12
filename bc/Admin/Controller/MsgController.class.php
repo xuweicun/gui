@@ -382,6 +382,7 @@ class MsgController extends Controller
 			$item['cabinet_id'] = $dsk['cabinet_id'];		
 			$item['disk_id'] = $dsk['disk_id'];			
 			$item['sn'] = $_POST['SN'];
+			$item['capacity'] = $_POST['capacity'];
 			$item['smart'] = json_encode($_POST['SmartAttrs']);
 			$item['status'] = '1';
 			$item['status_comment'] = '';		

@@ -747,6 +747,7 @@ class BusinessController extends Controller
 					$table_cab_slt_smart->addCell(1000)->addText('序号');
 					$table_cab_slt_smart->addCell(3000)->addText('SN号');
 					$table_cab_slt_smart->addCell(3000)->addText('SN号检测时间');
+					$table_cab_slt_smart->addCell(3000)->addText('容量');
 					$table_cab_slt_smart->addCell(2000)->addText('健康状态');
 					$table_cab_slt_smart->addCell(5000)->addText('备注');
 					
@@ -755,6 +756,7 @@ class BusinessController extends Controller
 						$table_cab_slt_smart->addCell()->addText($smart_idx + 1);
 						$table_cab_slt_smart->addCell()->addText($smart['sn']);
 						$table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
+						$table_cab_slt_smart->addCell()->addText($smart['capacity']);
 						$table_cab_slt_smart->addCell()->addText($smart['disk_status']==0?'健康':'异常');
 						$table_cab_slt_smart->addCell()->addText();							
 					}
