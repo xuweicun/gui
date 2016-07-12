@@ -331,14 +331,18 @@ angular.module('device.services', [])
             }
         ];
         return {
+            getErrorMsg: function(errno){
+                if (errno == '0'){
+                    return '成功';
+                }
+                else {
+                    return errCodes[errno] + '[' + errno + ']';
+               }
+            },
             getLang: function (code) {
-
                 if (typeof (code) == 'number') {
                     if (code > param.success) {
                         return errCodes[code] + '[' + code + ']';
-                    }
-                    else {
-                        return '成功';
                     }
                     code = code.toString();
                 }

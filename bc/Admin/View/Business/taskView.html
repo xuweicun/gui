@@ -155,7 +155,7 @@
                                     <span>所有盘</span>
                                 </p>
                             </td>
-                            <td class="center hidden-phone" ng-bind="lang.getLang(parseInt(task.status))"></td>
+                            <td class="center hidden-phone">{{lang.getErrorMsg(task.status)}}</td>
                         </tr>
                     </tbody>
                 </table>
