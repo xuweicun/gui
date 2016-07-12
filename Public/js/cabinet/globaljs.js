@@ -46,7 +46,17 @@ app_device.filter('to_trusted', function ($sce) {
         $('#token').text()
         );
     $scope.user_profile = global_user;
-    $scope.role = global_user.can_write == 1 ? '高级' : '只读';	
+    switch(global_user.can_write){
+        case 1:
+            $scope.role ='只读';
+            break;
+        case 2:
+            $scope.role ='高级';
+            break;
+        default:
+            $scope.role ='最低';
+            break;
+    }
 	
 	// 如果已经离开，则需要重新登录
 	var has_left = locals.get('user_left', 0);
