@@ -368,7 +368,7 @@ class MsgController extends Controller
 			$item['disk'] = $_POST['disk'];
 			$item['disk_status'] = $_POST['disk_status'];
 						
-			$dsk = M('Device')->field(array('disk_id'))
+			$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
 					'level'=>$item['level'],
@@ -378,13 +378,14 @@ class MsgController extends Controller
 			if (!$dsk){
 				return;
 			}			
+			
+			$item['cabinet_id'] = $dsk['cabinet_id'];		
 			$item['disk_id'] = $dsk['disk_id'];			
 			$item['sn'] = $_POST['SN'];
+			$item['capacity'] = $_POST['capacity'];
 			$item['smart'] = json_encode($_POST['SmartAttrs']);
 			$item['status'] = '1';
-			$item['status_comment'] = '';	
-						
-			$item['cabinet_id'] = M('Cab')->where(array('sn'=>$item['device_id']))->find()['id'];			
+			$item['status_comment'] = '';		
 			
 			M('DiskSmartLog')->add($item);
 		}
@@ -407,7 +408,7 @@ class MsgController extends Controller
 			$item['md5_time'] = $item['time'];
 								
 			// 获得硬盘ID
-			$dsk = M('Device')->field(array('disk_id'))
+			$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
 				->where(array(
 					'cab_id'=>$item['device_id'],
 					'level'=>$item['level'],
@@ -421,18 +422,19 @@ class MsgController extends Controller
 			
 			// 获取SN
 			$item['disk_id'] = $dsk['disk_id'];		
+			$item['cabinet_id'] = $dsk['cabinet_id'];	
+			
 			$sn = M('DiskSmartLog')->field(array('sn'))
 				->where(array(
 				'disk_id'=>$item['disk_id'], 
 				'status'=>1))
 				->order('time desc')->find();
-			if (!sn) {
+			if (!$sn) {
 				return;
 			}
 			
 			$item['sn']	= $sn['sn'];					
 			$item['status'] = '1';
-			$item['cabinet_id'] = M('Cab')->where(array('sn'=>$item['device_id']))->find()['id'];	
 			
 			M('DiskMd5Log')->add($item);	
 		}

@@ -86,9 +86,9 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         $scope.curr_modal.show_modal({
             type: 'question',
             title: '管理员注销',
-            html: '您确定要注销，注销后需要重新登录。',
+            html: '您确定要注销<span class="bk-fg-primary">['+$scope.username+']</span>，注销后需要重新登录。',
             on_click_handle: function () {
-                window.location = "/index.php?m=admin&c=business&a=logout";
+                window.location = "/index.php?m=admin&c=business&a=logout_admin";
             }
         });
     }
