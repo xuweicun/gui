@@ -20,10 +20,10 @@ $db['host'] = $data['dbhost'];
 $db['dbname'] = $data['dbname'];
 $db['user'] = $data['dbuser'];
 $db['pwd'] = $data['dbpw'];
-
+$db['sql'] = $data['sql'];
 
 // 导入数据文件
-$sql_file = dirname(__FILE__)."/new.sql";
+$sql_file = dirname(__FILE__)."/install.sql";
 run_sql_file( $sql_file , $db );
 insert_install_info($db);
 // 生成已安装文件
