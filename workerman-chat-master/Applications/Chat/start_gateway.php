@@ -662,7 +662,7 @@ $gateway->onWorkerStart = function ($worker) {
             ExtendGateWay::sendToAll(json_encode($ret));
         }
     });
-    if($worker->id===0){
+   // if($worker->id===0){
         $db = Db::instance('db1');
         $md5_checker = new AutoChecker();
         $sn_checker = new AutoChecker();
@@ -670,7 +670,7 @@ $gateway->onWorkerStart = function ($worker) {
         $sn_checker->init('sn','300', $db);
         $md5_checker->Run();
         $sn_checker->Run();
-    }
+    //}
 
 
 
