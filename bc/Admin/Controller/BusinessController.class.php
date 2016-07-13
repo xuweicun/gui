@@ -1114,7 +1114,20 @@ class BusinessController extends Controller
         }
 
     }
+    public function showSystRunLog(){
+        if (!session('?user')) {
+            U('login');
+            $this->redirect('login');
 
+        } else {
+           $db = M('SystemRunLog');
+            $logs = $db->select();
+            foreach ($logs as $log){
+                echo $log['type']."-".$log['msg']."-".date("Y-m-d HH:mm:ss",(int)$log['time']);
+                echo "<br/>";
+            }
+        }
+    }
     private function handleGroup($data, $db)
     {
         $groups = I('post.groups');
