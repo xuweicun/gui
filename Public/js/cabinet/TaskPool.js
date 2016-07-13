@@ -128,6 +128,9 @@ TaskPool.prototype = {
         }
         this.cabChanged = false;
     },
+    user_force_leave: function () {
+        this.last_user_operate_time = Date.parse(new Date()) - 300000 - 10000;
+    },
     startGlobalWatch: function () {
         if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;

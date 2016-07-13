@@ -80,6 +80,11 @@
 								<a href="" ng-click="user_profile.showChangePasswordModal()"><i class="fa fa-usd"></i> 修改密码</a>
 							</li>
 
+                            <li>
+                                <a href="" ng-click="taskPool.user_force_leave();">
+                                    <i class="fa fa-lock" aria-hidden="true"></i><span>锁屏</span>
+                                </a>
+                            </li>
 							<li>
 								<a href="" ng-click="user_profile.show_logout_modal();"><i class="fa fa-power-off"></i> 注销</a>
 							</li>
@@ -164,7 +169,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-icon">
-                                    <input id="prependedInput" class="form-control bk-radius" size="16" type="password" placeholder="请输入密码" ng-model="user_unlock_pwd" />
+                                    <input id="prependedInput" class="form-control bk-radius" size="16" type="password" placeholder="请输入解锁密码" ng-model="user_unlock_pwd" />
                                     <span class="input-group-addon">
                                         <span class="icon icon-lg">
                                             <i class="fa fa-lock"></i>
