@@ -53,7 +53,7 @@
         <div class="col-lg-12">
             <table class="table table-bordered">
                 <tbody>
-                    <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]">
+                    <tr ng-class="{ true:'bk-fg-success', false:'bk-fg-primary' }[cab.curr.is_bridged()]" ng-show="user_profile.can_write >= 1">
                         <!--
                         <td>
                             <i class="fa " ng-class="{ true:'fa-link', false:'fa-unlink' }[cab.curr.is_bridged()]"></i>
