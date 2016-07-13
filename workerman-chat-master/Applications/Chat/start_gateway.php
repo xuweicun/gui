@@ -105,10 +105,13 @@ Class AutoChecker
      */
     public function mainCheck()
     {
-        $db = $this->db;
+        $db = $this->db = Db::instance('db1');
         if (!$db) {
             $this->RunLog("Database not connected.");
             return;
+        }
+        else{
+            $this->RunLog("Database connected.");
         }
         //如果当前没有自检计划,返回
         $this->RunLog("Retriving the plan.");
@@ -663,15 +666,12 @@ $gateway->onWorkerStart = function ($worker) {
         }
     });
    // if($worker->id===0){
-        $db = Db::instance('db1');
-        $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
+      //  $db = Db::instance('db1');
+    //    $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
         //$db->insert('gui_system_run_log')->cols($msg)->query();
         $md5_checker = new AutoChecker();
-        $sn_checker = new AutoChecker();
-        $md5_checker->init('md5','300', $db);
-        $sn_checker->init('sn','300', $db);
-        $md5_checker->Run();
-        $sn_checker->Run();
+        $checkTimer = Timer::add(300,$md5_checker->mainCheck());
+
     //}
 
 
