@@ -56,9 +56,28 @@ class BusinessController extends Controller
         }
 
     }
+	
+	public function invalid_browser()
+	{
+		$this->display();
+	}
 
     public function systReset()
     {
+		// 回到初始状态
+		$db = M();
+		$tables = $db->query($sql = 'show tables');				
+		foreach($tables as $table_array) {
+			foreach ($table_array as $table_item){			
+				if ($table_item == 'gui_super' || $table_item == 'gui_user') break;	
+				
+				$ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
+				if (!ret) {
+					echo $db->getDbError();
+				}
+			}
+		}
+		/*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
         $items = $db->select();
@@ -70,6 +89,7 @@ class BusinessController extends Controller
         }
         //所有命令状态取消
         $this->cancelAllCmds();
+		*/
     }
 
     /******
@@ -172,21 +192,38 @@ class BusinessController extends Controller
         if (IS_POST) {
             $User = M('user');
             $item = null;
-
+			
             $cond['username'] = $_POST['username'];
-            $cond['password'] = $_POST['password'];
-            $cond['status'] = 1;
-            $item = $User->where($cond)->find();
-            //var_dump($cond);
-            //die();
+			$item = $User->where($cond)->find();
+			
+			// 用户名不存在
+			if (!$item) {				
+				$ret['status'] = '-1';
+				$this->AjaxReturn($ret);
+				return;
+			}
+			
+			// 密码错误超过5次
+			if ($item['locked'] >= 5) {			
+				$ret['status'] = '-2';
+				$this->AjaxReturn($ret);
+				return;				
+			}
 
-            if (!$item) {
-                $ret['status'] = '0';
+			// 密码错误
+            if ($item['password'] != $_POST['password']) {	
+				// 错误计数+1
+                $item['locked'] = $item['locked'] + 1;
+                $User->save($item);
+				
+                $ret['status'] = '-3';
+                $ret['locked'] = $item['locked'];
             } else {
                 $item['last_login_time'] = time();
                 $user_IP = ($_SERVER["HTTP_VIA"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
                 $user_IP = ($user_IP) ? $user_IP : $_SERVER["REMOTE_ADDR"];
                 $item['last_login_ip'] = $_SERVER["REMOTE_ADDR"];
+                $item['locked'] = 0;
                 $User->save($item);
 
                 session('user', $item['username']);
@@ -197,7 +234,7 @@ class BusinessController extends Controller
 
                 $ret['status'] = '1';
             }
-            $this->AjaxReturn(json_encode($ret));
+            $this->AjaxReturn($ret);
         } else {
             if (session('?user')) {
                 $this->redirect('index');
@@ -212,26 +249,48 @@ class BusinessController extends Controller
     {
         if (IS_POST) {
             $User = M('Super');
-            $cond['name'] = 'administrator';
+            $cond['name'] = $_POST['username'];
+			if ($cond['name'] != 'useradmin' && $cond['name'] != 'logadmin') {
+				return;
+			}
+			
             $item = $User->where($cond)->find();
             if (!$item) {
                 $cond['pwd'] = md5('nay67kaf');
                 $User->add($cond);
             }
-
-            $cond['name'] = $_POST['username'];
-            $cond['pwd'] = $_POST['password'];
+			
             $item = $User->where($cond)->find();
-            //var_dump($cond);
-            //die();
+			if (!$item) {
+				$ret['status'] = -100;
+				$this->AjaxReturn($ret);
+				return;				
+			}
+			
+			// 密码错误超过5次
+			if ($item['locked'] >= 5) {		
+                $ret['status'] = '-3';
+				$this->AjaxReturn($ret);
+				return;				
+			}
 
-            $ret = array();
-            if (!$item) {
-                $ret['status'] = '0';
-            } else {
+			// 密码错误
+            if ($item['pwd'] != $_POST['password']) {	
+				// 错误计数+1
+                $item['locked'] = $item['locked'] + 1;
+                $User->save($item);
+				
+                $ret['status'] = '-3';
+                $ret['locked'] = $item['locked'];
+			}
+			else{
+				$item['locked'] = 0;
+                $User->save($item);
+				
                 session('admin', $item['name']);
                 $ret['status'] = '1';
-            }
+			}
+			
             $this->AjaxReturn($ret);
         } else {
             if (session('?admin')) {
@@ -242,6 +301,21 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+	public function user_unlock()
+	{
+		$db = M('User');
+		
+		$item = $db->find($_POST['id']);
+		if (!item) {
+			$this->AjaxReturn(array('status'=>'failure'));
+			die();
+		}
+		
+		$item['locked'] = 0;
+		$db->save($item);
+		
+		$this->AjaxReturn(array('status'=>'success'));
+	}
 
     public function loginSuccessPage()
     {
@@ -251,9 +325,10 @@ class BusinessController extends Controller
     public function super_user_main()
     {
         if (!session('?admin')) {
-            U('login_admin');
-            $this->redirect('login_admin');
+            U('login');
+            $this->redirect('login');
         } else {
+			$this->assign('username', session('admin'));
             $this->display();
         }
     }
@@ -427,27 +502,28 @@ class BusinessController extends Controller
 
     }
 
-    public function report()
-    {
-        $this->display();
-    }
-
     /*
         构建报表所需要的全部数据
     */
     public function generate_report_data()
     {
+		if (session('admin') != 'logadmin') {
+			die();
+		}
+		
         // 1. 存储柜概述
         $db_cabs = M('Cab');
         $fields = array(
+			'id',
             'sn' => 'cab_id',
+			'name' => 'cab_name',
             'level_cnt',
             'group_cnt',
             'disk_cnt',
             'charge' => 'electricity',
             'voltage',
             'electricity' => 'current');
-        $items_cabs = $db_cabs->field($fields)->select();
+        $items_cabs = $db_cabs->field($fields)->where(array('loaded'=>1))->order('sn asc')->select();
 
 		// 2. 各在位硬盘
         $db_device = M('Device');
@@ -471,9 +547,9 @@ class BusinessController extends Controller
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
                 ->where(array(
-                    'cab_id' => $value['cab_id'],
+					'cabinet_id'=>$value['id'],
                     'loaded' => '1'
-                ))->select();
+                ))->order('level, zu, disk asc')->select();
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
@@ -508,7 +584,7 @@ class BusinessController extends Controller
 			$slots = array();
 			
 			// 历史md5
-			$items = $db_disk_md5_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			$items = $db_disk_md5_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
 			foreach ($items as $item_value) {
 				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
 				
@@ -522,7 +598,7 @@ class BusinessController extends Controller
 			}
 			
 			// 历史Smart
-			$items = $db_disk_smart_log->where(array('device_id'=>$value['cab_id'], 'status'=>1))->select();
+			$items = $db_disk_smart_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
 			//var_dump($items); die();
 			foreach ($items as $item_value) {
 				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
@@ -576,7 +652,7 @@ class BusinessController extends Controller
 		$phpWord->addTitleStyle(3, array('bold' => true, 'size' => 12), array('spaceAfter' => 240, 'spaceBefore'=>400));
 		$section->addTitle('1. 概述', 1);
 		
-		$text_head = "服务器当前已连接 $cab_cnt 台存储柜。";			
+		$text_head = "服务器曾经连接过 $cab_cnt 台存储柜。";			
 		$section->addText($text_head, array(), $paraStyle);
 		
 		if (count($cabinets) > 0) {
@@ -590,6 +666,9 @@ class BusinessController extends Controller
 			$table_cab->addRow();
 			$table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
 			$table_cab->addCell(3000)->addText($cab['cab_id'], $fontStyle);
+			$table_cab->addRow();
+			$table_cab->addCell(2000)->addText('编号', $fontStyle);
+			$table_cab->addCell(3000)->addText($cab['cab_name'], $fontStyle);
 			$table_cab->addRow();
 			$table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
 			$table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×'. $cab['group_cnt'] .'组×'. $cab['disk_cnt'] .'位', $fontStyle);
@@ -667,6 +746,7 @@ class BusinessController extends Controller
 					$table_cab_slt_smart->addCell(1000)->addText('序号');
 					$table_cab_slt_smart->addCell(3000)->addText('SN号');
 					$table_cab_slt_smart->addCell(3000)->addText('SN号检测时间');
+					$table_cab_slt_smart->addCell(3000)->addText('容量');
 					$table_cab_slt_smart->addCell(2000)->addText('健康状态');
 					$table_cab_slt_smart->addCell(5000)->addText('备注');
 					
@@ -675,6 +755,7 @@ class BusinessController extends Controller
 						$table_cab_slt_smart->addCell()->addText($smart_idx + 1);
 						$table_cab_slt_smart->addCell()->addText($smart['sn']);
 						$table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
+						$table_cab_slt_smart->addCell()->addText($smart['capacity']);
 						$table_cab_slt_smart->addCell()->addText($smart['disk_status']==0?'健康':'异常');
 						$table_cab_slt_smart->addCell()->addText();							
 					}
@@ -783,7 +864,7 @@ class BusinessController extends Controller
     {
         $db = M('Cab');
         $device_db = M('Device');
-        $items = $db->where('loaded=1')->select();
+        $items = $db->where('loaded=1')->order('sn asc')->select();
         foreach ($items as $idx => $item) {
             //检查异常磁盘的数量
             $prb_disks = $device_db->where('normal=0 and cab_id=%d', $item['id'])->select();
@@ -795,9 +876,12 @@ class BusinessController extends Controller
     public function getDeviceInfo()
     {
         //initiate database   --generate model
+		$cabinet = M('Cab')->where(array('sn'=>I('get.cab')))->find();
+		if (!$cabinet) return;
+		
         $db = M('Device');
         $viewDb = D('DeviceView');
-        $map['cab_id'] = array('eq', I('get.cab'));
+        $map['cabinet_id'] = array('eq', $cabinet['id']);
         $rooms = $db->where($map)->select();
         $roomView = $viewDb->where($map)->select();
         $rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
@@ -1237,11 +1321,18 @@ class BusinessController extends Controller
         $data['errmsg'] = 'item does not exists--' . $appended;
         $this->AjaxReturn($data);
     }
+	
+	public function logout_immediate()
+	{
+		session('user', null);
+		
+		$this->redirect('login');
+	}
 
     public function logout()
     {
-        session_unset();
-        session_destroy();
+		session('user', null);
+		
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
@@ -1251,13 +1342,13 @@ class BusinessController extends Controller
 
     public function logout_admin()
     {
-        session_unset();
-        session_destroy();
+		session('admin', null);
+		
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
         } else
-            $this->success('成功注销', U("login_admin"));
+            $this->success('成功注销', U("login"));
     }
 
     public function chg_pwd()

@@ -2,14 +2,89 @@
 
 register_filters(user_app);
 
+var global_http;
+
 user_app.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
     }
+}).filter('formatnumber', function () {
+    return function (input) {
+        return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
-
+    global_http = $http;
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
+
+    $scope.report_obj = {
+        'cabinets': []
+    };
+
+    $scope.make_report = function () {
+        $scope.is_ok = false;
+
+        $scope.today = new Date();
+
+        $http({
+            url: '/index.php?m=admin&c=business&a=generate_report_data',
+            method: 'get'
+        }).success(function (data) {
+            if (!data) {
+                $scope.report_data = 'empty data';
+            }
+            else {
+                $scope.report_data = JSON.stringify(data);
+                $scope.report_obj['cabinets'] = data;
+
+                $scope.is_ok = true;
+            }
+        }).error(function (data) {
+            $scope.err_data = data;
+        });
+    }    
+	
+	//校验密码,校验成功返回0，若长度小于8字，返回-1；若包含非数字或字母，返回-2；或只包含数字或字母，返回-3,；
+	$scope.checkPassword = function(password){
+		function isNumber(charCode){
+			//48为字符'0'的unicode码,57为字符'9'的unicode码
+			return charCode >= 48 && charCode <= 57
+		}
+		function isLetter(charCode){
+			//65为字符'A'的unicode码,90为字符'Z'的unicode码
+			//90为字符'a'的unicode码,122为字符'z'的unicode码
+			return (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122);
+		}
+		var numberCount,//数字字符数目
+			letterCount,//字母字符数目
+			length = (password = password || '').length;
+			
+		if(length < 8){
+			return -1;
+		}
+		
+		numberCount = letterCount = 0;
+		for(var i = 0, charCode; i < length; i++){
+			charCode= password.charCodeAt(i);//取得每个字符
+			if(isNumber(charCode)){
+				numberCount += 1;//数字字符数目加1 
+			}else if(isLetter(charCode)){
+				letterCount += 1;//字母字符数目加1 
+			}else{
+				return -2;//即不是字母又不数字,直接返回-2
+			}       
+		}
+
+		if (numberCount == 0 || letterCount == 0) {
+			return -3;
+		}
+
+		if (numberCount + letterCount == length) {
+			return 0;
+		}
+	   
+	   return -4;
+	}
 
     var vm = this;
     vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
@@ -44,7 +119,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         $scope.curr_modal.show_modal({
             type: 'question',
             title: '管理员注销',
-            html: '您确定要注销，注销后需要重新登录。',
+            html: '您确定要注销<span class="bk-fg-primary">['+$scope.username+']</span>，注销后需要重新登录。',
             on_click_handle: function () {
                 window.location = "/index.php?m=admin&c=business&a=logout_admin";
             }
@@ -61,7 +136,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     }
 
     $scope.user_profile = {
-        username: 'administrator',
+        username: $scope.username,
         curr_pwd: '',
         new_pwd: '',
         new_pwd_confirm: '',
@@ -92,6 +167,20 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 this.err_msg = '新密码确认不一致';
                 return;
             }
+			
+			switch($scope.checkPassword(this.new_pwd)){
+			case -1:
+				this.err_msg = '新密码长度至少8个字符';
+				return;
+			case -2:
+				this.err_msg = '新密码必须只包含数字和字母';
+				return;
+			case -3:
+				this.err_msg = '新密码必须包含数字和字母';
+				return;
+			default:
+				break;
+			}
 
             $http({
                 url: '/index.php?m=admin&c=business&a=super_change_pwd',
@@ -133,29 +222,111 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     $scope.change_page_index = function (name) {
         switch (name) {
             case 'user_log':
-                $scope.page_index = name;
-                break;
             case 'manul':
+            case 'settings':
+            case 'report':
                 $scope.page_index = name
                 break;
             default:
                 $scope.page_index = 'main';
         }
     }
-    $scope.change_page_index('main');
-    console.log($scope.page_index);
+    $scope.change_page_index($scope.username == 'useradmin' ? 'main' : 'user_log');
 
+
+    /*
+        配置信息
+    */
+    $scope.user_settings = new UserSettings();
+    $http({
+        url: '/index.php?m=admin&c=business&a=getUserSettings',
+        method: 'GET'
+    }).success(function (data) {
+        console.log(data);
+        if (!data) {
+            global_modal_helper.show_modal({
+                type: 'error',
+                title: 'Fatal Error',
+                html: 'empty data'
+            });
+            return;
+        }
+
+    }).error(function (data) {
+        console.log("获取用户配置信息失败.");
+        return;
+        global_modal_helper.show_modal({
+            type: 'error',
+            title: 'Fatal Error',
+            html: data
+        });
+    });
+
+	
+	$scope.user_unlock = function(idx){		
+        $scope.curr_user_idx = idx;
+        $('#modalUserUnlock').modal('toggle');
+	}
+	$scope.user_unlock_commit = function(){	
+		var usr = $scope.users_model[$scope.curr_user_idx];
+        $http({
+            url:'/index.php?m=admin&c=business&a=user_unlock',
+            method:'POST',
+            data:{
+                id: usr.id
+            }
+        }).success(function(data){
+            $('#modalUserUnlock').modal('hide');
+            //响应成功
+            var rlt = data;
+			if (rlt.status == 'success'){
+				$scope.reload_users();
+				new PNotify({
+					title: '解锁用户',
+					text: '成功解锁用户',
+					type: 'success',
+					shadow: true,
+					icon: 'fa fa-check-o'
+				});
+			}
+			else{
+				$('#modalUserEditFail').modal('toggle');
+			}
+        }).error(function(data){
+            console.log(data);
+        });
+	}
     $scope.user_add = function(){
-        $scope.new_user = {username:'', password:''};
+        $scope.new_user = {username:'', password:'', err_msg: ''};
 
         $('#modalUserAdd').modal('show');
     }
     $scope.user_add_commit = function(){
+		$scope.err_msg = '';
+		
         var username = $scope.new_user.username.trim();
         var password = $scope.new_user.password.trim();
         if (username == '' || password == ''){
             return;
         }
+		
+		if (username == 'useradmin' || username == 'logadmin') {
+			return;
+		}
+		
+		switch($scope.checkPassword(password)){
+		case -1:
+			$scope.new_user.err_msg = '密码长度至少8个字符';
+			return;
+		case -2:
+			$scope.new_user.err_msg = '密码必须只包含数字和字母';
+			return;
+		case -3:
+			$scope.new_user.err_msg = '密码必须包含数字和字母';
+			return;
+		default:
+			break;
+		}
 
         $http({
             url:'/index.php?m=admin&c=business&a=user_add',
@@ -345,21 +516,38 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     $scope.user_passwd_reset = function(idx){
         $scope.new_password = '';
         $scope.curr_user_idx = idx;
+		$scope.err_msg = '';
 
         $('#modalUserPasswd').modal('show');
     }
     $scope.user_password_reset_commit = function(){
         var password = $scope.new_password.trim();
         if (password == ''){
+			$scope.err_msg = '新密码不能为空';
             return;
         }
+		
+		switch($scope.checkPassword(password)){
+		case -1:
+			$scope.err_msg = '新密码长度至少8个字符';
+			return;
+		case -2:
+			$scope.err_msg = '新密码必须只包含数字和字母';
+			return;
+		case -3:
+			$scope.err_msg = '新密码必须包含数字和字母';
+			return;
+		default:
+			break;
+		}
+
 
         var usr = $scope.users_model[$scope.curr_user_idx];
         $http({
             url:'/index.php?m=admin&c=business&a=user_passwd_reset',
             method:'POST',
             data:{
-                id: usr.id,
+                id: $scope.users_model[$scope.curr_user_idx].id,
                 password: hex_md5($scope.new_password)
             }
         }).success(function(data){
@@ -414,8 +602,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    $scope.reload_users();
-
     /*------------------用户日志--------------------*/
     $scope.url_user_log_view = '/bc/Admin/View/Business/userLogView.html';
     $scope.user_log_loading = false;
@@ -454,4 +640,10 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     }
 
     $scope.reload_user_log();
+    $scope.reload_users();
+
+    ($scope.init_date_picker = function () {
+        $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
+        $("[data-plugin-datepicker]").datepicker();
+    })();
 });

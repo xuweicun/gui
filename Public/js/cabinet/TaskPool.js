@@ -22,9 +22,18 @@
     this.stopFlag = false;
     this.maxPoolSize = 50;
     this.cabChanged = false;
+	
+	// 用户是否已经离开超过5分钟
+	this.user_left = false;
+	
+	// 用户最后操作时间
+	this.last_user_operate_time = Date.parse(new Date());
 }
 
 TaskPool.prototype = {
+	reset_user_operate_time: function(){
+		this.last_user_operate_time = Date.parse(new Date());
+	},
 
     add: function (task) {
         this.going.forEach(function (e) {
@@ -123,6 +132,13 @@ TaskPool.prototype = {
         if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;
         global_interval(function () {
+			// 检测用户空闲是否超过5分钟
+			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 300;
+			if (!global_task_pool.user_left && has_left) {
+				global_scope.on_user_left();
+			}
+			global_task_pool.user_left = has_left;
+			
             var pool = global_task_pool;
             if (pool.going.length == 0) {
                 return;
@@ -219,30 +235,36 @@ TaskPool.prototype = {
         var result = '成功';
         var type = 'success';
         var icon = 'fa fa-check';
-        console.log("状态值:" + task.status);
-        switch (parseInt(task.status)) {
+        var int_status = parseInt(task.status);
+        var str_text = '[' + global_lang.getLang(task.cmd) + ']命令';
+        switch (int_status) {
             case task.timeout:
                 type = 'error';
                 icon = 'fa fa-clock-o';
+                str_text += '执行超时';
                 break;
             case task.canceled:
                 type = 'info';
                 icon = 'fa fa-alarm';
+                str_text += '被取消';
                 break;
             case task.success:
                 type = 'success';
                 icon = 'fa fa-check-o';
+                str_text += '执行成功';
                 break;
             default:
                 //失败
                 result = '失败';
                 type = 'error';
                 icon = 'fa fa-alarm';
+                str_text += '执行失败：' + global_lang.getLang(int_status);
                 break;
         }
+        var local_text = task.status
         new PNotify({
             title: '命令执行结果',
-            text: '[' + global_lang.getLang(task.cmd) + ']命令执行完毕，执行结果：' + global_lang.getLang(task.status),
+            text: str_text,
             type: type,
             shadow: true,
             icon: icon

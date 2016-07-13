@@ -4,8 +4,8 @@ app_device.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);
     }
-}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
-{
+}).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, locals, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
+{	
     global_scope = $scope;
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
@@ -30,7 +30,6 @@ app_device.filter('to_trusted', function ($sce) {
         switch (name) {
             case 'user_log':
             case 'manul':
-            case 'settings':
                 $scope.page_index = name
                 break;
             default:
@@ -47,41 +46,58 @@ app_device.filter('to_trusted', function ($sce) {
         $('#token').text()
         );
     $scope.user_profile = global_user;
-    $scope.role = global_user.can_write == 1 ? '高级' : '只读';
-
-    /*
-        配置信息
-    */
-    $scope.user_settings = new UserSettings();
-    $http({
-        url: '/index.php?m=admin&c=business&a=getUserSettings',
-        method: 'GET'
-    }).success(function (data) {
-        console.log(data);
-        if (!data) {
-            global_modal_helper.show_modal({
-                type: 'error',
-                title: 'Fatal Error',
-                html: 'empty data'
-            });
-            return;
-        }
-
-    }).error(function (data) {
-        console.log("获取用户配置信息失败.");
-        return;
-        global_modal_helper.show_modal({
-            type: 'error',
-            title: 'Fatal Error',
-            html: data
+    switch(global_user.can_write){
+        case 1:
+            $scope.role ='只读';
+            break;
+        case 2:
+            $scope.role ='高级';
+            break;
+        default:
+            $scope.role ='最低';
+            break;
+    }
+	
+	// 如果已经离开，则需要重新登录
+	var has_left = locals.get('user_left', 0);
+	if (has_left == 1) {
+		locals.set('user_left', 0);
+		$scope.user_profile.go_logout_page(true);
+		return;
+	}
+	
+	$scope.user_unlock = function ()
+	{
+	    if (!$scope.user_unlock_pwd) {
+	        return;
+	    }
+		$http({
+            url: "/index.php?m=admin&c=business&a=passwordValidate",
+            method: 'POST',
+            data: {
+                id: global_user.id,
+                password: hex_md5($scope.user_unlock_pwd)
+            }
+        }).success(function (data) {
+            //响应成功
+            try {
+                var rlt = JSON.parse(data);
+                if (rlt.status == 'success') {
+					$scope.taskPool.reset_user_operate_time();
+                    $scope.user_unlock_msg = '';
+                }
+                else {
+                    $scope.user_unlock_msg = '密码验证失败';
+                }
+            } catch (err) {
+            }
+            finally {
+            }
         });
-    });
-
-    ($scope.init_date_picker = function () {
-        $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
-        $("[data-plugin-datepicker]").datepicker();
-    })();
-        
+		
+		$scope.user_unlock_pwd = '';
+	}
+	        
     $scope.local_host = $location.host();
     //服务器错误信息池，格式[{errMsg:'err'},{errMsg:'err'}]
     $scope.user = global_user;
@@ -130,7 +146,21 @@ app_device.filter('to_trusted', function ($sce) {
     };
     $scope.svrErrPool = global_err_pool;
     global_task_pool = new TaskPool();
-    $scope.taskPool = global_task_pool;
+    $scope.taskPool = global_task_pool;	
+		
+	// 当用户鼠标经过时，刷新用户空闲状态
+	$scope.on_mouse_move = function()
+	{
+		if ($scope.taskPool.user_left) return;
+		
+		$scope.taskPool.reset_user_operate_time();
+	}
+	$scope.on_user_left = function ()
+	{
+		$scope.user_unlock_msg = '';
+		
+		locals.set('user_left', 1);
+	}
 
     $scope.updateDeviceStatus = global_cmd_helper.updateDeviceStatus;
     //！！服务器出错标志，慎重使用！！
@@ -259,7 +289,24 @@ app_device.filter('to_trusted', function ($sce) {
     }
 
     $scope.reload_user_log();
-})    
+})   
+.factory('locals', ['$window', function($window){
+	return {        //存储单个属性
+		set : function(key,value){
+			$window.localStorage[key]=value;
+		},        //读取单个属性
+		get : function(key,defaultValue){
+			return  $window.localStorage[key] || defaultValue;
+		},        //存储对象，以JSON格式存储
+		setObject : function(key,value){
+			$window.localStorage[key]=JSON.stringify(value);
+		},        //读取对象
+		getObject : function (key) {
+			return JSON.parse($window.localStorage[key] || '{}');
+		}
+
+	}
+}])
     .controller('testCtrl', function ($scope, TestMsg) {
 var Test = function () {
     this.server = '/index.php?m=admin&c=msg';

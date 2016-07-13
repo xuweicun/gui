@@ -8,6 +8,8 @@
 
 	<title>离线硬盘存储管理系统</title>
 
+	<script src="/Public/js/browser-check.js"></script>
+
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -16,9 +18,9 @@
 </head>
 
 
-<body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false">
+<body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false" ng-mousedown="on_mouse_move()" ng-mousemove="on_mouse_move()">
 	<!-- Start: Header -->
-	<div class="navbar" role="navigation">
+	<div class="navbar" role="navigation" ng-show="!taskPool.user_left">
 		<div class="container-fluid container-nav">
 			<!-- Navbar Action -->
 			<ul class="nav navbar-nav navbar-actions navbar-left">
@@ -66,14 +68,14 @@
 
 					<div class="dropdown-menu">
 						<ul class="list-unstyled">
-							<li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
-								<div class="progress progress-xs  progress-striped active">
-									<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
-										 aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-										60%
-									</div>
-								</div>
-							</li>
+                            <li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
+                                <div class="progress progress-xs  progress-striped active">
+                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                        60%
+                                    </div>
+                                </div>
+                            </li>
 							<li>
 								<a href=""><i class="fa fa-user"></i> 管理员信息</a>
 							</li>
@@ -94,9 +96,9 @@
 		</div>
 	</div>
 	<!-- End: Header -->
-	<div class="container-fluid content">
+	<div class="container-fluid content" ng-show="!taskPool.user_left">
 		<div class="row">
-			<div class="sidebar">
+			<div class="sidebar" ng-show="!taskPool.user_left">
 				<div ng-include="pageViewUrls.siderBarUrl"></div>
 			</div>
 			<div class="main" ng-show="!user.off_line">
@@ -140,14 +142,53 @@
 				<div class="container-fluid content" ng-show="page_index == 'manul'">
 					<div ng-include="pageViewUrls.manulViewUrl"></div>
 				</div>
-                <div class="container-fluid content hidden" ng-class="{'hidden':!is_ok}" ng-show="page_index == 'settings'">
-                    <include file="settings" />
-                </div>
 				<!--/container-->
 			</div>
 		</div>
 	</div>
+    <div class="container-fluid content" ng-show="taskPool.user_left">
+        <div class="row">
+            <!-- Main Page -->
+            <div class="body-sign body-locked">
+                <div class="center-sign">
+                    <div class="panel bk-bg-white panel-sign">
+                        <div class="panel-body text-center bk-padding-off bk-wrapper">
+                            <div class="bk-avatar bk-avatar120-halfdown">
+                                <div class="bk-vcenter"></div>
+                                <div class="bk-fg-info bk-fg-darken">
+                                    <img src="assets/img/avatar1.jpg" alt="" class="img-circle bk-img-120 bk-border-white bk-border-darken bk-border-3x" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body bk-bg-white bk-padding-left-30 bk-padding-right-30 bk-avatar120-halfdown-after text-center">
+                            <h3 class="bk-margin-off"><strong><{$username}></strong></h3>
+                            <div class="bk-padding-bottom-30 bk-padding-top-10">
+                                <p>页面锁定</p>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-icon">
+                                    <input id="prependedInput" class="form-control bk-radius" size="16" type="password" placeholder="请输入密码" ng-model="user_unlock_pwd" />
+                                    <span class="input-group-addon">
+                                        <span class="icon icon-lg">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="bk-fg-danger text-left">
+                                {{user_unlock_msg}}
+                            </span>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary" ng-click="user_unlock()" ng-disabled="!user_unlock_pwd">解锁</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Page -->
 
+        </div>
+    </div><!--/container-->
 	<include file="PublicTail" />
 </body>
 </html>

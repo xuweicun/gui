@@ -47,8 +47,8 @@ User.prototype = {
     go_login_page: function(){
         window.location = "/index.php?m=admin&c=business&a=login";
     },
-    go_logout_page: function () {
-        window.location = "/index.php?m=admin&c=business&a=logout";
+    go_logout_page: function (now) {
+        window.location = '/index.php?m=admin&c=business&a=logout' + (now?'_immediate':'');
     }
     ,
     show_second_pwd_modal: function (modal_id) {

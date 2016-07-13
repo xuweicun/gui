@@ -44,9 +44,9 @@
     //最长等待，20小时
     this.maxTime = 72000;
     //中等等待时间，300秒
-    this.midTime = 300;
+    this.midTime = 3600;
     //最小等待时间，60秒
-    this.minTime = 120;
+    this.minTime = 600;
     this.timeLimit = 0;
     //错误信息
     this.errMsg = '';

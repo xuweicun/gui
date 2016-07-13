@@ -60,6 +60,9 @@ function Disk(lvl_obj, grp_obj, d) {
     this.busy_disk = null;
     // 用户尝试提交的命令名称
     this.cmd_name_to_commit = '';
+	
+	// 待发送队列
+	this.cmd_queue = [];
 }
 
 // 硬盘Disk类的原型
@@ -292,7 +295,7 @@ Disk.prototype = {
             global_modal_helper.show_modal({
                 type: 'question',
                 title: '硬盘命令 -- MD5',
-                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性。',
+                html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> ' + this.get_title() + '</span>）的<span class="bk-fg-primary"> [MD5] </span>操作？以获取硬盘的数据有效性（为保证数据一致性，系统将自动发送<span class="bk-fg-primary"> [查询] </span>命令）。',
                 on_click_target: this,
                 on_click_handle: 'cmd_start',
                 on_click_param: cmd_name
@@ -877,6 +880,13 @@ Disk.prototype = {
             cmd_obj.level = (this.l + 1).toString();
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
+			
+			// 构建DISKINFO命令，并将MD5命令缓存
+			var cmd_queue_item = {};
+			angular.copy(cmd_obj, cmd_queue_item);
+			this.cmd_queue.push(cmd_queue_item);
+			
+			cmd_obj.cmd = 'DISKINFO';
         }
         else if (cmd_name == 'COPY') {
             cmd_obj.subcmd = 'START';

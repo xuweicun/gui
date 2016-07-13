@@ -125,6 +125,16 @@ Cabinet.prototype = {
 
         var _dsk = this.levels[idx_l].groups[idx_g].disks[idx_d];
         _dsk.curr_cmd = is_add ? json_cmd : null;
+		
+		if (!is_add) {
+			if (json_cmd.status != '0') {
+				_dsk.cmd_queue = [];
+			}
+			
+			if (_dsk.cmd_queue.length > 0) {			
+				global_cmd_helper.sendcmd(_dsk.cmd_queue.shift());
+			}
+		}
     },
     on_cmd_bridge: function (json_cmd, is_add) {
         if (json_cmd.cmd != 'BRIDGE') return;

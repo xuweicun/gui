@@ -10,19 +10,19 @@
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="text-input-pwd-curr">当前密码<span class="bk-fg-danger" title="当前密码不能为空">*</span></label>
 					<div class="col-md-9">
-						<input id="text-input-pwd-curr" class="form-control" type="password" placeholder="请输入当前密码" name="text-input-pwd-curr" ng-model="user_profile.curr_pwd" required>
+						<input id="text-input-pwd-curr" class="form-control" type="password" placeholder="请输入当前密码" name="text-input-pwd-curr" ng-model="user_profile.curr_pwd" maxlength="16" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="text-input-pwd">新密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
 					<div class="col-md-9">
-						<input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" required>
+						<input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" maxlength="16" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
 					<div class="col-md-9">
-						<input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm" ng-model="user_profile.new_pwd_confirm" required>
+						<input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm" ng-model="user_profile.new_pwd_confirm" maxlength="16" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -70,18 +70,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label">写权限</label>
+                        <label class="col-md-3 control-label">权限</label>
                         <div class="col-md-9">
                             <div class="radio-custom radio-inline">
-                                <input id="inline-radio_yes" type="radio" value="1"
+                                <input id="inline-radio_yes" type="radio" value="2"
                                        name="inline-radios" ng-model="can_write">
-                                <label for="inline-radio_yes"> 允许</label>
+                                <label for="inline-radio_yes"> 高级(读写)</label>
+                            </div>
+                            <div class="radio-custom radio-inline">
+                                <input id="inline-radio_no" type="radio" value="1" name="inline-radios" ng-model="can_write">
+                                <label for="inline-radio_no"> 只读</label>
                             </div>
                             <div class="radio-custom radio-inline">
                                 <input id="inline-radio_no" type="radio" value="0" name="inline-radios" ng-model="can_write">
-                                <label for="inline-radio_no"> 拒绝</label>
+                                <label for="inline-radio_no"> 最低</label>
                             </div>
-                            <span class="help-block">赋予用户“写权限”将有可能导致用户修改或删除重要数据，请慎重！</span>
+                            <span class="help-block">赋予用户“高级”将有可能导致用户修改或删除重要数据，请慎重！</span>
                         </div>
                     </div>
                 </form>
@@ -118,7 +122,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">用户名</label>
                         <div class="col-md-9">
-                            <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
+                            <input class="form-control bk-bg-white" type="text" name="uname" ng-model="users_model[curr_user_idx].username" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -132,7 +136,15 @@
                         </label>
                         <div class="col-md-9">
                             <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
-                                   ng-model="new_password" required>
+                                   ng-model="new_password" maxlength="16" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                        </label>
+                        <div class="col-md-9">
+                            <span class="bk-fg-danger" ng-bind="err_msg"></span>
                         </div>
                     </div>
                 </form>
@@ -194,6 +206,50 @@
     </div><!-- /.modal -->
 </div>
 
+
+<div class="modal fade" id="modalUserUnlock" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    账号解锁
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal " enctype="multipart/form-data" method="post" action="">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">用户名</label>
+                        <div class="col-md-9">
+                            <input class="form-control bk-bg-white" type="text" name="text-input" ng-model="users_model[curr_user_idx].username" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-9">
+                            <p>您确定解锁该账号？将恢复账号的登录状态！</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-danger"
+                        ng-click="user_unlock_commit()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <div class="modal fade" id="modalUserAdd" tabindex="-1">
     <form class="form-horizontal" name="myFormUserAdd" novalidate>
         <div class="modal-dialog">
@@ -233,7 +289,14 @@
                         </label>
                         <div class="col-md-9">
                             <input class="form-control" type="text" name="pwd" placeholder="请输入密码"
-                                   ng-model="new_user.password" required>
+                                   ng-model="new_user.password" maxlength="16" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                        </label>
+                        <div class="col-md-9">
+                            <span class="bk-fg-danger" ng-bind="new_user.err_msg"></span>
                         </div>
                     </div>
                 </div>
