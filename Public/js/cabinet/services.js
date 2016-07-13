@@ -467,6 +467,9 @@ angular.module('device.services', [])
                         global_cabinet_helper.i_on_msg_push_partition(data[i.toString()]);
                     }
                     break;
+                case 'check_status':
+                    console.log('自检消息',data['msg']);
+                    break;
 
 
             }
