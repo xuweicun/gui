@@ -44,6 +44,8 @@ Class AutoChecker
     //数据库表名
     public $tbl_plan = 'gui_check_plan';
     public $tbl_conf = 'gui_check_conf';
+    public $tbl_start_date = 'gui_check_start_date';
+    public $start_date = null;
 
     /****
      * @param $_t type
@@ -69,7 +71,7 @@ Class AutoChecker
      */
     public function Run()
     {
-        $this->RunLog("Starting the timer.");
+        $this->RunLog("Starting the timer. Type: ".strtoupper($this->type));
         Timer::add($this->timerInterval, array($this, 'mainCheck'));
     }
 
@@ -113,7 +115,10 @@ Class AutoChecker
         if (!$plan) {
             return;
         }
-        //检查当前计划是否仍有效
+        if(!$this->start_date || (int)$plan['start_time'] - (int)$this->start_date > (24*3600)){
+            $this->updateStartDate($plan['start_time']);
+        }
+        //检查当前计划是否仍有效,有可能被取消
         if (!$this->isAlive($plan)) {
             $this->updateChecker();
             return;
@@ -286,12 +291,24 @@ Class AutoChecker
 
     /******
      * @param $plan 启动计划
+     * @return bool 返回启动是否成功的结果
      */
     public function startCheck($plan)
     {
+        $this->RunLog('Starting due plan...');
         //更改当前计划状态
-        $this->status = $plan['status'] = PLAN_STATUS_WORKING;
-        $this->db->update($this->tbl_plan)->cols($plan)->where("id={$plan['id']}")->query();//修改状态
+        $plan['status'] = PLAN_STATUS_WORKING;
+        $rst = $this->db->update($this->tbl_plan)->cols($plan)->where("id={$plan['id']}")->query();//修改状态
+        if(!$rst){
+            $this->RunLog("Error: Failed to start the plan :( Will try again later.");
+        }
+        else{
+            $this->updateStartDate();
+            $this->RunLog("Congratulation: Success to start the plan :)");
+        }
+
+        //更改
+        return $rst;
         //如果尚未增加新计划
         if ($this->next_plan == 0) {
             if ($next_plan = $this->addNewPlan()) {
@@ -300,6 +317,39 @@ Class AutoChecker
         }
     }
 
+    /******
+     * 更新系统的自检启动时间: 需要检查是否更新成功
+     * @param $_start_date 启动时间
+     */
+    public function updateStartDate($_start_date = null){
+        if(!$_start_date) {
+            $_start_date = time();
+        }
+        $item = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
+        $rst = true;
+        //如果有时间,更新
+        if($item){
+            $item['start_date'] = $_start_date;
+            $rst = $this->db->update("gui_check_start_time")->cols($item)->where("id={$item['id']}")->query();
+
+        }
+        else{
+            //如果没有时间,插入
+            $item = array(
+                'start_date'=>$_start_date,
+                'type'=>$this->type,
+                'is_current'=>1
+            );
+            $rst = $this->db->insert("gui_check_start_time")->cols($item)->query();
+        }
+        if(!$rst){
+            $this->RunLog("Error: Failed to update start date :(");
+        }
+        else{
+            $this->start_date = time();
+            $this->RunLog("Success: Updated start date :)");
+        }
+    }
     //检查当前计划是否已经结束：超时、被终结、其他计划已开始等
     public function isAlive($plan)
     {
@@ -309,6 +359,8 @@ Class AutoChecker
             $this->RunLog("This plan has finished or timed out.");
             return false;
         }
+        $this->RunLog("This plan is still alive.");
+        return true;
         $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->query();//修改状态
         //如果不存在其他计划,不正常,退出;
         if (!$plans) {
@@ -392,11 +444,11 @@ Class AutoChecker
         switch ($config['unit']) {
             case 'day':
                 //$start_t = time();//strtotime($start_date);
-                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['hour'] * 3600;//开始日期加天数加起始时间
                 break;
             case 'week':
                 // $start_t = time();
-                $plan_t = $start_t + $config['cnt'] * 7 * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                $plan_t = $start_t + $config['cnt'] * 7 * 24 * 3600 + $config['hour'] * 3600;//开始日期加天数加起始时间
                 break;
             case 'month':
                 //获取月份
@@ -410,7 +462,7 @@ Class AutoChecker
                 $day_cnt = self::getDaysPerMonth($yr, $mth);
                 $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
                 $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
-                $plan_t = $plan_t + +$config['start_time'] * 3600;
+                $plan_t = $plan_t + +$config['hour'] * 3600;
                 break;
             case 'season':
                 $start_date = date("Y-m-d", $start_t);
@@ -423,7 +475,7 @@ Class AutoChecker
                 $day_cnt = self::getDaysPerMonth($yr, $mth);
                 $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
                 $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
-                $plan_t = $plan_t + +$config['start_time'] * 3600;
+                $plan_t = $plan_t + +$config['hour'] * 3600;
 
         }
         //生成计划
@@ -459,16 +511,29 @@ Class AutoChecker
         $db = $this->db;
         $plan = null;
         $config = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->single();
+        $this->RunLog("Config-information: unit-".$config['unit']."-count-".$config['cnt']);
         if ($config) {
             //根据配置生成新的plan
             if (!$start_t) {
-                $start_t = time();
+                $item = $db->select("start_date")->from($this->tbl_check_start_time)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->single();
+                if(!$item){
+                    $this->RunLog("Error: No start date was found. Quit.");
+                    return null;
+                }
+                $start_t = (int)$item['start_date'];
             }
+
             $plan = $this->getPlan($config, $start_t);
+            if(!$plan){
+                $this->RunLog("Error: Failed to create a new plan.");
+                return null;
+            }
             $plan_id = $db->insert($this->tbl_plan)->cols($plan)->query();
             if (!$plan_id) {
                 $plan = null;
+                $this->RunLog("Error: Failed to insert the plan into database.");
             } else {
+                $this->RunLog("Success to create a new plan :) Congratulation!");
                 $plan['id'] = $plan_id;
             }
         }
@@ -530,6 +595,7 @@ Class AutoChecker
 
 // gateway 进程
 $gateway = new Gateway("Websocket://0.0.0.0:8383");
+
 // 设置名称，方便status时查看
 $gateway->name = 'ChatGateway';
 // 设置进程数，gateway进程数建议与cpu核数相同
@@ -595,6 +661,16 @@ $gateway->onWorkerStart = function ($worker) {
             ExtendGateWay::sendToAll(json_encode($ret));
         }
     });
+    if($worker->id===0){
+        $db = Db::instance('db1');
+        $md5_checker = new AutoChecker();
+        $sn_checker = new AutoChecker();
+        $md5_checker->init('md5','300', $db);
+        $sn_checker->init('sn','300', $db);
+        $md5_checker->Run();
+        $sn_checker->Run();
+    }
+
 
 
 };

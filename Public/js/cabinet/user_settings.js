@@ -27,7 +27,9 @@ Check_t.prototype = {
             method: 'post',
             data: this
         }).success(function (data) {
-            if (!data || !data.status) {
+            var rst;
+            if(data) rst = JSON.parse(data);
+            if (!data || !rst.status) {
                 new PNotify({
                     title: '保存配置结果',
                     text: '程序异常',

@@ -23,9 +23,9 @@ $db['pwd'] = $data['dbpw'];
 
 
 // 导入数据文件
-$sql_file = dirname(__FILE__)."/install.sql";
+$sql_file = dirname(__FILE__)."/new.sql";
 run_sql_file( $sql_file , $db );
-
+insert_install_info($db);
 // 生成已安装文件
 file_put_contents( '../install_lock' , '' );
 
@@ -99,8 +99,49 @@ function run_sql_file( $sql_file , $dbconfig ) {
 		else {
 			if(!$result){
 				echo "\n<br /> sql语句执行<font color='red'>失败</font> , 原因:".mysql_error();
+				exit;
 			}
 		}
 	}
+	//插入系统安装时间
 	
+}
+function insert_install_info($dbconfig){
+	$host = $dbconfig['host'] ;
+	$dbname = $dbconfig['dbname'] ;
+	$user = $dbconfig['user'] ;
+	$pwd = $dbconfig['pwd'] ;
+	$conn = mysqli_connect($host, $user, $pwd, $dbname);
+	$install_time = time();
+	$sql = "insert into gui_install_time (time) values('$install_time')";
+	$start_date = strtotime(date("Y-m-d",$install_time));
+	$sql_delete = "delete from gui_check_start_time where 1=1";
+	$sql1 = "insert into gui_check_start_time (start_date,type) values('$start_date','md5')";
+	$sql2 = "insert into gui_check_start_time (start_date,type) values('$start_date','sn')";
+	$result = mysqli_query($conn, $sql);
+	if($result){
+		echo "\n<br /> 插入安装时间<font color='red'>成功</font> ";
+	}
+	else{
+		echo "\n<br /> 插入安装时间<font color='red'>失败</font> , 原因:".mysql_error();
+
+	}
+	$result = mysqli_query($conn, $sql_delete);
+	$result = mysqli_query($conn, $sql1);
+	if($result){
+		echo "\n<br /> 插入MD5初次执行时间<font color='red'>成功</font> ";
+	}
+	else{
+		echo "\n<br /> 插入MD5初次执行时间<font color='red'>失败</font> , 原因:".mysql_error();
+
+	}
+	$result = mysqli_query($conn, $sql2);
+	if($result){
+		echo "\n<br /> 插入SN初次执行时间<font color='red'>成功</font> ";
+	}
+	else{
+		echo "\n<br /> 插入SN初次执行时间<font color='red'>失败</font> , 原因:".mysql_error();
+
+	}
+	mysqli_close($conn);
 }

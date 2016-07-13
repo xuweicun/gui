@@ -1105,7 +1105,7 @@ class BusinessController extends Controller
             $this->error('您无权访问本页面', U('Index'));
             die();
         }
-        $db = M("Config");
+        $db = M("CheckConf");
         //将当前配置取消
         $map['type'] = array('eq', $_POST['type']);
         $map['is_current'] = array('eq', 1);
@@ -1118,9 +1118,10 @@ class BusinessController extends Controller
             'type' => $_POST['type'],
             'cnt' => (int)$_POST['cnt'],
             'unit' => (int)$_POST['unit'],
-            'start_time' => $_POST['start_time'],
+            'start_date' => strtotime($_POST['start_date']),
+            'hour'=>$_POST['start_time'],
             'time' => time(),
-            'by' => $_POST['user_id'],
+            'user_id' => $_POST['user_id'],
             'is_current' => 1
         );
         $db->startTrans();
