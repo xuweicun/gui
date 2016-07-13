@@ -664,6 +664,8 @@ $gateway->onWorkerStart = function ($worker) {
     });
    // if($worker->id===0){
         $db = Db::instance('db1');
+        $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
+        $db->insert('gui_system_run_log')->cols($msg)->query();
         $md5_checker = new AutoChecker();
         $sn_checker = new AutoChecker();
         $md5_checker->init('md5','300', $db);
