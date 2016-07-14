@@ -956,6 +956,7 @@ class BusinessController extends Controller
 
     public function originSql()
     {
+        die();
         $conn = mysqli_connect("localhost", "root", "moganfreeman", "gui");
         $sql1 = "alter table gui_device auto_increment=1";
         $sql2 = "alter table gui_disk auto_increment=1";
@@ -1119,11 +1120,12 @@ class BusinessController extends Controller
         $db->where("1")->delete();
     }
     public function showSystRunLog(){
-
+           echo "当前时间:".date("Y-m-d H:m:s",time())."<br/>";
+           echo "正在获取日志..<br/>";
            $db = M('SystemRunLog');
             $logs = $db->select();
             foreach ($logs as $log){
-                echo $log['type']."-".$log['msg']."-".date("Y-m-d H:m:s",(int)$log['time']);
+                echo $log['type']."-".$log['msg']."-".date("Y-m-d H:i:s A",(int)$log['time']);
                 echo "<br/>";
             }
         
