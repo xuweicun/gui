@@ -68,7 +68,7 @@ CabCmdHelper.prototype = {
             data: msg,
             method: 'POST'
         }).success(function () {
-            alert("done");
+            console.log("done");
         });
     },
     testPost: function () {

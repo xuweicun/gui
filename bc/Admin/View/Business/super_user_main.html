@@ -111,7 +111,7 @@
                             系统报表
                         </div>
                         <div class="panel-body">
-                            <a href="" class="btn btn-primary" ng-click="make_report()">生成</a>
+                            <a href="" class="btn btn-primary" ng-click="make_report()" ng-disabled="is_making">生成</a>
                             <a href="/reports/report.docx" class="btn btn-danger" ng-show="is_ok">下载</a>
                             <div ng-show="is_ok">
                                 <include file="report" />

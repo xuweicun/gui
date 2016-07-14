@@ -711,7 +711,7 @@ class BusinessController extends Controller
 				$table_cab_diks->addCell()->addText($dsk['md5_last_time']?date("Y-m-d H:i:s", $dsk['md5_last_time']):'-', array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['md5_curr'], array('size'=>9));		
 				$table_cab_diks->addCell()->addText($dsk['md5_curr_time']?date("Y-m-d H:i:s", $dsk['md5_curr_time']):'-', array('size'=>9));		
-				$table_cab_diks->addCell()->addText('', array('size'=>9));
+				$table_cab_diks->addCell()->addText($dsk['md5_last']!=$dsk['md5_curr']?'异常：MD5变化':'', array('size'=>9));
 			}
 			
 			foreach ($cab['slots'] as $idx_slt=>$slt) {

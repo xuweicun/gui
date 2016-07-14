@@ -5,7 +5,9 @@ app_device.filter('to_trusted', function ($sce) {
         return $sce.trustAsHtml(text);
     }
 }).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, locals, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
-{	
+{
+    $("[data-toggle='popover']").popover();
+
     global_scope = $scope;
     var businessRoot = '/index.php?m=admin&c=business';
     $scope.bridgeUrl = '/Public/js/bridge.html';
