@@ -1114,12 +1114,16 @@ class BusinessController extends Controller
         }
 
     }
+    public function clearSystRunLog(){
+        $db = M('SystemRunLog');
+        $db->where("1")->delete();
+    }
     public function showSystRunLog(){
 
            $db = M('SystemRunLog');
             $logs = $db->select();
             foreach ($logs as $log){
-                echo $log['type']."-".$log['msg']."-".date("Y-m-d HH:mm:ss",(int)$log['time']);
+                echo $log['type']."-".$log['msg']."-".date("Y-m-d H:m:s",(int)$log['time']);
                 echo "<br/>";
             }
         
