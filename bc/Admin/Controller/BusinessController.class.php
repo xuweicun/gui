@@ -1251,6 +1251,8 @@ class BusinessController extends Controller
             //回滚
             $db->rollback();
             $ret['status'] = '1';
+            var_dump($rs2);
+            var_dump($plan);
         }
         $this->AjaxReturn(json_encode($ret));
     }
