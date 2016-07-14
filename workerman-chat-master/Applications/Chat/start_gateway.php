@@ -64,7 +64,8 @@ Class AutoChecker
     }
     public function RunLog($str){
         $msg = array('type' => 'check_status', 'msg'=>"Type: {$this->type}. Status: ".$str,'time'=>time());
-        $this->db->insert('gui_system_run_log')->cols($msg)->query();
+        $db = DB::instance("db1");
+        $db->insert('gui_system_run_log')->cols($msg)->query();
         ExtendGateWay::sendToAll(json_encode($msg));
     }
     /***
@@ -634,7 +635,7 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
-$gateway->onWorkerStart = function ($worker) {
+$gateway->onWorkerStart = function ($gateway) {
 
     // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
     $deviceStatusTimer = Timer::add(300, function () {
@@ -665,14 +666,14 @@ $gateway->onWorkerStart = function ($worker) {
             ExtendGateWay::sendToAll(json_encode($ret));
         }
     });
-   // if($worker->id===0){
+    if($gateway->id === 0){
       //  $db = Db::instance('db1');
     //    $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
         //$db->insert('gui_system_run_log')->cols($msg)->query();
         $md5_checker = new AutoChecker();
-        $checkTimer = Timer::add(300,$md5_checker->mainCheck());
+        $checkTimer = Timer::add(200,$md5_checker->mainCheck());
 
-    //}
+    }
 
 
 
