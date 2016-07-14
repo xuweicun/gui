@@ -599,21 +599,18 @@ Class AutoChecker
 }
 
 // gateway 进程
-$gateway = new Gateway("Websocket://0.0.0.0:8383");
+$md5_checker = new Worker();
 
 // 设置名称，方便status时查看
-$gateway->name = 'ChatGateway';
+$md5_checker->name = 'Md5Checker';
 // 设置进程数，gateway进程数建议与cpu核数相同
-$gateway->count = 4;
+$md5_checker->count = 1;
 // 分布式部署时请设置成内网ip（非127.0.0.1）
-$gateway->lanIp = '127.0.0.1';
+$md5_checker->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
-$gateway->startPort = 2300;
+$md5_checker->startPort = 4000;
 // 心跳间隔
-$gateway->pingInterval = 60;
-// 心跳数据
-$gateway->pingData = '{"type":"ping"}';
 // 服务注册地址
 $gateway->registerAddress = '127.0.0.1:1236';
 
@@ -635,45 +632,15 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
-$gateway->onWorkerStart = function ($gateway) {
+$md5_checker->onWorkerStart = function ($md5_checker) {
 
-    // 只在id编号为0的进程上设置定时器，其它1、2、3号进程不设置定时器
-    $deviceStatusTimer = Timer::add(300, function () {
-        //检查用户数量,如果无用户就不查询
-        $cnt = ExtendGateWay::getAllClientCount();
-        if ($cnt <= 0) {
-            echo "No user";
-            return;
-        }
-        $db = Db::instance('db1');
-        //查询多进程
-        $ret = $db->select('*')->from('gui_cab')->where('loaded=1')->query();
-        //有连接的柜子存在
-        if ($ret) {
-            $num = count($ret);
-            $attached = array('type' => 'status', 'num' => $num);
-            $ret = array_merge($ret, $attached);
-            ExtendGateWay::sendToAll(json_encode($ret));
-            //查询磁盘容量
-            $ret = $db->select('partition')->from('gui_device')->where('loaded=1 and bridged=1')->query();
 
-            if (!$ret) {
-                return;
-            }
-            $num = count($ret);
-            $attached = array('type' => 'partition', 'num' => $num);
-            $ret = array_merge($ret, $attached);
-            ExtendGateWay::sendToAll(json_encode($ret));
-        }
-    });
-    if($gateway->id === 0){
+
       //  $db = Db::instance('db1');
     //    $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
         //$db->insert('gui_system_run_log')->cols($msg)->query();
-        $md5_checker = new AutoChecker();
-        $checkTimer = Timer::add(200,$md5_checker->mainCheck());
-
-    }
+        $checker = new AutoChecker();
+        $checkTimer = Timer::add(200,$checker->mainCheck());
 
 
 
