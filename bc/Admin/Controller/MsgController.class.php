@@ -280,29 +280,26 @@ class MsgController extends Controller
     public $selfCheckArr = array('SN','MD5');
     public function index()
     {
-
         global $return_msg;
         $this->msg = new Msg();
         $this->msg->init();
-        //CMD-ID 不允许为空
-		
+        //CMD-ID 不允许为空		
 		
 		// 记录所有DISKINFO和MD5命令用于报表统计
 		$this->logs_for_report();
 
-
         $this->db = M("CmdLog");
-
 
         //update the log
         if ($this->msg->id != "0") {
             //更新自检计划
             if(in_array($this->msg->cmd,$this->selfCheckArr)){
                 $cmd = $this->db->find((int)$this->msg->id);
-                    $this->hdlSelfCheck($cmd);
+				$this->hdlSelfCheck($cmd);
             }
+			
             $this->updateCmdLog();
-        }
+        }	
 				
         //update related table
         switch ($this->msg->cmd) {
@@ -398,6 +395,36 @@ class MsgController extends Controller
 			if ($_POST['subcmd'] != 'RESULT') {
 				return;
 			}
+			
+			// 处理md5值变化
+			do{
+				// 判断MD5是否发生变化
+				$my_slot = M('Device')->field(array('disk_id'))->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level'=>$_POST['level'],
+					'zu'=>$_POST['group'],
+					'disk'=>$_POST['disk'],
+					'loaded'=>1
+					))->find();					
+					
+				if (!$my_slot) break;
+				
+				$disk_db = M('Disk');
+				$my_disk = $disk_db->where(array('id'=>$my_slot['disk_id']))->find();				
+				if (!$my_disk) break;
+				
+				// 若md5为空或相同
+				if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
+					// 记录md5变化
+					$my_disk['md5_changed'] = 0;
+				}
+				else{					
+					// 记录md5变化
+					$my_disk['md5_changed'] = 1;
+				}
+				
+				$disk_db->save($my_disk);
+			}while(false);
 			
 			$item['time'] = time();
 			$item['device_id'] = $_POST['device_id'];
@@ -672,7 +699,7 @@ class MsgController extends Controller
                     $this->handleError();
                 }
                 break;
-            case 'RESULT':
+            case 'RESULT':			
                 if ($status == CMD_SUCCESS) {
                     //将对应命令设为已取消
                     $dsk = new Dsk();

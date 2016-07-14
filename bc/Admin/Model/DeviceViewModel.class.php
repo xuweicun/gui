@@ -11,7 +11,7 @@ class DeviceViewModel extends ViewModel
         'Device' => array('id', 'cab_id', 'loaded', 'protected','level', 'zu', 'disk', 'bridged', 'path', 'time'),
         'Disk' => array(
             'sn', 'md5', 'md5_time', 'capacity',
-            'normal',
+            'normal', 'md5_changed',
             '_on' => 'Device.disk_id=Disk.id',
             '_type' => 'LEFT'
         )/*,

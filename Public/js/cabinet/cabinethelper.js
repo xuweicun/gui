@@ -14,6 +14,10 @@ function CabPicker() {
     this.bridged_disk_cnt = '-';
     // 异常硬盘数
     this.bad_disk_cnt = 0;
+    // 异常MD5硬盘数
+    this.bad_md5_disk_cnt = 0;
+    // 异常MD5硬盘详情
+    this.bad_md5_disk_title = "";
     // 电压
     this.voltage = '-';
     // 电流
@@ -284,6 +288,7 @@ CabinetHelper.prototype = {
         var cnt_l = 0;
         var cnt_b = 0;
         var cnt_x = 0;//有问题的硬盘数量
+        var cnt_md5_changed = 0;//有问题的MD5硬盘数量
         for (var i = 0; i < data.length; ++i) {
             var _dsk = data[i];
             if (_dsk.cab_id != cab_id) continue;
@@ -296,6 +301,12 @@ CabinetHelper.prototype = {
                 }
                 if (_dsk.normal == '0') {
                     cnt_x++;
+                }				
+                if (_dsk.md5_changed == '1') {
+					if (this.bad_md5_disk_title != '') this.bad_md5_disk_title += ',';
+					
+					this.bad_md5_disk_title += (_dsk.level + 1) + '-' + (_dsk.group + 1) + '-' + (_dsk.disk + 1) + '#'
+                    cnt_md5_changed++;
                 }
             }
         }
@@ -306,6 +317,7 @@ CabinetHelper.prototype = {
                 _cab_h.loaded_disk_cnt = cnt_l
                 _cab_h.bridged_disk_cnt = cnt_b;
                 _cab_h.bad_disk_cnt = cnt_x;
+                _cab_h.bad_md5_disk_cnt = cnt_md5_changed;
                 break;
             }
         }

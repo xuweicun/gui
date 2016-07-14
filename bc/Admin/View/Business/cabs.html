@@ -8,9 +8,9 @@
                ng-click="cabs.show_select_modal();"><i class="fa fa-refresh"></i>选择存储柜</a>
         </div>
         <div class="panel-body">
-			<div class="col-lg-12">
-				<p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="" class="btn btn-primary btn-xs" ng-click="initCab();">系统初始化</a></p>
-			</div>            
+            <div class="col-lg-12">
+                <p ng-show="cabs.getLth() == 0">当前没有任何存储柜信息,建议您进行 <a href="" class="btn btn-primary btn-xs" ng-click="initCab();">系统初始化</a></p>
+            </div>
 
             <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="item in cabs.cabs">
                  <a href="" class="panel bk-widget bk-border-off" ng-click="cabs.on_select($index)"
@@ -23,7 +23,8 @@
                             <div style="position:absolute;left:2px;top:0px;height:16px;width:32px;border:white 1px solid;float:left;filter:alpha(opacity=10)">
                                 <div style="background-color:white;height:12px;margin:1px;width:{{item.electricity}}%;float:right"></div>
                                 <div style="position:absolute;font-size:9px;text-align:center;width:inherit;padding-top:1px"
-                                     title="剩余电量">{{cabs.curr.electricity}}%
+                                     title="剩余电量">
+                                    {{cabs.curr.electricity}}%
                                 </div>
                             </div>
                         </div>
@@ -35,23 +36,26 @@
                         <hr style="margin-top:10px;margin-bottom:10px">
                         <div class="row">
                             <span class="col-lg-12">
-                            <i class="fa fa-leaf" title="电压"></i> {{cabs.curr.voltage}}V <i class="fa fa-flash"
-                                                                                       style="margin-left:10px"
-                                                                                       title="电流"></i>
-                            {{cabs.curr.current}}A
-							<p class="pull-right bk-margin-off" ng-show="deployer.idx>0">获取硬盘信息: {{deployer.idx}}/{{deployer.getLength()}}</p>
-							</span>   							
+                                <i class="fa fa-leaf" title="电压"></i> {{cabs.curr.voltage}}V <i class="fa fa-flash"
+                                                                                                style="margin-left:10px"
+                                                                                                title="电流"></i>
+                                {{cabs.curr.current}}A
+                                <p class="pull-right bk-margin-off" ng-show="deployer.idx>0">获取硬盘信息: {{deployer.idx}}/{{deployer.getLength()}}</p>
+                            </span>
                         </div>
-                        <br/>
+                        <br />
                         <div class="row">
                             <div class="col-lg-12">
-                                在位[<b><span class="bk-fg-danger"
-                                            ng-bind="cabs.curr.loaded_disk_cnt"></span></b>]块，桥接[<b><span
-                                    class="bk-fg-danger" ng-bind="cabs.curr.bridged_disk_cnt"></span></b>]块
+                                在位[<b>
+                                    <span class="bk-fg-danger"
+                                          ng-bind="cabs.curr.loaded_disk_cnt"></span>
+                                </b>]块，桥接[<b>
+                                    <span class="bk-fg-danger" ng-bind="cabs.curr.bridged_disk_cnt"></span>
+                                </b>]块
                                 <span class="pull-right">
                                     共{{cabs.curr.lvl_cnt}}层({{cabs.curr.grp_cnt}}组({{cabs.curr.dsk_cnt}}位))
                                 </span>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,20 +73,21 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <span>
-                                    Smart异常[<b class="bk-fg-danger">{{cabs.curr.bad_disk_cnt}}</b>]块
-                                    <!--
-        ，</span><span>SN异常[<b class="bk-fg-danger">{{cabs.curr.bad_disk_cnt}}</b>]块
-        ，</span><span>MD5异常[<b class="bk-fg-danger">{{cabs.curr.bad_disk_cnt}}</b>]块
-            -->
+                                    Smart异常[ <b class="bk-fg-danger">{{cabs.curr.bad_disk_cnt}}</b> ]块
+                                </span>，<span>
+                                    MD5异常[ <a href="" class="bk-fg-danger" title="MD5异常硬盘清单"
+                                            data-container="body" data-toggle="popover" data-placement="top"
+                                            data-content="请在系统报表中查看详情">{{cabs.curr.bad_md5_disk_cnt}}</a> ]块
                                 </span>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="panel-body bk-bg-very-light-gray bk-padding-5 text-center" ng-show="cabs.changed">
-            <p class="bk-fg-primary bk-fg-lighten">存储柜信息发生变化,请 <a href="#" onclick="location.reload();">点此刷新页面</a> 查看
+            <p class="bk-fg-primary bk-fg-lighten">
+                存储柜信息发生变化,请 <a href="#" onclick="location.reload();">点此刷新页面</a> 查看
             </p>
         </div>
     </div>
