@@ -16,6 +16,7 @@ user_app.filter('to_trusted', function ($sce) {
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
     global_http = $http;
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
+    $scope.is_making = false;
 
     $scope.report_obj = {
         'cabinets': []
@@ -23,6 +24,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
 
     $scope.make_report = function () {
         $scope.is_ok = false;
+        $scope.is_making = true;
 
         $scope.today = new Date();
 
@@ -38,9 +40,11 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 $scope.report_obj['cabinets'] = data;
 
                 $scope.is_ok = true;
+                $scope.is_making = false;
             }
         }).error(function (data) {
             $scope.err_data = data;
+            $scope.is_making = false;
         });
     }    
 	

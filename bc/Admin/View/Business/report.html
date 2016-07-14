@@ -59,7 +59,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="_dsk in cab.disks">
+                                <tr ng-repeat="_dsk in cab.disks" ng-class="{'bk-bg-warning':_dsk.md5_curr != _dsk.md5_last}">
                                     <td>{{$index + 1}}</td>
                                     <td>{{_dsk.level}}-{{_dsk.group}}-{{_dsk.disk}}</td>
                                     <td>{{_dsk.sn}}</td>
@@ -74,7 +74,7 @@
                                     <td>{{_dsk.md5_last_time==null?'-':(_dsk.md5_last_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
                                     <td style="word-wrap:break-word;word-break:break-all;">{{_dsk.md5_curr==null?'-':_dsk.md5_curr}}</td>
                                     <td>{{_dsk.md5_curr_time==null?'-':(_dsk.md5_curr_time * 1000 | date:'yyyy-MM-dd HH:mm:ss')}}</td>
-                                    <td></td>
+                                    <td>{{_dsk.md5_curr != _dsk.md5_last?'异常：MD5变化':''}}</td>
                                 </tr>
                             </tbody>
                         </table>
