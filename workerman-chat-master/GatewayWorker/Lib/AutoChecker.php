@@ -253,7 +253,7 @@ Class AutoChecker
         $curr_time = time();
 
         //时间已到,而且当前没有其他自检计划正在进行
-        if ($curr_time >= int($plan['time'])) {
+        if ($curr_time >= int($plan['start_time'])) {
             if ($this->isCabBusy())
                 return false;
             $this->startCheck($plan);

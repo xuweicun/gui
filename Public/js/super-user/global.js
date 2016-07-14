@@ -239,7 +239,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     */
     $scope.user_settings = new UserSettings();
     $http({
-        url: '/index.php?m=admin&c=business&a=getUserSettings',
+        url: '/index.php?m=admin&c=business&a=getCheckConfig',
         method: 'GET'
     }).success(function (data) {
         console.log(data);
