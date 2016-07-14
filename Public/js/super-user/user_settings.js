@@ -29,7 +29,7 @@ Check_t.prototype = {
         }).success(function (data) {
             var rst;
             if(data) rst = JSON.parse(data);
-            if (!data || !rst.status) {
+            if (!data || rst.status=='1') {
                 new PNotify({
                     title: '保存配置结果',
                     text: '程序异常',
