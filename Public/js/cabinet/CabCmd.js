@@ -52,6 +52,7 @@
     this.errMsg = '';
     // 附加信息
     this.extra_info = null;
+
 }
 
 CabCmd.prototype = {    
