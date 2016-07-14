@@ -1216,7 +1216,7 @@ class BusinessController extends Controller
         $data = array(
             'type' => $_POST['type'],
             'cnt' => (int)$_POST['cnt'],
-            'unit' => (int)$_POST['unit'],
+            'unit' => $_POST['unit'],
             'start_date' => strtotime($_POST['start_date']),
             'hour'=>$_POST['start_time'],
             'time' => time(),
