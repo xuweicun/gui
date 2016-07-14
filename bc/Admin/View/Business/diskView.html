@@ -80,7 +80,7 @@
                             </a>
                         </td>
 					</tr>
-                    <tr ng-show="cab.curr.is_bridged() && (user_profile.can_write >= 1)"
+                    <tr ng-show="cab.curr.is_bridged() && (user_profile.can_write >= 2)"
                         ng-class="{ true:'bk-fg-primary', false:'bk-fg-danger' }[cab.curr.is_write_protected()]">
                         <td colspan="2">
                             <i class="fa" ng-class="{ true:'fa-shield', false:'fa-times-circle' }[cab.curr.is_write_protected()]"></i>

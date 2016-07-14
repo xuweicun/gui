@@ -42,7 +42,7 @@ Check_t.prototype = {
                 new PNotify({
                     title: '保存配置结果',
                     text: '成功',
-                    type: 'error',
+                    type: 'success',
                     shadow: true,
                     icon: 'fa fa-check-o'
                 });
