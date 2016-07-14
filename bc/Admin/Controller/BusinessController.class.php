@@ -1229,7 +1229,6 @@ class BusinessController extends Controller
         //取消还未开始的计划,改为当前计划
         $plan = array(
             'start_time'=> strtotime($_POST['start_date']) + (int)$_POST['start_time']*3600,
-            'modify_time'=>time(),
             'type'=>$data['type'],
             'status'=>C('PLAN_STATUS_WAITING')
         );//$this->getPlan($data, $_POST['start_date']);
@@ -1245,13 +1244,13 @@ class BusinessController extends Controller
             $old_plan['modify_time'] = time();
             $rs3 = $plan_db->save($old_plan);
         }
-        $ret['status'] = '1';
+        $ret['status'] = '0';
         if ($rs1 && $rs2 && $rs3) {
             $db->commit();
         } else {
             //回滚
             $db->rollback();
-            $ret['status'] = '0';
+            $ret['status'] = '1';
         }
         $this->AjaxReturn(json_encode($ret));
     }
