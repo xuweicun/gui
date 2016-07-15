@@ -112,7 +112,7 @@ Class AutoChecker
             //检查自检时间是否已经更新,如果未更新则更新
             $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T'=>$this->type,'C'=>1))->single();
 
-            if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
+            if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t > (24 * 3600)) {
                 $this->updateStartDate($plan['start_time']);
             }
             $this->RunLog("Check start time finished.");
@@ -327,10 +327,11 @@ Class AutoChecker
         if (!$_start_date) {
             $_start_date = time();
         }
-        $item = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type,'C'=>1))->single();
+        $items = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type,'C'=>1))->query();
         $rst = true;
         //如果有时间,更新
-        if ($item) {
+        if ($items) {
+            $item = $items[0];
             $item['start_date'] = $_start_date;
             $rst = $this->db->update("gui_check_start_time")->cols($item)->where("id={$item['id']}")->query();
 
@@ -346,7 +347,6 @@ Class AutoChecker
         if (!$rst) {
             $this->RunLog("Error: Failed to update start date :(");
         } else {
-            $this->start_date = time();
             $this->RunLog("Success: Updated start date :)");
         }
     }
@@ -398,8 +398,9 @@ Class AutoChecker
                     $grp = $g + 1;
                     for ($d = 0; $d < $cab['dsk_cnt']; $d++) {
                         $idx = $d + 1;
-                        $dsk = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->single();
-                        if ($dsk) {
+                        $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->query();
+                        if ($dsks) {
+                            $dsk = $dsks[0];
                             $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
                             $dsk['sn_check_status'] = PLAN_STATUS_WAITING;
                             $db->update('gui_device')->cols($dsk)->where("id={$dsk['id']}")->query();
@@ -495,21 +496,19 @@ Class AutoChecker
         $type = $this->type;
         $db = $this->db;
         $plan = null;
-        $config = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->single();
-        if ($config)
-            $this->RunLog("Config-information: unit-" . $config['unit'] . "-count-" . $config['cnt']);
-        else {
-            $this->RunLog("Error: No self check configuration available.");
-        }
-        if ($config) {
+        $config = null;
+        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->query();
+
+        if ($configs) {
+            $config = $configs[0];
             //根据配置生成新的plan
             if (!$start_t) {
-                $item = $db->select("start_date")->from($this->tbl_check_start_time)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->single();
-                if (!$item) {
+                $items = $db->select("start_date")->from($this->tbl_check_start_time)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
+                if (!$items) {
                     $this->RunLog("Error: No start date was found. Quit.");
                     return null;
                 }
-                $start_t = (int)$item['start_date'];
+                $start_t = (int)$items[0]['start_date'];
             }
 
             $plan = $this->getPlan($config, $start_t);
@@ -533,6 +532,7 @@ Class AutoChecker
     {
 
         //生成cmd,插入CmdLog
+        $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
         $new_cmd = array(
@@ -552,12 +552,12 @@ Class AutoChecker
             $header = array(
                 'Content-Type:application/json'//x-www-form-urlencoded'
             );
-            $data = array(cmd => strtoupper($type),
+            $data = array(cmd => $cmd,
                 'CMD_ID' => $cmd_id,
                 'device_id' => $dsk['cab_id'],
                 'level' => $dsk['level'],
                 'group' => $dsk['zu'],
-                'index' => $dsk['disk'],
+                'disk' => $dsk['disk'],
                 'subcmd' => 'START'
             );
             // 添加apikey到header
@@ -568,10 +568,13 @@ Class AutoChecker
             // 执行HTTP请求
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
+            //更新日志信息
+            $new_cmd['msg'] = json_encode($data);
+            $this->db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
             $this->RunLog("Sendding commond: Commond sent to app.");
 
             // 通知前端
-            $msg = array('type' => 'selfcheck', 'user_id' => 0, 'dsk' => $dsk, 'cmd' => strtoupper($type), 'subcmd' => 'START', 'cmd_id' => $cmd_id);
+            $msg = array('type' => 'selfcheck', 'user_id' => 0, 'dsk' => $dsk, 'cmd' => $cmd, 'subcmd' => 'START', 'cmd_id' => $cmd_id);
             //$ret = array_merge($ret, $attached);
             ExtendGateWay::sendToAll(json_encode($msg));
             return true;

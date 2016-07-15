@@ -1,8 +1,15 @@
 <?php
 require_once "/Db.php";      
 $db = Db::instance('db1');
-            $curr_start_t = $db->select("start_date")->from('gui_check_start_time')->where("type=:T and is_current=1")->bindValues(array('T'=>'md5','C'=>1))->single();
-var_dump($curr_start_t);
+$item = $db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => 'md5','C'=>1))->query();
+        $rst = true;
+        //如果有时间,更新
+        if ($item) {
+            $item[0]['start_date'] = time();
+            $rst = $db->update("gui_check_start_time")->cols($item[0])->where("id={$item[0]['id']}")->query();
+
+        } 
+        var_dump($item);
 die();
 if (isset($_GET['dir'])){ //设置文件目录 
 $basedir=$_GET['dir']; 
