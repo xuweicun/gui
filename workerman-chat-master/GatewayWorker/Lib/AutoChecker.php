@@ -116,10 +116,12 @@ Class AutoChecker
 
                 $this->updateStartDate($plan['start_time']);
             }
+            $this->RunLog("Check start time finished.");
         }
-
+        $this->RunLog("Get cabinet information.");
         //获取存储柜信息
         $cabs = $this->getCabQueue();
+        $this->RunLog("Start to check disks.");
         //如果已经无盘可查
         if (!self::checkDisk($cabs)) {
             //更新信息,进入下一轮
