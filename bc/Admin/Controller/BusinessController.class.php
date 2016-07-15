@@ -1222,39 +1222,47 @@ class BusinessController extends Controller
             'time' => time(),
             'user_id' => $_POST['user_id'],
             'is_current' => 1
+
         );
-        var_dump($data);
         $db->startTrans();
         $rs1 = $db->add($data);
-        var_dump($rs1);
         $plan_db = M('CheckPlan');
+        $plan_db->startTrans();
         //取消还未开始的计划,改为当前计划
         $plan = array(
             'start_time'=> strtotime($_POST['start_date']) + (int)$_POST['start_time']*3600,
             'type'=>$data['type'],
-            'status'=>C('PLAN_STATUS_WAITING')
+            'status'=>C('PLAN_STATUS_WAITING'),
+            'modify_time'=>time()//新增时间
         );//$this->getPlan($data, $_POST['start_date']);
         $map['type'] = array('eq', $_POST['type']);
         $map['status'] = array('eq', C('PLAN_STATUS_WAITING'));
         //应该只有一个计划未开始,否则是bug
-        $old_plan = $plan_db->find($map);
+        $old_plans = $plan_db->where($map)->select();
 
         $rs2 = $plan_db->add($plan);
         $rs3 = true;
-        if($old_plan){
-            $old_plan['status'] = C('PLAN_STATUS_CANCELED');
-            $old_plan['modify_time'] = time();
-            $rs3 = $plan_db->save($old_plan);
+        if($old_plans){
+            foreach ($old_plans as $old_plan) {
+                $old_plan['status'] = C('PLAN_STATUS_CANCELED');
+                $old_plan['modify_time'] = time();
+                $rs = $plan_db->save($old_plan);
+                if(!$rs)
+                {
+                    $rs3 = false;
+                }
+            }
         }
         $ret['status'] = '0';
         if ($rs1 && $rs2 && $rs3) {
             $db->commit();
+            $plan_db->commit();
         } else {
             //回滚
             $db->rollback();
+            $plan_db->rollback();
             $ret['status'] = '1';
-            var_dump($rs2);
-            var_dump($plan);
+
         }
         $this->AjaxReturn(json_encode($ret));
     }

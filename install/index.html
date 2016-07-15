@@ -30,7 +30,7 @@
 	</tr>
 
 	<tr><th class="tbopt">&nbsp;数据库名:</th>
-	<td><input type="text" name="dbinfo[dbname]" placeholder="输入数据库名称" size="35" class="txt"> &nbsp;&nbsp;<input type="checkbox" checked name="dbinfo[mk_newdb]" value="1" />新建库名</td>
+	<td><input type="text" name="dbinfo[dbname]" value="gui" placeholder="输入数据库名称" size="35" class="txt"> &nbsp;&nbsp;<input type="checkbox" checked name="dbinfo[mk_newdb]" value="1" />新建库名</td>
 	<td>&nbsp;</td>
 	</tr>
 
@@ -40,12 +40,12 @@
 	</tr>
 
 	<tr><th class="tbopt">&nbsp;数据库密码:</th>
-	<td><input type="password" name="dbinfo[dbpw]" value="root" size="35" class="txt"></td>
+	<td><input type="password" name="dbinfo[dbpw]" value="moganfreeman" size="35" class="txt"></td>
 	<td>&nbsp;</td>
 	</tr>
 
 	<tr><th class="tbopt">&nbsp;数据表前缀:</th>
-	<td><input type="text" name="dbinfo[tablepre]" value="mycms_" size="35" class="txt"></td>
+	<td><input type="text" name="dbinfo[tablepre]" value="gui_" size="35" class="txt"></td>
 	<td>&nbsp;</td>
 	</tr>
 
@@ -53,6 +53,11 @@
 	<td><input type="text" name="dbinfo[dbport]" value="3306" size="35" class="txt"></td>
 	<td>&nbsp;</td>
 	</tr>
+
+		<tr><th class="tbopt">&nbsp;数据库文件名:</th>
+			<td><input type="text" name="dbinfo[dbfile]" value="install.sql" size="35" class="txt"></td>
+			<td>&nbsp;</td>
+		</tr>
 
 	</table>
 
