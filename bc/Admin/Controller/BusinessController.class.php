@@ -1223,8 +1223,10 @@ class BusinessController extends Controller
             'user_id' => $_POST['user_id'],
             'is_current' => 1
         );
+        var_dump($data);
         $db->startTrans();
         $rs1 = $db->add($data);
+        var_dump($rs1);
         $plan_db = M('CheckPlan');
         //取消还未开始的计划,改为当前计划
         $plan = array(
