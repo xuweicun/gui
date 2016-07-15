@@ -470,7 +470,9 @@ angular.module('device.services', [])
                 case 'check_status':
                     console.log('自检消息',data['msg']);
                     break;
-
+                case 'selfcheck':
+                    //添加新
+                    break;
 
             }
 

@@ -574,9 +574,15 @@ Class AutoChecker
             $this->RunLog("Sendding commond: Commond sent to app.");
 
             // 通知前端
-            $msg = array('type' => 'selfcheck', 'user_id' => 0, 'dsk' => $dsk, 'cmd' => $cmd, 'subcmd' => 'START', 'cmd_id' => $cmd_id);
-            //$ret = array_merge($ret, $attached);
-            ExtendGateWay::sendToAll(json_encode($msg));
+            $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id=$cmd_id")->query();
+            if($rst) {
+                $attached = array('type' => 'say', 'user_name' => 'system');
+                $rst = array_merge($rst, $attached);
+
+                //$msg = array('type' => 'selfcheck', 'user_id' => 0, 'dsk' => $dsk, 'cmd' => $cmd, 'subcmd' => 'START', 'cmd_id' => $cmd_id);
+                //$ret = array_merge($ret, $attached);
+                ExtendGateWay::sendToAll(json_encode($rst));
+            }
             return true;
         } else {
             $this->RunLog("Sendding commond: Failed to add commond log.");
