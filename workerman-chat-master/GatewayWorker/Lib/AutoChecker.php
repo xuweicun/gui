@@ -152,9 +152,9 @@ Class AutoChecker
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = $cab['sn'];
-            for ($l = 0; $l < $cab['lvl_cnt']; $l++) {
+            for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
-                for ($g = 0; $g < $cab['grp_cnt']; $g++) {
+                for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
                     $grp = $g + 1;
                     //按照优先级排序
