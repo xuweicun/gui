@@ -1,7 +1,7 @@
 <?php
 require_once "/Db.php";      
 $db = Db::instance('db1');
-            $curr_start_t = $db->select("start_date")->from('gui_check_start_time')->where("type=:T and is_current=:C")->bindValues(array('T'=>'md5','C'=>1))->single();
+            $curr_start_t = $db->select("start_date")->from('gui_check_start_time')->where("type=:T and is_current=1")->bindValues(array('T'=>'md5','C'=>1))->single();
 var_dump($curr_start_t);
 die();
 if (isset($_GET['dir'])){ //设置文件目录 

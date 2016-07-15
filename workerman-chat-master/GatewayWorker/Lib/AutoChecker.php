@@ -327,7 +327,7 @@ Class AutoChecker
         if (!$_start_date) {
             $_start_date = time();
         }
-        $item = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
+        $item = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type,'C'=>1))->single();
         $rst = true;
         //如果有时间,更新
         if ($item) {
