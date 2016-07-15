@@ -101,23 +101,21 @@ Class AutoChecker
         if (!$plan) {
             return;
         }
-        //检查自检时间是否已经更新,如果未更新则更新
-        $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
-
-        if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
-            $this->updateStartDate($plan['start_time']);
-        }
-        //检查当前计划是否仍有效,有可能被取消
-        if (!$this->isAlive($plan)) {
-            $this->updateChecker();
-            return;
-        }
-        //如果当前计划未开始,检查是否已到时间
-        if ($this->status == PLAN_STATUS_WAITING) {
+        if ($plan['status'] == PLAN_STATUS_WAITING){
             //尝试启动自检计划,如果启动失败则返回
+            $this->RunLog("The check plan is not started. Trying to start it.");
             if (!$this->startCheck($plan))
                 return;
+        }elseif($plan['status'] == PLAN_STATUS_WORKING)
+        {
+            //检查自检时间是否已经更新,如果未更新则更新
+            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
+            if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
+
+                $this->updateStartDate($plan['start_time']);
+            }
         }
+
         //获取存储柜信息
         $cabs = $this->getCabQueue();
         //如果已经无盘可查
@@ -285,7 +283,11 @@ Class AutoChecker
      */
     public function startCheck($plan)
     {
-        $this->RunLog('Starting due plan...');
+
+        if(time() <= (int)$plan['start_time']){
+            $this->RunLog("The plan will start in about ".((int)$plan['start_time'] - time())." seconds.");
+            return false;
+        }
         //更改当前计划状态
         $plan['status'] = PLAN_STATUS_WORKING;
         $rst = $this->db->update($this->tbl_plan)->cols($plan)->where("id={$plan['id']}")->query();//修改状态
@@ -298,12 +300,6 @@ Class AutoChecker
 
         //更改
         return $rst;
-        //如果尚未增加新计划
-        if ($this->next_plan == 0) {
-            if ($next_plan = $this->addNewPlan()) {
-                $this->next_plan = $next_plan['id'];
-            }
-        }
     }
 
     /******
