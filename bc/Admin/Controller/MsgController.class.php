@@ -794,7 +794,7 @@ class MsgController extends Controller
         }
         //如果
         $dsk = $this->getCheckDsk($cmd['id']);
-        $status = strtolower($cmd['cmd'])."_check_status";
+        $status = strtolower($cmd['cmd'])."_status";
         //检查当前是否有在执行的计划
         $plan_db = M('CheckPlan');
         $is_plan_alive = false;
@@ -820,8 +820,9 @@ class MsgController extends Controller
             }
             $dsk_db->save($dsk);
         }
+        return;
         //修改计划日志
-        $plan_log_db = M('PlanLog');
+        $plan_log_db = M('DskCheckLog');
         $data['plan_id'] = $cmd['plan_id'];
         $data['dsk_id'] = $dsk['id'];
         $data['finish_time'] = time();

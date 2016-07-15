@@ -72,11 +72,14 @@ Class AutoChecker
     {
         $db = $this->db;
         $plan = null;
-        $plan = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->single();
-        if (!$plan) {
-            //根据配置项增加新计划
+        $plans = $db->select('*')->from($this->tbl_plan)->where("status<1 and type='{$this->type}'")->orderby(array('status'))->query();
+        if ($plans) {
+            //取status最大的那个计划
+            $plan = $plans[count($plans) - 1];
+            $this->RunLog("Number of available plans: ".count($plans).". Status of current plan: ".$plan['status']);
+        } else
             $plan = $this->addNewPlan();
-        }
+
         return $plan;
     }
 
@@ -99,7 +102,7 @@ Class AutoChecker
             return;
         }
         //检查自检时间是否已经更新,如果未更新则更新
-        $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T'=>$this->type))->single();
+        $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
 
         if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
             $this->updateStartDate($plan['start_time']);
