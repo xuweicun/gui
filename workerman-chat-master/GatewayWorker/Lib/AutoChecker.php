@@ -120,7 +120,7 @@ Class AutoChecker
         //获取存储柜信息
         $cabs = $this->getCabQueue();
         //如果已经无盘可查
-        if (!self::checkDisk($cabs)) {
+        if (self::checkDisk($cabs)) {
             //更新信息,进入下一轮
             $this->updateChecker();
         }
@@ -157,7 +157,7 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
-                        if ($dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
+                        if ( !is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
                             $this->RunLog("Group #" . $cab_id . "-$lvl-$grp is busy. Aborting on this group.");
@@ -392,11 +392,11 @@ Class AutoChecker
         //遍历每个硬盘,如果状态为未完成,设为完成,priority+1;如果已完成,priority=0;
         foreach ($cabs as $cab) {
             $cab_id = $cab['sn'];
-            for ($l = 0; $l < $cab['lvl_cnt']; $l++) {
+            for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
-                for ($g = 0; $g < $cab['grp_cnt']; $g++) {
+                for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp = $g + 1;
-                    for ($d = 0; $d < $cab['dsk_cnt']; $d++) {
+                    for ($d = 0; $d < $cab['disk_cnt']; $d++) {
                         $idx = $d + 1;
                         $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->query();
                         if ($dsks) {
