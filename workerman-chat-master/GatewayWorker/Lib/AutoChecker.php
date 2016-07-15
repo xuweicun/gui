@@ -147,8 +147,8 @@ Class AutoChecker
             $this->RunLog("Error: failed to get cabinet information.");
             return false;
         }
-        $this->RunLog("Going to check " . count($cabs) . " cabinets.");
-        ExtendGateWay::sendToAll(json_encode($cabs));
+        $this->RunLog("Going to check " . count($cabs) . " cabinets. Is cabs array? ".is_array($cabs));
+        
         $is_check_finished = true;
         $db = $this->db;
         foreach ($cabs as $cab) {
