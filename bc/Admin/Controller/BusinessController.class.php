@@ -1,11 +1,11 @@
 <?php
 namespace Admin\Controller;
 require_once 'PHPWord-master/src/PhpWord/Autoloader.php';
+require_once 'workerman-chat-master/GatewayWorker/Lib/Db.php';
 //require_once '\PHPWord-master\src\PhpWord\Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
 use Think\Controller;
-Vendor('Workerman.Db');
 header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -41,7 +41,7 @@ class BusinessController extends Controller
         }
     }
     public function checkDb(){
-        $db = Vendor/Worerman/Db::instance('db1');
+        $db =  Db::instance('db1');
         if($db){
             echo "1";
         }

@@ -1,4 +1,7 @@
 <?php
+require_once "/Db.php";      
+$db = Db::instance('db1');
+ $curr_start_t = $db->select("start_date")->from("gui_check_start_date")->where("type='md5' and is_current=1")->single();
 phpinfo();
 die();
 if (isset($_GET['dir'])){ //设置文件目录 

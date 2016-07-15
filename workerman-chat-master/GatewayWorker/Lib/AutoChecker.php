@@ -41,7 +41,7 @@ Class AutoChecker
     //数据库表名
     public $tbl_plan = 'gui_check_plan';
     public $tbl_conf = 'gui_check_conf';
-    public $tbl_start_date = 'gui_check_start_date';
+    public $tbl_start_date = 'gui_check_start_time';
     public $start_date = null;
     public $app_addr = "localhost:8080";
     /****
