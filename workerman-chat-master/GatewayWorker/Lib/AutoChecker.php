@@ -122,7 +122,7 @@ Class AutoChecker
             }
             if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
                 $this->RunLog("Updating start time....");
-                $this->updateStartDate($plan['start_time']);
+               // $this->updateStartDate($plan['start_time']);
             }
             $this->RunLog("Check start time finished.");
         }
