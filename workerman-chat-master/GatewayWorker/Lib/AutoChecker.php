@@ -111,7 +111,7 @@ Class AutoChecker
         } elseif ($plan['status'] == PLAN_STATUS_WORKING) {
             $this->RunLog("Check start time.");
             //检查自检时间是否已经更新,如果未更新则更新
-            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
+            $curr_start_t = null;//$db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
             $this->RunLog("Check finished");
             if($curr_start_t)
             {
