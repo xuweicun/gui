@@ -112,8 +112,15 @@ Class AutoChecker
             $this->RunLog("Check start time.");
             //检查自检时间是否已经更新,如果未更新则更新
             $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=1")->bindValues(array('T' => $this->type))->single();
+            if($curr_start_t)
+            {
+                $this->RunLog("Current start time:".$curr_start_t['start_date']);
+            }
+            else{
+                $this->RunLog("No start time available. Inserting....");
+            }
             if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
-
+                $this->RunLog("Updating start time....");
                 $this->updateStartDate($plan['start_time']);
             }
             $this->RunLog("Check start time finished.");
