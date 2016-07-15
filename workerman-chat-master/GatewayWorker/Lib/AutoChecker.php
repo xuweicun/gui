@@ -151,7 +151,7 @@ Class AutoChecker
         $is_check_finished = true;
         $db = $this->db;
         foreach ($cabs as $cab) {
-            $cab_id = $cab['sn'];
+            $cab_id = (int)$cab['sn'];
             for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
