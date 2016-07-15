@@ -148,6 +148,7 @@ Class AutoChecker
             return false;
         }
         $this->RunLog("Going to check " . count($cabs) . " cabinets.");
+        ExtendGateWay::sendToAll(json_encode($cabs));
         $is_check_finished = true;
         $db = $this->db;
         foreach ($cabs as $cab) {
