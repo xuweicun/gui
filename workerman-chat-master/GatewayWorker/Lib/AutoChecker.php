@@ -152,8 +152,10 @@ Class AutoChecker
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
+            $this->RunLog("working on Cab #".$cab['sn']);
             for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
+                $this->RunLog("working on Level #".$lvl);
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
                     $grp = $g + 1;
