@@ -111,7 +111,7 @@ Class AutoChecker
         } elseif ($plan['status'] == PLAN_STATUS_WORKING) {
             $this->RunLog("Check start time.");
             //检查自检时间是否已经更新,如果未更新则更新
-            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type='{$this->type}' and is_current=1")->single();
+            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type={$this->type} and is_current=1")->single();
             $this->RunLog("Check finished");
             if($curr_start_t)
             {
@@ -148,7 +148,7 @@ Class AutoChecker
             return false;
         }
         $this->RunLog("Going to check " . count($cabs) . " cabinets. Is cabs array? ".is_array($cabs));
-        
+
         $is_check_finished = true;
         $db = $this->db;
         foreach ($cabs as $cab) {
