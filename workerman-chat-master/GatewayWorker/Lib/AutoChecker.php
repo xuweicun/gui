@@ -109,27 +109,16 @@ Class AutoChecker
             if (!$this->startCheck($plan))
                 return;
         } elseif ($plan['status'] == PLAN_STATUS_WORKING) {
-            $this->RunLog("Check start time.");
             //检查自检时间是否已经更新,如果未更新则更新
-            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type={$this->type} and is_current=1")->single();
-            $this->RunLog("Check finished");
-            if($curr_start_t)
-            {
-                $this->RunLog("Current start time:".$curr_start_t['start_date']);
-            }
-            else{
-                $this->RunLog("No start time available. Inserting....");
-            }
+            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T'=>$this->type,'C'=>1))->single();
+
             if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t['start_date'] > (24 * 3600)) {
-                $this->RunLog("Updating start time....");
-               // $this->updateStartDate($plan['start_time']);
+                $this->updateStartDate($plan['start_time']);
             }
             $this->RunLog("Check start time finished.");
         }
-        $this->RunLog("Get cabinet information.");
         //获取存储柜信息
         $cabs = $this->getCabQueue();
-        $this->RunLog("Start to check disks.");
         //如果已经无盘可查
         if (!self::checkDisk($cabs)) {
             //更新信息,进入下一轮
