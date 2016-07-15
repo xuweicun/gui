@@ -63,8 +63,8 @@ Class AutoChecker
     public function RunLog($str)
     {
         $msg = array('type' => 'check_status', 'msg' => "Type: {$this->type}. Status: " . $str, 'time' => time());
-        $db = DB::instance("db1");
-        $db->insert('gui_system_run_log')->cols($msg)->query();
+     //   $db = DB::instance("db1");
+     //   $db->insert('gui_system_run_log')->cols($msg)->query();
         ExtendGateWay::sendToAll(json_encode($msg));
     }
 
