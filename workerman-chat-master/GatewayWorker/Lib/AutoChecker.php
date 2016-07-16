@@ -119,6 +119,8 @@ Class AutoChecker
         }
         //获取存储柜信息
         $cabs = $this->getCabQueue();
+        //检查是否有未更新自检状态的磁盘，并予以更新，以防止堵塞
+        $this->checkCmdStatus($plan);
         //如果已经无盘可查
         if (self::checkDisk($cabs)) {
             //更新信息,进入下一轮
@@ -286,13 +288,25 @@ Class AutoChecker
     public function isCabBusy()
     {
         $db = $this->db;
-        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValue(array('F' => PLAN_STATUS_WORKING))->query();
+        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValues(array('F' => PLAN_STATUS_WORKING))->query();
         if (!$plans) {
             return false;
         }
         return true;
     }
+    public function resetDiskStatus(){
+        $status = $this->type."_status";
 
+        $dsks = $this->db->select("id,".$this->type."_cmd_id,".$this->type."_status")->from("gui_device")->where("loaded=:L")->bindValues(array('L'=>1))->query();
+        foreach($dsks as $dsk){
+            if($dsk[$status] !== PLAN_STATUS_WORKING){
+                $dsk[$status]  = PLAN_STATUS_WAITING;
+                $dsk['md5_skipped'] = 0;
+                $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk['id']))->query();
+            }
+        }
+
+    }
     /******
      * @param $plan 启动计划
      * @return bool 返回启动是否成功的结果
@@ -304,6 +318,10 @@ Class AutoChecker
             $this->RunLog("The plan will start in about " . ((int)$plan['start_time'] - time()) . " seconds.");
             return false;
         }
+        if ($this->isCabBusy()) {
+            $this->RunLog("The cab is busy. Waiting for the cab to be free.");
+            return false;
+        }
         //更改当前计划状态
         $plan['status'] = PLAN_STATUS_WORKING;
         $rst = $this->db->update($this->tbl_plan)->cols($plan)->where("id={$plan['id']}")->query();//修改状态
@@ -311,6 +329,7 @@ Class AutoChecker
             $this->RunLog("Error: Failed to start the plan :( Will try again later.");
         } else {
             $this->updateStartDate();
+            $this->resetDiskStatus();
             $this->RunLog("Congratulation: Success to start the plan :)");
         }
 
@@ -412,7 +431,32 @@ Class AutoChecker
         }
 
     }
+    public function checkCmdStatus($plan){
+        //如果自检小于1天则返回
+        $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
 
+        $check_done = false;
+        $dsks = $this->db->select("id,".$this->type."_cmd_id")->from("gui_device")->where($this->type."_status=:S and loaded=:L")->bindValues(array('S'=>PLAN_STATUS_WORKING,'L'=>1))->query();
+        if($dsks){
+            foreach($dsks as $dsk){
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I'=>$dsk[$this->type."_cmd_id"]))->query();
+                if($cmds){
+                    $cmd = $cmds[0];
+                    //命令已经结束或者超时
+                    if($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit){
+                        $check_done = true;
+                    }
+                }
+                else{
+                    $check_done = true;
+                }
+                if($check_done){
+                    $dsk[$this->type."_status"] = PLAN_STATUS_FINISHED;
+                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk["id"]))->query();
+                }
+            }
+        }
+    }
     public function getCabQueue()
     {
         $db = $this->db;
@@ -420,7 +464,7 @@ Class AutoChecker
         $cabs = $db->select("*")->from($cab_tbl)->where("loaded=1")->query();
         return $cabs;
     }
-
+    //检查
     public function getPlan($config, $start_t)
     {
         //根据配置信息获取时间
@@ -574,6 +618,7 @@ Class AutoChecker
 
             // 通知前端
             $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id=$cmd_id")->query();
+
             if($rst) {
                 $attached = array('type' => 'say', 'user_name' => 'system');
                 $rst = array_merge($rst, $attached);

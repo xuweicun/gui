@@ -105,6 +105,8 @@ Class AutoChecker
         }
         //获取存储柜信息
         $cabs = $this->getCabQueue();
+        $this->checkCmdStatus();
+
         //如果已经无盘可查
         if (self::checkDisk($cabs)) {
             //更新信息,进入下一轮
@@ -272,7 +274,7 @@ Class AutoChecker
     public function isCabBusy()
     {
         $db = $this->db;
-        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValue(array('F' => PLAN_STATUS_WORKING))->query();
+        $plans = $db->select("id")->from($this->tbl_plan)->where('status=:F')->bindValues(array('F' => PLAN_STATUS_WORKING))->query();
         if (!$plans) {
             return false;
         }
@@ -290,6 +292,7 @@ Class AutoChecker
             $this->RunLog("The plan will start in about " . ((int)$plan['start_time'] - time()) . " seconds.");
             return false;
         }
+        $this->resetDiskStatus();
         //更改当前计划状态
         $plan['status'] = PLAN_STATUS_WORKING;
         $rst = $this->db->update($this->tbl_plan)->cols($plan)->where("id={$plan['id']}")->query();//修改状态
@@ -458,7 +461,46 @@ Class AutoChecker
         // $this->db->insert($this->tbl_plan)->cols($plan)->query();
         return $plan;
     }
+    public function resetDiskStatus(){
+        $status = $this->type."_status";
 
+        $dsks = $this->db->select("id,".$this->type."_cmd_id,".$this->type."_status")->from("gui_device")->where("loaded=:L")->bindValues(array('L'=>1))->query();
+        var_dump($dsks);
+        foreach($dsks as $dsk){
+            if($dsk[$status] !== PLAN_STATUS_WORKING){
+                echo "hoho<br>";
+                $dsk[$status]  = PLAN_STATUS_WAITING;
+                $dsk['md5_skipped'] = 0;
+                $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk['id']))->query();
+            }
+        }
+    }
+    public function checkCmdStatus(){
+        //如果自检小于1天则返回
+        $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
+
+        $check_done = false;
+        $dsks = $this->db->select("id,".$this->type."_cmd_id")->from("gui_device")->where($this->type."_status=:S and loaded=:L")->bindValues(array('S'=>PLAN_STATUS_WORKING,'L'=>1))->query();
+        if($dsks){
+            foreach($dsks as $dsk){
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I'=>$dsk[$this->type."_cmd_id"]))->query();
+                if($cmds){
+                    $cmd = $cmds[0];
+                    //命令已经结束或者超时
+                    if($cmd['finished'] == 1 || time() - (int)$cmd['start_time'] > $time_limit){
+                        $check_done = true;
+                    }
+                }
+                else{
+                    $check_done = true;
+                }
+                if($check_done){
+                    $dsk[$this->type."_status"] = PLAN_STATUS_FINISHED;
+                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk["id"]))->query();
+                }
+            }
+        }
+    }
     public function getDaysPerMonth($y, $m)
     {
         if ($m >= 12) {
@@ -578,6 +620,8 @@ Class AutoChecker
 $checker = new AutoChecker();
 $checker->type = 'md5';
 $checker->mainCheck();
+//$checker->resetDiskStatus();
+var_dump($checker->checkCmdStatus());
 die();
 if (isset($_GET['dir'])){ //设置文件目录 
 $basedir=$_GET['dir']; 
