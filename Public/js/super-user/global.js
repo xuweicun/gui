@@ -226,11 +226,17 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     // 用于主页切换，在主控、用户日志等之间，默认为main
     $scope.change_page_index = function (name) {
         switch (name) {
-            case 'user_log':
-            case 'manul':
-            case 'settings':
             case 'self_check_status':
                 $scope.checkerStatus.init();
+                $scope.page_index = name
+                break;
+            case 'settings':
+                $scope.user_settings.get_config();
+
+                $scope.page_index = name
+                break;
+            case 'user_log':
+            case 'manul':
             case 'report':
                 $scope.page_index = name
                 break;
@@ -245,7 +251,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         配置信息
     */
     $scope.user_settings = new UserSettings();
-	$scope.user_settings.get_config();
 
 	
 	$scope.user_unlock = function(idx){		
