@@ -45,7 +45,8 @@ class BusinessController extends Controller
             $id = (int)$_POST['id'];
             $data = array(
                 'id'=>$id,
-                'status'=>C('PLAN_STATUS_CANCELED')
+                'status'=>C('PLAN_STATUS_CANCELED'),
+                'finish_time'=>time()
                 );
             $db = M('CheckPlan');
             $ret = $db->save($data);

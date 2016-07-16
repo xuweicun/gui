@@ -466,7 +466,6 @@ Class AutoChecker
         }
         //生成计划
         $plan = array(
-            'modify_time' => time(),
             'start_time' => $plan_t,
             'status' => PLAN_STATUS_WAITING,
             'type' => $config['type']);
@@ -503,7 +502,7 @@ Class AutoChecker
             $config = $configs[0];
             //根据配置生成新的plan
             if (!$start_t) {
-                $items = $db->select("start_date")->from($this->tbl_check_start_time)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
+                $items = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
                 if (!$items) {
                     $this->RunLog("Error: No start date was found. Quit.");
                     return null;
