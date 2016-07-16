@@ -497,7 +497,7 @@ Class AutoChecker
         $db = $this->db;
         $plan = null;
         $config = null;
-        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=1")->bindValues(array('T' => $type))->query();
+        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
 
         if ($configs) {
             $config = $configs[0];
