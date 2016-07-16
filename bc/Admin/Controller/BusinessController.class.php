@@ -40,6 +40,22 @@ class BusinessController extends Controller
             $this->display();
         }
     }
+    public function stopCheck(){
+        if(IS_POST){
+            $id = (int)$_POST['id'];
+            $data = array(
+                'id'=>$id,
+                'status'=>C('PLAN_STATUS_CANCELED')
+                );
+            $db = M('CheckPlan');
+            $ret = $db->save($data);
+            $rst = array('status'=>'0');
+            if(!$ret){
+                $rst['status'] = '1';
+            }
+            $this->AjaxReturn($rst);
+        }
+    }
     public function checkDb(){
         $db =  Db::instance('db1');
         if($db){
@@ -61,7 +77,12 @@ class BusinessController extends Controller
         }
 
     }
-	
+	public function getCheckStatus(){
+        $db = M('CheckPlan');
+        $plans = $db->where("status < 2")->select();
+
+        $this->AjaxReturn($plans);
+    }
 	public function invalid_browser()
 	{
 		$this->display();
@@ -1240,6 +1261,7 @@ class BusinessController extends Controller
             'status'=>C('PLAN_STATUS_WAITING'),
             'modify_time'=>time()//新增时间
         );//$this->getPlan($data, $_POST['start_date']);
+        $map = array();
         $map['type'] = array('eq', $_POST['type']);
         $map['status'] = array('eq', C('PLAN_STATUS_WAITING'));
         //应该只有一个计划未开始,否则是bug
@@ -1261,7 +1283,7 @@ class BusinessController extends Controller
         $ret['status'] = '0';
         if ($rs1 && $rs2 && $rs3) {
             $db->commit();
-            $plan_db->commit();
+           // $plan_db->commit();
         } else {
             //回滚
             $db->rollback();

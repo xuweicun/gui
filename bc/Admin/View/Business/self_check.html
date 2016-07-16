@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-xs-8 text-left bk-vcenter">
                         <div class="">
-                            <h1 class="bk-margin-off">自检状态</h1>
+                            <h1 class="bk-margin-off">自检计划</h1>
 
                         </div>
                     </div>
@@ -24,74 +24,25 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>MD5校验</td>
-                            <td>{<$md5_status>}</td>
-                            <td>100%</td>
+                        <tbody >
+                        <tr ng-show="checkerStatus.checkers.length==0">
+                            <td>当前没有等待中或进行中的自检计划</td>
+                        </tr>
+                        <tr ng-repeat="checker in checkerStatus.checkers">
+                            <td ng-bind="checker.type"></td>
+                            <td ng-bind="checker.status"></td>
+                            <td ng-bind="checker.progress"></td>
+                            <td ng-bind="checker.start_time * 1000|date:'yyyy-MM-dd HH:mm:ss'"></td>
                             <td class="bk-padding-off-right">
                                 <ul class="list-inline bk-margin-off-bottom text-right">
                                     <li class="bk-padding-off-right">
-                                        <a data-original-title="Settings" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
+                                        <a data-original-title="Stop" title="停止自检" ng-click="checkerStatus.stopCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
                                             <i class="fa fa-stop"></i>
                                         </a>
                                     </li>
                                     <li class="bk-padding-off-right">
-                                        <a data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-settings"></i>
-                                        </a>
-                                    </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="View" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>HTML</td>
-                            <td>71,5%</td>
-                            <td>60,269</td>
-                            <td class="bk-padding-off-right">
-                                <ul class="list-inline bk-margin-off-bottom text-right">
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Settings" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-cogs"></i>
-                                        </a>
-                                    </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="View" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>CMS</td>
-                            <td>69,3%</td>
-                            <td>53,026</td>
-                            <td class="bk-padding-off-right">
-                                <ul class="list-inline bk-margin-off-bottom text-right">
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Settings" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-cogs"></i>
-                                        </a>
-                                    </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="View" title="" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-eye"></i>
+                                        <a data-original-title="Detail" title="查看详情" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
+                                            <i class="fa fa-list"></i>
                                         </a>
                                     </li>
                                 </ul>

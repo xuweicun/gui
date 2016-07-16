@@ -15,6 +15,7 @@ user_app.filter('to_trusted', function ($sce) {
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
     global_http = $http;
+    $scope.checkerStatus = new CheckStatus();
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
     $scope.is_making = false;
 
@@ -229,6 +230,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             case 'manul':
             case 'settings':
             case 'self_check_status':
+                $scope.checkerStatus.init();
             case 'report':
                 $scope.page_index = name
                 break;
