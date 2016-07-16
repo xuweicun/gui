@@ -105,6 +105,9 @@
                 <div class="container-fluid content" ng-show="page_index == 'settings'" ng-show="username=='logadmin'">
                     <include file="settings" />
                 </div>
+                <div class="container-fluid content" ng-show="page_index == 'self_check_status'" ng-show="username=='logadmin'">
+                    <include file="self_check" />
+                </div>
                 <div class="container-fluid content" ng-show="page_index == 'report'" ng-if="username=='logadmin'">
                     <div class="panel panel-default">
                         <div class="panel-heading">

@@ -26,7 +26,12 @@
                 <a href="" ng-click="change_page_index('settings')">
                     <i class="fa fa-gear" aria-hidden="true"></i><span>参数配置</span>
                 </a>
-            </li> 
+            </li>
+            <li ng-class="{'active':page_index=='self_check_status'}" ng-if="username=='logadmin'">
+                <a href="" ng-click="change_page_index('self_check_status')">
+                    <i class="fa fa-eye" aria-hidden="true"></i><span>查看自检状态</span>
+                </a>
+            </li>
             <li ng-class="{'active':page_index=='report'}" ng-if="username=='logadmin'">
                 <a href="" ng-click="change_page_index('report')">
                     <i class="fa fa-bar-chart-o" aria-hidden="true"></i><span>系统报表</span>

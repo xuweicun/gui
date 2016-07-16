@@ -228,6 +228,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             case 'user_log':
             case 'manul':
             case 'settings':
+            case 'self_check_status':
             case 'report':
                 $scope.page_index = name
                 break;

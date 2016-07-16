@@ -759,23 +759,31 @@ class MsgController extends Controller
             $diskDb->save($data);
         }
     }
-    public function getCheckDsk($cmd_id){
+    public function getCheckDsk($cmd){
+        $msg = json_decode($cmd['msg']);
         $dsk_db = M('device');
-        $map['check_cmd_id']=array('eq',$cmd_id);
+        $map['cab_id']=array('eq',$msg['device_id']);
+        $map['level']=array('eq',$msg['level']);
+        $map['zu']=array('eq',$msg['group']);
+        $map['disk']=array('eq',$msg['disk']);
         $dsk = $dsk_db->where($map)->find();
         return $dsk;
     }
     public function hdlSelfCheck($cmd){
         $cmd['status'] = $_POST['status'];
         $dsk_db = M('Device');
-        if($cmd['user_id'] != 0){
+        //用户发出停止命令
+        if($cmd['user_id'] != C('SYSTEM_USER_ID')){
             //用户发起的命令
             $dst_cmd = $this->db->find($cmd['dst_id']);
-            if(!$dst_cmd || $dst_cmd['user_id'] != 0){
+            if(!$dst_cmd || $dst_cmd['user_id'] != C('SYSTEM_USER_ID')){
+                //不是自检消息
                 return;
             }
             //用户发起的终止命令
-            $dsk = $this->getCheckDsk($dst_cmd['id']);
+
+
+            $dsk = $this->getCheckDsk($dst_cmd);
             if($cmd['status'] == C('CMD_SUCCESS')){
                 $dsk[strtolower($cmd['cmd'])."_status"] = C('PLAN_STATUS_WAITING');
                 $dsk[strtolower($cmd['cmd'])."_skipped"] = 1;
@@ -793,14 +801,16 @@ class MsgController extends Controller
             return;
         }
         //如果
-        $dsk = $this->getCheckDsk($cmd['id']);
-        $status = strtolower($cmd['cmd'])."_status";
+        $dsk = $this->getCheckDsk($cmd);
+        //自检类型
+        $type = $cmd['cmd']=='MD5'? 'md5':'sn';
+        $status = $type."_status";
         //检查当前是否有在执行的计划
         $plan_db = M('CheckPlan');
         $is_plan_alive = false;
         $map = array(
             'status'=>array('eq',C('PLAN_STATUS_WORKING')),
-            'type'=>array('eq',strtolower($cmd['cmd']))
+            'type'=>array('eq',$type)
         );
         if($plan = $plan_db->where($map)->find()){
             $is_plan_alive = true;
@@ -812,10 +822,12 @@ class MsgController extends Controller
                         $dsk[$status] =  C('PLAN_STATUS_SUCCESS');
                     }
                     else{
+                        //说明计划被终止
                         $dsk[$status] =  C('PLAN_STATUS_WAITING');
                     }
                     break;
                 default:
+                    //失败，稍后重试
                     $dsk[$status] =  C('PLAN_STATUS_WAITING');
             }
             $dsk_db->save($dsk);
