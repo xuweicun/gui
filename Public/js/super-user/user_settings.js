@@ -79,5 +79,43 @@ function UserSettings(settings) {
 }
 
 UserSettings.prototype = {
-    time_options: []
+    time_options: [],
+    get_config: function ()
+    {
+        var user_set = this;
+        global_http({
+            url: '/index.php?m=admin&c=business&a=getCheckConfig',
+            method: 'post',
+            data: this
+        }).success(function (data) {
+            if (!data || data.length <= 0) return;
+
+            for (var i = 0; i < data.length; ++i) {
+                if (data.type == 'md5') {
+                    user_set.md5.unit = data[i].unit;
+                    user_set.md5.cnt = data[i].cnt;
+                    user_set.md5.start_date = data[i].start_date;
+                    user_set.md5.start_time = data[i].hour;
+                }
+                else if (data.type == 'sn') {
+                    user_set.smart.unit = data[i].unit;
+                    user_set.smart.cnt = data[i].cnt;
+                    user_set.smart.start_date = data[i].start_date;
+                    user_set.smart.start_time = data[i].hour;
+                }
+                else {
+                    continue;
+                }
+            }
+
+        }).error(function (data) {
+            new PNotify({
+                title: '保存配置结果',
+                text: data,
+                type: 'error',
+                shadow: true,
+                icon: 'fa fa-alarm'
+            });
+        });
+    }
 }
