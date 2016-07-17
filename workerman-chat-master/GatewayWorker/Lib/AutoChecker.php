@@ -141,13 +141,11 @@ Class AutoChecker
             $this->RunLog("working on Cab #".$cab['sn']);
             for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
-                $this->RunLog("working on Level #".$lvl);
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
                     $grp = $g + 1;
                     //按照优先级排序
                     $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->query();//orderby(priority)
-                    $this->RunLog("Working on cabinet No." . $cab_id . " Level: $lvl Group $grp .");
                     //检查有没有正在工作的
                     if (!$dsks) {
                         continue;
@@ -163,11 +161,10 @@ Class AutoChecker
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
                     if (!$grp_busy) {
-                        $this->RunLog("Group #" . $cab_id . "-$lvl-$grp is free.");
                         foreach ($dsks as $dsk) {
-                            $this->RunLog("Trying to start checking disk #" . $cab_id . "-$lvl-$grp-" . $dsk['disk']);
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
+                                $this->RunLog("Start checking disk #" . $cab_id . "-$lvl-$grp-" . $dsk['disk']);
                                 $is_check_finished = false;
                                 break;
                             }
@@ -542,7 +539,6 @@ Class AutoChecker
             if (!$start_t) {
                 $items = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
                 if (!$items) {
-                    $this->RunLog("Error: No start date was found. Quit.");
                     return null;
                 }
                 $start_t = (int)$items[0]['start_date'];
@@ -550,15 +546,12 @@ Class AutoChecker
 
             $plan = $this->getPlan($config, $start_t);
             if (!$plan) {
-                $this->RunLog("Error: Failed to create a new plan.");
                 return null;
             }
             $plan_id = $db->insert($this->tbl_plan)->cols($plan)->query();
             if (!$plan_id) {
                 $plan = null;
-                $this->RunLog("Error: Failed to insert the plan into database.");
             } else {
-                $this->RunLog("Success to create a new plan :) Congratulation!");
                 $plan['id'] = $plan_id;
             }
         }
@@ -568,6 +561,7 @@ Class AutoChecker
         $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
+
         $new_cmd = array(
             'cmd' => $cmd,
             'sub_cmd' => 'START',
@@ -576,7 +570,6 @@ Class AutoChecker
             'start_time' => time(),
             'finished' => 0
         );
-        $this->RunLog("Sending commond: Adding commond log.");
         $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
         if($cmd_id){
             $cols = array($this->type."_cmd_id"=>$cmd_id,$this->type."_status"=>PLAN_STATUS_WORKING);

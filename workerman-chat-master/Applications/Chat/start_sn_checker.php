@@ -26,14 +26,14 @@ Autoloader::setRootPath(__DIR__);
 $md5_checker = new Worker();
 
 // 设置名称，方便status时查看
-$md5_checker->name = 'Md5Checker';
+$md5_checker->name = 'SNChecker';
 // 设置进程数，gateway进程数建议与cpu核数相同
 $md5_checker->count = 1;
 // 分布式部署时请设置成内网ip（非127.0.0.1）
 $md5_checker->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
-$md5_checker->startPort = 4000;
+$md5_checker->startPort = 4010;
 // 心跳间隔
 // 服务注册地址
 $gateway->registerAddress = '127.0.0.1:1236';
