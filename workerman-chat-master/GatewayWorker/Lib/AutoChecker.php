@@ -90,13 +90,9 @@ Class AutoChecker
     {
         $db = $this->db = Db::instance('db1');
         if (!$db) {
-            $this->RunLog("Database not connected.");
             return;
-        } else {
-            $this->RunLog("Database connected.");
         }
         //如果当前没有自检计划,返回
-        $this->RunLog("Retriving the plan.");
         $plan = $this->getCurrPlan();
         if (!$plan) {
             $this->RunLog("No Plan. Aborting");
@@ -105,7 +101,6 @@ Class AutoChecker
 
         if ($plan['status'] == PLAN_STATUS_WAITING) {
             //尝试启动自检计划,如果启动失败则返回
-            $this->RunLog("The check plan is not started. Trying to start it.");
             if (!$this->startCheck($plan))
                 return;
         } elseif ($plan['status'] == PLAN_STATUS_WORKING) {

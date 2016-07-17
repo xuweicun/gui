@@ -315,6 +315,9 @@ TaskPool.prototype = {
                 for (var i = 0; i < data.length; ++i) {
                     var e = data[i];
                     //console.log(e);
+                    if(e.msg ==''){
+                        e.msg = e.return_msg;
+                    }
                     if (e.msg != '') {
                         var task = global_cmd_helper.createCmd(e);
                         if (!task.isDone()) {

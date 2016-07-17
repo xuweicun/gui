@@ -447,6 +447,9 @@ angular.module('device.services', [])
                     //增加新消息
                     var cmd_log = data['0'];
                     cmd_log.user_name = data['user_name'];
+                    if(cmd_log.msg == ''){
+                        cmd_log.msg = cmd_log.return_msg;
+                    }
                     global_cmd_helper.onWsMsg(cmd_log);
                     break;
                 case 'logout':

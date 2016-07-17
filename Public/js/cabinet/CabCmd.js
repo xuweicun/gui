@@ -1,4 +1,5 @@
 ﻿function CabCmd(log) {
+
     this.msg = JSON.parse(log.msg);
     this._stime = log.start_time;
     this._ctime = log.current_time;
