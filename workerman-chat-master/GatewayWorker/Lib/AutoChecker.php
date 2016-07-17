@@ -138,7 +138,6 @@ Class AutoChecker
             $this->RunLog("Error: failed to get cabinet information.");
             return false;
         }
-        $this->RunLog("Going to check " . count($cabs) . " cabinets. Is cabs array? ".is_array($cabs));
 
         $is_check_finished = true;
         $db = $this->db;
@@ -209,7 +208,7 @@ Class AutoChecker
         $db = $this->db;
         if ($status == PLAN_STATUS_WAITING) {
             //如果该盘被标记为跳过,检查是否到达跳过时间
-            if ($dsk[$this->type . '_skipped'] == 1) {
+            if ($this->type=='md5' && $dsk['md5_skipped'] == 1) {
 
                 $time = date('Y-m-d', time());
                 $skip_time = date('Y-m-d', (int)$dsk[$this->type . '_skip_time']);
@@ -570,16 +569,12 @@ Class AutoChecker
         }
         return $plan;
     }
-
-    public function sendCmd($dsk, $type)
-    {
-
-        //生成cmd,插入CmdLog
+    public function updateCmdLog($dsk){
         $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
         $new_cmd = array(
-            'cmd' => strtoupper($type),
+            'cmd' => $cmd,
             'sub_cmd' => 'START',
             'user_id' => '0',
             'status' => PLAN_STATUS_WAITING,
@@ -588,14 +583,37 @@ Class AutoChecker
         );
         $this->RunLog("Sending commond: Adding commond log.");
         $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
-        if ($cmd_id) {
-            $this->RunLog("Sending commond: Command log added.");
+        if($cmd_id){
+            $cols = array($this->type."_cmd_id"=>$cmd_id,$this->type."_status"=>PLAN_STATUS_WORKING);
+            $cond = "id=:I";
+            $bindV = array("I"=>$dsk['id']);
+            $rst = $db->update("gui_device")->cols($cols)->where($cond)->bindValues($bindV)->query();
+            //如果更新磁盘状态失败，则停止操作，删除日志，以免阻塞或者冲突
+            if(!$rst){
+                //删除命令日志
+                $cond = "id=:I";
+                $bindV = array("I"=>$cmd_id);
+                $db->delete($tbl_cmd_log)->where($cond)->bindValues($bindV)->query();
+                return false;
+            }
+        }
+        return $cmd_id;
+    }
+    public function sendCmd($dsk, $type)
+    {
+        //生成cmd,插入CmdLog
+        $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
+        $db = $this->db;
+        $tbl_cmd_log = "gui_cmd_log";
+        if ($cmd_id = $this->updateCmdLog($dsk)) {
+            $this->RunLog("New cmd #{$cmd_id} inserted. Going to send cmd to app.");
             $ch = curl_init();
             $url = $this->app_addr;
             $header = array(
                 'Content-Type:application/json'//x-www-form-urlencoded'
             );
-            $data = array(cmd => $cmd,
+            $data = array(
+                'cmd' => $cmd,
                 'CMD_ID' => $cmd_id,
                 'device_id' => $dsk['cab_id'],
                 'level' => $dsk['level'],
@@ -612,19 +630,14 @@ Class AutoChecker
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
             //更新日志信息
-            $new_cmd['msg'] = json_encode($data);
-            $this->db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
-            $this->RunLog("Sendding commond: Commond sent to app.");
-
-            // 通知前端
-            $rst = $db->select('id,dst_id,user_id,start_time,msg')->from('gui_cmd_log')->where("id=$cmd_id")->query();
+            $new_cmd = array('msg'=>json_encode($data));
+            $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
+                       // 通知前端
+            $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
 
             if($rst) {
                 $attached = array('type' => 'say', 'user_name' => 'system');
                 $rst = array_merge($rst, $attached);
-
-                //$msg = array('type' => 'selfcheck', 'user_id' => 0, 'dsk' => $dsk, 'cmd' => $cmd, 'subcmd' => 'START', 'cmd_id' => $cmd_id);
-                //$ret = array_merge($ret, $attached);
                 ExtendGateWay::sendToAll(json_encode($rst));
             }
             return true;

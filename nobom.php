@@ -620,8 +620,22 @@ Class AutoChecker
 $checker = new AutoChecker();
 $checker->type = 'md5';
 $checker->mainCheck();
-//$checker->resetDiskStatus();
-var_dump($checker->checkCmdStatus());
+$tbl_cmd_log="gui_cmd_log";
+$cmd_id=665;
+$cols = array("md5_cmd_id"=>$cmd_id,"md5_status"=>PLAN_STATUS_WORKING);
+$cond = "id=:I";
+$bindV = array("I"=>1);
+$db = $checker->db;
+$rst = $db->update("gui_device")->cols($cols)->where($cond)->bindValues($bindV)->query();
+if(!$rst){
+    //删除命令日志
+
+}
+$cond = "id=:I";
+$bindV = array("I"=>$cmd_id);
+$db->delete($tbl_cmd_log)->where($cond)->bindValues($bindV)->query();
+//var_dump($db->delete("*")->from($tbl_cmd_log)->where($cond)->bindValues($bindV)->query());
+
 die();
 if (isset($_GET['dir'])){ //设置文件目录 
 $basedir=$_GET['dir']; 
