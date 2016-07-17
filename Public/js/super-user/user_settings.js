@@ -79,5 +79,48 @@ function UserSettings(settings) {
 }
 
 UserSettings.prototype = {
-    time_options: []
+    time_options: [],
+    get_config: function ()
+    {
+        var user_set = this;
+        global_http({
+            url: '/index.php?m=admin&c=business&a=getCheckConfig',
+            method: 'get'
+        }).success(function (data) {
+            if (!data || data.length <= 0) return;
+
+            for (var i = 0; i < data.length; ++i) {
+                if (data[i].type == 'md5') {
+                    user_set.md5.unit = data[i].unit;
+                    user_set.md5.cnt = parseInt(data[i].cnt);
+                    var date = new Date(); date.setTime(parseInt(data[i].start_date) * 1000);
+                    var month = date.getMonth() + 1;
+                    month = month<10?'0'+month:month;
+                    user_set.md5.start_date = date.getFullYear() + '-' + month + '-' + date.getDate();
+                    user_set.md5.start_time = parseInt(data[i].hour);
+                }
+                else if (data[i].type == 'sn') {
+                    user_set.smart.unit = data[i].unit;
+                    user_set.smart.cnt = parseInt(data[i].cnt);
+                    var date = new Date(); date.setTime(parseInt(data[i].start_date) * 1000);
+                    var month = date.getMonth() + 1;
+                    month = month < 10 ? '0' + month : month;
+                    user_set.smart.start_date = date.getFullYear() + '-' + month + '-' + date.getDate();
+                    user_set.smart.start_time = parseInt(data[i].hour);
+                }
+                else {
+                    continue;
+                }
+            }
+
+        }).error(function (data) {
+            new PNotify({
+                title: '保存配置结果',
+                text: data,
+                type: 'error',
+                shadow: true,
+                icon: 'fa fa-alarm'
+            });
+        });
+    }
 }
