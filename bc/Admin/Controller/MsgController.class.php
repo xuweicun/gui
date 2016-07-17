@@ -746,13 +746,22 @@ class MsgController extends Controller
 
     public function getCheckDsk($cmd)
     {
-        $msg = json_decode($cmd['msg']);
-        var_dump($msg);
+   //     $msg = json_decode($cmd['msg'],true);
         $dsk_db = M('device');
-        $map['cab_id'] = array('eq', $msg['device_id']);
+    /*    $map['cab_id'] = array('eq', $msg['device_id']);
         $map['level'] = array('eq', $msg['level']);
         $map['zu'] = array('eq', $msg['group']);
-        $map['disk'] = array('eq', $msg['disk']);
+        $map['disk'] = array('eq', $msg['disk']);*/
+        $check_type = "";
+        switch($cmd['cmd']){
+            case 'MD5':
+                $check_type = 'md5';
+                break;
+            case 'DISKINFO':
+                $check_type = 'sn';
+                break;
+        }
+        $map = array($check_type."_cmd_id"=>(int)$cmd['id']);
         $dsk = $dsk_db->where($map)->find();
         return $dsk;
     }
