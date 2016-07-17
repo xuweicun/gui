@@ -297,6 +297,7 @@ class MsgController extends Controller
             if (in_array($this->msg->cmd, $this->selfCheckArr)) {
                 $cmd = $this->db->find((int)$this->msg->id);
                 $this->hdlSelfCheck($cmd);
+                var_dump($cmd);
             }
 
             $this->updateCmdLog();
@@ -746,6 +747,7 @@ class MsgController extends Controller
     public function getCheckDsk($cmd)
     {
         $msg = json_decode($cmd['msg']);
+        var_dump($msg);
         $dsk_db = M('device');
         $map['cab_id'] = array('eq', $msg['device_id']);
         $map['level'] = array('eq', $msg['level']);

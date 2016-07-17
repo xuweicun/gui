@@ -1365,7 +1365,7 @@ class BusinessController extends Controller
         $this->AjaxReturn($conf);
     }
 
-    public function init()
+    public function testPost()
     {
         $this->display("systeminit");
     }
