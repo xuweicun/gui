@@ -6,6 +6,7 @@ require_once 'workerman-chat-master/GatewayWorker/Lib/Db.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
 use Think\Controller;
+
 header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Headers: X-Requested-With,content-type');
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']);
@@ -40,30 +41,34 @@ class BusinessController extends Controller
             $this->display();
         }
     }
-    public function stopCheck(){
-        if(IS_POST){
+
+    public function stopCheck()
+    {
+        if (IS_POST) {
             $id = (int)$_POST['id'];
             $data = array(
-                'id'=>$id,
-                'status'=>C('PLAN_STATUS_CANCELED'),
-                'finish_time'=>time()
-                );
+                'id' => $id,
+                'status' => C('PLAN_STATUS_CANCELED'),
+                'finish_time' => time()
+            );
             $db = M('CheckPlan');
             $ret = $db->save($data);
-            $rst = array('status'=>'0');
-            if(!$ret){
+            $rst = array('status' => '0');
+            if (!$ret) {
                 $rst['status'] = '1';
             }
             $this->AjaxReturn($rst);
         }
     }
-    public function checkDb(){
-        $db =  Db::instance('db1');
-        if($db){
+
+    public function checkDb()
+    {
+        $db = Db::instance('db1');
+        if ($db) {
             echo "1";
-        }
-        else echo "0";
+        } else echo "0";
     }
+
     public function checkPermission()
     {
         if (!session('?user')) {
@@ -78,33 +83,36 @@ class BusinessController extends Controller
         }
 
     }
-	public function getCheckStatus(){
+
+    public function getCheckStatus()
+    {
         $db = M('CheckPlan');
         $plans = $db->where("status < 2")->select();
 
         $this->AjaxReturn($plans);
     }
-	public function invalid_browser()
-	{
-		$this->display();
-	}
+
+    public function invalid_browser()
+    {
+        $this->display();
+    }
 
     public function systReset()
     {
-		// 回到初始状态
-		$db = M();
-		$tables = $db->query($sql = 'show tables');				
-		foreach($tables as $table_array) {
-			foreach ($table_array as $table_item){			
-				if ($table_item == 'gui_super' || $table_item == 'gui_user') break;	
-				
-				$ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
-				if (!ret) {
-					echo $db->getDbError();
-				}
-			}
-		}
-		/*
+        // 回到初始状态
+        $db = M();
+        $tables = $db->query($sql = 'show tables');
+        foreach ($tables as $table_array) {
+            foreach ($table_array as $table_item) {
+                if ($table_item == 'gui_super' || $table_item == 'gui_user') break;
+
+                $ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
+                if (!ret) {
+                    echo $db->getDbError();
+                }
+            }
+        }
+        /*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
         $items = $db->select();
@@ -116,7 +124,7 @@ class BusinessController extends Controller
         }
         //所有命令状态取消
         $this->cancelAllCmds();
-		*/
+        */
     }
 
     /******
@@ -219,30 +227,30 @@ class BusinessController extends Controller
         if (IS_POST) {
             $User = M('user');
             $item = null;
-			
-            $cond['username'] = $_POST['username'];
-			$item = $User->where($cond)->find();
-			
-			// 用户名不存在
-			if (!$item) {				
-				$ret['status'] = '-1';
-				$this->AjaxReturn($ret);
-				return;
-			}
-			
-			// 密码错误超过5次
-			if ($item['locked'] >= 5) {			
-				$ret['status'] = '-2';
-				$this->AjaxReturn($ret);
-				return;				
-			}
 
-			// 密码错误
-            if ($item['password'] != $_POST['password']) {	
-				// 错误计数+1
+            $cond['username'] = $_POST['username'];
+            $item = $User->where($cond)->find();
+
+            // 用户名不存在
+            if (!$item) {
+                $ret['status'] = '-1';
+                $this->AjaxReturn($ret);
+                return;
+            }
+
+            // 密码错误超过5次
+            if ($item['locked'] >= 5) {
+                $ret['status'] = '-2';
+                $this->AjaxReturn($ret);
+                return;
+            }
+
+            // 密码错误
+            if ($item['password'] != $_POST['password']) {
+                // 错误计数+1
                 $item['locked'] = $item['locked'] + 1;
                 $User->save($item);
-				
+
                 $ret['status'] = '-3';
                 $ret['locked'] = $item['locked'];
             } else {
@@ -277,47 +285,46 @@ class BusinessController extends Controller
         if (IS_POST) {
             $User = M('Super');
             $cond['name'] = $_POST['username'];
-			if ($cond['name'] != 'useradmin' && $cond['name'] != 'logadmin') {
-				return;
-			}
-			
+            if ($cond['name'] != 'useradmin' && $cond['name'] != 'logadmin') {
+                return;
+            }
+
             $item = $User->where($cond)->find();
             if (!$item) {
                 $cond['pwd'] = md5('nay67kaf');
                 $User->add($cond);
             }
-			
-            $item = $User->where($cond)->find();
-			if (!$item) {
-				$ret['status'] = -100;
-				$this->AjaxReturn($ret);
-				return;				
-			}
-			
-			// 密码错误超过5次
-			if ($item['locked'] >= 5) {		
-                $ret['status'] = '-3';
-				$this->AjaxReturn($ret);
-				return;				
-			}
 
-			// 密码错误
-            if ($item['pwd'] != $_POST['password']) {	
-				// 错误计数+1
+            $item = $User->where($cond)->find();
+            if (!$item) {
+                $ret['status'] = -100;
+                $this->AjaxReturn($ret);
+                return;
+            }
+
+            // 密码错误超过5次
+            if ($item['locked'] >= 5) {
+                $ret['status'] = '-3';
+                $this->AjaxReturn($ret);
+                return;
+            }
+
+            // 密码错误
+            if ($item['pwd'] != $_POST['password']) {
+                // 错误计数+1
                 $item['locked'] = $item['locked'] + 1;
                 $User->save($item);
-				
+
                 $ret['status'] = '-3';
                 $ret['locked'] = $item['locked'];
-			}
-			else{
-				$item['locked'] = 0;
+            } else {
+                $item['locked'] = 0;
                 $User->save($item);
-				
+
                 session('admin', $item['name']);
                 $ret['status'] = '1';
-			}
-			
+            }
+
             $this->AjaxReturn($ret);
         } else {
             if (session('?admin')) {
@@ -328,21 +335,22 @@ class BusinessController extends Controller
             $this->display();
         }
     }
-	public function user_unlock()
-	{
-		$db = M('User');
-		
-		$item = $db->find($_POST['id']);
-		if (!item) {
-			$this->AjaxReturn(array('status'=>'failure'));
-			die();
-		}
-		
-		$item['locked'] = 0;
-		$db->save($item);
-		
-		$this->AjaxReturn(array('status'=>'success'));
-	}
+
+    public function user_unlock()
+    {
+        $db = M('User');
+
+        $item = $db->find($_POST['id']);
+        if (!item) {
+            $this->AjaxReturn(array('status' => 'failure'));
+            die();
+        }
+
+        $item['locked'] = 0;
+        $db->save($item);
+
+        $this->AjaxReturn(array('status' => 'success'));
+    }
 
     public function loginSuccessPage()
     {
@@ -355,7 +363,7 @@ class BusinessController extends Controller
             U('login');
             $this->redirect('login');
         } else {
-			$this->assign('username', session('admin'));
+            $this->assign('username', session('admin'));
             $this->display();
         }
     }
@@ -534,25 +542,25 @@ class BusinessController extends Controller
     */
     public function generate_report_data()
     {
-		if (session('admin') != 'logadmin') {
-			die();
-		}
-		
+        if (session('admin') != 'logadmin') {
+            die();
+        }
+
         // 1. 存储柜概述
         $db_cabs = M('Cab');
         $fields = array(
-			'id',
+            'id',
             'sn' => 'cab_id',
-			'name' => 'cab_name',
+            'name' => 'cab_name',
             'level_cnt',
             'group_cnt',
             'disk_cnt',
             'charge' => 'electricity',
             'voltage',
             'electricity' => 'current');
-        $items_cabs = $db_cabs->field($fields)->where(array('loaded'=>1))->order('sn asc')->select();
+        $items_cabs = $db_cabs->field($fields)->where(array('loaded' => 1))->order('sn asc')->select();
 
-		// 2. 各在位硬盘
+        // 2. 各在位硬盘
         $db_device = M('Device');
         $fields = array(
             'level',
@@ -567,37 +575,37 @@ class BusinessController extends Controller
             'gui_disk.md5_time' => 'md5_curr_time'
         );
 
-		$db_disk_md5_log = M('DiskMd5Log');
-		$db_disk_smart_log = M('DiskSmartLog');
+        $db_disk_md5_log = M('DiskMd5Log');
+        $db_disk_smart_log = M('DiskSmartLog');
         foreach ($items_cabs as $key => $value) {
-			// 找出所有的硬盘
+            // 找出所有的硬盘
             $items_cabs[$key]['disks'] = $db_device->field($fields)
                 ->join('left join gui_disk on gui_device.disk_id = gui_disk.id')
                 ->where(array(
-					'cabinet_id'=>$value['id'],
+                    'cabinet_id' => $value['id'],
                     'loaded' => '1'
                 ))->order('level, zu, disk asc')->select();
 
             $ab_cnt = 0;
             foreach ($items_cabs[$key]['disks'] as $key_1 => $value) {
-				// 首次md5
-				$item_md5_first = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
-				->where(array('disk_id'=>$value['disk_id'], 'status'=>1))
-				->order('time asc')->find();
-				if (!$item_md5_first) continue;
-				
-				$items_cabs[$key]['disks'][$key_1]['md5_first'] = $item_md5_first['md5_value'];
-				$items_cabs[$key]['disks'][$key_1]['md5_first_time'] = $item_md5_first['md5_time'];
-				
-				// 上次md5
-				$items_md5_last = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
-				->where(array('disk_id'=>$value['disk_id'], 'status'=>1))
-				->order('time desc')->limit(2)->select();				
-								
-				$index = count($items_md5_last) == 2?1:0;				
-				$items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last[$index]['md5_value'];
-				$items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last[$index]['md5_time'];		
-				
+                // 首次md5
+                $item_md5_first = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
+                    ->where(array('disk_id' => $value['disk_id'], 'status' => 1))
+                    ->order('time asc')->find();
+                if (!$item_md5_first) continue;
+
+                $items_cabs[$key]['disks'][$key_1]['md5_first'] = $item_md5_first['md5_value'];
+                $items_cabs[$key]['disks'][$key_1]['md5_first_time'] = $item_md5_first['md5_time'];
+
+                // 上次md5
+                $items_md5_last = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
+                    ->where(array('disk_id' => $value['disk_id'], 'status' => 1))
+                    ->order('time desc')->limit(2)->select();
+
+                $index = count($items_md5_last) == 2 ? 1 : 0;
+                $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last[$index]['md5_value'];
+                $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last[$index]['md5_time'];
+
                 if ($value['normal'] != '1') {
                     $ab_cnt++;
                 }
@@ -605,197 +613,197 @@ class BusinessController extends Controller
 
             $items_cabs[$key]['abnormal_cnt'] = "$ab_cnt";
         }
-		
-		// 3. 各盘位
-		foreach ($items_cabs as $key => $value) {
-			$slots = array();
-			
-			// 历史md5
-			$items = $db_disk_md5_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
-			foreach ($items as $item_value) {
-				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
-				
-				if (!$slots[$slot_name]){
-					$slots[$slot_name]['name'] = $slot_name;
-					$slots[$slot_name]['md5'] = array();
-					$slots[$slot_name]['smart'] = array();		
-				}
-				
-				array_push($slots[$slot_name]['md5'], $item_value);
-			}
-			
-			// 历史Smart
-			$items = $db_disk_smart_log->where(array('cabinet_id'=>$value['id'], 'status'=>1))->select();
-			//var_dump($items); die();
-			foreach ($items as $item_value) {
-				$slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
-				
-				if (!$slots[$slot_name]){
-					$slots[$slot_name]['name'] = $slot_name;
-					$slots[$slot_name]['md5'] = array();
-					$slots[$slot_name]['smart'] = array();	
-				}
-				
-				array_push($slots[$slot_name]['smart'], $item_value);
-			}
-			
-			asort($slots);
-			
-			$items_cabs[$key]['slots'] = array();
-			foreach ($slots as $slot) {
-				array_push($items_cabs[$key]['slots'], $slot);
-				//var_dump($items_cabs[$key]['slots']); die();
-			}
-		}
-		
-		$this->makeWordReport($items_cabs);
+
+        // 3. 各盘位
+        foreach ($items_cabs as $key => $value) {
+            $slots = array();
+
+            // 历史md5
+            $items = $db_disk_md5_log->where(array('cabinet_id' => $value['id'], 'status' => 1))->select();
+            foreach ($items as $item_value) {
+                $slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+
+                if (!$slots[$slot_name]) {
+                    $slots[$slot_name]['name'] = $slot_name;
+                    $slots[$slot_name]['md5'] = array();
+                    $slots[$slot_name]['smart'] = array();
+                }
+
+                array_push($slots[$slot_name]['md5'], $item_value);
+            }
+
+            // 历史Smart
+            $items = $db_disk_smart_log->where(array('cabinet_id' => $value['id'], 'status' => 1))->select();
+            //var_dump($items); die();
+            foreach ($items as $item_value) {
+                $slot_name = $item_value['level'] . '-' . $item_value['zu'] . '-' . $item_value['disk'];
+
+                if (!$slots[$slot_name]) {
+                    $slots[$slot_name]['name'] = $slot_name;
+                    $slots[$slot_name]['md5'] = array();
+                    $slots[$slot_name]['smart'] = array();
+                }
+
+                array_push($slots[$slot_name]['smart'], $item_value);
+            }
+
+            asort($slots);
+
+            $items_cabs[$key]['slots'] = array();
+            foreach ($slots as $slot) {
+                array_push($items_cabs[$key]['slots'], $slot);
+                //var_dump($items_cabs[$key]['slots']); die();
+            }
+        }
+
+        $this->makeWordReport($items_cabs);
 
         $this->AjaxReturn($items_cabs);
     }
-	
-	private function makeWordReport($cabinets)
-	{
-		$styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
-		$styleFirstRow = array();// array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
-		$fontStyle = array('bold' => true, 'align' => 'center');
-		$paraStyle = array('indention'=>'1', 'lineHeight'=>1.5);
-		
-		// Creating the new document...
-		$phpWord = new \PhpOffice\PhpWord\PhpWord();
-		$phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
-		
-		$section = $phpWord->addSection(array('orientation'=>'landscape'));
-		$phpWord->setDefaultFontName('Times New Roman');
-		$phpWord->setDefaultFontSize(12);
-		
-		// 柜子数
-		$cab_cnt = count($cabinets);
-		
-		// 日期
-		$today = date('Y年m月d日');
-		
-		$phpWord->addTitleStyle(1, array('bold' => true, 'size' => 16), array('spaceAfter' => 240, 'spaceBefore'=>400));
-		$phpWord->addTitleStyle(2, array('bold' => true, 'size' => 14), array('spaceAfter' => 240, 'spaceBefore'=>400));
-		$phpWord->addTitleStyle(3, array('bold' => true, 'size' => 12), array('spaceAfter' => 240, 'spaceBefore'=>400));
-		$section->addTitle('1. 概述', 1);
-		
-		$text_head = "服务器曾经连接过 $cab_cnt 台存储柜。";			
-		$section->addText($text_head, array(), $paraStyle);
-		
-		if (count($cabinets) > 0) {
-			$section->addTitle('2. 数据存储柜基本信息', 1);
-		}
-		
-		foreach ($cabinets as $idx=>$cab) {
-			$section->addTitle('2.' . ($idx+1) . '. 数据存储柜 ' . $cab['cab_id']. '#', 2);
-			
-			$table_cab = $section->addTable('Fancy Table', null, array('align' => 'center', 'spaceAfter' => 100));
-			$table_cab->addRow();
-			$table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
-			$table_cab->addCell(3000)->addText($cab['cab_id'], $fontStyle);
-			$table_cab->addRow();
-			$table_cab->addCell(2000)->addText('编号', $fontStyle);
-			$table_cab->addCell(3000)->addText($cab['cab_name'], $fontStyle);
-			$table_cab->addRow();
-			$table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
-			$table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×'. $cab['group_cnt'] .'组×'. $cab['disk_cnt'] .'位', $fontStyle);
-			$table_cab->addRow();
-			$table_cab->addCell(2000)->addText('当前硬盘', $fontStyle);
-			$disk_cnt = count($cab['disks']);
-			$disk_ab_cnt = $cab['abnormal_cnt'];
-			$table_cab->addCell(4000)->addText("共 $disk_cnt 块，其中异常 $disk_ab_cnt 块", $fontStyle);
-			
-			$section->addText('数据存储柜 '.$cab['cab_id'].'# 在位硬盘健康状况报表 - '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
-			$table_cab_diks = $section->addTable('Fancy Table');
-			{
-				//序号 	物理位置 	SN号 	容量 	健康状态 	健康状态检测时间 	首次MD5时间 	首次MD5值 	上次MD5时间 	上次MD5值 	最近MD5时间 	最近MD5值 	备注
-				$table_cab_diks->addRow();
-				$table_cab_diks->addCell(1000)->addText('序号', array('size'=>9));	
-				$table_cab_diks->addCell(1000)->addText('物理位置', array('size'=>9));
-				$table_cab_diks->addCell(1000)->addText('SN号', array('size'=>9));	
-				$table_cab_diks->addCell(1000)->addText('容量', array('size'=>9));		
-				$table_cab_diks->addCell(2000)->addText('健康状态', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('健康状态检测时间', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('首次MD5值', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('首次MD5时间', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('上次MD5值', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('上次MD5时间', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('最近MD5值', array('size'=>9));		
-				$table_cab_diks->addCell(1000)->addText('最近MD5时间', array('size'=>9));		
-				$table_cab_diks->addCell()->addText('备注', array('size'=>9));					
-			}
-			foreach ($cab['disks'] as $dsk_idx=>$dsk) {
-				$table_cab_diks->addRow();
-				$table_cab_diks->addCell()->addText($dsk_idx + 1, array('size'=>9));	
-				$table_cab_diks->addCell()->addText($dsk['level'].'-'.$dsk['group'].'-'.$dsk['disk'], array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['sn'], array('size'=>9));
-				$table_cab_diks->addCell()->addText($dsk['capacity']?$dsk['capacity'] . 'GB':'', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['sn']?($dsk['normal']==1?'健康':'异常'):'', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['sn_time']?date("Y-m-d H:i:s", $dsk['sn_time']):'-', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_first'], array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_first_time']?date("Y-m-d H:i:s", $dsk['md5_first_time']):'-', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_last'], array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_last_time']?date("Y-m-d H:i:s", $dsk['md5_last_time']):'-', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_curr'], array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_curr_time']?date("Y-m-d H:i:s", $dsk['md5_curr_time']):'-', array('size'=>9));		
-				$table_cab_diks->addCell()->addText($dsk['md5_last']!=$dsk['md5_curr']?'异常：MD5变化':'', array('size'=>9));
-			}
-			
-			foreach ($cab['slots'] as $idx_slt=>$slt) {
-				$section->addTitle('2.' . ($idx+1) . '.' . ($idx_slt+1) .'. 盘位' . $cab['cab_id'] .'-'.$slt['name'], 3);
-				$slt_title = '盘位'.$cab['cab_id'].'-'.$slt['name'].'健康状况报表';				
-				$section->addText($slt_title.'（MD5） — '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
-				{
-					$table_cab_slt_md5 = $section->addTable('Fancy Table');
-					// 序号 	sn 	MD5检测时间 	MD5检测值 	备注
-					$table_cab_slt_md5->addRow();
-					$table_cab_slt_md5->addCell(1000)->addText('序号');
-					$table_cab_slt_md5->addCell(3000)->addText('SN号');
-					$table_cab_slt_md5->addCell(3000)->addText('MD5时间');
-					$table_cab_slt_md5->addCell(4000)->addText('MD5检测值');
-					$table_cab_slt_md5->addCell(3000)->addText('备注');
-					
-					foreach ($slt['md5'] as $md5_idx=>$md5) {
-						$table_cab_slt_md5->addRow();
-						$table_cab_slt_md5->addCell()->addText($md5_idx + 1);
-						$table_cab_slt_md5->addCell()->addText($md5['sn']);
-						$table_cab_slt_md5->addCell()->addText(date('Y-m-d H:i:s', $md5['md5_time']));
-						$table_cab_slt_md5->addCell()->addText($md5['md5_value']);
-						$table_cab_slt_md5->addCell()->addText();							
-					}
-				}
-				
-				$section->addText($slt_title.'（Smart） — '.$today, array('bold'=>true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore'=>400));
-				{
-					$table_cab_slt_smart = $section->addTable('Fancy Table');
-					// 序号 	SN号 	SN号检测时间 	备注
-					$table_cab_slt_smart->addRow();
-					$table_cab_slt_smart->addCell(1000)->addText('序号');
-					$table_cab_slt_smart->addCell(3000)->addText('SN号');
-					$table_cab_slt_smart->addCell(3000)->addText('SN号检测时间');
-					$table_cab_slt_smart->addCell(3000)->addText('容量');
-					$table_cab_slt_smart->addCell(2000)->addText('健康状态');
-					$table_cab_slt_smart->addCell(5000)->addText('备注');
-					
-					foreach ($slt['smart'] as $smart_idx=>$smart) {
-						$table_cab_slt_smart->addRow();
-						$table_cab_slt_smart->addCell()->addText($smart_idx + 1);
-						$table_cab_slt_smart->addCell()->addText($smart['sn']);
-						$table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
-						$table_cab_slt_smart->addCell()->addText($smart['capacity']);
-						$table_cab_slt_smart->addCell()->addText($smart['disk_status']==0?'健康':'异常');
-						$table_cab_slt_smart->addCell()->addText();							
-					}
-				}
-			}
-		}			
-		
-		$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-		if (!is_dir('reports')){
-			mkdir('reports');
-		}
-		$objWriter->save('reports/report.docx');
-	}
+
+    private function makeWordReport($cabinets)
+    {
+        $styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+        $styleFirstRow = array();// array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
+        $fontStyle = array('bold' => true, 'align' => 'center');
+        $paraStyle = array('indention' => '1', 'lineHeight' => 1.5);
+
+        // Creating the new document...
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
+
+        $section = $phpWord->addSection(array('orientation' => 'landscape'));
+        $phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->setDefaultFontSize(12);
+
+        // 柜子数
+        $cab_cnt = count($cabinets);
+
+        // 日期
+        $today = date('Y年m月d日');
+
+        $phpWord->addTitleStyle(1, array('bold' => true, 'size' => 16), array('spaceAfter' => 240, 'spaceBefore' => 400));
+        $phpWord->addTitleStyle(2, array('bold' => true, 'size' => 14), array('spaceAfter' => 240, 'spaceBefore' => 400));
+        $phpWord->addTitleStyle(3, array('bold' => true, 'size' => 12), array('spaceAfter' => 240, 'spaceBefore' => 400));
+        $section->addTitle('1. 概述', 1);
+
+        $text_head = "服务器曾经连接过 $cab_cnt 台存储柜。";
+        $section->addText($text_head, array(), $paraStyle);
+
+        if (count($cabinets) > 0) {
+            $section->addTitle('2. 数据存储柜基本信息', 1);
+        }
+
+        foreach ($cabinets as $idx => $cab) {
+            $section->addTitle('2.' . ($idx + 1) . '. 数据存储柜 ' . $cab['cab_id'] . '#', 2);
+
+            $table_cab = $section->addTable('Fancy Table', null, array('align' => 'center', 'spaceAfter' => 100));
+            $table_cab->addRow();
+            $table_cab->addCell(2000)->addText('数据存储柜ID', $fontStyle);
+            $table_cab->addCell(3000)->addText($cab['cab_id'], $fontStyle);
+            $table_cab->addRow();
+            $table_cab->addCell(2000)->addText('编号', $fontStyle);
+            $table_cab->addCell(3000)->addText($cab['cab_name'], $fontStyle);
+            $table_cab->addRow();
+            $table_cab->addCell(2000)->addText('硬盘插槽', $fontStyle);
+            $table_cab->addCell(4000)->addText($cab['level_cnt'] . '层×' . $cab['group_cnt'] . '组×' . $cab['disk_cnt'] . '位', $fontStyle);
+            $table_cab->addRow();
+            $table_cab->addCell(2000)->addText('当前硬盘', $fontStyle);
+            $disk_cnt = count($cab['disks']);
+            $disk_ab_cnt = $cab['abnormal_cnt'];
+            $table_cab->addCell(4000)->addText("共 $disk_cnt 块，其中异常 $disk_ab_cnt 块", $fontStyle);
+
+            $section->addText('数据存储柜 ' . $cab['cab_id'] . '# 在位硬盘健康状况报表 - ' . $today, array('bold' => true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore' => 400));
+            $table_cab_diks = $section->addTable('Fancy Table');
+            {
+                //序号 	物理位置 	SN号 	容量 	健康状态 	健康状态检测时间 	首次MD5时间 	首次MD5值 	上次MD5时间 	上次MD5值 	最近MD5时间 	最近MD5值 	备注
+                $table_cab_diks->addRow();
+                $table_cab_diks->addCell(1000)->addText('序号', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('物理位置', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('SN号', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('容量', array('size' => 9));
+                $table_cab_diks->addCell(2000)->addText('健康状态', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('健康状态检测时间', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('首次MD5值', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('首次MD5时间', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('上次MD5值', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('上次MD5时间', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('最近MD5值', array('size' => 9));
+                $table_cab_diks->addCell(1000)->addText('最近MD5时间', array('size' => 9));
+                $table_cab_diks->addCell()->addText('备注', array('size' => 9));
+            }
+            foreach ($cab['disks'] as $dsk_idx => $dsk) {
+                $table_cab_diks->addRow();
+                $table_cab_diks->addCell()->addText($dsk_idx + 1, array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['level'] . '-' . $dsk['group'] . '-' . $dsk['disk'], array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['sn'], array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['capacity'] ? $dsk['capacity'] . 'GB' : '', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['sn'] ? ($dsk['normal'] == 1 ? '健康' : '异常') : '', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['sn_time'] ? date("Y-m-d H:i:s", $dsk['sn_time']) : '-', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_first'], array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_first_time'] ? date("Y-m-d H:i:s", $dsk['md5_first_time']) : '-', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_last'], array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_last_time'] ? date("Y-m-d H:i:s", $dsk['md5_last_time']) : '-', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_curr'], array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_curr_time'] ? date("Y-m-d H:i:s", $dsk['md5_curr_time']) : '-', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['md5_last'] != $dsk['md5_curr'] ? '异常：MD5变化' : '', array('size' => 9));
+            }
+
+            foreach ($cab['slots'] as $idx_slt => $slt) {
+                $section->addTitle('2.' . ($idx + 1) . '.' . ($idx_slt + 1) . '. 盘位' . $cab['cab_id'] . '-' . $slt['name'], 3);
+                $slt_title = '盘位' . $cab['cab_id'] . '-' . $slt['name'] . '健康状况报表';
+                $section->addText($slt_title . '（MD5） — ' . $today, array('bold' => true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore' => 400));
+                {
+                    $table_cab_slt_md5 = $section->addTable('Fancy Table');
+                    // 序号 	sn 	MD5检测时间 	MD5检测值 	备注
+                    $table_cab_slt_md5->addRow();
+                    $table_cab_slt_md5->addCell(1000)->addText('序号');
+                    $table_cab_slt_md5->addCell(3000)->addText('SN号');
+                    $table_cab_slt_md5->addCell(3000)->addText('MD5时间');
+                    $table_cab_slt_md5->addCell(4000)->addText('MD5检测值');
+                    $table_cab_slt_md5->addCell(3000)->addText('备注');
+
+                    foreach ($slt['md5'] as $md5_idx => $md5) {
+                        $table_cab_slt_md5->addRow();
+                        $table_cab_slt_md5->addCell()->addText($md5_idx + 1);
+                        $table_cab_slt_md5->addCell()->addText($md5['sn']);
+                        $table_cab_slt_md5->addCell()->addText(date('Y-m-d H:i:s', $md5['md5_time']));
+                        $table_cab_slt_md5->addCell()->addText($md5['md5_value']);
+                        $table_cab_slt_md5->addCell()->addText();
+                    }
+                }
+
+                $section->addText($slt_title . '（Smart） — ' . $today, array('bold' => true), array('align' => 'center', 'spaceAfter' => 100, 'spaceBefore' => 400));
+                {
+                    $table_cab_slt_smart = $section->addTable('Fancy Table');
+                    // 序号 	SN号 	SN号检测时间 	备注
+                    $table_cab_slt_smart->addRow();
+                    $table_cab_slt_smart->addCell(1000)->addText('序号');
+                    $table_cab_slt_smart->addCell(3000)->addText('SN号');
+                    $table_cab_slt_smart->addCell(3000)->addText('SN号检测时间');
+                    $table_cab_slt_smart->addCell(3000)->addText('容量');
+                    $table_cab_slt_smart->addCell(2000)->addText('健康状态');
+                    $table_cab_slt_smart->addCell(5000)->addText('备注');
+
+                    foreach ($slt['smart'] as $smart_idx => $smart) {
+                        $table_cab_slt_smart->addRow();
+                        $table_cab_slt_smart->addCell()->addText($smart_idx + 1);
+                        $table_cab_slt_smart->addCell()->addText($smart['sn']);
+                        $table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
+                        $table_cab_slt_smart->addCell()->addText($smart['capacity']);
+                        $table_cab_slt_smart->addCell()->addText($smart['disk_status'] == 0 ? '健康' : '异常');
+                        $table_cab_slt_smart->addCell()->addText();
+                    }
+                }
+            }
+        }
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        if (!is_dir('reports')) {
+            mkdir('reports');
+        }
+        $objWriter->save('reports/report.docx');
+    }
 
 
     /**
@@ -903,9 +911,9 @@ class BusinessController extends Controller
     public function getDeviceInfo()
     {
         //initiate database   --generate model
-		$cabinet = M('Cab')->where(array('sn'=>I('get.cab')))->find();
-		if (!$cabinet) return;
-		
+        $cabinet = M('Cab')->where(array('sn' => I('get.cab')))->find();
+        if (!$cabinet) return;
+
         $db = M('Device');
         $viewDb = D('DeviceView');
         $map['cabinet_id'] = array('eq', $cabinet['id']);
@@ -1073,6 +1081,7 @@ class BusinessController extends Controller
             $_POST = json_decode(file_get_contents('php://input'), true);
         }
         $this->updateCmdLog();
+
         $db = M('CmdLog');
 
         $data['user_id'] = I('get.userid', 0, 'intval');
@@ -1092,6 +1101,7 @@ class BusinessController extends Controller
             $msg = $_POST['msg'];
             //修改msg
             $data['msg'] = $this->addMsgId($msg, $id);
+            $this->setDiskBusy($data['msg']);
             $db->save($data);
             $this->AjaxReturn($data);
         } else {
@@ -1099,6 +1109,40 @@ class BusinessController extends Controller
             $this->notFoundError("fail to insert the cmd log");
         }
 
+    }
+
+    private function setDiskBusy($msg)
+    {
+
+         $cmd = json_decode($msg,true);
+        $db = M('Device');
+        $no_busy_cmds = array('DEVICESTATUS','WRITEPROTECT','POWER');
+        if(!$cmd['device_id'] || !$cmd['level'] || in_array($cmd['cmd'],$no_busy_cmds)){
+            return;
+        }
+        $cond = array(
+            'cab_id'=>$cmd['device_id'],
+            'level'=>$cmd['level'],
+            'loaded'=>1
+            );
+        $grp = $cmd['group'];
+        $grp || $grp = $cmd['src_group'];
+        $cond['zu'] = $grp;
+        $dsks = $db->where($cond)->select();
+        foreach($dsks as $dsk){
+            $dsk['busy'] = 1;
+            $dsk['busy_cmd_id'] = $cmd['CMD_ID'];
+            $db->save($dsk);
+        }
+        if($cmd['cmd'] == 'COPY'){
+            $grp = $cmd['dst_group'];
+            $cond['zu'] = $grp;
+            $dsks = $db->where($cond)->select();
+            foreach($dsks as $dsk){
+                $dsk['busy'] = 1;
+                $db->save($dsk);
+            }
+        }
     }
 
     /*********
@@ -1142,21 +1186,26 @@ class BusinessController extends Controller
         }
 
     }
-    public function clearSystRunLog(){
+
+    public function clearSystRunLog()
+    {
         $db = M('SystemRunLog');
         $db->where("1")->delete();
     }
-    public function showSystRunLog(){
-           echo "当前时间:".date("Y-m-d H:m:s",time())."<br/>";
-           echo "正在获取日志..<br/>";
-           $db = M('SystemRunLog');
-            $logs = $db->select();
-            foreach ($logs as $log){
-                echo $log['type']."-".$log['msg']."-".date("Y-m-d H:i:s A",(int)$log['time']);
-                echo "<br/>";
-            }
-        
+
+    public function showSystRunLog()
+    {
+        echo "当前时间:" . date("Y-m-d H:m:s", time()) . "<br/>";
+        echo "正在获取日志..<br/>";
+        $db = M('SystemRunLog');
+        $logs = $db->select();
+        foreach ($logs as $log) {
+            echo $log['type'] . "-" . $log['msg'] . "-" . date("Y-m-d H:i:s A", (int)$log['time']);
+            echo "<br/>";
+        }
+
     }
+
     private function handleGroup($data, $db)
     {
         $groups = I('post.groups');
@@ -1245,7 +1294,7 @@ class BusinessController extends Controller
             'cnt' => (int)$_POST['cnt'],
             'unit' => $_POST['unit'],
             'start_date' => strtotime($_POST['start_date']),
-            'hour'=>$_POST['start_time'],
+            'hour' => $_POST['start_time'],
             'time' => time(),
             'user_id' => $_POST['user_id'],
             'is_current' => 1
@@ -1257,10 +1306,10 @@ class BusinessController extends Controller
         $plan_db->startTrans();
         //取消还未开始的计划,改为当前计划
         $plan = array(
-            'start_time'=> strtotime($_POST['start_date']) + (int)$_POST['start_time']*3600,
-            'type'=>$data['type'],
-            'status'=>C('PLAN_STATUS_WAITING'),
-            'modify_time'=>time()//新增时间
+            'start_time' => strtotime($_POST['start_date']) + (int)$_POST['start_time'] * 3600,
+            'type' => $data['type'],
+            'status' => C('PLAN_STATUS_WAITING'),
+            'modify_time' => time()//新增时间
         );//$this->getPlan($data, $_POST['start_date']);
         $map = array();
         $map['type'] = array('eq', $_POST['type']);
@@ -1270,13 +1319,12 @@ class BusinessController extends Controller
 
         $rs2 = $plan_db->add($plan);
         $rs3 = true;
-        if($old_plans){
+        if ($old_plans) {
             foreach ($old_plans as $old_plan) {
                 $old_plan['status'] = C('PLAN_STATUS_CANCELED');
                 $old_plan['modify_time'] = time();
                 $rs = $plan_db->save($old_plan);
-                if(!$rs)
-                {
+                if (!$rs) {
                     $rs3 = false;
                 }
             }
@@ -1284,7 +1332,7 @@ class BusinessController extends Controller
         $ret['status'] = '0';
         if ($rs1 && $rs2 && $rs3) {
             $db->commit();
-           // $plan_db->commit();
+            // $plan_db->commit();
         } else {
             //回滚
             $db->rollback();
@@ -1301,58 +1349,60 @@ class BusinessController extends Controller
         //Unit是天时
         $plan_t = null;
 
-        switch($config['unit']){
+        switch ($config['unit']) {
             case 'day':
                 $start_t = strtotime($start_date);
-                $plan_t = $start_t + $config['cnt']*24*3600 + $config['start_time']*3600;//开始日期加天数加起始时间
+                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
                 break;
             case 'week':
                 $start_t = strtotime($start_date);
-                $plan_t = $start_t + $config['cnt']*24*3600 + $config['start_time']*3600;//开始日期加天数加起始时间
-            break;
+                $plan_t = $start_t + $config['cnt'] * 24 * 3600 + $config['start_time'] * 3600;//开始日期加天数加起始时间
+                break;
             case 'month':
                 //获取月份
-                $date_param = explode('-',$start_date);
-                $yr  = (int)$date_param[0] + floor(((int)$date_param[1]+$config['cnt'])/12);
-                $mth = ((int)$date_param[1] + $config['cnt'])%12;
-                if($mth == 0){
+                $date_param = explode('-', $start_date);
+                $yr = (int)$date_param[0] + floor(((int)$date_param[1] + $config['cnt']) / 12);
+                $mth = ((int)$date_param[1] + $config['cnt']) % 12;
+                if ($mth == 0) {
                     $mth = 12;
                 }
-                $day_cnt = self::getDaysPerMonth($yr,$mth);
-                $day = (int)$date_param[2] <=  $day_cnt? (int)$date_param[2] : $day_cnt;
-                $plan_t = strtotime($yr."-".$mth."-".$day);
+                $day_cnt = self::getDaysPerMonth($yr, $mth);
+                $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
                 break;
             case 'season':
-                $date_param = explode('-',$start_date);
-                $yr  = (int)$date_param[0] + floor(((int)$date_param[1]+$config['cnt'] * 3)/12);
-                $mth = ((int)$date_param[1] + $config['cnt']*3)%12;
-                if($mth == 0){
+                $date_param = explode('-', $start_date);
+                $yr = (int)$date_param[0] + floor(((int)$date_param[1] + $config['cnt'] * 3) / 12);
+                $mth = ((int)$date_param[1] + $config['cnt'] * 3) % 12;
+                if ($mth == 0) {
                     $mth = 12;
                 }
-                $day_cnt = self::getDaysPerMonth($yr,$mth);
-                $day = (int)$date_param[2] <=  $day_cnt? (int)$date_param[2] : $day_cnt;
-                $plan_t = strtotime($yr."-".$mth."-".$day);
+                $day_cnt = self::getDaysPerMonth($yr, $mth);
+                $day = (int)$date_param[2] <= $day_cnt ? (int)$date_param[2] : $day_cnt;
+                $plan_t = strtotime($yr . "-" . $mth . "-" . $day);
 
         }
         //生成计划
         $plan = array(
-            'modify_time'=>time(),
-            'start_time'=>$plan_t,
-            'status'=>-1
+            'modify_time' => time(),
+            'start_time' => $plan_t,
+            'status' => -1
         );
         return $plan;
     }
+
     public function test()
     {
-        echo 13%12;
+        echo 13 % 12;
     }
-    public function getDaysPerMonth($y,$m)
+
+    public function getDaysPerMonth($y, $m)
     {
-        if($m >= 12){
+        if ($m >= 12) {
             return 30;
         }
-        $next_mth = $m+1;
-        $t = (strtotime("1-".$next_mth."-".$y) - strtotime("1-".$m."-".$y));
+        $next_mth = $m + 1;
+        $t = (strtotime("1-" . $next_mth . "-" . $y) - strtotime("1-" . $m . "-" . $y));
         $days = $t / (60 * 60 * 24);
         echo $days;
         return $days;
@@ -1375,18 +1425,18 @@ class BusinessController extends Controller
         $data['errmsg'] = 'item does not exists--' . $appended;
         $this->AjaxReturn($data);
     }
-	
-	public function logout_immediate()
-	{
-		session('user', null);
-		
-		$this->redirect('login');
-	}
+
+    public function logout_immediate()
+    {
+        session('user', null);
+
+        $this->redirect('login');
+    }
 
     public function logout()
     {
-		session('user', null);
-		
+        session('user', null);
+
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);
@@ -1396,8 +1446,8 @@ class BusinessController extends Controller
 
     public function logout_admin()
     {
-		session('admin', null);
-		
+        session('admin', null);
+
         if (IS_POST) {
             $rst = array('success' => 1);
             $this->AjaxReturn($rst);

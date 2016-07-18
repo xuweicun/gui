@@ -155,9 +155,15 @@ Class AutoChecker
                         if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
-                            $this->RunLog("Group #" . $cab_id . "-$lvl-$grp is busy. Aborting on this group.");
+
                             break;
                         }
+                        //磁盘操作中或者桥接中
+                        if((!is_null($dsk['busy']) && $dsk['busy'] === 1) || $dsk['bridged'] === 1){
+                            $grp_busy = true;
+                            break;
+                        }
+
                     }
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
@@ -170,6 +176,8 @@ Class AutoChecker
                                 break;
                             }
                         }
+                    }else{
+                        $this->RunLog("Group #" . $cab_id . "-$lvl-$grp busy.");
                     }
                 }
             }
@@ -415,7 +423,31 @@ Class AutoChecker
         $rst = array('type' => 'self_check', 'status' => $plan['status']);
         ExtendGateWay::sendToAll(json_encode($rst));
     }
-
+    public function setDiskFree($dsks){
+            $busy = false;
+            if($dsks[0]['busy']==1){
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsks[0]["busy_cmd_id"]))->query();
+                if ($cmds) {
+                    $cmd = $cmds[0];
+                    //命令已经结束或者超时
+                    $time_limit = 24 * 3600;
+                    if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
+                        $busy = false;
+                    }
+                } else {
+                    $busy = false;
+                }
+                if(!$busy){
+                    foreach($dsks as $dsk){
+                        $dsk['busy'] = 0;
+                        $dsk['busy_cmd_id'] = 0;
+                        $cond = "id=:I";
+                        $bind = array("I"=>$dsk['id']);
+                        $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+                    }
+                }
+            }
+    }
     public function checkCmdStatus($plan)
     {
         //如果自检小于1天则返回
@@ -424,7 +456,9 @@ Class AutoChecker
         $check_done = false;
         $dsks = $this->db->select("id," . $this->type . "_cmd_id")->from("gui_device")->where($this->type . "_status=:S and loaded=:L")->bindValues(array('S' => PLAN_STATUS_WORKING, 'L' => 1))->query();
         if ($dsks) {
+            $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
+
                 $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
