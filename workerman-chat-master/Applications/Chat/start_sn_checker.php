@@ -23,17 +23,17 @@ require_once __DIR__ . '/../../Workerman/Autoloader.php';
 Autoloader::setRootPath(__DIR__);
 
 // gateway 进程
-$md5_checker = new Worker();
+$sn_checker = new Worker();
 
 // 设置名称，方便status时查看
-$md5_checker->name = 'SNChecker';
+$sn_checker->name = 'SNChecker';
 // 设置进程数，gateway进程数建议与cpu核数相同
-$md5_checker->count = 1;
+$sn_checker->count = 1;
 // 分布式部署时请设置成内网ip（非127.0.0.1）
-$md5_checker->lanIp = '127.0.0.1';
+$sn_checker->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口 
-$md5_checker->startPort = 4010;
+$sn_checker->startPort = 4010;
 // 心跳间隔
 // 服务注册地址
 $gateway->registerAddress = '127.0.0.1:1236';
@@ -56,22 +56,13 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
-$md5_checker->onWorkerStart = function ($md5_checker) {
-
-
-
-      //  $db = Db::instance('db1');
-    //    $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
-        //$db->insert('gui_system_run_log')->cols($msg)->query();
-
-        $checkTimer = Timer::add(300,function(){
+$sn_checker->onWorkerStart = function ($sn_checker) {
+        $checkTimer = Timer::add(477,function(){
             set_time_limit(0);
             $checker = new AutoChecker();
+            $checker->type = 'sn';
             $checker->mainCheck();
         });
-
-
-
 };
 // 如果不是在根目录启动，则运行runAll方法
 if (!defined('GLOBAL_START')) {

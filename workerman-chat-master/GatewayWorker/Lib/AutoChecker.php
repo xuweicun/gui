@@ -594,7 +594,6 @@ Class AutoChecker
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
         if ($cmd_id = $this->updateCmdLog($dsk)) {
-            $this->RunLog("New cmd #{$cmd_id} inserted. Going to send cmd to app.");
             $ch = curl_init();
             $url = $this->app_addr;
             $header = array(

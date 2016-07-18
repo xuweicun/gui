@@ -64,10 +64,10 @@ $md5_checker->onWorkerStart = function ($md5_checker) {
     //    $msg = array('type' => 'workerman status', 'msg'=>"Starting checkers",'time'=>time());
         //$db->insert('gui_system_run_log')->cols($msg)->query();
 
-        $checkTimer = Timer::add(300,function(){
+        $checkTimer = Timer::add(600,function(){
             set_time_limit(0);
-            $checker = new AutoChecker();
-            $checker->mainCheck();
+         //   $checker = new AutoChecker();
+         //   $checker->mainCheck();
         });
 
 
