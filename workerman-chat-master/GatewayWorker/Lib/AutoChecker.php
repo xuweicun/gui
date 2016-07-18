@@ -44,6 +44,7 @@ Class AutoChecker
     public $tbl_start_date = 'gui_check_start_time';
     public $start_date = null;
     public $app_addr = "localhost:8080";
+
     /****
      * @param $_t type
      * @param $_i interval
@@ -63,8 +64,8 @@ Class AutoChecker
     public function RunLog($str)
     {
         $msg = array('type' => 'check_status', 'msg' => "Type: {$this->type}. Status: " . $str, 'time' => time());
-     //   $db = DB::instance("db1");
-     //   $db->insert('gui_system_run_log')->cols($msg)->query();
+        //   $db = DB::instance("db1");
+        //   $db->insert('gui_system_run_log')->cols($msg)->query();
         ExtendGateWay::sendToAll(json_encode($msg));
     }
 
@@ -105,7 +106,7 @@ Class AutoChecker
                 return;
         } elseif ($plan['status'] == PLAN_STATUS_WORKING) {
             //检查自检时间是否已经更新,如果未更新则更新
-            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T'=>$this->type,'C'=>1))->single();
+            $curr_start_t = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type, 'C' => 1))->single();
 
             if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t > (24 * 3600)) {
                 $this->updateStartDate($plan['start_time']);
@@ -119,7 +120,7 @@ Class AutoChecker
         //如果已经无盘可查
         if (self::checkDisk($cabs)) {
             //更新信息,进入下一轮
-            $this->updateChecker();
+            $this->updateChecker($plan, $cabs);
         }
     }
 
@@ -138,7 +139,7 @@ Class AutoChecker
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
-            $this->RunLog("working on Cab #".$cab['sn']);
+            $this->RunLog("working on Cab #" . $cab['sn']);
             for ($l = 0; $l < $cab['level_cnt']; $l++) {
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
@@ -151,7 +152,7 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
-                        if ( !is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
+                        if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
                             $this->RunLog("Group #" . $cab_id . "-$lvl-$grp is busy. Aborting on this group.");
@@ -200,7 +201,7 @@ Class AutoChecker
         $db = $this->db;
         if ($status == PLAN_STATUS_WAITING) {
             //如果该盘被标记为跳过,检查是否到达跳过时间
-            if ($this->type=='md5' && $dsk['md5_skipped'] == 1) {
+            if ($this->type == 'md5' && $dsk['md5_skipped'] == 1) {
 
                 $time = date('Y-m-d', time());
                 $skip_time = date('Y-m-d', (int)$dsk[$this->type . '_skip_time']);
@@ -285,19 +286,22 @@ Class AutoChecker
         }
         return true;
     }
-    public function resetDiskStatus(){
-        $status = $this->type."_status";
 
-        $dsks = $this->db->select("id,".$this->type."_cmd_id,".$this->type."_status")->from("gui_device")->where("loaded=:L")->bindValues(array('L'=>1))->query();
-        foreach($dsks as $dsk){
-            if($dsk[$status] !== PLAN_STATUS_WORKING){
-                $dsk[$status]  = PLAN_STATUS_WAITING;
+    public function resetDiskStatus()
+    {
+        $status = $this->type . "_status";
+
+        $dsks = $this->db->select("id," . $this->type . "_cmd_id," . $this->type . "_status")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
+        foreach ($dsks as $dsk) {
+            if ($dsk[$status] !== PLAN_STATUS_WORKING) {
+                $dsk[$status] = PLAN_STATUS_WAITING;
                 $dsk['md5_skipped'] = 0;
-                $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk['id']))->query();
+                $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I' => $dsk['id']))->query();
             }
         }
 
     }
+
     /******
      * @param $plan 启动计划
      * @return bool 返回启动是否成功的结果
@@ -319,9 +323,9 @@ Class AutoChecker
         if (!$rst) {
             $this->RunLog("Error: Failed to start the plan :( Will try again later.");
         } else {
+            $this->broadCheckStatus($plan);
             $this->updateStartDate();
             $this->resetDiskStatus();
-            $this->RunLog("Congratulation: Success to start the plan :)");
         }
 
         //更改
@@ -337,7 +341,7 @@ Class AutoChecker
         if (!$_start_date) {
             $_start_date = time();
         }
-        $items = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type,'C'=>1))->query();
+        $items = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type, 'C' => 1))->query();
         $rst = true;
         //如果有时间,更新
         if ($items) {
@@ -393,61 +397,63 @@ Class AutoChecker
         return true;
     }
 
-    public function updateChecker()
+    public function updateChecker($plan, $cabs)
     {
         $db = $this->db;
-        if (!$cabs = $this->getCabQueue())
-            return;
-        $this->RunLog("Plan over. Resetting the status of disks.");
-        //遍历每个硬盘,如果状态为未完成,设为完成,priority+1;如果已完成,priority=0;
-        foreach ($cabs as $cab) {
-            $cab_id = $cab['sn'];
-            for ($l = 0; $l < $cab['level_cnt']; $l++) {
-                $lvl = $l + 1;
-                for ($g = 0; $g < $cab['group_cnt']; $g++) {
-                    $grp = $g + 1;
-                    for ($d = 0; $d < $cab['disk_cnt']; $d++) {
-                        $idx = $d + 1;
-                        $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and disk=$idx and loaded=1")->query();
-                        if ($dsks) {
-                            $dsk = $dsks[0];
-                            $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
-                            $dsk['sn_check_status'] = PLAN_STATUS_WAITING;
-                            $db->update('gui_device')->cols($dsk)->where("id={$dsk['id']}")->query();
-                        }
-
-                    }
-                }
-            }
-        }
-
+        $cols = array();
+        $cols['status'] = PLAN_STATUS_FINISHED;
+        $cols['finish_time'] = time();
+        $conn = "id=:I";
+        $bind = array('I' => $plan['id']);
+        $db->update($this->tbl_plan)->cols($cols)->where($conn)->bindValues($bind)->query();
+        $this->resetDiskStatus();
+        $this->broadCheckStatus($cols);
     }
-    public function checkCmdStatus($plan){
+
+    public function broadCheckStatus($plan)
+    {
+        $rst = array('type' => 'self_check', 'status' => $plan['status']);
+        ExtendGateWay::sendToAll(json_encode($rst));
+    }
+
+    public function checkCmdStatus($plan)
+    {
         //如果自检小于1天则返回
         $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
 
         $check_done = false;
-        $dsks = $this->db->select("id,".$this->type."_cmd_id")->from("gui_device")->where($this->type."_status=:S and loaded=:L")->bindValues(array('S'=>PLAN_STATUS_WORKING,'L'=>1))->query();
-        if($dsks){
-            foreach($dsks as $dsk){
-                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I'=>$dsk[$this->type."_cmd_id"]))->query();
-                if($cmds){
+        $dsks = $this->db->select("id," . $this->type . "_cmd_id")->from("gui_device")->where($this->type . "_status=:S and loaded=:L")->bindValues(array('S' => PLAN_STATUS_WORKING, 'L' => 1))->query();
+        if ($dsks) {
+            foreach ($dsks as $dsk) {
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
+                if ($cmds) {
                     $cmd = $cmds[0];
                     //命令已经结束或者超时
-                    if($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit){
+                    if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
                         $check_done = true;
                     }
-                }
-                else{
+                } else {
                     $check_done = true;
                 }
-                if($check_done){
-                    $dsk[$this->type."_status"] = PLAN_STATUS_FINISHED;
-                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk["id"]))->query();
+                if ($check_done) {
+                    $dsk[$this->type . "_status"] = PLAN_STATUS_FINISHED;
+                    if ($cmds) {
+                        switch ($cmds[0]['status']) {
+
+                            case 0:
+                                break;
+                            default:
+                                //超时或失败
+                                $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+                                break;
+                        }
+                    }
+                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I' => $dsk["id"]))->query();
                 }
             }
         }
     }
+
     public function getCabQueue()
     {
         $db = $this->db;
@@ -455,6 +461,7 @@ Class AutoChecker
         $cabs = $db->select("*")->from($cab_tbl)->where("loaded=1")->query();
         return $cabs;
     }
+
     //检查
     public function getPlan($config, $start_t)
     {
@@ -531,13 +538,13 @@ Class AutoChecker
         $db = $this->db;
         $plan = null;
         $config = null;
-        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
+        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=:C")->bindValues(array('T' => $type, 'C' => 1))->query();
 
         if ($configs) {
             $config = $configs[0];
             //根据配置生成新的plan
             if (!$start_t) {
-                $items = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T' => $type,'C'=>1))->query();
+                $items = $db->select("start_date")->from($this->tbl_start_date)->where("type=:T and is_current=:C")->bindValues(array('T' => $type, 'C' => 1))->query();
                 if (!$items) {
                     return null;
                 }
@@ -557,8 +564,10 @@ Class AutoChecker
         }
         return $plan;
     }
-    public function updateCmdLog($dsk){
-        $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
+
+    public function updateCmdLog($dsk)
+    {
+        $cmd = $this->type == 'md5' ? 'MD5' : 'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
 
@@ -571,26 +580,27 @@ Class AutoChecker
             'finished' => 0
         );
         $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
-        if($cmd_id){
-            $cols = array($this->type."_cmd_id"=>$cmd_id,$this->type."_status"=>PLAN_STATUS_WORKING);
+        if ($cmd_id) {
+            $cols = array($this->type . "_cmd_id" => $cmd_id, $this->type . "_status" => PLAN_STATUS_WORKING);
             $cond = "id=:I";
-            $bindV = array("I"=>$dsk['id']);
+            $bindV = array("I" => $dsk['id']);
             $rst = $db->update("gui_device")->cols($cols)->where($cond)->bindValues($bindV)->query();
             //如果更新磁盘状态失败，则停止操作，删除日志，以免阻塞或者冲突
-            if(!$rst){
+            if (!$rst) {
                 //删除命令日志
                 $cond = "id=:I";
-                $bindV = array("I"=>$cmd_id);
+                $bindV = array("I" => $cmd_id);
                 $db->delete($tbl_cmd_log)->where($cond)->bindValues($bindV)->query();
                 return false;
             }
         }
         return $cmd_id;
     }
+
     public function sendCmd($dsk, $type)
     {
         //生成cmd,插入CmdLog
-        $cmd = $this->type == 'md5'? 'MD5':'DISKINFO';
+        $cmd = $this->type == 'md5' ? 'MD5' : 'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
         if ($cmd_id = $this->updateCmdLog($dsk)) {
@@ -617,12 +627,12 @@ Class AutoChecker
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
             //更新日志信息
-            $new_cmd = array('msg'=>json_encode($data));
-            $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
-                       // 通知前端
-            $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I'=>$cmd_id))->query();
+            $new_cmd = array('msg' => json_encode($data));
+            $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
+            // 通知前端
+            $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
 
-            if($rst) {
+            if ($rst) {
                 $attached = array('type' => 'say', 'user_name' => 'system');
                 $rst = array_merge($rst, $attached);
                 ExtendGateWay::sendToAll(json_encode($rst));
