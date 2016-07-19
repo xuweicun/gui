@@ -301,7 +301,6 @@ class MsgController extends Controller
 
             $this->updateCmdLog();
         }
-
         //update related table
         switch ($this->msg->cmd) {
             case 'DEVICEINFO':
@@ -312,6 +311,7 @@ class MsgController extends Controller
                 break;
             case 'DISKINFO':
                 $this->updateDiskInfo();
+                $this->logs_for_report();
                 break;
             case 'BRIDGE':
                 $this->hdlBridgeMsg();
@@ -352,6 +352,124 @@ class MsgController extends Controller
 		M('FatalMsg')->add(array('msg'=>$msg));
 	}
 
+	private function logs_for_smart($_msg)
+	{
+		// 只记录成功的
+		if ($_msg->status != '0' || $_msg->substatus != '0') {
+			return;
+		}
+
+		$item['time'] = time();
+		$item['device_id'] = $_POST['device_id'];
+		$item['level'] = $_POST['level'];
+		$item['zu'] = $_POST['group'];
+		$item['disk'] = $_POST['disk'];
+		$item['disk_status'] = $_POST['disk_status'];
+
+		$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
+			->where(array(
+				'cab_id' => $item['device_id'],
+				'level' => $item['level'],
+				'zu' => $item['zu'],
+				'disk' => $item['disk'],
+				'loaded' => 1
+			))->find();
+		if (!$dsk) {
+			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
+			return;
+		}
+
+		$item['cabinet_id'] = $dsk['cabinet_id'];
+		$item['disk_id'] = $dsk['disk_id'];
+		$item['sn'] = $_POST['SN'];
+		$item['capacity'] = $_POST['capacity'];
+		$item['smart'] = json_encode($_POST['SmartAttrs']);
+		$item['status'] = '1';
+		$item['status_comment'] = '';
+
+		M('DiskSmartLog')->add($item);
+	}
+	private function logs_for_md5($_msg)
+	{
+		if ($_msg->status != '0' || $_msg->substatus != '0') {
+			return;
+		}
+
+		// 只处理result命令
+		if ($_POST['subcmd'] != 'RESULT') {
+			return;
+		}
+
+		// 处理md5值变化
+		do {
+			// 判断MD5是否发生变化
+			$my_slot = M('Device')->field(array('disk_id'))->where(array(
+				'cab_id' => $_POST['device_id'],
+				'level' => $_POST['level'],
+				'zu' => $_POST['group'],
+				'disk' => $_POST['disk'],
+				'loaded' => 1
+			))->find();
+
+			if (!$my_slot) break;
+
+			$disk_db = M('Disk');
+			$my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
+			if (!$my_disk) break;
+
+			// 若md5为空或相同
+			if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
+				// 记录md5变化
+				$my_disk['md5_changed'] = 0;
+			} else {
+				// 记录md5变化
+				$my_disk['md5_changed'] = 1;
+			}
+
+			$disk_db->save($my_disk);
+		} while (false);
+
+		$item['time'] = time();
+		$item['device_id'] = $_POST['device_id'];
+		$item['level'] = $_POST['level'];
+		$item['zu'] = $_POST['group'];
+		$item['disk'] = $_POST['disk'];
+		$item['md5_value'] = $_POST['result'];
+		$item['md5_time'] = $item['time'];
+
+		// 获得硬盘ID
+		$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
+			->where(array(
+				'cab_id' => $item['device_id'],
+				'level' => $item['level'],
+				'zu' => $item['zu'],
+				'disk' => $item['disk'],
+				'loaded'=>1
+			))->find();
+		if (!$dsk) {
+			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
+			return;
+		}
+
+		// 获取SN
+		$item['disk_id'] = $dsk['disk_id'];
+		$item['cabinet_id'] = $dsk['cabinet_id'];
+
+		$sn = M('DiskSmartLog')->field(array('sn'))
+			->where(array(
+				'disk_id' => $item['disk_id'],
+				'status' => 1))
+			->order('time desc')->find();
+		if (!$sn) {
+			$this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
+			return;
+		}
+
+		$item['sn'] = $sn['sn'];
+		$item['status'] = '1';
+
+		M('DiskMd5Log')->add($item);
+	}
     private function logs_for_report()
     {
         $_msg = $this->msg;
@@ -361,119 +479,9 @@ class MsgController extends Controller
         }
 
         if ($_msg->cmd == 'DISKINFO') {
-            // 只记录成功的
-            if ($_msg->status != '0' || $_msg->substatus != '0') {
-                return;
-            }
-
-            $item['time'] = time();
-            $item['device_id'] = $_POST['device_id'];
-            $item['level'] = $_POST['level'];
-            $item['zu'] = $_POST['group'];
-            $item['disk'] = $_POST['disk'];
-            $item['disk_status'] = $_POST['disk_status'];
-
-            $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
-                ->where(array(
-                    'cab_id' => $item['device_id'],
-                    'level' => $item['level'],
-                    'zu' => $item['zu'],
-                    'disk' => $item['disk'],
-					'loaded' => 1
-                ))->find();
-            if (!$dsk) {
-				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
-                return;
-            }
-
-            $item['cabinet_id'] = $dsk['cabinet_id'];
-            $item['disk_id'] = $dsk['disk_id'];
-            $item['sn'] = $_POST['SN'];
-            $item['capacity'] = $_POST['capacity'];
-            $item['smart'] = json_encode($_POST['SmartAttrs']);
-            $item['status'] = '1';
-            $item['status_comment'] = '';
-
-            M('DiskSmartLog')->add($item);
+            $this->logs_for_smart($_msg);
         } else if ($_msg->cmd == 'MD5') {
-            if ($_msg->status != '0' || $_msg->substatus != '0') {
-                return;
-            }
-
-            // 只处理result命令
-            if ($_POST['subcmd'] != 'RESULT') {
-                return;
-            }
-
-            // 处理md5值变化
-            do {
-                // 判断MD5是否发生变化
-                $my_slot = M('Device')->field(array('disk_id'))->where(array(
-                    'cab_id' => $_POST['device_id'],
-                    'level' => $_POST['level'],
-                    'zu' => $_POST['group'],
-                    'disk' => $_POST['disk'],
-                    'loaded' => 1
-                ))->find();
-
-                if (!$my_slot) break;
-
-                $disk_db = M('Disk');
-                $my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
-                if (!$my_disk) break;
-
-                // 若md5为空或相同
-                if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
-                    // 记录md5变化
-                    $my_disk['md5_changed'] = 0;
-                } else {
-                    // 记录md5变化
-                    $my_disk['md5_changed'] = 1;
-                }
-
-                $disk_db->save($my_disk);
-            } while (false);
-
-            $item['time'] = time();
-            $item['device_id'] = $_POST['device_id'];
-            $item['level'] = $_POST['level'];
-            $item['zu'] = $_POST['group'];
-            $item['disk'] = $_POST['disk'];
-            $item['md5_value'] = $_POST['result'];
-            $item['md5_time'] = $item['time'];
-
-            // 获得硬盘ID
-            $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
-                ->where(array(
-                    'cab_id' => $item['device_id'],
-                    'level' => $item['level'],
-                    'zu' => $item['zu'],
-                    'disk' => $item['disk'],
-					'loaded'=>1
-                ))->find();
-            if (!$dsk) {
-				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
-                return;
-            }
-
-            // 获取SN
-            $item['disk_id'] = $dsk['disk_id'];
-            $item['cabinet_id'] = $dsk['cabinet_id'];
-
-            $sn = M('DiskSmartLog')->field(array('sn'))
-                ->where(array(
-                    'disk_id' => $item['disk_id'],
-                    'status' => 1))
-                ->order('time desc')->find();
-            if (!$sn) {
-				$this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
-                return;
-            }
-
-            $item['sn'] = $sn['sn'];
-            $item['status'] = '1';
-
-            M('DiskMd5Log')->add($item);
+            $this->logs_for_md5($_msg);
         }
     }
 
@@ -1281,7 +1289,6 @@ class MsgController extends Controller
      */
     public function updateCmdLog()
     {
-
         //服务器主动推送的信息
         if ($this->msg->id == "0") {
             $this->RTLog('SERVER GOT AN MSG FROM PROXY.');
@@ -1289,15 +1296,18 @@ class MsgController extends Controller
         }
         //出错，输出错误信息
         if ($this->msg->isFail()) {
+            echo 'Fail';
             //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             $this->hdlFail();
             $this->quit();
         }
+		
         if ($this->msg->isStart()) {
+            echo 'Start';
             //just start
             $this->hdlStartMsg();
-            $this->quit();
+		    $this->quit();
         }
 
         //bridge msg has to be handled seperately
@@ -1306,9 +1316,10 @@ class MsgController extends Controller
         }
         //for stop msg: stop is quite simple
         if ($this->msg->isSRP()) {
+            echo 'SRP';
             $this->hdlSRPMsg();
 
-            // 记录所有DISKINFO和MD5命令用于报表统计
+            // 记录所有MD5命令用于报表统计
             $this->logs_for_report();
 
             $this->quit();
