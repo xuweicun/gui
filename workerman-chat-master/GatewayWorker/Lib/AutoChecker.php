@@ -25,6 +25,7 @@ define('PLAN_STATUS_SUCCESS', 1, true);
 define('PLAN_STATUS_CANCELED', 2, true);
 define('PLAN_STATUS_SKIPPED', 2, true);
 define('PLAN_STATUS_OTHER', 3, true);
+define('PLAN_STATUS_TIMEOUT', 4, true);
 
 Class AutoChecker
 {
@@ -144,6 +145,7 @@ Class AutoChecker
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
+                    $grp_skipped = false;
                     $grp = $g + 1;
                     //按照优先级排序
                     $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->query();//orderby(priority)
@@ -156,35 +158,56 @@ Class AutoChecker
                             $is_check_finished = false;
                             $grp_busy = true;
 
-                            break;
+                           // break;
                         }
                         //磁盘操作中或者桥接中
                         if((!is_null($dsk['busy']) && $dsk['busy'] === 1) || $dsk['bridged'] === 1){
                             $grp_busy = true;
-                            break;
+                        }
+                        //检查是否有漏网之鱼
+                        if($dsk[$this->type . '_status'] < PLAN_STATUS_FINISHED){
+                            $is_check_finished = false;
+                        }
+                        if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
+                            if(time() - (int)$dsk['md5_skip_time'] > 24 * 3600){
+                            $this->setDiskNoSkip($dsk);
+                            }
+                            else{
+                                $grp_skipped = true;
+                                $this->RunLog("Group is skipped at:".date("Y-m-d H:i:s",(int)$dsk['md5_skip_time']));
+                            }
                         }
 
                     }
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
-                    if (!$grp_busy) {
+                    if (!$grp_busy && !$grp_skipped) {
                         foreach ($dsks as $dsk) {
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
-                                $this->RunLog("Start checking disk #" . $cab_id . "-$lvl-$grp-" . $dsk['disk']);
+
                                 $is_check_finished = false;
                                 break;
                             }
                         }
                     }else{
-                        $this->RunLog("Group #" . $cab_id . "-$lvl-$grp busy.");
+
                     }
                 }
             }
         }
         return $is_check_finished;
     }
-
+    private function setDiskNoSkip($dsk){
+        if(!$dsk){
+            return;
+        }
+        $dsk['md5_skipped'] = 0;
+        $dsk['md5_skip_time'] = '';
+        $cond = "id=:I";
+        $bind = array("I"=>$dsk['id']);
+        $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+    }
     /****
      * @param $sn_time SN更新时间
      * @return bool SN是否是最近更新的
@@ -382,7 +405,33 @@ Class AutoChecker
             $this->RunLog("This plan has finished or timed out.");
             return false;
         }
-        $this->RunLog("Plan status:" . $plan['status']);
+        $used_time = time() - (int)$plan['start_time'];
+        $configs = $db->select("*")->from($this->tbl_conf)->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type, 'C' => 1))->query();
+
+        if ($configs) {
+            $config = $configs[0];
+            $unit = 0;
+            switch($config['unit']){
+                case 'day':
+                    $unit = 1;
+                    break;
+                case 'week':
+                    $unit = 7;
+                    break;
+                case 'month':
+                    $unit = 30;
+                    break;
+                case 'season':
+                    $unit = 90;
+                    break;
+            }
+            if($unit*$config['cnt']*3600 < $used_time){
+                //设置为超时
+                $plan['status'] = PLAN_STATUS_TIMEOUT;
+                $this->db->update($this->tbl_plan)->cols($plan)->where("id=:I")->bindValues(array('I'=>$plan['id']))->query();
+                return false;
+            }
+        }
         return true;
         $plans = $db->select('*')->from($this->tbl_plan)->where("status=-1 and type='{$this->type}'")->orderby(array('start_time'))->query();//修改状态
         //如果不存在其他计划,不正常,退出;
@@ -471,11 +520,16 @@ Class AutoChecker
                 }
                 if ($check_done) {
                     $dsk[$this->type . "_status"] = PLAN_STATUS_FINISHED;
+                    $dsk[$this->type . "_cmd_id"] = 0;
                     if ($cmds) {
                         switch ($cmds[0]['status']) {
-
                             case 0:
                                 break;
+                            case -2:
+                                //取消
+                                $this->RunLog("Disk skipped");
+                                $dsk[$this->type . "_skipped"] = 1;
+                                $dsk[$this->type . "_skip_time"] = time();
                             default:
                                 //超时或失败
                                 $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;

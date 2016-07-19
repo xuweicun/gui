@@ -66,8 +66,8 @@ $md5_checker->onWorkerStart = function ($md5_checker) {
 
         $checkTimer = Timer::add(600,function(){
             set_time_limit(0);
-         //   $checker = new AutoChecker();
-         //   $checker->mainCheck();
+            $checker = new AutoChecker();
+            $checker->mainCheck();
         });
 
 
