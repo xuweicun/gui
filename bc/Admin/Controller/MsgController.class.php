@@ -448,7 +448,6 @@ class MsgController extends Controller
             $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
                 ->where(array(
                     'cab_id' => $item['device_id'],
-                    'level' => ,
                     'level' => $item['level'],
                     'zu' => $item['zu'],
                     'disk' => $item['disk'],
