@@ -297,7 +297,7 @@ class MsgController extends Controller
             if (in_array($this->msg->cmd, $this->selfCheckArr)) {
                 $cmd = $this->db->find((int)$this->msg->id);
                 $this->hdlSelfCheck($cmd);
-                var_dump($cmd);
+             //   var_dump($cmd);
             }
 
             $this->updateCmdLog();
@@ -438,7 +438,6 @@ class MsgController extends Controller
             $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
                 ->where(array(
                     'cab_id' => $item['device_id'],
-                    'level' => $item['level'],
                     'level' => $item['level'],
                     'zu' => $item['zu'],
                     'disk' => $item['disk']
@@ -1140,7 +1139,7 @@ class MsgController extends Controller
         if ($_POST['status'] == 0) {
             //查看是否对应盘位绑定了硬盘
             //若未绑定
-
+            $dsk_hdler = new Dsk();
             $map = $this->getDiskMap();//"level=$level and zu=$group and disk=$disk and device_id=$cab_id";
             $db = M('Device');
             $diskDb = M('Disk');
@@ -1154,40 +1153,43 @@ class MsgController extends Controller
             $data['capacity'] = $_POST['capacity'];
             $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1 : 0;
             //检查该sn号的硬盘是否已存在,如果不存在,新建条目
-            $dsk_hdler = new Dsk();
-            $disk_id = $data['id'] = $dsk_hdler->getDskBySN($data['sn']);
-            //初次获取信息或者sn号发生变化
-            if ($item['disk_id'] != $disk_id) {
-                if ($item['disk_id']) {
-                    //检查sn是否变化
-                    $disk = $diskDb->find($item['disk_id']);
-                    if ($disk && $disk['sn'] != $data['sn']) {
-                        // 清空md5记录
-                        $disk['md5'] = null;
-                        $disk['md5_time'] = null;
-                        $disk['sn'] = $data['sn'];
-                        $disk['sn_time'] = time();
-                        $diskDb->save($disk);
 
-                        //sn发生变化,记录日志
-                        $log_db = M("DiskChgLog");
-                        $dsk_hdler->hdlDskChg($disk, 'sn', $data['sn']);
-                    }
-                }
-                $item['disk_id'] = $disk_id;
-                $db->save($item);
-            }
-            //更新修改时间
+            $disk_id = $data['id'] = $dsk_hdler->getDskBySN($data['sn']);
             $data['sn_time'] = time();
             $diskDb->save($data);
-            $this->updateSmart($disk_id);
-        }
-    }
 
-    /******
-     * 更新Smart值
-     * @input: disk_id, $_POST
-     */
+            //初次获取信息或者sn号发生变化
+            if ($item['disk_id'] !== $disk_id) {
+                /* if ($item['disk_id']) {
+                   //检查sn是否变化
+                /$disk = $diskDb->find($item['disk_id']);
+                   if ($disk && $disk['sn'] != $data['sn']) {
+                       // 清空md5记录
+                       $disk['md5'] = null;
+                       $disk['md5_time'] = null;
+                       $disk['sn'] = $data['sn'];
+                       $disk['sn_time'] = time();
+                       //$diskDb->save($disk);
+
+                       //sn发生变化,记录日志
+                       $log_db = M("DiskChgLog");
+                       //$dsk_hdler->hdlDskChg($disk, 'sn', $data['sn']);
+                   }
+               }*/
+               //更新盘位对应的磁盘id
+               $item['disk_id'] = $disk_id;
+               $db->save($item);
+           }
+           //更新修改时间
+
+           $this->updateSmart($disk_id);
+       }
+   }
+
+   /******
+    * 更新Smart值
+    * @input: disk_id, $_POST
+    */
     private function updateSmart($id)
     {
         //return;//暂时未调试好，先不处理
