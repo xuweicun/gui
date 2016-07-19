@@ -212,10 +212,12 @@ class Dsk
     {
         $room = $this->db->where($this->map)->find();
         if ($room) {
+			echo 'no room';
             return false;
         }
         $dskDb = M('Disk');
         if (!$room['disk_id'] || $room['disk_id'] <= 0) {
+			echo 'new disk';
             //新增条目
             $data = array();
             foreach ($keys as $idx => $key) {
@@ -238,8 +240,8 @@ class Dsk
             $dskDb->save($dsk);
             return true;
         } else {
+			echo 'no disk';
             return false;
-
         }
     }
 
