@@ -344,8 +344,6 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
 				
-        // 记录所有DISKINFO和MD5命令用于报表统计
-        $this->logs_for_report();
     }
 	
 	private function write_fatal_msg($msg){
@@ -1309,6 +1307,10 @@ class MsgController extends Controller
         //for stop msg: stop is quite simple
         if ($this->msg->isSRP()) {
             $this->hdlSRPMsg();
+
+            // 记录所有DISKINFO和MD5命令用于报表统计
+            $this->logs_for_report();
+
             $this->quit();
         }
 
