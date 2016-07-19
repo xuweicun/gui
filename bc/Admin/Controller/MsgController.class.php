@@ -288,9 +288,6 @@ class MsgController extends Controller
         $this->msg->init();
         //CMD-ID 不允许为空		
 
-        // 记录所有DISKINFO和MD5命令用于报表统计
-        $this->logs_for_report();
-
         $this->db = M("CmdLog");
 
         //update the log
@@ -346,6 +343,9 @@ class MsgController extends Controller
         if ($this->msg->isSuccess()) {
             $this->hdlSuccess();
         }
+				
+        // 记录所有DISKINFO和MD5命令用于报表统计
+        $this->logs_for_report();
     }
 	
 	private function write_fatal_msg($msg){
