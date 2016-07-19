@@ -212,10 +212,12 @@ class Dsk
     {
         $room = $this->db->where($this->map)->find();
         if ($room) {
+			echo 'no room';
             return false;
         }
         $dskDb = M('Disk');
         if (!$room['disk_id'] || $room['disk_id'] <= 0) {
+			echo 'new disk';
             //新增条目
             $data = array();
             foreach ($keys as $idx => $key) {
@@ -238,8 +240,8 @@ class Dsk
             $dskDb->save($dsk);
             return true;
         } else {
+			echo 'no disk';
             return false;
-
         }
     }
 
@@ -345,6 +347,12 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
     }
+	
+	private function write_fatal_msg($msg){
+		if (is_null($msg) || $msg == '') return;
+				
+		M('FatalMsg')->add(array('msg'=>$msg));
+	}
 
     private function logs_for_report()
     {
@@ -372,9 +380,11 @@ class MsgController extends Controller
                     'cab_id' => $item['device_id'],
                     'level' => $item['level'],
                     'zu' => $item['zu'],
-                    'disk' => $item['disk']
+                    'disk' => $item['disk'],
+					'loaded' => 1
                 ))->find();
             if (!$dsk) {
+				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
                 return;
             }
 
@@ -440,9 +450,11 @@ class MsgController extends Controller
                     'cab_id' => $item['device_id'],
                     'level' => $item['level'],
                     'zu' => $item['zu'],
-                    'disk' => $item['disk']
+                    'disk' => $item['disk'],
+					'loaded'=>1
                 ))->find();
             if (!$dsk) {
+				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
                 return;
             }
 
@@ -456,6 +468,7 @@ class MsgController extends Controller
                     'status' => 1))
                 ->order('time desc')->find();
             if (!$sn) {
+				$this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
                 return;
             }
 

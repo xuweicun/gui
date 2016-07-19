@@ -570,9 +570,7 @@ class BusinessController extends Controller
             'gui_device.normal' => 'normal',
             'sn',
             'sn_time',
-            'capacity',
-            'gui_disk.md5' => 'md5_curr',
-            'gui_disk.md5_time' => 'md5_curr_time'
+            'capacity'
         );
 
         $db_disk_md5_log = M('DiskMd5Log');
@@ -597,14 +595,19 @@ class BusinessController extends Controller
                 $items_cabs[$key]['disks'][$key_1]['md5_first'] = $item_md5_first['md5_value'];
                 $items_cabs[$key]['disks'][$key_1]['md5_first_time'] = $item_md5_first['md5_time'];
 
-                // 上次md5
-                $items_md5_last = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
+                
+                $items_md5_last_two = $db_disk_md5_log->field(array('md5_value', 'md5_time'))
                     ->where(array('disk_id' => $value['disk_id'], 'status' => 1))
                     ->order('time desc')->limit(2)->select();
-
-                $index = count($items_md5_last) == 2 ? 1 : 0;
-                $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last[$index]['md5_value'];
-                $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last[$index]['md5_time'];
+					
+				// 当前MD5				
+				$items_cabs[$key]['disks'][$key_1]['md5_curr'] = $items_md5_last_two[0]['md5_value'];
+                $items_cabs[$key]['disks'][$key_1]['md5_curr_time'] = $items_md5_last_two[0]['md5_time'];
+				
+				// 上次md5
+                $index = count($items_md5_last_two) == 2 ? 1 : 0;
+                $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last_two[$index]['md5_value'];
+                $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last_two[$index]['md5_time'];
 
                 if ($value['normal'] != '1') {
                     $ab_cnt++;
