@@ -347,6 +347,12 @@ class MsgController extends Controller
             $this->hdlSuccess();
         }
     }
+	
+	private function write_fatal_msg($msg){
+		if (is_null($msg) || $msg == '') return;
+				
+		M('FatalMsg')->add(array('msg'=>$msg));
+	}
 
     private function logs_for_report()
     {
@@ -374,9 +380,11 @@ class MsgController extends Controller
                     'cab_id' => $item['device_id'],
                     'level' => $item['level'],
                     'zu' => $item['zu'],
-                    'disk' => $item['disk']
+                    'disk' => $item['disk'],
+					'loaded' => 1
                 ))->find();
             if (!$dsk) {
+				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
                 return;
             }
 
@@ -440,12 +448,14 @@ class MsgController extends Controller
             $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
                 ->where(array(
                     'cab_id' => $item['device_id'],
-                    'level' => $item['level'],
+                    'level' => ,
                     'level' => $item['level'],
                     'zu' => $item['zu'],
-                    'disk' => $item['disk']
+                    'disk' => $item['disk'],
+					'loaded'=>1
                 ))->find();
             if (!$dsk) {
+				$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
                 return;
             }
 
@@ -459,6 +469,7 @@ class MsgController extends Controller
                     'status' => 1))
                 ->order('time desc')->find();
             if (!$sn) {
+				$this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
                 return;
             }
 
