@@ -301,7 +301,6 @@ class MsgController extends Controller
 
             $this->updateCmdLog();
         }
-
         //update related table
         switch ($this->msg->cmd) {
             case 'DEVICEINFO':
@@ -312,6 +311,7 @@ class MsgController extends Controller
                 break;
             case 'DISKINFO':
                 $this->updateDiskInfo();
+                $this->logs_for_report();
                 break;
             case 'BRIDGE':
                 $this->hdlBridgeMsg();
@@ -479,9 +479,9 @@ class MsgController extends Controller
         }
 
         if ($_msg->cmd == 'DISKINFO') {
-            $this->logs_for_smart();
+            $this->logs_for_smart($_msg);
         } else if ($_msg->cmd == 'MD5') {
-            $this->logs_for_md5();
+            $this->logs_for_md5($_msg);
         }
     }
 
@@ -1296,6 +1296,7 @@ class MsgController extends Controller
         }
         //出错，输出错误信息
         if ($this->msg->isFail()) {
+            echo 'Fail';
             //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             $this->hdlFail();
@@ -1303,13 +1304,10 @@ class MsgController extends Controller
         }
 		
         if ($this->msg->isStart()) {
+            echo 'Start';
             //just start
             $this->hdlStartMsg();
-			
-            // 记录所有DISKINFO命令用于报表统计
-            $this->logs_for_report();
-			
-            $this->quit();
+		    $this->quit();
         }
 
         //bridge msg has to be handled seperately
@@ -1318,6 +1316,7 @@ class MsgController extends Controller
         }
         //for stop msg: stop is quite simple
         if ($this->msg->isSRP()) {
+            echo 'SRP';
             $this->hdlSRPMsg();
 
             // 记录所有MD5命令用于报表统计
