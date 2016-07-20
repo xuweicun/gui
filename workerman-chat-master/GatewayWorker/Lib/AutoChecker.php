@@ -473,9 +473,11 @@ Class AutoChecker
         ExtendGateWay::sendToAll(json_encode($rst));
     }
     public function setDiskFree($dsks){
+
+        foreach($dsks as $dsk) {
             $busy = false;
-            if($dsks[0]['busy']==1){
-                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsks[0]["busy_cmd_id"]))->query();
+            if ($dsks['busy'] == 1) {
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsks["busy_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
                     //命令已经结束或者超时
@@ -486,16 +488,15 @@ Class AutoChecker
                 } else {
                     $busy = false;
                 }
-                if(!$busy){
-                    foreach($dsks as $dsk){
+                if (!$busy) {
                         $dsk['busy'] = 0;
                         $dsk['busy_cmd_id'] = 0;
                         $cond = "id=:I";
-                        $bind = array("I"=>$dsk['id']);
+                        $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
-                    }
                 }
             }
+        }
     }
     public function checkCmdStatus($plan)
     {
@@ -503,11 +504,11 @@ Class AutoChecker
         $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
 
         $check_done = false;
-        $dsks = $this->db->select("id," . $this->type . "_cmd_id")->from("gui_device")->where($this->type . "_status=:S and loaded=:L")->bindValues(array('S' => PLAN_STATUS_WORKING, 'L' => 1))->query();
+        $dsks = $this->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
         if ($dsks) {
             $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
-
+   
                 $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
