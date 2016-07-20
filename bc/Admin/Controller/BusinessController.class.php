@@ -90,10 +90,10 @@ class BusinessController extends Controller
         $plans = $db->where("status <= 2")->select();
         $dskDb = M('Device');
         $dsks = $dskDb->where("loaded=1")->select();
-        $md5_finished = $dskDb->where("md5_check_status=1")->select();
-        $md5_going = $dskDb->where("md5_check_status=0")->select();
-        $sn_finished = $dskDb->where("sn_check_status=1")->select();
-        $sn_going = $dskDb->where("sn_check_status=0")->select();
+        $md5_finished = $dskDb->where("md5_status=1")->select();
+        $md5_going = $dskDb->where("md5_status=0")->select();
+        $sn_finished = $dskDb->where("sn_status=1")->select();
+        $sn_going = $dskDb->where("sn_status=0")->select();
         foreach($plans as $key=>$plan){
             if($plan['type'] == 'md5'){
                 $plans[$key]['going'] = count($md5_going);
