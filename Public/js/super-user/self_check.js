@@ -9,7 +9,7 @@ Checker.prototype = {
     init: function (data) {
         this.type = data['type'] == 'md5'? 'MD5校验':'健康状况校验';
         this.start_time = data['start_time'];
-        this.progress = '--';//data['progress'];
+        this.progress = "Finished:"+data['finished']+"/Going: "+data['going'];
         this.id = data['id'];
         switch (parseInt(data['status'])){
             case -1:

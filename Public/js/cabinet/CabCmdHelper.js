@@ -226,6 +226,7 @@ CabCmdHelper.prototype = {
                 global_err_pool.add();
                 //delete from log;
                 //弹出失败提示
+                
                 global_cmd_helper.delete(msg.CMD_ID);
             });
         }).
