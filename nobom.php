@@ -437,27 +437,45 @@ Class AutoChecker
     }
     public function checkCmdStatus($plan){
         //如果自检小于1天则返回
-        $time_limit = $this->type == 'md5' ? 1:1;//48 * 3600 : 3600;
+        $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
 
-        $check_done = false;
-        $dsks = $this->db->select("id,".$this->type."_cmd_id")->from("gui_device")->where($this->type."_status=:S and loaded=:L")->bindValues(array('S'=>PLAN_STATUS_WORKING,'L'=>1))->query();
-        if($dsks){
-            foreach($dsks as $dsk){
-                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I'=>$dsk[$this->type."_cmd_id"]))->query();
-                if($cmds){
-                    $cmd = $cmds[0];
-                    //命令已经结束或者超时
-                    if($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit){
+
+        $dsks = $this->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
+        if ($dsks) {
+            $this->setDiskFree($dsks);
+            foreach ($dsks as $dsk) {
+                if($dsks[$this->type.'_status'] == PLAN_STATUS_WORKING){
+                    $check_done = false;
+                    $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
+                    if ($cmds) {
+                        $cmd = $cmds[0];
+                        //命令已经结束或者超时
+                        if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
+                            $check_done = true;
+                        }
+                    } else {
                         $check_done = true;
                     }
-                }
-                else{
-                    $check_done = true;
-                }
-                var_dump($check_done);
-                if($check_done){
-                    $dsk[$this->type."_status"] = PLAN_STATUS_FINISHED;
-                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I'=>$dsk["id"]))->query();
+                    if ($check_done) {
+                        $dsk[$this->type . "_status"] = PLAN_STATUS_FINISHED;
+                        $dsk[$this->type . "_cmd_id"] = 0;
+                        if ($cmds) {
+                            switch ($cmds[0]['status']) {
+                                case 0:
+                                    break;
+                                case -2:
+                                    //取消
+                                    $this->RunLog("Disk skipped");
+                                    $dsk[$this->type . "_skipped"] = 1;
+                                    $dsk[$this->type . "_skip_time"] = time();
+                                default:
+                                    //超时或失败
+                                    $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+                                    break;
+                            }
+                        }
+                        $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I' => $dsk["id"]))->query();
+                    }
                 }
             }
         }
@@ -682,7 +700,7 @@ $checker->type = 'sn';
 $checker->db = Db::instance('db1');
 //$checker->mainCheck();
 $dsks = $checker->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
-$checker->setDiskFree($dsks);
+$checker->checkCmdStatus(1);
 $tbl_cmd_log="gui_cmd_log";
 
 //$checker->checkCmdStatus();

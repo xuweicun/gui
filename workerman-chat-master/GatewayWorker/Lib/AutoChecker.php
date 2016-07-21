@@ -118,9 +118,9 @@ Class AutoChecker
         //获取存储柜信息
         $cabs = $this->getCabQueue();
         //检查是否有未更新自检状态的磁盘，并予以更新，以防止堵塞
-        $this->checkCmdStatus($plan);
+        //$this->checkCmdStatus($plan);
         //如果已经无盘可查
-        if ($check_finished = self::checkDisk($cabs)) {
+        if ($check_finished = $this->checkDisk($cabs)) {
             //更新信息,进入下一轮
             $this->RunLog("Check over.".$check_finished);
             $this->updateChecker($plan, $cabs);
