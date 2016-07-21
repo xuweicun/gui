@@ -109,7 +109,17 @@ Class AutoChecker
      * @param $cabs 存储柜信息
      * @return bool 如果返回值为假，说明所有硬盘已经自检完成，本次自检完美结束
      */
-    public function checkDisk($cabs)
+    private function setDiskNoSkip($dsk){
+        if(!$dsk){
+            return;
+        }
+        $dsk['md5_skipped'] = 0;
+        $dsk['md5_skip_time'] = '';
+        $cond = "id=:I";
+        $bind = array("I"=>$dsk['id']);
+        $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+    }
+        public function checkDisk($cabs)
     {
         if (!$cabs) {
             $this->RunLog("Error: failed to get cabinet information.");
@@ -120,11 +130,12 @@ Class AutoChecker
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
-            $this->RunLog("working on Cab #".$cab['sn']);
-            for ($l = 0; $l < $cab['level_cnt']; $l++) {
+            $this->RunLog("working on Cab #" . $cab['sn']);
+            for ($l = 0; $l < $cab['level_cnt']; $l++)    {
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
+                    $grp_skipped = false;
                     $grp = $g + 1;
                     //按照优先级排序
                     $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->query();//orderby(priority)
@@ -133,20 +144,36 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
-                        if ( !is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
+                        if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
-                           // $grp_busy = true;
-                            $this->RunLog("Group #" . $cab_id . "-$lvl-$grp is busy. Aborting on this group.");
-                            break;
+                            $grp_busy = true;
+                            // break;
                         }
+                        //磁盘操作中或者桥接中
+                        if((!is_null($dsk['busy']) && $dsk['busy'] === 1) || $dsk['bridged'] === 1){
+                            $grp_busy = true;
+                        }
+                        //检查是否有漏网之鱼
+                        if($dsk[$this->type . '_status'] < PLAN_STATUS_FINISHED){
+                            $is_check_finished = false;
+                        }
+                        if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
+                            if(time() - (int)$dsk['md5_skip_time'] > 24 * 3600){
+                                $this->setDiskNoSkip($dsk);
+                            }
+                            else{
+                                $grp_skipped = true;
+                                $this->RunLog("Group is skipped at:".date("Y-m-d H:i:s",(int)$dsk['md5_skip_time']));
+                            }
+                        }
+
                     }
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
-                    if (!$grp_busy) {
+                    if (!$grp_busy && !$grp_skipped) {
                         foreach ($dsks as $dsk) {
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
-                                $this->RunLog("Start checking disk #" . $cab_id . "-$lvl-$grp-" . $dsk['disk']);
                                 $is_check_finished = false;
                                 break;
                             }
@@ -156,6 +183,7 @@ Class AutoChecker
             }
         }
         return $is_check_finished;
+
     }
 
     /****
@@ -629,7 +657,9 @@ $tbl_cmd_log="gui_cmd_log";
 //$checker->checkCmdStatus();
 //ß$checker->checkCmdStatus();
 $checker->db = Db::instance('db1');
-$checker->checkCmdStatus();
+$cabs = $checker->getCabQueue();
+$finished = $checker->checkDisk($cabs);
+var_dump($finished);
 $dsks = $checker->db->select("*")->from("gui_device")->where("1=1")->query();
 echo "<hr>";
 foreach ($dsks as $dsk){

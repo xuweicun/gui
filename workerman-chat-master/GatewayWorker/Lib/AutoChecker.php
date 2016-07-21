@@ -121,6 +121,7 @@ Class AutoChecker
         //如果已经无盘可查
         if ($check_finished = self::checkDisk($cabs)) {
             //更新信息,进入下一轮
+            $this->RunLog("Check over.".$check_finished);
             $this->updateChecker($plan, $cabs);
         }
     }
