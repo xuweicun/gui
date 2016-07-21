@@ -27,6 +27,8 @@ define('PLAN_STATUS_SKIPPED', 2, true);
 define('PLAN_STATUS_OTHER', 3, true);
 define('PLAN_STATUS_TIMEOUT', 4, true);
 
+define('TBL_DEVICE',"gui_device",true);
+
 Class AutoChecker
 {
     //类型:md5 or sn
@@ -494,7 +496,7 @@ Class AutoChecker
                         $cond = "id=:I";
                         $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
-                    $dsk = $this->db->select("busy,busy_cmd_id")->where($cond)->bindValues($bind)->query();
+                    $dsk = $this->db->select("busy,busy_cmd_id")->from(TBL_DEVICE)->where($cond)->bindValues($bind)->query();
                     $this->RunLog("Dsk status:".$dsk[0]['busy']);
 
                 }
