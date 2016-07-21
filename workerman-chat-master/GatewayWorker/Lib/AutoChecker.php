@@ -525,7 +525,7 @@ Class AutoChecker
         if ($dsks) {
             $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
-                if($dsks[$this->type.'_status'] == PLAN_STATUS_WORKING){
+                if($dsk[$this->type.'_status'] == PLAN_STATUS_WORKING){
                     $check_done = false;
                     $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
                     if ($cmds) {
