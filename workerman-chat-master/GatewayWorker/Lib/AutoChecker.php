@@ -166,6 +166,7 @@ Class AutoChecker
                         }
                         //检查是否有漏网之鱼
                         if($dsk[$this->type . '_status'] < PLAN_STATUS_FINISHED){
+                            $this->RunLog("Disk is waiting.");
                             $is_check_finished = false;
                         }
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
