@@ -164,20 +164,20 @@ Class AutoChecker
                             $grp_busy = true;
                            // break;
                         }
-                        $this->RunLog("Status working: ".$grp_busy);
+                       // $this->RunLog("Status working: ".$grp_busy);
                         //磁盘操作中或者桥接中
                         if((!is_null($dsk['busy']) && $dsk['busy'] === 1) || $dsk['bridged'] === 1){
                             $grp_busy = true;
                         }
-                        $this->RunLog("Commond or bridged: ".$grp_busy);
+                       // $this->RunLog("Commond or bridged: ".$grp_busy);
                         //检查是否有漏网之鱼
                         if($dsk[$this->type . '_status'] < PLAN_STATUS_FINISHED){
                             $this->RunLog("Disk is waiting.");
                             $is_check_finished = false;
                         }
                         
-                        $this->RunLog("Status:".$dsk[$this->type . '_status']);
-                        $this->RunLog("Finished: ".$is_check_finished);
+                      //  $this->RunLog("Status:".$dsk[$this->type . '_status']);
+                      //  $this->RunLog("Finished: ".$is_check_finished);
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
                             $this->RunLog("Md5 skipped. ");
                             if(time() - (int)$dsk['md5_skip_time'] > 24 * 3600){
@@ -507,7 +507,7 @@ Class AutoChecker
                         $cond = "id=:I";
                         $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($cols)->where($cond)->bindValues($bind)->query();
-                    $dsk = $this->db->select("busy,busy_cmd_id")->from(TBL_DEVICE)->where($cond)->bindValues($bind)->query();
+                    $dsk = $this->db->select("busy,busy_cmd_id,md5_status")->from(TBL_DEVICE)->where($cond)->bindValues($bind)->query();
                     $this->RunLog("Dsk status:".$dsk[0]['md5_status']);
 
                 }
