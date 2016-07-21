@@ -114,7 +114,6 @@ Class AutoChecker
             if (!$curr_start_t || (int)$plan['start_time'] - (int)$curr_start_t > (24 * 3600)) {
                 $this->updateStartDate($plan['start_time']);
             }
-            $this->RunLog("Check start time finished.");
         }
         //获取存储柜信息
         $cabs = $this->getCabQueue();
@@ -159,7 +158,7 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
-                        $this->RunLog("Working on disk $cab_id-$lvl-$grp-".$dsk['disk']);
+                        $this->RunLog("Working on disk $cab_id-$lvl-$grp-".$dsk['disk'].", status:".$dsk["md5_status"]);
                         if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
@@ -501,13 +500,15 @@ Class AutoChecker
                 }
                 if (!$busy) {
 
-                        $dsk['busy'] = 0;
-                        $dsk['busy_cmd_id'] = 0;
+                    $cols = array('busy'=>0,
+                        'busy_cmd_id'=>0);
+                    //$dsk['busy'] = 0;
+                    //$dsk['busy_cmd_id'] = 0;
                         $cond = "id=:I";
                         $bind = array("I" => $dsk['id']);
-                        $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+                        $this->db->update("gui_device")->cols($cols)->where($cond)->bindValues($bind)->query();
                     $dsk = $this->db->select("busy,busy_cmd_id")->from(TBL_DEVICE)->where($cond)->bindValues($bind)->query();
-                    $this->RunLog("Dsk status:".$dsk[0]['busy']);
+                    $this->RunLog("Dsk status:".$dsk[0]['md5_status']);
 
                 }
             }
