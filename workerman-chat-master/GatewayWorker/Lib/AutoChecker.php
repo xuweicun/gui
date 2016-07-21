@@ -513,39 +513,38 @@ Class AutoChecker
         if ($dsks) {
             $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
-                if($dsks[$this->type.'_status'] < PLAN_STATUS_WORKING){
-                    continue;
-                }
-                $check_done = false;
-                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
-                if ($cmds) {
-                    $cmd = $cmds[0];
-                    //命令已经结束或者超时
-                    if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
+                if($dsks[$this->type.'_status'] == PLAN_STATUS_WORKING){
+                    $check_done = false;
+                    $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
+                    if ($cmds) {
+                        $cmd = $cmds[0];
+                        //命令已经结束或者超时
+                        if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
+                            $check_done = true;
+                        }
+                    } else {
                         $check_done = true;
                     }
-                } else {
-                    $check_done = true;
-                }
-                if ($check_done) {
-                    $dsk[$this->type . "_status"] = PLAN_STATUS_FINISHED;
-                    $dsk[$this->type . "_cmd_id"] = 0;
-                    if ($cmds) {
-                        switch ($cmds[0]['status']) {
-                            case 0:
-                                break;
-                            case -2:
-                                //取消
-                                $this->RunLog("Disk skipped");
-                                $dsk[$this->type . "_skipped"] = 1;
-                                $dsk[$this->type . "_skip_time"] = time();
-                            default:
-                                //超时或失败
-                                $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
-                                break;
+                    if ($check_done) {
+                        $dsk[$this->type . "_status"] = PLAN_STATUS_FINISHED;
+                        $dsk[$this->type . "_cmd_id"] = 0;
+                        if ($cmds) {
+                            switch ($cmds[0]['status']) {
+                                case 0:
+                                    break;
+                                case -2:
+                                    //取消
+                                    $this->RunLog("Disk skipped");
+                                    $dsk[$this->type . "_skipped"] = 1;
+                                    $dsk[$this->type . "_skip_time"] = time();
+                                default:
+                                    //超时或失败
+                                    $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+                                    break;
+                            }
                         }
+                        $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I' => $dsk["id"]))->query();
                     }
-                    $this->db->update("gui_device")->cols($dsk)->where("id=:I")->bindValues(array('I' => $dsk["id"]))->query();
                 }
             }
         }
