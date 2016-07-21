@@ -288,6 +288,8 @@ class MsgController extends Controller
         $this->msg->init();
         //CMD-ID 不允许为空		
 
+        $this->logs_for_report();
+
         $this->db = M("CmdLog");
 
         //update the log
@@ -311,7 +313,6 @@ class MsgController extends Controller
                 break;
             case 'DISKINFO':
                 $this->updateDiskInfo();
-                $this->logs_for_report();
                 break;
             case 'BRIDGE':
                 $this->hdlBridgeMsg();
@@ -366,7 +367,7 @@ class MsgController extends Controller
 		$item['disk'] = $_POST['disk'];
 		$item['disk_status'] = $_POST['disk_status'];
 
-		$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
+		$dsk = M('Device')->field(array('disk_id'=>'id'))
 			->where(array(
 				'cab_id' => $item['device_id'],
 				'level' => $item['level'],
@@ -375,12 +376,11 @@ class MsgController extends Controller
 				'loaded' => 1
 			))->find();
 		if (!$dsk) {
-			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
-			return;
+            $disk_helper = new Dsk();
+            $dsk['id'] = $disk_helper->getDskBySN($_POST['SN']);
 		}
 
-		$item['cabinet_id'] = $dsk['cabinet_id'];
-		$item['disk_id'] = $dsk['disk_id'];
+		$item['disk_id'] = $dsk['id'];
 		$item['sn'] = $_POST['SN'];
 		$item['capacity'] = $_POST['capacity'];
 		$item['smart'] = json_encode($_POST['SmartAttrs']);
@@ -474,7 +474,7 @@ class MsgController extends Controller
     {
         $_msg = $this->msg;
 
-        if (!$_msg || $_msg->cmd != 'DISKINFO' && $_msg->cmd != 'MD5') {
+        if (!$_msg) {
             return;
         }
 
@@ -482,6 +482,8 @@ class MsgController extends Controller
             $this->logs_for_smart($_msg);
         } else if ($_msg->cmd == 'MD5') {
             $this->logs_for_md5($_msg);
+        }else{
+
         }
     }
 
@@ -1318,9 +1320,6 @@ class MsgController extends Controller
         if ($this->msg->isSRP()) {
             echo 'SRP';
             $this->hdlSRPMsg();
-
-            // 记录所有MD5命令用于报表统计
-            $this->logs_for_report();
 
             $this->quit();
         }
