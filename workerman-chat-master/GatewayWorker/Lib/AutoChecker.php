@@ -157,6 +157,7 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
+                        $this->RunLog("Working on disk $cab_id-$lvl-$grp-".$dsk['disk']);
                         if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
