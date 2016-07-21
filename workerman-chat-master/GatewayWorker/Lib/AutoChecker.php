@@ -119,7 +119,7 @@ Class AutoChecker
         //检查是否有未更新自检状态的磁盘，并予以更新，以防止堵塞
         $this->checkCmdStatus($plan);
         //如果已经无盘可查
-        if (self::checkDisk($cabs)) {
+        if ($check_finished = self::checkDisk($cabs)) {
             //更新信息,进入下一轮
             $this->updateChecker($plan, $cabs);
         }
@@ -141,7 +141,7 @@ Class AutoChecker
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
             $this->RunLog("working on Cab #" . $cab['sn']);
-            for ($l = 0; $l < $cab['level_cnt']; $l++) {
+            for ($l = 0; $l < $cab['level_cnt']; $l++)    {
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
@@ -157,7 +157,6 @@ Class AutoChecker
                         if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
-
                            // break;
                         }
                         //磁盘操作中或者桥接中
@@ -185,13 +184,10 @@ Class AutoChecker
                         foreach ($dsks as $dsk) {
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
-
                                 $is_check_finished = false;
                                 break;
                             }
                         }
-                    }else{
-
                     }
                 }
             }
@@ -475,8 +471,9 @@ Class AutoChecker
     public function setDiskFree($dsks){
 
         foreach($dsks as $dsk) {
-            $busy = false;
-            if ($dsks['busy'] == 1) {
+
+            if ($dsk['busy'] == 1) {
+                $busy = true;
                 $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsks["busy_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
@@ -494,6 +491,7 @@ Class AutoChecker
                         $cond = "id=:I";
                         $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+                    $this->RunLog("The disk is free now;");
                 }
             }
         }
@@ -508,7 +506,7 @@ Class AutoChecker
         if ($dsks) {
             $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
-   
+
                 $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
