@@ -475,7 +475,7 @@ Class AutoChecker
 
             if ($dsk['busy'] == 1) {
                 $busy = true;
-                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsks["busy_cmd_id"]))->query();
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk["busy_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];
                     //命令已经结束或者超时
