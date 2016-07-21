@@ -495,7 +495,7 @@ Class AutoChecker
                         $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
                     $dsk = $this->db->select("busy,busy_cmd_id")->where($cond)->bindValues($bind)->query();
-                    $this->RunLog("Dsk status:".$dsk['busy']);
+                    $this->RunLog("Dsk status:".$dsk[0]['busy']);
 
                 }
             }
