@@ -177,7 +177,7 @@ Class AutoChecker
                             $is_check_finished = false;
                         }
                         
-                        $this->RunLog("Status:".$dsk[$this->type . '_status'])
+                        $this->RunLog("Status:".$dsk[$this->type . '_status']);
                         $this->RunLog("Finished: ".$is_check_finished);
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
                             $this->RunLog("Md5 skipped. ");
