@@ -140,6 +140,8 @@ Class AutoChecker
         }
 
         $is_check_finished = true;
+        $grp_busy = null;
+        $grp_skipped = null;
         $db = $this->db;
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
@@ -174,6 +176,8 @@ Class AutoChecker
                             $this->RunLog("Disk is waiting.");
                             $is_check_finished = false;
                         }
+                        
+                        $this->RunLog("Status:".$dsk[$this->type . '_status'])
                         $this->RunLog("Finished: ".$is_check_finished);
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
                             $this->RunLog("Md5 skipped. ");
@@ -187,6 +191,7 @@ Class AutoChecker
                         }
 
                     }
+                    $this->RunLog("Group busy:".$grp_busy.", group_skipped:".$grp_skipped);
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
                     if (!$grp_busy && !$grp_skipped) {
