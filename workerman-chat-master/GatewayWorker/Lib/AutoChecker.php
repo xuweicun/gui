@@ -488,12 +488,15 @@ Class AutoChecker
                     $busy = false;
                 }
                 if (!$busy) {
+
                         $dsk['busy'] = 0;
                         $dsk['busy_cmd_id'] = 0;
                         $cond = "id=:I";
                         $bind = array("I" => $dsk['id']);
                         $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
-                    $this->RunLog("The disk is free now;");
+                    $dsk = $this->db->select("busy,busy_cmd_id")->where($cond)->bindValues($bind)->query();
+                    $this->RunLog("Dsk status:".$dsk['busy']);
+
                 }
             }
         }
@@ -503,12 +506,15 @@ Class AutoChecker
         //如果自检小于1天则返回
         $time_limit = $this->type == 'md5' ? 48 * 3600 : 3600;
 
-        $check_done = false;
+
         $dsks = $this->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
         if ($dsks) {
             $this->setDiskFree($dsks);
             foreach ($dsks as $dsk) {
-
+                if($dsks[$this->type.'_status'] < PLAN_STATUS_WORKING){
+                    continue;
+                }
+                $check_done = false;
                 $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk[$this->type . "_cmd_id"]))->query();
                 if ($cmds) {
                     $cmd = $cmds[0];

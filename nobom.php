@@ -648,18 +648,48 @@ Class AutoChecker
             return false;
         }
     }
+    public function setDiskFree($dsks){
+
+        foreach($dsks as $dsk) {
+
+            if ($dsk['busy'] == 1) {
+                $busy = true;
+                $cmds = $this->db->select("*")->from("gui_cmd_log")->where("id=:I")->bindValues(array('I' => $dsk["busy_cmd_id"]))->query();
+                if ($cmds) {
+                    $cmd = $cmds[0];
+                    //命令已经结束或者超时
+                    $time_limit = 24 * 3600;
+                    if ($cmd['finished'] === 1 || time() - (int)$cmd['start_time'] > $time_limit) {
+                        $busy = false;
+                    }
+                } else {
+                    $busy = false;
+                }
+                if (!$busy) {
+                    $dsk['busy'] = 0;
+                    $dsk['busy_cmd_id'] = 0;
+                    $cond = "id=:I";
+                    $bind = array("I" => $dsk['id']);
+                    $this->db->update("gui_device")->cols($dsk)->where($cond)->bindValues($bind)->query();
+                    $this->RunLog("The disk is free now;");
+                }
+            }
+        }
+    }
 }
 $checker = new AutoChecker();
 $checker->type = 'sn';
+$checker->db = Db::instance('db1');
 //$checker->mainCheck();
+$dsks = $checker->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
+$checker->setDiskFree($dsks);
 $tbl_cmd_log="gui_cmd_log";
 
 //$checker->checkCmdStatus();
 //ß$checker->checkCmdStatus();
 $checker->db = Db::instance('db1');
 $cabs = $checker->getCabQueue();
-$finished = $checker->checkDisk($cabs);
-var_dump($finished);
+
 $dsks = $checker->db->select("*")->from("gui_device")->where("1=1")->query();
 echo "<hr>";
 foreach ($dsks as $dsk){
