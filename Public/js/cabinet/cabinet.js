@@ -94,8 +94,14 @@ Cabinet.prototype = {
                     device_id: id
                 };
 
+                if (global_cabinet.cmd_device_status){
+                    console.log('Cabinet is geting status.');
+                    return;
+                }
+
+                global_cabinet.cmd_device_status = cmd_obj;
+
                 global_cmd_helper.sendcmd(cmd_obj);
-                console.log(id);
             },
             on_click_param: this.id.toString()
         });
