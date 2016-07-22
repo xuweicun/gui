@@ -61,17 +61,46 @@ CabCmdHelper.prototype = {
         return this.sendcmd(msg);
     },
     localTest: function (to_post) {
+        global_scope.test.disable = true;
+        global_scope.test.result = "";
+
+        var obj_post = {};
+        try {
+            obj_post = JSON.parse(to_post);
+        }
+        catch (e) {
+            global_scope.test.result = e.toString();
+            global_scope.test.disable = false;
+            return;
+        }
+
+        var _cmds = global_scope.test.cmds;
+        for (var i = 0; i < _cmds.length; ++i) {
+            if (_cmds[i] == to_post) {
+                _cmds.splice(i, 1);
+                break;
+            }
+        }
+        _cmds.unshift(to_post);
+
+        global_scope.locals.setObject('test_cmds', _cmds);
+
         var msg = to_post;//this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         var localUrl = '/index.php?m=admin&c=msg';
         global_http({
             url: localUrl,
             data: msg,
             method: 'POST'
-        }).success(function () {
-            console.log("done");
+        }).success(function (data) {
+            global_scope.test.result = data;
+            global_scope.test.disable = false;
+        }).error(function (data) {
+            global_scope.test.result = data;
+            global_scope.test.disable = false;
         });
     },
     testPost: function () {
+
         var msg = this.scope.testMsg.i_getMsg(this.scope.testCmdId);
         console.log('Test starting');
         var realUrl = 'http://222.35.224.230/index.php?m=admin&c=msg';
@@ -79,9 +108,9 @@ CabCmdHelper.prototype = {
             url: realUrl,
             data: msg.md5,
             method: 'POST'
-        }).success(function () {
-            alert("done");
-
+        }).success(function (data) {
+            alert(data);
+        }).error(function (data) {
         });
     },
     writeprotect: function (level) {

@@ -6,6 +6,22 @@ app_device.filter('to_trusted', function ($sce) {
     }
 }).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, locals, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
 {
+    //locals.setObject('test_cmds', []);
+
+    $scope.test = {
+        cmds: [],
+        remove: function (index) {
+            this.cmds.splice(index, 1);
+            locals.setObject('test_cmds', this.cmds);
+        }
+    };
+    $scope.locals = locals;
+    $scope.test.cmds = locals.getObject('test_cmds');
+    if ($scope.test.cmds == undefined) {
+        $scope.test.cmds = [];
+        locals.setObject('test_cmds', []);
+    }
+
     $("[data-toggle='popover']").popover();
 
     global_scope = $scope;
