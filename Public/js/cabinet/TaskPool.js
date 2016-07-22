@@ -31,7 +31,8 @@
 }
 
 TaskPool.prototype = {
-	reset_user_operate_time: function(){
+    reset_user_operate_time: function () {
+        this.user_left = false;
 		this.last_user_operate_time = Date.parse(new Date());
 	},
 
@@ -129,18 +130,20 @@ TaskPool.prototype = {
         this.cabChanged = false;
     },
     user_force_leave: function () {
+        this.user_left = true;
         this.last_user_operate_time = Date.parse(new Date()) - 300000 - 10000;
+        global_scope.locals.set('user_left', 1);
     },
     startGlobalWatch: function () {
         if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;
         global_interval(function () {
 			// 检测用户空闲是否超过5分钟
-			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 300;
+			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 10;
 			if (!global_task_pool.user_left && has_left) {
-				global_scope.on_user_left();
+			    global_scope.on_user_left();
+			    global_task_pool.user_left = has_left;
 			}
-			global_task_pool.user_left = has_left;
 			
             var pool = global_task_pool;
             if (pool.going.length == 0) {

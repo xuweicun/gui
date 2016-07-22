@@ -22,6 +22,9 @@ app_device.filter('to_trusted', function ($sce) {
         locals.setObject('test_cmds', []);
     }
 
+    // 防止按钮连续多次点击
+    $scope.btn_guard = false;
+
     $("[data-toggle='popover']").popover();
 
     global_scope = $scope;
@@ -77,8 +80,8 @@ app_device.filter('to_trusted', function ($sce) {
     }
 	
 	// 如果已经离开，则需要重新登录
-	var has_left = locals.get('user_left', 0);
-	if (has_left == 1) {
+	if (locals.get('user_left', 0) == 1) {
+	    console.log('user_left');
 		locals.set('user_left', 0);
 		$scope.user_profile.go_logout_page(true);
 		return;
@@ -89,6 +92,9 @@ app_device.filter('to_trusted', function ($sce) {
 	    if (!$scope.user_unlock_pwd) {
 	        return;
 	    }
+
+	    $scope.btn_guard = true;
+
 		$http({
             url: "/index.php?m=admin&c=business&a=passwordValidate",
             method: 'POST',
@@ -96,22 +102,28 @@ app_device.filter('to_trusted', function ($sce) {
                 id: global_user.id,
                 password: hex_md5($scope.user_unlock_pwd)
             }
-        }).success(function (data) {
+		}).success(function (data) {
+
+		    $scope.btn_guard = false;
             //响应成功
             try {
                 var rlt = JSON.parse(data);
                 if (rlt.status == 'success') {
 					$scope.taskPool.reset_user_operate_time();
-                    $scope.user_unlock_msg = '';
+					$scope.user_unlock_msg = '';
+					locals.set('user_left', 0);
                 }
                 else {
                     $scope.user_unlock_msg = '密码验证失败';
                 }
             } catch (err) {
+                $scope.user_unlock_msg = err.toString();
             }
             finally {
             }
-        });
+		}).error(function () {
+		    $scope.btn_guard = false;
+		});
 		
 		$scope.user_unlock_pwd = '';
 	}

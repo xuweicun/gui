@@ -110,10 +110,16 @@ User.prototype = {
         global_modal_helper.show_modal_user('userModalSecondPassword');
     },
     second_pwd_validate_with_action: function () {
+        console.log('link' + global_scope.btn_guard);
+
+        if (global_scope.btn_guard) return;
+        global_scope.btn_guard = true;
+
         this.err_msg = "";
 
         if (this.second_pwd == undefined || this.second_pwd == '') {
             this.err_msg = "密码不能为空!";
+            global_scope.btn_guard = false;
             return;
         }
 
@@ -142,9 +148,12 @@ User.prototype = {
             } catch (err) {
             }
             finally {
-                $.magnificPopup.close();
+                //$.magnificPopup.close();
+                global_scope.btn_guard = false;
             }
         }).error(function () {
+            $.magnificPopup.close();
+            global_scope.btn_guard = false;
             new PNotify({
                 title: '二次密码',
                 text: '密码验证失败',
