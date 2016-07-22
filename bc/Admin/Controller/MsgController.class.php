@@ -361,6 +361,13 @@ class MsgController extends Controller
 		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
 			return;
 		}
+		
+		// 依据cmd_id判断是否已经存储过该md5值
+		if ($_POST['CMD_ID'] == null) return;
+		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
+			echo '重复Smart值' . json_encode($_POST);
+			return;
+		} 
 
         $dev_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
@@ -389,6 +396,7 @@ class MsgController extends Controller
 		$item['disk'] = $dsk_id;
 
 		$item['disk_status'] = $_POST['disk_status'];
+		$item['cmd_id'] = $_POST['CMD_ID'];
 
 		$item['disk_id'] = $slot['disk_id'];
         $item['cabinet_id'] = $slot['cabinet_id'];
@@ -414,7 +422,11 @@ class MsgController extends Controller
 		
 		// 依据cmd_id判断是否已经存储过该md5值
 		if ($_POST['CMD_ID'] == null) return;
-		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()) return;
+		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
+			echo '重复MD5值' . json_encode($_POST);
+			return;
+		} 
+			
 		
         $dev_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
@@ -463,6 +475,7 @@ class MsgController extends Controller
 		$item['disk'] = $dsk_id;
 
 		$item['md5_value'] = $_POST['result'];
+		$item['cmd_id'] = $_POST['CMD_ID'];
 
 		$item['disk_id'] = $my_slot['disk_id'];
 		$item['sn'] = $my_disk['sn'];
