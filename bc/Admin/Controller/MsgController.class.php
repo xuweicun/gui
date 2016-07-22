@@ -434,7 +434,7 @@ class MsgController extends Controller
         }
 
         $disk_db = M('Disk');
-		$my_disk = $disk_db->where(array('id' => $my_slot['disk_id'], 'sn'))->find();
+		$my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
 		if (!$my_disk) {
             $this->write_fatal_msg('can not find disk in gui_disk with id '
                 . $my_slot['disk_id'] . ', when post : ' . json_encode($_POST));
