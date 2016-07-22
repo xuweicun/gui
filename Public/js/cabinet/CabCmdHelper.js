@@ -52,8 +52,12 @@ CabCmdHelper.prototype = {
                 disk.loaded = 0;
                 return;
             }
-            global_cabinet.i_load_disks_base_info(data);
-
+            if (data.length > 0) {
+                global_cabinet.i_load_disk(data[0]);
+            }
+            else {
+                console.log('Empty disk');
+            }
         });
     },
     devicestatus: function () {

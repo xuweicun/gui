@@ -204,60 +204,80 @@ Cabinet.prototype = {
         this.levels[idx_l].groups[idx_g].disks[idx_d].curr_cmd = is_add ? json_cmd : null;
     },
 
+    // 接口：激励，加载插槽基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDiskInfo'返回值
+    i_load_disk: function (e) 
+    {
+        if (!e) {
+            return;
+        }
+
+        var int_l = parseInt(e.level) - 1;
+        var int_g = parseInt(e.zu) - 1;
+        var int_d = parseInt(e.disk) - 1;
+
+        if (int_l < 0 || int_l > 6) {
+            console.log("i_load_disk(): Invalid param 'Level'" + e.level);
+            return;
+        }
+        if (int_g < 0 || int_g > 6) {
+            console.log("i_load_disk(): Invalid param 'Group'" + e.zu);
+            return;
+        }
+        if (int_d < 0 || int_d > 4) {
+            console.log("i_load_disk(): Invalid param 'Disk'" + e.disk);
+            return;
+        }
+
+        var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
+
+        // 在位置位
+        if (_dsk.base_info.loaded != (e.loaded == '1')) {
+            _dsk.base_info.loaded = (e.loaded == '1');
+        }
+
+        if (_dsk.base_info.bridged != (e.bridged == '1')) {
+            _dsk.base_info.bridged = (e.bridged == '1');
+        }
+
+        _dsk.detail_info.health = e.normal;
+
+        if (e.loaded == '1' && e.bridged == '1') {
+            _dsk.base_info.bridge_path = e.path;
+
+            // 写保护状态置位
+            _dsk.level_obj.write_protect = (e.protected == '1');
+        }
+        // 桥接置位            
+
+        _dsk.detail_info.SN = e.sn;
+        _dsk.detail_info.MD5 = e.md5;
+        _dsk.detail_info.md5_time = e.md5_time;
+        _dsk.detail_info.capacity = e.capacity;
+    },
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值
-    i_load_disks_base_info: function (data,init) {
-        for (var i = 0; i < data.length; ++i) {
-            var e = data[i];
+    i_load_disks_base_info: function (data, init) {
 
-            if (e.loaded != '1') continue;
-
-            var int_l = parseInt(e.level) - 1;
-            var int_g = parseInt(e.zu) - 1;
-            var int_d = parseInt(e.disk) - 1;
-
-            if (int_l < 0 || int_l > 6) {
-                console.log("load_disks(): Invalid param 'Level'");
-                continue;
+        // 置空所有插槽
+        for (var i = 0; i < this.levels.length; ++i) {
+            var lvl_obj = this.levels[i];
+            for (var j = 0; j < lvl_obj.groups.length; ++j) {
+                var grp_obj = lvl_obj.groups[j];
+                for (var k = 0; k < grp_obj.disks.length; ++k) {
+                    grp_obj.disks[k].loaded = false;
+                }
             }
-            if (int_g < 0 || int_g > 6) {
-                console.log("load_disks(): Invalid param 'Group'");
-                continue;
-            }
-            if (int_d < 0 || int_d > 4) {
-                console.log("load_disks(): Invalid param 'Disk'");
-                continue;
-            }
-
-            var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
-            // 在位置位
-            if (_dsk.base_info.loaded != (e.loaded == '1')) {
-                _dsk.base_info.loaded = (e.loaded == '1');
-            }
-
-            if (_dsk.base_info.bridged != (e.bridged == '1')) {
-                _dsk.base_info.bridged = (e.bridged == '1');
-            }
-
-            _dsk.detail_info.health = e.normal;
-
-            if (e.loaded == '1' && e.bridged == '1') {
-                _dsk.base_info.bridge_path = e.path;
-
-                // 写保护状态置位
-                _dsk.level_obj.write_protect = (e.protected == '1');
-            }
-            // 桥接置位            
-
-            _dsk.detail_info.SN = e.sn;
-            _dsk.detail_info.MD5 = e.md5;
-            _dsk.detail_info.md5_time = e.md5_time;
-            _dsk.detail_info.capacity = e.capacity;
         }
+
+        for (var i = 0; i < data.length; ++i) {
+            this.i_load_disk(data[i]);
+        }
+
+        global_scope.is_ok = true;
+
         if(init === 0){
             return;
         }
-        global_scope.is_ok = true;
     },
 
     // 接口：激励，当命令集合添加或移除一条命令时触发，当增加时bol_op为true，代表add；当移除时，bol_op为false,代表remove

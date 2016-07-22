@@ -260,8 +260,8 @@ app_device.filter('to_trusted', function ($sce) {
             data: {cab: cab, level: lvl, group: grp, disk: dsk},
             method: 'POST'
         }).success(function (data) {
-            if (!data['err_msg']) {
-                $scope.cab.i_load_disks_base_info(data);
+            if (!data['err_msg'] && data.length > 0) {
+                $scope.cab.i_load_disk(data[0]);
             }
             else {
                 console.log(data['err_msg']);
