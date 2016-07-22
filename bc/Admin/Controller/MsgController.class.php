@@ -288,7 +288,7 @@ class MsgController extends Controller
         $this->msg->init();
         //CMD-ID 不允许为空		
 
-        $this->logs_for_report();
+        //$this->logs_for_report();
 
         $this->db = M("CmdLog");
 
@@ -353,6 +353,118 @@ class MsgController extends Controller
 		M('FatalMsg')->add(array('msg'=>$msg));
 	}
 
+    private function write_smart_log()
+    {
+        if ($_POST['cmd'] != 'DISKINFO') return;
+
+		// 只记录成功的
+		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
+			return;
+		}
+
+        $dev_id = $_POST['device_id'];
+        $lvl_id = $_POST['level'];
+        $grp_id = $_POST['group'];
+        $dsk_id = $_POST['disk'];
+
+		$slot = M('Device')->field(array('disk_id'))
+			->where(array(
+				'cab_id' => $dev_id,
+				'level' => $lvl_id,
+				'zu' => $grp_id,
+				'disk' => $dsk_id,
+				'loaded' => 1))
+            ->find();
+		if (!$slot) {
+			$this->write_fatal_msg('can not find loaded disk, when post : ' 
+                . json_encode($_POST));
+			return;     
+		}
+
+        $item['time'] = time();
+
+		$item['device_id'] = $dev_id;
+		$item['level'] = $lvl_id;
+		$item['zu'] = $grp_id;
+		$item['disk'] = $dsk_id;
+
+		$item['disk_status'] = $_POST['disk_status'];
+
+		$item['disk_id'] = $slot['disk_id'];
+
+		$item['sn'] = $_POST['SN'];
+		$item['capacity'] = $_POST['capacity'];
+		$item['smart'] = json_encode($_POST['SmartAttrs']);
+		$item['status'] = '1';
+		$item['status_comment'] = '';
+
+		M('DiskSmartLog')->add($item);
+
+    }
+    private function write_md5_log()
+    {
+        if ($_POST['cmd'] != 'MD5') return;
+
+        if ($_POST['subcmd'] != 'RESULT') return;
+        
+		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
+			return;
+		}
+
+        $dev_id = $_POST['device_id'];
+        $lvl_id = $_POST['level'];
+        $grp_id = $_POST['group'];
+        $dsk_id = $_POST['disk'];
+
+		// 判断是否exist
+		$my_slot = M('Device')->field(array('disk_id'))
+            ->where(array(
+		    	'cab_id' => $dev_id,
+	    		'level' => $lvl_id,
+	    	    'zu' => $grp_id,
+    			'disk' => $dsk_id,
+				'loaded' => 1))
+            ->find();
+
+		if (!$my_slot) { 
+            $this->write_fatal_msg('can not find loaded disk, when post : ' 
+                . json_encode($_POST));
+			return;
+        }
+
+        $disk_db = M('Disk');
+		$my_disk = $disk_db->where(array('id' => $my_slot['disk_id'], 'sn'))->find();
+		if (!$my_disk) {
+            $this->write_fatal_msg('can not find disk in gui_disk with id '
+                . my_slot['disk_id'] . ', when post : ' . json_encode($_POST));
+            return;
+        }
+       	
+        // 若md5为空或相同
+		if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
+			// 记录md5变化
+			$my_disk['md5_changed'] = 0;
+		} else {
+			// 记录md5变化
+			$my_disk['md5_changed'] = 1;
+		}
+		$disk_db->save($my_disk);
+
+		$item['time'] = $item['md5_time'] = time();
+
+		$item['device_id'] = $dev_id;
+		$item['level'] = $lvl_id;
+		$item['zu'] = $grp_id;
+		$item['disk'] = $dsk_id;
+
+		$item['md5_value'] = $_POST['result'];
+
+		$item['disk_id'] = $my_slot['disk_id'];
+		$item['sn'] = $my_disk['sn'];
+		$item['status'] = '1';
+
+		M('DiskMd5Log')->add($item);
+    }
 	private function logs_for_smart($_msg)
 	{
 		// 只记录成功的
@@ -376,8 +488,8 @@ class MsgController extends Controller
 				'loaded' => 1
 			))->find();
 		if (!$dsk) {
-            $disk_helper = new Dsk();
-            $dsk['id'] = $disk_helper->getDskBySN($_POST['SN']);
+			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
+			return;     
 		}
 
 		$item['disk_id'] = $dsk['id'];
@@ -1304,7 +1416,7 @@ class MsgController extends Controller
             $this->hdlFail();
             $this->quit();
         }
-		
+	
         if ($this->msg->isStart()) {
             echo 'Start';
             //just start
