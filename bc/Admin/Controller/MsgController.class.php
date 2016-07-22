@@ -411,7 +411,11 @@ class MsgController extends Controller
 		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
 			return;
 		}
-
+		
+		// 依据cmd_id判断是否已经存储过该md5值
+		if ($_POST['CMD_ID'] == null) return;
+		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()) return;
+		
         $dev_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
         $grp_id = $_POST['group'];
