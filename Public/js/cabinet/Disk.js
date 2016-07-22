@@ -941,8 +941,13 @@ Disk.prototype = {
         }
         else {
 	    var mid = global_modal_helper.get_curr_id();
-
-            global_cmd_helper.sendcmd(cmd_obj);
+		
+			if (!global_scope.btn_guard){				
+				global_scope.btn_guard = true;
+				global_cmd_helper.sendcmd(cmd_obj, function(){				
+					global_scope.btn_guard = false;
+				});
+			}
 
 	    global_modal_helper.close_modal(mid);
         }

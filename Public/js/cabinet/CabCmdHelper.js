@@ -227,7 +227,7 @@ CabCmdHelper.prototype = {
         alert("do nothing");
     }
     ,
-    sendcmd: function (msg) {
+    sendcmd: function (msg, on_done) {
         //先判断是否退出登录
         console.log("是否离线?",global_user.off_line);
         if(global_user.off_line){
@@ -264,7 +264,11 @@ CabCmdHelper.prototype = {
                 //命令池更新
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
-                global_ws_watcher.sendcmd(msg);
+                global_ws_watcher.sendcmd(msg);	
+
+				if (on_done) {
+					on_done();
+				}				
             }).
             error(function () {
                 global_err_pool.add();
@@ -272,11 +276,19 @@ CabCmdHelper.prototype = {
                 //弹出失败提示
                 
                 global_cmd_helper.delete(msg.CMD_ID);
+				
+				if (on_done) {
+					on_done();
+				}
             });
         }).
         error(function () {
             //弹出失败提示
             global_err_pool.add();
+			
+			if (on_done) {
+				on_done();
+			}
         });
     }
 };

@@ -123,6 +123,8 @@ User.prototype = {
             return;
         }
 
+        $.magnificPopup.close();
+
         global_http({
             url: global_root + "&a=passwordValidate",
             method: 'POST',
@@ -148,11 +150,9 @@ User.prototype = {
             } catch (err) {
             }
             finally {
-                //$.magnificPopup.close();
                 global_scope.btn_guard = false;
             }
         }).error(function () {
-            $.magnificPopup.close();
             global_scope.btn_guard = false;
             new PNotify({
                 title: '二次密码',
