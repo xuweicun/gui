@@ -843,6 +843,11 @@ Disk.prototype = {
             return false;
         }
 
+        if (this.curr_cmd) {
+            console.log('Disk Busy: ' + this.curr_cmd.cmd);
+            return;
+        }
+
         var cmd_obj = { cmd: cmd_name };
 
         if (cmd_name == 'DISKINFO') {
@@ -932,6 +937,8 @@ Disk.prototype = {
             return false;
         }
 
+        this.curr_cmd = cmd_obj;
+
         // send cmd;
         // 需要二次验证
         if (cmd_name == 'COPY') {
@@ -940,22 +947,21 @@ Disk.prototype = {
             }, cmd_obj);
         }
         else {
-	    var mid = global_modal_helper.get_curr_id();
-		
-			if (!global_scope.btn_guard){				
-				global_scope.btn_guard = true;
-				global_cmd_helper.sendcmd(cmd_obj, function(){				
-					global_scope.btn_guard = false;
-				});
-			}
+    	    var mid = global_modal_helper.get_curr_id();
+	        global_modal_helper.close_modal(mid);
 
-	    global_modal_helper.close_modal(mid);
+			global_cmd_helper.sendcmd(cmd_obj);				
         }
 
         return true;
     },
     // 用于发送“MD5”和“复制”命令的“STOP”子命令
     cmd_stop: function () {
+        if (this.curr_cmd && this.curr_cmd.subcmd == 'STOP'){
+            console.log('Disk Stop Busy: ' + this.curr_cmd.cmd);
+            return;
+        }
+
         var cmd_obj = null;
         if (this.is_bridged()) {
             var disk_array = [];
@@ -982,10 +988,9 @@ Disk.prototype = {
             cmd_obj.subcmd = 'STOP';
         }
 
-        global_cmd_helper.sendcmd(cmd_obj);
-
-        //console.log(cmd_obj);
+        this.curr_cmd = cmd_obj;
 
         $.magnificPopup.close();
+        global_cmd_helper.sendcmd(cmd_obj);
     }
 };
