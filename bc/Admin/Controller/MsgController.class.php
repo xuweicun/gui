@@ -367,7 +367,7 @@ class MsgController extends Controller
         $grp_id = $_POST['group'];
         $dsk_id = $_POST['disk'];
 
-		$slot = M('Device')->field(array('disk_id'))
+		$slot = M('Device')->field(array('disk_id', 'cabinet_id'))
 			->where(array(
 				'cab_id' => $dev_id,
 				'level' => $lvl_id,
@@ -391,6 +391,7 @@ class MsgController extends Controller
 		$item['disk_status'] = $_POST['disk_status'];
 
 		$item['disk_id'] = $slot['disk_id'];
+        $item['cabinet_id'] = $slot['cabinet_id'];
 
 		$item['sn'] = $_POST['SN'];
 		$item['capacity'] = $_POST['capacity'];
@@ -417,7 +418,7 @@ class MsgController extends Controller
         $dsk_id = $_POST['disk'];
 
 		// 判断是否exist
-		$my_slot = M('Device')->field(array('disk_id'))
+		$my_slot = M('Device')->field(array('disk_id', 'cabinet_id'))
             ->where(array(
 		    	'cab_id' => $dev_id,
 	    		'level' => $lvl_id,
@@ -436,7 +437,7 @@ class MsgController extends Controller
 		$my_disk = $disk_db->where(array('id' => $my_slot['disk_id'], 'sn'))->find();
 		if (!$my_disk) {
             $this->write_fatal_msg('can not find disk in gui_disk with id '
-                . my_slot['disk_id'] . ', when post : ' . json_encode($_POST));
+                . $my_slot['disk_id'] . ', when post : ' . json_encode($_POST));
             return;
         }
        	
@@ -461,6 +462,7 @@ class MsgController extends Controller
 
 		$item['disk_id'] = $my_slot['disk_id'];
 		$item['sn'] = $my_disk['sn'];
+        $item['cabinet_id'] = $my_slot['cabinet_id'];
 		$item['status'] = '1';
 
 		M('DiskMd5Log')->add($item);
@@ -1291,6 +1293,9 @@ class MsgController extends Controller
             $data['sn_time'] = time();
             $diskDb->save($data);
 
+            // for report
+            $this->write_smart_log();
+
             //初次获取信息或者sn号发生变化
             if ($item['disk_id'] !== $disk_id) {
                 /* if ($item['disk_id']) {
@@ -1416,6 +1421,8 @@ class MsgController extends Controller
             $this->hdlFail();
             $this->quit();
         }
+
+        $this->write_md5_log();
 	
         if ($this->msg->isStart()) {
             echo 'Start';
