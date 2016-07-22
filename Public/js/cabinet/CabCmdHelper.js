@@ -67,6 +67,9 @@ CabCmdHelper.prototype = {
         var obj_post = {};
         try {
             obj_post = JSON.parse(to_post);
+            if ('[object Object]' !== Object.prototype.toString.call(obj_post)) {
+                throw 'not json object';
+            }
         }
         catch (e) {
             global_scope.test.result = e.toString();
@@ -81,7 +84,15 @@ CabCmdHelper.prototype = {
                 break;
             }
         }
-        _cmds.unshift(to_post);
+        if ('[object Array]' === Object.prototype.toString.call(_cmds)) {
+            _cmds.unshift(to_post);
+        }
+        else {
+            global_scope.test.cmds = _cmds = [];
+            global_scope.locals.setObject('test_cmds', _cmds);
+            global_scope.test.result = 'test_cmds is not array';
+            return;
+        }
 
         global_scope.locals.setObject('test_cmds', _cmds);
 
