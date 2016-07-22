@@ -364,7 +364,7 @@ class MsgController extends Controller
 		
 		// 依据cmd_id判断是否已经存储过该md5值
 		if ($_POST['CMD_ID'] == null) return;
-		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
+		if (M('DiskSmartLog')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
 			echo '重复Smart值' . json_encode($_POST);
 			return;
 		} 
