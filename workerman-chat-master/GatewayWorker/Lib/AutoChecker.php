@@ -26,7 +26,7 @@ define('PLAN_STATUS_CANCELED', 2, true);
 define('PLAN_STATUS_SKIPPED', 2, true);
 define('PLAN_STATUS_OTHER', 3, true);
 define('PLAN_STATUS_TIMEOUT', 4, true);
-
+define('MAX_WORK_DISK_NUM',15,true);
 define('TBL_DEVICE',"gui_device",true);
 
 Class AutoChecker
@@ -119,7 +119,7 @@ Class AutoChecker
         $cabs = $this->getCabQueue();
         //检查是否有未更新自检状态的磁盘，并予以更新，以防止堵塞
         $this->checkCmdStatus($plan);
-        return;
+        //return;
         //如果已经无盘可查
         if ($check_finished = $this->checkDisk($cabs)) {
             //更新信息,进入下一轮
@@ -143,9 +143,11 @@ Class AutoChecker
         $grp_busy = null;
         $grp_skipped = null;
         $db = $this->db;
+        //记录正在自检或忙碌的硬盘数量
+
         foreach ($cabs as $cab) {
+            $busy_num = 0;
             $cab_id = (int)$cab['sn'];
-            $this->RunLog("working on Cab #" . $cab['sn']);
             for ($l = 0; $l < $cab['level_cnt']; $l++)    {
                 $lvl = $l + 1;
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
@@ -159,10 +161,10 @@ Class AutoChecker
                         continue;
                     }
                     foreach ($dsks as $dsk) {
-                        $this->RunLog("Working on disk $cab_id-$lvl-$grp-".$dsk['disk'].", status:".$dsk["md5_status"]);
                         if (!is_null($dsk[$this->type . '_status']) && $dsk[$this->type . '_status'] == PLAN_STATUS_WORKING) {
                             $is_check_finished = false;
                             $grp_busy = true;
+
                            // break;
                         }
                        // $this->RunLog("Status working: ".$grp_busy);
@@ -177,8 +179,7 @@ Class AutoChecker
                             $is_check_finished = false;
                         }
                         
-                      //  $this->RunLog("Status:".$dsk[$this->type . '_status']);
-                      //  $this->RunLog("Finished: ".$is_check_finished);
+
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
                             $this->RunLog("Md5 skipped. ");
                             if(time() - (int)$dsk['md5_skip_time'] > 24 * 3600){
@@ -194,10 +195,20 @@ Class AutoChecker
                     $this->RunLog("Group busy:".$grp_busy.", group_skipped:".$grp_skipped);
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
+                    if($dsk[$this->type . '_status'] === PLAN_STATUS_WORKING || $dsk['busy'] === 1){
+                        $busy_num = $busy_num + 1;
+                    }
+                    if($busy_num >= MAX_WORK_DISK_NUM){
+                        continue;
+                    }
                     if (!$grp_busy && !$grp_skipped) {
                         foreach ($dsks as $dsk) {
+                            if($busy_num >= MAX_WORK_DISK_NUM){
+                                break;
+                            }
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
+                                $busy_num = $busy_num + 1;
                                 $is_check_finished = false;
                                 break;
                             }
@@ -208,6 +219,7 @@ Class AutoChecker
         }
         return $is_check_finished;
     }
+
     private function setDiskNoSkip($dsk){
         if(!$dsk){
             return;

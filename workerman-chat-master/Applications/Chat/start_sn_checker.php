@@ -61,7 +61,7 @@ $sn_checker->onWorkerStart = function ($sn_checker) {
             set_time_limit(0);
             $checker = new AutoChecker();
             $checker->type = 'sn';
-          //  $checker->mainCheck();
+            $checker->mainCheck();
         });
 };
 // 如果不是在根目录启动，则运行runAll方法
