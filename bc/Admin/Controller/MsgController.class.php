@@ -288,6 +288,7 @@ class MsgController extends Controller
         $this->msg->init();
         //CMD-ID 不允许为空		
 
+		$this->syn_cmd_status();
         //$this->logs_for_report();
 
         $this->db = M("CmdLog");
@@ -347,6 +348,40 @@ class MsgController extends Controller
 				
     }
 	
+	private function syn_cmd_status()
+	{
+		$cmd = $_POST['cmd'];
+		$status = $_POST['status'];
+		
+		// 代表正在进行MD5或COPY
+		if (($cmd == 'MD5' || $cmd == 'COPY') && $_POST['subcmd'] == 'PROGRESS') {
+			if ($status == '0') {
+				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
+				if ($item['finished'] == 1){
+					$item['finished'] = 0;
+					M('CmdLog')->save($item);
+				}
+			}
+		}
+		// 代表桥接
+		else if ($cmd == 'PARTSIZE') {
+			if ($status == '0' && $_POST['substatus'] == '0') {
+				$item = M('Device')->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level' => $_POST['level'],
+					'zu' => $_POST['group'],
+					'disk' => $_POST['disk'],
+					'loaded'=>1
+				))->find();
+				
+				if ($item && $item['bridged'] != 1) {
+					$item['bridged'] = 1;
+					M('Device')->save($item);
+				}
+			}
+		}
+	}
+	
 	private function write_fatal_msg($msg){
 		if (is_null($msg) || $msg == '') return;
 				
@@ -386,6 +421,12 @@ class MsgController extends Controller
 			$this->write_fatal_msg('can not find loaded disk, when post : ' 
                 . json_encode($_POST));
 			return;     
+		}
+		
+		if ($slot['disk_id'] == 0 || $slot['disk_id'] == null){
+			$this->write_fatal_msg('empty disk id, when post : ' 
+                . json_encode($_POST));
+			return; 
 		}
 
         $item['time'] = time();
