@@ -54,8 +54,10 @@
                 <div class="col-lg-12">
                     结果
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="max-height:200px;overflow:auto">
+					<pre>
                     {{test.result | to_trusted}}
+					</pre>
                 </div>                
             </div>
         </div>

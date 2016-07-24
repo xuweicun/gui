@@ -796,11 +796,27 @@ class MsgController extends Controller
     private function hdlFail()
     {
         $this->RTLog("Commond failed");
-
+		
         $item = $this->msg;
         $log = $this->db->find($item->id);
+		
         $remit = array('33');
         if ($log) {
+			// 硬盘忙，记录具体busy硬盘
+			switch ($item->status) {
+			case '25':	
+			case '26':	
+			case '27':	
+			case '28':	
+			case '29':	
+				$log['busy_disks'] = $_POST['busy_disks'];
+				$this->db->save($log);
+				var_dump($log);die();
+				break;
+			default:
+				break;
+			}
+		
             if ($this->msg->subcmd == 'STOP' && $log['sub_cmd'] !== $this->msg->subcmd) {
                 //子命令不一致
                 if (in_array($this->msg->status, $remit)) {
