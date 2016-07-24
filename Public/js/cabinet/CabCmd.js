@@ -58,6 +58,8 @@
 
 CabCmd.prototype = {    
     init: function () {
+		if (!this.msg) return;
+		
         this.disk = this.msg.disk;
         this.disks = this.msg.disks;
         this.cab_id = this.msg.device_id;

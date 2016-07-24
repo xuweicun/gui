@@ -364,7 +364,6 @@ class MsgController extends Controller
 					'disk' => $dsk,
 					'loaded'=>1
 				))->find();
-				var_dump($item);die();
 				if ($item && $item['bridged'] != 1) {
 					$item['bridged'] = 1;
 					$db->save($item);
