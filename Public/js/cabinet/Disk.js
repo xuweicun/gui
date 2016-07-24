@@ -80,6 +80,10 @@ Disk.prototype = {
     get_cabinet_id:function(){
         return this.parent.parent.parent.id;
     },
+    // 获得柜子SN
+    get_cabinet_sn:function(){
+        return this.parent.parent.parent.sn;
+    },
     // 更新分区大小
     update_partitions: function(){
         // 分区大小只有在已桥接的状态下才能获取
@@ -934,7 +938,7 @@ Disk.prototype = {
             cmd_obj.level = (this.l + 1).toString();
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
-            cmd_obj.mount_path = this.base_info.bridge_path;
+            cmd_obj.mount_path = this.get_cabinet_sn() + '_' + cmd_obj.level + '_' + cmd_obj.group + '_' + cmd_obj.disk;
         }
         else {
             return false;
