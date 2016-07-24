@@ -888,11 +888,12 @@ Disk.prototype = {
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
 			
-			// 构建DISKINFO命令，并将MD5命令缓存
+			// 构建DISKINFO命令，并将MD5命令缓存 -- 作废
+			/*
 			var cmd_queue_item = {};
 			angular.copy(cmd_obj, cmd_queue_item);
 			this.cmd_queue.push(cmd_queue_item);
-			
+			*/
 			cmd_obj.cmd = 'DISKINFO';
         }
         else if (cmd_name == 'COPY') {
