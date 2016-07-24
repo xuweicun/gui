@@ -291,7 +291,7 @@ TaskPool.prototype = {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
 				
-				global_cabinet.i_on_cmd_changed(pool[i], false);
+				if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
                 				
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer && pool[i].cmd == 'DISKINFO') {
@@ -306,7 +306,7 @@ TaskPool.prototype = {
 					global_cmd_helper.updateDeviceStatus();
 				}
 				else if (int_status == 26 || int_status == 28) {
-					load_tasks();
+					global_task_pool.load_tasks();
 				}
 				
 				this.notify(pool[i]);

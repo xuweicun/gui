@@ -354,6 +354,25 @@ class MsgController extends Controller
 		$subcmd = $_POST['subcmd'];
 		$status = $_POST['status'];
 		
+		if ($status == '25') {
+			$db = M('Device');
+			foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
+				$item = $db->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level' => $_POST['level'],
+					'zu' => $_POST['group'],
+					'disk' => $dsk,
+					'loaded'=>1
+				))->find();
+				var_dump($item);die();
+				if ($item && $item['bridged'] != 1) {
+					$item['bridged'] = 1;
+					$db->save($item);
+				}
+			}
+			return;
+		}
+		
 		// 代表正在进行MD5或COPY
 		if ($cmd == 'MD5' || $cmd == 'COPY') {
 			if ($subcmd == 'PROGRESS' && $status == '0') {
@@ -401,30 +420,16 @@ class MsgController extends Controller
 					'loaded'=>1
 				))->find();
 				
-				if ($item && $item['bridged'] != 1) {
-					$item['bridged'] = 1;
-					M('Device')->save($item);
-				}
-			}
-		}
-		else if ($cmd == 'BRIDGE') {
-			if ($subcmd == 'START' && $status == '25') {				
-				$db = M('Device');
-				foreach ($_POST['disks'] as $dsk) {
-					$item = $db->where(array(
-						'cab_id'=>$_POST['device_id'],
-						'level' => $_POST['level'],
-						'zu' => $_POST['group'],
-						'disk' => $dsk['id'],
-						'loaded'=>1
-					))->find();
-					
-					if ($item && $item['bridged'] != 1) {
+				if ($item) {
+					if($item['bridged'] != 1) {
 						$item['bridged'] = 1;
-						$db->save($item);
+						M('Device')->save($item);						
 					}
 				}
-			}			
+				else {
+					
+				}
+			}
 		}
 	}
 	

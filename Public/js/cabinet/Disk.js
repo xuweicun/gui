@@ -978,7 +978,7 @@ Disk.prototype = {
                 if (disks[i].is_bridged()) {
                     disk_array.push({
                         id: (disks[i].d + 1).toString(),
-						SN: ''
+						SN: 'AA'
                         //SN: disks[i].get_SN()
                     });
                 }
