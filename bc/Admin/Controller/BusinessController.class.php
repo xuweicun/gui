@@ -560,7 +560,7 @@ class BusinessController extends Controller
     public function generate_report_data()
     {
         if (session('admin') != 'logadmin') {
-            die();
+            //die();
         }
 
         // 1. 存储柜概述
