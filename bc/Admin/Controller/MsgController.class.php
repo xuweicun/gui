@@ -355,12 +355,31 @@ class MsgController extends Controller
 		$status = $_POST['status'];
 		
 		// 代表正在进行MD5或COPY
-		if (($cmd == 'MD5' || $cmd == 'COPY') && $subcmd == 'PROGRESS') {
-			if ($status == '0') {
+		if ($cmd == 'MD5' || $cmd == 'COPY') {
+			if ($subcmd == 'PROGRESS' && $status == '0') {
 				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
 				if ($item['finished'] == 1){
 					$item['finished'] = 0;
 					M('CmdLog')->save($item);
+				}
+			}
+			
+			$db = M('CmdLog');
+			if (($cmd == 'MD5' && $subcmd == 'STOP' && $status == '23') 
+				|| ($cmd == 'COPY' && $subcmd == 'STOP' && $status == '42')){
+				$item = $db->where(array(
+					'id'=>$_POST['CMD_ID']
+				))->find();
+				
+				if ($item) {
+					$item = $db->where(array(
+						'id'=>$item['dst_id']
+					))->find();
+					
+					if ($item) {
+						$item['finished'] = 1;
+						$db->save($item);
+					}
 				}
 			}
 		}
@@ -382,18 +401,21 @@ class MsgController extends Controller
 			}
 		}
 		else if ($cmd == 'BRIDGE') {
-			if ($subcmd == 'START' && $status == '25') {
-				$item = M('Device')->where(array(
-					'cab_id'=>$_POST['device_id'],
-					'level' => $_POST['level'],
-					'zu' => $_POST['group'],
-					'disk' => $_POST['disk'],
-					'loaded'=>1
-				))->find();
-				
-				if ($item && $item['bridged'] != 1) {
-					$item['bridged'] = 1;
-					M('Device')->save($item);
+			if ($subcmd == 'START' && $status == '25') {				
+				$db = M('Device');
+				foreach ($_POST['disks'] as $dsk) {
+					$item = $db->where(array(
+						'cab_id'=>$_POST['device_id'],
+						'level' => $_POST['level'],
+						'zu' => $_POST['group'],
+						'disk' => $dsk['id'],
+						'loaded'=>1
+					))->find();
+					
+					if ($item && $item['bridged'] != 1) {
+						$item['bridged'] = 1;
+						$db->save($item);
+					}
 				}
 			}			
 		}
