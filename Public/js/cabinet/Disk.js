@@ -596,7 +596,9 @@ Disk.prototype = {
         if (this.curr_cmd) {
         	var time_text = '';
 			var use_time = this.curr_cmd.usedTime;
-			if (use_time)
+			if (!use_time){
+				return '0s';				
+			}
 			if (use_time < 60){
 				time_text = use_time + 's';
 			}
@@ -937,6 +939,7 @@ Disk.prototype = {
             return false;
         }
 
+		cmd_obj.progress = 0;
         this.curr_cmd = cmd_obj;
 
         // send cmd;

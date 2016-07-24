@@ -351,10 +351,11 @@ class MsgController extends Controller
 	private function syn_cmd_status()
 	{
 		$cmd = $_POST['cmd'];
+		$subcmd = $_POST['subcmd'];
 		$status = $_POST['status'];
 		
 		// 代表正在进行MD5或COPY
-		if (($cmd == 'MD5' || $cmd == 'COPY') && $_POST['subcmd'] == 'PROGRESS') {
+		if (($cmd == 'MD5' || $cmd == 'COPY') && $subcmd == 'PROGRESS') {
 			if ($status == '0') {
 				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
 				if ($item['finished'] == 1){
@@ -379,6 +380,22 @@ class MsgController extends Controller
 					M('Device')->save($item);
 				}
 			}
+		}
+		else if ($cmd == 'BRIDGE') {
+			if ($subcmd == 'START' && $status == '25') {
+				$item = M('Device')->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level' => $_POST['level'],
+					'zu' => $_POST['group'],
+					'disk' => $_POST['disk'],
+					'loaded'=>1
+				))->find();
+				
+				if ($item && $item['bridged'] != 1) {
+					$item['bridged'] = 1;
+					M('Device')->save($item);
+				}
+			}			
 		}
 	}
 	
