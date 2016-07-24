@@ -809,9 +809,8 @@ class MsgController extends Controller
 			case '27':	
 			case '28':	
 			case '29':	
-				$log['busy_disks'] = $_POST['busy_disks'];
+				$log['busy_disks'] = json_encode($_POST['busy_disks']);
 				$this->db->save($log);
-				var_dump($log);die();
 				break;
 			default:
 				break;
@@ -1417,9 +1416,6 @@ class MsgController extends Controller
             $data['sn_time'] = time();
             $diskDb->save($data);
 
-            // for report
-            $this->write_smart_log();
-
             //初次获取信息或者sn号发生变化
             if ($item['disk_id'] !== $disk_id) {
                 /* if ($item['disk_id']) {
@@ -1441,7 +1437,11 @@ class MsgController extends Controller
                //更新盘位对应的磁盘id
                $item['disk_id'] = $disk_id;
                $db->save($item);
-           }
+           }		   
+		   
+            // for report
+            $this->write_smart_log();
+			
            //更新修改时间
 
            $this->updateSmart($disk_id);
