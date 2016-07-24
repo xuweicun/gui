@@ -957,8 +957,9 @@ Disk.prototype = {
     },
     // 用于发送“MD5”和“复制”命令的“STOP”子命令
     cmd_stop: function () {
+        $.magnificPopup.close();
+		
         if (this.curr_cmd && this.curr_cmd.subcmd == 'STOP'){
-            console.log('Disk Stop Busy: ' + this.curr_cmd.cmd);
             return;
         }
 
@@ -970,7 +971,8 @@ Disk.prototype = {
                 if (disks[i].is_bridged()) {
                     disk_array.push({
                         id: (disks[i].d + 1).toString(),
-                        SN: disks[i].get_SN()
+						SN: ''
+                        //SN: disks[i].get_SN()
                     });
                 }
             }
@@ -990,7 +992,6 @@ Disk.prototype = {
 
         this.curr_cmd = cmd_obj;
 
-        $.magnificPopup.close();
         global_cmd_helper.sendcmd(cmd_obj);
     }
 };

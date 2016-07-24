@@ -354,13 +354,29 @@ class MsgController extends Controller
 		$status = $_POST['status'];
 		
 		// 代表正在进行MD5或COPY
-		if ($cmd == 'MD5' || $cmd == 'COPY') {	
-			$subcmd = $_POST['subcmd'];
-			if ($subcmd == 'PROGRESS' && $status == '0') {
+		if (($cmd == 'MD5' || $cmd == 'COPY') && $_POST['subcmd'] == 'PROGRESS') {
+			if ($status == '0') {
 				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
 				if ($item['finished'] == 1){
 					$item['finished'] = 0;
 					M('CmdLog')->save($item);
+				}
+			}
+		}
+		// 代表桥接
+		else if ($cmd == 'PARTSIZE') {
+			if ($status == '0' && $_POST['substatus'] == '0') {
+				$item = M('Device')->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level' => $_POST['level'],
+					'zu' => $_POST['group'],
+					'disk' => $_POST['disk'],
+					'loaded'=>1
+				))->find();
+				
+				if ($item && $item['bridged'] != 1) {
+					$item['bridged'] = 1;
+					M('Device')->save($item);
 				}
 			}
 		}
