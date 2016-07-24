@@ -357,9 +357,16 @@ class MsgController extends Controller
 		// 代表正在进行MD5或COPY
 		if ($cmd == 'MD5' || $cmd == 'COPY') {
 			if ($subcmd == 'PROGRESS' && $status == '0') {
-				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
-				if ($item['finished'] == 1){
-					$item['finished'] = 0;
+				$item = M('CmdLog')->where(array('id'=>$_POST['CMD_ID']))->find();
+				if ($item) {
+					if ($item['finished'] == 1){
+						$item['finished'] = 0;
+					}
+					
+					if ($item['progress'] != $_POST['progress']) {						
+						$item['progress_time'] = time();
+					}					
+					
 					M('CmdLog')->save($item);
 				}
 			}

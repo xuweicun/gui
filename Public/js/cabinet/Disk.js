@@ -893,8 +893,8 @@ Disk.prototype = {
 			var cmd_queue_item = {};
 			angular.copy(cmd_obj, cmd_queue_item);
 			this.cmd_queue.push(cmd_queue_item);
-			*/
 			cmd_obj.cmd = 'DISKINFO';
+			*/
         }
         else if (cmd_name == 'COPY') {
             cmd_obj.subcmd = 'START';
@@ -940,7 +940,6 @@ Disk.prototype = {
             return false;
         }
 
-		cmd_obj.progress = 0;
         this.curr_cmd = cmd_obj;
 
         // send cmd;
