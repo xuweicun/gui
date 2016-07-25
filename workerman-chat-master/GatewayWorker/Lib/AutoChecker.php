@@ -559,8 +559,12 @@ Class AutoChecker
                                 case -2:
                                     //取消
                                     $this->RunLog("Disk skipped");
-                                    $dsk[$this->type . "_skipped"] = 1;
-                                    $dsk[$this->type . "_skip_time"] = time();
+                                    if($this->type == 'md5')
+                                    {
+                                        $dsk[$this->type . "_skipped"] = 1;
+                                        $dsk[$this->type . "_skip_time"] = time();
+                                    }
+
                                 default:
                                     //超时或失败
                                     $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
