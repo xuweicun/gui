@@ -351,15 +351,60 @@ class MsgController extends Controller
 	private function syn_cmd_status()
 	{
 		$cmd = $_POST['cmd'];
+		$subcmd = $_POST['subcmd'];
 		$status = $_POST['status'];
 		
+		if ($status == '25') {
+			$db = M('Device');
+			foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
+				$item = $db->where(array(
+					'cab_id'=>$_POST['device_id'],
+					'level' => $_POST['level'],
+					'zu' => $_POST['group'],
+					'disk' => $dsk,
+					'loaded'=>1
+				))->find();
+				if ($item && $item['bridged'] != 1) {
+					$item['bridged'] = 1;
+					$db->save($item);
+				}
+			}
+			return;
+		}
+		
 		// 代表正在进行MD5或COPY
-		if (($cmd == 'MD5' || $cmd == 'COPY') && $_POST['subcmd'] == 'PROGRESS') {
-			if ($status == '0') {
-				$item = M('CmdLog')->field(array('id', 'finished'))->where(array('id'=>$_POST['CMD_ID']))->find();
-				if ($item['finished'] == 1){
-					$item['finished'] = 0;
+		if ($cmd == 'MD5' || $cmd == 'COPY') {
+			if ($subcmd == 'PROGRESS' && $status == '0') {
+				$item = M('CmdLog')->where(array('id'=>$_POST['CMD_ID']))->find();
+				if ($item) {
+					if ($item['finished'] == 1){
+						$item['finished'] = 0;
+					}
+					
+					if ($item['progress'] != $_POST['progress']) {						
+						$item['progress_time'] = time();
+					}					
+					
 					M('CmdLog')->save($item);
+				}
+			}
+			
+			$db = M('CmdLog');
+			if (($cmd == 'MD5' && $subcmd == 'STOP' && $status == '23') 
+				|| ($cmd == 'COPY' && $subcmd == 'STOP' && $status == '42')){
+				$item = $db->where(array(
+					'id'=>$_POST['CMD_ID']
+				))->find();
+				
+				if ($item) {
+					$item = $db->where(array(
+						'id'=>$item['dst_id']
+					))->find();
+					
+					if ($item) {
+						$item['finished'] = 1;
+						$db->save($item);
+					}
 				}
 			}
 		}
@@ -374,9 +419,14 @@ class MsgController extends Controller
 					'loaded'=>1
 				))->find();
 				
-				if ($item && $item['bridged'] != 1) {
-					$item['bridged'] = 1;
-					M('Device')->save($item);
+				if ($item) {
+					if($item['bridged'] != 1) {
+						$item['bridged'] = 1;
+						M('Device')->save($item);						
+					}
+				}
+				else {
+					
 				}
 			}
 		}
@@ -746,11 +796,26 @@ class MsgController extends Controller
     private function hdlFail()
     {
         $this->RTLog("Commond failed");
-
+		
         $item = $this->msg;
         $log = $this->db->find($item->id);
+		
         $remit = array('33');
         if ($log) {
+			// 硬盘忙，记录具体busy硬盘
+			switch ($item->status) {
+			case '25':	
+			case '26':	
+			case '27':	
+			case '28':	
+			case '29':	
+				$log['busy_disks'] = json_encode($_POST['busy_disks']);
+				$this->db->save($log);
+				break;
+			default:
+				break;
+			}
+		
             if ($this->msg->subcmd == 'STOP' && $log['sub_cmd'] !== $this->msg->subcmd) {
                 //子命令不一致
                 if (in_array($this->msg->status, $remit)) {
@@ -1351,9 +1416,6 @@ class MsgController extends Controller
             $data['sn_time'] = time();
             $diskDb->save($data);
 
-            // for report
-            $this->write_smart_log();
-
             //初次获取信息或者sn号发生变化
             if ($item['disk_id'] !== $disk_id) {
                 /* if ($item['disk_id']) {
@@ -1375,7 +1437,11 @@ class MsgController extends Controller
                //更新盘位对应的磁盘id
                $item['disk_id'] = $disk_id;
                $db->save($item);
-           }
+           }		   
+		   
+            // for report
+            $this->write_smart_log();
+			
            //更新修改时间
 
            $this->updateSmart($disk_id);

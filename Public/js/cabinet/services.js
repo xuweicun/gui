@@ -332,12 +332,14 @@ angular.module('device.services', [])
         ];
         return {
             getErrorMsg: function(errno){
-                if (errno == '0'){
-                    return '成功';
-                }
-                else {
-                    return errCodes[errno] + '[' + errno + ']';
-               }
+				switch(errno){
+				case '0':
+					return '成功';
+				case '-2': 
+					return '撤销';
+				default:
+                    return errCodes[errno] + '[' + errno + ']';					
+				}
             },
             getLang: function (code) {
                 if (typeof (code) == 'number') {

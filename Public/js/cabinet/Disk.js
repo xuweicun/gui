@@ -80,6 +80,10 @@ Disk.prototype = {
     get_cabinet_id:function(){
         return this.parent.parent.parent.id;
     },
+    // 获得柜子SN
+    get_cabinet_sn:function(){
+        return this.parent.parent.parent.sn;
+    },
     // 更新分区大小
     update_partitions: function(){
         // 分区大小只有在已桥接的状态下才能获取
@@ -596,7 +600,9 @@ Disk.prototype = {
         if (this.curr_cmd) {
         	var time_text = '';
 			var use_time = this.curr_cmd.usedTime;
-			if (use_time)
+			if (!use_time){
+				return '0s';				
+			}
 			if (use_time < 60){
 				time_text = use_time + 's';
 			}
@@ -886,12 +892,13 @@ Disk.prototype = {
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
 			
-			// 构建DISKINFO命令，并将MD5命令缓存
+			// 构建DISKINFO命令，并将MD5命令缓存 -- 作废
+			/*
 			var cmd_queue_item = {};
 			angular.copy(cmd_obj, cmd_queue_item);
 			this.cmd_queue.push(cmd_queue_item);
-			
 			cmd_obj.cmd = 'DISKINFO';
+			*/
         }
         else if (cmd_name == 'COPY') {
             cmd_obj.subcmd = 'START';
@@ -931,7 +938,7 @@ Disk.prototype = {
             cmd_obj.level = (this.l + 1).toString();
             cmd_obj.group = (this.g + 1).toString();
             cmd_obj.disk = (this.d + 1).toString();
-            cmd_obj.mount_path = this.base_info.bridge_path;
+            cmd_obj.mount_path = this.get_cabinet_sn() + '_' + cmd_obj.level + '_' + cmd_obj.group + '_' + cmd_obj.disk;
         }
         else {
             return false;
@@ -971,7 +978,7 @@ Disk.prototype = {
                 if (disks[i].is_bridged()) {
                     disk_array.push({
                         id: (disks[i].d + 1).toString(),
-						SN: ''
+						SN: 'AA'
                         //SN: disks[i].get_SN()
                     });
                 }

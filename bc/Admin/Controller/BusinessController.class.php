@@ -1103,7 +1103,54 @@ class BusinessController extends Controller
         $this->updateCmdLog();
 
         $db = M('CmdLog');
-
+		/*
+		$device_id = $_POST['device_id'];
+		$lvl_id = $_POST['level'];
+		$grp_id = $_POST['group'];
+		
+		// 判断硬盘是否已经有命令
+		switch($_POST['cmd']){
+		case 'COPY':
+			$lvl_id = $_POST['srcLevel'];
+			$grp_id = $_POST['srcGroup'];
+		case 'DISKINFO':
+		case 'MD5':	
+		case 'BRIDGE':			
+			$item = M('Device')->where(array(
+				'cab_id'=>$_POST['device_id'],
+				'level'=>$_POST['level'],
+				'zu'=>$_POST['group'],
+				'loaded'=>1,
+				'bridged'=>1
+			))->find();
+		
+			if ($item) return;	
+			
+			break;
+			$item = $db->where(array(
+				'cab_id'=>$device_id,
+				'level'=>$lvl_id,
+				'zu'=>$grp_id,
+				'finished'=>0
+			))->find();
+			
+			if ($item) return;
+			
+			$item = M('Device')->where(array(
+				'cab_id'=>$_POST['device_id'],
+				'level'=>$_POST['level'],
+				'zu'=>$_POST['group'],
+				'loaded'=>1,
+				'bridged'=>1
+			))->find();
+		
+			if ($item) return;	
+			
+			break;
+		default:
+			break;
+		}
+*/
         $data['user_id'] = I('get.userid', 0, 'intval');
         $data['cmd'] = $_POST['cmd'];
         $data['sub_cmd'] = $_POST['subcmd'];

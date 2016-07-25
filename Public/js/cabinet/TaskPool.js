@@ -290,30 +290,56 @@ TaskPool.prototype = {
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
-                if (global_cabinet) {
-                    global_cabinet.i_on_cmd_changed(pool[i], false);
-                }
+				
+				if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
+                				
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer && pool[i].cmd == 'DISKINFO') {
                     if (global_deployer.working) {
                         global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
                     }
                 }
-                this.notify(pool[i]);
-                pool.splice(i, 1);
+				
+				
+				var int_status = parseInt(pool[i].status);
+				if (int_status == 25) {
+					global_cmd_helper.updateDeviceStatus();
+				}
+				else if (int_status == 28) {
+					global_modal_helper.show_modal({
+						type: 'question',
+						title: '硬盘命令 -- 构建索引',
+						html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
+						
+						on_click_handle: function(data){
+							console.log(data);
+						},
+						on_click_param: pool[i]
+					});					
+					
+					global_task_pool.load_tasks();
+				}
+				else if (int_status == 26) {
+					
+					global_task_pool.load_tasks();
+				}
+				
+				this.notify(pool[i]);
+				
+                pool.splice(i, 1);				
             }
         }
         this.dirty = false;
     },
-    init: function () {
-        this.startGlobalWatch();
-        var pool = this;
-        global_http({
+	load_tasks: function()
+	{
+		global_http({
             url: '/index.php?m=admin&c=business&a=getGoingTasks',
             method: 'GET'
         }).success(function (data) {
-            var time = new Date();
             global_task_pool.ready = true;
+			global_task_pool.going = [];
+			
             if (data && data.length > 0) {
                 for (var i = 0; i < data.length; ++i) {
                     var e = data[i];
@@ -344,6 +370,10 @@ TaskPool.prototype = {
             global_err_pool.add();
             this.ready = true;
         });
+	},
+    init: function () {
+        this.startGlobalWatch();
+        this.load_tasks();
     },
     /*
      * success:成功处理
