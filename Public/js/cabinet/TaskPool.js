@@ -418,7 +418,7 @@ TaskPool.prototype = {
                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                     if (disk) {
                         if (task.subcmd == 'START') {
-                            disk.i_change_brdige_status(true, paths[idx].value);
+                            disk.i_change_brdige_status(true, null);
                         }
                         else if (task.subcmd == 'STOP') {
                             disk.i_change_brdige_status(false, null);

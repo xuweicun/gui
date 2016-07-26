@@ -1325,7 +1325,7 @@ class MsgController extends Controller
             //echo "voltage of the cab updating--处理电流电压";
             self::updateCab();
 			
-			if ($_POST['CMD_ID'] == 0) return;
+			if ($_POST['CMD_ID'] == '0') return;
 			
             $db = M('Device');
             $cabinet = M('Cab')->where(array('sn' => $this->msg->cab_id, 'loaded' => 1))->find();
