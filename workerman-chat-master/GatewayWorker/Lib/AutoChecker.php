@@ -123,6 +123,9 @@ Class AutoChecker
         //如果已经无盘可查
         if ($check_finished = $this->checkDisk($cabs)) {
             //更新信息,进入下一轮
+            if(!$this->isCheckFinished()){
+                return;
+            }
             $this->RunLog("Check over.".$check_finished);
             $this->updateChecker($plan, $cabs);
         }
@@ -175,13 +178,11 @@ Class AutoChecker
                        // $this->RunLog("Commond or bridged: ".$grp_busy);
                         //检查是否有漏网之鱼
                         if($dsk[$this->type . '_status'] < PLAN_STATUS_FINISHED){
-                            $this->RunLog("Disk is waiting.");
                             $is_check_finished = false;
                         }
                         
 
                         if($this->type == 'md5' && $dsk['md5_skipped'] == 1){
-                            $this->RunLog("Md5 skipped. ");
                             if(time() - (int)$dsk['md5_skip_time'] > 24 * 3600){
                             $this->setDiskNoSkip($dsk);
                             }
@@ -219,7 +220,21 @@ Class AutoChecker
         }
         return $is_check_finished;
     }
-
+    private function isCheckFinished(){
+        $db =  $this->db;
+        $dsks = $db->select("*")->from('gui_device')->where("loaded=1")->query();//orderby(priority)
+        if(!$dsks){
+            $this->RunLog("Error: No disk found.");
+            return false;
+        }
+        $status = $this->type."_status";
+        foreach ($dsks as $dsk){
+            if($dsk[$status] == PLAN_STATUS_WORKING || $dsk[$status] == PLAN_STATUS_WAITING){
+                return false;
+                break;
+            }
+        }
+    }
     private function setDiskNoSkip($dsk){
         if(!$dsk){
             return;
