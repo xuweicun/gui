@@ -47,7 +47,9 @@ Cabinet.prototype = {
                 // 湿度
                 humidity: '-',
                 // 硬盘组
-                groups: []
+                groups: [],
+				// channel error
+				channel_err: false
             };
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组

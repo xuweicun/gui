@@ -7,6 +7,10 @@ app_device.filter('to_trusted', function ($sce) {
 }).controller('statusMonitor', function ($scope, $http, $interval, $timeout, $location, locals, Lang, TestMsg, WebSock, DTOptionsBuilder, DTDefaultOptions)
 {
     //locals.setObject('test_cmds', []);
+	
+    $scope.warning_test = function () {
+        $scope.cabs.set_warning(1, '', 0xffffff1a);
+    }
 
     $scope.test = {
         cmds: [],
@@ -227,6 +231,7 @@ app_device.filter('to_trusted', function ($sce) {
     
     global_cabinet_helper = new CabinetHelper(on_cab_select);
     $scope.cabs = global_cabinet_helper;
+	
     $scope.deployer = global_deployer;
     $scope.start = function () {
         $scope.errCodes.init();
@@ -319,6 +324,7 @@ app_device.filter('to_trusted', function ($sce) {
     }
 
     $scope.reload_user_log();
+	
 })   
 .factory('locals', ['$window', function($window){
 	return {        //存储单个属性
