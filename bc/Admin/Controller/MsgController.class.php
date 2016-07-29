@@ -1390,7 +1390,39 @@ class MsgController extends Controller
             }
         }
     }
+    private function getLogByMsg(){
+        $msg = $this->msg;
+        $map['cmd'] = array('eq',$msg->cmd);
+        $map['finished'] = array('eq',0);
+    }
+    /***************
+     * 处理proxy推送回来的消息
+     */
+    private function hdlPushMsg(){
+        if(!$_POST['push'] || $_POST['push'] != 1){
+            return;
+        }
+        $msg = $this->msg;
 
+        switch ($msg->cmd){
+            case 'BRIDGE':
+                if($msg->status == '63'){
+
+                }
+            break;
+            case 'COPY':
+                if($msg->status == '64'){
+
+                }
+            break;
+            case 'MD5':
+                if($msg->status == '65'){
+
+                }
+            break;
+
+        }
+    }
     public function updateDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
