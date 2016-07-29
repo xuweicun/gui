@@ -354,3 +354,39 @@
         </div>
     </div>
 </div>
+
+
+<div id="modalWarningCab" class="zoom-anim-dialog modal-block mfp-hide modal-block-danger">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">存储柜告警测试</h4>
+        </div>
+        <div class="panel-body bk-noradius">            
+            <div class="modal-wrapper">
+                <div class="modal-icon">
+                    <i class="fa"
+                       ng-class="{
+                            'fa-warning': cabs.warning.type == 1,
+                            'fa-times-circle-o': cabs.warning.type == 2
+                        }"></i>
+                </div>
+                <div class="modal-text">
+                    <div class="row">
+                        <div class="panel bk-widget bk-margin-off col-lg-12" ng-bind-html="cabs.warning.msg | to_trusted">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-danger">
+                        告警处理
+                    </button>
+                    <button class="btn btn-default modal-dismiss">暂时关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

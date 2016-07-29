@@ -26,6 +26,45 @@ function CabPicker() {
     this.electricity = '-';
     // 各层的温湿度
     this.lvls_info = [];
+	
+	// proxy推送的warning值
+	//bit0~bit1: 电量告警. 0:正常, 1:告警, 2:严重告警；bit2~bit3: 电流告警. 意义同电量告警；bit4~bit5: 电压告警. 意义同电量告警.
+
+	//当电量/电流/电压有严重告警时, 也就是值为2时, 
+	//1. 代理程序会自动关闭该设备所有的任务。
+	//2. 此时应用需要在log中记录任务关闭的原因是电量/电流/电压严重告警，并显示所有的任务为已经关闭。
+	
+	//bit6 ~bit7 : 层 x(1~6) 柜子的 (1~6) 湿度告警. 0: 正常，1: 警告, 2: 严重告警
+	//bit8 ~bit9 : 
+	//bit10~bit11: 
+	//bit12~bit13: 
+	//bit14~bit15: 
+	//bit16~bit17: 
+
+	//bit18~bit19: 温度告警. 层x柜子的温度告警.  0: 正常，1: 警告, 2: 严重告警.
+	//bit20~bit21: 
+	//bit22~bit23: 
+	//bit24~bit25: 
+	//bit26~bit27: 
+	//bit29~bit29: 		
+	
+	//当温度/湿度有严重告警时, 也就是值为2时, 
+	//1. 代理程序会关闭严重告警的层的任务。
+	//2. 此时应用需要在log中记录任务关闭的原因是因为温度/湿度太高，
+	//并显示相应层的任务已经关闭. 
+
+	//当温度/湿度有告警时, 也就是值为1时, 
+	//1. 代理程序不作任何处理。
+	//2. 应用程序需要弹出告警信息窗口即可。
+	this.warning_value = 0;
+	
+	// proxy推送的channel_error值
+	//bit1~bit6: level 1 ~ level6 serial communication error.
+	//指示层一到层六是否有串口通信错误. 0: 通信正常. 1:通信错误,
+	//若有通信错误:
+	//代  理: 如果可能，尽力关闭所有的业务
+	//应用层: 若通信错误,标记该层不可用。在界面上打个叉,该层所用业务不可操作。如果有已经成功启动的业务，标记已经结束且结束原因为通信错误.
+	this.channel_error = 0;
 }
 CabPicker.prototype = {
     i_on_init: function (c, s, l, g, d) {
@@ -59,11 +98,95 @@ function CabinetHelper(on_cabinet_select) {
     this.modal_index = -1;
 
     this.changed = false;
+	
+	// 告警信息
+	this.warning = {
+		msg: '',
+		type: 0, // 0=无告警；1=一般告警；2=严重告警
+		src:'' //告警源
+	};
 
     this.on_cabinet_select = on_cabinet_select;
 }
 
 CabinetHelper.prototype = {
+	// 设置告警值
+	set_warning: function(cab_id, cab_sn, warning, channel_error)
+	{
+		var _cab = null;
+		for (var i=0; i<this.cabs.length; ++i) {
+			if (cab_id == this.cabs[i].id) {
+				_cab = this.cabs[i];
+				break;
+			}
+		}
+		if (_cab == null) return;
+		
+		var val_w = parseInt(warning);
+		var val_c = parseInt(channel_error);
+		
+		var warn_msg = '';
+		if (val_w) {		
+			
+			switch (val_w & 0x00000003) {				
+			case 1:	
+				this.warning.type = this.warning.type<1?1:1;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电量：<span class="bk-fg-warning">[告警]</span>';
+				break;
+			case 2:
+				this.warning.type = 2;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电量：<span class="bk-fg-danger">[严重告警]</span>';		
+				break;		
+			default:
+				break;
+			}
+						
+			switch ((val_w>>2) & 0x00000003) {				
+			case 1:
+				this.warning.type = this.warning.type<1?1:1;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电流：<span class="bk-fg-warning">[告警]</span>';	
+				break;		
+			case 2:
+				this.warning.type = 2;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电流：<span class="bk-fg-danger">[严重告警]</span>';		
+				break;					
+			default:
+				break;
+			}
+			
+			
+			switch ((val_w>>4) & 0x00000003) {				
+			case 1:
+				this.warning.type = this.warning.type<1?1:1;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电压：<span class="bk-fg-warning">[告警]</span>';	
+				break;		
+			case 2:
+				this.warning.type = 2;
+				if (warn_msg) warn_msg+='，';
+				warn_msg+= '电压：<span class="bk-fg-danger">[严重告警]</span>';		
+				break;					
+			default:
+				break;
+			}
+		}
+		
+		if (warn_msg) {
+			this.warning.msg = '存储柜' + _cab.id + '#，序列号(' + _cab.sn + ')<br />' + warn_msg + '。';	
+			if (this.warning.type == 2) this.warning.msg += '所有进行中的命令被停止，且已桥接的硬盘被断开。';
+			
+			global_modal_helper.show_modal_user('modalWarningCab');
+		}
+		else {
+			this.warning.msg = '';
+		}
+		
+		
+	},	
     read_temp_hum_info_by_resp: function (status, lvl_id) {
         if (!status || !status.levels) return null;
 
@@ -353,6 +476,9 @@ CabinetHelper.prototype = {
                     cab.i_on_init(e.sn, e.name, e.level_cnt, e.group_cnt, e.disk_cnt);
                     global_cabinet_helper.i_on_add(cab);
                 });
+								
+				global_cabinet_helper.set_warning(1, '', 0xffffff1a, 0);	
+				
                 if (global_cabinet_helper.cabs.length > 0) {
                     global_cabinet_helper.on_select(0);
 

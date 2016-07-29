@@ -1,4 +1,4 @@
-﻿<div>
+﻿<div ng-disabled="cab.curr.parent.channel_err">
     <div class="row">
         <div class="col-lg-12 panel">
             <h4>当前：<span ng-class="{'bk-fg-success':cab.curr.is_bridged(), 'bk-fg-primary':cab.curr.is_loaded(), 'bk-fg-default':!cab.curr.is_loaded() }"><i class="glyphicon" ng-class="{ true:'glyphicon-hdd', false:'glyphicon-ban-circle' }[cab.curr.is_loaded()]"></i> {{cab.curr.get_title()}} {{cab.curr.is_loaded()?'':'(无盘)'}}</span>
