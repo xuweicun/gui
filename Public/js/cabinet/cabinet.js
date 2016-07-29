@@ -20,6 +20,13 @@ function Cabinet() {
 
 // 柜子Cabinet类的原型
 Cabinet.prototype = {
+	// 设置链路错误
+	set_channel_status: function(lvl, error) 
+	{
+		if (lvl >= this.levels.length) return;
+		
+		this.levels[lvl].channel_error = error;
+	},
     // 是否正在在位查询
     is_device_status_cmd_going:function(){
         return this.cmd_device_status != null;
@@ -49,7 +56,7 @@ Cabinet.prototype = {
                 // 硬盘组
                 groups: [],
 				// channel error
-				channel_err: false
+				channel_error: false
             };
             for (var j = 0; j < group_cnt; ++j) {
                 // 每一组

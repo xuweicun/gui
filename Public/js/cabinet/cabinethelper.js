@@ -77,7 +77,8 @@ CabPicker.prototype = {
         for (var i = 0; i < l; ++i) {
             this.lvls_info.push({
                 temperature: '-',
-                humidity: '-'
+                humidity: '-',
+				channel_error: false
             });
         }
     },
@@ -126,11 +127,10 @@ CabinetHelper.prototype = {
 		var val_c = parseInt(channel_error);
 		
 		var warn_msg = '';
-		if (val_w) {		
-			
+		{					
 			switch (val_w & 0x00000003) {				
 			case 1:	
-				this.warning.type = this.warning.type<1?1:1;
+				this.warning.type = this.warning.type<1?1:this.warning.type;
 				if (warn_msg) warn_msg+='，';
 				warn_msg+= '电量：<span class="bk-fg-warning">[告警]</span>';
 				break;
@@ -145,7 +145,7 @@ CabinetHelper.prototype = {
 						
 			switch ((val_w>>2) & 0x00000003) {				
 			case 1:
-				this.warning.type = this.warning.type<1?1:1;
+				this.warning.type = this.warning.type<1?1:this.warning.type;
 				if (warn_msg) warn_msg+='，';
 				warn_msg+= '电流：<span class="bk-fg-warning">[告警]</span>';	
 				break;		
@@ -161,7 +161,7 @@ CabinetHelper.prototype = {
 			
 			switch ((val_w>>4) & 0x00000003) {				
 			case 1:
-				this.warning.type = this.warning.type<1?1:1;
+				this.warning.type = this.warning.type<1?1:this.warning.type;
 				if (warn_msg) warn_msg+='，';
 				warn_msg+= '电压：<span class="bk-fg-warning">[告警]</span>';	
 				break;		
@@ -173,11 +173,51 @@ CabinetHelper.prototype = {
 			default:
 				break;
 			}
+			
+			for (var i=1; i<=6; i++) {
+				switch ((val_w>> (4 + i*2)) & 0x00000003) {				
+				case 1:
+					this.warning.type = this.warning.type<1?1:this.warning.type;
+					if (warn_msg) warn_msg+='，';
+					warn_msg+= '第' + i + '层湿度：<span class="bk-fg-warning">[告警]</span>';	
+					break;		
+				case 2:
+					this.warning.type = 2;
+					if (warn_msg) warn_msg+='，';
+					warn_msg+= '第' + i + '层湿度：<span class="bk-fg-danger">[严重告警]</span>';		
+					break;					
+				default:
+					break;
+				}
+			}
+			
+			for (var i=1; i<=6; i++) {
+				switch ((val_w>> (16 + i*2)) & 0x00000003) {				
+				case 1:
+					this.warning.type = this.warning.type<1?1:this.warning.type;
+					if (warn_msg) warn_msg+='，';
+					warn_msg+= '第' + i + '层温度：<span class="bk-fg-warning">[告警]</span>';	
+					break;		
+				case 2:
+					this.warning.type = 2;
+					if (warn_msg) warn_msg+='，';
+					warn_msg+= '第' + i + '层温度：<span class="bk-fg-danger">[严重告警]</span>';		
+					break;					
+				default:
+					break;
+				}
+			}
 		}
 		
+		for (var i=0; i<_cab.lvls_info.length; i++) {
+			var _err = ((val_c>>i) & 0x00000002) != 0;
+			_cab.lvls_info[i].channel_error = _err;
+			
+			if (_cab === this.curr) this.cab.set_channel_status(i, _err);
+		}
+				
 		if (warn_msg) {
 			this.warning.msg = '存储柜' + _cab.id + '#，序列号(' + _cab.sn + ')<br />' + warn_msg + '。';	
-			if (this.warning.type == 2) this.warning.msg += '所有进行中的命令被停止，且已桥接的硬盘被断开。';
 			
 			global_modal_helper.show_modal_user('modalWarningCab');
 		}
@@ -476,8 +516,6 @@ CabinetHelper.prototype = {
                     cab.i_on_init(e.sn, e.name, e.level_cnt, e.group_cnt, e.disk_cnt);
                     global_cabinet_helper.i_on_add(cab);
                 });
-								
-				global_cabinet_helper.set_warning(1, '', 0xffffff1a, 0);	
 				
                 if (global_cabinet_helper.cabs.length > 0) {
                     global_cabinet_helper.on_select(0);
