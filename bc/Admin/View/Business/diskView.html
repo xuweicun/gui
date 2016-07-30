@@ -7,13 +7,7 @@
             </h4>
         </div>
     </div>
-    <div ng-show="cab.curr.parent.parent.channel_error">
-        <h5 class="bk-fg-danger">
-            <i class="fa fa-times"></i>
-            串口通信异常，无法正常发出命令和接收响应！
-        </h5>
-    </div>
-    <div ng-hide="cab.curr.parent.parent.channel_error">
+    <div>
         <div class="row bk-margin-bottom-5" ng-show="cab.curr.is_loaded()">
             <div class="col-lg-12">
                 <a href=""
