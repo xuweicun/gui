@@ -1,8 +1,12 @@
 ﻿<div class="tabs tabs-primary bk-margin-bottom-5">
     <ul class="nav nav-tabs">
         <li ng-repeat="_lvl in cab.levels" ng-class="{'true': 'active'}[$first]">
-            <a data-toggle="tab" href="#pane-cab-level{{$index}}">
-                <i class="glyphicon glyphicon-align-justify"></i>
+            <a data-toggle="tab" href="#pane-cab-level{{$index}}"
+               ng-class="{'bk-fg-danger': _lvl.channel_error,'': !_lvl.channel_error}"
+               >
+                <i class="glyphicon "
+                   ng-class="{'glyphicon-align-justify': !_lvl.channel_error,'glyphicon-remove-circle': _lvl.channel_error}"
+                   ></i>
                 <span ng-bind="'第'+{{$index+1}}+'层 | '" style="margin-right:35px;width:160px"></span>
                 <span style="position:absolute;font-size:8px;left:78px;top:8px">
                     <span>{{_lvl.temperature}}℃</span><br />
