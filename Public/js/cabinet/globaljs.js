@@ -9,7 +9,7 @@ app_device.filter('to_trusted', function ($sce) {
     //locals.setObject('test_cmds', []);
 	
     $scope.warning_test = function () {
-        $scope.cabs.set_warning(1, '', 0xaaaaaaaa, 0x000000aa);
+        $scope.cabs.set_warning(1, '', 0x5a5a5a5a, 0x000000aa);
     }
 
     $scope.warning_test_clear = function () {
