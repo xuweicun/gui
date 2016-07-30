@@ -20,7 +20,7 @@
 
 <body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false" ng-mousedown="on_mouse_move()" ng-mousemove="on_mouse_move()">
 	<!-- Start: Header -->
-	<div class="navbar" role="navigation" ng-show="!taskPool.user_left">
+	<div class="navbar" role="navigation" ng-show="!taskPool.user_left && is_ok">
 		<div class="container-fluid container-nav">
 			<!-- Navbar Action -->
 			<ul class="nav navbar-nav navbar-actions navbar-left">
@@ -148,7 +148,7 @@
 			</div>
 		</div>
 	</div>
-    <div class="container-fluid content" ng-show="taskPool.user_left">
+    <div class="container-fluid content hidden" ng-show="taskPool.user_left">
         <div class="row">
             <!-- Main Page -->
             <div class="body-sign body-locked">
