@@ -1,4 +1,8 @@
-﻿var user_app = angular.module('user_module', ['datatables']);
+﻿var user_app = angular.module('user_module', ['datatables', 'xeditable']);
+
+user_app.run(function (editableOptions) {
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
 
 register_filters(user_app);
 
@@ -14,6 +18,13 @@ user_app.filter('to_trusted', function ($sce) {
     };
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
+
+    $scope.smb_access = [
+        { value: 0, text: '无权限' },
+        { value: 1, text: '只读' },
+        { value: 2, text: '读写' }
+    ];
+    
     global_http = $http;
     $scope.checkerStatus = new CheckStatus();
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
@@ -22,6 +33,91 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     $scope.report_obj = {
         'cabinets': []
     };
+
+    $scope.init_smb = function ()
+    {
+        if ($scope.is_init_smb) {
+            return;
+        }
+
+        $scope.is_init_smb = true;
+
+        $http({
+            url: '/?a=getCabInfo',
+            method: 'get'
+        })
+        .success(function (data) {
+            if (Object.prototype.toString.call(data) === "[object Array]") {
+                for (var i = 0; i < data.length; ++i) {
+                    var _curr_cab = data[i];
+                    _curr_cab.status = null;
+                    _curr_cab.lvls = [];
+                    for (var jl = 0; jl < _curr_cab.level_cnt; ++jl) {
+                        var lvl_obj = {
+                            id: jl + 1,
+                            grps: []
+                        };
+
+                        for (var jg = 0; jg < _curr_cab.group_cnt; ++jg) {
+                            var grp_obj = {
+                                id: jg + 1,
+                                dsks: []
+                            };
+
+                            for (var jd = 0; jd < _curr_cab.disk_cnt; ++jd) {
+                                var dsk_obj = {
+                                    id: jd + 1,
+                                    smb: 0,
+                                    ip: '*',
+                                    smb_title: function () {
+                                        switch (this.smb) {
+                                            case 1: return '只读';
+                                                break;
+                                            case 2: return '读写';
+                                                break;
+                                            default:
+                                                return '无权限';
+                                        }
+                                    }
+                                };
+
+                                grp_obj.dsks.push(dsk_obj);
+                            }
+
+                            lvl_obj.grps.push(grp_obj);
+                        }
+
+                        _curr_cab.lvls.push(lvl_obj);
+                    }                    
+                }
+
+                $scope.cabinet_list = data;
+
+            }
+            else {
+                new PNotify({
+                    title: '初始化SMB配置',
+                    text: data,
+                    type: 'error',
+                    shadow: true,
+                    icon: 'fa fa-alarm'
+                });
+            }
+            $scope.is_init_smb = false;
+        })
+        .error(function (data) {
+            new PNotify({
+                title: '初始化SMB配置',
+                text: data,
+                type: 'error',
+                shadow: true,
+                icon: 'fa fa-alarm'
+            });
+            $scope.is_init_smb = false;
+        });
+    }
+
+    $scope.init_smb();
 
     $scope.make_report = function () {
         $scope.is_ok = false;
@@ -238,6 +334,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             case 'user_log':
             case 'manul':
             case 'report':
+            case 'smb_page':
                 $scope.page_index = name
                 break;
             default:
