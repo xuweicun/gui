@@ -1208,7 +1208,9 @@ class BusinessController extends Controller
             $db->save($dsk);
         }
         //增加磁盘信息
-        $data = array('cab'=>$cond['cab_id'],
+        $data = array(
+            'cmd_id'=>$cmd['CMD_ID'],
+            'cab'=>$cond['cab_id'],
             'level'=>$cond['level'],
             'grp'=>$cond['zu']
             );
