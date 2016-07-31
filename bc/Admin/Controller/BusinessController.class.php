@@ -183,11 +183,15 @@ class BusinessController extends Controller
 
     public function deleteLog()
     {
+
         $db = M('CmdLog');
         $id = I('get.id', 0, 'intval');
         if ($db->find($id)) {
             $map['id'] = array('eq', $id);
             $rst = $db->where($map)->delete();
+            $cmd_dsk_db = M('CmdDisk');
+            $cond['cmd_id'] = array('eq', $id);
+            $cmd_dsk_db->where($cond)->delete();
            // var_dump($rst);
         } else {
             $this->notFoundError('Cmd not found');

@@ -845,6 +845,10 @@ class MsgController extends Controller
         $log['finished'] = 1;
         $log['extra_info'] = $this->msg->errmsg;
         $this->db->save($log);
+        $map['cmd_id'] = $log['id'];
+        //当命令结束时,从磁盘表中删除之
+        $db = M('CmdDisk');
+        $db->where($map)->delete();
     }
 
     /***
