@@ -1303,6 +1303,14 @@ class MsgController extends Controller
         $log['voltage'] = $_POST['voltage'];
         $log['charge'] = $_POST['current'];//电量
         $log['electricity'] = $_POST['electricity'];//电流
+        //电流、电压、电量告警信息
+        if($_POST['push'] === '1') {
+            $log['volt_sts'] = $_POST['volt_sts'];
+            $log['curr_sts'] = $_POST['curr_sts'];//电量
+            $log['elec_sts'] = $_POST['elec_sts'];//电流
+            //处理各层温度湿度和串口通信信息
+            $this->handleError();
+        }
         $log['status'] = $this->msg->return_msg;
         $cab_db->save($log);
         //var_dump($cab_db->where($map)->find());
@@ -1399,29 +1407,7 @@ class MsgController extends Controller
      * 处理proxy推送回来的消息
      */
     private function hdlPushMsg(){
-        if(!$_POST['push'] || $_POST['push'] != 1){
-            return;
-        }
-        $msg = $this->msg;
 
-        switch ($msg->cmd){
-            case 'BRIDGE':
-                if($msg->status == '63'){
-
-                }
-            break;
-            case 'COPY':
-                if($msg->status == '64'){
-
-                }
-            break;
-            case 'MD5':
-                if($msg->status == '65'){
-
-                }
-            break;
-
-        }
     }
     public function updateDiskInfo()
     {
@@ -1558,7 +1544,24 @@ class MsgController extends Controller
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
-        $this->quit();
+        if(!$_POST['push'] || $_POST['push'] ==='0'){
+            return;
+        }
+        if($this->msg->cmd === 'DEVICESTATUS'){
+            $cab_id = (int)$_POST['device_id'];
+
+            if($_POST['elec_sts'] === '2' || $_POST['volt_sts'] === '2' || $_POST['curr_sts'] === '2'){
+                //严重告警,停止所有磁盘命令
+                $map['finished'] = array('eq',0);
+                $map['cab_id'] = array('eq',$cab_id);
+                $logs = $this->db->where($map)->select();
+                foreach ($logs as $item){
+                    $item['finished'] = 1;
+                    $item['status'] = C('CMD_CANCELED');
+
+                }
+            }
+        }
     }
 
     /***

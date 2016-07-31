@@ -1164,12 +1164,15 @@ class BusinessController extends Controller
         }
         $id = $db->add($data);
         if ($id) {
+
             $data = $db->find($id);
             $msg = $_POST['msg'];
             //修改msg
             $data['msg'] = $this->addMsgId($msg, $id);
             $this->setDiskBusy($data['msg']);
             $db->save($data);
+            //插入磁盘信息
+
             $this->AjaxReturn($data);
         } else {
             //throw an exception
@@ -1183,6 +1186,7 @@ class BusinessController extends Controller
 
          $cmd = json_decode($msg,true);
         $db = M('Device');
+        $cmd_dsk_db = M('CmdDisk');
         $no_busy_cmds = array('DEVICESTATUS','WRITEPROTECT','POWER');
         if(!$cmd['device_id'] || !$cmd['level'] || in_array($cmd['cmd'],$no_busy_cmds)){
             return;
@@ -1192,17 +1196,57 @@ class BusinessController extends Controller
             'level'=>$cmd['level'],
             'loaded'=>1
             );
-        $grp = $cmd['group'];
-        $grp || $grp = $cmd['src_group'];
-        $cond['zu'] = $grp;
+        $cond['zu'] = $cmd['group'];
+        if($cmd['cmd'] == 'COPY'){
+            $cond['zu'] = $cmd['srcGroup'];
+            $cond['level'] = $cmd['srcLevel'];
+        }
         $dsks = $db->where($cond)->select();
         foreach($dsks as $dsk){
             $dsk['busy'] = 1;
             $dsk['busy_cmd_id'] = $cmd['CMD_ID'];
             $db->save($dsk);
         }
+        //增加磁盘信息
+        $data = array('cab'=>$cond['cab_id'],
+            'level'=>$cond['level'],
+            'grp'=>$cond['zu']
+            );
+        //求disk信息
+        switch ($cmd['cmd']){
+            case 'COPY':
+                $data['level'] = $cmd['srcLevel'];
+                $data['grp'] = $cmd['srcGroup'];
+                $data['disk'] = $cmd['srcDisk'];
+                $cmd_dsk_db->add($data);
+                $data['grp'] = $cmd['dstGroup'];
+                $data['disk'] = $cmd['dstDisk'];
+                $cmd_dsk_db->add($data);
+                break;
+            case 'BRIDGE':
+                $dsks = $cmd['disks'];
+                foreach ($dsks as $item){
+                    $data['disk'] = $item['id'];
+                    $cmd_dsk_db->add($data);
+                }
+                break;
+            case 'DEVICESTATUS':
+                $cmd_dsk_db->add($data);
+                break;
+            case 'DEVICEINFO':
+                $cmd_dsk_db->add($data);
+                break;
+            default:
+                if($_POST['disk']){
+                    $data['disk'] = $_POST['disk'];
+                    $cmd_dsk_db->add($data);
+                }
+
+        }
+
+
         if($cmd['cmd'] == 'COPY'){
-            $grp = $cmd['dst_group'];
+            $grp = $cmd['dstGroup'];
             $cond['zu'] = $grp;
             $dsks = $db->where($cond)->select();
             foreach($dsks as $dsk){
