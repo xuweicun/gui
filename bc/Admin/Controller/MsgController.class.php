@@ -280,6 +280,7 @@ class MsgController extends Controller
     public $db = null;
     public $file = null;
     public $selfCheckArr = array('SN', 'MD5');
+    public $cmdDiskTbl = "CmdDisk";
 
     public function index()
     {
@@ -843,8 +844,13 @@ class MsgController extends Controller
     {
         $log['status'] = $status;
         $log['finished'] = 1;
-        $log['extra_info'] = $this->msg->errmsg;
+        $log['return_msg'] = $this->msg->return_msg;
+        //$log['extra_info'] = $this->msg->errmsg;
         $this->db->save($log);
+        $map['cmd_id'] = $log['id'];
+        //当命令结束时,从磁盘表中删除之
+        $db = M('CmdDisk');
+        $db->where($map)->delete();
     }
 
     /***
@@ -1303,6 +1309,12 @@ class MsgController extends Controller
         $log['voltage'] = $_POST['voltage'];
         $log['charge'] = $_POST['current'];//电量
         $log['electricity'] = $_POST['electricity'];//电流
+        //电流、电压、电量告警信息
+        if($_POST['push'] === '1') {
+
+            //处理各层温度湿度和串口通信信息
+            $this->handleError();
+        }
         $log['status'] = $this->msg->return_msg;
         $cab_db->save($log);
         //var_dump($cab_db->where($map)->find());
@@ -1399,29 +1411,7 @@ class MsgController extends Controller
      * 处理proxy推送回来的消息
      */
     private function hdlPushMsg(){
-        if(!$_POST['push'] || $_POST['push'] != 1){
-            return;
-        }
-        $msg = $this->msg;
 
-        switch ($msg->cmd){
-            case 'BRIDGE':
-                if($msg->status == '63'){
-
-                }
-            break;
-            case 'COPY':
-                if($msg->status == '64'){
-
-                }
-            break;
-            case 'MD5':
-                if($msg->status == '65'){
-
-                }
-            break;
-
-        }
     }
     public function updateDiskInfo()
     {
@@ -1555,10 +1545,52 @@ class MsgController extends Controller
         var_dump($disks);
     }
 
+    /*************
+     * @author Wilson Xu
+     * @function 处理推送回来的告警信息
+     */
     public function handleError()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
-        $this->quit();
+        if(!$_POST['push'] || $_POST['push'] ==='0'){
+            return;
+        }
+        $db = M($this->cmdDiskTbl);
+        if($this->msg->cmd === 'DEVICESTATUS'){
+            $cab_id = (int)$_POST['device_id'];
+            //磁盘级别告警
+            $map['cab'] = array('eq',$cab_id);
+            if($_POST['elec_sts'] === '2' || $_POST['volt_sts'] === '2' || $_POST['curr_sts'] === '2'){
+                //严重告警,停止所有磁盘命令
+
+                $logs = $db->where($map)->group('cmd_id')->select();
+                foreach ($logs as $item){
+                    $id = $item['cmd_id'];
+                    $cmd_log = $this->db->find($id);
+                    if($cmd_log && $cmd_log['finished'] === 0){
+                        $this->terminate($cmd_log, C('CMD_CANCELED'));
+                    }
+                }
+                return;
+            }
+            $levels = $_POST['levels'];
+            foreach ($levels as $item){
+                //检查该层有没有问题
+                if($item['temp_sts'] == '2' ||$item['hum_sts'] == '2' || $item['chan_sts'] == '1'){
+                    //该层有问题
+                    $map['level'] = $item['id'];
+                    $logs = $db->where($map)->group('cmd_id')->select();
+                    foreach ($logs as $item){
+                        $id = $item['cmd_id'];
+                        $cmd_log = $this->db->find($id);
+                        if($cmd_log && $cmd_log['finished'] === 0){
+                            $this->terminate($cmd_log, C('CMD_CANCELED'));
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     /***
@@ -1574,7 +1606,6 @@ class MsgController extends Controller
         }
         //出错，输出错误信息
         if ($this->msg->isFail()) {
-            echo 'Fail';
             //failed
             $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             $this->hdlFail();
