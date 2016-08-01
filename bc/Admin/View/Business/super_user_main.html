@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <include file="PublicHeader" />
+
+    <link href="/Public/assets/plugins/angular-xeditable-0.2.0/css/xeditable.css" rel="stylesheet" />
+
 </head>
 <body ng-app="user_module" ng-controller="user_controller as showCase" ng-init="username='<{$username}>'" ng-cloak>
 
@@ -105,6 +108,9 @@
                 <div class="container-fluid content" ng-show="page_index == 'settings'" ng-show="username=='logadmin'">
                     <include file="settings" />
                 </div>
+                <div class="container-fluid content" ng-show="page_index == 'smb_page'" ng-show="username=='logadmin'">
+                    <include file="smb_page" />
+                </div>
                 <div class="container-fluid content" ng-show="page_index == 'self_check_status'" ng-show="username=='logadmin'">
                     <include file="self_check" />
                 </div>
@@ -137,6 +143,7 @@
 <script src="/Public/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/Public/assets/vendor/skycons/js/skycons.js"></script>
 <script src="/Public/assets/vendor/js/pace.min.js"></script>
+<script src="/Public/assets/plugins/editable/js/bootstrap-editable.min.js"></script>
 <script src="/Public/js/md5.js"></script>
 
 <!-- Plugins JS-->
@@ -151,6 +158,8 @@
 <script src="/Public/assets/plugins/jquery-datatables/media/js/jquery.dataTables.js"></script>
 <script src="/Public/js/angular-1.4.min.js"></script>
 <script src="/Public/js/angular-datatables.min.js"></script>
+<script src="/Public/assets/plugins/angular-xeditable-0.2.0/js/xeditable.js"></script>
+
 <!-- Theme JS -->
 <script src="/Public/assets/js/jquery.mmenu.min.js"></script>
 <script src="/Public/assets/js/core.min.js"></script>
