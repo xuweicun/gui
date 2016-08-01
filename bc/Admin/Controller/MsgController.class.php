@@ -801,7 +801,7 @@ class MsgController extends Controller
         $item = $this->msg;
         $log = $this->db->find($item->id);
 		
-        $remit = array('33');
+        $remit = array('33');//33:Another stop task is going;
         if ($log) {
 			// 硬盘忙，记录具体busy硬盘
 			switch ($item->status) {
@@ -818,13 +818,12 @@ class MsgController extends Controller
 			}
 		
             if ($this->msg->subcmd == 'STOP' && $log['sub_cmd'] !== $this->msg->subcmd) {
-                //子命令不一致
+                //APP发出的停止命令,MD5和COPY时存在此类现象
                 if (in_array($this->msg->status, $remit)) {
+                    //可以忽略的情况
                     $this->quit();
                 }
             }
-            if ($this->msg->isBridge())
-                $log['return_msg'] = $this->msg->origin;
             $this->terminate($log, $this->msg->status);
             $id = (int)$log['dst_id'];
             if (!$id || $id <= 0) {
@@ -1101,6 +1100,9 @@ class MsgController extends Controller
 
     }
 
+    /*********
+     * 子命令为stop,progress或者result的消息单独处理
+     */
     public function hdlSRPMsg()
     {
         //  处理不涉及桥接的SRP消息
@@ -1123,17 +1125,12 @@ class MsgController extends Controller
                         $this->RTLog("DST CMD ID = " . $this->msg->dst_id);
                         if ($this->isGoing($dstCmd)) {
                             //命令被取消
-                            $this->RTLog("CMD TERMINATING...");
-                            $dstCmd['status'] = C('CMD_CANCELED');
-                            $dstCmd['finished'] = 1;
+                            $this->terminate($dstCmd, C('CMD_CANCELED'));
                         }
                         $this->db->save($dstCmd);
                     }
                     //已经结束
-                    $cmd['status'] = C('CMD_SUCCESS');
-                    $cmd['finished'] = 1;
-                    $this->db->save($cmd);
-
+                    $this->terminate($cmd, C('CMD_SUCCESS'));
                     break;
                 case 'RESULT':
                     echo 'Handling Result';
@@ -1193,6 +1190,7 @@ class MsgController extends Controller
         if (!$log) {
             return;
         }
+        $log['started'] = 1;
         $log['substatus'] = $this->msg->substatus;
         $this->db->save($log);
     }
@@ -1234,7 +1232,6 @@ class MsgController extends Controller
         $log = $this->getLog($this->msg->id);
         $this->RTLog("Bridge Handling Start");
         if ($this->msg->isWorking()) {
-            $this->RTLog("Working:" . $this->msg->substatus);
             //if just some working msg
             $log['stage'] = $this->msg->stage;
             $log['progress'] = $this->msg->progress;
@@ -1277,9 +1274,9 @@ class MsgController extends Controller
             $map['cab_id'] = array('eq', $this->msg->cab_id);
             $map['level'] = array('eq', $_POST['level']);
             $device_db->where($map)->select();
-            if (stop) {
+            if ($stop) {
                 //处理被桥接的命令，其实一般用不到
-                $this->RTLog("This is a stop Msg");
+
                 $dstLog = $this->getLog($this->msg->dst_id);
                 if ($dstLog['finished'] == 0) {
                     //if the dst-commond still going, cancel it
@@ -1291,8 +1288,7 @@ class MsgController extends Controller
             }
         }
 
-        $log['return_msg'] = file_get_contents('php://input');
-        $this->db->save($log);
+        $this->terminate($log, $log['status']);
         $this->quit();
         //return msg
 
@@ -1313,7 +1309,7 @@ class MsgController extends Controller
         if($_POST['push'] === '1') {
 
             //处理各层温度湿度和串口通信信息
-            $this->handleError();
+            $this->hdlCabCaution();
         }
         $log['status'] = $this->msg->return_msg;
         $cab_db->save($log);
@@ -1525,9 +1521,13 @@ class MsgController extends Controller
             $log['status'] = C('CMD_SUCCESS');
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
             if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
-                $log['finished'] = 1;
-            $log['return_msg'] = file_get_contents('php://input');
-            $this->db->save($log);
+            {
+                $this->terminate($log,C('CMD_SUCCESS'));
+            }
+            else{
+                $log['return_msg'] = file_get_contents('php://input');
+                $this->db->save($log);
+            }
         }
     }
 
@@ -1549,7 +1549,7 @@ class MsgController extends Controller
      * @author Wilson Xu
      * @function 处理推送回来的告警信息
      */
-    public function handleError()
+    public function hdlCabCaution()
     {
         //更新错误日志，包括命令名称，错误内容。--增加表；
         if(!$_POST['push'] || $_POST['push'] ==='0'){
@@ -1580,8 +1580,8 @@ class MsgController extends Controller
                     //该层有问题
                     $map['level'] = $item['id'];
                     $logs = $db->where($map)->group('cmd_id')->select();
-                    foreach ($logs as $item){
-                        $id = $item['cmd_id'];
+                    foreach ($logs as $log_item){
+                        $id = $log_item['cmd_id'];
                         $cmd_log = $this->db->find($id);
                         if($cmd_log && $cmd_log['finished'] === 0){
                             $this->terminate($cmd_log, C('CMD_CANCELED'));
@@ -1607,7 +1607,6 @@ class MsgController extends Controller
         //出错，输出错误信息
         if ($this->msg->isFail()) {
             //failed
-            $this->RTLog('Error:' . $_POST['errno'] . ":" . $_POST['errmsg']);
             $this->hdlFail();
             $this->quit();
         }
@@ -1615,7 +1614,6 @@ class MsgController extends Controller
         $this->write_md5_log();
 	
         if ($this->msg->isStart()) {
-            echo 'Start';
             //just start
             $this->hdlStartMsg();
 		    $this->quit();
@@ -1627,9 +1625,7 @@ class MsgController extends Controller
         }
         //for stop msg: stop is quite simple
         if ($this->msg->isSRP()) {
-            echo 'SRP';
             $this->hdlSRPMsg();
-
             $this->quit();
         }
 
