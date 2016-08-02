@@ -131,6 +131,47 @@ Class AutoChecker
         }
     }
 
+    /**********
+     * @param $sts proxy推送的状态
+     * @return bool true:健康,false:异常
+     */
+    public function getCabHealth($sts){
+        if($sts['elec_sts']){
+            if((int)$sts['elec_sts'] == 2)
+                return false;
+        }
+        if($sts['curr_sts']){
+            if((int)$sts['curr_sts'] == 2)
+                return false;
+        }
+        if($sts['volt_sts']){
+            if((int)$sts['volt_sts'] == 2)
+                return false;
+        }
+        return true;
+    }
+    /**********
+     * @param $sts proxy推送的状态
+     * @return bool true:健康,false:异常
+     */
+    public function getLvlHealth($sts){
+        //湿度异常
+        if($sts['hum_sts']){
+            if((int)$sts['hum_sts'] == 2)
+                return false;
+        }
+        //温度异常
+        if($sts['temp_sts']){
+            if((int)$sts['temp_sts'] == 2)
+                return false;
+        }
+        //串口异常
+        if($sts['chan_sts']){
+            if((int)$sts['volt_sts'] == 1)
+                return false;
+        }
+        return true;
+    }
     /********************************
      * @param $cabs 存储柜信息
      * @return bool 如果返回值为假，说明所有硬盘已经自检完成，本次自检完美结束
@@ -151,8 +192,28 @@ Class AutoChecker
         foreach ($cabs as $cab) {
             $busy_num = 0;
             $cab_id = (int)$cab['sn'];
-            for ($l = 0; $l < $cab['level_cnt']; $l++)    {
+            $cab_status = json_decode($cab['status'], true);
+            $levels = $cab_status['levels'];
+            if(!$this->getCabHealth($cab_status)){
+                //存储柜健康异常,跳过
+                continue;
+            }
+            for ($l = 0; $l < $cab['level_cnt']; $l++) {
+                $level_health = true;
                 $lvl = $l + 1;
+                //检查该层的健康状况,如果健康状况不佳则跳过
+                if ($levels) {
+                    foreach ($levels as $item) {
+                        if ($item['id'] == $lvl) {
+                            $level_health = $this->getLvlHealth($item);
+                            break;
+                        }
+                    }
+                }
+                if(!$level_health){
+                    //故障,跳过
+                    continue;
+                }
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
                     $grp_busy = false;
                     $grp_skipped = false;
