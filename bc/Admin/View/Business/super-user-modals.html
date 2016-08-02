@@ -1,50 +1,115 @@
 ﻿
 
+<div id="modalUserSamba" class="mfp-hide zoom-anim-dialog modal-block-primary">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            用户[{{users_model[curr_user_idx].username}}]的Samba配置
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs">
+                        <ul class="nav nav-tabs">
+                            <li ng-repeat="cabinet in cabinet_list" ng-class="{'true': 'active'}[$first]">
+                                <a href="#smb{{cabinet.sn}}" data-toggle="tab"><i class="fa fa-home"></i> 柜{{cabinet.sn}}# - {{cabinet.name}}</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="smb{{cabinet.sn}}" class="tab-pane" ng-repeat="cabinet in cabinet_list" ng-class="{'true': 'active'}[$first]">
+                                <div class="tabs">
+                                    <ul class="nav nav-tabs">
+                                        <li ng-repeat="lvl in cabinet.lvls" ng-class="{'true': 'active'}[$first]">
+                                            <a href="#lvl{{cabinet.sn}}-{{lvl.id}}" data-toggle="tab">第{{lvl.id}}层</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="lvl{{cabinet.sn}}-{{lvl.id}}" class="tab-pane" ng-repeat="lvl in cabinet.lvls" ng-class="{'true': 'active'}[$first]">
+
+                                            <div class="row" ng-repeat="grp in lvl.grps">
+                                                <div class="col-lg-3 bk-margin-bottom-10" ng-repeat="dsk in grp.dsks">
+                                                    <div class="btn btn-block" style="text-align:left"
+                                                         ng-class="{
+                                                             'btn-danger':dsk.smb == 2,
+                                                             'btn-info':dsk.smb==1
+                                                             }">
+                                                        <span>{{dsk.cab_sn+'-'+dsk.lvl+'-'+dsk.grp+'-'+dsk.dsk}}</span>
+                                                        [
+                                                        <div class="popover-wrapper">
+                                                            <a href="#" editable-select="dsk.smb" e-ng-options="s.value as s.text for s in smb_access" onaftersave="dsk.save($data)" ng-class="{'bk-fg-white':dsk.smb==1 || dsk.smb == 2}">
+                                                                {{dsk.smb_title()}}
+                                                            </a>
+                                                        </div>]
+                                                        <div class="popover-wrapper">
+                                                            @ <a href="#" editable-text="dsk.ip" e-label="" onaftersave="dsk.save($data)" ng-class="{'bk-fg-white':dsk.smb==1 || dsk.smb == 2}">{{ dsk.ip_title() }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-default modal-dismiss">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id="superModalChangePassword" class="mfp-hide zoom-anim-dialog modal-block modal-block-primary">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4 class="panel-title">修改密码</h4>
-		</div>
-		<div class="panel-body bk-noradius">
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label class="col-md-3 control-label" for="text-input-pwd-curr">当前密码<span class="bk-fg-danger" title="当前密码不能为空">*</span></label>
-					<div class="col-md-9">
-						<input id="text-input-pwd-curr" class="form-control" type="password" placeholder="请输入当前密码" name="text-input-pwd-curr" ng-model="user_profile.curr_pwd" maxlength="16" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label" for="text-input-pwd">新密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
-					<div class="col-md-9">
-						<input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" maxlength="16" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
-					<div class="col-md-9">
-						<input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm" ng-model="user_profile.new_pwd_confirm" maxlength="16" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label"></label>
-					<div class="col-md-9">
-						<span ng-bind="user_profile.err_msg" class="bk-fg-danger"></span>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="panel-footer">
-			<div class="row">
-				<div class="col-md-12 text-right">
-					<button class="btn btn-primary"
-							ng-click="user_profile.changePassword()">
-						确认
-					</button>
-					<button class="btn btn-default modal-dismiss">取消</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">修改密码</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd-curr">当前密码<span class="bk-fg-danger" title="当前密码不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd-curr" class="form-control" type="password" placeholder="请输入当前密码" name="text-input-pwd-curr" ng-model="user_profile.curr_pwd" maxlength="16" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd">新密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd" class="form-control" type="password" placeholder="请输入新密码" name="text-input-pwd" ng-model="user_profile.new_pwd" maxlength="16" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
+                    <div class="col-md-9">
+                        <input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm" ng-model="user_profile.new_pwd_confirm" maxlength="16" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-9">
+                        <span ng-bind="user_profile.err_msg" class="bk-fg-danger"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary"
+                            ng-click="user_profile.changePassword()">
+                        确认
+                    </button>
+                    <button class="btn btn-default modal-dismiss">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="modalUserEdit" tabindex="-1" role="dialog"
