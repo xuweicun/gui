@@ -12,7 +12,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 namespace GatewayWorker\Lib;
-
+header("Content-Type:text/html;charset=gb2312");
 
 use GatewayWorker\Lib\Db;
 use GatewayWorker\Lib\Gateway as ExtendGateWay;
@@ -196,6 +196,7 @@ Class AutoChecker
             $levels = $cab_status['levels'];
             if(!$this->getCabHealth($cab_status)){
                 //存储柜健康异常,跳过
+                $this->RunLog("Cabinet $cab_id status error. Aborting.");
                 continue;
             }
             for ($l = 0; $l < $cab['level_cnt']; $l++) {
@@ -212,6 +213,7 @@ Class AutoChecker
                 }
                 if(!$level_health){
                     //故障,跳过
+                    $this->RunLog("Level $lvl status error. Aborting.");
                     continue;
                 }
                 for ($g = 0; $g < $cab['group_cnt']; $g++) {
