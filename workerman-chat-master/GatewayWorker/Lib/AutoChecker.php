@@ -28,6 +28,7 @@ define('PLAN_STATUS_OTHER', 3, true);
 define('PLAN_STATUS_TIMEOUT', 4, true);
 define('MAX_WORK_DISK_NUM',15,true);
 define('TBL_DEVICE',"gui_device",true);
+define('MAX_CHECK_TIME',5,true);
 
 Class AutoChecker
 {
@@ -99,7 +100,6 @@ Class AutoChecker
         //如果当前没有自检计划,返回
         $plan = $this->getCurrPlan();
         if (!$plan) {
-            $this->RunLog("No Plan. Aborting");
             return;
         }
 
@@ -121,14 +121,15 @@ Class AutoChecker
         $this->checkCmdStatus($plan);
         //return;
         //如果已经无盘可查
-        if ($check_finished = $this->checkDisk($cabs)) {
+        if ($check_finished = $this->checkDisk($cabs) || $this->isCheckDue($plan)) {
             //更新信息,进入下一轮
-            if(!$this->isCheckFinished()){
+            if(!$this->isCheckFinished() && !$this->isCheckDue($plan)){
                 return;
             }
             $this->RunLog("Check over.".$check_finished);
             $this->updateChecker($plan, $cabs);
         }
+        
     }
 
     /**********
@@ -298,6 +299,28 @@ Class AutoChecker
                 break;
             }
         }
+    }
+    private function isCheckDue($plan){
+        $tbl = "gui_check_start_time";
+        $items = $this->db->select("*")->from("gui_check_start_time")->where("type=:T and is_current=:C")->bindValues(array('T' => $this->type, 'C' => 1))->query();
+        $time_limit = 0;
+        //MD5需要2倍的时间
+        if($this->type == 'md5')
+            $time_limit = 10 * 24 * 3600;
+        else
+            $time_limit = 5 * 24 * 3600;
+        //如果有时间,更新
+        if ($items) {
+            $item = $items[0];
+            $used_time = time() - (int)$item['start_date'];
+            if($used_time > $time_limit){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
     private function setDiskNoSkip($dsk){
         if(!$dsk){
