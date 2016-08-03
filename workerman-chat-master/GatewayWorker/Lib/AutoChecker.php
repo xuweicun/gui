@@ -634,6 +634,7 @@ Class AutoChecker
                         if ($cmds) {
                             switch ($cmds[0]['status']) {
                                 case 0:
+                                    //Success
                                     break;
                                 case -2:
                                     //取消
@@ -643,10 +644,12 @@ Class AutoChecker
                                         $dsk[$this->type . "_skipped"] = 1;
                                         $dsk[$this->type . "_skip_time"] = time();
                                     }
+                                    $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+                                    break;
 
                                 default:
-                                    //超时或失败
-                                    $dsk[$this->type . "_status"] = PLAN_STATUS_WAITING;
+                                    //超时或失败,取消本次自检
+                                    $dsk[$this->type . "_status"] = PLAN_STATUS_CANCELED;
                                     break;
                             }
                         }
