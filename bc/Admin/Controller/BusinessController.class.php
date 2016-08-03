@@ -1236,7 +1236,7 @@ class BusinessController extends Controller
         $db = M('Device');
         $cmd_dsk_db = M('CmdDisk');
         $no_busy_cmds = array('DEVICESTATUS','WRITEPROTECT','POWER');
-        if(!$cmd['device_id'] || !$cmd['level'] || in_array($cmd['cmd'],$no_busy_cmds)){
+        if(!$cmd['device_id'] || in_array($cmd['cmd'],$no_busy_cmds)){
             return;
         }
         $cond = array(
@@ -1287,8 +1287,8 @@ class BusinessController extends Controller
                 $cmd_dsk_db->add($data);
                 break;
             default:
-                if($_POST['disk']){
-                    $data['disk'] = $_POST['disk'];
+                if($cmd['disk']){
+                    $data['disk'] = $cmd['disk'];
                     $cmd_dsk_db->add($data);
                 }
 
