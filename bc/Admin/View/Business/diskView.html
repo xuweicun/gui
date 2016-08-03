@@ -64,7 +64,7 @@
                                 -->
                             <td colspan="2">
                                 <i class="fa fa-folder-open-o"></i> 浏览
-                                <a class="btn btn-primary btn-xs" href="/index.php?m=Admin&c=business&a=filetree&f={{cab.id}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">查看缓存</a>
+                                <a class="btn btn-primary btn-xs" href="/?a=filetree&f={{cab.sn}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}" target="_blank">查看缓存</a>
 
                                 <a ng-href="file://///{{local_host}}/public/{{cab.sn}}_{{cab.curr.l+1}}_{{cab.curr.g+1}}_{{cab.curr.d+1}}"
                                    ng-show="cab.curr.is_bridged()"
