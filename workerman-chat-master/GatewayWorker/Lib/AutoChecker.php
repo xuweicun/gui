@@ -205,7 +205,7 @@ Class AutoChecker
                 //检查该层的健康状况,如果健康状况不佳则跳过
                 if ($levels) {
                     foreach ($levels as $item) {
-                        if ($item['id'] == $lvl) {
+                        if ((int)$item['id'] == $lvl) {
                             $level_health = $this->getLvlHealth($item);
                             break;
                         }
@@ -256,7 +256,8 @@ Class AutoChecker
                         }
 
                     }
-                    $this->RunLog("Group busy:".$grp_busy.", group_skipped:".$grp_skipped);
+                    if($grp_busy)
+                    $this->RunLog("Group $cab_id-$lvl-$grp is busy");
                     //如果此组硬盘中有正在工作的硬盘，则跳过
                     //否则遍历该组硬盘，找到第一个可以发起自检的
                     if($dsk[$this->type . '_status'] === PLAN_STATUS_WORKING || $dsk['busy'] === 1){
