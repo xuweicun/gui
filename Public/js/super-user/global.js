@@ -40,6 +40,53 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             return;
         }
 
+        function SmbDisk(user_id, cab_id, cab_sn, lvl, grp, dsk) {
+            this.user_id = user_id;
+            this.cab_id = cab_sn;
+            this.cab_sn = cab_sn;
+            this.lvl = lvl;
+            this.grp = grp;
+            this.dsk = dsk;
+            this.smb = 0;
+            this.ip = '';
+        }
+
+        SmbDisk.prototype = {
+            smb_title: function () {
+                switch (this.smb) {
+                    case 1: return '只读';
+                        break;
+                    case 2: return '读写';
+                        break;
+                    default:
+                        return '无权限';
+                }
+            },
+            ip_title: function () {
+                if (!this.ip) return 'empty';
+
+                if (this.ip.length > 15) {
+                    return this.ip.substring(0, 15) + '...';
+                }
+                else {
+                    return this.ip || 'empty';
+                }
+            },
+            save: function (data) {
+                this.user_id = $scope.users_model[$scope.curr_user_idx].id;
+                $http({
+                    url: '/?a=setSamba',
+                    method: 'post',
+                    data: this
+                });
+            },
+            clear_smb: function ()
+            {
+                this.smb = 0;
+                this.ip = '';
+            }
+        };
+
         $scope.is_init_smb = true;
 
         $http({
@@ -47,6 +94,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method: 'get'
         })
         .success(function (data) {
+            if (data == null) return;
+
             if (Object.prototype.toString.call(data) === "[object Array]") {
                 for (var i = 0; i < data.length; ++i) {
                     var _curr_cab = data[i];
@@ -65,22 +114,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                             };
 
                             for (var jd = 0; jd < _curr_cab.disk_cnt; ++jd) {
-                                var dsk_obj = {
-                                    id: jd + 1,
-                                    smb: 0,
-                                    ip: '*',
-                                    smb_title: function () {
-                                        switch (this.smb) {
-                                            case 1: return '只读';
-                                                break;
-                                            case 2: return '读写';
-                                                break;
-                                            default:
-                                                return '无权限';
-                                        }
-                                    }
-                                };
-
+                                var dsk_obj = new SmbDisk($scope.select_user_id, _curr_cab.id, _curr_cab.sn, jl + 1, jg + 1, jd + 1);
                                 grp_obj.dsks.push(dsk_obj);
                             }
 
@@ -88,11 +122,13 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                         }
 
                         _curr_cab.lvls.push(lvl_obj);
-                    }                    
+                    }  
                 }
 
                 $scope.cabinet_list = data;
 
+                // for test
+                //$scope.load_user_smb(0);
             }
             else {
                 new PNotify({
@@ -117,7 +153,75 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    $scope.init_smb();
+    $scope.load_user_smb = function (user_id)
+    {
+        // clear smb info
+        if (!$scope.cabinet_list || $scope.cabinet_list.length <= 0) return;
+
+        for (var i = 0; i < $scope.cabinet_list.length; ++i) {
+            var _curr_cab = $scope.cabinet_list[i];
+            for (var jl = 0; jl < _curr_cab.level_cnt; ++jl) {
+                var lvl_obj = _curr_cab.lvls[jl];
+
+                for (var jg = 0; jg < _curr_cab.group_cnt; ++jg) {
+                    var grp_obj = lvl_obj.grps[jg];
+
+                    for (var jd = 0; jd < _curr_cab.disk_cnt; ++jd) {
+                        var dsk_obj = grp_obj.dsks[jd];
+                        dsk_obj.clear_smb();
+                    }
+                }
+            }
+
+            $http({
+                url: '/?a=getSamba',
+                method: 'post',
+                data: {
+                    cab_id: _curr_cab.id,
+                    user_id: user_id
+                }
+            }).success(function (smb_data) {
+                if (smb_data == null) return;
+
+                if (Object.prototype.toString.call(smb_data) === "[object Array]") {
+                    var _cab_list = $scope.cabinet_list;
+                    for (var x = 0; x < smb_data.length; ++x) {
+                        var _smb = smb_data[x];
+                        for (var xi = 0; xi < _cab_list.length; ++xi) {
+                            if (_smb.cab_id == _cab_list[xi].id) {
+                                var _dsk = _cab_list[xi].lvls[_smb.lvl - 1].grps[_smb.grp - 1].dsks[_smb.dsk - 1];
+                                try {
+                                    _dsk.smb = parseInt(_smb.value);
+                                }
+                                catch (e) {
+                                }
+                                _dsk.ip = _smb.ip;
+                            }
+                        }
+                    }
+                }
+                else {
+                    new PNotify({
+                        title: '初始化SMB配置',
+                        text: smb_data,
+                        type: 'error',
+                        shadow: true,
+                        icon: 'fa fa-alarm'
+                    });
+                }
+            });
+        }
+    }
+    
+    $scope.user_samba = function (idx) {
+        $scope.curr_user_idx = idx;
+        var usr = $scope.users_model[idx];
+
+        $scope.load_user_smb(usr.id);
+
+        $scope.curr_modal.show_modal_user('modalUserSamba');
+    }
+
 
     $scope.make_report = function () {
         $scope.is_ok = false;
@@ -349,11 +453,11 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     */
     $scope.user_settings = new UserSettings();
 
-	
 	$scope.user_unlock = function(idx){		
         $scope.curr_user_idx = idx;
         $('#modalUserUnlock').modal('toggle');
 	}
+
 	$scope.user_unlock_commit = function(){	
 		var usr = $scope.users_model[$scope.curr_user_idx];
         $http({
@@ -423,7 +527,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 password: hex_md5(password)
             }
         }).success(function(data){
-            console.log(data);
             $('#modalUserAdd').modal('hide');
             //响应成功
             try{
@@ -665,7 +768,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
-    $scope.reload_users = function(){
+    $scope.reload_users = function () {
         $http({
             url:'/index.php?m=admin&c=business&a=get_users',
             method:'GET'
@@ -724,13 +827,20 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         }).error(function () {
             $scope.user_log_loading = false;
         });
-    }
-
-    $scope.reload_user_log();
-    $scope.reload_users();
+    };
 
     ($scope.init_date_picker = function () {
         $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
         $("[data-plugin-datepicker]").datepicker();
     })();
+
+
+    $timeout(function () {
+        if ($scope.username === 'logadmin') $scope.reload_user_log();
+        else {
+            $scope.reload_users();
+
+            $scope.init_smb();
+        }
+    }, 500);
 });

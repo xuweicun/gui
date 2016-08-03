@@ -952,6 +952,50 @@ class BusinessController extends Controller
         $this->AjaxReturn($returnData);
         //var_dump($returnData);
     }
+	
+	public function setSamba()
+	{
+		// cab_id, user_id;
+		$cab = M('Cab')->field(array('id'))->where(array('id'=>$_POST['cab_id'], 'loaded'=>1))->find();
+		if (!$cab) {
+			return;
+		}
+		
+		$map = array(
+			'user_id' => $_POST['user_id'],
+			'cab_id' => $_POST['cab_id'],
+			'lvl' => $_POST['lvl'],
+			'grp' => $_POST['grp'],
+			'dsk' => $_POST['dsk'],
+		);
+			
+		$smb = M('Smb')->where($map)->find();
+
+		if (!$smb) {
+			$smb = $map;
+			$smb['value'] = $_POST['smb'];
+			$smb['ip'] = $_POST['ip'];
+			M('Smb')->add($smb);
+		}
+		else{
+			$smb['value'] = $_POST['smb'];
+			$smb['ip'] = $_POST['ip'];
+			M('Smb')->save($smb);			
+		}
+	}
+	
+	public function getSamba()
+	{
+		// cab_id, user_id;
+		$cab = M('Cab')->field(array('id'))->where(array('id'=>$_POST['cab_id'], 'loaded'=>1))->find();
+		if (!$cab) {
+			return;
+		}
+		
+		$smbs = M('Smb')->where(array('cab_id'=>$_POST['cab_id'], 'user_id'=>$_POST['user_id']))->select();
+		
+		$this->AjaxReturn($smbs);
+	}
 
     /***
      * to return any operating command

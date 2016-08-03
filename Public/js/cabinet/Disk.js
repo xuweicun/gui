@@ -944,16 +944,18 @@ Disk.prototype = {
             return false;
         }
 
-        this.curr_cmd = cmd_obj;
 
         // send cmd;
         // 需要二次验证
         if (cmd_name == 'COPY') {
             global_user.show_second_pwd_modal_with_action(function (obj) {
+                this.curr_cmd = cmd_obj;
                 global_cmd_helper.sendcmd(obj);
             }, cmd_obj);
         }
         else {
+            this.curr_cmd = cmd_obj;
+
     	    var mid = global_modal_helper.get_curr_id();
 	        global_modal_helper.close_modal(mid);
 
