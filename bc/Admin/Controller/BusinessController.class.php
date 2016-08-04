@@ -974,13 +974,36 @@ class BusinessController extends Controller
 		if (!$smb) {
 			$smb = $map;
 			$smb['value'] = $_POST['smb'];
-			$smb['ip'] = $_POST['ip'];
 			M('Smb')->add($smb);
 		}
 		else{
 			$smb['value'] = $_POST['smb'];
-			$smb['ip'] = $_POST['ip'];
 			M('Smb')->save($smb);			
+		}
+	}
+	
+	public function getSambaIP()
+	{
+		$smb_ip = M('User')->field(array('smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
+				
+		$this->AjaxReturn($smb_ip?$smb_ip['smb_ip']:'');
+	}
+	
+	public function setSambaIP()
+	{
+		$db = M('User');
+		$user = $db->field(array('id', 'smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
+		if (!$user) {			
+			echo 'user with id' . $_POST['user_id'];	
+		}
+		
+		$user['smb_ip'] = $_POST['smb_ip'];
+		
+		if ($db->save($user)) {
+			echo 'yes';
+		}
+		else{
+			echo 'no';	
 		}
 	}
 	

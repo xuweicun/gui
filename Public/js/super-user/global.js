@@ -48,7 +48,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             this.grp = grp;
             this.dsk = dsk;
             this.smb = 0;
-            this.ip = '';
         }
 
         SmbDisk.prototype = {
@@ -62,16 +61,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                         return '无权限';
                 }
             },
-            ip_title: function () {
-                if (!this.ip) return 'empty';
-
-                if (this.ip.length > 15) {
-                    return this.ip.substring(0, 15) + '...';
-                }
-                else {
-                    return this.ip || 'empty';
-                }
-            },
             save: function (data) {
                 this.user_id = $scope.users_model[$scope.curr_user_idx].id;
                 $http({
@@ -83,7 +72,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             clear_smb: function ()
             {
                 this.smb = 0;
-                this.ip = '';
             }
         };
 
@@ -126,6 +114,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 }
 
                 $scope.cabinet_list = data;
+                $scope.smb_ip = '';
 
                 // for test
                 //$scope.load_user_smb(0);
@@ -153,10 +142,73 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         });
     }
 
+    $scope.save_smb_ip = function (data)
+    {
+        $http({
+            url: '/?a=setSambaIP',
+            method: 'post',
+            data: {
+                smb_ip: $scope.smb_ip,
+                user_id: $scope.select_user_id
+            }
+        });
+    };
+
+    $scope.validate_smb_ip = function (data) {
+        if (data.length > 250) {
+            return '最长250个字符（包括空格）';
+        }
+
+        while (data.indexOf('  ') != -1) {
+            data = data.replace('  ', ' ');
+        }
+        
+        var ips = data.split(' ');
+
+        for (var i = 0; i < ips.length; ++i) {
+            var units = ips[i].split('.');
+            if (units.length > 4) {
+                return '[' + ips[i] + ']不是有效的IP地址';
+            }
+
+            if (units[0] === '') {
+                return '[' + ips[i] + ']不是有效的IP地址，不能以‘.’开头';
+            }
+
+            if (units.length < 4 && units[units.length - 1] != '') {
+                return '[' + ips[i] + ']不是有效的IP地址，须以‘.’结尾';
+            }
+
+            for (var j = 0; j < units.length; ++j) {
+                if (isNaN(units[j])) {
+                    return '[' + ips[i] + ']不是有效的IP地址';
+                }
+
+                var int_val = parseInt(units[j]);
+                if (int_val < 0 || int_val >= 255) {
+                    return '[' + ips[i] + ']不是有效的IP地址';
+                }
+            }
+        }
+    };
+
     $scope.load_user_smb = function (user_id)
     {
         // clear smb info
         if (!$scope.cabinet_list || $scope.cabinet_list.length <= 0) return;
+
+        $http({
+            url: '/?a=getSambaIP',
+            method: 'post',
+            data: {
+                user_id: user_id
+            }
+        }).success(function (_data) {
+            $scope.smb_ip = _data;
+        })
+        .error(function (_data) {
+            $scope.smb_ip = '';
+        });
 
         for (var i = 0; i < $scope.cabinet_list.length; ++i) {
             var _curr_cab = $scope.cabinet_list[i];
@@ -195,7 +247,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                                 }
                                 catch (e) {
                                 }
-                                _dsk.ip = _smb.ip;
                             }
                         }
                     }
@@ -216,6 +267,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     $scope.user_samba = function (idx) {
         $scope.curr_user_idx = idx;
         var usr = $scope.users_model[idx];
+        $scope.select_user_id = usr.id;
 
         $scope.load_user_smb(usr.id);
 
