@@ -1593,6 +1593,52 @@ class MsgController extends Controller
 
     }
 
+    /************
+     * @param $cab_sts 记录的柜子状态
+     * @param $new_sts 新推送的柜子状态
+     * @return bool true: 柜子健康状态变差,需要告警; false: 不存在
+     */
+    private function isWorse($cab_sts,$new_sts){
+        if($new_sts['curr_sts'] && (int)$new_sts['curr_sts'] > 0){
+            if(!$cab_sts['curr_sts'] || (int)$cab_sts['curr_sts'] < (int)$new_sts['curr_sts'])
+            {
+                return true;
+            }
+        }
+        if($new_sts['volt_sts'] && (int)$new_sts['volt_sts'] > 0){
+            if(!$cab_sts['volt_sts'] || (int)$cab_sts['volt_sts'] < (int)$new_sts['volt_sts'])
+            {
+                return true;
+            }
+        }
+        if($new_sts['elec_sts'] && (int)$new_sts['elec_sts'] > 0){
+            if(!$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts'])
+            {
+                return true;
+            }
+        }
+        //检查每一层
+        $levels = $new_sts['levels'];
+        $old_levels = $cab_sts['levels'];
+        foreach ($levels as $idx=>$lvl){
+            if(!$old_levels || !$old_levels[$idx])
+                continue;
+            $old_lvl = $old_levels[$idx];
+            if($lvl['hum_sts'] && (int)$lvl['hum_sts'] > 0){
+                if(!$old_lvl['hum_sts'] || (int)$old_lvl['hum_sts'] < (int)$lvl['hum_sts'])
+                {
+                    return true;
+                }
+            }
+            if($lvl['temp_sts'] && (int)$lvl['temp_sts'] > 0){
+                if(!$cab_sts['temp_sts'] || (int)$cab_sts['temp_sts'] < (int)$lvl['elec_sts'])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /***
      * update the command log
      * @author: wilson xu
