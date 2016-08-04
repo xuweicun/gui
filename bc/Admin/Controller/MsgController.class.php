@@ -1617,10 +1617,21 @@ class MsgController extends Controller
                 return true;
             }
         }
-        $levels = $cab_sts['levels'];
+        //检查每一层
+        $levels = $new_sts['levels'];
+        $old_levels = $cab_sts['levels'];
         foreach ($levels as $idx=>$lvl){
+            if(!$old_levels || !$old_levels[$idx])
+                continue;
+            $old_lvl = $old_levels[$idx];
             if($lvl['hum_sts'] && (int)$lvl['hum_sts'] > 0){
-                if(!$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts'])
+                if(!$old_lvl['hum_sts'] || (int)$old_lvl['hum_sts'] < (int)$lvl['hum_sts'])
+                {
+                    return true;
+                }
+            }
+            if($lvl['temp_sts'] && (int)$lvl['temp_sts'] > 0){
+                if(!$cab_sts['temp_sts'] || (int)$cab_sts['temp_sts'] < (int)$lvl['elec_sts'])
                 {
                     return true;
                 }
