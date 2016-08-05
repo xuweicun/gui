@@ -40,10 +40,11 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             return;
         }
 
-        function SmbDisk(user_id, cab_id, cab_sn, lvl, grp, dsk) {
+        function SmbDisk(user_id, cab_id, cab_sn, cab_name, lvl, grp, dsk) {
             this.user_id = user_id;
-            this.cab_id = cab_sn;
+            this.cab_id = cab_id;
             this.cab_sn = cab_sn;
+            this.cab_name = cab_name;
             this.lvl = lvl;
             this.grp = grp;
             this.dsk = dsk;
@@ -102,7 +103,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                             };
 
                             for (var jd = 0; jd < _curr_cab.disk_cnt; ++jd) {
-                                var dsk_obj = new SmbDisk($scope.select_user_id, _curr_cab.id, _curr_cab.sn, jl + 1, jg + 1, jd + 1);
+                                var dsk_obj = new SmbDisk($scope.select_user_id, _curr_cab.id, _curr_cab.sn, _curr_cab.name, jl + 1, jg + 1, jd + 1);
                                 grp_obj.dsks.push(dsk_obj);
                             }
 

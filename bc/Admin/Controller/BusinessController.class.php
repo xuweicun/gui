@@ -42,6 +42,25 @@ class BusinessController extends Controller
         }
     }
 
+    private function send_post_json ($url, $data_string)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($data_string))
+        );
+        ob_start();
+        curl_exec($ch);
+        $return_content = ob_get_contents();
+        ob_end_clean();
+
+        $return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        return array($return_code, $return_content);     
+    }
+
     private function send_post($url, $post_data)
     {
         $postdata = http_build_query($post_data);  
@@ -997,6 +1016,26 @@ class BusinessController extends Controller
 			$smb['value'] = $_POST['smb'];
 			M('Smb')->save($smb);			
 		}
+
+        $user = M('User')->where(array('id'=>$_POST['user_id']))->find();
+        if (!$user) {
+            echo 'invalid user_id';
+            return;
+        }           
+
+        // send to app
+        $cmd = array(
+            'cmd' => 'SAMBAAC',
+            'CMD_ID' => '4294967295',
+            'uname' => $user['username'],
+            'device_sn' => $_POST['cab_name'],
+            'level' => $_POST['lvl'] . '',
+            'group' => $_POST['grp'] . '',
+            'disk' => $_POST['dsk'] . '',
+            'access' => $_POST['smb'] . ''
+        );
+
+        $this->send_to_app($cmd);
 	}
 	
 	public function getSambaIP()
@@ -1010,7 +1049,7 @@ class BusinessController extends Controller
             $db->add($item);
         }
 
-		echo $item['value'];
+    		echo $item['value'];
 	}
 	
 	public function setSambaIP()
@@ -1031,7 +1070,21 @@ class BusinessController extends Controller
             $db->save($item);
             echo 'save samba ips config' . $_POST['smb_ip'];
         }
+
+        // send to app
+        $cmd = array(
+            'cmd' => 'SAMBAIP',
+            'CMD_ID' => '4294967295',
+            'ips' => $_POST['smb_ip']
+        );
+
+        $this->send_to_app($cmd);
 	}
+
+    private function send_to_app($post_data)
+    {
+        $this->send_post_json('http://localhost:8080', json_encode($post_data));
+    }
 	
 	public function getSamba()
 	{
