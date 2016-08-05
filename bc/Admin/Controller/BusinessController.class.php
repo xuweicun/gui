@@ -461,6 +461,16 @@ class BusinessController extends Controller
             $item['status'] = 1;
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '2',
+				'uname' => $item['username'],
+				'pwd' => ''
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }
@@ -530,6 +540,16 @@ class BusinessController extends Controller
         } else {
             $db->add($item);
             $item['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '0',
+				'uname' => $_POST['username'],
+				'pwd' => $_POST['password_text']
+			);
+
+			$this->send_to_app($cmd);
         }
         $this->AjaxReturn(json_encode($item));
     }
@@ -543,6 +563,16 @@ class BusinessController extends Controller
             $item['password'] = $_POST['password'];
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '2',
+				'uname' => $item['username'],
+				'pwd' => $_POST['password_text']
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }
@@ -558,6 +588,16 @@ class BusinessController extends Controller
             $item['status'] = 0;
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '1',
+				'uname' => $item['username'],
+				'pwd' => ''
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }

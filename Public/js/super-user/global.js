@@ -578,7 +578,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method:'POST',
             data:{
                 username: username,
-                password: hex_md5(password)
+                password: hex_md5(password),
+				password_text: password
             }
         }).success(function(data){
             $('#modalUserAdd').modal('hide');
@@ -792,7 +793,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method:'POST',
             data:{
                 id: $scope.users_model[$scope.curr_user_idx].id,
-                password: hex_md5($scope.new_password)
+                password: hex_md5($scope.new_password),
+				password_text: $scope.new_password
             }
         }).success(function(data){
             console.log(data);
