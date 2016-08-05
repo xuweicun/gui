@@ -191,6 +191,8 @@ angular.module('device.services', [])
 			"16": "copy no disk",
 			"2": "bad param",
 			"20": "power no resp",
+            "2000":"命令启动超时,请重试",
+            "2001":"命令长时间未执行,已取消",
 			"21": "device status timeout",
 			"22": "device status timeout",
 			"23": "md5 not started",

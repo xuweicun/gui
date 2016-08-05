@@ -1545,6 +1545,31 @@ class MsgController extends Controller
         var_dump($disks);
     }
 
+    /***********
+     * @param $new_sts 推送的状态
+     */
+    private function updateCautionLog(){
+        $new_sts = $_POST;
+        //检查当前柜子的状态
+        $cab_id = $this->msg->cab_id;
+        $db = M("Cab");
+        $cab = $db->find($cab_id);
+        if(!$cab){return;}
+        $cab_status = json_decode($cab['status'],true);
+        if($this->isWorse($cab_status, $new_sts))
+        {
+            //新增日志
+            $data = array(
+              'cab_id'=>$cab_id,
+                'status'=>$this->msg->return_msg,
+                'pushed'=>0,
+                'time'=>time()
+            );
+            $log_db = M('CabCautionLog');
+            $log_db->add($data);
+
+        }
+    }
     /*************
      * @author Wilson Xu
      * @function 处理推送回来的告警信息
@@ -1555,6 +1580,7 @@ class MsgController extends Controller
         if(!$_POST['push'] || $_POST['push'] ==='0'){
             return;
         }
+        $this->updateCautionLog();
         $db = M($this->cmdDiskTbl);
         if($this->msg->cmd === 'DEVICESTATUS'){
             $cab_id = (int)$_POST['device_id'];
@@ -1631,11 +1657,18 @@ class MsgController extends Controller
                 }
             }
             if($lvl['temp_sts'] && (int)$lvl['temp_sts'] > 0){
-                if(!$cab_sts['temp_sts'] || (int)$cab_sts['temp_sts'] < (int)$lvl['elec_sts'])
+                if(!$old_lvl['temp_sts'] || (int)$old_lvl['temp_sts'] < (int)$lvl['temp_sts'])
                 {
                     return true;
                 }
             }
+            if($lvl['chan_sts'] && (int)$lvl['chan_sts'] > 0){
+                if(!$old_lvl['chan_sts'] || (int)$old_lvl['chan_sts'] < (int)$lvl['chan_sts'])
+                {
+                    return true;
+                }
+            }
+            
         }
         return false;
     }

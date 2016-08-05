@@ -1252,6 +1252,45 @@ class BusinessController extends Controller
 
     }
 
+    /*******
+     * 用户确认告警消息
+     * 输入:log_id,user_id
+     * 输出:确认结果
+     */
+    public function dismissCautionMsg(){
+        $log_id = (int)$_POST['log_id'];
+        $user_id = (int)$_POST['user_id'];
+        $db = M("CabCautionLog");
+        $data = array(
+          'id'=>$log_id,
+            'user_id'=>$user_id,
+            'dismissed'=>1,
+            'modify_time'=>time()
+        );
+        $rst = $db->save($data);
+        $this->_ajaxReturn($rst);
+    }
+    public function dismissAllCaution(){
+        $user_id = (int)$_POST['user_id'];
+        $db = M("CabCautionLog");
+        $items = $db->where("dismissed=0")->select();
+        $rst = true;
+        foreach ($items as $log)
+        {
+            $log['dismissed'] = 1;
+            $log['modify_time'] = time();
+            $log['user_id'] = $user_id;
+            $rst = ($rst && $db->save($log));
+        }
+        $this->_ajaxReturn($rst);
+    }
+    private function _ajaxReturn($rst = false){
+        $result = array('status'=>'1');
+        if(!$rst){
+            $result['status'] = '0';
+        }
+        $this->AjaxReturn($result);
+    }
     private function setDiskBusy($msg)
     {
 
