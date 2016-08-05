@@ -1000,28 +1000,37 @@ class BusinessController extends Controller
 	}
 	
 	public function getSambaIP()
-	{
-		$smb_ip = M('User')->field(array('smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
-				
-		$this->AjaxReturn($smb_ip?$smb_ip['smb_ip']:'');
+	{   
+        $db = M('Config');
+        $item = $db->where(array(
+            'key'=>'SAMBA_IPS'
+        ))->find();
+        if (!$item) {
+            $item['key'] = 'SAMBA_IPS';
+            $db->add($item);
+        }
+
+		echo $item['value'];
 	}
 	
 	public function setSambaIP()
 	{
-		$db = M('User');
-		$user = $db->field(array('id', 'smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
-		if (!$user) {			
-			echo 'user with id' . $_POST['user_id'];	
-		}
-		
-		$user['smb_ip'] = $_POST['smb_ip'];
-		
-		if ($db->save($user)) {
-			echo 'yes';
-		}
-		else{
-			echo 'no';	
-		}
+        $db = M('Config');
+        $item = $db->where(array(
+            'key'=>'SAMBA_IPS'
+        ))->find();
+        if (!$item) {
+            $item['key'] = 'SAMBA_IPS';
+            $item['value'] = $_POST['smb_ip'];
+            $db->add($item);
+
+            echo 'new samba ips config';
+        }
+        else {
+            $item['value'] = $_POST['smb_ip'];
+            $db->save($item);
+            echo 'save samba ips config' . $_POST['smb_ip'];
+        }
 	}
 	
 	public function getSamba()
