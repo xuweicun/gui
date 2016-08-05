@@ -9,6 +9,10 @@
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     新增用户
                 </a>
+                <a href="" class="btn btn-primary" ng-click="set_samba_ips()">
+                    <i class="fa fa-edit"></i>
+                    SAMBA IP地址设置
+                </a>
             </div>
         </div>
         <div class="table-responsive" ng-cloak>
@@ -49,7 +53,7 @@
                                 删除
                             </a>
                             <a href="" class="btn btn-warning btn-xs" ng-click="user_samba($index)">
-                                <i class="fa"></i>
+                                <i class="fa fa-link"></i>
                                 SMB
                             </a>
                             <a href="" class="btn btn-warning btn-xs" ng-click="user_unlock($index)" ng-show="user.locked >= 5">

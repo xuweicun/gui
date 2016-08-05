@@ -149,7 +149,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method: 'post',
             data: {
                 smb_ip: $scope.smb_ip,
-                user_id: $scope.select_user_id
             }
         });
     };
@@ -196,20 +195,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     {
         // clear smb info
         if (!$scope.cabinet_list || $scope.cabinet_list.length <= 0) return;
-
-        $http({
-            url: '/?a=getSambaIP',
-            method: 'post',
-            data: {
-                user_id: user_id
-            }
-        }).success(function (_data) {
-            $scope.smb_ip = _data;
-        })
-        .error(function (_data) {
-            $scope.smb_ip = '';
-        });
-
+        
         for (var i = 0; i < $scope.cabinet_list.length; ++i) {
             var _curr_cab = $scope.cabinet_list[i];
             for (var jl = 0; jl < _curr_cab.level_cnt; ++jl) {
@@ -272,6 +258,21 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         $scope.load_user_smb(usr.id);
 
         $scope.curr_modal.show_modal_user('modalUserSamba');
+    }
+    
+    $scope.set_samba_ips = function () 
+    {
+        $http({
+            url: '/?a=getSambaIP',
+            method: 'get',
+        }).success(function (_data) {
+            $scope.smb_ip = _data;
+        })
+        .error(function (_data) {
+            $scope.smb_ip = '';
+        });
+
+        $scope.curr_modal.show_modal_user('modalUserSambaIps');
     }
 
 
