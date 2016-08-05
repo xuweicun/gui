@@ -1301,6 +1301,13 @@ class BusinessController extends Controller
         }
         $this->_ajaxReturn($rst);
     }
+    public function getCabCaution(){
+        $db = M("CabCautionLog");
+        $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
+        $log_undismissed = $db->where("dismissed=0")->select();
+        $logs = array_merge($log_undismissed,$logs);
+        $this->AjaxReturn($logs);
+    }
     private function _ajaxReturn($rst = false){
         $result = array('status'=>'1');
         if(!$rst){
@@ -1308,6 +1315,7 @@ class BusinessController extends Controller
         }
         $this->AjaxReturn($result);
     }
+
     private function setDiskBusy($msg)
     {
 
