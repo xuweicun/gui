@@ -567,7 +567,7 @@ class BusinessController extends Controller
 			$cmd = array(
 				'cmd' => 'SAMBAUSER',
 				'CMD_ID' => '4294967295',
-				'subcmd' => '2',
+				'subcmd' => '3',
 				'uname' => $item['username'],
 				'pwd' => $_POST['password_text']
 			);
