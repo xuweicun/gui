@@ -187,11 +187,12 @@ User.prototype = {
         }
 
         global_http({
-            url: '/index.php?m=admin&c=business&a=user_passwd_reset',
+            url: '/?a=user_passwd_reset',
             method: 'POST',
             data: {
                 id: this.id,
-                password: hex_md5(this.new_pwd)
+                password: hex_md5(this.new_pwd),
+				password_text: this.new_pwd
             }
         }).success(function (data) {
             //响应成功
