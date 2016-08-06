@@ -33,8 +33,8 @@
                     <tr ng-repeat="user in users_model">
                         <td>{{$index+1}}</td>
                         <td>
-                            {{user.username}}
                             <span class="label" ng-class="{true:'label-success', false:'label-danger'}[user.locked < 5]">{{user.locked < 5?'正常':'锁定'}}</span>
+                            {{user.username}}
                         </td>
                         <td>{{user.register_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{user.last_login_time ? (user.last_login_time*1000 | date:'yyyy-MM-dd HH:mm:ss'):'-'}}</td>
