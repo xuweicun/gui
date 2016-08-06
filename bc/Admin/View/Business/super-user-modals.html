@@ -33,7 +33,12 @@
             用户[{{users_model[curr_user_idx].username}}]的Samba配置
         </div>
         <div class="panel-body">
-                        <div class="row">
+            <div class="row" ng-show="is_loading_user_smb_access">
+                <div class="col-lg-12">
+                    加载中，请稍候。。。
+                </div>
+            </div>
+            <div class="row" ng-hide="is_loading_user_smb_access">
                 <div class="col-lg-12">
                     <div class="tabs bk-margin-off-bottom">
                         <ul class="nav nav-tabs">

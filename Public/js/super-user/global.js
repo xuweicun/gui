@@ -196,7 +196,9 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     {
         // clear smb info
         if (!$scope.cabinet_list || $scope.cabinet_list.length <= 0) return;
-        
+       
+        $scope.is_loading_user_smb_access = true;
+ 
         for (var i = 0; i < $scope.cabinet_list.length; ++i) {
             var _curr_cab = $scope.cabinet_list[i];
             for (var jl = 0; jl < _curr_cab.level_cnt; ++jl) {
@@ -220,6 +222,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                     user_id: user_id
                 }
             }).success(function (smb_data) {
+                $scope.is_loading_user_smb_access = false;
                 if (smb_data == null) return;
 
                 if (Object.prototype.toString.call(smb_data) === "[object Array]") {
@@ -247,6 +250,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                         icon: 'fa fa-alarm'
                     });
                 }
+            }).error(function(){
+                $scope.is_loading_user_smb_access = false;
             });
         }
     }
