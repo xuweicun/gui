@@ -42,6 +42,42 @@ class BusinessController extends Controller
         }
     }
 
+    private function send_post_json ($url, $data_string)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($data_string))
+        );
+        ob_start();
+        curl_exec($ch);
+        $return_content = ob_get_contents();
+        ob_end_clean();
+
+        $return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        return array($return_code, $return_content);     
+    }
+
+    private function send_post($url, $post_data)
+    {
+        $postdata = http_build_query($post_data);  
+        $options = array(  
+            'http' => array(  
+            'method' => 'POST',  
+            'header' => 'Content-type:application/x-www-form-urlencoded',  
+            'content' => $postdata,  
+            'timeout' => 15 * 60 // 超时时间（单位:s）  
+            )
+        );  
+        $context = stream_context_create($options);  
+        $result = file_get_contents($url, false, $context);  
+
+        return $result;  
+    }
+
     public function stopCheck()
     {
         if (IS_POST) {
@@ -425,6 +461,16 @@ class BusinessController extends Controller
             $item['status'] = 1;
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '2',
+				'uname' => $item['username'],
+				'pwd' => ''
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }
@@ -494,6 +540,16 @@ class BusinessController extends Controller
         } else {
             $db->add($item);
             $item['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '0',
+				'uname' => $_POST['username'],
+				'pwd' => $_POST['password_text']
+			);
+
+			$this->send_to_app($cmd);
         }
         $this->AjaxReturn(json_encode($item));
     }
@@ -507,6 +563,16 @@ class BusinessController extends Controller
             $item['password'] = $_POST['password'];
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '3',
+				'uname' => $item['username'],
+				'pwd' => $_POST['password_text']
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }
@@ -522,6 +588,16 @@ class BusinessController extends Controller
             $item['status'] = 0;
             $db->save($item);
             $_POST['status'] = 'success';
+			
+			$cmd = array(
+				'cmd' => 'SAMBAUSER',
+				'CMD_ID' => '4294967295',
+				'subcmd' => '1',
+				'uname' => $item['username'],
+				'pwd' => ''
+			);
+
+			$this->send_to_app($cmd);
         } else {
             $_POST['status'] = 'failure';
         }
@@ -980,32 +1056,75 @@ class BusinessController extends Controller
 			$smb['value'] = $_POST['smb'];
 			M('Smb')->save($smb);			
 		}
+
+        $user = M('User')->where(array('id'=>$_POST['user_id']))->find();
+        if (!$user) {
+            echo 'invalid user_id';
+            return;
+        }           
+
+        // send to app
+        $cmd = array(
+            'cmd' => 'SAMBAAC',
+            'CMD_ID' => '4294967295',
+            'uname' => $user['username'],
+            'device_sn' => $_POST['cab_name'],
+            'level' => $_POST['lvl'] . '',
+            'group' => $_POST['grp'] . '',
+            'disk' => $_POST['dsk'] . '',
+            'access' => $_POST['smb'] . ''
+        );
+
+        $this->send_to_app($cmd);
 	}
 	
 	public function getSambaIP()
-	{
-		$smb_ip = M('User')->field(array('smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
-				
-		$this->AjaxReturn($smb_ip?$smb_ip['smb_ip']:'');
+	{   
+        $db = M('Config');
+        $item = $db->where(array(
+            'key'=>'SAMBA_IPS'
+        ))->find();
+        if (!$item) {
+            $item['key'] = 'SAMBA_IPS';
+            $db->add($item);
+        }
+
+    		echo $item['value'];
 	}
 	
 	public function setSambaIP()
 	{
-		$db = M('User');
-		$user = $db->field(array('id', 'smb_ip'))->where(array('id'=>$_POST['user_id']))->find();
-		if (!$user) {			
-			echo 'user with id' . $_POST['user_id'];	
-		}
-		
-		$user['smb_ip'] = $_POST['smb_ip'];
-		
-		if ($db->save($user)) {
-			echo 'yes';
-		}
-		else{
-			echo 'no';	
-		}
+        $db = M('Config');
+        $item = $db->where(array(
+            'key'=>'SAMBA_IPS'
+        ))->find();
+        if (!$item) {
+            $item['key'] = 'SAMBA_IPS';
+            $item['value'] = $_POST['smb_ip'];
+            $db->add($item);
+
+            echo 'new samba ips config';
+        }
+        else {
+            $item['value'] = $_POST['smb_ip'];
+            $db->save($item);
+            echo 'save samba ips config' . $_POST['smb_ip'];
+        }
+
+        // send to app
+        $cmd = array(
+            'cmd' => 'SAMBAIP',
+            'CMD_ID' => '4294967295',
+            'ips' => $_POST['smb_ip']
+        );
+
+        $this->send_to_app($cmd);
 	}
+
+    private function send_to_app($post_data)
+    {
+        $this->send_post_json('http://localhost:8080', json_encode($post_data));
+    }
 	
 	public function getSamba()
 	{

@@ -1,9 +1,7 @@
-﻿
-
-<div id="modalUserSamba" class="mfp-hide zoom-anim-dialog modal-block-primary" style="margin: 40px auto; max-width: 800px">
+﻿<div id="modalUserSambaIps" class="mfp-hide zoom-anim-dialog modal-block modal-block-primary">
     <div class="panel panel-default">
         <div class="panel-heading">
-            用户[{{users_model[curr_user_idx].username}}]的Samba配置
+            系统Samba配置 -- [IP地址]
         </div>
         <div class="panel-body">
             <div class="row">
@@ -18,9 +16,32 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="panel-footer">
             <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary modal-dismiss">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalUserSamba" class="mfp-hide zoom-anim-dialog modal-block-primary" style="margin: 40px auto; max-width: 800px">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            用户[{{users_model[curr_user_idx].username}}]的Samba配置
+        </div>
+        <div class="panel-body">
+            <div class="row" ng-show="is_loading_user_smb_access">
                 <div class="col-lg-12">
-                    <div class="tabs bk-margin-off-bottom">
+                    加载中，请稍候。。。
+                </div>
+            </div>
+            <div class="row" ng-hide="is_loading_user_smb_access">
+                <div class="col-lg-12">
+                    <div ng-show="cabinet_list.length <= 0">没有找到链接的存储柜</div>
+                    <div class="tabs bk-margin-off-bottom" ng-hide="cabinet_list.length <= 0">
                         <ul class="nav nav-tabs">
                             <li ng-repeat="cabinet in cabinet_list" ng-class="{'true': 'active'}[$first]">
                                 <a href="#smb{{cabinet.sn}}" data-toggle="tab"><i class="fa fa-home"></i> 柜{{cabinet.sn}}# - {{cabinet.name}}</a>
@@ -149,7 +170,7 @@
                             <div class="radio-custom radio-inline">
                                 <input id="inline-radio_yes" type="radio" value="2"
                                        name="inline-radios" ng-model="can_write">
-                                <label for="inline-radio_yes"> 高级(读写)</label>
+                                <label for="inline-radio_yes"> 读写</label>
                             </div>
                             <div class="radio-custom radio-inline">
                                 <input id="inline-radio_no" type="radio" value="1" name="inline-radios" ng-model="can_write">
@@ -159,7 +180,7 @@
                                 <input id="inline-radio_no" type="radio" value="0" name="inline-radios" ng-model="can_write">
                                 <label for="inline-radio_no"> 最低</label>
                             </div>
-                            <span class="help-block">赋予用户“高级”将有可能导致用户修改或删除重要数据，请慎重！</span>
+                            <span class="help-block">赋予用户“读写”权限，将有可能导致用户修改或删除重要数据，请慎重！</span>
                         </div>
                     </div>
                 </form>

@@ -1,5 +1,15 @@
 
 register_filters(app_device);
+
+app_device.config([
+    '$compileProvider',
+    function( $compileProvider )
+    {   
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|liexplorer):/);
+         // Angular v1.2 之前使用 $compileProvider.urlSanitizationWhitelist(...)
+     }
+]);
+
 app_device.filter('to_trusted', function ($sce) {
     return function (text) {
         return $sce.trustAsHtml(text);

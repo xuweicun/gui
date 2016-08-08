@@ -40,10 +40,11 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             return;
         }
 
-        function SmbDisk(user_id, cab_id, cab_sn, lvl, grp, dsk) {
+        function SmbDisk(user_id, cab_id, cab_sn, cab_name, lvl, grp, dsk) {
             this.user_id = user_id;
-            this.cab_id = cab_sn;
+            this.cab_id = cab_id;
             this.cab_sn = cab_sn;
+            this.cab_name = cab_name;
             this.lvl = lvl;
             this.grp = grp;
             this.dsk = dsk;
@@ -102,7 +103,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                             };
 
                             for (var jd = 0; jd < _curr_cab.disk_cnt; ++jd) {
-                                var dsk_obj = new SmbDisk($scope.select_user_id, _curr_cab.id, _curr_cab.sn, jl + 1, jg + 1, jd + 1);
+                                var dsk_obj = new SmbDisk($scope.select_user_id, _curr_cab.id, _curr_cab.sn, _curr_cab.name, jl + 1, jg + 1, jd + 1);
                                 grp_obj.dsks.push(dsk_obj);
                             }
 
@@ -149,7 +150,6 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method: 'post',
             data: {
                 smb_ip: $scope.smb_ip,
-                user_id: $scope.select_user_id
             }
         });
     };
@@ -196,20 +196,9 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     {
         // clear smb info
         if (!$scope.cabinet_list || $scope.cabinet_list.length <= 0) return;
-
-        $http({
-            url: '/?a=getSambaIP',
-            method: 'post',
-            data: {
-                user_id: user_id
-            }
-        }).success(function (_data) {
-            $scope.smb_ip = _data;
-        })
-        .error(function (_data) {
-            $scope.smb_ip = '';
-        });
-
+       
+        $scope.is_loading_user_smb_access = true;
+ 
         for (var i = 0; i < $scope.cabinet_list.length; ++i) {
             var _curr_cab = $scope.cabinet_list[i];
             for (var jl = 0; jl < _curr_cab.level_cnt; ++jl) {
@@ -233,6 +222,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                     user_id: user_id
                 }
             }).success(function (smb_data) {
+                $scope.is_loading_user_smb_access = false;
                 if (smb_data == null) return;
 
                 if (Object.prototype.toString.call(smb_data) === "[object Array]") {
@@ -260,6 +250,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                         icon: 'fa fa-alarm'
                     });
                 }
+            }).error(function(){
+                $scope.is_loading_user_smb_access = false;
             });
         }
     }
@@ -272,6 +264,21 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         $scope.load_user_smb(usr.id);
 
         $scope.curr_modal.show_modal_user('modalUserSamba');
+    }
+    
+    $scope.set_samba_ips = function () 
+    {
+        $http({
+            url: '/?a=getSambaIP',
+            method: 'get',
+        }).success(function (_data) {
+            $scope.smb_ip = _data;
+        })
+        .error(function (_data) {
+            $scope.smb_ip = '';
+        });
+
+        $scope.curr_modal.show_modal_user('modalUserSambaIps');
     }
 
 
@@ -576,7 +583,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method:'POST',
             data:{
                 username: username,
-                password: hex_md5(password)
+                password: hex_md5(password),
+				password_text: password
             }
         }).success(function(data){
             $('#modalUserAdd').modal('hide');
@@ -790,7 +798,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             method:'POST',
             data:{
                 id: $scope.users_model[$scope.curr_user_idx].id,
-                password: hex_md5($scope.new_password)
+                password: hex_md5($scope.new_password),
+				password_text: $scope.new_password
             }
         }).success(function(data){
             console.log(data);
