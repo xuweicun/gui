@@ -477,6 +477,9 @@ angular.module('device.services', [])
                 case 'check_status':
                     console.log('自检消息',data['msg']);
                     break;
+                case 'cab_caution':
+                    global_scope.on_caution_msgs(data);
+                    break;
                 case 'selfcheck':
                     //添加新
                     break;

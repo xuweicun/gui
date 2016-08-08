@@ -40,9 +40,11 @@ app_device.filter('to_trusted', function ($sce) {
         locals.setObject('test_cmds', []);
     }
 
+    $scope.caution_manage = new CautionManage();
     $scope.on_caution_msg = function (msgs)
     {
         console.log(msgs);
+        $scope.caution_manage.setCautions(msgs);
     }
 
     // 防止按钮连续多次点击
