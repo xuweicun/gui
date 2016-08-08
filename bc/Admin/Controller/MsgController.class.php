@@ -1307,7 +1307,7 @@ class MsgController extends Controller
         $log['electricity'] = $_POST['electricity'];//电流
         //电流、电压、电量告警信息
         if($_POST['push'] === '1') {
-
+            echo "Here, a push msg";
             //处理各层温度湿度和串口通信信息
             $this->hdlCabCaution();
         }
@@ -1550,6 +1550,7 @@ class MsgController extends Controller
      */
     private function updateCautionLog(){
         $new_sts = $_POST;
+        echo "updating log";
         //检查当前柜子的状态
         $cab_id = $this->msg->cab_id;
         $db = M("Cab");
@@ -1558,6 +1559,7 @@ class MsgController extends Controller
         $cab_status = json_decode($cab['status'],true);
         if($this->isWorse($cab_status, $new_sts))
         {
+            echo "yes, is worse";
             //新增日志
             $data = array(
               'cab_id'=>$cab_id,
