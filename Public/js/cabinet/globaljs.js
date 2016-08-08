@@ -41,9 +41,8 @@ app_device.filter('to_trusted', function ($sce) {
     }
 
     $scope.caution_manage = new CautionManage();
-    $scope.on_caution_msg = function (msgs)
+    $scope.on_caution_msgs = function (msgs)
     {
-        console.log(msgs);
         $scope.caution_manage.setCautions(msgs);
     }
 
