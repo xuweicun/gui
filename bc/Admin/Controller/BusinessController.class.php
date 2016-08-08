@@ -1341,6 +1341,8 @@ class BusinessController extends Controller
 			break;
 		}
 */
+        //检查磁盘是否忙碌
+
         $data['user_id'] = I('get.userid', 0, 'intval');
         $data['cmd'] = $_POST['cmd'];
         $data['sub_cmd'] = $_POST['subcmd'];
@@ -1407,8 +1409,19 @@ class BusinessController extends Controller
         $db = M("CabCautionLog");
         $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
         $log_undismissed = $db->where("dismissed=0")->select();
-        $logs = array_merge($log_undismissed,$logs);
-        $this->AjaxReturn($logs);
+        $type = $_POST['type'];
+        switch($type){
+            case 'new':
+                $this->AjaxReturn($log_undismissed);
+                break;
+            case 'old':
+                $this->AjaxReturn($logs);
+                break;
+            default:
+                $logs = array_merge($log_undismissed,$logs);
+                $this->AjaxReturn($logs);
+                break;
+        }
     }
     private function _ajaxReturn($rst = false){
         $result = array('status'=>'1');
