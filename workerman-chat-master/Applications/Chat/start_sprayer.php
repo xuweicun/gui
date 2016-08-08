@@ -72,7 +72,8 @@ $md5_checker->onWorkerStart = function () {
             $rows = $db->select("id,started,start_time,progress,cmd,sub_cmd")->from("gui_cmd_log")->where("finished=0 and started=0")->query();
             foreach ($rows as $log){
                 $current_time = time();
-                if((int)$log['start_time']-$current_time > 180){
+                $used_time = $current_time - (int)$log['start_time'];
+                if($used_time > 180){
                     //命令失败
                     $log['finished'] = 1;
                     $log['status'] = 2000;//启动失败
@@ -81,7 +82,7 @@ $md5_checker->onWorkerStart = function () {
                     $db->update("gui_cmd_log")->cols($log)->where($cond)->bindValues($bind)->query();
                 }
                 else{
-                    if((int)$log['start_time']-$current_time > 3600 && ($log['cmd']=='MD5'||$log['cmd']=='COPY') && $log['sub_cmd'] == 'START'){
+                    if($used_time > 3600 && ($log['cmd']=='MD5'||$log['cmd']=='COPY') && $log['sub_cmd'] == 'START'){
                         if((int)$log['progress'] <= 0){
                             $log['finished'] = 1;
                             $log['status'] = 2001;//命令未被正确执行
