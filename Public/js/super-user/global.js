@@ -123,7 +123,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
             else {
                 new PNotify({
                     title: '初始化SMB配置',
-                    text: data,
+                    text: '没有找到存储柜',
                     type: 'error',
                     shadow: true,
                     icon: 'fa fa-alarm'
@@ -134,7 +134,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
         .error(function (data) {
             new PNotify({
                 title: '初始化SMB配置',
-                text: data,
+                text: '失败',
                 type: 'error',
                 shadow: true,
                 icon: 'fa fa-alarm'
@@ -244,7 +244,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
                 else {
                     new PNotify({
                         title: '初始化SMB配置',
-                        text: smb_data,
+                        text: '没有找到存储柜',
                         type: 'error',
                         shadow: true,
                         icon: 'fa fa-alarm'
