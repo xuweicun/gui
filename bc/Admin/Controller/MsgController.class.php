@@ -45,7 +45,6 @@ class Msg
         $this->cmd = $_POST['cmd'];
         $this->subcmd = $_POST['subcmd'];
         $this->getStatus();
-
         $this->progress = (float)$_POST['progress'];
         $this->cab_id = (int)$_POST['device_id'];
         $this->id = $_POST['CMD_ID'];
@@ -73,7 +72,10 @@ class Msg
         $nsCmd = array("MD5", "COPY");
         return in_array($this->cmd, $nsCmd);
     }
-
+    public function setStatus($sts){
+        $this->status = $sts;
+        return $this->status;
+    }
     public function getStatus()
     {
         if (!in_array($this->cmd, $this->multiDsk)) {
@@ -81,6 +83,7 @@ class Msg
         }
         $this->substatus = $_POST['substatus'];
         $this->errno = $_POST['errno'];
+
     }
 
     /***
@@ -298,8 +301,8 @@ class MsgController extends Controller
         if ($this->msg->id != "0") {
             //更新自检计划
             if (in_array($this->msg->cmd, $this->selfCheckArr)) {
-                $cmd = $this->db->find((int)$this->msg->id);
-                $this->hdlSelfCheck($cmd);
+             //   $cmd = $this->db->find((int)$this->msg->id);
+           //     $this->hdlSelfCheck($cmd);
              //   var_dump($cmd);
             }
 
@@ -1331,9 +1334,7 @@ class MsgController extends Controller
             //电压电流信息
             //echo "voltage of the cab updating--处理电流电压";
             self::updateCab();
-			
 			if ($_POST['CMD_ID'] == '0') return;
-			
             $db = M('Device');
             $cabinet = M('Cab')->where(array('sn' => $this->msg->cab_id, 'loaded' => 1))->find();
             if (!$cabinet) {
@@ -1377,7 +1378,6 @@ class MsgController extends Controller
                         $map['disk'] = array('eq', $disk);
                         $map['cab_id'] = array('eq', $dsk->cab);
                         $map['cabinet_id'] = array('eq', $cabinet_id); // id相同
-
                         $item = $db->where($map)->find();
                         if ($item) {
                             $item['loaded'] = 1;
@@ -1555,8 +1555,8 @@ class MsgController extends Controller
         $cab = $db->find($cab_id);
         if(!$cab){return;}
         $cab_status = json_decode($cab['status'],true);
-        var_dump($cab_status);
-        var_dump($new_sts);
+        //var_dump($cab_status);
+        //var_dump($new_sts);
         if($this->isWorse($cab_status, $new_sts))
         {
             echo "yes, is worse";
@@ -1627,21 +1627,25 @@ class MsgController extends Controller
      * @return bool true: 柜子健康状态变差,需要告警; false: 不存在
      */
     private function isWorse($cab_sts,$new_sts){
+      // var_dump($cab_sts);
         if($new_sts['curr_sts'] && (int)$new_sts['curr_sts'] > 0){
-            if(!$cab_sts['curr_sts'] || (int)$cab_sts['curr_sts'] < (int)$new_sts['curr_sts'])
+            if(!$cab_sts || !$cab_sts['curr_sts'] || (int)$cab_sts['curr_sts'] < (int)$new_sts['curr_sts'])
             {
+                echo "Curr:".$cab_sts['curr_sts']."/".$new_sts['curr_sts']."<br>";
                 return true;
             }
         }
         if($new_sts['volt_sts'] && (int)$new_sts['volt_sts'] > 0){
-            if(!$cab_sts['volt_sts'] || (int)$cab_sts['volt_sts'] < (int)$new_sts['volt_sts'])
+            if(!$cab_sts || !$cab_sts['volt_sts'] || (int)$cab_sts['volt_sts'] < (int)$new_sts['volt_sts'])
             {
+                echo "Volt:".$cab_sts['volt_sts']."/".$new_sts['volt_sts']."<br/>";
                 return true;
             }
         }
         if($new_sts['elec_sts'] && (int)$new_sts['elec_sts'] > 0){
-            if(!$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts'])
+            if(!$cab_sts || !$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts'])
             {
+                echo "elec".$cab_sts['elec_sts']."/".$new_sts['elec_sts']."<br/>";
                 return true;
             }
         }
@@ -1649,8 +1653,6 @@ class MsgController extends Controller
         $levels = $new_sts['levels'];
         $old_levels = $cab_sts['levels'];
         foreach ($levels as $idx=>$lvl){
-            if(!$old_levels || !$old_levels[$idx])
-                continue;
             $old_lvl = $old_levels[$idx];
             if($lvl['hum_sts'] && (int)$lvl['hum_sts'] > 0){
                 if(!$old_lvl['hum_sts'] || (int)$old_lvl['hum_sts'] < (int)$lvl['hum_sts'])
@@ -1674,12 +1676,30 @@ class MsgController extends Controller
         }
         return false;
     }
+    public function addRtErrLog(){
+        $rt_err_db = M('RunTimeErrLog');
+        $data = array(
+            'time'=>time(),
+            'cmd_id'=>$this->msg->id,
+            'err_code'=>$_POST['err_code'],
+            'err_msg'=>$_POST['err_msg']
+        );
+        $rt_err_db->add($data);
+    }
     /***
      * update the command log
      * @author: wilson xu
      */
     public function updateCmdLog()
     {
+        $runtime_error = array(63,64,65);
+        if(in_array((int)$this->msg->status,$runtime_error)){
+            //err_code
+            if($_POST['err_code'] && $_POST['err_code']==C('ERR_CODE_OK')){
+                $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
+            }
+            //$this->addRtErrLog();
+        }
         //服务器主动推送的信息
         if ($this->msg->id == "0") {
             $this->RTLog('SERVER GOT AN MSG FROM PROXY.');

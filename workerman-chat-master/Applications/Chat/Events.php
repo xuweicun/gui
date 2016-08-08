@@ -100,6 +100,12 @@ class Events
                     $ret = array_merge($ret, $attached);
                     GateWay::sendToCurrentClient(json_encode($ret));
                 }
+                $rows = $db->select("id,status,time")->from("gui_cab_caution_log")->where("dismissed=0")->query();
+                if(!$rows){return;}
+                $num = count($rows);
+                $attached = array('type' => 'cab_caution', 'num' => $num);
+                $ret = array_merge($rows, $attached);
+                GateWay::sendToCurrentClient(json_encode($ret));
                 // 给当前用户发送用户列表 
                // $new_message['client_list'] = $clients_list;
                // Gateway::sendToCurrentClient(json_encode($new_message));
