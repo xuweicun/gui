@@ -58,7 +58,7 @@ $gateway->onConnect = function($connection)
     };
 }; 
 */
-$md5_checker->onWorkerStart = function ($md5_checker) {
+$md5_checker->onWorkerStart = function () {
 
 
 
@@ -92,6 +92,7 @@ $md5_checker->onWorkerStart = function ($md5_checker) {
                     }
                 }
             }
+            return;
             //推送消息
             //检查有无告警
             $rows = $db->select("id,status")->from("gui_cab_caution_log")->where("dismissed=0")->query();
