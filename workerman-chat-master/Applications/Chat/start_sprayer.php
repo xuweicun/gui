@@ -73,7 +73,7 @@ $md5_checker->onWorkerStart = function () {
             foreach ($rows as $log){
                 $current_time = time();
                 $used_time = $current_time - (int)$log['start_time'];
-                if($used_time > 180){
+                if($used_time > 120){
                     //命令失败
                     $log['finished'] = 1;
                     $log['status'] = 2000;//启动失败

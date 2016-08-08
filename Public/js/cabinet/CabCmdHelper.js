@@ -260,8 +260,9 @@ CabCmdHelper.prototype = {
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
             msg.CMD_ID = data['id'].toString();
             //服务器收到通知后，联系APP，发送指令；
-            global_http.post(global_app, msg).success(function () {
+            global_http.post(global_app, msg).success(function (data) {
                 //命令池更新
+                //检查是否添加成功
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
                 global_ws_watcher.sendcmd(msg);	
