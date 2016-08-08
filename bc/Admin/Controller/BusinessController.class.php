@@ -1409,6 +1409,7 @@ class BusinessController extends Controller
         $db = M("CabCautionLog");
         $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
         $log_undismissed = $db->where("dismissed=0")->select();
+
         $type = $_POST['type'];
         switch($type){
             case 'new':
@@ -1418,8 +1419,11 @@ class BusinessController extends Controller
                 $this->AjaxReturn($logs);
                 break;
             default:
-                $logs = array_merge($log_undismissed,$logs);
-                $this->AjaxReturn($logs);
+                $all_logs = array_merge($log_undismissed,$logs);
+                if(!$all_logs){
+                    ($all_logs = $logs) || ($all_logs = $log_undismissed);
+                }
+                $this->AjaxReturn($all_logs);
                 break;
         }
     }
