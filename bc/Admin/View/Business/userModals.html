@@ -6,7 +6,8 @@
             </div>
             <div class="panel-body bk-noradius">
                 <div class="modal-text form-group">
-                    <label class="col-md-2 control-label">请选择
+                    <label class="col-md-2 control-label">
+                        请选择
                         <span style="color: red">*</span>
                         <br>
                         <span style="color:red" ng-show="myFormBridge.$invalid">
@@ -63,11 +64,11 @@
                                     </label>
                                     <div class="col-lg-8" style="top:-6px">
                                         <div class="radio-custom radio-inline">
-                                            <input id="radioBoxCopyDirection0" type="radio" name="RBoxDirection" value="src" ng-model="cab.curr.copy_src_or_dst"/>
+                                            <input id="radioBoxCopyDirection0" type="radio" name="RBoxDirection" value="src" ng-model="cab.curr.copy_src_or_dst" />
                                             <label for="radioBoxCopyDirection0">源盘</label>
                                         </div>
                                         <div class="radio-custom radio-inline" style="margin-top:0">
-                                            <input id="radioBoxCopyDirection1" type="radio" name="RBoxDirection" value="dst" ng-model="cab.curr.copy_src_or_dst"/>
+                                            <input id="radioBoxCopyDirection1" type="radio" name="RBoxDirection" value="dst" ng-model="cab.curr.copy_src_or_dst" />
                                             <label for="radioBoxCopyDirection1">目的</label>
                                         </div>
                                     </div>
@@ -75,7 +76,8 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label class="control-label col-md-2">选择硬盘
+                            <label class="control-label col-md-2">
+                                选择硬盘
                                 <span style="color: red">*</span>
                                 <br>
                                 <span style="color:red" ng-show="!cab.curr.copy_disk">
@@ -88,7 +90,7 @@
                                     <input id="radioBoxCopyDst{{$index}}" type="radio"
                                            ng-model="cab.curr.copy_disk"
                                            name="dstDisks" ng-disabled="!_disk.is_loaded()"
-                                           value="{{_disk.d}}"                                           
+                                           value="{{_disk.d}}"
                                            ng-required="cab.curr.copy_disk">
                                     <label for="radioBoxCopyDst{{$index}}"
                                            ng-class="{'bk-fg-primary':(_disk.is_loaded() && !_disk.is_bridged()), 'bk-fg-success':(_disk.is_bridged())}">
@@ -102,7 +104,8 @@
                     </div>
                     <div ng-if="cab.curr.g%2==1">
                         <div class="row form-group">
-                            <label class="control-label col-md-2">选择硬盘
+                            <label class="control-label col-md-2">
+                                选择硬盘
                                 <span style="color: red">*</span>
                                 <br>
                                 <span style="color:red" ng-show="!cab.curr.copy_disk">
@@ -121,7 +124,7 @@
 																			'bk-fg-success':(_disk.is_bridged())}">
                                         <i class="glyphicon bk-margin-left-5"
                                            ng-class="{true:'glyphicon-hdd',false:'glyphicon-ban-circle'}[_disk.is_loaded()]"></i>
-										   {{_disk.get_title()}}
+                                        {{_disk.get_title()}}
                                     </label>
                                 </div>
                             </div>
@@ -129,9 +132,10 @@
                         <div class="row">
                             <label class="control-label col-md-2">硬盘复制</label>
                             <div class="col-md-10" style="padding-left:0px">
-                                <label class="bk-fg-primary bk-margin-off control-label col-lg-4" style="float:left"><i
-                                        class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
-                                    {{cab.curr.get_title()}}（当前）</label>
+                                <label class="bk-fg-primary bk-margin-off control-label col-lg-4" style="float:left">
+                                    <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>
+                                    {{cab.curr.get_title()}}（当前）
+                                </label>
                                 <div class="col-lg-8" style="top:-6px">
                                     <div class="radio-custom radio-inline">
                                         <input id="radioBoxCopyDirection0" type="radio" name="RBoxDirection" value="src" ng-model="cab.curr.copy_src_or_dst" />
@@ -227,7 +231,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label" for="text-input-pwd-confirm">新密码确认<span class="bk-fg-danger" title="新密码确认不能为空">*</span></label>
                     <div class="col-md-9">
-                        <input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm"  ng-model="user_profile.new_pwd_confirm" maxlength="16" required>
+                        <input id="text-input-pwd-confirm" class="form-control" type="password" placeholder="请输入相同的新密码" name="text-input-pwd-confirm" ng-model="user_profile.new_pwd_confirm" maxlength="16" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -356,32 +360,38 @@
 </div>
 
 
-<div id="modalWarningCab" class="zoom-anim-dialog modal-block mfp-hide modal-block-danger">
+<div id="modalWarningCab" class="zoom-anim-dialog modal-block-md mfp-hide modal-block-danger">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">存储柜告警测试</h4>
+            <h4 class="panel-title">存储柜告警</h4>
         </div>
-        <div class="panel-body bk-noradius">            
-            <div class="modal-wrapper">
-                <div class="modal-icon">
-                    <i class="fa"
-                       ng-class="{
-                            'fa-warning': cabs.warning.type == 1,
-                            'fa-times-circle-o': cabs.warning.type == 2
-                        }"></i>
-                </div>
-                <div class="modal-text">
-                    <div class="row">
-                        <div class="panel bk-widget bk-margin-off col-lg-12" ng-bind-html="cabs.warning.msg | to_trusted">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="panel-body bk-noradius">
+            <table class="table table-striped dataTable" datatable="ng" dt-options="dtOptions">
+                <thead>
+                    <tr>
+                        <td style="min-width:60px">序号</td>
+                        <td style="min-width:160px">时间</td>
+                        <td style="min-width:60px">柜子ID</td>
+                        <td style="width:100%">告警信息</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="cau in caution_manage.Cautions">
+                        <td>{{$index+1}}</td>
+                        <td>{{cau.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{cau.cab_id}}</td>
+                        <td>
+                            <div class="panel bk-widget bk-margin-off col-lg-12" ng-bind-html="cau.warning_msg | to_trusted">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" ng-click="caution_manage.doCautions()">
                         告警处理
                     </button>
                     <button class="btn btn-default modal-dismiss">暂时关闭</button>
