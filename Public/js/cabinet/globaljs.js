@@ -43,7 +43,7 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.caution_manage = new CautionManage();
     $scope.on_caution_msgs = function (msgs)
     {
-        $scope.caution_manage.setCautions(msgs);
+        //$scope.caution_manage.setCautions(msgs);
     }
 
     // 防止按钮连续多次点击

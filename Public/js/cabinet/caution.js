@@ -125,14 +125,29 @@ CautionManage.prototype = {
             that_caution.doing = false;
         });
     },
+
+    getCautions: function ()
+    {
+        var that_caution = this;
+        global_http({
+            url: '/?a=getCabCaution',
+            method: 'post',
+            data: {
+                type: 'new'
+            }
+        })
+        .success(function (data) {
+            that_caution.setCautions(data)
+        });
+    },
     setCautions: function (msgs)
     {
-        if (Object.prototype.toString.call(msgs) !== "[object Object]") {
+        if (Object.prototype.toString.call(msgs) !== "[object Array]") {
             this.Cautions = [];
             return;
         }
 
-        var length = parseInt(msgs.num);
+        var length = msgs.length;
         if (length <= 0) {
             this.Cautions = [];
             return;
@@ -141,7 +156,7 @@ CautionManage.prototype = {
         var update = false;
         var new_cautions = [];
         for (var i = 0; i < length; ++i) {
-            var msg = msgs[i + ''];
+            var msg = msgs[i];
             var has = false;
             {
                 for (var cau in this.Cautions) {
