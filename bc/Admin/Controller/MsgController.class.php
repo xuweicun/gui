@@ -1710,6 +1710,7 @@ class MsgController extends Controller
                         );
                         $db = M("Device");
                         $disks = $db->where($map)->select();
+                        var_dump($disks);
                         foreach($disks as $item){
                             $item['bridged'] = 0;
                             $db->save($item);
