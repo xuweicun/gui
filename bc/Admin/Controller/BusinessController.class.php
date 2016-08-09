@@ -929,7 +929,7 @@ class BusinessController extends Controller
     public function getGoingTasks()
     {
         $db = M('CmdLog');
-        $items = $db->where("finished = 0")->select();
+        $items = $db->join('gui_user on gui_user.id = user_id')->field('gui_cmd_log.*, username')->where("finished = 0")->select();
         foreach ($items as $index => $item) {
             $items[$index]['msg'] = stripslashes($item['msg']);
             $items[$index]['current_time'] = time();

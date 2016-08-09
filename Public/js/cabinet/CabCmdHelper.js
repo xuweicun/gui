@@ -275,6 +275,7 @@ CabCmdHelper.prototype = {
             global_http.post(global_app, msg).success(function () {
                 //命令池更新
                 //检查是否添加成功
+                data.username = global_user.username;
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
                 global_ws_watcher.sendcmd(msg);	
