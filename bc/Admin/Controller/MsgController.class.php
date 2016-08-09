@@ -1698,7 +1698,7 @@ class MsgController extends Controller
             if($_POST['err_code'] && $_POST['err_code']==C('ERR_CODE_OK')){
                 $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
             }
-            //$this->addRtErrLog();
+            $this->addRtErrLog();
         }
         //服务器主动推送的信息
         if ($this->msg->id == "0") {
