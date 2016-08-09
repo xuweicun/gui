@@ -27,6 +27,7 @@ Deployer.prototype = {
     },
     on_init: function (c) {
         this.cab_id = c.toString();
+
         this.time_unit = 5000;//五秒更新一次；
         this.worker = null;
         var that = this;
@@ -53,7 +54,7 @@ Deployer.prototype = {
             });
         });
     },
-    startDeploy: function () {
+    startDeploy: function (type) {
         if (this.working == true) {
             //防止重复启动
             console.log("部署中，请稍后");
@@ -61,6 +62,7 @@ Deployer.prototype = {
         }
         console.log("开始部署");
         this.working = true;
+        this.type = type;
         this.idx = 0;
         var that = this;
 
@@ -94,6 +96,9 @@ Deployer.prototype = {
     },
     stopDeploy: function(){
         this.idx = this.disks.length + 1;
+    },
+    filetree: function(){
+
     },
     is_done: function () {
         if (this.idx >= this.disks.length && this.finished) {
