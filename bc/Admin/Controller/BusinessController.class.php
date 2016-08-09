@@ -151,6 +151,21 @@ class BusinessController extends Controller
 
     public function systReset()
     {
+        $user = $_POST['username'];
+        $pwd = $_POST['password'];
+
+        if (!$user || $user=='' || !$pwd || $pwd == '') {
+            echo 'invalid reset post';
+            return;
+        }
+        
+        if ($user != 'root' || $pwd != '565431c2ff46fff5c450c20276785963') {
+            echo 'unknown user or wrong pwd';
+            return;
+        }
+
+//        echo 'success'; return;
+
         // 回到初始状态
         $db = M();
         $tables = $db->query($sql = 'show tables');
@@ -164,6 +179,7 @@ class BusinessController extends Controller
                 }
             }
         }
+        echo 'success';
         /*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
