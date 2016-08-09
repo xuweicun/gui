@@ -13,6 +13,9 @@
     this.finished = true;
     this.ready = false;
     this.idx = 0;
+    this.cmd_id = 0;
+    this.stage = 0;
+    this.type = "diskinfo";
 }
 
 Deployer.prototype = {

@@ -1696,9 +1696,28 @@ class MsgController extends Controller
         $runtime_error = array('63','64','65');
         if(in_array($_POST['status'],$runtime_error)){
             //err_code
-            if($_POST['err_code'] && $_POST['err_code']==C('ERR_CODE_OK')){
+            if($_POST['err_code']){
+                if($_POST['err_code']==C('ERR_CODE_OK'))
                 $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
+                else{
+                    if($this->msg->cmd == 'BRIDGE'){
+                        //解除桥接状态
+                        $map = array(
+                          'cab_id'=>array('eq',$_POST['device_id']),
+                            'level'=>array('eq',$_POST['level']),
+                            'zu'=>array('eq',$_POST['group']),
+                            'bridged'=>1
+                        );
+                        $db = M("Device");
+                        $disks = $db->where($map)->select();
+                        foreach($disks as $item){
+                            $item['bridged'] = 0;
+                            $db->save($item);
+                        }
+                    }
+                }
             }
+
             $this->addRtErrLog();
             
         }

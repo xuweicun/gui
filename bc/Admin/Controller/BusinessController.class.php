@@ -1314,6 +1314,13 @@ class BusinessController extends Controller
         if($db->where($map)->select()){
             return false;
         }
+        if($_POST['cmd']=='COPY'){
+            $grp_id = $_POST['dstGroup'];
+            $map['grp'] = array('eq',$grp_id);
+            if($db->where($map)->select()){
+                return false;
+            }
+        }
         return true;
     }
     /***
@@ -1328,7 +1335,7 @@ class BusinessController extends Controller
         }
         $this->updateCmdLog();
         if(!$this->isDiskFree()){
-            $this->_ajaxReturn(false);
+            $this->notFoundError("磁盘忙");
         }
         $db = M('CmdLog');
 		/*
@@ -1394,7 +1401,6 @@ class BusinessController extends Controller
         }
         $id = $db->add($data);
         if ($id) {
-
             $data = $db->find($id);
             $msg = $_POST['msg'];
             //修改msg
@@ -1406,7 +1412,7 @@ class BusinessController extends Controller
             $this->AjaxReturn($data);
         } else {
             //throw an exception
-            $this->_ajaxReturn(false);
+            $this->notFoundError("Failed to insert cmd");
         }
 
     }
