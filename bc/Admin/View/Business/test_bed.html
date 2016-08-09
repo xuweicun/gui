@@ -30,7 +30,7 @@
     <!-- Head Libs -->
     <script src="/Public/assets/plugins/modernizr/js/modernizr.js"></script>
     <script src="/Public/js/angular-1.4.min.js"></script>
-
+    <link href="/Public/js/toastr/toastr.min.css" rel="stylesheet" />
     <style>
         pre {
             white-space: pre-wrap;
@@ -85,6 +85,46 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalResetInput" class="zoom-anim-dialog modal-block mfp-hide modal-block-danger">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">系统重置</h4>
+            </div>
+            <div class="panel-body bk-noradius">
+                <form class="form-horizontal">
+                     <div class="form-group">
+                         <label class="col-md-3 control-label" for="text-input-user">用户名<span class="bk-fg-danger" title="用户名不能为空">*</span></label>
+                         <div class="col-md-9">
+                             <input id="text-input-user" class="form-control" type="text" placeholder="请输入用户名" name="text-input-user" ng-model="super.user" maxlength="16" required>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="col-md-3 control-label" for="text-input-pwd">密码<span class="bk-fg-danger" title="新密码不能为空">*</span></label>
+                         <div class="col-md-9">
+                             <input id="text-input-pwd" class="form-control" type="password" placeholder="请输入密码" name="text-input-pwd" ng-model="super.pwd" maxlength="16" required>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <div class="col-md-3"> </div>                        
+                         <div class="col-md-9">
+                            <span class="bk-fg-danger">{{super.err_msg}}</span>
+                         </div>
+                     </div>                
+                 </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-danger" ng-click="super.post()">
+                            提交
+                        </button>
+                        <button class="btn btn-default modal-dismiss">取消</button>
+                    </div>
                 </div>
             </div>
         </div>

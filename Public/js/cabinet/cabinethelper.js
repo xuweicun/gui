@@ -56,7 +56,7 @@ function CabPicker() {
 	//当温度/湿度有告警时, 也就是值为1时, 
 	//1. 代理程序不作任何处理。
 	//2. 应用程序需要弹出告警信息窗口即可。
-	this.warning_value = 0;
+	this.warning_value = null;
 	
 	// proxy推送的channel_error值
 	//bit1~bit6: level 1 ~ level6 serial communication error.
@@ -64,7 +64,7 @@ function CabPicker() {
 	//若有通信错误:
 	//代  理: 如果可能，尽力关闭所有的业务
 	//应用层: 若通信错误,标记该层不可用。在界面上打个叉,该层所用业务不可操作。如果有已经成功启动的业务，标记已经结束且结束原因为通信错误.
-	this.channel_error = 0;
+	this.channel_error = null;
 }
 CabPicker.prototype = {
     i_on_init: function (c, s, l, g, d) {
@@ -112,7 +112,7 @@ function CabinetHelper(on_cabinet_select) {
 
 CabinetHelper.prototype = {
 	// 设置告警值
-	set_warning: function(cab_id, cab_sn, warning, channel_error)
+	set_channel_error: function(cab_id, channel_error)
 	{
 		var _cab = null;
 		for (var i=0; i<this.cabs.length; ++i) {
@@ -123,109 +123,14 @@ CabinetHelper.prototype = {
 		}
 		if (_cab == null) return;
 		
-		var val_w = parseInt(warning);
 		var val_c = parseInt(channel_error);
-		
-		var warn_msg = '';
-		{					
-			switch (val_w & 0x00000003) {				
-			case 1:	
-				this.warning.type = this.warning.type<1?1:this.warning.type;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电量：<span class="bk-fg-warning">[告警]</span>';
-				break;
-			case 2:
-				this.warning.type = 2;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电量：<span class="bk-fg-danger">[严重告警]</span>';		
-				break;		
-			default:
-				break;
-			}
-						
-			switch ((val_w>>2) & 0x00000003) {				
-			case 1:
-				this.warning.type = this.warning.type<1?1:this.warning.type;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电流：<span class="bk-fg-warning">[告警]</span>';	
-				break;		
-			case 2:
-				this.warning.type = 2;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电流：<span class="bk-fg-danger">[严重告警]</span>';		
-				break;					
-			default:
-				break;
-			}
-			
-			
-			switch ((val_w>>4) & 0x00000003) {				
-			case 1:
-				this.warning.type = this.warning.type<1?1:this.warning.type;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电压：<span class="bk-fg-warning">[告警]</span>';	
-				break;		
-			case 2:
-				this.warning.type = 2;
-				if (warn_msg) warn_msg+='，';
-				warn_msg+= '电压：<span class="bk-fg-danger">[严重告警]</span>';		
-				break;					
-			default:
-				break;
-			}
-			
-			for (var i=1; i<=6; i++) {
-				switch ((val_w>> (4 + i*2)) & 0x00000003) {				
-				case 1:
-					this.warning.type = this.warning.type<1?1:this.warning.type;
-					if (warn_msg) warn_msg+='，';
-					warn_msg+= '第' + i + '层湿度：<span class="bk-fg-warning">[告警]</span>';	
-					break;		
-				case 2:
-					this.warning.type = 2;
-					if (warn_msg) warn_msg+='，';
-					warn_msg+= '第' + i + '层湿度：<span class="bk-fg-danger">[严重告警]</span>';		
-					break;					
-				default:
-					break;
-				}
-			}
-			
-			for (var i=1; i<=6; i++) {
-				switch ((val_w>> (16 + i*2)) & 0x00000003) {				
-				case 1:
-					this.warning.type = this.warning.type<1?1:this.warning.type;
-					if (warn_msg) warn_msg+='，';
-					warn_msg+= '第' + i + '层温度：<span class="bk-fg-warning">[告警]</span>';	
-					break;		
-				case 2:
-					this.warning.type = 2;
-					if (warn_msg) warn_msg+='，';
-					warn_msg+= '第' + i + '层温度：<span class="bk-fg-danger">[严重告警]</span>';		
-					break;					
-				default:
-					break;
-				}
-			}
-		}
-		
+				
 		for (var i=0; i<_cab.lvls_info.length; i++) {
 			var _err = ((val_c>>i) & 0x00000002) != 0;
 			_cab.lvls_info[i].channel_error = _err;
 			
 			if (_cab === this.curr) this.cab.set_channel_status(i, _err);
-		}
-				
-		if (warn_msg) {
-			this.warning.msg = '存储柜' + _cab.id + '#，序列号(' + _cab.sn + ')<br />' + warn_msg + '。';	
-			
-			global_modal_helper.show_modal_user('modalWarningCab');
-		}
-		else {
-			this.warning.msg = '';
-		}
-		
-		
+		}		
 	},	
     read_temp_hum_info_by_resp: function (status, lvl_id) {
         if (!status || !status.levels) return null;
@@ -263,6 +168,8 @@ CabinetHelper.prototype = {
     i_on_msg_push_status: function (msg) {
         if (!msg) return;
         var status = JSON.parse(msg.status);
+
+        var caution_update = false;
         for (var i = 0; i < this.cabs.length; ++i) {
             // 依次判断选择器是否为与所推送消息的ID相同
             var _cab = this.cabs[i];
@@ -271,6 +178,15 @@ CabinetHelper.prototype = {
             _cab.electricity = msg.electricity;
             _cab.current = msg.charge;
             _cab.voltage = msg.voltage;
+            					
+            if (_cab.warning_value != status.warning) {
+                caution_update = true;
+                _cab.warning_value = status.warning
+            }
+
+            if (_cab.channel_error != status.channel_error) {
+                this.set_channel_error(status.device_id, status.channel_error);
+            }
 
             // 更新温湿度，临时存储
             for (var j = 0; j < _cab.lvls_info.length; ++j) {
@@ -285,6 +201,10 @@ CabinetHelper.prototype = {
                     if (_cab === this.curr) this.update_TempAndHum();
                 }
             }
+        }
+
+        if (caution_update) {
+            global_scope.caution_manage.getCautions();
         }
     },
     i_on_msg_push_partition: function (msg) {
@@ -522,6 +442,8 @@ CabinetHelper.prototype = {
 
                     global_cabinet_helper.get_all_disk_cnt();
                     console.log('ok');
+					
+					global_scope.caution_manage.getCautions();
                 }
                 else {
                     console.log('failure');

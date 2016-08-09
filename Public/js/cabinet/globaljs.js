@@ -43,7 +43,7 @@ app_device.filter('to_trusted', function ($sce) {
     $scope.caution_manage = new CautionManage();
     $scope.on_caution_msgs = function (msgs)
     {
-        $scope.caution_manage.setCautions(msgs);
+        //$scope.caution_manage.setCautions(msgs);
     }
 
     // 防止按钮连续多次点击
@@ -165,10 +165,65 @@ app_device.filter('to_trusted', function ($sce) {
     global_root = businessRoot;
     global_app = proxy;
     $scope.systReset = function () {
-        $http({method: 'GET', url: '/index.php?m=admin&c=business&a=systReset'}).success(function (data) {
-            alert('系统重置成功！');
-        });
-    }
+        $scope.curr_modal.show_modal_user('modalResetInput');
+    };
+    $scope.super = {
+        err_msg: '',
+        user: '',
+        pwd: '',
+        is_posting: false,
+        post: function(){
+            this.err_msg = '';
+
+            if (!this.user) {
+                this.err_msg = '用户名不能为空！';
+                $('#text-input-user').focus();
+                return;
+            }
+
+            if (!this.pwd) {
+                this.err_msg = '密码不能为空！';
+                $('#text-input-pwd').focus();                
+                return;
+            }
+
+            $.magnificPopup.close();
+
+            if (this.is_posting) {
+                return;
+            }
+            else {
+                this.is_posting = true;
+            }
+
+            $http({
+                method: 'POST', 
+                url: '/?a=systReset',
+                data: {
+                    username: this.user,
+                    password: hex_md5(this.pwd)
+                }
+            })
+            .success(function (data) {
+                if (data === 'success') {
+                    toastr.success('系统重置成功！', '系统重置');
+                }
+                else {
+                    toastr.error('系统重置失败！', '系统重置');
+                }
+                
+                $scope.super.is_posting = false;
+            })
+            .error(function(){
+                toastr.error('系统重置失败！');
+                $scope.super.is_posting = false;
+            });
+
+            this.pwd = '';
+            this.err_msg = '';
+        }
+    };
+
     global_cmd_helper = new CabCmdHelper($scope);
     global_deployer = new Deployer($scope);
 

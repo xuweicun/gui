@@ -3,6 +3,9 @@
 }
 
 CabCmdHelper.prototype = {
+    // 上一次命令发送时间
+    last_cmd_send_time: 0,   
+
     updateDeviceStatus: function () {
         global_http({
             url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + global_cabinet.id,
@@ -235,6 +238,15 @@ CabCmdHelper.prototype = {
             on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
             return;
         }
+
+        var timestamp = (Date.parse(new Date())) / 1000;
+        if (timestamp - this.last_cmd_send_time <= 3) {
+            toastr.warning('您发送过于频繁，请稍后再试');
+            return;
+        }
+        else {
+            this.last_cmd_send_time = timestamp;
+        }
 				
         //先发送消息告知服务器即将发送指令；
         if (this.isDeviceNeeded(msg) && !msg.device_id) {
@@ -260,7 +272,7 @@ CabCmdHelper.prototype = {
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
             msg.CMD_ID = data['id'].toString();
             //服务器收到通知后，联系APP，发送指令；
-            global_http.post(global_app, msg).success(function (data) {
+            global_http.post(global_app, msg).success(function () {
                 //命令池更新
                 //检查是否添加成功
                 var newCmd = global_cmd_helper.createCmd(data);

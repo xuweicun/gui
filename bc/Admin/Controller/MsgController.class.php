@@ -1677,12 +1677,13 @@ class MsgController extends Controller
         return false;
     }
     public function addRtErrLog(){
+        echo "add llog";
         $rt_err_db = M('RunTimeErrLog');
         $data = array(
             'time'=>time(),
             'cmd_id'=>$this->msg->id,
             'err_code'=>$_POST['err_code'],
-            'err_msg'=>$_POST['err_msg']
+            'err_msg'=>$_POST['err_str']
         );
         $rt_err_db->add($data);
     }
@@ -1692,13 +1693,14 @@ class MsgController extends Controller
      */
     public function updateCmdLog()
     {
-        $runtime_error = array(63,64,65);
-        if(in_array((int)$this->msg->status,$runtime_error)){
+        $runtime_error = array('63','64','65');
+        if(in_array($_POST['status'],$runtime_error)){
             //err_code
             if($_POST['err_code'] && $_POST['err_code']==C('ERR_CODE_OK')){
                 $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
             }
-            //$this->addRtErrLog();
+            $this->addRtErrLog();
+            
         }
         //服务器主动推送的信息
         if ($this->msg->id == "0") {
