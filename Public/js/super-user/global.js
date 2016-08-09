@@ -494,17 +494,25 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
 
                 $scope.page_index = name
                 break;
+
+            case 'caution':
+		$scope.caution_manage.getAllCautions();
+                $scope.page_index = name
+		break;
             case 'user_log':
             case 'manul':
             case 'report':
             case 'smb_page':
-                $scope.page_index = name
+                $scope.page_index = name;
                 break;
             default:
                 $scope.page_index = 'main';
         }
     }
+
+	$scope.caution_manage = new CautionManage();
     $scope.change_page_index($scope.username == 'useradmin' ? 'main' : 'user_log');
+
 
 
     /*

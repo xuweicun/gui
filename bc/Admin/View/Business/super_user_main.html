@@ -105,6 +105,9 @@
                         <include file="userLogView" />
                     </div>
                 </div>
+                <div class="container-fluid content" ng-show="page_index == 'caution'" ng-if="username=='logadmin'">
+                    <include file="cautions_log" />
+                </div>
                 <div class="container-fluid content" ng-show="page_index == 'settings'" ng-show="username=='logadmin'">
                     <include file="settings" />
                 </div>
@@ -172,6 +175,7 @@
 <script src="/Public/js/angular-1.4.min.js"></script>
 <script src="/Public/js/angular-datatables.min.js"></script>
 <script src="/Public/js/cabinet/userLog.js"></script>
+<script src="/Public/js/cabinet/caution.js"></script>
 <script src="/Public/js/cabinet/modalhelper.js"></script>
 <script src="/Public/js/super-user/self_check.js"></script>
 <script src="/Public/js/super-user/user_settings.js"></script>

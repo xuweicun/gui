@@ -37,6 +37,11 @@
                     <i class="fa fa-bar-chart-o" aria-hidden="true"></i><span>系统报表</span>
                 </a>
             </li>
+            <li ng-class="{'active':page_index=='caution'}" ng-if="username=='logadmin'">
+                <a href="" ng-click="change_page_index('caution')">
+                    <i class="fa fa-warning" aria-hidden="true"></i><span>告警日志</span>
+                </a>
+            </li>
             <li>
                 <a href="" ng-click="showLogoutModal()">
                     <i class="fa fa-hand-o-left" aria-hidden="true"></i><span>退出</span>

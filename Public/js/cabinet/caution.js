@@ -6,6 +6,8 @@
     this.warning_value = 0;
     this.channel_error = 0;
     this.warning_msg = '';
+	this.dismissed = '0';
+	this.username = '';
 }
 
 Caution.prototype = {
@@ -99,7 +101,11 @@ function CautionManage()
 CautionManage.prototype = {
     showCautions: function ()
     {
-        global_modal_helper.show_modal_user('modalWarningCab');
+	try{
+		global_modal_helper.show_modal_user('modalWarningCab');
+	}
+	catch(e){
+	}
     },
     doCautions: function ()
     {
@@ -125,7 +131,18 @@ CautionManage.prototype = {
             that_caution.doing = false;
         });
     },
+	getAllCautions: function()
+	{
+		var that_caution = this;
+		global_http({
+		    url: '/?a=getCabCaution',
+		    method: 'get'
+		})
+		.success(function (data) {
+		    that_caution.setCautions(data)
+		});
 
+	},
     getCautions: function ()
     {
         var that_caution = this;
@@ -190,6 +207,8 @@ CautionManage.prototype = {
                     cau.time = parseInt(msg.time);
                     cau.setWarning(status.warning);
                     cau.channel_error = status.channel_error;
+			cau.dismissed = msg.dismissed;
+			cau.username = msg.username;
                 }
                 new_cautions.push(cau);
 
