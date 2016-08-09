@@ -1279,7 +1279,27 @@ class BusinessController extends Controller
             $this->AjaxReturn($log);
         }
     }
-
+    private function isDiskFree(){
+        if($_POST['cmd']=='DEVICESTATUS' || $_POST['cmd']=='DEVICEINFO'){
+            return true;
+        }
+        $device_id = $_POST['device_id'];
+        $lvl_id = $_POST['level'];
+        $grp_id = $_POST['group'];
+        if($_POST['cmd']=='COPY'){
+            $grp_id = $_POST['srcGroup'];
+            $lvl_id = $_POST['srcLevel'];
+        }
+        //查询该组磁盘是否繁忙
+        $map['cab'] = array('eq',$device_id);
+        $map['level'] = array('eq',$lvl_id);
+        $map['grp'] = array('eq',$grp_id);
+        $db = M('CmdDisk');
+        if($db->where($map)->select()){
+            return false;
+        }
+        return true;
+    }
     /***
      * to insert a new commond-request log, driven by javascript
      * @input: cmd, subcmd,
@@ -1291,7 +1311,9 @@ class BusinessController extends Controller
             $_POST = json_decode(file_get_contents('php://input'), true);
         }
         $this->updateCmdLog();
-
+        if(!$this->isDiskFree()){
+            $this->_ajaxReturn(false);
+        }
         $db = M('CmdLog');
 		/*
 		$device_id = $_POST['device_id'];
@@ -1368,7 +1390,7 @@ class BusinessController extends Controller
             $this->AjaxReturn($data);
         } else {
             //throw an exception
-            $this->notFoundError("fail to insert the cmd log");
+            $this->_ajaxReturn(false);
         }
 
     }
