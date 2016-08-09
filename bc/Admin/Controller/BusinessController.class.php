@@ -156,7 +156,7 @@ class BusinessController extends Controller
         $tables = $db->query($sql = 'show tables');
         foreach ($tables as $table_array) {
             foreach ($table_array as $table_item) {
-                if ($table_item == 'gui_super' || $table_item == 'gui_user') break;
+                if ($table_item == 'gui_super')break;
 
                 $ret = $db->execute($sql = 'TRUNCATE `gui`.`' . $table_item . '`');
                 if (!ret) {
