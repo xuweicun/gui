@@ -67,6 +67,7 @@ function Disk(lvl_obj, grp_obj, d) {
 
 // 硬盘Disk类的原型
 Disk.prototype = {
+
     // 变更桥接状态
     i_change_brdige_status: function (is_bridged, path) {
         this.base_info.bridged = is_bridged;
@@ -949,12 +950,12 @@ Disk.prototype = {
         // 需要二次验证
         if (cmd_name == 'COPY') {
             global_user.show_second_pwd_modal_with_action(function (obj) {
-                this.curr_cmd = cmd_obj;
+        //        this.curr_cmd = cmd_obj;
                 global_cmd_helper.sendcmd(obj);
             }, cmd_obj);
         }
         else {
-            this.curr_cmd = cmd_obj;
+        //    this.curr_cmd = cmd_obj;
 
     	    var mid = global_modal_helper.get_curr_id();
 	        global_modal_helper.close_modal(mid);

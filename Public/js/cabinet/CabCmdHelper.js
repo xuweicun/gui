@@ -3,6 +3,9 @@
 }
 
 CabCmdHelper.prototype = {
+    // 上一次命令发送时间
+    last_cmd_send_time: 0,   
+
     updateDeviceStatus: function () {
         global_http({
             url: '/index.php?m=admin&c=business&a=getDeviceInfo&cab=' + global_cabinet.id,
@@ -234,6 +237,15 @@ CabCmdHelper.prototype = {
             global_modal_helper.show_modal({type:'question',title:'发送命令',html:'您已退出,如需发送命令,请点击确定前往重新登录页面。',
             on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
             return;
+        }
+
+        var timestamp = (Date.parse(new Date())) / 1000;
+        if (timestamp - this.last_cmd_send_time <= 3) {
+            toastr.warning('您发送过于频繁，请稍后再试');
+            return;
+        }
+        else {
+            this.last_cmd_send_time = timestamp;
         }
 				
         //先发送消息告知服务器即将发送指令；
