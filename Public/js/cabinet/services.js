@@ -483,6 +483,20 @@ angular.module('device.services', [])
                 case 'selfcheck':
                     //添加新
                     break;
+                case 'cmd_caution':
+                    var num = data['num'];
+                    var msg = '命令执行异常';
+                    for(var i = 0;i <num;i++) {
+                        $caution = data[i.toString()];
+                        if($caution['cmd']=='BRIDGE'){
+                            //桥接
+                            $cab_id = $caution['cab'];
+                            if($cab_id == global_cabinet.curr.id){
+
+                            }
+                        }
+                    }
+                    break;
 
             }
 
