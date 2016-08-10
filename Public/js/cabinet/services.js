@@ -492,7 +492,7 @@ angular.module('device.services', [])
                             //桥接
                             $cab_id = $caution['cab'];
                             if($cab_id == global_cabinet.curr.id){
-
+                                global_cmd_helper.updateDeviceStatus();
                             }
                         }
                     }
