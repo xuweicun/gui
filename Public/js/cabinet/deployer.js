@@ -54,20 +54,8 @@ Deployer.prototype = {
             });
         });
     },
-    startDeploy: function (type) {
-        if (this.working == true) {
-            //防止重复启动
-            console.log("部署中，请稍后");
-            return;
-        }
-        console.log("开始部署");
-        this.working = true;
-        this.type = type;
-        this.idx = 0;
+    deployDiskInfo: function () {
         var that = this;
-
-        global_cabinet_helper.i_on_deploy(this.cab_id,true);
-
         this.worker = global_interval(function () {
             if (!that.finished || !that.ready) {
                 return;
@@ -93,6 +81,26 @@ Deployer.prototype = {
             global_cmd_helper.sendcmd(msg);
             that.finished = false;
         }, that.time_unit);
+    }
+    ,
+    startDeploy: function (type) {
+        if (this.working == true) {
+            //防止重复启动
+            return;
+        }
+        this.working = true;
+        this.type = type;
+        this.idx = 0;
+        global_cabinet_helper.i_on_deploy(this.cab_id,true);
+        switch(type){
+            case 'diskinfo':
+                this.deployDiskInfo();
+                break;
+            case 'filetree':
+                this.filetree();
+                break;
+        }
+
     },
     stopDeploy: function(){
         this.idx = this.disks.length + 1;

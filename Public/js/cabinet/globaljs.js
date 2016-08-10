@@ -326,17 +326,26 @@ app_device.filter('to_trusted', function ($sce) {
             }
         });
     }
-    $scope.deploy = function (cab) {
+    $scope.deploy = function (cab,type) {
+        var title='一键部署';
+        switch (type){
+            case 'diskinfo':
+                title = '当前柜磁盘信息查询';
+                break;
+            case 'filetree':
+                title = '一键获取文件目录';
+                break;
+        }
         global_modal_helper.show_modal({
             type: 'question',
-            title: '当前柜磁盘信息查询',
-            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> [磁盘信息查询] </span>命令？',
+            title: title,
+            html: '您确定提交<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> ['+title+'] </span>命令？',
             on_click_handle: function (cab_id) {
                 if (!global_deployer.available()) {
                     return;
                 }
                 global_deployer.on_init(cab);
-                global_deployer.startDeploy();
+                global_deployer.startDeploy(type);
             },
             on_click_param: cab
         });
