@@ -103,12 +103,15 @@ $md5_checker->onWorkerStart = function () {
             $ret = array_merge($rows, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
             //将dismiss设为1
+            $_t = time();
             foreach($rows as $log){
-                $log['dismissed']  = 1;
-                $log['dismiss_time'] = time();
+                $cols = array(
+                    "dismissed"=>1,
+                    'dismiss_time'=>$_t
+                );
                 $cond = "id=:I";
                 $bindV = array("I"=>$log['id']);
-                $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($log)->query();
+                $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($cols)->query();
             }
         });
 
