@@ -333,7 +333,7 @@ app_device.filter('to_trusted', function ($sce) {
                 title = '当前柜磁盘信息查询';
                 break;
             case 'filetree':
-                title = '一键获取文件目录';
+                title = '当前柜磁盘文件目录查询';
                 break;
         }
         global_modal_helper.show_modal({

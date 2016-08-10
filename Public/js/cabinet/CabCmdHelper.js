@@ -236,13 +236,13 @@ CabCmdHelper.prototype = {
         if(global_user.off_line){
             global_modal_helper.show_modal({type:'question',title:'发送命令',html:'您已退出,如需发送命令,请点击确定前往重新登录页面。',
             on_click_target:this,on_click_handle:'go_login_page',on_click_param:''});
-            return;
+            return 0;
         }
 
         var timestamp = (Date.parse(new Date())) / 1000;
         if (timestamp - this.last_cmd_send_time <= 3) {
             toastr.warning('您发送过于频繁，请稍后再试');
-            return;
+            return 0;
         }
         else {
             this.last_cmd_send_time = timestamp;
@@ -266,8 +266,8 @@ CabCmdHelper.prototype = {
         success(function (data) {
             if (data['errmsg']) {
                 global_err_pool.add(data);
-                console.log("发送命令失败");
-                return;
+                toastr.warning(data['errmsg']);
+                return 0;
             }
             //如果命令为停止，则cmd_id实际为目标ID，且不需要再次赋值
             msg.CMD_ID = data['id'].toString();
@@ -279,21 +279,22 @@ CabCmdHelper.prototype = {
                 var newCmd = global_cmd_helper.createCmd(data);
                 global_task_pool.add(newCmd);
                 global_ws_watcher.sendcmd(msg);	
-
 				if (on_done) {
 					on_done();
-				}				
+				}
+                return msg.CMD_ID;
             }).
             error(function () {
                 global_err_pool.add();
                 //delete from log;
                 //弹出失败提示
-                
+
                 global_cmd_helper.delete(msg.CMD_ID);
 				
 				if (on_done) {
 					on_done();
 				}
+                toastr.warning('命令发送失败,请稍后再试!');
             });
         }).
         error(function () {
@@ -303,6 +304,7 @@ CabCmdHelper.prototype = {
 			if (on_done) {
 				on_done();
 			}
+            toastr.warning('命令发送失败,请稍后再试!');
         });
     }
 };

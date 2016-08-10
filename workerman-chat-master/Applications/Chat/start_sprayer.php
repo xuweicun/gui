@@ -93,15 +93,23 @@ $md5_checker->onWorkerStart = function () {
                     }
                 }
             }
-            return;
+
             //推送消息
             //检查有无告警
-            $rows = $db->select("id,status")->from("gui_cab_caution_log")->where("dismissed=0")->query();
+            $rows = $db->select("*")->from("gui_run_time_err_log")->innerJoin('gui_cmd_log','gui_run_time_err_log.cmd_id = gui_cmd_log.id')->where("dismissed=0")->query();
             if(!$rows){return;}
             $num = count($rows);
-            $attached = array('type' => 'cab_caution', 'num' => $num);
+            $attached = array('type' => 'cmd_caution', 'num' => $num);
             $ret = array_merge($rows, $attached);
             ExtendGateWay::sendToAll(json_encode($ret));
+            //将dismiss设为1
+            foreach($rows as $log){
+                $log['dismissed']  = 1;
+                $log['dismiss_time'] = time();
+                $cond = "id=:I";
+                $bindV = array("I"=>$log['id']);
+                $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($log)->query();
+            }
         });
 
 

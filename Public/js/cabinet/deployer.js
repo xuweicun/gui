@@ -16,14 +16,15 @@
     this.cmd_id = 0;
     this.stage = 0;
     this.type = "diskinfo";
+    this.cmdQueue = ['DISKINFO', 'BRIDGE', 'FILETREE', 'BRIDGE_STOP'];
 }
 
 Deployer.prototype = {
-    available: function(){
-      return !this.working;
+    available: function () {
+        return !this.working;
     },
-    getLength: function(){
-     return this.disks.length;
+    getLength: function () {
+        return this.disks.length;
     },
     on_init: function (c) {
         this.cab_id = c.toString();
@@ -64,7 +65,7 @@ Deployer.prototype = {
             //全部完成
             if (that.is_done()) {
                 that.working = false;
-                global_cabinet_helper.i_on_deploy(that.cab_id,false);
+                global_cabinet_helper.i_on_deploy(that.cab_id, false);
                 global_interval.cancel(that.worker);
                 return;
             }
@@ -91,22 +92,62 @@ Deployer.prototype = {
         this.working = true;
         this.type = type;
         this.idx = 0;
-        global_cabinet_helper.i_on_deploy(this.cab_id,true);
-        switch(type){
+        global_cabinet_helper.i_on_deploy(this.cab_id, true);
+        switch (type) {
             case 'diskinfo':
                 this.deployDiskInfo();
                 break;
             case 'filetree':
+                this.resetDeployer();
                 this.filetree();
                 break;
         }
 
     },
-    stopDeploy: function(){
+    resetDeployer: function () {
+        this.stage = 0;
+        this.idx = 0;
+        this.cmd_id = 0;
+    }
+    ,
+    updateDeployer: function (suc) {
+        if (suc) {//命令成功,转入下一步
+            this.stage = this.stage + 1;
+            if (this.stage > this.cmdQueue.length) {
+                this.stage = 0;
+            }
+        }
+        else{
+            //命令失败,开始下一个
+            this.stage = 0;
+        }
+        this.updateIndex();
+
+    },
+    stopDeploy: function () {
         this.idx = this.disks.length + 1;
     },
-    filetree: function(){
+    filetree: function (suc) {
+        var cmd = this.cmdQueue[this.stage];
+        var sub_cmd = 'START';
+        if(cmd  == 'BRIDGE_STOP'){
+            cmd = 'BRIDGE';
+            sub_cmd = 'STOP';
+        }
+        var msg = {
+            cmd: cmd,
+            sub_cmd:sub_cmd,
+            device_id: this.cab_id,
+            level: this.l,
+            group: this.g,
+            disk: this.d
+        };
 
+        this.cmd_id = global_cmd_helper.sendcmd(msg);
+        if (this.cmd_id == 0) {
+            //发送失败
+            this.update(this.cmd_id,false);
+        }
     },
     is_done: function () {
         if (this.idx >= this.disks.length && this.finished) {
@@ -120,9 +161,33 @@ Deployer.prototype = {
         this.d = this.disks[this.idx].d;
         this.idx++;
     },
-    success: function (cab, l, g, d) {
+    update: function (cmd_id,suc) {
+        if(parseInt(cmd_id) != parseInt(this.cmd_id)){
+            return;
+        }
+        if (this.type == 'diskinfo') {
+            this.finished = true;
+        }
+        if (this.type == 'filetree') {
+            this.updateDeployer(suc);
+            if(!this.is_done())
+                this.filetree();
+            else{//归零
+                this.resetDeployer();
+            }
+        }
+    },
+    success: function (cab, l, g, d, suc) {
         if (cab == this.cab_id && l == this.l && g == this.g && d == this.d) {
             this.finished = true;
+        }
+        if (this.type == 'filetree') {
+            this.updateDeployer(suc);
+            if(!this.is_done())
+            this.filetree();
+            else{
+                this.resetDeployer();
+            }
         }
     }
 };

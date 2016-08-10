@@ -75,6 +75,8 @@ TaskPool.prototype = {
                         if (u_task.isSuccess()) {
                             pool.success(idx, e);
                         }
+                        //如果桥接出现异常,终止桥接状态
+                        
                     }
                     break;
                 }
