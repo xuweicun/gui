@@ -485,7 +485,7 @@ angular.module('device.services', [])
                     break;
                 case 'cmd_caution':
                     var num = data['num'];
-                    var msg = '命令执行异常';
+                    var err_msg = '命令执行异常';
                     for(var i = 0;i <num;i++) {
                         $caution = data[i.toString()];
                         if($caution['cmd']=='BRIDGE'){
@@ -496,6 +496,7 @@ angular.module('device.services', [])
                             }
                         }
                     }
+                    toastr.error(err_msg);
                     break;
 
             }
