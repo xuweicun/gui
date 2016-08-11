@@ -139,7 +139,9 @@ CautionManage.prototype = {
 		    method: 'get'
 		})
 		.success(function (data) {
-		    that_caution.setCautions(data)
+            if (!data) return;
+
+		    that_caution.setCautions(data.cab_caution);
 		});
 
 	},
