@@ -103,7 +103,7 @@ $md5_checker->onWorkerStart = function () {
                 $ret = array_merge($rows, $attached);
                 ExtendGateWay::sendToAll(json_encode($ret));
                 //将dismiss设为1
-                $_t = time();
+               /* $_t = time();
                 //foreach($rows as $log){
                 $cols = array(
                     "dismissed" => 1,
@@ -111,7 +111,7 @@ $md5_checker->onWorkerStart = function () {
                 );
                 $cond = "dismissed=:I";
                 $bindV = array("I" => 0);
-                $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($cols)->query();
+                $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($cols)->query();*/
             }
             $rows = $db->select("*")->from("gui_cmd_disk")->innerJoin('gui_cmd_log','gui_cmd_disk.cmd_id = gui_cmd_log.id')->where("1=1")->query();
             if($rows) {
