@@ -120,7 +120,7 @@ $md5_checker->onWorkerStart = function () {
                         $cmd_id = $item['cmd_id'];
                         $conn = "cmd_id=:C";
                         $bindV = array("C"=>$cmd_id);
-                        $db->delete("gui_cmd_disk")->where($cond)->bindValues($bindV)->query();
+                        $db->delete("gui_cmd_disk")->where($conn)->bindValues($bindV)->query();
                     }
                 }
             }
