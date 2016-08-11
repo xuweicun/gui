@@ -1441,6 +1441,19 @@ class BusinessController extends Controller
         $rst = $db->save($data);
         $this->_ajaxReturn($rst);
     }
+    public function dismissAllCmdCaution(){
+        $user_id = (int)$_POST['user_id'];
+        $db = M("RunTimeErrLog");
+        $items = $db->where("dismissed=0")->select();
+        $rst = true;
+        foreach ($items as $log)
+        {
+            $log['dismissed'] = 1;
+            $log['dismiss_time'] = time();
+            $log['user_id'] = $user_id;
+            $rst = ($rst && $db->save($log));
+        }
+    }
     public function dismissAllCaution(){
         $user_id = (int)$_POST['user_id'];
         $db = M("CabCautionLog");
@@ -1453,6 +1466,7 @@ class BusinessController extends Controller
             $log['user_id'] = $user_id;
             $rst = ($rst && $db->save($log));
         }
+        $this->dismissAllCmdCaution();
         $this->_ajaxReturn($rst);
     }
     public function getCmdCaution($type){
