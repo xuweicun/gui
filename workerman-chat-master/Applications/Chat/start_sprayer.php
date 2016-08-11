@@ -69,11 +69,11 @@ $md5_checker->onWorkerStart = function () {
         $checkTimer = Timer::add(10,function(){
             //检查命令状态
             $db = Db::instance('db1');
-            $rows = $db->select("id,started,start_time,progress,cmd,sub_cmd")->from("gui_cmd_log")->where("finished=0 and started=0")->query();
+            $rows = $db->select("id,started,start_time,progress,cmd,sub_cmd")->from("gui_cmd_log")->where("finished=0")->query();
             foreach ($rows as $log){
                 $current_time = time();
                 $used_time = $current_time - (int)$log['start_time'];
-                if($used_time > 120){
+                if($used_time > 120 && $log['started']==0){
                     //命令失败
                     $log['finished'] = 1;
                     $log['status'] = 2000;//启动失败
@@ -97,21 +97,34 @@ $md5_checker->onWorkerStart = function () {
             //推送消息
             //检查有无告警
             $rows = $db->select("*")->from("gui_run_time_err_log")->innerJoin('gui_cmd_log','gui_run_time_err_log.cmd_id = gui_cmd_log.id')->where("dismissed=0")->query();
-            if(!$rows){return;}
-            $num = count($rows);
-            $attached = array('type' => 'cmd_caution', 'num' => $num);
-            $ret = array_merge($rows, $attached);
-            ExtendGateWay::sendToAll(json_encode($ret));
-            //将dismiss设为1
-            $_t = time();
-            //foreach($rows as $log){
+            if($rows) {
+                $num = count($rows);
+                $attached = array('type' => 'cmd_caution', 'num' => $num);
+                $ret = array_merge($rows, $attached);
+                ExtendGateWay::sendToAll(json_encode($ret));
+                //将dismiss设为1
+                $_t = time();
+                //foreach($rows as $log){
                 $cols = array(
-                    "dismissed"=>1,
-                    'dismiss_time'=>$_t
+                    "dismissed" => 1,
+                    'dismiss_time' => $_t
                 );
                 $cond = "dismissed=:I";
-                $bindV = array("I"=>0);
+                $bindV = array("I" => 0);
                 $db->update("gui_run_time_err_log")->where($cond)->bindValues($bindV)->cols($cols)->query();
+            }
+            $rows = $db->select("*")->from("gui_cmd_disk")->innerJoin('gui_cmd_log','gui_cmd_disk.cmd_id = gui_cmd_log.id')->where("1=1")->query();
+            if($rows) {
+                foreach ($rows as $item){
+                    if($item['finished'] == 1){
+                        $cmd_id = $item['cmd_id'];
+                        $conn = "cmd_id=:C";
+                        $bindV = array("C"=>$cmd_id);
+                        $db->delete("gui_cmd_disk")->where($cond)->bindValues($bindV)->query();
+                    }
+                }
+            }
+            //
            // }
         });
 
