@@ -224,6 +224,7 @@ CautionManage.prototype = {
             that_caution.setCautions(datai.cab_caution);
             that_caution.setCmdCautions(data.cmd_caution);
             that_caution.Cautions = that_caution.CabCautions.concat(that_caution.CmdCautions);
+
             that_caution.Cautions.sort(function(a,b){
                 return a.time > b.time;
             });
