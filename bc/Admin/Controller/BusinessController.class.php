@@ -1316,7 +1316,8 @@ class BusinessController extends Controller
         $map['level'] = array('eq',$lvl_id);
         $map['grp'] = array('eq',$grp_id);
         $db = M('CmdDisk');
-        if($db->where($map)->select()){
+        if($rst = $db->where($map)->select()){
+            var_dump($rst);
             return false;
         }
 
