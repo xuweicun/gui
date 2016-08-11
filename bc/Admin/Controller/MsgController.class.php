@@ -1271,7 +1271,7 @@ class MsgController extends Controller
             $log['status'] = (int)$paths[0]['status'];
             $this->RTLog("FAIL");
         } else {
-            $this->RTLog("SUCCESS");
+            //命令成功
             $log['status'] = C('CMD_SUCCESS');
             $device_db = M('Device');
             $map['cab_id'] = array('eq', $this->msg->cab_id);

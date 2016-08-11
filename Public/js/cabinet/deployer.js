@@ -106,7 +106,13 @@ Deployer.prototype = {
                 this.deployDiskInfo();
                 break;
             case 'filetree':
-                this.filetree();
+                var that = this;
+                var wait_ready = global_interval(function () {
+                    if(that.ready){
+                        global_interval.cancel(wait_ready);
+                        that.filetree();
+                    }
+                },1000);
                 break;
         }
 
@@ -116,6 +122,7 @@ Deployer.prototype = {
         this.idx = 0;
         this.cmd_id = 0;
         this.working = false;
+        this.ready = false;
     }
     ,
     updateDeployer: function (suc,sn) {
@@ -154,9 +161,12 @@ Deployer.prototype = {
             sub_cmd = 'STOP';
         }
         var msg;
-        var l = this.l + 1;
-        var g = this.g + 1;
-        var d = this.d + 1;
+        this.l = this.disks[this.idx].l;
+        this.g = this.disks[this.idx].g;
+        this.d = this.disks[this.idx].d;
+        var l = this.l;
+        var g = this.g;
+        var d = this.d;
         if (cmd == 'DISKINFO')
             msg = {
                 cmd: cmd,
@@ -220,9 +230,7 @@ Deployer.prototype = {
     },
     updateIndex: function () {
         this.idx++;
-        this.l = this.disks[this.idx].l;
-        this.g = this.disks[this.idx].g;
-        this.d = this.disks[this.idx].d;
+
     },
     update: function (cmd_id, suc,sn) {
         if(this.working == false){
