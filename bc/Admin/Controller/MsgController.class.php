@@ -364,8 +364,8 @@ class MsgController extends Controller
             foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
                 $item = $db->where(array(
                     'cab_id' => $_POST['device_id'],
-                    'level' => $_POST['level'],
-                    'zu' => $_POST['group'],
+                    'level' =>$_POST['busy_disks']['l'],
+                    'zu' => $_POST['busy_disks']['g'],
                     'disk' => $dsk,
                     'loaded' => 1
                 ))->find();
@@ -813,7 +813,24 @@ class MsgController extends Controller
         if ($log) {
             // 硬盘忙，记录具体busy硬盘
             switch ($item->status) {
+                case '1':
+                    //bridge not started
+                    $db = M('Device');
+                    foreach ($_POST['disks'] as $dsk) {
+                        $item = $db->where(array(
+                            'cab_id' => $_POST['device_id'],
+                            'level' => $_POST['level'],
+                            'zu' => $_POST['group'],
+                            'disk' => $dsk['id']
+                        ))->find();
+                        if ($item) {
+                            $item['bridged'] = 0;
+                            $db->save($item);
+                        }
+                    }
+                    break;
                 case '25':
+
                 case '26':
                 case '27':
                 case '28':
