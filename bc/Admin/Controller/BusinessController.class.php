@@ -1299,6 +1299,11 @@ class BusinessController extends Controller
         if($_POST['cmd']=='DEVICESTATUS' || $_POST['cmd']=='DEVICEINFO'){
             return true;
         }
+        if(($_POST['cmd']=='MD5' || $_POST['cmd']=='COPY') && $_POST['subcmd']=='STOP'){
+            return true;
+        }
+        //检查磁盘是否桥接
+
         $device_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
         $grp_id = $_POST['group'];
@@ -1314,6 +1319,7 @@ class BusinessController extends Controller
         if($db->where($map)->select()){
             return false;
         }
+
         if($_POST['cmd']=='COPY'){
             $grp_id = $_POST['dstGroup'];
             $map['grp'] = array('eq',$grp_id);
@@ -1833,7 +1839,7 @@ class BusinessController extends Controller
 
     private function notFoundError($appended = '')
     {
-        $data['errmsg'] = 'item does not exists--' . $appended;
+        $data['errmsg'] = $appended;
         $this->AjaxReturn($data);
     }
 

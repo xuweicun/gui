@@ -1578,6 +1578,7 @@ class MsgController extends Controller
      */
     public function hdlCabCaution()
     {
+
         //更新错误日志，包括命令名称，错误内容。--增加表；
         if(!$_POST['push'] || $_POST['push'] ==='0'){
             return;
@@ -1591,7 +1592,7 @@ class MsgController extends Controller
             if($_POST['elec_sts'] === '2' || $_POST['volt_sts'] === '2' || $_POST['curr_sts'] === '2'){
                 //严重告警,停止所有磁盘命令
 
-                $logs = $db->where($map)->group('cmd_id')->select();
+                $logs = $db->where($map)->field('cmd_id')->group('cmd_id')->select();
                 foreach ($logs as $item){
                     $id = $item['cmd_id'];
                     $cmd_log = $this->db->find($id);
@@ -1607,7 +1608,7 @@ class MsgController extends Controller
                 if($item['temp_sts'] == '2' ||$item['hum_sts'] == '2' || $item['chan_sts'] == '1'){
                     //该层有问题
                     $map['level'] = $item['id'];
-                    $logs = $db->where($map)->group('cmd_id')->select();
+                    $logs = $db->where($map)->field('cmd_id')->group('cmd_id')->select();
                     foreach ($logs as $log_item){
                         $id = $log_item['cmd_id'];
                         $cmd_log = $this->db->find($id);

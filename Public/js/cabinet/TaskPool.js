@@ -62,6 +62,18 @@ TaskPool.prototype = {
             return;
         }
         data.forEach(function (e) {
+            if(e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id){
+                if(global_deployer.type == 'filetree'){
+                    var suc = e['status'] == 0;
+                    var sn='';
+                    if(e['cmd']=='DISKINFO'){
+                        var r_msg = JSON.parse(e['return_msg']);
+                        if(r_msg != null)
+                        sn=r_msg['sn'];
+                    }
+                    global_deployer.update(e['id'],suc,sn);
+                }
+            }
             for (var idx = 0; idx < pool.going.length; idx++) {
                 var u_task = pool.going[idx];
                 if (u_task.id == e['id']) {
