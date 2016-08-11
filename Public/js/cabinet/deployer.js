@@ -164,7 +164,7 @@ Deployer.prototype = {
         this.l = this.disks[this.idx].l;
         this.g = this.disks[this.idx].g;
         this.d = this.disks[this.idx].d;
-        var l = this.l + 1;
+        var l = this.l;
         var g = this.g;
         var d = this.d;
         if (cmd == 'DISKINFO')
