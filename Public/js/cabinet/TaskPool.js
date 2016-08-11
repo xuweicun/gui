@@ -87,6 +87,26 @@ TaskPool.prototype = {
                         if (u_task.isSuccess()) {
                             pool.success(idx, e);
                         }
+                        else{
+                            if(e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP'){
+                                var return_msg = JSON.parse(e['return_msg']);
+                                var disks = return_msg.disks;
+                                var task = u_task;
+                                //遍历硬盘
+                                for (var idx = 0; idx < disks.length; idx++) {
+                                    var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
+                                    if (disk) {
+                                            disk.i_change_brdige_status(false, null);
+                                    }
+                                }
+
+                                // 更新桥接数
+                                global_cabinet_helper.i_on_bridge_success(task.cab_id);
+
+                                // 更新写保护
+                                global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
+                            }
+                        }
                         //如果桥接出现异常,终止桥接状态
 
                     }
