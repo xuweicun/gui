@@ -72,15 +72,16 @@ class Msg
         $nsCmd = array("MD5", "COPY");
         return in_array($this->cmd, $nsCmd);
     }
-    public function setStatus($sts){
+
+    public function setStatus($sts)
+    {
         $this->status = $sts;
         return $this->status;
     }
+
     public function getStatus()
     {
-        if (!in_array($this->cmd, $this->multiDsk)) {
-            $this->status = $_POST['status'];
-        }
+        $this->status = $_POST['status'];//Judge status first
         $this->substatus = $_POST['substatus'];
         $this->errno = $_POST['errno'];
 
@@ -215,12 +216,12 @@ class Dsk
     {
         $room = $this->db->where($this->map)->find();
         if ($room) {
-			echo 'no room';
+            echo 'no room';
             return false;
         }
         $dskDb = M('Disk');
         if (!$room['disk_id'] || $room['disk_id'] <= 0) {
-			echo 'new disk';
+            echo 'new disk';
             //新增条目
             $data = array();
             foreach ($keys as $idx => $key) {
@@ -243,7 +244,7 @@ class Dsk
             $dskDb->save($dsk);
             return true;
         } else {
-			echo 'no disk';
+            echo 'no disk';
             return false;
         }
     }
@@ -292,7 +293,7 @@ class MsgController extends Controller
         $this->msg->init();
         //CMD-ID 不允许为空		
 
-		$this->syn_cmd_status();
+        $this->syn_cmd_status();
         //$this->logs_for_report();
 
         $this->db = M("CmdLog");
@@ -301,9 +302,9 @@ class MsgController extends Controller
         if ($this->msg->id != "0") {
             //更新自检计划
             if (in_array($this->msg->cmd, $this->selfCheckArr)) {
-             //   $cmd = $this->db->find((int)$this->msg->id);
-           //     $this->hdlSelfCheck($cmd);
-             //   var_dump($cmd);
+                //   $cmd = $this->db->find((int)$this->msg->id);
+                //     $this->hdlSelfCheck($cmd);
+                //   var_dump($cmd);
             }
 
             $this->updateCmdLog();
@@ -349,353 +350,357 @@ class MsgController extends Controller
         if ($this->msg->isSuccess()) {
             $this->hdlSuccess();
         }
-				
+
     }
-	
-	private function syn_cmd_status()
-	{
-		$cmd = $_POST['cmd'];
-		$subcmd = $_POST['subcmd'];
-		$status = $_POST['status'];
-		
-		if ($status == '25') {
-			$db = M('Device');
-			foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
-				$item = $db->where(array(
-					'cab_id'=>$_POST['device_id'],
-					'level' => $_POST['level'],
-					'zu' => $_POST['group'],
-					'disk' => $dsk,
-					'loaded'=>1
-				))->find();
-				if ($item && $item['bridged'] != 1) {
-					$item['bridged'] = 1;
-					$db->save($item);
-				}
-			}
-			return;
-		}
-		
-		// 代表正在进行MD5或COPY
-		if ($cmd == 'MD5' || $cmd == 'COPY') {
-			if ($subcmd == 'PROGRESS' && $status == '0') {
-				$item = M('CmdLog')->where(array('id'=>$_POST['CMD_ID']))->find();
-				if ($item) {
-					if ($item['finished'] == 1){
-						$item['finished'] = 0;
-					}
-					
-					if ($item['progress'] != $_POST['progress']) {						
-						$item['progress_time'] = time();
-					}					
-					
-					M('CmdLog')->save($item);
-				}
-			}
-			
-			$db = M('CmdLog');
-			if (($cmd == 'MD5' && $subcmd == 'STOP' && $status == '23') 
-				|| ($cmd == 'COPY' && $subcmd == 'STOP' && $status == '42')){
-				$item = $db->where(array(
-					'id'=>$_POST['CMD_ID']
-				))->find();
-				
-				if ($item) {
-					$item = $db->where(array(
-						'id'=>$item['dst_id']
-					))->find();
-					
-					if ($item) {
-						$item['finished'] = 1;
-						$db->save($item);
-					}
-				}
-			}
-		}
-		// 代表桥接
-		else if ($cmd == 'PARTSIZE') {
-			if ($status == '0' && $_POST['substatus'] == '0') {
-				$item = M('Device')->where(array(
-					'cab_id'=>$_POST['device_id'],
-					'level' => $_POST['level'],
-					'zu' => $_POST['group'],
-					'disk' => $_POST['disk'],
-					'loaded'=>1
-				))->find();
-				
-				if ($item) {
-					if($item['bridged'] != 1) {
-						$item['bridged'] = 1;
-						M('Device')->save($item);						
-					}
-				}
-				else {
-					
-				}
-			}
-		}
-	}
-	
-	private function write_fatal_msg($msg){
-		if (is_null($msg) || $msg == '') return;
-				
-		M('FatalMsg')->add(array('msg'=>$msg));
-	}
+
+    private function syn_cmd_status()
+    {
+        $cmd = $_POST['cmd'];
+        $subcmd = $_POST['subcmd'];
+        $status = $_POST['status'];
+
+        if ($status == '25') {
+            $db = M('Device');
+            foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
+                $item = $db->where(array(
+                    'cab_id' => $_POST['device_id'],
+                    'level' => $_POST['level'],
+                    'zu' => $_POST['group'],
+                    'disk' => $dsk,
+                    'loaded' => 1
+                ))->find();
+                if ($item && $item['bridged'] != 1) {
+                    $item['bridged'] = 1;
+                    $db->save($item);
+                }
+            }
+            return;
+        }
+
+        // 代表正在进行MD5或COPY
+        if ($cmd == 'MD5' || $cmd == 'COPY') {
+            if ($subcmd == 'PROGRESS' && $status == '0') {
+                $item = M('CmdLog')->where(array('id' => $_POST['CMD_ID']))->find();
+                if ($item) {
+                    if ($item['finished'] == 1) {
+                        $item['finished'] = 0;
+                    }
+
+                    if ($item['progress'] != $_POST['progress']) {
+                        $item['progress_time'] = time();
+                    }
+
+                    M('CmdLog')->save($item);
+                }
+            }
+
+            $db = M('CmdLog');
+            if (($cmd == 'MD5' && $subcmd == 'STOP' && $status == '23')
+                || ($cmd == 'COPY' && $subcmd == 'STOP' && $status == '42')
+            ) {
+                $item = $db->where(array(
+                    'id' => $_POST['CMD_ID']
+                ))->find();
+
+                if ($item) {
+                    $item = $db->where(array(
+                        'id' => $item['dst_id']
+                    ))->find();
+
+                    if ($item) {
+                        $item['finished'] = 1;
+                        $db->save($item);
+                    }
+                }
+            }
+        } // 代表桥接
+        else if ($cmd == 'PARTSIZE') {
+            if ($status == '0' && $_POST['substatus'] == '0') {
+                $item = M('Device')->where(array(
+                    'cab_id' => $_POST['device_id'],
+                    'level' => $_POST['level'],
+                    'zu' => $_POST['group'],
+                    'disk' => $_POST['disk'],
+                    'loaded' => 1
+                ))->find();
+
+                if ($item) {
+                    if ($item['bridged'] != 1) {
+                        $item['bridged'] = 1;
+                        M('Device')->save($item);
+                    }
+                } else {
+
+                }
+            }
+        }
+    }
+
+    private function write_fatal_msg($msg)
+    {
+        if (is_null($msg) || $msg == '') return;
+
+        M('FatalMsg')->add(array('msg' => $msg));
+    }
 
     private function write_smart_log()
     {
         if ($_POST['cmd'] != 'DISKINFO') return;
 
-		// 只记录成功的
-		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
-			return;
-		}
-		
-		// 依据cmd_id判断是否已经存储过该md5值
-		if ($_POST['CMD_ID'] == null) return;
-		if (M('DiskSmartLog')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
-			echo '重复Smart值' . json_encode($_POST);
-			return;
-		} 
+        // 只记录成功的
+        if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
+            return;
+        }
+
+        // 依据cmd_id判断是否已经存储过该md5值
+        if ($_POST['CMD_ID'] == null) return;
+        if (M('DiskSmartLog')->where(array('cmd_id' => $_POST['CMD_ID']))->find()) {
+            echo '重复Smart值' . json_encode($_POST);
+            return;
+        }
 
         $dev_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
         $grp_id = $_POST['group'];
         $dsk_id = $_POST['disk'];
 
-		$slot = M('Device')->field(array('disk_id', 'cabinet_id'))
-			->where(array(
-				'cab_id' => $dev_id,
-				'level' => $lvl_id,
-				'zu' => $grp_id,
-				'disk' => $dsk_id,
-				'loaded' => 1))
+        $slot = M('Device')->field(array('disk_id', 'cabinet_id'))
+            ->where(array(
+                'cab_id' => $dev_id,
+                'level' => $lvl_id,
+                'zu' => $grp_id,
+                'disk' => $dsk_id,
+                'loaded' => 1))
             ->find();
-		if (!$slot) {
-			$this->write_fatal_msg('can not find loaded disk, when post : ' 
+        if (!$slot) {
+            $this->write_fatal_msg('can not find loaded disk, when post : '
                 . json_encode($_POST));
-			return;     
-		}
-		
-		if ($slot['disk_id'] == 0 || $slot['disk_id'] == null){
-			$this->write_fatal_msg('empty disk id, when post : ' 
+            return;
+        }
+
+        if ($slot['disk_id'] == 0 || $slot['disk_id'] == null) {
+            $this->write_fatal_msg('empty disk id, when post : '
                 . json_encode($_POST));
-			return; 
-		}
+            return;
+        }
 
         $item['time'] = time();
 
-		$item['device_id'] = $dev_id;
-		$item['level'] = $lvl_id;
-		$item['zu'] = $grp_id;
-		$item['disk'] = $dsk_id;
+        $item['device_id'] = $dev_id;
+        $item['level'] = $lvl_id;
+        $item['zu'] = $grp_id;
+        $item['disk'] = $dsk_id;
 
-		$item['disk_status'] = $_POST['disk_status'];
-		$item['cmd_id'] = $_POST['CMD_ID'];
+        $item['disk_status'] = $_POST['disk_status'];
+        $item['cmd_id'] = $_POST['CMD_ID'];
 
-		$item['disk_id'] = $slot['disk_id'];
+        $item['disk_id'] = $slot['disk_id'];
         $item['cabinet_id'] = $slot['cabinet_id'];
 
-		$item['sn'] = $_POST['SN'];
-		$item['capacity'] = $_POST['capacity'];
-		$item['smart'] = json_encode($_POST['SmartAttrs']);
-		$item['status'] = '1';
-		$item['status_comment'] = '';
+        $item['sn'] = $_POST['SN'];
+        $item['capacity'] = $_POST['capacity'];
+        $item['smart'] = json_encode($_POST['SmartAttrs']);
+        $item['status'] = '1';
+        $item['status_comment'] = '';
 
-		M('DiskSmartLog')->add($item);
+        M('DiskSmartLog')->add($item);
 
     }
+
     private function write_md5_log()
     {
         if ($_POST['cmd'] != 'MD5') return;
 
         if ($_POST['subcmd'] != 'RESULT') return;
-        
-		if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
-			return;
-		}
-		
-		// 依据cmd_id判断是否已经存储过该md5值
-		if ($_POST['CMD_ID'] == null) return;
-		if (M('DiskMd5Log')->where(array('cmd_id'=>$_POST['CMD_ID']))->find()){
-			echo '重复MD5值' . json_encode($_POST);
-			return;
-		} 
-			
-		
+
+        if ($_POST['status'] != '0' || $_POST['substatus'] != '0') {
+            return;
+        }
+
+        // 依据cmd_id判断是否已经存储过该md5值
+        if ($_POST['CMD_ID'] == null) return;
+        if (M('DiskMd5Log')->where(array('cmd_id' => $_POST['CMD_ID']))->find()) {
+            echo '重复MD5值' . json_encode($_POST);
+            return;
+        }
+
+
         $dev_id = $_POST['device_id'];
         $lvl_id = $_POST['level'];
         $grp_id = $_POST['group'];
         $dsk_id = $_POST['disk'];
 
-		// 判断是否exist
-		$my_slot = M('Device')->field(array('disk_id', 'cabinet_id'))
+        // 判断是否exist
+        $my_slot = M('Device')->field(array('disk_id', 'cabinet_id'))
             ->where(array(
-		    	'cab_id' => $dev_id,
-	    		'level' => $lvl_id,
-	    	    'zu' => $grp_id,
-    			'disk' => $dsk_id,
-				'loaded' => 1))
+                'cab_id' => $dev_id,
+                'level' => $lvl_id,
+                'zu' => $grp_id,
+                'disk' => $dsk_id,
+                'loaded' => 1))
             ->find();
 
-		if (!$my_slot) { 
-            $this->write_fatal_msg('can not find loaded disk, when post : ' 
+        if (!$my_slot) {
+            $this->write_fatal_msg('can not find loaded disk, when post : '
                 . json_encode($_POST));
-			return;
+            return;
         }
 
         $disk_db = M('Disk');
-		$my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
-		if (!$my_disk) {
+        $my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
+        if (!$my_disk) {
             $this->write_fatal_msg('can not find disk in gui_disk with id '
                 . $my_slot['disk_id'] . ', when post : ' . json_encode($_POST));
             return;
         }
-       	
+
         // 若md5为空或相同
-		if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
-			// 记录md5变化
-			$my_disk['md5_changed'] = 0;
-		} else {
-			// 记录md5变化
-			$my_disk['md5_changed'] = 1;
-		}
-		$disk_db->save($my_disk);
+        if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
+            // 记录md5变化
+            $my_disk['md5_changed'] = 0;
+        } else {
+            // 记录md5变化
+            $my_disk['md5_changed'] = 1;
+        }
+        $disk_db->save($my_disk);
 
-		$item['time'] = $item['md5_time'] = time();
+        $item['time'] = $item['md5_time'] = time();
 
-		$item['device_id'] = $dev_id;
-		$item['level'] = $lvl_id;
-		$item['zu'] = $grp_id;
-		$item['disk'] = $dsk_id;
+        $item['device_id'] = $dev_id;
+        $item['level'] = $lvl_id;
+        $item['zu'] = $grp_id;
+        $item['disk'] = $dsk_id;
 
-		$item['md5_value'] = $_POST['result'];
-		$item['cmd_id'] = $_POST['CMD_ID'];
+        $item['md5_value'] = $_POST['result'];
+        $item['cmd_id'] = $_POST['CMD_ID'];
 
-		$item['disk_id'] = $my_slot['disk_id'];
-		$item['sn'] = $my_disk['sn'];
+        $item['disk_id'] = $my_slot['disk_id'];
+        $item['sn'] = $my_disk['sn'];
         $item['cabinet_id'] = $my_slot['cabinet_id'];
-		$item['status'] = '1';
+        $item['status'] = '1';
 
-		M('DiskMd5Log')->add($item);
+        M('DiskMd5Log')->add($item);
     }
-	private function logs_for_smart($_msg)
-	{
-		// 只记录成功的
-		if ($_msg->status != '0' || $_msg->substatus != '0') {
-			return;
-		}
 
-		$item['time'] = time();
-		$item['device_id'] = $_POST['device_id'];
-		$item['level'] = $_POST['level'];
-		$item['zu'] = $_POST['group'];
-		$item['disk'] = $_POST['disk'];
-		$item['disk_status'] = $_POST['disk_status'];
+    private function logs_for_smart($_msg)
+    {
+        // 只记录成功的
+        if ($_msg->status != '0' || $_msg->substatus != '0') {
+            return;
+        }
 
-		$dsk = M('Device')->field(array('disk_id'=>'id'))
-			->where(array(
-				'cab_id' => $item['device_id'],
-				'level' => $item['level'],
-				'zu' => $item['zu'],
-				'disk' => $item['disk'],
-				'loaded' => 1
-			))->find();
-		if (!$dsk) {
-			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
-			return;     
-		}
+        $item['time'] = time();
+        $item['device_id'] = $_POST['device_id'];
+        $item['level'] = $_POST['level'];
+        $item['zu'] = $_POST['group'];
+        $item['disk'] = $_POST['disk'];
+        $item['disk_status'] = $_POST['disk_status'];
 
-		$item['disk_id'] = $dsk['id'];
-		$item['sn'] = $_POST['SN'];
-		$item['capacity'] = $_POST['capacity'];
-		$item['smart'] = json_encode($_POST['SmartAttrs']);
-		$item['status'] = '1';
-		$item['status_comment'] = '';
+        $dsk = M('Device')->field(array('disk_id' => 'id'))
+            ->where(array(
+                'cab_id' => $item['device_id'],
+                'level' => $item['level'],
+                'zu' => $item['zu'],
+                'disk' => $item['disk'],
+                'loaded' => 1
+            ))->find();
+        if (!$dsk) {
+            $this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
+            return;
+        }
 
-		M('DiskSmartLog')->add($item);
-	}
-	private function logs_for_md5($_msg)
-	{
-		if ($_msg->status != '0' || $_msg->substatus != '0') {
-			return;
-		}
+        $item['disk_id'] = $dsk['id'];
+        $item['sn'] = $_POST['SN'];
+        $item['capacity'] = $_POST['capacity'];
+        $item['smart'] = json_encode($_POST['SmartAttrs']);
+        $item['status'] = '1';
+        $item['status_comment'] = '';
 
-		// 只处理result命令
-		if ($_POST['subcmd'] != 'RESULT') {
-			return;
-		}
+        M('DiskSmartLog')->add($item);
+    }
 
-		// 处理md5值变化
-		do {
-			// 判断MD5是否发生变化
-			$my_slot = M('Device')->field(array('disk_id'))->where(array(
-				'cab_id' => $_POST['device_id'],
-				'level' => $_POST['level'],
-				'zu' => $_POST['group'],
-				'disk' => $_POST['disk'],
-				'loaded' => 1
-			))->find();
+    private function logs_for_md5($_msg)
+    {
+        if ($_msg->status != '0' || $_msg->substatus != '0') {
+            return;
+        }
 
-			if (!$my_slot) break;
+        // 只处理result命令
+        if ($_POST['subcmd'] != 'RESULT') {
+            return;
+        }
 
-			$disk_db = M('Disk');
-			$my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
-			if (!$my_disk) break;
+        // 处理md5值变化
+        do {
+            // 判断MD5是否发生变化
+            $my_slot = M('Device')->field(array('disk_id'))->where(array(
+                'cab_id' => $_POST['device_id'],
+                'level' => $_POST['level'],
+                'zu' => $_POST['group'],
+                'disk' => $_POST['disk'],
+                'loaded' => 1
+            ))->find();
 
-			// 若md5为空或相同
-			if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
-				// 记录md5变化
-				$my_disk['md5_changed'] = 0;
-			} else {
-				// 记录md5变化
-				$my_disk['md5_changed'] = 1;
-			}
+            if (!$my_slot) break;
 
-			$disk_db->save($my_disk);
-		} while (false);
+            $disk_db = M('Disk');
+            $my_disk = $disk_db->where(array('id' => $my_slot['disk_id']))->find();
+            if (!$my_disk) break;
 
-		$item['time'] = time();
-		$item['device_id'] = $_POST['device_id'];
-		$item['level'] = $_POST['level'];
-		$item['zu'] = $_POST['group'];
-		$item['disk'] = $_POST['disk'];
-		$item['md5_value'] = $_POST['result'];
-		$item['md5_time'] = $item['time'];
+            // 若md5为空或相同
+            if ($my_disk['md5'] == null || $my_disk['md5'] == $_POST['result']) {
+                // 记录md5变化
+                $my_disk['md5_changed'] = 0;
+            } else {
+                // 记录md5变化
+                $my_disk['md5_changed'] = 1;
+            }
 
-		// 获得硬盘ID
-		$dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
-			->where(array(
-				'cab_id' => $item['device_id'],
-				'level' => $item['level'],
-				'zu' => $item['zu'],
-				'disk' => $item['disk'],
-				'loaded'=>1
-			))->find();
-		if (!$dsk) {
-			$this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
-			return;
-		}
+            $disk_db->save($my_disk);
+        } while (false);
 
-		// 获取SN
-		$item['disk_id'] = $dsk['disk_id'];
-		$item['cabinet_id'] = $dsk['cabinet_id'];
+        $item['time'] = time();
+        $item['device_id'] = $_POST['device_id'];
+        $item['level'] = $_POST['level'];
+        $item['zu'] = $_POST['group'];
+        $item['disk'] = $_POST['disk'];
+        $item['md5_value'] = $_POST['result'];
+        $item['md5_time'] = $item['time'];
 
-		$sn = M('DiskSmartLog')->field(array('sn'))
-			->where(array(
-				'disk_id' => $item['disk_id'],
-				'status' => 1))
-			->order('time desc')->find();
-		if (!$sn) {
-			$this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
-			return;
-		}
+        // 获得硬盘ID
+        $dsk = M('Device')->field(array('disk_id', 'cabinet_id'))
+            ->where(array(
+                'cab_id' => $item['device_id'],
+                'level' => $item['level'],
+                'zu' => $item['zu'],
+                'disk' => $item['disk'],
+                'loaded' => 1
+            ))->find();
+        if (!$dsk) {
+            $this->write_fatal_msg('can not find loaded disk, when post : ' . json_encode($_POST));
+            return;
+        }
 
-		$item['sn'] = $sn['sn'];
-		$item['status'] = '1';
+        // 获取SN
+        $item['disk_id'] = $dsk['disk_id'];
+        $item['cabinet_id'] = $dsk['cabinet_id'];
 
-		M('DiskMd5Log')->add($item);
-	}
+        $sn = M('DiskSmartLog')->field(array('sn'))
+            ->where(array(
+                'disk_id' => $item['disk_id'],
+                'status' => 1))
+            ->order('time desc')->find();
+        if (!$sn) {
+            $this->write_fatal_msg('can not find disk sn for disk ' . $dsk['disk_id'] . ': ' . json_encode($_POST));
+            return;
+        }
+
+        $item['sn'] = $sn['sn'];
+        $item['status'] = '1';
+
+        M('DiskMd5Log')->add($item);
+    }
+
     private function logs_for_report()
     {
         $_msg = $this->msg;
@@ -708,7 +713,7 @@ class MsgController extends Controller
             $this->logs_for_smart($_msg);
         } else if ($_msg->cmd == 'MD5') {
             $this->logs_for_md5($_msg);
-        }else{
+        } else {
 
         }
     }
@@ -800,26 +805,26 @@ class MsgController extends Controller
     private function hdlFail()
     {
         $this->RTLog("Commond failed");
-		
+
         $item = $this->msg;
         $log = $this->db->find($item->id);
-		
+
         $remit = array('33');//33:Another stop task is going;
         if ($log) {
-			// 硬盘忙，记录具体busy硬盘
-			switch ($item->status) {
-			case '25':	
-			case '26':	
-			case '27':	
-			case '28':	
-			case '29':	
-				$log['busy_disks'] = json_encode($_POST['busy_disks']);
-				$this->db->save($log);
-				break;
-			default:
-				break;
-			}
-		
+            // 硬盘忙，记录具体busy硬盘
+            switch ($item->status) {
+                case '25':
+                case '26':
+                case '27':
+                case '28':
+                case '29':
+                    $log['busy_disks'] = json_encode($_POST['busy_disks']);
+                    $this->db->save($log);
+                    break;
+                default:
+                    break;
+            }
+
             if ($this->msg->subcmd == 'STOP' && $log['sub_cmd'] !== $this->msg->subcmd) {
                 //APP发出的停止命令,MD5和COPY时存在此类现象
                 if (in_array($this->msg->status, $remit)) {
@@ -833,7 +838,7 @@ class MsgController extends Controller
                 die();
             }
             $log = $this->getLog($id);
-            $this->terminate($log,$this->msg->status);
+            $this->terminate($log, $this->msg->status);
         }
     }
 
@@ -1011,14 +1016,14 @@ class MsgController extends Controller
 
     public function getCheckDsk($cmd)
     {
-   //     $msg = json_decode($cmd['msg'],true);
+        //     $msg = json_decode($cmd['msg'],true);
         $dsk_db = M('device');
-    /*    $map['cab_id'] = array('eq', $msg['device_id']);
-        $map['level'] = array('eq', $msg['level']);
-        $map['zu'] = array('eq', $msg['group']);
-        $map['disk'] = array('eq', $msg['disk']);*/
+        /*    $map['cab_id'] = array('eq', $msg['device_id']);
+            $map['level'] = array('eq', $msg['level']);
+            $map['zu'] = array('eq', $msg['group']);
+            $map['disk'] = array('eq', $msg['disk']);*/
         $check_type = "";
-        switch($cmd['cmd']){
+        switch ($cmd['cmd']) {
             case 'MD5':
                 $check_type = 'md5';
                 break;
@@ -1026,7 +1031,7 @@ class MsgController extends Controller
                 $check_type = 'sn';
                 break;
         }
-        $map = array($check_type."_cmd_id"=>(int)$cmd['id']);
+        $map = array($check_type . "_cmd_id" => (int)$cmd['id']);
         $dsk = $dsk_db->where($map)->find();
         return $dsk;
     }
@@ -1309,7 +1314,7 @@ class MsgController extends Controller
         $log['charge'] = $_POST['current'];//电量
         $log['electricity'] = $_POST['electricity'];//电流
         //电流、电压、电量告警信息
-        if($_POST['push'] === '1') {
+        if ($_POST['push'] === '1') {
             //处理各层温度湿度和串口通信信息
             $this->hdlCabCaution();
         }
@@ -1334,7 +1339,7 @@ class MsgController extends Controller
             //电压电流信息
             //echo "voltage of the cab updating--处理电流电压";
             self::updateCab();
-			if ($_POST['CMD_ID'] == '0') return;
+            if ($_POST['CMD_ID'] == '0') return;
             $db = M('Device');
             $cabinet = M('Cab')->where(array('sn' => $this->msg->cab_id, 'loaded' => 1))->find();
             if (!$cabinet) {
@@ -1397,17 +1402,22 @@ class MsgController extends Controller
             }
         }
     }
-    private function getLogByMsg(){
+
+    private function getLogByMsg()
+    {
         $msg = $this->msg;
-        $map['cmd'] = array('eq',$msg->cmd);
-        $map['finished'] = array('eq',0);
+        $map['cmd'] = array('eq', $msg->cmd);
+        $map['finished'] = array('eq', 0);
     }
+
     /***************
      * 处理proxy推送回来的消息
      */
-    private function hdlPushMsg(){
+    private function hdlPushMsg()
+    {
 
     }
+
     public function updateDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
@@ -1454,24 +1464,24 @@ class MsgController extends Controller
                        //$dsk_hdler->hdlDskChg($disk, 'sn', $data['sn']);
                    }
                }*/
-               //更新盘位对应的磁盘id
-               $item['disk_id'] = $disk_id;
-               $db->save($item);
-           }		   
-		   
+                //更新盘位对应的磁盘id
+                $item['disk_id'] = $disk_id;
+                $db->save($item);
+            }
+
             // for report
             $this->write_smart_log();
-			
-           //更新修改时间
 
-           $this->updateSmart($disk_id);
-       }
-   }
+            //更新修改时间
 
-   /******
-    * 更新Smart值
-    * @input: disk_id, $_POST
-    */
+            $this->updateSmart($disk_id);
+        }
+    }
+
+    /******
+     * 更新Smart值
+     * @input: disk_id, $_POST
+     */
     private function updateSmart($id)
     {
         //return;//暂时未调试好，先不处理
@@ -1519,11 +1529,9 @@ class MsgController extends Controller
         if ($log) {
             $log['status'] = C('CMD_SUCCESS');
             //如果不属于需要停止的命令，或者需要停止的命令而当前就是停止命令
-            if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP'))
-            {
-                $this->terminate($log,C('CMD_SUCCESS'));
-            }
-            else{
+            if (!$this->msg->needStop() || ($this->msg->needStop() && $this->msg->subcmd == 'STOP')) {
+                $this->terminate($log, C('CMD_SUCCESS'));
+            } else {
                 $log['return_msg'] = file_get_contents('php://input');
                 $this->db->save($log);
             }
@@ -1547,31 +1555,34 @@ class MsgController extends Controller
     /***********
      * @param $new_sts 推送的状态
      */
-    private function updateCautionLog(){
+    private function updateCautionLog()
+    {
         $new_sts = $_POST;
         //检查当前柜子的状态
         $cab_id = $this->msg->cab_id;
         $db = M("Cab");
         $cab = $db->find($cab_id);
-        if(!$cab){return;}
-        $cab_status = json_decode($cab['status'],true);
+        if (!$cab) {
+            return;
+        }
+        $cab_status = json_decode($cab['status'], true);
         //var_dump($cab_status);
         //var_dump($new_sts);
-        if($this->isWorse($cab_status, $new_sts))
-        {
+        if ($this->isWorse($cab_status, $new_sts)) {
             echo "yes, is worse";
             //新增日志
             $data = array(
-              'cab_id'=>$cab_id,
-                'status'=>$this->msg->return_msg,
-                'pushed'=>0,
-                'time'=>time()
+                'cab_id' => $cab_id,
+                'status' => $this->msg->return_msg,
+                'pushed' => 0,
+                'time' => time()
             );
             $log_db = M('CabCautionLog');
             $log_db->add($data);
 
         }
     }
+
     /*************
      * @author Wilson Xu
      * @function 处理推送回来的告警信息
@@ -1580,39 +1591,39 @@ class MsgController extends Controller
     {
 
         //更新错误日志，包括命令名称，错误内容。--增加表；
-        if(!$_POST['push'] || $_POST['push'] ==='0'){
+        if (!$_POST['push'] || $_POST['push'] === '0') {
             return;
         }
         $this->updateCautionLog();
         $db = M($this->cmdDiskTbl);
-        if($this->msg->cmd === 'DEVICESTATUS'){
+        if ($this->msg->cmd === 'DEVICESTATUS') {
             $cab_id = (int)$_POST['device_id'];
             //磁盘级别告警
-            $map['cab'] = array('eq',$cab_id);
-            if($_POST['elec_sts'] === '2' || $_POST['volt_sts'] === '2' || $_POST['curr_sts'] === '2'){
+            $map['cab'] = array('eq', $cab_id);
+            if ($_POST['elec_sts'] === '2' || $_POST['volt_sts'] === '2' || $_POST['curr_sts'] === '2') {
                 //严重告警,停止所有磁盘命令
 
                 $logs = $db->where($map)->field('cmd_id')->group('cmd_id')->select();
-                foreach ($logs as $item){
+                foreach ($logs as $item) {
                     $id = $item['cmd_id'];
                     $cmd_log = $this->db->find($id);
-                    if($cmd_log && $cmd_log['finished'] === 0){
+                    if ($cmd_log && $cmd_log['finished'] === 0) {
                         $this->terminate($cmd_log, C('CMD_CANCELED'));
                     }
                 }
                 return;
             }
             $levels = $_POST['levels'];
-            foreach ($levels as $item){
+            foreach ($levels as $item) {
                 //检查该层有没有问题
-                if($item['temp_sts'] == '2' ||$item['hum_sts'] == '2' || $item['chan_sts'] == '1'){
+                if ($item['temp_sts'] == '2' || $item['hum_sts'] == '2' || $item['chan_sts'] == '1') {
                     //该层有问题
                     $map['level'] = $item['id'];
                     $logs = $db->where($map)->field('cmd_id')->group('cmd_id')->select();
-                    foreach ($logs as $log_item){
+                    foreach ($logs as $log_item) {
                         $id = $log_item['cmd_id'];
                         $cmd_log = $this->db->find($id);
-                        if($cmd_log && $cmd_log['finished'] === 0){
+                        if ($cmd_log && $cmd_log['finished'] === 0) {
                             $this->terminate($cmd_log, C('CMD_CANCELED'));
                         }
                     }
@@ -1627,92 +1638,90 @@ class MsgController extends Controller
      * @param $new_sts 新推送的柜子状态
      * @return bool true: 柜子健康状态变差,需要告警; false: 不存在
      */
-    private function isWorse($cab_sts,$new_sts){
-      // var_dump($cab_sts);
-        if($new_sts['curr_sts'] && (int)$new_sts['curr_sts'] > 0){
-            if(!$cab_sts || !$cab_sts['curr_sts'] || (int)$cab_sts['curr_sts'] < (int)$new_sts['curr_sts'])
-            {
-                echo "Curr:".$cab_sts['curr_sts']."/".$new_sts['curr_sts']."<br>";
+    private function isWorse($cab_sts, $new_sts)
+    {
+        // var_dump($cab_sts);
+        if ($new_sts['curr_sts'] && (int)$new_sts['curr_sts'] > 0) {
+            if (!$cab_sts || !$cab_sts['curr_sts'] || (int)$cab_sts['curr_sts'] < (int)$new_sts['curr_sts']) {
+                echo "Curr:" . $cab_sts['curr_sts'] . "/" . $new_sts['curr_sts'] . "<br>";
                 return true;
             }
         }
-        if($new_sts['volt_sts'] && (int)$new_sts['volt_sts'] > 0){
-            if(!$cab_sts || !$cab_sts['volt_sts'] || (int)$cab_sts['volt_sts'] < (int)$new_sts['volt_sts'])
-            {
-                echo "Volt:".$cab_sts['volt_sts']."/".$new_sts['volt_sts']."<br/>";
+        if ($new_sts['volt_sts'] && (int)$new_sts['volt_sts'] > 0) {
+            if (!$cab_sts || !$cab_sts['volt_sts'] || (int)$cab_sts['volt_sts'] < (int)$new_sts['volt_sts']) {
+                echo "Volt:" . $cab_sts['volt_sts'] . "/" . $new_sts['volt_sts'] . "<br/>";
                 return true;
             }
         }
-        if($new_sts['elec_sts'] && (int)$new_sts['elec_sts'] > 0){
-            if(!$cab_sts || !$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts'])
-            {
-                echo "elec".$cab_sts['elec_sts']."/".$new_sts['elec_sts']."<br/>";
+        if ($new_sts['elec_sts'] && (int)$new_sts['elec_sts'] > 0) {
+            if (!$cab_sts || !$cab_sts['elec_sts'] || (int)$cab_sts['elec_sts'] < (int)$new_sts['elec_sts']) {
+                echo "elec" . $cab_sts['elec_sts'] . "/" . $new_sts['elec_sts'] . "<br/>";
                 return true;
             }
         }
         //检查每一层
         $levels = $new_sts['levels'];
         $old_levels = $cab_sts['levels'];
-        foreach ($levels as $idx=>$lvl){
+        foreach ($levels as $idx => $lvl) {
             $old_lvl = $old_levels[$idx];
-            if($lvl['hum_sts'] && (int)$lvl['hum_sts'] > 0){
-                if(!$old_lvl['hum_sts'] || (int)$old_lvl['hum_sts'] < (int)$lvl['hum_sts'])
-                {
+            if ($lvl['hum_sts'] && (int)$lvl['hum_sts'] > 0) {
+                if (!$old_lvl['hum_sts'] || (int)$old_lvl['hum_sts'] < (int)$lvl['hum_sts']) {
                     return true;
                 }
             }
-            if($lvl['temp_sts'] && (int)$lvl['temp_sts'] > 0){
-                if(!$old_lvl['temp_sts'] || (int)$old_lvl['temp_sts'] < (int)$lvl['temp_sts'])
-                {
+            if ($lvl['temp_sts'] && (int)$lvl['temp_sts'] > 0) {
+                if (!$old_lvl['temp_sts'] || (int)$old_lvl['temp_sts'] < (int)$lvl['temp_sts']) {
                     return true;
                 }
             }
-            if($lvl['chan_sts'] && (int)$lvl['chan_sts'] > 0){
-                if(!$old_lvl['chan_sts'] || (int)$old_lvl['chan_sts'] < (int)$lvl['chan_sts'])
-                {
+            if ($lvl['chan_sts'] && (int)$lvl['chan_sts'] > 0) {
+                if (!$old_lvl['chan_sts'] || (int)$old_lvl['chan_sts'] < (int)$lvl['chan_sts']) {
                     return true;
                 }
             }
-            
+
         }
         return false;
     }
-    public function addRtErrLog(){
+
+    public function addRtErrLog()
+    {
         echo "add llog";
         $rt_err_db = M('RunTimeErrLog');
         $data = array(
-            'time'=>time(),
-            'cmd_id'=>$this->msg->id,
-            'err_code'=>$_POST['err_code'],
-            'err_msg'=>$_POST['err_str']
+            'time' => time(),
+            'cmd_id' => $this->msg->id,
+            'err_code' => $_POST['err_code'],
+            'err_msg' => $_POST['err_str']
         );
         $rt_err_db->add($data);
     }
+
     /***
      * update the command log
      * @author: wilson xu
      */
     public function updateCmdLog()
     {
-        $runtime_error = array('63','64','65');
-        if(in_array($_POST['status'],$runtime_error)){
+        $runtime_error = array('63', '64', '65');
+        if (in_array($_POST['status'], $runtime_error)) {
             //err_code
-            if($_POST['err_code']){
-                if($_POST['err_code']==C('ERR_CODE_OK'))
-                $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
-                else{
-                    if($this->msg->cmd == 'BRIDGE'){
+            if ($_POST['err_code']) {
+                if ($_POST['err_code'] == C('ERR_CODE_OK'))
+                    $_POST['status'] = $this->msg->setStatus(C('CMD_GOING'));
+                else {
+                    if ($this->msg->cmd == 'BRIDGE') {
                         //解除桥接状态
                         $map = array(
-                          'cab_id'=>array('eq',$_POST['device_id']),
-                            'level'=>array('eq',$_POST['level']),
-                            'zu'=>array('eq',$_POST['group']),
-                            'bridged'=>1
+                            'cab_id' => array('eq', $_POST['device_id']),
+                            'level' => array('eq', $_POST['level']),
+                            'zu' => array('eq', $_POST['group']),
+                            'bridged' => 1
                         );
                         $db = M("Device");
                         $disks = $db->where($map)->select();
                         var_dump($disks);
-                        foreach($disks as $item){
+                        foreach ($disks as $item) {
                             $item['bridged'] = 0;
                             $db->save($item);
                         }
@@ -1721,7 +1730,7 @@ class MsgController extends Controller
             }
 
             $this->addRtErrLog();
-            
+
         }
         //服务器主动推送的信息
         if ($this->msg->id == "0") {
@@ -1730,17 +1739,18 @@ class MsgController extends Controller
         }
         //出错，输出错误信息
         if ($this->msg->isFail()) {
+            echo "failed";
             //failed
             $this->hdlFail();
             $this->quit();
         }
 
         $this->write_md5_log();
-	
+
         if ($this->msg->isStart()) {
             //just start
             $this->hdlStartMsg();
-		    $this->quit();
+            $this->quit();
         }
 
         //bridge msg has to be handled seperately

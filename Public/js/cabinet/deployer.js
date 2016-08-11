@@ -164,7 +164,7 @@ Deployer.prototype = {
         this.l = this.disks[this.idx].l;
         this.g = this.disks[this.idx].g;
         this.d = this.disks[this.idx].d;
-        var l = this.l;
+        var l = this.l + 1;
         var g = this.g;
         var d = this.d;
         if (cmd == 'DISKINFO')
@@ -183,7 +183,7 @@ Deployer.prototype = {
                 device_id: this.cab_id.toString(),
                 level: l.toString(),
                 group: g.toString(),
-                disks: [{sn: this.sn, id: d.toString()}]
+                disks: [{SN: this.sn, id: d.toString()}]
             };
         }
      //   this.cmd_id = global_cmd_helper.sendcmd(msg);
