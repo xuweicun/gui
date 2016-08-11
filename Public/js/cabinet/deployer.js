@@ -102,10 +102,10 @@ Deployer.prototype = {
         global_cabinet_helper.i_on_deploy(this.cab_id, true);
         switch (type) {
             case 'diskinfo':
+                //目前diskinfo和filetree实现方式不一致,待日后一致化
                 this.deployDiskInfo();
                 break;
             case 'filetree':
-                this.resetDeployer();
                 this.filetree();
                 break;
         }
@@ -115,6 +115,7 @@ Deployer.prototype = {
         this.stage = 0;
         this.idx = 0;
         this.cmd_id = 0;
+        this.working = false;
     }
     ,
     updateDeployer: function (suc,sn) {
@@ -137,6 +138,9 @@ Deployer.prototype = {
     },
     stopDeploy: function () {
         this.idx = this.disks.length + 1;
+        if(this.type == 'filetree')
+        this.resetDeployer();
+
     },
     filetree: function (suc) {
         var cmd = this.cmdQueue[this.stage];
@@ -165,11 +169,41 @@ Deployer.prototype = {
                 disks: [{sn: this.sn, id: this.d}]
             };
         }
-        this.cmd_id = global_cmd_helper.sendcmd(msg);
-        if (this.cmd_id == 0) {
-            //发送失败
-            this.update(this.cmd_id, false);
-        }
+     //   this.cmd_id = global_cmd_helper.sendcmd(msg);
+
+        msg.msg = JSON.stringify(msg);
+        var d_this = this;
+        global_http.post(global_server, msg).
+        success(function (data) {
+            if (data['errmsg']) {
+                global_err_pool.add(data);
+                toastr.warning("目录获取错误:"+data['errmsg']);
+                d_this.hdlFail();
+                return;
+            }
+            msg.CMD_ID = data['id'].toString();
+            global_http.post(global_app, msg).success(function () {
+                data.username = global_user.username;
+                var newCmd = global_cmd_helper.createCmd(data);
+                global_task_pool.add(newCmd);
+                global_ws_watcher.sendcmd(msg);
+                d_this.cmd_id = parseInt(msg.CMD_ID);
+            }).
+            error(function () {
+                global_cmd_helper.delete(msg.CMD_ID);
+                toastr.warning('命令发送失败,跳过当前磁盘!');
+                d_this.hdlFail();
+            });
+        }).
+        error(function () {
+            toastr.warning('命令发送失败,跳过当前磁盘!');
+            d_this.hdlFail();
+        });
+
+    },
+    hdlFail: function () {
+        this.cmd_id = 0;
+        this.update(this.cmd_id, false);
     },
     is_done: function () {
         if (this.idx >= this.disks.length && this.finished) {
@@ -184,9 +218,13 @@ Deployer.prototype = {
         this.idx++;
     },
     update: function (cmd_id, suc,sn) {
+        if(this.working == false){
+            return;
+        }
         if (parseInt(cmd_id) != parseInt(this.cmd_id)) {
             return;
         }
+        console.log(cmd_id);
         if (this.type == 'diskinfo') {
             this.finished = true;
         }

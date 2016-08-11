@@ -350,6 +350,28 @@ app_device.filter('to_trusted', function ($sce) {
             on_click_param: cab
         });
     }
+    $scope.stopDeploy = function (cab) {
+        var title='一键部署';
+        switch (global_deployer.type){
+            case 'diskinfo':
+                title = '当前柜磁盘信息查询';
+                break;
+            case 'filetree':
+                title = '当前柜磁盘文件目录查询';
+                break;
+
+        }
+        global_modal_helper.show_modal({
+            type: 'question',
+            title: title,
+            html: '您确定停止<span class="bk-fg-primary"> [存储柜 ' + cab + '#] </span>的<span class="bk-fg-primary"> ['+title+'] </span>命令？',
+            on_click_handle: function () {
+              
+                global_deployer.stopDeploy();
+            },
+            on_click_param:cab
+        });
+    }
     $scope.testWs = function () {
         var msg = this.testMsg.i_getMsg(this.testCmdId);
         global_ws_watcher.sendcmd("1",msg.md5);
