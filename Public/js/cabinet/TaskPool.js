@@ -22,19 +22,19 @@
     this.stopFlag = false;
     this.maxPoolSize = 50;
     this.cabChanged = false;
-	
-	// 用户是否已经离开超过5分钟
-	this.user_left = false;
-	
-	// 用户最后操作时间
-	this.last_user_operate_time = Date.parse(new Date());
+
+    // 用户是否已经离开超过5分钟
+    this.user_left = false;
+
+    // 用户最后操作时间
+    this.last_user_operate_time = Date.parse(new Date());
 }
 
 TaskPool.prototype = {
     reset_user_operate_time: function () {
         this.user_left = false;
-		this.last_user_operate_time = Date.parse(new Date());
-	},
+        this.last_user_operate_time = Date.parse(new Date());
+    },
 
     add: function (task) {
         this.going.forEach(function (e) {
@@ -62,16 +62,16 @@ TaskPool.prototype = {
             return;
         }
         data.forEach(function (e) {
-            if(e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id.toString()){
-                if(global_deployer.type == 'filetree'){
+            if (e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id.toString()) {
+                if (global_deployer.type == 'filetree') {
                     var suc = e['status'] == 0;
-                    var sn='';
-                    if(e['cmd']=='DISKINFO'){
+                    var sn = '';
+                    if (e['cmd'] == 'DISKINFO') {
                         var r_msg = JSON.parse(e['return_msg']);
-                        if(r_msg != null)
-                        sn=r_msg['SN'];
+                        if (r_msg != null)
+                            sn = r_msg['SN'];
                     }
-                    global_deployer.update(e['id'],suc,sn);
+                    global_deployer.update(e['id'], suc, sn);
                 }
             }
             for (var idx = 0; idx < pool.going.length; idx++) {
@@ -88,7 +88,7 @@ TaskPool.prototype = {
                             pool.success(idx, e);
                         }
                         //如果桥接出现异常,终止桥接状态
-                        
+
                     }
                     break;
                 }
@@ -152,13 +152,13 @@ TaskPool.prototype = {
         if (this.isWatching) return;//避免重复启动，保持单例状态
         this.isWatching = true;
         global_interval(function () {
-			// 检测用户空闲是否超过5分钟
-			var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time)/1000) > 300;
-			if (!global_task_pool.user_left && has_left) {
-			    global_scope.on_user_left();
-			    global_task_pool.user_left = has_left;
-			}
-			
+            // 检测用户空闲是否超过5分钟
+            var has_left = ((Date.parse(new Date()) - global_task_pool.last_user_operate_time) / 1000) > 300;
+            if (!global_task_pool.user_left && has_left) {
+                global_scope.on_user_left();
+                global_task_pool.user_left = has_left;
+            }
+
             var pool = global_task_pool;
             if (pool.going.length == 0) {
                 return;
@@ -304,61 +304,61 @@ TaskPool.prototype = {
         for (var i = 0; i < pool.length; i++) {
             if (pool[i].isDone()) {
                 this.done.push(pool[i]);
-				
-				if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
-                				
+
+                if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
+
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer && pool[i].cmd == 'DISKINFO') {
                     if (global_deployer.working) {
-                        global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
+                        if (global_deployer.type == 'diskinfo')
+                            global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
                     }
                 }
-				
-				
-				var int_status = parseInt(pool[i].status);
-				if (int_status == 25) {
-					global_cmd_helper.updateDeviceStatus();
-				}
-				else if (int_status == 28) {
-					global_modal_helper.show_modal({
-						type: 'question',
-						title: '硬盘命令 -- 构建索引',
-						html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
-						
-						on_click_handle: function(data){
-							console.log(data);
-						},
-						on_click_param: pool[i]
-					});					
-					
-					global_task_pool.load_tasks();
-				}
-				else if (int_status == 26) {
-					
-					global_task_pool.load_tasks();
-				}
-				
-				this.notify(pool[i]);
-				
-                pool.splice(i, 1);				
+
+
+                var int_status = parseInt(pool[i].status);
+                if (int_status == 25) {
+                    global_cmd_helper.updateDeviceStatus();
+                }
+                else if (int_status == 28) {
+                    global_modal_helper.show_modal({
+                        type: 'question',
+                        title: '硬盘命令 -- 构建索引',
+                        html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
+
+                        on_click_handle: function (data) {
+                            console.log(data);
+                        },
+                        on_click_param: pool[i]
+                    });
+
+                    global_task_pool.load_tasks();
+                }
+                else if (int_status == 26) {
+
+                    global_task_pool.load_tasks();
+                }
+
+                this.notify(pool[i]);
+
+                pool.splice(i, 1);
             }
         }
         this.dirty = false;
     },
-	load_tasks: function()
-	{
-		global_http({
+    load_tasks: function () {
+        global_http({
             url: '/index.php?m=admin&c=business&a=getGoingTasks',
             method: 'GET'
         }).success(function (data) {
             global_task_pool.ready = true;
-			global_task_pool.going = [];
-			
+            global_task_pool.going = [];
+
             if (data && data.length > 0) {
                 for (var i = 0; i < data.length; ++i) {
                     var e = data[i];
                     //console.log(e);
-                    if(e.msg ==''){
+                    if (e.msg == '') {
                         e.msg = e.return_msg;
                     }
                     if (e.msg != '') {
@@ -384,7 +384,7 @@ TaskPool.prototype = {
             global_err_pool.add();
             this.ready = true;
         });
-	},
+    },
     init: function () {
         this.startGlobalWatch();
         this.load_tasks();
@@ -442,7 +442,7 @@ TaskPool.prototype = {
 
                 // 更新桥接数
                 global_cabinet_helper.i_on_bridge_success(task.cab_id);
-				
+
                 // 更新写保护
                 global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
 
