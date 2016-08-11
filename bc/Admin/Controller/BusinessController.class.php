@@ -1455,27 +1455,52 @@ class BusinessController extends Controller
         }
         $this->_ajaxReturn($rst);
     }
-    public function getCabCaution(){
-        $db = M("CabCautionLog");
-        $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
+    public function getCmdCaution($type){
+        $db = M("RunTimeErrLog");
+        $logs = $db->join('gui_user ON gui_run_time_err_log.user_id=gui_user.id')->field('gui_run_time_err_log.*,gui_user.username')->select();
         $log_undismissed = $db->where("dismissed=0")->select();
 
         $type = $_POST['type'];
         switch($type){
             case 'new':
-                $this->AjaxReturn($log_undismissed);
+                return $log_undismissed;
                 break;
             case 'old':
-                $this->AjaxReturn($logs);
+                return $logs;
                 break;
             default:
                 $all_logs = array_merge($log_undismissed,$logs);
                 if(!$all_logs){
                     ($all_logs = $logs) || ($all_logs = $log_undismissed);
                 }
-                $this->AjaxReturn($all_logs);
+                return $all_logs;
                 break;
         }
+    }
+    public function getCabCaution(){
+        $db = M("CabCautionLog");
+        $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
+        $log_undismissed = $db->where("dismissed=0")->select();
+
+        $type = $_POST['type'];
+        $rst = array('cab_caution'=>array(),'cmd_caution'=>array());
+        switch($type){
+            case 'new':
+                $rst['cab_caution'] = $log_undismissed;
+                break;
+            case 'old':
+                $rst['cab_caution'] = $logs;
+                break;
+            default:
+                $all_logs = array_merge($log_undismissed,$logs);
+                if(!$all_logs){
+                    ($all_logs = $logs) || ($all_logs = $log_undismissed);
+                }
+                $rst['cab_caution'] = $all_logs;
+                break;
+        }
+        $rst['cmd_caution'] = $this->getCmdCaution($type);
+        $this->AjaxReturn($rst);
     }
     private function _ajaxReturn($rst = false){
         $result = array('status'=>'1');
