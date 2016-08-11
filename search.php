@@ -77,6 +77,7 @@
                               if (stristr($i->text, $key)){ 
                                   $idx++;
                                   echo '<tr><td>'.$idx.'</td><td>'.$disk.'</td><td>'.$namedPath.'</td><td>'.$i->text.'</td><tr>';
+                                    ob_flush();
                                   flush();
                               }
             
@@ -108,6 +109,7 @@
 					  $index = 0;
 					  while (($item = readdir($dir)) !== false ){
 						  $itemPath = $xmlPath . '/' . $item;
+
 						  if(is_readable($itemPath) && $item != '.' && $item != '..' && is_dir($itemPath)){
 							  Search($itemPath, '', $obj["key"], $item, $index);  
 						  }  
