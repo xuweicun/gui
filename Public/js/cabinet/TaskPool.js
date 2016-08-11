@@ -62,7 +62,7 @@ TaskPool.prototype = {
             return;
         }
         data.forEach(function (e) {
-            if(e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id){
+            if(e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id.toString()){
                 if(global_deployer.type == 'filetree'){
                     var suc = e['status'] == 0;
                     var sn='';

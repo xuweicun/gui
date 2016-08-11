@@ -154,19 +154,19 @@ Deployer.prototype = {
             msg = {
                 cmd: cmd,
                 sub_cmd: sub_cmd,
-                device_id: this.cab_id,
-                level: this.l,
-                group: this.g,
-                disk: this.d
+                device_id: this.cab_id.toString(),
+                level: this.l.toString(),
+                group: this.g.toString(),
+                disk: this.d.toString()
             };
         if (cmd == 'BRIDGE' || cmd == 'FILETREE') {
             msg = {
                 cmd: cmd,
                 sub_cmd: sub_cmd,
-                device_id: this.cab_id,
-                level: this.l,
-                group: this.g,
-                disks: [{sn: this.sn, id: this.d}]
+                device_id: this.cab_id.toString(),
+                level: this.l.toString(),
+                group: this.g.toString(),
+                disks: [{sn: this.sn, id: this.d.toString()}]
             };
         }
      //   this.cmd_id = global_cmd_helper.sendcmd(msg);
