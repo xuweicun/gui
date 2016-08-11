@@ -1457,9 +1457,13 @@ class BusinessController extends Controller
     }
     public function getCmdCaution($type){
         $db = M("RunTimeErrLog");
-        $logs = $db->join('gui_user ON gui_run_time_err_log.user_id=gui_user.id')->field('gui_run_time_err_log.*,gui_user.username')->select();
-        $log_undismissed = $db->where("dismissed=0")->select();
+        $logs = $db
+            ->join('left join gui_user ON gui_run_time_err_log.user_id=gui_user.id')
+            ->join('left join gui_cmd_log on gui_run_time_err_log.cmd_id=gui_cmd_log.id')
+            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')
+            ->select();
 
+        $log_undismissed = $db->where("dismissed=0")->select();
         $type = $_POST['type'];
         switch($type){
             case 'new':
@@ -1479,7 +1483,7 @@ class BusinessController extends Controller
     }
     public function getCabCaution(){
         $db = M("CabCautionLog");
-        $logs = $db->join('gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
+        $logs = $db->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
         $log_undismissed = $db->where("dismissed=0")->select();
 
         $type = $_POST['type'];
