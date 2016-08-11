@@ -126,6 +126,7 @@ Deployer.prototype = {
             }
             this.stage = this.stage + 1;
             if (this.stage > this.cmdQueue.length) {
+                console.log(this.cmdQueue.length);
                 this.stage = 0;
             }
         }
@@ -133,7 +134,10 @@ Deployer.prototype = {
             //命令失败,开始下一个
             this.stage = 0;
         }
-        this.updateIndex();
+        if(this.stage == 0) {
+            //下一磁盘
+            this.updateIndex();
+        }
 
     },
     stopDeploy: function () {
@@ -150,23 +154,26 @@ Deployer.prototype = {
             sub_cmd = 'STOP';
         }
         var msg;
+        var l = this.l + 1;
+        var g = this.g + 1;
+        var d = this.d + 1;
         if (cmd == 'DISKINFO')
             msg = {
                 cmd: cmd,
-                sub_cmd: sub_cmd,
+                subcmd: sub_cmd,
                 device_id: this.cab_id.toString(),
-                level: this.l.toString(),
-                group: this.g.toString(),
-                disk: this.d.toString()
+                level: l.toString(),
+                group: g.toString(),
+                disk: d.toString()
             };
         if (cmd == 'BRIDGE' || cmd == 'FILETREE') {
             msg = {
                 cmd: cmd,
-                sub_cmd: sub_cmd,
+                subcmd: sub_cmd,
                 device_id: this.cab_id.toString(),
-                level: this.l.toString(),
-                group: this.g.toString(),
-                disks: [{sn: this.sn, id: this.d.toString()}]
+                level: l.toString(),
+                group: g.toString(),
+                disks: [{sn: this.sn, id: d.toString()}]
             };
         }
      //   this.cmd_id = global_cmd_helper.sendcmd(msg);
@@ -212,10 +219,10 @@ Deployer.prototype = {
         return false;
     },
     updateIndex: function () {
+        this.idx++;
         this.l = this.disks[this.idx].l;
         this.g = this.disks[this.idx].g;
         this.d = this.disks[this.idx].d;
-        this.idx++;
     },
     update: function (cmd_id, suc,sn) {
         if(this.working == false){

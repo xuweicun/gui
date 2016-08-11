@@ -69,7 +69,7 @@ TaskPool.prototype = {
                     if(e['cmd']=='DISKINFO'){
                         var r_msg = JSON.parse(e['return_msg']);
                         if(r_msg != null)
-                        sn=r_msg['sn'];
+                        sn=r_msg['SN'];
                     }
                     global_deployer.update(e['id'],suc,sn);
                 }
