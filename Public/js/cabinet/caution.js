@@ -221,7 +221,7 @@ CautionManage.prototype = {
         .success(function (data) {
             if (!data) return;
 
-            that_caution.setCautions(datai.cab_caution);
+            that_caution.setCautions(data.cab_caution);
             that_caution.setCmdCautions(data.cmd_caution);
             that_caution.Cautions = that_caution.CabCautions.concat(that_caution.CmdCautions);
 

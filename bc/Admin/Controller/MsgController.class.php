@@ -1588,8 +1588,8 @@ class MsgController extends Controller
             return;
         }
         $cab_status = json_decode($cab['status'], true);
-        //var_dump($cab_status);
-        //var_dump($new_sts);
+        var_dump($cab_status);
+        var_dump($new_sts);
         if ($this->isWorse($cab_status, $new_sts)) {
             echo "yes, is worse";
             //新增日志
