@@ -190,7 +190,14 @@ Deployer.prototype = {
     }
     ,
     filetree: function (suc) {
+
         var cmd = this.cmdQueue[this.stage];
+        if(cmd=='DISKINFO' && this.disks[this.idx].sn){
+            //直接进入下一步
+            this.stage = this.stage+1;
+            this.sn = this.disks[this.idx].sn;
+            cmd = this.cmdQueue[this.stage];
+        }
         var sub_cmd = 'START';
         if (cmd == 'BRIDGE_STOP') {
             cmd = 'BRIDGE';

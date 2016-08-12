@@ -62,18 +62,7 @@ TaskPool.prototype = {
             return;
         }
         data.forEach(function (e) {
-            if (e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id.toString()) {
-                if (global_deployer.type == 'filetree') {
-                    var suc = e['status'] == 0;
-                    var sn = '';
-                    if (e['cmd'] == 'DISKINFO') {
-                        var r_msg = JSON.parse(e['return_msg']);
-                        if (r_msg != null)
-                            sn = r_msg['SN'];
-                    }
-                    global_deployer.update(e['id'], suc, sn);
-                }
-            }
+
             for (var idx = 0; idx < pool.going.length; idx++) {
                 var u_task = pool.going[idx];
                 if (u_task.id == e['id']) {
@@ -337,6 +326,18 @@ TaskPool.prototype = {
                     if (global_deployer.working) {
                         if (global_deployer.type == 'diskinfo')
                             global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
+                        else if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
+                            if (global_deployer.type == 'filetree') {
+                                var suc = pool[i]['status'] == 0;
+                                var sn = '';
+                                if (pool[i]['cmd'] == 'DISKINFO') {
+                                    var r_msg = JSON.parse(pool[i]['return_msg']);
+                                    if (r_msg != null)
+                                        sn = r_msg['SN'];
+                                }
+                                global_deployer.update(pool[i]['id'], suc, sn);
+                            }
+                        }
                     }
                 }
 
