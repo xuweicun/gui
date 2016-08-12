@@ -52,6 +52,7 @@
     this.timeLimit = 0;
     //错误信息
     this.errMsg = '';
+    this.return_msg = '';
     // 附加信息
     this.extra_info = null;
 
@@ -173,6 +174,8 @@ CabCmd.prototype = {
         if (respData['stage']) {
             task.stage = respData['stage'];
         }
+        //返回的原始数据
+        task.return_msg = respData['return_msg'];
         if (respData['extra_info']) {
             try {
                 task.extra_info = JSON.parse(respData['extra_info']);

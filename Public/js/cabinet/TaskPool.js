@@ -76,8 +76,8 @@ TaskPool.prototype = {
                         if (u_task.isSuccess()) {
                             pool.success(idx, e);
                         }
-                        else{
-                            if(e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP'){
+                        else {
+                            if (e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP') {
                                 var return_msg = JSON.parse(e['return_msg']);
                                 var disks = return_msg.disks;
                                 var task = u_task;
@@ -85,9 +85,9 @@ TaskPool.prototype = {
                                 for (var idx = 0; idx < disks.length; idx++) {
                                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                                     if (disk) {
-                                            disk.i_change_brdige_status(false, null);
+                                        disk.i_change_brdige_status(false, null);
                                     }
-                                    if(e.status == '25'){
+                                    if (e.status == '25') {
                                         //bridging
                                         //var busy_disks = return_msg['busy_disks'];
                                         global_cmd_helper.updateDeviceStatus();
@@ -322,11 +322,11 @@ TaskPool.prototype = {
                 if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
 
                 //如果正在进行部署，对部署器进行更新
-                if (global_deployer && pool[i].cmd == 'DISKINFO') {
-                    if (global_deployer.working) {
-                        if (global_deployer.type == 'diskinfo')
-                            global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
-                        else if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
+                if (global_deployer.working) {
+                    if (global_deployer.type == 'diskinfo')
+                        global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
+                    else {
+                        if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
                             if (global_deployer.type == 'filetree') {
                                 var suc = pool[i]['status'] == 0;
                                 var sn = '';
@@ -340,143 +340,148 @@ TaskPool.prototype = {
                         }
                     }
                 }
+            }
 
 
-                var int_status = parseInt(pool[i].status);
-                if (int_status == 25) {
-                    global_cmd_helper.updateDeviceStatus();
+            var int_status = parseInt(pool[i].status);
+            if (int_status == 25) {
+                global_cmd_helper.updateDeviceStatus();
+            }
+            else if (int_status == 28) {
+                global_modal_helper.show_modal({
+                    type: 'question',
+                    title: '硬盘命令 -- 构建索引',
+                    html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
+
+                    on_click_handle: function (data) {
+                        console.log(data);
+                    },
+                    on_click_param: pool[i]
+                });
+
+                global_task_pool.load_tasks();
+            }
+            else if (int_status == 26) {
+
+                global_task_pool.load_tasks();
+            }
+
+            this.notify(pool[i]);
+
+            pool.splice(i, 1);
+        }
+    }
+    this.dirty = false;
+},
+load_tasks: function () {
+    global_http({
+        url: '/index.php?m=admin&c=business&a=getGoingTasks',
+        method: 'GET'
+    }).success(function (data) {
+        global_task_pool.ready = true;
+        global_task_pool.going = [];
+
+        if (data && data.length > 0) {
+            for (var i = 0; i < data.length; ++i) {
+                var e = data[i];
+                //console.log(e);
+                if (e.msg == '') {
+                    e.msg = e.return_msg;
                 }
-                else if (int_status == 28) {
-                    global_modal_helper.show_modal({
-                        type: 'question',
-                        title: '硬盘命令 -- 构建索引',
-                        html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
-
-                        on_click_handle: function (data) {
-                            console.log(data);
-                        },
-                        on_click_param: pool[i]
-                    });
-
-                    global_task_pool.load_tasks();
+                if (e.msg != '') {
+                    var task = global_cmd_helper.createCmd(e);
+                    if (!task.isDone()) {
+                        global_task_pool.add(task);
+                    }
+                    else {
+                        console.log('timeout', e);
+                        //将对应命令设为超时
+                        global_http({
+                            url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + e.id,
+                            method: 'GET'
+                        }).error(function (data) {
+                            global_err_pool.add(data);
+                        });
+                    }
                 }
-                else if (int_status == 26) {
-
-                    global_task_pool.load_tasks();
-                }
-
-                this.notify(pool[i]);
-
-                pool.splice(i, 1);
             }
         }
-        this.dirty = false;
-    },
-    load_tasks: function () {
-        global_http({
-            url: '/index.php?m=admin&c=business&a=getGoingTasks',
-            method: 'GET'
-        }).success(function (data) {
-            global_task_pool.ready = true;
-            global_task_pool.going = [];
-
-            if (data && data.length > 0) {
-                for (var i = 0; i < data.length; ++i) {
-                    var e = data[i];
-                    //console.log(e);
-                    if (e.msg == '') {
-                        e.msg = e.return_msg;
-                    }
-                    if (e.msg != '') {
-                        var task = global_cmd_helper.createCmd(e);
-                        if (!task.isDone()) {
-                            global_task_pool.add(task);
-                        }
-                        else {
-                            console.log('timeout', e);
-                            //将对应命令设为超时
-                            global_http({
-                                url: '/index.php?m=admin&c=business&a=setTimeOut&id=' + e.id,
-                                method: 'GET'
-                            }).error(function (data) {
-                                global_err_pool.add(data);
-                            });
-                        }
-                    }
-                }
-            }
-            global_task_pool.ready = true;
-        }).error(function () {
-            global_err_pool.add();
-            this.ready = true;
-        });
-    },
-    init: function () {
-        this.startGlobalWatch();
-        this.load_tasks();
-    },
-    /*
-     * success:成功处理
-     * error:失败处理
-     * */
-    success: function (idx, msg) {
-        var task = this.going[idx];
-        //如果是START，按下面的方式处理
-        switch (task.cmd) {
-            case 'WRITEPROTECT':
-                var ret = JSON.parse(msg['return_msg']);
-                global_cabinet_helper.i_on_write_protect_success(ret);
-                break;
-            case 'DEVICEINFO':
-                global_cabinet_helper.checkChg(msg);
-                break;
-            case 'MD5':
-                if (task.subcmd == 'START') {
-                    //更新硬盘MD5值
-                    if (task.cab_id == global_cabinet.id)
-                        global_cmd_helper.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
-                }
-                break;
-            case 'DEVICESTATUS':
-                //如果命令对应是当前柜子
-                if (task.device_id == global_cabinet.id) {
-                    global_cmd_helper.updateDeviceStatus();
-                }
-                break;
-            case 'DISKINFO':
-                //如果命令对应是当前柜子
+        global_task_pool.ready = true;
+    }).error(function () {
+        global_err_pool.add();
+        this.ready = true;
+    });
+}
+,
+init: function () {
+    this.startGlobalWatch();
+    this.load_tasks();
+}
+,
+/*
+ * success:成功处理
+ * error:失败处理
+ * */
+success: function (idx, msg) {
+    var task = this.going[idx];
+    //如果是START，按下面的方式处理
+    switch (task.cmd) {
+        case 'WRITEPROTECT':
+            var ret = JSON.parse(msg['return_msg']);
+            global_cabinet_helper.i_on_write_protect_success(ret);
+            break;
+        case 'DEVICEINFO':
+            global_cabinet_helper.checkChg(msg);
+            break;
+        case 'MD5':
+            if (task.subcmd == 'START') {
+                //更新硬盘MD5值
                 if (task.cab_id == global_cabinet.id)
                     global_cmd_helper.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
-                break;
-            case 'BRIDGE':
-                //如果桥接
-                var return_msg = JSON.parse(msg['return_msg']);
-                var paths = return_msg.paths;
-                var disks = return_msg.disks;
-                //遍历硬盘
-                for (var idx = 0; idx < disks.length; idx++) {
-                    var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
-                    if (disk) {
-                        if (task.subcmd == 'START') {
-                            disk.i_change_brdige_status(true, null);
-                        }
-                        else if (task.subcmd == 'STOP') {
-                            disk.i_change_brdige_status(false, null);
-                        }
+            }
+            break;
+        case 'DEVICESTATUS':
+            //如果命令对应是当前柜子
+            if (task.device_id == global_cabinet.id) {
+                global_cmd_helper.updateDeviceStatus();
+            }
+            break;
+        case 'DISKINFO':
+            //如果命令对应是当前柜子
+            if (task.cab_id == global_cabinet.id)
+                global_cmd_helper.getdiskinfo(task.level, task.group, task.disk, task.cab_id);
+            break;
+        case 'BRIDGE':
+            //如果桥接
+            var return_msg = JSON.parse(msg['return_msg']);
+            var paths = return_msg.paths;
+            var disks = return_msg.disks;
+            //遍历硬盘
+            for (var idx = 0; idx < disks.length; idx++) {
+                var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
+                if (disk) {
+                    if (task.subcmd == 'START') {
+                        disk.i_change_brdige_status(true, null);
+                    }
+                    else if (task.subcmd == 'STOP') {
+                        disk.i_change_brdige_status(false, null);
                     }
                 }
+            }
 
-                // 更新桥接数
-                global_cabinet_helper.i_on_bridge_success(task.cab_id);
+            // 更新桥接数
+            global_cabinet_helper.i_on_bridge_success(task.cab_id);
 
-                // 更新写保护
-                global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
+            // 更新写保护
+            global_cabinet_helper.i_update_write_protect_on_bridge_success(task.cab_id, return_msg.level);
 
-            //如果断开
-        }
-
-    },
-    error: function (idx) {
-
+        //如果断开
     }
-};
+
+}
+,
+error: function (idx) {
+
+}
+}
+;
