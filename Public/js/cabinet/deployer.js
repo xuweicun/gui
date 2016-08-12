@@ -218,7 +218,7 @@ Deployer.prototype = {
                     group: g.toString(),
                     disk: d.toString()
                 };
-            if (cmd == 'BRIDGE' || cmd == 'FILETREE') {
+            if (cmd == 'BRIDGE') {
                 msg = {
                     cmd: cmd,
                     subcmd: sub_cmd,
@@ -226,6 +226,16 @@ Deployer.prototype = {
                     level: l.toString(),
                     group: g.toString(),
                     disks: [{SN: this.sn, id: d.toString()}]
+                };
+            }
+            if (cmd == 'FILETREE') {
+                msg = {
+                    cmd: cmd,
+                    subcmd: sub_cmd,
+                    device_id: this.cab_id.toString(),
+                    level: l.toString(),
+                    group: g.toString()
+                    
                 };
             }
             //   this.cmd_id = global_cmd_helper.sendcmd(msg);
