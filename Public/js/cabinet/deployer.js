@@ -36,6 +36,7 @@ Deployer.prototype = {
         this.worker = null;
         var that = this;
         this.disks = [];
+        this.busy_levles = [];
         //从数据库中读取在位且未桥接的磁盘
         global_http({
             url: global_root + "&a=getdeviceinfo&cab=" + c,
