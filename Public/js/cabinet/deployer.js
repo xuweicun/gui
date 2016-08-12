@@ -254,6 +254,7 @@ Deployer.prototype = {
                     return;
                 }
                 msg.CMD_ID = data['id'].toString();
+                delete msg.msg;
                 global_http.post(global_app, msg).success(function () {
                     data.username = global_user.username;
                     var newCmd = global_cmd_helper.createCmd(data);
