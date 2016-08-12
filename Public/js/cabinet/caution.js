@@ -26,6 +26,9 @@ CabCaution.prototype = {
                 case 2:
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电量：<span class="bk-fg-danger">[严重告警]</span>';
+
+                    // 停止一键部署
+                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
@@ -39,6 +42,8 @@ CabCaution.prototype = {
                 case 2:
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电流：<span class="bk-fg-danger">[严重告警]</span>';
+                    // 停止一键部署
+                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
@@ -53,6 +58,8 @@ CabCaution.prototype = {
                 case 2:
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电压：<span class="bk-fg-danger">[严重告警]</span>';
+                    // 停止一键部署
+                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
