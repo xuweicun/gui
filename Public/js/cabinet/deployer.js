@@ -157,7 +157,7 @@ Deployer.prototype = {
                if(sn)this.sn = sn;
             }
             this.stage = this.stage + 1;
-            if (this.stage > this.cmdQueue.length) {
+            if (this.stage >= this.cmdQueue.length) {
                 console.log(this.cmdQueue.length);
                 this.stage = 0;
             }
