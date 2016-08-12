@@ -808,7 +808,12 @@ class MsgController extends Controller
 
         $item = $this->msg;
         $log = $this->db->find($item->id);
-
+        //算是临时的补救措施,proxy有时候会把自己命令的状态返回给我
+        if($this->msg->cmd == 'BRIDGE'){
+            if($this->msg->subcmd != $log['sub_cmd']){
+                $this->quit();
+            }
+        }
         $remit = array('33');//33:Another stop task is going;
         if ($log) {
             // 硬盘忙，记录具体busy硬盘
@@ -1583,8 +1588,8 @@ class MsgController extends Controller
             return;
         }
         $cab_status = json_decode($cab['status'], true);
-        //var_dump($cab_status);
-        //var_dump($new_sts);
+        var_dump($cab_status);
+        var_dump($new_sts);
         if ($this->isWorse($cab_status, $new_sts)) {
             echo "yes, is worse";
             //新增日志

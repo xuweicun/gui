@@ -1,4 +1,4 @@
-﻿function TaskPool() {
+﻿﻿function TaskPool() {
     this.isWatching = false;
     //用于异步处理的锁标识，防止异步处理过程中池子发生变化
     this.locked = false;
@@ -62,18 +62,7 @@ TaskPool.prototype = {
             return;
         }
         data.forEach(function (e) {
-            if (e['finished'] == '1' && global_deployer.working && e['id'] == global_deployer.cmd_id.toString()) {
-                if (global_deployer.type == 'filetree') {
-                    var suc = e['status'] == 0;
-                    var sn = '';
-                    if (e['cmd'] == 'DISKINFO') {
-                        var r_msg = JSON.parse(e['return_msg']);
-                        if (r_msg != null)
-                            sn = r_msg['SN'];
-                    }
-                    global_deployer.update(e['id'], suc, sn);
-                }
-            }
+
             for (var idx = 0; idx < pool.going.length; idx++) {
                 var u_task = pool.going[idx];
                 if (u_task.id == e['id']) {
@@ -87,8 +76,8 @@ TaskPool.prototype = {
                         if (u_task.isSuccess()) {
                             pool.success(idx, e);
                         }
-                        else{
-                            if(e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP' && e['status'] == '1'){
+                        else {
+                            if (e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP') {
                                 var return_msg = JSON.parse(e['return_msg']);
                                 var disks = return_msg.disks;
                                 var task = u_task;
@@ -96,7 +85,12 @@ TaskPool.prototype = {
                                 for (var idx = 0; idx < disks.length; idx++) {
                                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                                     if (disk) {
-                                            disk.i_change_brdige_status(false, null);//停止桥接状态
+                                        disk.i_change_brdige_status(false, null);
+                                    }
+                                    if (e.status == '25') {
+                                        //bridging
+                                        //var busy_disks = return_msg['busy_disks'];
+                                        global_cmd_helper.updateDeviceStatus();
                                     }
                                 }
 
@@ -328,10 +322,22 @@ TaskPool.prototype = {
                 if (global_cabinet) global_cabinet.i_on_cmd_changed(pool[i], false);
 
                 //如果正在进行部署，对部署器进行更新
-                if (global_deployer && pool[i].cmd == 'DISKINFO') {
-                    if (global_deployer.working) {
-                        if (global_deployer.type == 'diskinfo')
-                            global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
+                if (global_deployer.working) {
+                    if (global_deployer.type == 'diskinfo')
+                        global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
+                    else {
+                        if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
+                            if (global_deployer.type == 'filetree') {
+                                var suc = pool[i]['status'] == 0;
+                                var sn = '';
+                                if (pool[i]['cmd'] == 'DISKINFO') {
+                                    var r_msg = JSON.parse(pool[i]['return_msg']);
+                                    if (r_msg != null)
+                                        sn = r_msg['SN'];
+                                }
+                                global_deployer.update(pool[i]['id'], suc, sn);
+                            }
+                        }
                     }
                 }
 
@@ -358,9 +364,7 @@ TaskPool.prototype = {
 
                     global_task_pool.load_tasks();
                 }
-
                 this.notify(pool[i]);
-
                 pool.splice(i, 1);
             }
         }
@@ -404,11 +408,13 @@ TaskPool.prototype = {
             global_err_pool.add();
             this.ready = true;
         });
-    },
+    }
+    ,
     init: function () {
         this.startGlobalWatch();
         this.load_tasks();
-    },
+    }
+    ,
     /*
      * success:成功处理
      * error:失败处理
@@ -469,8 +475,10 @@ TaskPool.prototype = {
             //如果断开
         }
 
-    },
+    }
+    ,
     error: function (idx) {
 
     }
-};
+}
+;
