@@ -98,6 +98,11 @@ TaskPool.prototype = {
                                     if (disk) {
                                             disk.i_change_brdige_status(false, null);
                                     }
+                                    if(e.status == '25'){
+                                        //bridging
+                                        //var busy_disks = return_msg['busy_disks'];
+                                        global_cmd_helper.updateDeviceStatus();
+                                    }
                                 }
 
                                 // 更新桥接数

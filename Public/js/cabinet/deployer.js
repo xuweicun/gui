@@ -40,6 +40,7 @@ Deployer.prototype = {
             url: global_root + "&a=getdeviceinfo&cab=" + c,
             method: 'GET'
         }).success(function (data) {
+
             data.forEach(function (e) {
                 if (e.loaded == 1) {
                     if(e.bridged == 1){
@@ -57,6 +58,16 @@ Deployer.prototype = {
                 }
             });
             that.ready = true;
+            if(that.disks.length == 0 || (that.type=='filetree' && that.busy_levles.length >= 2)){
+                that.stopDeploy();
+                if(that.disks.length == 0)
+                toastr.warning('磁盘在位信息异常,请稍后再试!');
+                else{
+                    if(that.busy_levles.length >= 2){
+                        toastr.warning('磁盘柜桥接通道忙,请稍后再试!');
+                    }
+                }
+            }
         }).error(function () {
             new PNotify({
                 title: '批量硬盘信息获取',
@@ -184,6 +195,7 @@ Deployer.prototype = {
             sub_cmd = 'STOP';
         }
         var msg;
+
         this.l = this.disks[this.idx].l;
         this.g = this.disks[this.idx].g;
         this.d = this.disks[this.idx].d;
