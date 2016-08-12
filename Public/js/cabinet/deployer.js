@@ -7,6 +7,7 @@
     this.sn = '';
     //所有待执行的任务
     this.disks = [];
+    this.busy_levles = [];
 
     //表示当前正在进行批量磁盘信息获取操作
     this.working = false;
@@ -40,15 +41,19 @@ Deployer.prototype = {
             method: 'GET'
         }).success(function (data) {
             data.forEach(function (e) {
-                if (e.bridged == 0 && e.loaded == 1) {
-                    var new_dsk = {
-                        c: that.cab_id,
-                        l: e.level.toString(),
-                        g: e.zu.toString(),
-                        d: e.disk.toString(),
-                        sn: e.sn
-                    };
-                    that.disks.push(new_dsk);
+                if (e.loaded == 1) {
+                    if(e.bridged == 1){
+                        that.insertBusyLevel(e.level.toString());
+                    }else {
+                        var new_dsk = {
+                            c: that.cab_id,
+                            l: e.level.toString(),
+                            g: e.zu.toString(),
+                            d: e.disk.toString(),
+                            sn: e.sn
+                        };
+                        that.disks.push(new_dsk);
+                    }
                 }
             });
             that.ready = true;
@@ -62,6 +67,13 @@ Deployer.prototype = {
             });
         });
     },
+    insertBusyLevel: function (lvl) {
+        var that = this;
+        if(that.busy_levles.indexOf(lvl) == -1) {
+            that.busy_levles.push(lvl);
+        }
+    }
+    ,
     deployDiskInfo: function () {
         var that = this;
         this.worker = global_interval(function () {
@@ -153,6 +165,17 @@ Deployer.prototype = {
         this.resetDeployer();
 
     },
+    clearBusyDisks: function(l){
+        var new_disks = [];
+        this.disks.forEach(function (e) {
+            if(e.l != l){
+                new_disks.push(e);
+            }
+        });
+        this.disks = [];
+        this.disks = new_disks;
+    }
+    ,
     filetree: function (suc) {
         var cmd = this.cmdQueue[this.stage];
         var sub_cmd = 'START';
@@ -167,56 +190,60 @@ Deployer.prototype = {
         var l = this.l;
         var g = this.g;
         var d = this.d;
-        if (cmd == 'DISKINFO')
-            msg = {
-                cmd: cmd,
-                subcmd: sub_cmd,
-                device_id: this.cab_id.toString(),
-                level: l.toString(),
-                group: g.toString(),
-                disk: d.toString()
-            };
-        if (cmd == 'BRIDGE' || cmd == 'FILETREE') {
-            msg = {
-                cmd: cmd,
-                subcmd: sub_cmd,
-                device_id: this.cab_id.toString(),
-                level: l.toString(),
-                group: g.toString(),
-                disks: [{SN: this.sn, id: d.toString()}]
-            };
-        }
-     //   this.cmd_id = global_cmd_helper.sendcmd(msg);
 
-        msg.msg = JSON.stringify(msg);
-        var d_this = this;
-        global_http.post(global_server, msg).
-        success(function (data) {
-            if (data['errmsg']) {
-                global_err_pool.add(data);
-                toastr.warning("目录获取错误:"+data['errmsg']);
-                d_this.hdlFail();
-                return;
+        if(this.busy_levles.indexOf(l.toString()) != -1){
+            //此层忙
+           // this.clearBusyDisks(l);
+            this.hdlFail();
+
+        } else {//此层空闲
+            if (cmd == 'DISKINFO')
+                msg = {
+                    cmd: cmd,
+                    subcmd: sub_cmd,
+                    device_id: this.cab_id.toString(),
+                    level: l.toString(),
+                    group: g.toString(),
+                    disk: d.toString()
+                };
+            if (cmd == 'BRIDGE' || cmd == 'FILETREE') {
+                msg = {
+                    cmd: cmd,
+                    subcmd: sub_cmd,
+                    device_id: this.cab_id.toString(),
+                    level: l.toString(),
+                    group: g.toString(),
+                    disks: [{SN: this.sn, id: d.toString()}]
+                };
             }
-            msg.CMD_ID = data['id'].toString();
-            global_http.post(global_app, msg).success(function () {
-                data.username = global_user.username;
-                var newCmd = global_cmd_helper.createCmd(data);
-                global_task_pool.add(newCmd);
-                global_ws_watcher.sendcmd(msg);
-                d_this.cmd_id = parseInt(msg.CMD_ID);
-            }).
-            error(function () {
-                global_cmd_helper.delete(msg.CMD_ID);
+            //   this.cmd_id = global_cmd_helper.sendcmd(msg);
+
+            msg.msg = JSON.stringify(msg);
+            var d_this = this;
+            global_http.post(global_server, msg).success(function (data) {
+                if (data['errmsg']) {
+                    global_err_pool.add(data);
+                    toastr.warning("目录获取错误:" + data['errmsg']);
+                    d_this.hdlFail();
+                    return;
+                }
+                msg.CMD_ID = data['id'].toString();
+                global_http.post(global_app, msg).success(function () {
+                    data.username = global_user.username;
+                    var newCmd = global_cmd_helper.createCmd(data);
+                    global_task_pool.add(newCmd);
+                    global_ws_watcher.sendcmd(msg);
+                    d_this.cmd_id = parseInt(msg.CMD_ID);
+                }).error(function () {
+                    global_cmd_helper.delete(msg.CMD_ID);
+                    toastr.warning('命令发送失败,跳过当前磁盘!');
+                    d_this.hdlFail();
+                });
+            }).error(function () {
                 toastr.warning('命令发送失败,跳过当前磁盘!');
                 d_this.hdlFail();
             });
-        }).
-        error(function () {
-            toastr.warning('命令发送失败,跳过当前磁盘!');
-            d_this.hdlFail();
-        });
-
+        }
     },
     hdlFail: function () {
         this.cmd_id = 0;
