@@ -115,7 +115,7 @@
 							<div class="panel-heading">
 								<i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
 								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'diskinfo');" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜磁盘信息查询</a>
-								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'filetree');" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜文件目录查询</a>
+								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'filetree',cab.sn);" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜文件目录查询</a>
 								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="stopDeploy(cab.id);" ng-show="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">停止当前柜查询操作</a>
 								<a ng-click="cab.start_cmd_device_status()"
 								   class="btn btn-primary btn-xs pull-right bk-margin-5"

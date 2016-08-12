@@ -5,6 +5,7 @@
     this.g = 0;
     this.d = 0;
     this.sn = '';
+    this.name='';
     //所有待执行的任务
     this.disks = [];
     this.busy_levles = [];
@@ -28,9 +29,9 @@ Deployer.prototype = {
     getLength: function () {
         return this.disks.length;
     },
-    on_init: function (c) {
+    on_init: function (c,name) {
         this.cab_id = c.toString();
-
+        this.name = name;
         this.time_unit = 5000;//五秒更新一次；
         this.worker = null;
         var that = this;
@@ -234,8 +235,10 @@ Deployer.prototype = {
                     subcmd: sub_cmd,
                     device_id: this.cab_id.toString(),
                     level: l.toString(),
-                    group: g.toString()
-                    
+                    group: g.toString(),
+                    disk: d.toString(),
+                    mount_path: this.name+'_'+l+'_'+g+'_'+d
+
                 };
             }
             //   this.cmd_id = global_cmd_helper.sendcmd(msg);

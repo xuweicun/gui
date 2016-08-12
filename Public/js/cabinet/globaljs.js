@@ -326,7 +326,7 @@ app_device.filter('to_trusted', function ($sce) {
             }
         });
     }
-    $scope.deploy = function (cab,type) {
+    $scope.deploy = function (cab,type,cab_name) {
         var title='一键部署';
         switch (type){
             case 'diskinfo':
@@ -344,7 +344,7 @@ app_device.filter('to_trusted', function ($sce) {
                 if (!global_deployer.available()) {
                     return;
                 }
-                global_deployer.on_init(cab);
+                global_deployer.on_init(cab,cab_name);
                 global_deployer.startDeploy(type);
             },
             on_click_param: cab
