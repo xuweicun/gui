@@ -88,7 +88,7 @@ TaskPool.prototype = {
                             pool.success(idx, e);
                         }
                         else{
-                            if(e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP'){
+                            if(e['cmd'] == 'BRIDGE' && e['sub_cmd'] == 'STOP' && e['status'] == '1'){
                                 var return_msg = JSON.parse(e['return_msg']);
                                 var disks = return_msg.disks;
                                 var task = u_task;
@@ -96,7 +96,7 @@ TaskPool.prototype = {
                                 for (var idx = 0; idx < disks.length; idx++) {
                                     var disk = global_cabinet_helper.i_get_disk(task.cab_id, task.level, task.group, disks[idx].id);
                                     if (disk) {
-                                            disk.i_change_brdige_status(false, null);
+                                            disk.i_change_brdige_status(false, null);//停止桥接状态
                                     }
                                 }
 
