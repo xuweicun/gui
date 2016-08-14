@@ -1,4 +1,4 @@
-﻿function TaskPool() {
+﻿﻿function TaskPool() {
     this.isWatching = false;
     //用于异步处理的锁标识，防止异步处理过程中池子发生变化
     this.locked = false;
