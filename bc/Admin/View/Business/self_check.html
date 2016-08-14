@@ -54,4 +54,50 @@
             </div>
         </div>
     </div>
+    <!--磁盘状态-->
+    <div class="panel panel-success col-lg-12 " ng-show="checkerStatus.disks.length>0">
+        <div class="panel bk-widget bk-border-off">
+            <div class="panel-body bk-bg-white bk-fg-inverse text-center bk-padding-15">
+                <div class="row">
+                    <div class="col-xs-8 text-left bk-vcenter">
+                        <div class="">
+                            <h1 class="bk-margin-off">磁盘状态</h1>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 bk-vcenter text-right">
+                        <a href="" ng-click="checkerStatus.init()" title="重新获取"> <i class="fa fa-spinner fa-3x"></i></a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-left bk-margin-off-bottom">
+                        <thead>
+                        <tr>
+                            <th>磁盘位置</th>
+                            <th>磁盘信息自检</th>
+                            <th>磁盘校验</th>
+                            <th>桥接</th>
+                            <th>忙碌</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        <tr ng-show="checkerStatus.checkers.length==0">
+                            <td>当前没有等待中或进行中的自检计划</td>
+                        </tr>
+                        <tr ng-repeat="disk in checkerStatus.disks">
+                            <td ng-bind="disk.getPos()"></td>
+                            <td ng-bind="disk.transStatus(disk.sn_status)"></td>
+                            <td ng-bind="disk.transStatus(disk.md5_status)"></td>
+                            <td ng-bind="disk.bridged"></td>
+                            <td ng-bind="disk.isBusy()"></td>
+                            <td class="bk-padding-off-right">
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

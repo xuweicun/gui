@@ -141,7 +141,13 @@ class BusinessController extends Controller
                 $plans[$key]['finished'] = count($sn_finished);            }
             $plans[$key]['count'] = count($dsks);
         }
-        $this->AjaxReturn($plans);
+        $dsk_db = D('DeviceView');
+        $disks = $dsk_db->where("loaded=1")->select();
+        $rst = array(
+        'status'=>$plans,
+        'disks'=>$disks
+        );
+        $this->AjaxReturn($rst);
     }
 
     public function invalid_browser()

@@ -1,9 +1,60 @@
-﻿function Checker() {
+﻿function DiskCheckStatus(){
+    this.cab = 0;
+    this.l = 0;
+    this.g = 0;
+    this.sn_status = 0;
+    this.md5_status = 0;
+    this.d = 0;
+    this.busy = 0;
+    this.busy_cmd = 0;
+}
+DiskCheckStatus.prototype = {
+    init: function(e){
+        this.cab = e.cab_id;
+        this.l = e.level;
+        this.g = e.zu;
+        this.d = e.disk;
+        this.busy = e.busy;
+        this.md5_status = e.md5_status;
+        this.sn_status  = e.sn_status;
+        this.busy_cmd = e.busy_cmd_id;
+        this.bridged = e.bridged;
+
+    },
+    getPos: function(){
+        return "#"+this.cab+"-"+this.l+"-"+this.g+"-"+this.d;
+    },
+    transStatus:function(status){
+
+        switch (parseInt(status)){
+            case -1:
+                return "等待中";
+            case 0:
+                return "进行中";
+            case 1:
+                return "已完成";
+            case 2:
+                return "已取消或失败";
+        }
+    }
+    ,
+    getSnStatus: function(){
+        return "磁盘信息自检："+this.transStatus(this.sn_status)+";磁盘校验："+this.transStatus(this.md5_status);
+    },
+    isBusy: function(){
+        if(this.busy==1){
+            return "忙碌";
+        }
+        return "空闲";
+    }
+}
+function Checker() {
     this.type = null;
     this.start_time = null;
     this.progress = null;
     this.status = null;
     this.id = null;
+    this.disks=[];
 }
 Checker.prototype = {
     init: function (data) {
@@ -37,11 +88,19 @@ CheckStatus.prototype = {
             method: 'get'
         }).success(function (data) {
             that.checkers = [];
+            that.disks = [];
             if(data){
-                data.forEach(function(e){
+                //概览
+                data['status'].forEach(function(e){
                     var checker = new Checker();
                     checker.init(e);
                     that.checkers.push(checker);
+                });
+                //磁盘
+                data['disks'].forEach(function(e){
+                    var dsk = new DiskCheckStatus();
+                    dsk.init(e);
+                    that.disks.push(dsk);
                 });
             }
         }).error(function (data) {
@@ -53,6 +112,7 @@ CheckStatus.prototype = {
                 icon: 'fa fa-alarm'
             });
         });
+
     },
     stopCheck: function(checker){
         var that = this;
