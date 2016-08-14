@@ -7,6 +7,7 @@ user_app.run(function (editableOptions) {
 register_filters(user_app);
 
 var global_http;
+var global_web_socket;
 
 user_app.filter('to_trusted', function ($sce) {
     return function (text) {
@@ -17,7 +18,7 @@ user_app.filter('to_trusted', function ($sce) {
         return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 });
-user_app.controller('user_controller', function ($scope, $http, $timeout, DTOptionsBuilder, DTDefaultOptions) {
+user_app.controller('user_controller', function ($scope, $http, $timeout, WebSock, DTOptionsBuilder, DTDefaultOptions) {
 
     $scope.smb_access = [
         { value: 0, text: '无权限' },
@@ -26,6 +27,8 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, DTOpti
     ];
     
     global_http = $http;
+    $scope.ws_creater = WebSock;
+    $scope.ws_conn = global_web_socket = $scope.ws_creater.connect();
     $scope.checkerStatus = new CheckStatus();
     $scope.url_side_bar = '/bc/Admin/View/Business/super-user-side-bar.html';
     $scope.is_making = false;

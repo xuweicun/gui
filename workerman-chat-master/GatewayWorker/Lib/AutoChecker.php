@@ -191,8 +191,11 @@ Class AutoChecker
         //记录正在自检或忙碌的硬盘数量
 
         foreach ($cabs as $cab) {
-            $busy_num = 0;
             $cab_id = (int)$cab['sn'];
+            $busy_num = $this->checkBusyNum($cab_id);
+            if($busy_num > MAX_WORK_DISK_NUM){
+                continue;
+            }
             $cab_status = json_decode($cab['status'], true);
             $levels = $cab_status['levels'];
             if(!$this->getCabHealth($cab_status)){
@@ -260,13 +263,7 @@ Class AutoChecker
                     if($grp_busy)
                     $this->RunLog("Group $cab_id-$lvl-$grp is busy");
                     //如果此组硬盘中有正在工作的硬盘，则跳过
-                    //否则遍历该组硬盘，找到第一个可以发起自检的
-                    if($dsk[$this->type . '_status'] === PLAN_STATUS_WORKING || $dsk['busy'] === 1){
-                        $busy_num = $busy_num + 1;
-                    }
-                    if($busy_num >= MAX_WORK_DISK_NUM){
-                        continue;
-                    }
+
                     if (!$grp_busy && !$grp_skipped) {
                         foreach ($dsks as $dsk) {
                             if($busy_num >= MAX_WORK_DISK_NUM){
@@ -691,6 +688,21 @@ Class AutoChecker
         return $cabs;
     }
 
+    /********************
+     * @param $cab_id
+     * @return int 忙碌磁盘的数量
+     */
+    public function checkBusyNum($cab_id){
+        $num = 0;
+        $db = $this->db;
+        $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and loaded=1")->query();
+        foreach($dsks as $item){
+            if($item[$this->type . '_status'] === PLAN_STATUS_WORKING){
+                $num = $num + 1;
+            }
+        }
+        return $num;
+    }
     //检查
     public function getPlan($config, $start_t)
     {
