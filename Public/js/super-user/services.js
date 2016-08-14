@@ -1,5 +1,4 @@
-angular.module('device.services', [])
-    .factory('WebSock', function () {
+user_app.factory('WebSock', function () {
 
         var ws = null;
         var user_grp = '';
