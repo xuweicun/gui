@@ -87,7 +87,11 @@
                         <tr ng-repeat="disk in checkerStatus.disks">
                             <td ng-bind="disk.getPos()"></td>
                             <td ng-bind="disk.transStatus(disk.sn_status)"></td>
-                            <td ng-bind="disk.transStatus(disk.md5_status)"></td>
+                            <td><span  ng-bind="disk.transStatus(disk.md5_status)"></span>
+                                <div class="row" style="color:#ff0000;"><span ng-show="disk.md5_skipped=0" ng-bind="'自检被推迟,时间:'+disk.md5_skip_time * 1000|date:'yyyy-MM-dd HH:mm:ss'"></span>
+                                </div>
+                            </td>
+
                             <td ng-bind="disk.bridged"></td>
                             <td ng-bind="disk.isBusy()"></td>
                             <td class="bk-padding-off-right">

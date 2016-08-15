@@ -7,6 +7,8 @@
     this.d = 0;
     this.busy = 0;
     this.busy_cmd = 0;
+    this.md5_skipped = 0;
+    this.md5_skip_time = null;
 }
 DiskCheckStatus.prototype = {
     init: function(e){
@@ -19,7 +21,8 @@ DiskCheckStatus.prototype = {
         this.sn_status  = e.sn_status;
         this.busy_cmd = e.busy_cmd_id;
         this.bridged = e.bridged;
-
+        this.md5_skipped = e.md5_skipped;
+        this.md5_skip_time = e.md5_skip_time;
     },
     getPos: function(){
         return "#"+this.cab+"-"+this.l+"-"+this.g+"-"+this.d;
