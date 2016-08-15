@@ -144,7 +144,7 @@ class BusinessController extends Controller
       //  $dsk_db = D('DeviceView');
       //  $disks = $dsk_db->where("loaded=1")->select();
         $dsk_db = M('Device');
-        $disks = $dsk_db->left_join("gui_cmd_log on gui_device.md5_cmd_id=gui_cmd_log.id")->where("loaded=1")->select();
+        $disks = $dsk_db->join("left join  gui_cmd_log on gui_device.md5_cmd_id=gui_cmd_log.id")->where("loaded=1")->select();
 
         $rst = array(
         'status'=>$plans,
