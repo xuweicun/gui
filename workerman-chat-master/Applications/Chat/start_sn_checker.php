@@ -57,7 +57,7 @@ $gateway->onConnect = function($connection)
 }; 
 */
 $sn_checker->onWorkerStart = function ($sn_checker) {
-        $checkTimer = Timer::add(777,function(){
+        $checkTimer = Timer::add(17,function(){
             set_time_limit(0);
             $checker = new AutoChecker();
             $checker->type = 'sn';
