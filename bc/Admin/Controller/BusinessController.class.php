@@ -1218,7 +1218,7 @@ class BusinessController extends Controller
         }
         $id = I('get.cmd_id');
 
-        $item = $db->find(1);
+        $item = $db->find($id);
         if ($item) {
             $this->AjaxReturn($item);
         } else {

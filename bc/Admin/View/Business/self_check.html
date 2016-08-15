@@ -68,13 +68,13 @@
                     <table class="table text-left bk-margin-off-bottom">
                         <thead>
                         <tr>
-                            <th>磁盘位置</th><th>磁盘信息自检</th><th>磁盘校验</th><th>桥接</th><th>状态</th>
+                            <th>磁盘位置</th><th>磁盘信息自检</th><th>磁盘校验</th><th>进度</th><th>桥接</th><th>状态</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody >
-                        <tr ng-show="checkerStatus.checkers.length==0">
-                            <td>当前没有等待中或进行中的自检计划</td>
+                        <tr ng-show="checkerStatus.disks.length==0">
+                            <td>无磁盘信息</td>
                         </tr>
                         <tr ng-repeat="disk in checkerStatus.disks">
                             <td ng-bind="disk.getPos()"></td>
@@ -84,6 +84,7 @@
                                 </div>
                             </td>
 
+                            <td><span ng-bind="disk.check_cmd_status.progress"></span></td>
                             <td ng-bind="disk.bridged"></td>
                             <td>
                                 <span  ng-bind="disk.isBusy()"></span>

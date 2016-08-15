@@ -24,6 +24,7 @@ DiskCheckStatus.prototype = {
         this.bridged = e.bridged;
         this.md5_skipped = e.md5_skipped;
         this.md5_skip_time = e.md5_skip_time;
+        this.check_cmd_status = {'progress':e.progress,'started':e.started};
     },
     getPos: function(){
         return "#"+this.cab+"-"+this.l+"-"+this.g+"-"+this.d;
