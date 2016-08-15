@@ -6,7 +6,8 @@
     this.md5_status = 0;
     this.d = 0;
     this.busy = 0;
-    this.busy_cmd = 0;
+    this.busy_cmd_id = 0;
+    this.busy_cmd = null;
     this.md5_skipped = 0;
     this.md5_skip_time = null;
 }
@@ -19,7 +20,7 @@ DiskCheckStatus.prototype = {
         this.busy = e.busy;
         this.md5_status = e.md5_status;
         this.sn_status  = e.sn_status;
-        this.busy_cmd = e.busy_cmd_id;
+        this.busy_cmd_id = e.busy_cmd_id;
         this.bridged = e.bridged;
         this.md5_skipped = e.md5_skipped;
         this.md5_skip_time = e.md5_skip_time;
@@ -27,6 +28,19 @@ DiskCheckStatus.prototype = {
     getPos: function(){
         return "#"+this.cab+"-"+this.l+"-"+this.g+"-"+this.d;
     },
+    updateCmdStatus: function () {
+        var that = this;
+        global_http({
+            url: '/?a=getCmdResult&id='+that.busy_cmd_id,
+            method: 'get'
+        }).success(function (data) {
+            if(data['errmsg']){
+                return;
+            }
+           that.busy_cmd = data;
+        });
+    }
+    ,
     transStatus:function(status){
 
         switch (parseInt(status)){
@@ -45,8 +59,8 @@ DiskCheckStatus.prototype = {
         return "磁盘信息自检："+this.transStatus(this.sn_status)+";磁盘校验："+this.transStatus(this.md5_status);
     },
     isBusy: function(){
-        if(this.busy==1){
-            return "忙碌";
+        if(this.busy=='1'){
+            return "用户使用中";
         }
         return "空闲";
     }
@@ -103,6 +117,9 @@ CheckStatus.prototype = {
                 data['disks'].forEach(function(e){
                     var dsk = new DiskCheckStatus();
                     dsk.init(e);
+                    if(dsk.busy == '1'){
+                        dsk.updateCmdStatus();
+                    }
                     that.disks.push(dsk);
                 });
             }
