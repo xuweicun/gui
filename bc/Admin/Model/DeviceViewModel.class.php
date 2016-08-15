@@ -8,7 +8,7 @@ include_once(COMMON_PATH . "Common/bc.common.php");
 class DeviceViewModel extends ViewModel
 {
     public $viewFields = array(
-        'Device' => array('id', 'cab_id', 'loaded', 'protected','level', 'zu', 'disk', 'bridged', 'path', 'time','sn_status','md5_status'),
+        'Device' => array('id', 'cab_id', 'loaded', 'protected','level', 'zu', 'disk', 'bridged', 'path', 'time','sn_status','md5_status','md5_skipped','md5_skip_time','md5_cmd_id'),
         'Disk' => array(
             'sn', 'md5', 'md5_time', 'capacity',
             'normal', 'md5_changed',
