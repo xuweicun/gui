@@ -498,7 +498,6 @@ angular.module('device.services', [])
                     }
                     global_scope.caution_manage.getCautions();
 
-                    toastr.error(err_msg);
                     break;
 
             }

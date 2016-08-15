@@ -940,7 +940,7 @@ class BusinessController extends Controller
     public function getGoingTasks()
     {
         $db = M('CmdLog');
-        $user_items = $db->join('gui_user on gui_user.id = user_id')->field('gui_cmd_log.*, username')->where("finished = 0")->select();
+        $user_items = $db->join('left join gui_user on gui_user.id = user_id')->field('gui_cmd_log.*, username')->where("finished = 0")->select();
         $all_items = $db->where("finished = 0")->select();
         ($items= array_merge($user_items,$all_items)) || ($items = $all_items);
         foreach ($items as $index => $item) {
@@ -1494,7 +1494,9 @@ class BusinessController extends Controller
             ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')
             ->select();
 
-        $log_undismissed = $db->where("dismissed=0")->select();
+        $log_undismissed = $db->join('left join gui_user ON gui_run_time_err_log.user_id=gui_user.id')
+            ->join('left join gui_cmd_log on gui_run_time_err_log.cmd_id=gui_cmd_log.id')
+            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')->where("dismissed=0")->select();
         $type = $_POST['type'];
         switch($type){
             case 'new':
@@ -1514,8 +1516,12 @@ class BusinessController extends Controller
     }
     public function getCabCaution(){
         $db = M("CabCautionLog");
-        $logs = $db->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')->field('gui_cab_caution_log.*,gui_user.username')->select();
-        $log_undismissed = $db->where("dismissed=0")->select();
+        $logs = $db
+            ->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')
+            ->field('gui_cab_caution_log.*,gui_user.username')->select();
+        $log_undismissed = $db
+            ->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')
+            ->field('gui_cab_caution_log.*,gui_user.username')->where("dismissed=0")->select();
 
         $type = $_POST['type'];
         $rst = array('cab_caution'=>array(),'cmd_caution'=>array());
