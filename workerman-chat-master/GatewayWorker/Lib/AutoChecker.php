@@ -852,7 +852,7 @@ Class AutoChecker
                     'cmd_id'=>$cmd_id,
                     'cab'=>$dsk['cab_id'],
                     'level'=>$dsk['level'],
-                    'zu'=>$dsk['zu'],
+                    'grp'=>$dsk['zu'],
                     'disk'=>$dsk['disk']
                 );
                 $db->insert("gui_cmd_disk")->cols($busy_disk)->query();
