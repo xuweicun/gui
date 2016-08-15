@@ -896,7 +896,7 @@ Class AutoChecker
             $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
 
             if ($rst) {
-                $attached = array('type' => 'say', 'user_name' => 'system');
+                $attached = array('type' => 'say', 'username' => 'system');
                 $rst = array_merge($rst, $attached);
                 ExtendGateWay::sendToAll(json_encode($rst));
             }
