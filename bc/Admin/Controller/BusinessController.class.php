@@ -941,17 +941,7 @@ class BusinessController extends Controller
     {
         $db = M('CmdLog');
         $user_items = $db->join('left join gui_user on gui_user.id = user_id')->field('gui_cmd_log.*, username')->where("finished = 0")->select();
-        $all_items = $db->where("finished = 0")->select();
-        ($items= array_merge($user_items,$all_items)) || ($items = $all_items);
-        foreach ($items as $index => $item) {
-            $items[$index]['msg'] = stripslashes($item['msg']);
-            $items[$index]['current_time'] = time();
-            if(!$items[$index]['username']){
-                $items[$index]['username'] = 'System';
-            }
-        }
-    //    var_dump($items);
-        $this->AjaxReturn($items);
+        $this->AjaxReturn($user_items);
     }
 
     public function getTestResults()
