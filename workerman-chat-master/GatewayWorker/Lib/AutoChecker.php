@@ -296,6 +296,7 @@ Class AutoChecker
                 break;
             }
         }
+        return true;
     }
     private function isCheckDue($plan){
         $tbl = "gui_check_start_time";

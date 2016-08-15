@@ -351,7 +351,7 @@ TaskPool.prototype = {
                     global_cmd_helper.updateDeviceStatus();
                 }
                 else if (int_status == 28) {
-                    global_modal_helper.show_modal({
+                   /* global_modal_helper.show_modal({
                         type: 'question',
                         title: '硬盘命令 -- 构建索引',
                         html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
@@ -360,7 +360,7 @@ TaskPool.prototype = {
                             console.log(data);
                         },
                         on_click_param: pool[i]
-                    });
+                    });*/
 
                     global_task_pool.load_tasks();
                 }
