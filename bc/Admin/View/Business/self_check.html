@@ -40,11 +40,7 @@
                                             <i class="fa fa-stop"></i>
                                         </a>
                                     </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Detail" title="查看详情" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
-                                            <i class="fa fa-list"></i>
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </td>
                         </tr>
@@ -72,11 +68,7 @@
                     <table class="table text-left bk-margin-off-bottom">
                         <thead>
                         <tr>
-                            <th>磁盘位置</th>
-                            <th>磁盘信息自检</th>
-                            <th>磁盘校验</th>
-                            <th>桥接</th>
-                            <th>忙碌</th>
+                            <th>磁盘位置</th><th>磁盘信息自检</th><th>磁盘校验</th><th>桥接</th><th>状态</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -93,7 +85,14 @@
                             </td>
 
                             <td ng-bind="disk.bridged"></td>
-                            <td ng-bind="disk.isBusy()"></td>
+                            <td>
+                                <span  ng-bind="disk.isBusy()"></span>
+                                <a href="" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-icon bk-icon-default bk-bg-warning" ng-click="disk.updateCmdStatus()" ng-show="disk.busy=='1'"> <i class="fa fa-refresh"></i></a>
+                                <div class="row" style="color:#ff0000;"  ng-show="disk.busy_cmd!=null" >
+                                    <span ng-bind="'任务名称:'+disk.busy_cmd.cmd+';是否结束:'+disk.busy_cmd.finished"></span>
+                                </div>
+
+                            </td>
                             <td class="bk-padding-off-right">
 
                             </td>
