@@ -239,7 +239,7 @@ Class AutoChecker
                         }
                        // $this->RunLog("Status working: ".$grp_busy);
                         //磁盘操作中或者桥接中
-                        if((!is_null($dsk['busy']) && $dsk['busy'] === 1) || $dsk['bridged'] === 1){
+                        if($dsk['busy'] === 1 || $dsk['bridged'] === 1){
                             $grp_busy = true;
                         }
                        // $this->RunLog("Commond or bridged: ".$grp_busy);
@@ -847,6 +847,15 @@ Class AutoChecker
                 );
                 $new_cmd = array('msg' => json_encode($data));
                 $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
+                //将disk设为忙碌,避免冲突
+                $busy_disk = array(
+                    'cmd_id'=>$cmd_id,
+                    'cab'=>$dsk['cab_id'],
+                    'level'=>$dsk['level'],
+                    'zu'=>$dsk['zu'],
+                    'disk'=>$dsk['disk']
+                );
+                $db->insert("gui_cmd_disk")->cols($busy_disk)->query();
             }
         }
         return $cmd_id;
