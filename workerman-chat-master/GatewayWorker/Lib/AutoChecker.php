@@ -834,6 +834,19 @@ Class AutoChecker
                 $db->delete($tbl_cmd_log)->where($cond)->bindValues($bindV)->query();
                 return false;
             }
+            else{
+                $data = array(
+                    'cmd' => $cmd,
+                    'CMD_ID' => $cmd_id,
+                    'device_id' => $dsk['cab_id'],
+                    'level' => $dsk['level'],
+                    'group' => $dsk['zu'],
+                    'disk' => $dsk['disk'],
+                    'subcmd' => 'START'
+                );
+                $new_cmd = array('msg' => json_encode($data));
+                $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
+            }
         }
         return $cmd_id;
     }
@@ -868,8 +881,7 @@ Class AutoChecker
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
             //更新日志信息
-            $new_cmd = array('msg' => json_encode($data));
-            $db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
+
             // 通知前端
             $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
 
