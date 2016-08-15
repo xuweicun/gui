@@ -47,7 +47,7 @@
                         <tr class="gradeA odd" role="row" ng-repeat="task in taskPool.going" ng-class-odd="odd"
                             ng-class-even="even">
 				<td>{{$index+1}}</td>
-				<td> {{task.username}} </td>
+				<td> {{task.username || '[system]'}} </td>
 
                             <td class="sorting_1" ng-bind="lang.getLang(task.cmd)"></td>
                             <td ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
@@ -119,7 +119,7 @@
                         <tr class="gradeA odd" role="row" ng-repeat="task in taskPool.done" ng-class-odd="odd"
                             ng-class-even="even">
 				<td>{{$index+1}}</td>
-				<td> {{task.username}} </td>
+				<td> {{task.username || '[system]'}} </td>
                             <td class="sorting_1" ng-bind="lang.getLang(task.cmd)"></td>
                             <td ng-bind="lang.getLang(task.subcmd)"><span ng-show="task.isBridge();">开始</span></td>
                             <td ng-bind="task.start_time|date:'yyyy-MM-dd HH:mm:ss'"></td>
