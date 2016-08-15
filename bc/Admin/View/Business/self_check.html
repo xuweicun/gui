@@ -85,9 +85,9 @@
                             </td>
 
                             <td>
-                                <span ng-bind="disk.check_cmd_status.progress"></span>
-                                <span ng-show="disk.check_cmd_status.started=='1' && disk.check_cmd_status.finished=='0'">已开始</span>
-                                <span ng-show="disk.check_cmd_status.finished=='0'">已完成</span>
+                                <span ng-bind="disk.check_cmd_status.progress" ng-show="disk.check_cmd_status.progress!=null"></span>
+                                <span ng-show="disk.check_cmd_status.started=='1' && disk.check_cmd_status.finished=='0'">-已开始</span>
+                                <span ng-show="disk.check_cmd_status.finished=='0'">-已完成</span>
                             </td>
                             <td ng-bind="disk.bridged"></td>
                             <td>
