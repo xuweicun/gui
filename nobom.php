@@ -695,25 +695,28 @@ Class AutoChecker
         }
     }
 }
+$tbl_cmd_log = "gui_cmd_log";
 $checker = new AutoChecker();
 $checker->type = 'sn';
 $checker->db = Db::instance('db1');
+$data = array(
+    'cmd' => "md5",
+    'CMD_ID' => 45,
+    'device_id' => 2,
+    'level' => 1,
+    'group' => 1,
+    'disk' => 1,
+    'subcmd' => 'START'
+);
+$x = json_encode($data);
+$new_cmd = array('msg' => json_encode($data));
+$checker->db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => "1"))->query();
+$rst = $checker->db->select("msg")->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => 1))->query();
+var_dump($rst);
 //$checker->mainCheck();
-$dsks = $checker->db->select("*")->from("gui_device")->where("loaded=:L")->bindValues(array('L' => 1))->query();
-$checker->checkCmdStatus(1);
-$tbl_cmd_log="gui_cmd_log";
 
 //$checker->checkCmdStatus();
 //ß$checker->checkCmdStatus();
-$checker->db = Db::instance('db1');
-$cabs = $checker->getCabQueue();
-
-$dsks = $checker->db->select("*")->from("gui_device")->where("1=1")->query();
-echo "<hr>";
-foreach ($dsks as $dsk){
-    echo "Dsk #".$dsk['cab_id']."-".$dsk['level']."-".$dsk['zu']."-".$dsk['disk']." Chech Status: ".$dsk['sn_status'];
-    echo "<br/>";
-}
 echo "<hr>";
 //var_dump($db->delete("*")->from($tbl_cmd_log)->where($cond)->bindValues($bindV)->query());
 
