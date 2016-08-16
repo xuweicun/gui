@@ -267,7 +267,7 @@ class BusinessController extends Controller
             $map['user_id'] = $user_id;
         }
         $ret = $db
-            ->join('gui_user ON gui_cmd_log.user_id = gui_user.id')
+            ->join('left join gui_user ON gui_cmd_log.user_id = gui_user.id')
             ->field(array(
                 'gui_cmd_log.user_id' => 'user_id',
                 'gui_cmd_log.cmd' => 'cmd',
