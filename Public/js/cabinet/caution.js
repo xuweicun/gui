@@ -27,8 +27,6 @@ CabCaution.prototype = {
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电量：<span class="bk-fg-danger">[严重告警]</span>';
 
-                    // 停止一键部署
-                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
@@ -42,8 +40,6 @@ CabCaution.prototype = {
                 case 2:
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电流：<span class="bk-fg-danger">[严重告警]</span>';
-                    // 停止一键部署
-                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
@@ -58,8 +54,6 @@ CabCaution.prototype = {
                 case 2:
                     if (warn_msg) warn_msg += '，';
                     warn_msg += '电压：<span class="bk-fg-danger">[严重告警]</span>';
-                    // 停止一键部署
-                    global_deploy.stopDeploy();
                     break;
                 default:
                     break;
@@ -164,11 +158,11 @@ function CautionManage()
 CautionManage.prototype = {
     showCautions: function ()
     {
-	try{
-		global_modal_helper.show_modal_user('modalWarningCab');
-	}
-	catch(e){
-	}
+        try{
+            global_modal_helper.show_modal_user('modalWarningCab');
+        }
+        catch(e){
+        }
     },
     doCautions: function ()
     {
@@ -227,7 +221,6 @@ CautionManage.prototype = {
         })
         .success(function (data) {
             if (!data) return;
-
             that_caution.setCautions(data.cab_caution);
             that_caution.setCmdCautions(data.cmd_caution);
             that_caution.Cautions = that_caution.CabCautions.concat(that_caution.CmdCautions);
@@ -239,7 +232,6 @@ CautionManage.prototype = {
     },
     setCmdCautions: function (msgs)
     {
-        console.log(msgs);
         if (Object.prototype.toString.call(msgs) !== "[object Array]") {
             this.CmdCautions = [];
             return;

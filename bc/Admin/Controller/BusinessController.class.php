@@ -1475,59 +1475,37 @@ class BusinessController extends Controller
         $this->_ajaxReturn($rst);
     }
     public function getCmdCaution($type){
-        $db = M("RunTimeErrLog");
-        $logs = $db
+        $db = M("RunTimeErrLog")
             ->join('left join gui_user ON gui_run_time_err_log.user_id=gui_user.id')
             ->join('left join gui_cmd_log on gui_run_time_err_log.cmd_id=gui_cmd_log.id')
-            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')
-            ->select();
+            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg');
 
-        $log_undismissed = $db->join('left join gui_user ON gui_run_time_err_log.user_id=gui_user.id')
-            ->join('left join gui_cmd_log on gui_run_time_err_log.cmd_id=gui_cmd_log.id')
-            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')->where("dismissed=0")->select();
         $type = $_POST['type'];
         switch($type){
             case 'new':
-                return $log_undismissed;
-                break;
+                return $db->where('dismissed=0')->select();
             case 'old':
-                return $logs;
-                break;
             default:
-                $all_logs = array_merge($log_undismissed,$logs);
-                if(!$all_logs){
-                    ($all_logs = $logs) || ($all_logs = $log_undismissed);
-                }
-                return $all_logs;
-                break;
+                return $db->select();
         }
     }
     public function getCabCaution(){
-        $db = M("CabCautionLog");
-        $logs = $db
+        $db = M("CabCautionLog")
             ->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')
-            ->field('gui_cab_caution_log.*,gui_user.username')->select();
-        $log_undismissed = $db
-            ->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')
-            ->field('gui_cab_caution_log.*,gui_user.username')->where("dismissed=0")->select();
+            ->field('gui_cab_caution_log.*,gui_user.username');
 
         $type = $_POST['type'];
         $rst = array('cab_caution'=>array(),'cmd_caution'=>array());
         switch($type){
             case 'new':
-                $rst['cab_caution'] = $log_undismissed;
+                $rst['cab_caution'] = $db->where("dismissed=0")->select();
                 break;
             case 'old':
-                $rst['cab_caution'] = $logs;
-                break;
             default:
-                $all_logs = array_merge($log_undismissed,$logs);
-                if(!$all_logs){
-                    ($all_logs = $logs) || ($all_logs = $log_undismissed);
-                }
-                $rst['cab_caution'] = $all_logs;
+                $rst['cab_caution'] = $db->select();
                 break;
         }
+
         $rst['cmd_caution'] = $this->getCmdCaution($type);
         $this->AjaxReturn($rst);
     }
