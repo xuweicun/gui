@@ -364,7 +364,7 @@ class MsgController extends Controller
             foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
                 $item = $db->where(array(
                     'cab_id' => $_POST['device_id'],
-                    'level' =>$_POST['busy_disks']['l'],
+                    'level' => $_POST['busy_disks']['l'],
                     'zu' => $_POST['busy_disks']['g'],
                     'disk' => $dsk,
                     'loaded' => 1
@@ -809,8 +809,8 @@ class MsgController extends Controller
         $item = $this->msg;
         $log = $this->db->find($item->id);
         //算是临时的补救措施,proxy有时候会把自己命令的状态返回给我
-        if($this->msg->cmd == 'BRIDGE'){
-            if($this->msg->subcmd != $log['sub_cmd']){
+        if ($this->msg->cmd == 'BRIDGE') {
+            if ($this->msg->subcmd != $log['sub_cmd']) {
                 $this->quit();
             }
         }
@@ -1456,9 +1456,16 @@ class MsgController extends Controller
             $item = $db->where($map)->find();
             //var_dump($item);
             if (!$item) {
-                echo "Disk not found";
-                die();
+                die("Disk not found");
             }
+            $data = array(
+                'sn'=>$_POST['SN'],
+                'capacity'=>$_POST['capacity'],
+                'PowerOnCount'=>$_POST['PowerOnCount'],
+                'PowerOnRawValue'=>$_POST['PowerOnRawValue'],
+                'firmware'=>$_POST['firmware'],
+                'health'=>$_POST['health']
+            );
             $data['sn'] = $_POST['SN'];
             $data['capacity'] = $_POST['capacity'];
             $data['normal'] = (int)$_POST['disk_status'] == 0 ? 1 : 0;
@@ -1506,43 +1513,36 @@ class MsgController extends Controller
      */
     private function updateSmart($id)
     {
-        //return;//暂时未调试好，先不处理
         $db = M('DiskSmart');
         $attrs = $_POST['SmartAttrs'];
-        //$testDb = M('test');
-        //$test['response'] = count($attrs);
-        //$testDb->add($test);
         foreach ($attrs as $attr) {
             //查找是否存在
             //$attr = $attr;
-
             $map['disk_id'] = array('eq', $id);
-            $map['attrname'] = array('eq', $attr['id']);
+            $map['attr_id'] = array('eq', $attr['id']);
+            $data = array(
+                "c_val" => $attr["c_val"],
+                "raw_val" => $attr["raw_val"],
+                "sts" => $attr['sts'],
+                "thd" => $attr['thd'],
+                "w_val" => $attr['w_val'],
+                'attr_id'=>$attr['id']
+            );
             if ($item = $db->where($map)->find()) {
-                $item['dat'] = $attr['dat'];
-                $item['ex_dat'] = $attr['ex_dat'];
-                $item['flag'] = $attr['flag'];
-                $item['thd'] = $attr['thd'];
-                $item['val'] = $attr['val'];
-                $item['w_val'] = $attr['w_val'];
-                $item['normal'] = $attr['sts'] && $attr['sts'] == '1' ? 0 : 1;
-                $db->save($item);
+                /*  $item['dat'] = $attr['dat'];
+                  $item['ex_dat'] = $attr['ex_dat'];
+                  $item['flag'] = $attr['flag'];
+                  $item['thd'] = $attr['thd'];
+                  $item['val'] = $attr['val'];
+                  $item['w_val'] = $attr['w_val'];
+                  $item['normal'] = $attr['sts'] && $attr['sts'] == '1' ? 0 : 1;*/
+                $data['id'] = $item['id'];
+                $db->save($data);
             } else {
-                $item = array();
-                $item['dat'] = $attr['dat'];
-                $item['ex_dat'] = $attr['ex_dat'];
-                $item['flag'] = $attr['flag'];
-                $item['thd'] = $attr['thd'];
-                $item['val'] = $attr['val'];
-                $item['w_val'] = $attr['w_val'];
-                $item['attrname'] = $attr['id'];
-                $item['normal'] = $attr['sts'] && $attr['sts'] == '1' ? 0 : 1;
-                $item['disk_id'] = $id;
-                $db->add($item);
+                $data['disk_id'] = $id;
+                $db->add($data);
             }
         }
-        echo "添加完成,结果如下:<br>";
-        // var_dump($db->where("1=1")->select());
     }
 
     public function hdlSuccess()

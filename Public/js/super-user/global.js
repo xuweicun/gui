@@ -6,9 +6,9 @@ user_app.run(function (editableOptions) {
 
 register_filters(user_app);
 
-var global_http;
-var global_web_socket;
-var global_user = new User(
+
+global_modal_helper = new ModalHelper();
+global_user = new User(
     parseInt($('#userid').text()),
     $('#username').text(),
     parseInt($('#can_write').text()),
