@@ -939,6 +939,9 @@ class BusinessController extends Controller
     {
         $db = M('CmdLog');
         $user_items = $db->join('left join gui_user on gui_user.id = user_id')->field('gui_cmd_log.*, username')->where("finished = 0")->select();
+        foreach($user_items as $index=>$value){
+            $user_items[$index]['current_time'] = time();
+        }
         $this->AjaxReturn($user_items);
     }
 

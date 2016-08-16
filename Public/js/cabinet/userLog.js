@@ -104,7 +104,16 @@
                 default: return f;
             }
         }
-    }).factory('ErrCode', function () {
+    }).filter('BRIDGED', function () {
+				return function (f) {
+					switch (f) {
+						case '0': return '未桥接';
+						case '1': return '已桥接';
+						default: return f;
+					}
+				}
+			})
+			.factory('ErrCode', function () {
         return {
             "0": "no error",
 			"1": "bridge not started",

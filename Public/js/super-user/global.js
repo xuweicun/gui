@@ -8,6 +8,12 @@ register_filters(user_app);
 
 var global_http;
 var global_web_socket;
+var global_user = new User(
+    parseInt($('#userid').text()),
+    $('#username').text(),
+    parseInt($('#can_write').text()),
+    $('#token').text()
+);
 
 user_app.filter('to_trusted', function ($sce) {
     return function (text) {
@@ -27,6 +33,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     ];
     
     global_http = $http;
+
     $scope.ws_creater = WebSock;
     $scope.ws_conn = global_web_socket = $scope.ws_creater.connect();
     $scope.checkerStatus = new CheckStatus();
