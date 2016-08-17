@@ -6,7 +6,7 @@ user_app.run(function (editableOptions) {
 
 register_filters(user_app);
 
-
+//Initializing
 global_modal_helper = new ModalHelper();
 global_user = new User(
     parseInt($('#userid').text()),
