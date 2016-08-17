@@ -6,7 +6,7 @@ user_app.run(function (editableOptions) {
 
 register_filters(user_app);
 
-
+//Initializing
 global_modal_helper = new ModalHelper();
 global_user = new User(
     parseInt($('#userid').text()),
@@ -388,7 +388,9 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     });
     
     $scope.curr_modal = new ModalHelper();
-
+    $scope.stopCheck = function(){
+        $scope.
+    }
     $scope.showLogoutModal = function () {
         $scope.curr_modal.show_modal({
             type: 'question',

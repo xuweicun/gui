@@ -36,9 +36,18 @@
                             <td class="bk-padding-off-right">
                                 <ul class="list-inline bk-margin-off-bottom text-right">
                                     <li class="bk-padding-off-right">
-                                        <a data-original-title="Stop" title="停止自检" ng-click="checkerStatus.stopCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-warning">
+                                        <a data-original-title="Start" title="自检将会立刻启动" ng-click="checkerStatus.startCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-success bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-success">
+                                            <i class="fa fa-play"></i>
+                                        </a>
+                                        <br>
+                                        <p class="help-block">立刻启动</p>
+                                    </li>
+                                    <li class="bk-padding-off-right">
+                                        <a data-original-title="Stop" title="停止自检" ng-click="checkerStatus.stopCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-danger bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-danger">
                                             <i class="fa fa-stop"></i>
                                         </a>
+                                        <br>
+                                        <p class="help-block">停止</p>
                                     </li>
 
                                 </ul>
