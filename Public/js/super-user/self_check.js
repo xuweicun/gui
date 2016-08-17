@@ -135,8 +135,7 @@ CheckStatus.prototype = {
         });
 
     },
-    stopCheck: function(checker){
-        var that = this;
+    hdlStopCheck: function(chceker){
         global_http({
             url: '/index.php?m=admin&c=business&a=stopCheck',
             method: 'post',
@@ -172,6 +171,12 @@ CheckStatus.prototype = {
                 icon: 'fa fa-alarm'
             });
         });
+    }
+    ,
+    stopCheck: function(checker){
+        var that = this;
+        global_modal_helper.show_modal({type:'question',title:'停止自检',html:'自检尚未完成,您确定停止吗?',
+            on_click_target:this,on_click_handle:'hdlStopCheck',on_click_param: checker});
     }
 };
 
