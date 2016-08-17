@@ -175,30 +175,17 @@ CheckStatus.prototype = {
     ,
     stopCheck: function(checker){
         var that = this;
-        global_modal_helper.show_modal({type:'question',title:'停止自检',html:'自检尚未完成,您确定停止吗?',
-            on_click_target:this,on_click_handle:'hdlStopCheck',on_click_param: checker});
+        //global_modal_helper.show_modal_user('superModalChangePassword');
+       global_modal_helper.show_modal({
+            type: 'question',
+            title: '管理员注销',
+            html: '您确定要注销，注销后需要重新登录。',
+            on_click_handle: function () {
+                window.location = "/index.php?m=admin&c=business&a=logout_admin";
+            }
+        });
+        //global_modal_helper.show_modal({type:'question',title:'停止自检',html:'自检尚未完成,您确定停止吗?',
+          //  on_click_target:that,on_click_handle:'hdlStopCheck',on_click_param: checker});
     }
 };
 
-function UserSettings(settings) {
-    if (this.time_options.length <= 0) {
-        for (var i = 0; i < 24; ++i) {
-            this.time_options[i] = {
-                val: i,
-                text: (i<10?'0'+i:i) + ':00:00'
-            };
-        }
-    }
-
-    this.inited = false;
-
-    this.md5_old = new Check_t('md5');
-    this.smart_old = new Check_t('sn');
-
-    this.md5 = angular.copy(this.md5_old);
-    this.smart = angular.copy(this.smart_old);
-}
-
-UserSettings.prototype = {
-    time_options: []
-}

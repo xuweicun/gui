@@ -388,7 +388,9 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     });
     
     $scope.curr_modal = new ModalHelper();
-
+    $scope.stopCheck = function(){
+        $scope.
+    }
     $scope.showLogoutModal = function () {
         $scope.curr_modal.show_modal({
             type: 'question',
