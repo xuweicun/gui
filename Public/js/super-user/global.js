@@ -497,17 +497,18 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
         switch (name) {
             case 'self_check_status':
                 $scope.checkerStatus.init();
-                $scope.page_index = name
+                $scope.page_index = name;
                 break;
             case 'settings':
                 $scope.user_settings.get_config();
 
-                $scope.page_index = name
+                $scope.page_index = name;
                 break;
 
             case 'caution':
-		$scope.caution_manage.getAllCautions();
-                $scope.page_index = name
+        		$scope.caution_manage.getAllCautions();
+                $scope.page_index = name;
+                break;
 		break;
             case 'user_log':
             case 'manul':
