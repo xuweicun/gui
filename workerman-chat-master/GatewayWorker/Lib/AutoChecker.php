@@ -173,6 +173,23 @@ Class AutoChecker
         }
         return true;
     }
+    private function getBusyDisks(){
+        $db = $this->db;
+        $cond = "gui_cmd_log.finished=0";
+        $dsks = $this->db->select("gui_cmd_disk.*,gui_cmd_log.cmd")
+            ->from('gui_cmd_disk')
+            ->innerJoin("gui_cmd_log", "gui_cmd_disk.cmd_id = gui_cmd_log.id")
+            ->orderBy(array("cab"))->where($cond)->query();
+        return $dsks;
+    }
+    private function isDiskBusy($dsks,$cab,$lvl,$grp){
+       foreach ($dsks as $item){
+           if($item['cab'] == $cab &&  $item['level'] == $lvl && $item['group'] == $grp){
+               return true;
+           }
+       }
+        return false;
+    }
     /********************************
      * @param $cabs 存储柜信息
      * @return bool 如果返回值为假，说明所有硬盘已经自检完成，本次自检完美结束
@@ -189,7 +206,7 @@ Class AutoChecker
         $grp_skipped = null;
         $db = $this->db;
         //记录正在自检或忙碌的硬盘数量
-
+        $busy_disks = $this->getBusyDisks();
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
             $busy_num = $this->checkBusyNum($cab_id);
@@ -224,6 +241,9 @@ Class AutoChecker
                     $grp_busy = false;
                     $grp_skipped = false;
                     $grp = $g + 1;
+                    if($this->isDiskBusy($busy_disks, $cab_id, $lvl, $grp)){
+                        $grp_busy = true;
+                    }
                     //按照优先级排序
                     $dsks = $db->select("*")->from('gui_device')->where("cab_id=$cab_id and level=$lvl and zu=$grp and loaded=1")->query();//orderby(priority)
                     //检查有没有正在工作的

@@ -1213,7 +1213,7 @@ class BusinessController extends Controller
             $this->AjaxReturn($results);
             return;
         }
-        $id = I('get.cmd_id');
+        $id = I('get.id');
 
         $item = $db->find($id);
         if ($item) {

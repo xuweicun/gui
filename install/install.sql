@@ -9,7 +9,7 @@
  Target Server Version : 50542
  File Encoding         : utf-8
 
- Date: 08/09/2016 12:21:58 PM
+ Date: 08/15/2016 20:50:55 PM
 */
 
 SET NAMES utf8;
@@ -62,7 +62,7 @@ CREATE TABLE `gui_cab_caution_log` (
   `time` varchar(1024) DEFAULT NULL,
   `modify_time` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_check_conf`
@@ -79,7 +79,7 @@ CREATE TABLE `gui_check_conf` (
   `cnt` smallint(6) DEFAULT NULL,
   `user_id` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_check_plan`
@@ -94,7 +94,7 @@ CREATE TABLE `gui_check_plan` (
   `modify_time` varchar(100) DEFAULT NULL,
   `user_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_check_start_time`
@@ -106,7 +106,7 @@ CREATE TABLE `gui_check_start_time` (
   `type` varchar(10) DEFAULT NULL,
   `start_date` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_chg_log`
@@ -135,7 +135,7 @@ CREATE TABLE `gui_cmd_disk` (
   `grp` smallint(2) DEFAULT NULL,
   `disk` smallint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_cmd_log`
@@ -160,7 +160,7 @@ CREATE TABLE `gui_cmd_log` (
   `busy_disks` varchar(128) DEFAULT NULL,
   `started` tinyint(1) DEFAULT '0' COMMENT '标记命令是否开始',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1112 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_config`
@@ -205,7 +205,7 @@ CREATE TABLE `gui_device` (
   `busy_cmd_id` int(10) DEFAULT '0',
   `md5_skip_time` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
 
 -- ----------------------------
 --  Table structure for `gui_disk`
@@ -223,7 +223,7 @@ CREATE TABLE `gui_disk` (
   `md5_time` varchar(500) DEFAULT NULL,
   `sn_time` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_disk_chg_log`
@@ -237,7 +237,7 @@ CREATE TABLE `gui_disk_chg_log` (
   `obj_id` int(10) NOT NULL,
   `value` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_disk_md5_log`
@@ -258,7 +258,7 @@ CREATE TABLE `gui_disk_md5_log` (
   `cabinet_id` int(11) DEFAULT NULL,
   `cmd_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
 
 -- ----------------------------
 --  Table structure for `gui_disk_smart`
@@ -278,7 +278,7 @@ CREATE TABLE `gui_disk_smart` (
   `w_val` varchar(50) DEFAULT NULL,
   `normal` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='smart value';
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8 COMMENT='smart value';
 
 -- ----------------------------
 --  Table structure for `gui_disk_smart_log`
@@ -301,7 +301,7 @@ CREATE TABLE `gui_disk_smart_log` (
   `cabinet_id` int(11) DEFAULT NULL,
   `cmd_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
 
 -- ----------------------------
 --  Table structure for `gui_fatal_msg`
@@ -343,7 +343,7 @@ CREATE TABLE `gui_restart_time` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `restart_time` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_run_time_err_log`
@@ -353,13 +353,14 @@ CREATE TABLE `gui_run_time_err_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `cmd_id` int(10) NOT NULL,
   `dismissed` tinyint(1) DEFAULT '0',
-  `dismiss_time` varchar(1024) DEFAULT '',
+  `dismiss_time` varchar(1024) DEFAULT NULL,
   `time` varchar(1024) DEFAULT NULL,
   `user_id` smallint(6) DEFAULT '0',
   `err_code` varchar(5) DEFAULT NULL,
   `err_msg` varchar(1024) DEFAULT NULL,
+  `cmd` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_smb`
@@ -374,7 +375,7 @@ CREATE TABLE `gui_smb` (
   `dsk` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `gui_super`
@@ -431,6 +432,6 @@ CREATE TABLE `gui_user` (
   `locked` int(11) NOT NULL DEFAULT '0',
   `smb_ip` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

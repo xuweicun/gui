@@ -699,20 +699,10 @@ $tbl_cmd_log = "gui_cmd_log";
 $checker = new AutoChecker();
 $checker->type = 'sn';
 $checker->db = Db::instance('db1');
-$data = array(
-    'cmd' => "md5",
-    'CMD_ID' => 45,
-    'device_id' => 2,
-    'level' => 1,
-    'group' => 1,
-    'disk' => 1,
-    'subcmd' => 'START'
-);
-$x = json_encode($data);
-$new_cmd = array('msg' => json_encode($data));
-$checker->db->update($tbl_cmd_log)->cols($new_cmd)->where('id=:I')->bindValues(array('I' => "1"))->query();
-$rst = $checker->db->select("msg")->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => 1))->query();
-var_dump($rst);
+
+$cond = "gui_cmd_log.finished=1";
+$dsks = $checker->db->select("gui_cmd_disk.*,gui_cmd_log.cmd")->from('gui_cmd_disk')->innerJoin("gui_cmd_log", "gui_cmd_disk.cmd_id = gui_cmd_log.id")->orderBy(array("cab"))->where($cond)->query();
+var_dump($dsks);
 //$checker->mainCheck();
 
 //$checker->checkCmdStatus();
