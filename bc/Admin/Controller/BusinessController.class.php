@@ -259,6 +259,33 @@ class BusinessController extends Controller
         }
     }
 
+    public function getLogDates()
+    {
+        $db = M('CmdLog');
+
+        $tm = $db->order('start_time asc')->find();
+
+        $now = time();
+        $dates = array();
+        if (!$tm) {
+            $item = date('Y-m', $now);
+            array_push($dates, array("text"=>"$item"));
+        }
+        else {
+            $first_date = date('Y-m', intVal($tm['start_time']));
+            $end = strtotime("$first_date");
+
+            do{
+                $item = date('Y-m', $now);
+                array_push($dates, array("text"=>"$item"));
+
+                $now = strtotime('-1 months', strtotime("$item"));
+            }while($now >= $end);       
+        }
+        $this->AjaxReturn($dates);
+    }
+
+
     public function getLogByUserId()
     {
         $db = M('CmdLog');

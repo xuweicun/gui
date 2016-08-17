@@ -389,7 +389,7 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     
     $scope.curr_modal = new ModalHelper();
     $scope.stopCheck = function(){
-        $scope.
+//        $scope.
     }
     $scope.showLogoutModal = function () {
         $scope.curr_modal.show_modal({
@@ -879,6 +879,14 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     $scope.user_log_loading = false;
     $scope.reload_user_log = function () {
         if ($scope.user_log_loading) return;
+
+        $http({
+            url:'/?a=getlogdates',
+            method:'get'
+        })
+        .success(function(data){
+            $scope.log_months = data;
+        });
 
         $scope.user_log_loading = true;
         $http({
