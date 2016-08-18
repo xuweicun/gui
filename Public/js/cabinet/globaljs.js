@@ -415,7 +415,10 @@ app_device.filter('to_trusted', function ($sce) {
             $scope.user_logs = payload.data;
         });
     }
-
+    $scope.show_disk_detail = function()
+    {
+        $scope.curr_modal.show_modal_user('modalDiskDetailView');
+    };
     $http({
             url:'/?a=getlogdates',
             method:'get'

@@ -401,4 +401,61 @@
     </div>
 </div>
 
+<div id="modalDiskDetailView" class="zoom-anim-dialog modal-block-md mfp-hide modal-block-primary">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">硬盘详细信息</h4>
+        </div>
+        <div class="panel-body bk-noradius">
+            <table class="table table-bordered">
+                <tr>    
+                    <td style="min-width:150px">盘位 {{cab.id}}-{{cab.curr.get_title()}}</td>
+                    <td style="width:100%">名称 </td>
+                    <td style="min-width:150px">容量 {{cab.curr.get_capacity()}} G</td>
+                </tr>
+                <tr>    
+                    <td>转速 0 转/分 </td>
+                    <td>SN号 {{cab.curr.get_SN()}}</td>
+                    <td>健康 </td>
+                </tr>
+                <tr>    
+                    <td>通电次数 0 次 </td>
+                    <td>通电时间 0 小时</td>
+                    <td>温度 0 ℃ </td>
+                </tr>
+            </table>
+            
+            <table class="table table-striped dataTable" datatable="ng" dt-options="dtOptions">
+                <thead>
+                    <tr>
+                        <td style="min-width:60px">ID</td>
+                        <td style="min-width:160px">属性名称</td>
+                        <td style="min-width:60px">当前值</td>
+                        <td style="min-width:60px">最大值</td>
+                        <td style="min-width:60px">临界值</td>
+                        <td style="width:100%">原始值</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="cau in caution_manage.Cautions">
+                        <td style="min-width:60px"></td>
+                        <td style="min-width:160px"></td>
+                        <td style="min-width:60px"></td>
+                        <td style="min-width:60px"></td>
+                        <td style="min-width:60px"></td>
+                        <td style="width:100%"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                   <button class="btn btn-default modal-dismiss">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

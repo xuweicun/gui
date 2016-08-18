@@ -105,6 +105,7 @@
                         <td>状况</td>
                         <td style="word-wrap:break-word;word-break:break-all;">
                             <span class="label" ng-class="{true:'label-success', false:'label-danger'}[cab.curr.get_health()=='1']">{{cab.curr.get_health()=='1'?'健康':'异常'}}</span>
+                            <a class="btn btn-xs btn-info" ng-click="show_disk_detail()">查看详情</a>
                         </td>
                     </tr>
                     <tr>
