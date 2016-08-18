@@ -394,7 +394,40 @@ app_device.filter('to_trusted', function ($sce) {
     
     /*------------------用户日志--------------------*/
     $scope.user_log_loading = false;
+    $scope.log_date_selected = function(d)
+    {
+        $scope.user_logs = [];
+        if (d == null) return;
+
+        $scope.user_log_loading = true;
+        $http({
+            url: '/?a=getlog',
+            method: 'get',
+            params: {
+                date: d.text,
+                userid: global_user.id
+            }
+        })
+        .then(function(payload) {
+            $scope.user_log_loading = false;           
+            if (payload.status != 200) return;
+                
+            $scope.user_logs = payload.data;
+        });
+    }
+
+    $http({
+            url:'/?a=getlogdates',
+            method:'get'
+    })
+    .then(function(payload){
+        if (payload.status != 200) return;
+
+        $scope.log_months = payload.data;
+    });
+
     $scope.reload_user_log = function () {
+        console.log('obsolete function reload_user_log, user log_date_selected'); return;
         if ($scope.user_log_loading) return;
 
         $scope.user_log_loading = true;
