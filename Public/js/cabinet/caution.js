@@ -204,7 +204,7 @@ CautionManage.prototype = {
             that_caution.Cautions = that_caution.CabCautions.concat(that_caution.CmdCautions);
 
             that_caution.Cautions.sort(function(a,b){
-                return a.time > b.time;
+                return a.time < b.time;
             });
 		});
 

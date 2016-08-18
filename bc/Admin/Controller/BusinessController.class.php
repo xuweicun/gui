@@ -1542,7 +1542,8 @@ class BusinessController extends Controller
         $db = M("RunTimeErrLog")
             ->join('left join gui_user ON gui_run_time_err_log.user_id=gui_user.id')
             ->join('left join gui_cmd_log on gui_run_time_err_log.cmd_id=gui_cmd_log.id')
-            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg');
+            ->field('gui_run_time_err_log.*, gui_user.username, gui_cmd_log.msg')
+            ->order('time desc');
 
         $type = $_POST['type'];
         switch($type){
@@ -1556,7 +1557,8 @@ class BusinessController extends Controller
     public function getCabCaution(){
         $db = M("CabCautionLog")
             ->join('left join gui_user ON gui_cab_caution_log.user_id=gui_user.id')
-            ->field('gui_cab_caution_log.*,gui_user.username');
+            ->field('gui_cab_caution_log.*,gui_user.username')
+            ->order('time desc');
 
         $type = $_POST['type'];
         $rst = array('cab_caution'=>array(),'cmd_caution'=>array());
