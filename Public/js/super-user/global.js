@@ -877,7 +877,40 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     /*------------------用户日志--------------------*/
     $scope.url_user_log_view = '/bc/Admin/View/Business/userLogView.html';
     $scope.user_log_loading = false;
+
+    $scope.log_date_selected = function(d)
+    {
+        $scope.user_logs = [];
+        if (d == null) return;
+
+        $scope.user_log_loading = true;
+        $http({
+            url: '/?a=getlog',
+            method: 'get',
+            params: {
+                date: d.text
+            }
+        })
+        .then(function(payload) {
+            $scope.user_log_loading = false;           
+            if (payload.status != 200) return;
+                
+            $scope.user_logs = payload.data;
+        });
+    }
+
+    $http({
+            url:'/?a=getlogdates',
+            method:'get'
+    })
+    .then(function(payload){
+        if (payload.status != 200) return;
+
+        $scope.log_months = payload.data;
+    });
+
     $scope.reload_user_log = function () {
+        console.log('obsolete function reload_user_log, user log_date_selected'); return;
         if ($scope.user_log_loading) return;
 
         $http({

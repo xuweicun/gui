@@ -1,14 +1,14 @@
 ﻿<div class="panel panel-primary">
     <div class="panel-heading">
-        操作日志 [{{selected.text || '请选择'}}]
-
-        <!--span class="btn btn-default btn-xs pull-right" ng-click="reload_user_log()" style="margin:7px">刷新</span-->
+        用户操作日志
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-lg-12 form-group">
-                <label for="name" class>选择日期</label>
-                <select ng-model="selected" ng-options="m.text for m in log_months" class="form-control">
+                <select 
+                    ng-model="selected" 
+                    ng-options="m.text for m in log_months" class="form-control"
+                    ng-change="log_date_selected(selected)">
                     <option value="">请选择</option>
                 </select>
             </div>

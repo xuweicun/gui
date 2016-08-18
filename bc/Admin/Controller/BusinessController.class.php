@@ -285,6 +285,40 @@ class BusinessController extends Controller
         $this->AjaxReturn($dates);
     }
 
+    public function getLog()
+    {
+        $date = I('get.date');
+        $map_date = "";
+        if ($date) {
+            $ts_from = strtotime($date);
+            $ts_to = strtotime('+1 months', $ts_from);
+            $map_date = "start_time >= $ts_from and start_time < $ts_to";
+        }
+
+        $user_id = I('get.userid', -1, 'intval');
+        if ($user_id != -1) {
+            $map_user['user_id'] = $user_id;
+        }
+
+        $db = M('CmdLog');
+        $logs = $db
+            ->join('left join gui_user ON user_id = gui_user.id')
+            ->field(array(
+                'user_id',
+                'gui_cmd_log.cmd' => 'cmd',
+                'gui_cmd_log.sub_cmd' => 'sub_cmd',
+                'gui_cmd_log.msg' => 'msg',
+                'gui_cmd_log.start_time' => 'start_time',
+                'gui_cmd_log.finished' => 'finished',
+                'gui_cmd_log.status' => 'status',
+                'gui_user.username' => 'username',
+            ))
+            ->where($map_date)->where($map_user)
+            ->order('start_time desc')
+            ->select();        
+
+        $this->AjaxReturn($logs);
+    }
 
     public function getLogByUserId()
     {
