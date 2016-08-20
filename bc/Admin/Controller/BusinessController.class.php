@@ -1801,14 +1801,23 @@ class BusinessController extends Controller
             $this->notFoundError('incorrect disk position or disk not loaded');
             return;
         }
-
-        $item['smarts'] = M('DiskSmart')->where(array(
-            'disk_id'=>$item['disk_id']
-        ))->select();
-        
         $this->AjaxReturn($item);
         //query database
         //return
+    }
+
+    public function getDiskSmartById() 
+    {
+        if (!$_GET['id']) {
+            $this->notFoundError('incorrect disk id');
+            return;
+        }
+
+        $smarts = M('DiskSmart')->where(array(
+            'disk_id'=>$_GET['id']
+        ))->select();
+
+        $this->AjaxReturn($smarts);
     }
 
     /****

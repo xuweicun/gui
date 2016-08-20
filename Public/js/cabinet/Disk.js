@@ -2,6 +2,7 @@
 function Disk(lvl_obj, grp_obj, d) {
     // l：层索引；g：组索引；d：位索引
     // 索引下标均为0
+    this.disk_id = -1;
     this.l = lvl_obj.idx;
     this.g = grp_obj.idx;
     this.d = d;

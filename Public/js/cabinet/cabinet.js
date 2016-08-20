@@ -245,6 +245,8 @@ Cabinet.prototype = {
 
         var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
 
+        _dsk.disk_id = parseInt(e.disk_id);
+
         // 在位置位
         if (_dsk.base_info.loaded != (e.loaded == '1')) {
             _dsk.base_info.loaded = (e.loaded == '1');
