@@ -1,0 +1,36 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        告警日志
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12" style="overflow-x:auto">
+                <table class="table table-striped dataTable no-footer" datatable="ng" dt-options="dtOptions">
+                    <thead>
+                        <tr>
+                            <td class="text-center" style="min-width:20px"></td>
+                            <td style="min-width:120px">时间</td>
+                            <td style="min-width:60px">柜子ID</td>
+                            <td style="width:100%">告警信息</td>
+                            <td style="min-width:130px">状态</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cau in caution_manage.Cautions">
+                        	<td>{{$index+1}}</td>
+	                        <td>{{cau.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        	                <td>{{cau.cab_id}}</td>
+                	        <td>
+                        	    <div class="panel bk-widget bk-margin-off col-lg-12" ng-bind-html="cau.warning_msg | to_trusted">
+	                            </div>
+        	                </td>
+                            <td>
+            					{{cau.dismissed==='0' ? '待处理' : ('用户[' + cau.username + ']已处理') }}
+                            </td>
+                    	</tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </div>
+</div>
