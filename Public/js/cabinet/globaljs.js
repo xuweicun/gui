@@ -415,8 +415,22 @@ app_device.filter('to_trusted', function ($sce) {
             $scope.user_logs = payload.data;
         });
     }
-    $scope.show_disk_detail = function()
+    $scope.show_disk_detail = function(id)
     {
+        var prom = $http({
+            url: '/',
+            method: 'get',
+            params: {
+                a: 'getdisksmartbyid',
+                id: id
+            }
+        });
+        prom.then(function(payload){
+            if (payload.status != 200) return;
+
+            $scope.cab.curr.smarts = payload.data;
+        });
+
         $scope.curr_modal.show_modal_user('modalDiskDetailView');
     };
     $http({
