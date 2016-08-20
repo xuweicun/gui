@@ -1766,22 +1766,47 @@ class BusinessController extends Controller
     public function getDiskInfo()
     {
         //check permission
-
+        $db = M('Device');
 
         $level = $_POST['level'];
         $group = $_POST['group'];
         $disk = $_POST['disk'];
         $cab = $_POST['cab_id'];
-        $db = D('DeviceView');
-        $map = "level=$level and zu=$group and disk=$disk and cab_id=$cab";
-        $item = $db->where($map)->select();
-        if ($item) {
-            $this->AjaxReturn($item);
-            die();
-        } else {
+        $item = $db
+            ->field(array(
+                'disk_id',
+                'level',
+                'zu',
+                'disk',
+                'loaded',
+                'bridged',
+                'gui_device.normal'=>'normal',
+                'protected',
+                'sn',
+                'md5',
+                'md5_time',
+                'capacity',
+                'md5_changed'
+            ))
+            ->join('left join gui_disk on disk_id = gui_disk.id')
+            ->where(array(
+                'level'=>$level,
+                'zu'=>$group,
+                'disk'=>$disk,
+                'cab_id'=>$cab,
+                'loaded'=>'1'
+            ))
+            ->find();
+        if (!$item) {
             $this->notFoundError('incorrect disk position or disk not loaded');
+            return;
         }
 
+        $item['smarts'] = M('DiskSmart')->where(array(
+            'disk_id'=>$item['disk_id']
+        ))->select();
+        
+        $this->AjaxReturn($item);
         //query database
         //return
     }

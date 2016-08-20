@@ -257,8 +257,6 @@ Cabinet.prototype = {
         _dsk.detail_info.health = e.normal;
 
         if (e.loaded == '1' && e.bridged == '1') {
-            _dsk.base_info.bridge_path = e.path;
-
             // 写保护状态置位
             _dsk.level_obj.write_protect = (e.protected == '1');
         }
