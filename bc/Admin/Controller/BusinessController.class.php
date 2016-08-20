@@ -1765,13 +1765,21 @@ class BusinessController extends Controller
 
     public function getDiskInfo()
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $l = $_POST['level'];
+            $g = $_POST['group'];
+            $d = $_POST['disk'];
+            $c = $_POST['cab_id'];
+        }
+        else {
+            $l = $_GET['l'];
+            $g = $_GET['g'];
+            $d = $_GET['d'];
+            $c = $_GET['ci'];
+        }
         //check permission
         $db = M('Device');
 
-        $level = $_POST['level'];
-        $group = $_POST['group'];
-        $disk = $_POST['disk'];
-        $cab = $_POST['cab_id'];
         $item = $db
             ->field(array(
                 'disk_id',
@@ -1782,6 +1790,10 @@ class BusinessController extends Controller
                 'bridged',
                 'gui_device.normal'=>'normal',
                 'protected',
+                'power_on_count',
+                'power_on_value',
+                'firmware',
+                'health',
                 'sn',
                 'md5',
                 'md5_time',
@@ -1790,10 +1802,10 @@ class BusinessController extends Controller
             ))
             ->join('left join gui_disk on disk_id = gui_disk.id')
             ->where(array(
-                'level'=>$level,
-                'zu'=>$group,
-                'disk'=>$disk,
-                'cab_id'=>$cab,
+                'level'=>$l,
+                'zu'=>$g,
+                'disk'=>$d,
+                'cab_id'=>$c,
                 'loaded'=>'1'
             ))
             ->find();

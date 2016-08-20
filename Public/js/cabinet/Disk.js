@@ -7,6 +7,12 @@ function Disk(lvl_obj, grp_obj, d) {
     this.g = grp_obj.idx;
     this.d = d;
 
+    this.health = 0;
+    this.power_on_count;
+    this.power_on_value;
+    this.firmware;
+    this.smarts = [];
+    
     this.level_obj = lvl_obj;
     this.group_obj = grp_obj;
 

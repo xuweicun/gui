@@ -268,6 +268,10 @@ Cabinet.prototype = {
         _dsk.detail_info.MD5 = e.md5;
         _dsk.detail_info.md5_time = e.md5_time;
         _dsk.detail_info.capacity = e.capacity;
+        _dsk.power_on_count = e.power_on_count;
+        _dsk.power_on_value = e.power_on_value;
+        _dsk.firmware = e.firmware;
+        _dsk.health = e.health;
     },
 
     // 接口：激励，加载柜子基本信息，如在位、桥接等，参数data为'/index.php?m=admin&c=business&a=getDeviceInfo'返回值

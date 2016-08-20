@@ -416,12 +416,12 @@
                 <tr>    
                     <td>转速 0 转/分 </td>
                     <td>SN号 {{cab.curr.get_SN()}}</td>
-                    <td>健康 </td>
+                    <td>健康 {{cab.curr.health}}</td>
                 </tr>
                 <tr>    
-                    <td>通电次数 0 次 </td>
-                    <td>通电时间 0 小时</td>
-                    <td>温度 0 ℃ </td>
+                    <td>通电次数 {{cab.curr.power_on_count}} 次 </td>
+                    <td>通电时间 {{cab.curr.power_on_value}} 小时</td>
+                    <td>温度 - ℃ </td>
                 </tr>
             </table>
             
@@ -437,13 +437,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="cau in caution_manage.Cautions">
-                        <td style="min-width:60px"></td>
-                        <td style="min-width:160px"></td>
-                        <td style="min-width:60px"></td>
-                        <td style="min-width:60px"></td>
-                        <td style="min-width:60px"></td>
-                        <td style="width:100%"></td>
+                    <tr ng-repeat="smart in cab.curr.smarts">
+                        <td style="min-width:60px">{{smart.id}}</td>
+                        <td style="min-width:160px">{{smart.id}}</td>
+                        <td style="min-width:60px">{{smart.c_val}}</td>
+                        <td style="min-width:60px">{{smart.w_val}}</td>
+                        <td style="min-width:60px">{{smart.thd}}</td>
+                        <td style="width:100%">{{smart.raw_val}}</td>
                     </tr>
                 </tbody>
             </table>
