@@ -887,28 +887,14 @@ class MsgController extends Controller
      */
     private function hdlDevInfo()
     {
+        $id_start_pt = 0;
         if ($this->msg->isSuccess()) {
             $this->RTLog("START TO HANDLE DEVINFO MSG");
             $cabDb = M('Cab');
             // 获得所有在位柜子
-            $loaded_cabs = $cabDb->where(array('loaded' => 1))->select();
-            foreach ($loaded_cabs as $l_cab) {
-                $is_load = false;
 
-                foreach ($_POST['cabinets'] as $cab) {
-                    if ($cab['sn'] == $l_cab['name']) {
-                        $is_load = true;
-                    }
-                }
-                if (!$is_load) {
-                    $l_cab['loaded'] = 0;
-                    $cabDb->save($l_cab);
-                }
-            }
 
             foreach ($_POST['cabinets'] as $cab) {
-                $this->RTLog("CAB-ID:" . $cab['id']);
-
                 // 依据柜子序列号进行查找
                 $map['name'] = array('eq', $cab['sn']);
                 $item = $cabDb->where($map)->find();
@@ -930,10 +916,56 @@ class MsgController extends Controller
                     $data['loaded'] = 1;
                     $cabDb->add($data);
                 }
+                //更新cab id起点
+                if((int)$cab['id'] > $id_start_pt){
+                    $id_start_pt = (int)$cab['id'];
+                }
+            }
+            //如果有不再在位的柜子，系统为其重新分配ID
+            $all_cabs = $cabDb->select();
+            $all_disks = $cabDb->table("gui_device")->select();
+            $all_busy_disks = $cabDb->table("gui_cmd_disk")->select();
+            foreach ($all_cabs as $l_cab) {
+                if($l_cab['loaded'] == 1) {
+                    $is_load = false;
+                    foreach ($_POST['cabinets'] as $cab) {
+                        if ($cab['sn'] == $l_cab['name']) {
+                            $is_load = true;
+                        }
+                    }
+                    if (!$is_load) {
+                        $l_cab['loaded'] = 0;
+                    }
+                }
+                //更新不在位磁盘柜的device id号码
+                if($l_cab['loaded'] == 0) {
+                    $id_start_pt = $id_start_pt + 1;
+                    $l_cab['sn'] = $id_start_pt;
+                    $cabDb->save($l_cab);
+                }
+                $this->updateDeviceId($all_disks,$all_busy_disks,$l_cab);
+            }
+
+        }
+        //更新所有的sn号码
+
+    }
+    private function updateDeviceId($disks,$busy_disks,$l_cab){
+        $db = M("Device");
+        foreach($disks as $dsk){
+            if($dsk['cabinet_id'] == $l_cab['id']){
+                $dsk['cab_id'] = $l_cab['sn'];
+                $db->save($dsk);
+            }
+        }
+        $db = M("CmdDisk");
+        foreach($busy_disks as $dsk){
+            if($dsk['db_cab_id'] == $l_cab['id']){
+                $dsk['cab_id'] = $l_cab['sn'];
+                $db->save($dsk);
             }
         }
     }
-
     private function fileTreeMsgHandle()
     {
         $subcmd = $_POST['subcmd'];

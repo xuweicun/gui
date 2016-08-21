@@ -1413,54 +1413,7 @@ class BusinessController extends Controller
             $this->notFoundError("磁盘忙");
         }
         $db = M('CmdLog');
-		/*
-		$device_id = $_POST['device_id'];
-		$lvl_id = $_POST['level'];
-		$grp_id = $_POST['group'];
-		
-		// 判断硬盘是否已经有命令
-		switch($_POST['cmd']){
-		case 'COPY':
-			$lvl_id = $_POST['srcLevel'];
-			$grp_id = $_POST['srcGroup'];
-		case 'DISKINFO':
-		case 'MD5':	
-		case 'BRIDGE':			
-			$item = M('Device')->where(array(
-				'cab_id'=>$_POST['device_id'],
-				'level'=>$_POST['level'],
-				'zu'=>$_POST['group'],
-				'loaded'=>1,
-				'bridged'=>1
-			))->find();
-		
-			if ($item) return;	
-			
-			break;
-			$item = $db->where(array(
-				'cab_id'=>$device_id,
-				'level'=>$lvl_id,
-				'zu'=>$grp_id,
-				'finished'=>0
-			))->find();
-			
-			if ($item) return;
-			
-			$item = M('Device')->where(array(
-				'cab_id'=>$_POST['device_id'],
-				'level'=>$_POST['level'],
-				'zu'=>$_POST['group'],
-				'loaded'=>1,
-				'bridged'=>1
-			))->find();
-		
-			if ($item) return;	
-			
-			break;
-		default:
-			break;
-		}
-*/
+
         //检查磁盘是否忙碌
 
         $data['user_id'] = I('get.userid', 0, 'intval');
@@ -1470,6 +1423,8 @@ class BusinessController extends Controller
         $data['status'] = C('CMD_GOING');//-1 represents that the commond is not finished yet.
         $data['start_time'] = time();
         $data['finished'] = 0;
+        $data['db_cab_id'] = $this->getDbCabId($_POST['device_id']);
+
         //如果是停止令，需要注明dst_id;
         if ($_POST['CMD_ID'] && $_POST['subcmd'] == 'STOP') {
             $data['dst_id'] = $_POST['CMD_ID'];
@@ -1480,7 +1435,7 @@ class BusinessController extends Controller
             $msg = $_POST['msg'];
             //修改msg
             $data['msg'] = $this->addMsgId($msg, $id);
-            $this->setDiskBusy($data['msg']);
+            $this->setDiskBusy($data['msg'],$data['db_cab_id']);
             $db->save($data);
             //插入磁盘信息
 
@@ -1491,7 +1446,17 @@ class BusinessController extends Controller
         }
 
     }
-
+    public function getDbCabId($cab_id){
+        if(!$cab_id)
+            return 0;
+        $conn['sn'] = array('eq',(int)$cab_id);
+        $db = M("Cab");
+        $cab = $db->where($conn)->find();
+        if($cab){
+            return $cab['id'];
+        }
+        return 0;
+    }
     /*******
      * 用户确认告警消息
      * 输入:log_id,user_id
@@ -1583,7 +1548,7 @@ class BusinessController extends Controller
         $this->AjaxReturn($result);
     }
 
-    private function setDiskBusy($msg)
+    private function setDiskBusy($msg,$db_cab_id)
     {
 
          $cmd = json_decode($msg,true);
