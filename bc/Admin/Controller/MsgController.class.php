@@ -318,13 +318,13 @@ class MsgController extends Controller
                 $this->updateDeviceStatus();
                 break;
             case 'DISKINFO':
-                $this->updateDiskInfo();
+                $this->hdlDiskInfo();
                 break;
             case 'BRIDGE':
                 $this->hdlBridgeMsg();
                 break;
             case 'MD5':
-                $this->md5MsgHandle();
+                $this->hdlMd5Msg();
                 break;
             case 'COPY':
                 $this->copyMsgHandle();
@@ -982,7 +982,7 @@ class MsgController extends Controller
         }
     }
 
-    private function md5MsgHandle()
+    private function hdlMd5Msg()
     {
         $subcmd = $_POST['subcmd'];
         $id = $_POST['CMD_ID'];
@@ -1040,7 +1040,10 @@ class MsgController extends Controller
         $group = $_POST['group'];
         $disk = $_POST['disk'];
         $cab_id = $_POST['device_id'];
-        $map = "level=$level and zu=$group and disk=$disk and cab_id = $cab_id";
+        $cab_db = M('Cab');
+        $cab = $cab_db->where("sn=$cab_id")->find();
+        $cab_id = $cab['id'];
+        $map = "level=$level and zu=$group and disk=$disk and cabinet_id = $cab_id";
         return $map;
     }
 
@@ -1472,7 +1475,7 @@ class MsgController extends Controller
 
     }
 
-    public function updateDiskInfo()
+    public function hdlDiskInfo()
     {
         //暂时不维护此命令状态，太麻烦;
         //后期修改cmdlog，增加diskinfo一项，记录操作对象。
@@ -1496,7 +1499,10 @@ class MsgController extends Controller
                 'PowerOnCount'=>$_POST['PowerOnCount'],
                 'PowerOnRawValue'=>$_POST['PowerOnRawValue'],
                 'firmware'=>$_POST['firmware'],
-                'health'=>$_POST['health']
+                'health'=>$_POST['health'],
+                'rotation'=>$_POST['rotation'],
+                'title'=>$_POST['title'],
+                'temperature'=>$_POST['temperature'],
             );
             $data['sn'] = $_POST['SN'];
             $data['capacity'] = $_POST['capacity'];
