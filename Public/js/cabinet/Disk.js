@@ -7,7 +7,7 @@ function Disk(lvl_obj, grp_obj, d) {
     this.g = grp_obj.idx;
     this.d = d;
 
-    this.health = 0;
+    this.health = '0';
     this.power_on_count;
     this.power_on_value;
     this.firmware;
