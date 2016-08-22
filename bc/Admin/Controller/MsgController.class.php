@@ -900,13 +900,12 @@ class MsgController extends Controller
                 $item = $cabDb->where($map)->find();
                 if ($item) {
                     // 若不在位，代表被移除过
-                    if ($item['loaded'] == 0) {
                         $item['level_cnt'] = $cab['level_cnt'];
                         $item['group_cnt'] = $cab['group_cnt'];
                         $item['disk_cnt'] = $cab['disk_cnt'];
                         $item['loaded'] = 1;
+                        $data['sn'] = $cab['id'];
                         $cabDb->save($item);
-                    }
                 } else {
                     $data['sn'] = $cab['id'];
                     $data['name'] = $cab['sn'];
