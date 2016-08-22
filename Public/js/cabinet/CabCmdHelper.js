@@ -49,18 +49,10 @@ CabCmdHelper.prototype = {
             method: 'POST'
         }).success(function (data) {
             if (data['errmsg']) {//不存在
-                disk.capacity = '未知';
-                disk.sn = '未知';
-                disk.bridged = 0;
-                disk.loaded = 0;
                 return;
             }
-            if (data.length > 0) {
-                global_cabinet.i_load_disk(data[0]);
-            }
-            else {
-                console.log('Empty disk');
-            }
+            global_cabinet.i_load_disk(data);
+
         });
     },
     devicestatus: function () {
