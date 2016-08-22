@@ -1730,6 +1730,7 @@ class BusinessController extends Controller
 
     public function getDiskInfo()
     {
+        $cab_id = $this->getDbCabId($_POST['cab_id']);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $l = $_POST['level'];
             $g = $_POST['group'];
@@ -1742,6 +1743,7 @@ class BusinessController extends Controller
             $d = $_GET['d'];
             $c = $_GET['ci'];
         }
+        $cab_id = $this->getDbCabId($c);
         //check permission
         $db = M('Device');
 
@@ -1773,7 +1775,7 @@ class BusinessController extends Controller
                 'level'=>$l,
                 'zu'=>$g,
                 'disk'=>$d,
-                'cab_id'=>$c,
+                'cabinet_id'=>$c,
                 'loaded'=>'1'
             ))
             ->find();
