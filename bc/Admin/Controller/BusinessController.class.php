@@ -189,6 +189,8 @@ class BusinessController extends Controller
             }
         }
         echo 'success';
+
+        recordSystemResetLog();
         /*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
@@ -202,6 +204,21 @@ class BusinessController extends Controller
         //所有命令状态取消
         $this->cancelAllCmds();
         */
+    }
+
+    public function recordSystemResetLog()
+    {
+        $log_item = array(
+            'cmd' => 'SYSTEM_RESET',
+            'sub_cmd'=>'START',
+            'status' => '0',
+            'substatus'=>'0',
+            'finished'=>'1',
+            'user_id'=>'0',
+            'msg'=> '{"cmd":"SYSTEM_RESET", "subcmd":"START"}',
+            'start_time'=>time()
+        );
+        M('CmdLog')->add($log_item);
     }
 
     /******

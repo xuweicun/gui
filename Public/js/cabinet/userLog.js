@@ -11,6 +11,7 @@
                 case 'FILETREE': return '构建索引';
                 case 'MD5': return 'MD5';
                 case 'WRITEPROTECT': return '写保护';
+                case 'SYSTEM_RESET': return '系统重置';
                 default: return cmd;
             }
         }
@@ -21,7 +22,7 @@
                 case 'STOP': return '停止';
                 case 'PROGRESS': return '进度查询';
                 case 'RESULT': return '取结果';
-                default: return cmd;
+                default: return subcmd;
             }
         }
     }).filter('CABINET_ID', function () {
