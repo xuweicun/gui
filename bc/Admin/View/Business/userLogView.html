@@ -40,7 +40,7 @@
                             </td>
                             <td class="text-left">{{log.msg | CABINET_ID}}: {{log.msg | DISK_INFO}}</td>
                             <td>{{log.status | ERRCODE}}</td>
-                            <td ng-bind="log.username"></td>
+                            <td>{{log.username || '[system]'}}</td>
                         </tr>
                     </tbody>
                 </table>  
