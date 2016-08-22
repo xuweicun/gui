@@ -1512,25 +1512,10 @@ class MsgController extends Controller
             $disk_id = $data['id'] = $dsk_hdler->getDskBySN($data['sn']);
             $data['sn_time'] = time();
             $diskDb->save($data);
-
+            var_dump($item);
             //初次获取信息或者sn号发生变化
             if ($item['disk_id'] !== $disk_id) {
-                /* if ($item['disk_id']) {
-                   //检查sn是否变化
-                /$disk = $diskDb->find($item['disk_id']);
-                   if ($disk && $disk['sn'] != $data['sn']) {
-                       // 清空md5记录
-                       $disk['md5'] = null;
-                       $disk['md5_time'] = null;
-                       $disk['sn'] = $data['sn'];
-                       $disk['sn_time'] = time();
-                       //$diskDb->save($disk);
 
-                       //sn发生变化,记录日志
-                       $log_db = M("DiskChgLog");
-                       //$dsk_hdler->hdlDskChg($disk, 'sn', $data['sn']);
-                   }
-               }*/
                 //更新盘位对应的磁盘id
                 $item['disk_id'] = $disk_id;
                 $db->save($item);
