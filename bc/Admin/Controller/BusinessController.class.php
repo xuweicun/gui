@@ -1755,8 +1755,6 @@ class BusinessController extends Controller
                 'bridged',
                 'gui_device.normal'=>'normal',
                 'protected',
-                'poweroncount',
-                'poweronrawvalue',
                 'firmware',
                 'temperature',
                 'rotation',
@@ -1776,7 +1774,7 @@ class BusinessController extends Controller
                 'cab_id'=>$c,
                 'loaded'=>'1'
             ))
-            ->select();
+            ->find();
         if (!$item) {
             $this->notFoundError('incorrect disk position or disk not loaded');
             return;
