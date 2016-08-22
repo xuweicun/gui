@@ -904,7 +904,7 @@ class MsgController extends Controller
                         $item['group_cnt'] = $cab['group_cnt'];
                         $item['disk_cnt'] = $cab['disk_cnt'];
                         $item['loaded'] = 1;
-                        $data['sn'] = $cab['id'];
+                        $item['sn'] = $cab['id'];
                         $cabDb->save($item);
                 } else {
                     $data['sn'] = $cab['id'];
