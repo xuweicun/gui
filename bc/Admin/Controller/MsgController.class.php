@@ -1496,8 +1496,8 @@ class MsgController extends Controller
             $data = array(
                 'sn'=>$_POST['SN'],
                 'capacity'=>$_POST['capacity'],
-                'PowerOnCount'=>$_POST['PowerOnCount'],
-                'PowerOnRawValue'=>$_POST['PowerOnRawValue'],
+                'power_on_count'=>$_POST['PowerOnCount'],
+                'power_on_value'=>$_POST['PowerOnRawValue'],
                 'firmware'=>$_POST['firmware'],
                 'health'=>$_POST['health'],
                 'rotation'=>$_POST['rotation'],
