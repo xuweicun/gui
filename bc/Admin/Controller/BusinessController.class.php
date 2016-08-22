@@ -1755,6 +1755,8 @@ class BusinessController extends Controller
                 'bridged',
                 'gui_device.normal'=>'normal',
                 'protected',
+                'power_on_count',
+                'power_on_value',
                 'firmware',
                 'temperature',
                 'rotation',
