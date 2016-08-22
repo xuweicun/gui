@@ -1776,7 +1776,7 @@ class BusinessController extends Controller
                 'cab_id'=>$c,
                 'loaded'=>'1'
             ))
-            ->find();
+            ->select();
         if (!$item) {
             $this->notFoundError('incorrect disk position or disk not loaded');
             return;
