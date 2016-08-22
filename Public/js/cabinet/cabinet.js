@@ -230,20 +230,24 @@ Cabinet.prototype = {
         var int_g = parseInt(e.zu) - 1;
         var int_d = parseInt(e.disk) - 1;
 
-        if (int_l < 0 || int_l > 6) {
+        if (int_l < 0 || int_l >= this.levels.length) {
             console.log("i_load_disk(): Invalid param 'Level'" + e.level);
             return;
         }
-        if (int_g < 0 || int_g > 6) {
+
+        var lvl = this.levels[int_l];
+        if (int_g < 0 || int_g >= lvl.groups.length) {
             console.log("i_load_disk(): Invalid param 'Group'" + e.zu);
             return;
         }
-        if (int_d < 0 || int_d > 4) {
+
+        var grp = lvl.groups[int_g];
+        if (int_d < 0 || int_d >= grp.disks[int_d]) {
             console.log("i_load_disk(): Invalid param 'Disk'" + e.disk);
             return;
         }
 
-        var _dsk = this.levels[int_l].groups[int_g].disks[int_d];
+        var _dsk = grp.disks[int_d];
 
         _dsk.disk_id = parseInt(e.disk_id);
 

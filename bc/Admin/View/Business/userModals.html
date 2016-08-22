@@ -414,9 +414,9 @@
                     <td style="min-width:150px">容量 {{cab.curr.get_capacity()}} G</td>
                 </tr>
                 <tr>    
-                    <td>转速 0 转/分 </td>
+                    <td>转速 {{cab.rotation}}  转/分 </td>
                     <td>SN号 {{cab.curr.get_SN()}}</td>
-                    <td>健康 {{cab.curr.health}}</td>
+                    <td>健康 {{cab.curr.health | DISK_HEALTH}}</td>
                 </tr>
                 <tr>    
                     <td>通电次数 {{cab.curr.power_on_count}} 次 </td>
@@ -438,8 +438,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="smart in cab.curr.smarts">
-                        <td style="min-width:60px">{{smart.id}}</td>
-                        <td style="min-width:160px">{{smart.id}}</td>
+                        <td style="min-width:60px">{{smart.attr_id}}</td>
+                        <td style="min-width:160px">{{smart.attr_id | SMART_NAME}}</td>
                         <td style="min-width:60px">{{smart.c_val}}</td>
                         <td style="min-width:60px">{{smart.w_val}}</td>
                         <td style="min-width:60px">{{smart.thd}}</td>

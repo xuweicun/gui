@@ -481,7 +481,206 @@ app_device.filter('to_trusted', function ($sce) {
 
     $scope.reload_user_log();
 	
-})   
+})  
+.filter('DISK_HEALTH', function(){
+    return function(health) {
+        switch(health) {
+        case '0' : return '未知';
+        case '1' : return '健康';
+        case '2' : return '告警';
+        case '3' : return '损坏';
+        default: return '未知';
+        }
+    };
+})
+.filter('SMART_NAME', function(){
+    return function(id) {
+        var ID = parseInt(id, 16);
+        var str =  "未知属性" ;
+    
+        switch (ID)
+        {
+        case 0x01:
+            str =  "(底层)数据读取错误率" ;
+            break;
+        case 0x02:
+            str =  "吞吐性能(读写通量性能)" ;
+            break;
+        case 0x03:
+            str =  "马达旋转到标准转速所需时间" ;
+            break;
+        case 0x04:
+            str =  "马达启动/停止转速" ;
+            break;
+        case 0x05:
+            str =  "重映射扇区计数" ;
+            break;
+        case 0x06:
+            str =  "读取通道边界" ;
+            break;
+        case 0x07:
+            str =  "寻道错误率" ;
+            break;
+        case 0x08:
+            str =  "寻道时间性能" ;
+            break;
+        case 0x09:
+            str =  "累计通电时间计数" ;
+            break;
+        case 0x0a:
+            str =  "马达重试计数" ;
+            break;
+        case 0x0b:
+            str =  "校准重试计数" ;
+            break;
+        case 0x0c:
+            str =  "通电周期计数" ;
+            break;
+        case 0x0d:
+            str =  "软件读出误码率" ;
+            break;
+        case 0xb7:
+            str =  "SATA降档错误计数" ;
+            break;
+        case 0xb8:
+            str =  "端到端错误" ;
+            break;
+        case 0xb9:
+            str =  "头稳定性" ;
+            break;
+        case 0xba:
+            str =  "感应运算振动检测" ;
+            break;
+        case 0xbb:
+            str =  "反馈无法校正的错误" ;
+            break;
+        case 0xbc:
+            str =  "指令超时" ;
+            break;
+        case 0xbd:
+            str =  "高飞写入" ;
+            break;
+        case 0xbe:
+            str =  "气流温度" ;
+            break;
+        case 0xbf:
+            str =  "震动侦测错误率" ;
+            break;
+        case 0xc0:
+            str =  "断电磁头缩回计数" ;
+            break; 
+        case 0xc1:
+            str =  "磁头伸出周期计数" ;
+            break;
+        case 0xc2:
+            str =  "温度" ;
+            break;
+        case 0xc3:
+            str =  "硬件ECC校正" ;
+            break;
+        case 0xc4:
+            str =  "重新分配事件计数" ;
+            break;
+        case 0xc5:
+            str =  "目前待映射扇区数" ;
+            break;
+        case 0xc6:
+            str =  "无法校正扇区数" ;
+            break;
+        case 0xc7:
+            str =  "Ultra DMA CRC 错误计数" ;
+            break;
+        case 0xc8:
+            str =  "多区域错误率" ;
+            break;
+        case 0xc9:
+            str =  "软读出误码率" ;
+            break;
+        case 0xca:
+            str =  "数据地址标记错误" ;
+            break;
+        case 0xcb:
+            str =  "ECC错误发生率" ;
+            break;
+        case 0xcc:
+            str =  "软件ECC校正" ;
+            break;
+        case 0xcd:
+            str =  "过温率" ;
+            break;
+        case 0xce:
+            str =  "飞行高度" ;
+            break;
+        case 0xcf:
+            str =  "旋上高电流" ;
+            break;
+        case 0xd0:
+            str =  "电力不足马达重试计数" ;
+            break;
+        case 0xd1:
+            str =  "离线寻轨性能" ;
+            break;
+        case 0xd3:
+            str =  "写入时震动" ;
+            break;
+        case 0xd4:
+            str =  "写入时受冲击" ;
+            break;
+        case 0xdc:
+            str =  "磁盘移位" ;
+            break;
+        case 0xdd:
+            str =  "震动侦测错误率" ;
+            break;
+        case 0xde:
+            str =  "作业时间" ;
+            break;
+        case 0xdf:
+            str =  "磁头升降重试次数" ;
+            break;
+        case 0xe0:
+            str =  "加载摩擦" ;
+            break;
+        case 0xe1:
+            str =  "磁头升降周期计数" ;
+            break;
+        case 0xe2:
+            str =  "载入时间" ;
+            break;
+        case 0xe3:
+            str =  "扭矩放大计数" ;
+            break;
+        case 0xe4:
+            str =  "断电磁头缩回周期" ;
+            break;
+        case 0xe6:
+            str =  "巨磁电阻头振幅" ;
+            break;
+        case 0xe7:
+          str =  "温度" ;
+            break;
+        case 0xf0:
+            str =  "磁头飞行小时" ;
+            break;
+        case 0xf1:
+            str =  "总 LBAs 写入" ;
+            break;
+        case 0xf2:
+            str =  "总LBAs 读取" ;
+            break;
+        case 0xfa:
+            str =  "读取错误重试率" ;
+            break;
+        case 0xfe:
+            str =  "自由落体保护" ;
+            break;
+        default:
+            break;
+        }
+
+        return str;
+    };    
+})
 .factory('locals', ['$window', function($window){
 	return {        //存储单个属性
 		set : function(key,value){

@@ -42,6 +42,11 @@ class BusinessController extends Controller
         }
     }
 
+    public function get_test ()
+    {
+        var_dump($_GET);
+    }
+
     private function send_post_json ($url, $data_string)
     {
         $ch = curl_init();
