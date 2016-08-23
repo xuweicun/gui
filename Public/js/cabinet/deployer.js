@@ -108,7 +108,7 @@ Deployer.prototype = {
         };
         json_msg.msg = JSON.stringify(json_msg);
         var d_this = this;
-        global_http.post(global_server, msg).success(function (data) {
+        global_http.post(global_server, json_msg).success(function (data) {
             if (data['errmsg']) {
                 global_err_pool.add(data);
                 toastr.warning("磁盘信息获取错误:" + data['errmsg']);
