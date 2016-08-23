@@ -406,7 +406,7 @@
         <div class="panel-heading">
             <h4 class="panel-title">硬盘详细信息</h4>
         </div>
-        <div class="panel-body bk-noradius">
+        <div class="panel-body bk-noradius"  style="overflow-x:auto">
             <table class="table table-bordered">
                 <tr>    
                     <td style="min-width:150px">盘位 {{cab.id}}-{{cab.curr.get_title()}}</td>
@@ -416,7 +416,14 @@
                 <tr>    
                     <td>转速 {{cab.curr.rotation || '-'}}  转/分 </td>
                     <td>SN号 {{cab.curr.get_SN() || '-'}}</td>
-                    <td>健康 {{cab.curr.health  | DISK_HEALTH}}</td>
+                    <td>健康 
+                    <span class="label" ng-class="{
+                                'label-success':cab.curr.health=='1', 
+                                'label-danger':cab.curr.health=='3',
+                                'label-warning':cab.curr.health=='2',
+                                'label-primary':!cau.curr.health
+                                }">{{cab.curr.health | DISK_HEALTH}}</span>
+                    </td>
                 </tr>
                 <tr>    
                     <td>通电次数 {{cab.curr.power_on_count || '-'}} 次 </td>
