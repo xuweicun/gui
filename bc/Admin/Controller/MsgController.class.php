@@ -882,6 +882,30 @@ class MsgController extends Controller
         $db->where($map)->delete();
     }
 
+    /*********
+     * @param $cabs
+     * @param $disks
+     * @author Wilson
+     * 用于将已经不存在与数据库的柜子的磁盘从磁盘表中删掉
+     */
+    private function cleanDisks($cabs,$disks)
+    {
+        $db = M('Device');
+        $is_alive = false;
+        foreach ($disks as $dsk){
+            foreach($cabs as $item){
+                if($item['id'] == $dsk['cabinet_id'])
+                {
+                    $is_alive = true;
+                    break;
+                }
+            }
+            if(!$is_alive){
+                $db->delete($dsk['id']);
+            }
+            $is_alive = false;
+        }
+    }
     /***
      * Cab信息处理
      */
@@ -945,7 +969,7 @@ class MsgController extends Controller
                 }
                 $this->updateDeviceId($all_disks,$all_busy_disks,$l_cab);
             }
-
+            $this->cleanDisks($all_cabs, $all_disks);
         }
         //更新所有的sn号码
 
@@ -957,6 +981,7 @@ class MsgController extends Controller
                 $dsk['cab_id'] = $l_cab['sn'];
                 $db->save($dsk);
             }
+
         }
         $db = M("CmdDisk");
         foreach($busy_disks as $dsk){
