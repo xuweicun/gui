@@ -1,7 +1,7 @@
 ﻿//*******
- //* TaskPool 命令池
- //* @constructor
- //*/
+//* TaskPool 命令池
+//* @constructor
+//*/
 function TaskPool() {
     this.isWatching = false;
     //用于异步处理的锁标识，防止异步处理过程中池子发生变化
@@ -327,22 +327,20 @@ TaskPool.prototype = {
 
                 //如果正在进行部署，对部署器进行更新
                 if (global_deployer.working) {
-                    if (global_deployer.type == 'diskinfo')
-                        global_deployer.success(pool[i].device_id.toString(), pool[i].level.toString(), pool[i].group.toString(), pool[i].disk.toString());
-                    else {
-                        if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
-                            if (global_deployer.type == 'filetree') {
-                                var suc = pool[i]['status'] == 0;
-                                var sn = '';
-                                if (pool[i]['cmd'] == 'DISKINFO') {
-                                    var r_msg = JSON.parse(pool[i]['return_msg']);
-                                    if (r_msg != null)
-                                        sn = r_msg['SN'];
-                                }
-                                global_deployer.update(pool[i]['id'], suc, sn);
-                            }
+
+                    if (pool[i]['id'] == global_deployer.cmd_id.toString()) {
+
+                        var suc = pool[i]['status'] == 0;
+                        var sn = '';
+                        if (pool[i]['cmd'] == 'DISKINFO' && suc) {
+                            var r_msg = JSON.parse(pool[i]['return_msg']);
+                            if (r_msg != null)
+                                sn = r_msg['SN'];
                         }
+                        global_deployer.update(pool[i]['id'], suc, sn);
+
                     }
+
                 }
 
 
@@ -351,16 +349,16 @@ TaskPool.prototype = {
                     global_cmd_helper.updateDeviceStatus();
                 }
                 else if (int_status == 28) {
-                   /* global_modal_helper.show_modal({
-                        type: 'question',
-                        title: '硬盘命令 -- 构建索引',
-                        html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
+                    /* global_modal_helper.show_modal({
+                     type: 'question',
+                     title: '硬盘命令 -- 构建索引',
+                     html: '您确定提交硬盘（<span class="bk-fg-primary"><i class="glyphicon glyphicon-hdd"></i> aa</span>）的<span class="bk-fg-primary"> [构建索引] </span>操作？以支持硬盘的离线访问。',
 
-                        on_click_handle: function (data) {
-                            console.log(data);
-                        },
-                        on_click_param: pool[i]
-                    });*/
+                     on_click_handle: function (data) {
+                     console.log(data);
+                     },
+                     on_click_param: pool[i]
+                     });*/
 
                     global_task_pool.load_tasks();
                 }
