@@ -106,7 +106,7 @@ Deployer.prototype = {
             group: g.toString(),
             disk: d.toString()
         };
-        json_msg.msg = JSON.stringify(msg);
+        json_msg.msg = JSON.stringify(json_msg);
         var d_this = this;
         global_http.post(global_server, msg).success(function (data) {
             if (data['errmsg']) {
@@ -195,9 +195,7 @@ Deployer.prototype = {
     }
     ,
     stopDeploy: function () {
-        this.idx = this.disks.length + 1;
-        if (this.type == 'filetree')
-            this.resetDeployer();
+        this.resetDeployer();
 
     }
     ,
