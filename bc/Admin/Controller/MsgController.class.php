@@ -358,7 +358,6 @@ class MsgController extends Controller
         $cmd = $_POST['cmd'];
         $subcmd = $_POST['subcmd'];
         $status = $_POST['status'];
-
         if ($status == '25') {
             $db = M('Device');
             foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
@@ -369,6 +368,7 @@ class MsgController extends Controller
                     'disk' => $dsk,
                     'loaded' => 1
                 ))->find();
+
                 if ($item && $item['bridged'] != 1) {
                     $item['bridged'] = 1;
                     $db->save($item);
@@ -377,6 +377,23 @@ class MsgController extends Controller
             return;
         }
 
+        if ($status == '1') {
+            $db = M('Device');
+            foreach ($_POST['disks'] as $dsk) {
+                $item = $db->where(array(
+                    'cab_id' => $_POST['device_id'],
+                    'level' => $_POST['level'],
+                    'zu' => $_POST['group'],
+                    'disk' => $dsk['id'],
+                    'loaded' => 1
+                ))->find();
+                if ($item && $item['bridged'] != 0) {
+                    $item['bridged'] = 0;
+                    $db->save($item);
+                }
+            }
+            return;
+        }
         // 代表正在进行MD5或COPY
         if ($cmd == 'MD5' || $cmd == 'COPY') {
             if ($subcmd == 'PROGRESS' && $status == '0') {
