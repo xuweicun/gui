@@ -4,7 +4,7 @@ require_once 'PHPWord-master/src/PhpWord/Autoloader.php';
 require_once 'workerman-chat-master/GatewayWorker/Lib/Db.php';
 //require_once '\PHPWord-master\src\PhpWord\Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
-
+header("Content-Type:text/html;charset=gb2312");
 use Think\Controller;
 
 header('Access-Control-Allow-Origin:*');
@@ -1797,7 +1797,7 @@ class BusinessController extends Controller
                 'level'=>$l,
                 'zu'=>$g,
                 'disk'=>$d,
-                'cabinet_id'=>$c,
+                'cabinet_id'=>$cab_id,
                 'loaded'=>'1'
             ))
             ->find();
