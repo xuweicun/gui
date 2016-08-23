@@ -1124,9 +1124,9 @@ class BusinessController extends Controller
         $db = M('Device');
         $viewDb = D('DeviceView');
         $map['cabinet_id'] = array('eq', $cabinet['id']);
-        $rooms = $db->where($map)->select();
-        $roomView = $viewDb->where($map)->select();
-        $rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
+        //$rooms = $db->where($map)->select();
+        $rooms = $viewDb->where($map)->select();
+        //$rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
         $returnData = array();
         foreach ($rooms as $item) {
             $item['time'] = date("Y-m-d H:i:s", $item['time']);
