@@ -358,7 +358,6 @@ class MsgController extends Controller
         $cmd = $_POST['cmd'];
         $subcmd = $_POST['subcmd'];
         $status = $_POST['status'];
-
         if ($status == '25') {
             $db = M('Device');
             foreach ($_POST['busy_disks'][0]['ds'] as $dsk) {
@@ -369,6 +368,7 @@ class MsgController extends Controller
                     'disk' => $dsk,
                     'loaded' => 1
                 ))->find();
+
                 if ($item && $item['bridged'] != 1) {
                     $item['bridged'] = 1;
                     $db->save($item);
@@ -377,6 +377,23 @@ class MsgController extends Controller
             return;
         }
 
+        if ($status == '1') {
+            $db = M('Device');
+            foreach ($_POST['disks'] as $dsk) {
+                $item = $db->where(array(
+                    'cab_id' => $_POST['device_id'],
+                    'level' => $_POST['level'],
+                    'zu' => $_POST['group'],
+                    'disk' => $dsk['id'],
+                    'loaded' => 1
+                ))->find();
+                if ($item && $item['bridged'] != 0) {
+                    $item['bridged'] = 0;
+                    $db->save($item);
+                }
+            }
+            return;
+        }
         // 代表正在进行MD5或COPY
         if ($cmd == 'MD5' || $cmd == 'COPY') {
             if ($subcmd == 'PROGRESS' && $status == '0') {
@@ -455,7 +472,7 @@ class MsgController extends Controller
         // 依据cmd_id判断是否已经存储过该md5值
         if ($_POST['CMD_ID'] == null) return;
         if (M('DiskSmartLog')->where(array('cmd_id' => $_POST['CMD_ID']))->find()) {
-            echo '重复Smart值' . json_encode($_POST);
+            echo '重复Smart值';// . json_encode($_POST);
             return;
         }
 
@@ -737,7 +754,7 @@ class MsgController extends Controller
         $db = M('Device');
         $dsk->map['disk'] = $_POST['disk'];
         $item = $db->where($dsk->map)->find();
-        var_dump($item);
+        //var_dump($item);
         if ($item) {
             $item['partition'] = $return_msg;
             $db->save($item);
@@ -1537,7 +1554,7 @@ class MsgController extends Controller
             $disk_id = $data['id'] = $dsk_hdler->getDskBySN($data['sn']);
             $data['sn_time'] = time();
             $diskDb->save($data);
-            var_dump($item);
+            //var_dump($item);
             //初次获取信息或者sn号发生变化
             if ($item['disk_id'] !== $disk_id) {
 
@@ -1562,6 +1579,8 @@ class MsgController extends Controller
     private function updateSmart($id)
     {
         $db = M('DiskSmart');
+        $db->where("disk_id = $id")->delete();
+
         $attrs = $_POST['SmartAttrs'];
         foreach ($attrs as $attr) {
             //查找是否存在
@@ -1619,7 +1638,7 @@ class MsgController extends Controller
             $db->save($disk);
         }
         $disks = $db->field('protected,cab_id,level')->where("level=%d and cab_id=%d", $level, $this->msg->cab_id)->select();
-        var_dump($disks);
+        //var_dump($disks);
     }
 
     /***********
@@ -1636,8 +1655,8 @@ class MsgController extends Controller
             return;
         }
         $cab_status = json_decode($cab['status'], true);
-        var_dump($cab_status);
-        var_dump($new_sts);
+        //var_dump($cab_status);
+        //var_dump($new_sts);
         if ($this->isWorse($cab_status, $new_sts)) {
             echo "yes, is worse";
             //新增日志
@@ -1790,7 +1809,7 @@ class MsgController extends Controller
                         );
                         $db = M("Device");
                         $disks = $db->where($map)->select();
-                        var_dump($disks);
+                        //var_dump($disks);
                         foreach ($disks as $item) {
                             $item['bridged'] = 0;
                             $db->save($item);
