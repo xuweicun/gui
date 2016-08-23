@@ -409,13 +409,13 @@
         <div class="panel-body bk-noradius"  style="overflow-x:auto">
             <table class="table table-bordered">
                 <tr>    
-                    <td style="min-width:150px">盘位 {{cab.id}}-{{cab.curr.get_title()}}</td>
-                    <td style="width:100%">名称 {{cab.curr.title || '-'}}</td>
-                    <td style="min-width:150px">容量 {{cab.curr.get_capacity() || '-'}} G</td>
+                    <td style="min-width:150px">盘位 <u style="color:blue">{{cab.id}}-{{cab.curr.get_title()}}</u></td>
+                    <td style="width:100%">名称 <u style="color:blue">{{cab.curr.title || '-'}}</u></td>
+                    <td style="min-width:150px">容量 <b><u style="color:blue">{{cab.curr.get_capacity() || '-'}}</u> G</td>
                 </tr>
                 <tr>    
-                    <td>转速 {{cab.curr.rotation || '-'}}  转/分 </td>
-                    <td>SN号 {{cab.curr.get_SN() || '-'}}</td>
+                    <td>转速 <b><u style="color:blue">{{cab.curr.rotation || '-'}}</u></b> 转/分 </td>
+                    <td>SN号 <u style="color:blue">{{cab.curr.get_SN() || '-'}}</u></td>
                     <td>健康 
                     <span class="label" ng-class="{
                                 'label-success':cab.curr.health=='1', 
@@ -426,9 +426,9 @@
                     </td>
                 </tr>
                 <tr>    
-                    <td>通电次数 {{cab.curr.power_on_count || '-'}} 次 </td>
-                    <td>通电时间 {{cab.curr.power_on_value || '-'}} 小时</td>
-                    <td>温度 {{cab.curr.temperature || '-'}} ℃ </td>
+                    <td>通电次数 <b><u style="color:blue">{{cab.curr.power_on_count || '-'}}</u></b> 次 </td>
+                    <td>通电时间 <b><u style="color:blue">{{cab.curr.power_on_value || '-'}}</u></b> 小时</td>
+                    <td>温度 <b><u style="color:blue">{{cab.curr.temperature || '-'}}</u></b> ℃ </td>
                 </tr>
             </table>
             
