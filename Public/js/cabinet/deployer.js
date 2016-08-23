@@ -5,7 +5,7 @@
     this.g = 0;
     this.d = 0;
     this.sn = '';
-    this.name='';
+    this.name = '';
     //所有待执行的任务
     this.disks = [];
     this.busy_levles = [];
@@ -29,7 +29,7 @@ Deployer.prototype = {
     getLength: function () {
         return this.disks.length;
     },
-    on_init: function (c,name) {
+    on_init: function (c, name) {
         this.cab_id = c.toString();
         this.name = name;
         this.time_unit = 5000;//五秒更新一次；
@@ -45,9 +45,9 @@ Deployer.prototype = {
 
             data.forEach(function (e) {
                 if (e.loaded == 1) {
-                    if(e.bridged == 1){
+                    if (e.bridged == 1) {
                         that.insertBusyLevel(e.level.toString());
-                    }else {
+                    } else {
                         var new_dsk = {
                             c: that.cab_id,
                             l: e.level.toString(),
@@ -60,12 +60,12 @@ Deployer.prototype = {
                 }
             });
             that.ready = true;
-            if(that.disks.length == 0 || (that.type=='filetree' && that.busy_levles.length >= 2)){
+            if (that.disks.length == 0 || (that.type == 'filetree' && that.busy_levles.length >= 2)) {
                 that.stopDeploy();
-                if(that.disks.length == 0)
-                toastr.warning('磁盘在位信息异常,请稍后再试!');
-                else{
-                    if(that.busy_levles.length >= 2){
+                if (that.disks.length == 0)
+                    toastr.warning('磁盘在位信息异常,请稍后再试!');
+                else {
+                    if (that.busy_levles.length >= 2) {
                         toastr.warning('磁盘柜桥接通道忙,请稍后再试!');
                     }
                 }
@@ -82,38 +82,56 @@ Deployer.prototype = {
     },
     insertBusyLevel: function (lvl) {
         var that = this;
-        if(that.busy_levles.indexOf(lvl) == -1) {
+        if (that.busy_levles.indexOf(lvl) == -1) {
             that.busy_levles.push(lvl);
         }
     }
     ,
     deployDiskInfo: function () {
-        var that = this;
-        this.worker = global_interval(function () {
-            if (!that.finished || !that.ready) {
-                return;
-            }
+        var cmd = 'DISKINFO';
+        var sub_cmd = 'START';
+        this.l = this.disks[this.idx].l;
+        this.g = this.disks[this.idx].g;
+        this.d = this.disks[this.idx].d;
+        var l = this.l;
+        var g = this.g;
+        var d = this.d;
 
-            //全部完成
-            if (that.is_done()) {
-                that.working = false;
-                global_cabinet_helper.i_on_deploy(that.cab_id, false);
-                global_interval.cancel(that.worker);
+
+        var json_msg = {
+            cmd: cmd,
+            subcmd: sub_cmd,
+            device_id: this.cab_id.toString(),
+            level: l.toString(),
+            group: g.toString(),
+            disk: d.toString()
+        };
+        json_msg.msg = JSON.stringify(msg);
+        var d_this = this;
+        global_http.post(global_server, msg).success(function (data) {
+            if (data['errmsg']) {
+                global_err_pool.add(data);
+                toastr.warning("磁盘信息获取错误:" + data['errmsg']);
+                d_this.hdlFail();
                 return;
             }
-            var disks = that.disks;
-            var idx = that.idx;
-            var msg = {
-                cmd: 'DISKINFO',
-                device_id: disks[idx].c,
-                level: disks[idx].l,
-                group: disks[idx].g,
-                disk: disks[idx].d
-            };
-            that.updateIndex();
-            global_cmd_helper.sendcmd(msg);
-            that.finished = false;
-        }, that.time_unit);
+            json_msg.CMD_ID = data['id'].toString();
+            delete json_msg.msg;
+            global_http.post(global_app, json_msg).success(function () {
+                data.username = global_user.username;
+                var newCmd = global_cmd_helper.createCmd(data);
+                global_task_pool.add(newCmd);
+                global_ws_watcher.sendcmd(json_msg);
+                d_this.cmd_id = parseInt(json_msg.CMD_ID);
+            }).error(function () {
+                global_cmd_helper.delete(json_msg.CMD_ID);
+                toastr.warning('命令发送失败,跳过当前磁盘!');
+                d_this.hdlFail();
+            });
+        }).error(function () {
+            toastr.warning('命令发送失败,跳过当前磁盘!');
+            d_this.hdlFail();
+        });
     }
     ,
     startDeploy: function (type) {
@@ -125,21 +143,23 @@ Deployer.prototype = {
         this.type = type;
         this.idx = 0;
         global_cabinet_helper.i_on_deploy(this.cab_id, true);
-        switch (type) {
-            case 'diskinfo':
-                //目前diskinfo和filetree实现方式不一致,待日后一致化
-                this.deployDiskInfo();
-                break;
-            case 'filetree':
-                var that = this;
-                var wait_ready = global_interval(function () {
-                    if(that.ready){
-                        global_interval.cancel(wait_ready);
+
+        //目前diskinfo和filetree实现方式不一致,待日后一致化
+        var that = this;
+        var wait_ready = global_interval(function () {
+            if (that.ready) {
+                global_interval.cancel(wait_ready);
+                switch (type) {
+                    case 'diskinfo':
+                        that.deployDiskInfo();
+                        break;
+                    case 'filetree':
                         that.filetree();
-                    }
-                },1000);
-                break;
-        }
+                        break;
+                }
+
+            }
+        }, 20);
 
     },
     resetDeployer: function () {
@@ -150,38 +170,41 @@ Deployer.prototype = {
         this.ready = false;
     }
     ,
-    updateDeployer: function (suc,sn) {
+    updateDeployer: function (suc, sn) {
         if (suc) {//命令成功,转入下一步
             if (this.type == 'filetree' && this.stage == 0) {
                 //更新sn
-               if(sn)this.sn = sn;
+                if (sn)this.sn = sn;
             }
-            this.stage = this.stage + 1;
-            if (this.stage >= this.cmdQueue.length) {
-                console.log(this.cmdQueue.length);
-                this.stage = 0;
+            if (this.type == 'filetree') {
+                this.stage = this.stage + 1;
+                if (this.stage >= this.cmdQueue.length) {
+                    this.stage = 0;
+                }
             }
         }
         else {
             //命令失败,开始下一个
             this.stage = 0;
         }
-        if(this.stage == 0) {
+        if (this.stage == 0) {
             //下一磁盘
             this.updateIndex();
         }
 
-    },
+    }
+    ,
     stopDeploy: function () {
         this.idx = this.disks.length + 1;
-        if(this.type == 'filetree')
-        this.resetDeployer();
+        if (this.type == 'filetree')
+            this.resetDeployer();
 
-    },
-    clearBusyDisks: function(l){
+    }
+    ,
+    clearBusyDisks: function (l) {
         var new_disks = [];
         this.disks.forEach(function (e) {
-            if(e.l != l){
+            if (e.l != l) {
                 new_disks.push(e);
             }
         });
@@ -192,9 +215,9 @@ Deployer.prototype = {
     filetree: function (suc) {
 
         var cmd = this.cmdQueue[this.stage];
-        if(cmd=='DISKINFO' && this.disks[this.idx].sn){
+        if (cmd == 'DISKINFO' && this.disks[this.idx].sn) {
             //直接进入下一步
-            this.stage = this.stage+1;
+            this.stage = this.stage + 1;
             this.sn = this.disks[this.idx].sn;
             cmd = this.cmdQueue[this.stage];
         }
@@ -212,9 +235,9 @@ Deployer.prototype = {
         var g = this.g;
         var d = this.d;
 
-        if(this.busy_levles.indexOf(l.toString()) != -1){
+        if (this.busy_levles.indexOf(l.toString()) != -1) {
             //此层忙
-           // this.clearBusyDisks(l);
+            // this.clearBusyDisks(l);
             this.hdlFail();
 
         } else {//此层空闲
@@ -245,7 +268,7 @@ Deployer.prototype = {
                     level: l.toString(),
                     group: g.toString(),
                     disk: d.toString(),
-                    mount_path: this.name+'_'+l+'_'+g+'_'+d
+                    mount_path: this.name + '_' + l + '_' + g + '_' + d
 
                 };
             }
@@ -278,41 +301,49 @@ Deployer.prototype = {
                 d_this.hdlFail();
             });
         }
-    },
+    }
+    ,
     hdlFail: function () {
         this.cmd_id = 0;
         this.update(this.cmd_id, false);
-    },
+    }
+    ,
     is_done: function () {
         if (this.idx >= this.disks.length && this.finished) {
             return true;
         }
         return false;
-    },
+    }
+    ,
     updateIndex: function () {
         this.idx++;
 
-    },
-    update: function (cmd_id, suc,sn) {
-        if(this.working == false){
+    }
+    ,
+    update: function (cmd_id, suc, sn) {
+        if (this.working == false) {
             return;
         }
         if (parseInt(cmd_id) != parseInt(this.cmd_id)) {
             return;
         }
         console.log(cmd_id);
-        if (this.type == 'diskinfo') {
-            this.finished = true;
-        }
-        if (this.type == 'filetree') {
-            this.updateDeployer(suc,sn);
-            if (!this.is_done())
+
+
+        this.updateDeployer(suc, sn);
+        if (!this.is_done()) {
+            if (this.type == 'filetree')
                 this.filetree();
-            else {//归零
-                this.resetDeployer();
+            else {
+                this.deployDiskInfo();
             }
         }
-    },
+        else {//归零
+            this.resetDeployer();
+        }
+
+    }
+    ,
     success: function (cab, l, g, d, suc) {
         if (cab == this.cab_id && l == this.l && g == this.g && d == this.d) {
             this.finished = true;
@@ -326,4 +357,5 @@ Deployer.prototype = {
             }
         }
     }
-};
+}
+;
