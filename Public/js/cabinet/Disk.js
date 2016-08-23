@@ -13,15 +13,14 @@ function Disk(lvl_obj, grp_obj, d) {
     this.firmware;
     this.smarts = [];
     this.title = '';
-    
+    this.rotation = 0;
+    this.temperature = 0;
+
     this.level_obj = lvl_obj;
     this.group_obj = grp_obj;
 
     // 分区情况
     this.partitions = [];
-
-    // 温度
-    this.temperature = '-';
 
     // 是否写保护, 已过期，使用层对象的写保护，由于写保护是针对层的
     this.write_protected = true,

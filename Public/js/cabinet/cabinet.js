@@ -225,6 +225,7 @@ Cabinet.prototype = {
         if (!e) {
             return;
         }
+        
         var int_l = parseInt(e.level) - 1;
         var int_g = parseInt(e.zu) - 1;
         var int_d = parseInt(e.disk) - 1;

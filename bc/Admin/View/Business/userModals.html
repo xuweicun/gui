@@ -414,14 +414,14 @@
                     <td style="min-width:150px">容量 {{cab.curr.get_capacity() || '-'}} G</td>
                 </tr>
                 <tr>    
-                    <td>转速 {{cab.rotation || '-'}}  转/分 </td>
+                    <td>转速 {{cab.curr.rotation || '-'}}  转/分 </td>
                     <td>SN号 {{cab.curr.get_SN() || '-'}}</td>
                     <td>健康 {{cab.curr.health  | DISK_HEALTH}}</td>
                 </tr>
                 <tr>    
                     <td>通电次数 {{cab.curr.power_on_count || '-'}} 次 </td>
                     <td>通电时间 {{cab.curr.power_on_value || '-'}} 小时</td>
-                    <td>温度 - ℃ </td>
+                    <td>温度 {{cab.curr.temperature || '-'}} ℃ </td>
                 </tr>
             </table>
             
