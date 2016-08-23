@@ -16,7 +16,7 @@ class DeviceViewModel extends ViewModel
             'zu', 'disk', 'bridged', 'path', 
             'time','sn_status','md5_status',
             'md5_skipped','md5_skip_time',
-            'md5_cmd_id'),
+            'md5_cmd_id','_type'=>'LEFT'),
         'Disk' => array(
             'power_on_count',
             'power_on_value',

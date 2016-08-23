@@ -315,7 +315,7 @@ class MsgController extends Controller
                 $this->hdlDevInfo();
                 break;
             case 'DEVICESTATUS':
-                $this->updateDeviceStatus();
+                $this->hdlDevStatus();
                 break;
             case 'DISKINFO':
                 $this->hdlDiskInfo();
@@ -1427,7 +1427,7 @@ class MsgController extends Controller
      * @作者 Wilson Xu
      */
     public
-    function updateDeviceStatus()
+    function hdlDevStatus()
     {
         //将命令状态设为已完成;
 
