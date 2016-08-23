@@ -106,8 +106,8 @@
                         <td style="word-wrap:break-word;word-break:break-all;">
                             <span class="label" ng-class="{
                                 'label-success':cab.curr.health=='1', 
-                                'label-danger':cab.curr.health=='2',
-                                'label-warning':cab.curr.health=='3',
+                                'label-danger':cab.curr.health=='3',
+                                'label-warning':cab.curr.health=='2',
                                 'label-primary':!cau.curr.health
                                 }">{{cab.curr.health | DISK_HEALTH}}{{cab.curr.health}}</span>
                             <a class="btn btn-xs btn-info" ng-click="show_disk_detail(cab.curr.disk_id)">查看详情</a>

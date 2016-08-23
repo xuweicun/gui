@@ -12,6 +12,7 @@ function Disk(lvl_obj, grp_obj, d) {
     this.power_on_value;
     this.firmware;
     this.smarts = [];
+    this.title = '';
     
     this.level_obj = lvl_obj;
     this.group_obj = grp_obj;
