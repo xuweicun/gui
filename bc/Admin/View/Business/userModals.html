@@ -410,22 +410,22 @@
             <table class="table table-bordered">
                 <tr>    
                     <td style="min-width:150px">盘位 {{cab.id}}-{{cab.curr.get_title()}}</td>
-                    <td style="width:100%">名称 </td>
-                    <td style="min-width:150px">容量 {{cab.curr.get_capacity()}} G</td>
+                    <td style="width:100%">名称 {{cab.curr.title || '-'}}</td>
+                    <td style="min-width:150px">容量 {{cab.curr.get_capacity() || '-'}} G</td>
                 </tr>
                 <tr>    
-                    <td>转速 {{cab.rotation}}  转/分 </td>
-                    <td>SN号 {{cab.curr.get_SN()}}</td>
-                    <td>健康 {{cab.curr.health | DISK_HEALTH}}</td>
+                    <td>转速 {{cab.curr.rotation || '-'}}  转/分 </td>
+                    <td>SN号 {{cab.curr.get_SN() || '-'}}</td>
+                    <td>健康 {{cab.curr.health  | DISK_HEALTH}}</td>
                 </tr>
                 <tr>    
-                    <td>通电次数 {{cab.curr.power_on_count}} 次 </td>
-                    <td>通电时间 {{cab.curr.power_on_value}} 小时</td>
-                    <td>温度 - ℃ </td>
+                    <td>通电次数 {{cab.curr.power_on_count || '-'}} 次 </td>
+                    <td>通电时间 {{cab.curr.power_on_value || '-'}} 小时</td>
+                    <td>温度 {{cab.curr.temperature || '-'}} ℃ </td>
                 </tr>
             </table>
             
-            <table class="table table-striped dataTable" datatable="ng" dt-options="dtOptions">
+            <table class="table dataTable" datatable="ng" dt-options="dtOptions">
                 <thead>
                     <tr>
                         <td style="min-width:60px">ID</td>
@@ -434,16 +434,23 @@
                         <td style="min-width:60px">最大值</td>
                         <td style="min-width:60px">临界值</td>
                         <td style="width:100%">原始值</td>
+                        <td style="min-width:100px">状态</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="smart in cab.curr.smarts">
+                    <tr ng-repeat="smart in cab.curr.smarts" 
+                    ng-class="{
+                                'bk-fg-danger':smart.sts=='3',
+                                'bk-fg-warning':smart.sts=='2'
+                                }"
+                    >
                         <td style="min-width:60px">{{smart.attr_id}}</td>
                         <td style="min-width:160px">{{smart.attr_id | SMART_NAME}}</td>
                         <td style="min-width:60px">{{smart.c_val}}</td>
                         <td style="min-width:60px">{{smart.w_val}}</td>
                         <td style="min-width:60px">{{smart.thd}}</td>
                         <td style="width:100%">{{smart.raw_val}}</td>
+                        <td>{{smart.sts | DISK_HEALTH}}</td>
                     </tr>
                 </tbody>
             </table>

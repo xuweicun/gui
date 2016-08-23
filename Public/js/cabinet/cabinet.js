@@ -225,7 +225,7 @@ Cabinet.prototype = {
         if (!e) {
             return;
         }
-
+        
         var int_l = parseInt(e.level) - 1;
         var int_g = parseInt(e.zu) - 1;
         var int_d = parseInt(e.disk) - 1;
@@ -267,7 +267,9 @@ Cabinet.prototype = {
             _dsk.level_obj.write_protect = (e.protected == '1');
         }
         // 桥接置位            
-
+        _dsk.title=e.title;
+        _dsk.rotation = e.rotation;
+        _dsk.temperature = e.temperature;
         _dsk.detail_info.SN = e.sn;
         _dsk.detail_info.MD5 = e.md5;
         _dsk.detail_info.md5_time = e.md5_time;

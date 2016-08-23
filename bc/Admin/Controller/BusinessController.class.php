@@ -1124,9 +1124,9 @@ class BusinessController extends Controller
         $db = M('Device');
         $viewDb = D('DeviceView');
         $map['cabinet_id'] = array('eq', $cabinet['id']);
-        $rooms = $db->where($map)->select();
-        $roomView = $viewDb->where($map)->select();
-        $rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
+        //$rooms = $db->where($map)->select();
+        $rooms = $viewDb->where($map)->select();
+        //$rooms = count($rooms) > count($roomView) ? $rooms : $roomView;
         $returnData = array();
         foreach ($rooms as $item) {
             $item['time'] = date("Y-m-d H:i:s", $item['time']);
@@ -1767,33 +1767,8 @@ class BusinessController extends Controller
         }
         $cab_id = $this->getDbCabId($c);
         //check permission
-        $db = M('Device');
-
-        $item = $db
-            ->field(array(
-                'disk_id',
-                'level',
-                'zu',
-                'disk',
-                'loaded',
-                'bridged',
-                'gui_device.normal'=>'normal',
-                'protected',
-                'power_on_count',
-                'power_on_value',
-                'firmware',
-                'temperature',
-                'rotation',
-                'title',
-                'health',
-                'sn',
-                'md5',
-                'md5_time',
-                'capacity',
-                'md5_changed'
-            ))
-            ->join('left join gui_disk on disk_id = gui_disk.id')
-            ->where(array(
+        $db = D('DeviceView');
+        $item = $db->where(array(
                 'level'=>$l,
                 'zu'=>$g,
                 'disk'=>$d,
@@ -1806,8 +1781,6 @@ class BusinessController extends Controller
             return;
         }
         $this->AjaxReturn($item);
-        //query database
-        //return
     }
 
     public function getDiskSmartById() 

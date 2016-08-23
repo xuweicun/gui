@@ -44,7 +44,7 @@ CabCmdHelper.prototype = {
     },
     getdiskinfo: function (level, group, disk, cab) {
         global_http({
-            url: '/index.php?m=admin&c=business&a=getDiskInfo',
+            url: '/?a=getDiskInfo',
             data: {level: level, group: group, disk: disk, cab_id: cab},
             method: 'POST'
         }).success(function (data) {
@@ -52,7 +52,6 @@ CabCmdHelper.prototype = {
                 return;
             }
             global_cabinet.i_load_disk(data);
-
         });
     },
     devicestatus: function () {
