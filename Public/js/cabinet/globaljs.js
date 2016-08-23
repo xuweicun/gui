@@ -494,7 +494,7 @@ app_device.filter('to_trusted', function ($sce) {
     };
 })
 .filter('SMART_NAME', function(){
-    return function(id) {
+    return function(id) {        
         var ID = parseInt(id, 16);
         var str =  "未知属性" ;
     
