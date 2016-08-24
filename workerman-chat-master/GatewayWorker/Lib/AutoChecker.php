@@ -184,7 +184,7 @@ Class AutoChecker
     }
     private function isDiskBusy($dsks,$cab,$lvl,$grp){
        foreach ($dsks as $item){
-           if($item['cab'] == $cab &&  $item['level'] == $lvl && $item['group'] == $grp){
+           if($item['db_cab_id'] == $cab &&  $item['level'] == $lvl && $item['group'] == $grp){
                return true;
            }
        }
@@ -242,7 +242,7 @@ Class AutoChecker
                     $grp_busy = false;
                     $grp_skipped = false;
                     $grp = $g + 1;
-                    if($this->isDiskBusy($busy_disks, $cab_id, $lvl, $grp)){
+                    if($this->isDiskBusy($busy_disks, $db_cab_id, $lvl, $grp)){
                         $grp_busy = true;
                     }
                     //按照优先级排序
