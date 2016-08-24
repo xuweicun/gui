@@ -876,7 +876,8 @@ Class AutoChecker
                     'cab'=>$dsk['cab_id'],
                     'level'=>$dsk['level'],
                     'grp'=>$dsk['zu'],
-                    'disk'=>$dsk['disk']
+                    'disk'=>$dsk['disk'],
+                    'db_cab_id'=>$db_cab_id
                 );
                 $db->insert("gui_cmd_disk")->cols($busy_disk)->query();
             }
@@ -913,8 +914,6 @@ Class AutoChecker
             // 执行HTTP请求
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
-            //更新日志信息
-
             // 通知前端
             $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
 

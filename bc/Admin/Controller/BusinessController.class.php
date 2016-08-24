@@ -1581,6 +1581,7 @@ class BusinessController extends Controller
             return;
         }
         $cond = array(
+            'cabinet_id'=>$db_cab_id,
             'cab_id'=>$cmd['device_id'],
             'level'=>$cmd['level'],
             'loaded'=>1
@@ -1598,6 +1599,7 @@ class BusinessController extends Controller
         }
         //增加磁盘信息
         $data = array(
+            'db_cab_id'=>$db_cab_id,
             'cmd_id'=>$cmd['CMD_ID'],
             'cab'=>$cond['cab_id'],
             'level'=>$cond['level'],

@@ -933,8 +933,6 @@ class MsgController extends Controller
             $this->RTLog("START TO HANDLE DEVINFO MSG");
             $cabDb = M('Cab');
             // 获得所有在位柜子
-
-
             foreach ($_POST['cabinets'] as $cab) {
                 // 依据柜子序列号进行查找
                 $map['name'] = array('eq', $cab['sn']);
@@ -1003,7 +1001,7 @@ class MsgController extends Controller
         $db = M("CmdDisk");
         foreach($busy_disks as $dsk){
             if($dsk['db_cab_id'] == $l_cab['id']){
-                $dsk['cab_id'] = $l_cab['sn'];
+                $dsk['cab'] = $l_cab['sn'];
                 $db->save($dsk);
             }
         }
