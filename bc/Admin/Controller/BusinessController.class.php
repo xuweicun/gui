@@ -774,6 +774,7 @@ class BusinessController extends Controller
             'gui_device.disk_id' => 'disk_id',
             'gui_device.normal' => 'normal',
             'sn',
+            'health',
             'sn_time',
             'capacity'
         );

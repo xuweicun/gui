@@ -508,7 +508,7 @@ class MsgController extends Controller
         $item['zu'] = $grp_id;
         $item['disk'] = $dsk_id;
 
-        $item['disk_status'] = $_POST['disk_status'];
+        $item['health'] = $_POST['health'];
         $item['cmd_id'] = $_POST['CMD_ID'];
 
         $item['disk_id'] = $slot['disk_id'];
