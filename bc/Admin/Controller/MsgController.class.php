@@ -1234,7 +1234,7 @@ class MsgController extends Controller
                             //命令被取消
                             $this->terminate($dstCmd, C('CMD_CANCELED'));
                         }
-                        $this->db->save($dstCmd);
+                        //$this->db->save($dstCmd);
                     }
                     //已经结束
                     $this->terminate($cmd, C('CMD_SUCCESS'));
