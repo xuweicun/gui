@@ -209,6 +209,7 @@ Class AutoChecker
         $busy_disks = $this->getBusyDisks();
         foreach ($cabs as $cab) {
             $cab_id = (int)$cab['sn'];
+            $db_cab_id = $cab['id'];
             $busy_num = $this->checkBusyNum($cab_id);
             if($busy_num > MAX_WORK_DISK_NUM){
                 continue;
@@ -289,6 +290,7 @@ Class AutoChecker
                             if($busy_num >= MAX_WORK_DISK_NUM){
                                 break;
                             }
+                            $dsk['db_cab_id'] = $db_cab_id;
                             if ($this->tryStartDisk($dsk)) {
                                 //更新磁盘状态
                                 $busy_num = $busy_num + 1;
@@ -409,7 +411,7 @@ Class AutoChecker
 
             }
 */
-            if ($this->sendCmd($dsk, $this->type)) {
+            if ($this->sendCmd($dsk, $this->type,$dsk['db_cab_id'])) {
                 //$dsk[$this->type . '_status'] = PLAN_STATUS_WORKING;
                 $db->update("gui_device")->cols(array($this->type . '_status' => PLAN_STATUS_WORKING))->where("id={$dsk['id']}")->query();
                 return true;
@@ -827,7 +829,7 @@ Class AutoChecker
         return $plan;
     }
 
-    public function updateCmdLog($dsk)
+    public function updateCmdLog($dsk,$db_cab_id)
     {
         $cmd = $this->type == 'md5' ? 'MD5' : 'DISKINFO';
         $db = $this->db;
@@ -839,6 +841,7 @@ Class AutoChecker
             'user_id' => '0',
             'status' => PLAN_STATUS_WAITING,
             'start_time' => time(),
+            'db_cab_id'=>$db_cab_id,
             'finished' => 0
         );
         $cmd_id = $db->insert($tbl_cmd_log)->cols($new_cmd)->query();
@@ -873,7 +876,8 @@ Class AutoChecker
                     'cab'=>$dsk['cab_id'],
                     'level'=>$dsk['level'],
                     'grp'=>$dsk['zu'],
-                    'disk'=>$dsk['disk']
+                    'disk'=>$dsk['disk'],
+                    'db_cab_id'=>$db_cab_id
                 );
                 $db->insert("gui_cmd_disk")->cols($busy_disk)->query();
             }
@@ -881,13 +885,13 @@ Class AutoChecker
         return $cmd_id;
     }
 
-    public function sendCmd($dsk, $type)
+    public function sendCmd($dsk, $type,$db_cab_id)
     {
         //生成cmd,插入CmdLog
         $cmd = $this->type == 'md5' ? 'MD5' : 'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
-        if ($cmd_id = $this->updateCmdLog($dsk)) {
+        if ($cmd_id = $this->updateCmdLog($dsk,$db_cab_id)) {
             $ch = curl_init();
             $url = $this->app_addr;
             $header = array(
@@ -910,8 +914,6 @@ Class AutoChecker
             // 执行HTTP请求
             curl_setopt($ch, CURLOPT_URL, $url);
             $res = curl_exec($ch);
-            //更新日志信息
-
             // 通知前端
             $rst = $db->select('*')->from($tbl_cmd_log)->where('id=:I')->bindValues(array('I' => $cmd_id))->query();
 
