@@ -339,9 +339,17 @@
         </div>
         <div class="panel-body bk-noradius">
             <div class="modal-wrapper">
-                <div class="col-lg-3 col-sm-6 col-xs-12">
-                    <a class="btn btn-primary btn-block" ng-class="{true:'btn-selected',false:'btn-not-selected'}[cabs.modal_index==$index]" ng-repeat="item in cabs.cabs" ng-bind="'存储柜'+item.id +'#'" ng-click="cabs.modal_pick($index);"
-                       ng-disabled="cabs.curr.id==item.id"></a>
+                <div class="row">
+                    <a class="btn btn-primary col-lg-3" ng-class="{
+                            'btn-selected' : cabs.modal_index==$index,
+                            'btn-not-selected' : cabs.modal_index!=$index,
+                            'btn-primary':cabs.curr.id!=item.id,
+                            'btn-success':cabs.curr.id==item.id
+                        }" ng-repeat="item in cabs.cabs"  ng-click="cabs.modal_pick($index);"
+                        ng-disabled="cabs.curr.id==item.id">
+                        {{'存储柜 '+item.id +'#'}}
+                        <span ng-show="cabs.curr.id==item.id">（当前）</span>
+                    </a>
                 </div>
             </div>
         </div>

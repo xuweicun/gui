@@ -27,10 +27,10 @@
                             'btn-success':_dsk.is_bridged(),
                             'btn-primary':_dsk.is_loaded() && !_dsk.is_bridged(),
                             'btn-default':!_dsk.is_loaded(),
-                            'btn-warning' : _dsk.get_cmd_name() != '',
+                            'btn-warning' : _dsk.get_cmd_name() != '' || (_dsk.base_info.loaded && _dsk.health == '2'),
                             'btn-selected':_dsk === cab.curr,
                             'btn-not-selected':_dsk !== cab.curr,
-                            'btn-danger': _dsk.is_copy_dsk()
+                            'btn-danger': _dsk.is_copy_dsk() || (_dsk.base_info.loaded && _dsk.health == '3')
                         }" ng-click="cab.select_disk(idx_lvl, idx_grp, idx_dsk)">
                         <div class="bk-vcenter row">
                             <i class="fa fa-check-circle" style="position:absolute;right:20px"
