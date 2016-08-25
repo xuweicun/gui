@@ -815,7 +815,7 @@ class BusinessController extends Controller
                 $items_cabs[$key]['disks'][$key_1]['md5_last'] = $items_md5_last_two[$index]['md5_value'];
                 $items_cabs[$key]['disks'][$key_1]['md5_last_time'] = $items_md5_last_two[$index]['md5_time'];
 
-                if ($value['normal'] != '1') {
+                if ($value['health'] != '1') {
                     $ab_cnt++;
                 }
             }
@@ -868,6 +868,16 @@ class BusinessController extends Controller
         $this->makeWordReport($items_cabs);
 
         $this->AjaxReturn($items_cabs);
+    }
+
+    private function health2Text($health)
+    {
+        switch($health){
+        case '1' : return '健康';
+        case '2' : return '告警';
+        case '3' : return '严重';
+        default: return '未知';
+        }
     }
 
     private function makeWordReport($cabinets)
@@ -947,7 +957,7 @@ class BusinessController extends Controller
                 $table_cab_diks->addCell()->addText($dsk['level'] . '-' . $dsk['group'] . '-' . $dsk['disk'], array('size' => 9));
                 $table_cab_diks->addCell()->addText($dsk['sn'], array('size' => 9));
                 $table_cab_diks->addCell()->addText($dsk['capacity'] ? $dsk['capacity'] . 'GB' : '', array('size' => 9));
-                $table_cab_diks->addCell()->addText($dsk['sn'] ? ($dsk['normal'] == 1 ? '健康' : '异常') : '', array('size' => 9));
+                $table_cab_diks->addCell()->addText($dsk['sn'] ? $this->health2Text($dsk['health']) : '', array('size' => 9));
                 $table_cab_diks->addCell()->addText($dsk['sn_time'] ? date("Y-m-d H:i:s", $dsk['sn_time']) : '-', array('size' => 9));
                 $table_cab_diks->addCell()->addText($dsk['md5_first'], array('size' => 9));
                 $table_cab_diks->addCell()->addText($dsk['md5_first_time'] ? date("Y-m-d H:i:s", $dsk['md5_first_time']) : '-', array('size' => 9));
@@ -1000,7 +1010,7 @@ class BusinessController extends Controller
                         $table_cab_slt_smart->addCell()->addText($smart['sn']);
                         $table_cab_slt_smart->addCell()->addText(date('Y-m-d H:i:s', $smart['time']));
                         $table_cab_slt_smart->addCell()->addText($smart['capacity']);
-                        $table_cab_slt_smart->addCell()->addText($smart['disk_status'] == 0 ? '健康' : '异常');
+                        $table_cab_slt_smart->addCell()->addText($this->health2Text($dsk['health']));
                         $table_cab_slt_smart->addCell()->addText();
                     }
                 }
