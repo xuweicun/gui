@@ -415,7 +415,10 @@
                     <td style="min-width:150px">容量 <u style="color:blue">{{cab.curr.get_capacity() || '-'}}</u> G</td>
                 </tr>
                 <tr>    
-                    <td>转速 <u style="color:blue">{{cab.curr.rotation || '-'}}</u> 转/分 </td>
+                    <td>
+                        <span ng-show="cab.curr.rotation != 0">转速 <u style="color:blue">{{cab.curr.rotation}}</u> 转/分</span> 
+                        <span ng-show="cab.curr.rotation == 0">SSD</span>
+                    </td>
                     <td>通电次数 <u style="color:blue">{{cab.curr.power_on_count || '-'}}</u> 次 </td>
                     <td>通电时间 <u style="color:blue">{{cab.curr.power_on_value || '-'}}</u> 小时</td>
                     <td>温度 <u style="color:red">{{cab.curr.temperature || '-'}}</u> ℃ </td>
