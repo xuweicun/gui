@@ -770,23 +770,11 @@ class MsgController extends Controller
             //var_dump($item);
             if (!$item || $item['restart_time'] != $_POST['restart_time']) {
                 //所有硬盘桥接、在位状态清零
-                $db = M('Device');
-                $items = $db->select();
-                foreach ($items as $item) {
-                    $item['bridged'] = 0;
-                    $item['loaded'] = 0;
-                    $item['path'] = '';
-                    $db->save($item);
-                }
-
-                $db = M('CmdLog');
-                $going = C('CMD_GOING');
-                $items = $db->where("status=$going or finished=0")->select();
-                foreach ($items as $item) {
-                    $item['status'] = C('CMD_CANCELED');
-                    $item['finished'] = 1;
-                    $db->save($item);
-                }
+                M()->execute('
+                    update gui_cmd_log set status=-1, finished=1 where finished=0;
+                    update gui_device set loaded=0, bridged=0 where loaded=1;
+                    update gui_cab set loaded=0 where loaded=1;
+                ');
 
                 $data = array();
                 $data['restart_time'] = $_POST['restart_time'];
