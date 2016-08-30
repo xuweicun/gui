@@ -132,9 +132,11 @@ CmdCaution.prototype = {
 
         warn_msg += '命令时发生告警，类别为 ';
         switch(warning) {
+        case 1:
         case '1': 
             warn_msg += '[<span class="bk-fg-danger">硬件故障</span>]';
             break;
+        case 2:
         case '2': 
             warn_msg += '[<span class="bk-fg-warning">一般</span>]';
             break;
@@ -225,7 +227,7 @@ CautionManage.prototype = {
                     cau.id = msg.id;
                     cau.cab_id = status.device_id;
                     cau.time = parseInt(msg.time);
-                    cau.setWarning(status, parseInt(status.err_code));
+                    cau.setWarning(status, parseInt(msg.err_code));
                     cau.dismissed = msg.dismissed;
                     cau.username = msg.username;
                 }
