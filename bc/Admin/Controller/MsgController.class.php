@@ -973,7 +973,7 @@ class MsgController extends Controller
             //如果有不再在位的柜子，系统为其重新分配ID
             $all_cabs = $cabDb->select();
             $all_disks = $cabDb->table("gui_device")->select();
-            $all_busy_disks = $cabDb->table("gui_cmd_disk")->select();
+            $all_busy_disks = $cabDb->table("gui_cmd_disk")->field(array('id', 'cabinet_id','cab_id'))->select();
             foreach ($all_cabs as $l_cab) {
                 if($l_cab['loaded'] == 1) {
                     $is_load = false;
