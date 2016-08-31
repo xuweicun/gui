@@ -195,7 +195,7 @@ class BusinessController extends Controller
         }
         echo 'success';
 
-        recordSystemResetLog();
+        $this->recordSystemResetLog();
         /*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
