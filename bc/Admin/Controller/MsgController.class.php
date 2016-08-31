@@ -937,17 +937,26 @@ class MsgController extends Controller
             foreach ($_POST['cabinets'] as $cab) {
                 // 依据柜子序列号进行查找
                 $map['name'] = array('eq', $cab['sn']);
-                $item = $cabDb->where($map)->find();
-                if ($item) {
-                    // 若不在位，代表被移除过
-                        $item['level_cnt'] = $cab['level_cnt'];
-                        $item['group_cnt'] = $cab['group_cnt'];
-                        $item['disk_cnt'] = $cab['disk_cnt'];
-                        $item['loaded'] = 1;
+                $items = $cabDb->where($map)->select();
+                if($items){
+                    if(count($items) > 1){
+                        foreach ($items as $idx=>$item){
+                            if($idx > 0){
+                                $cabDb->delete($item['id']);
+                            }
+                        }
+                    }
+                    $item = $items[0];
+                    $item['level_cnt'] = $cab['level_cnt'];
+                    $item['group_cnt'] = $cab['group_cnt'];
+                    $item['disk_cnt'] = $cab['disk_cnt'];
+                    $item['loaded'] = 1;
                     //如果发生变化，则新增告警
-                        $item['sn'] = $cab['id'];
-                        $cabDb->save($item);
-                } else {
+                    $item['sn'] = $cab['id'];
+
+                    $cabDb->save($item);
+                }
+                else {
                     $data['sn'] = $cab['id'];
                     $data['name'] = $cab['sn'];
                     $data['level_cnt'] = $cab['level_cnt'];
