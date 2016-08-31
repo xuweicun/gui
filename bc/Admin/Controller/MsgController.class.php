@@ -770,8 +770,9 @@ class MsgController extends Controller
             //var_dump($item);
             if (!$item || $item['restart_time'] != $_POST['restart_time']) {
                 //所有硬盘桥接、在位状态清零
+                M()->execute('update gui_device set bridged=0,loaded=0 where loaded=1');
                 $db = M('Device');
-                $items = $db->select();
+                //$items = $db->select();
                 foreach ($items as $item) {
                     $item['bridged'] = 0;
                     $item['loaded'] = 0;
