@@ -278,7 +278,7 @@ CautionManage.prototype = {
                     cau.id = msg.id;
                     cau.cab_id = status.device_id;
                     cau.time = parseInt(msg.time);
-                    cau.setWarning(status, parseInt(err_code));
+                    cau.setWarning(status, parseInt(msg.err_code));
                     cau.dismissed = msg.dismissed;
                     cau.username = msg.username;
                 }

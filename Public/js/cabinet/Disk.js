@@ -1007,8 +1007,6 @@ Disk.prototype = {
             cmd_obj.subcmd = 'STOP';
         }
 
-        this.curr_cmd = cmd_obj;
-
         global_cmd_helper.sendcmd(cmd_obj);
     }
 };

@@ -74,14 +74,14 @@ user_app.factory('WebSock', function () {
                     console.log('收到推送的状态信息');
                     var num = data['num'];
                     for(var i = 0;i <num;i++) {
-                        global_cabinet_helper.i_on_msg_push_status(data[i.toString()]);
+                    //    global_cabinet_helper.i_on_msg_push_status(data[i.toString()]);
                     }
                     break;
                 case 'partition':
                     console.log('收到推送的分区容量信息');
                     var num = data['num'];
                     for(var i = 0;i <num;i++) {
-                        global_cabinet_helper.i_on_msg_push_partition(data[i.toString()]);
+                    //    global_cabinet_helper.i_on_msg_push_partition(data[i.toString()]);
                     }
                     break;
                 case 'check_status':

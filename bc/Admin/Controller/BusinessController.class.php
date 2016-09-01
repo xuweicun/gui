@@ -195,7 +195,7 @@ class BusinessController extends Controller
         }
         echo 'success';
 
-        recordSystemResetLog();
+        $this->recordSystemResetLog();
         /*
         //所有硬盘桥接、在位状态清零
         $db = M('Device');
@@ -310,16 +310,20 @@ class BusinessController extends Controller
     public function getLog()
     {
         $date = I('get.date');
-        $map_date = "";
+        $map = "";
         if ($date) {
             $ts_from = strtotime($date);
             $ts_to = strtotime('+1 months', $ts_from);
-            $map_date = "start_time >= $ts_from and start_time < $ts_to";
+            $map = "start_time >= $ts_from and start_time < $ts_to";
         }
 
         $user_id = I('get.userid', -1, 'intval');
         if ($user_id != -1) {
-            $map_user['user_id'] = $user_id;
+            if ($map) {
+                $map += " and ";
+            }
+
+            $map += "user_id = $user_id";
         }
 
         $db = M('CmdLog');
@@ -335,7 +339,7 @@ class BusinessController extends Controller
                 'gui_cmd_log.status' => 'status',
                 'gui_user.username' => 'username',
             ))
-            ->where($map_date)->where($map_user)
+            ->where($map)
             ->order('start_time desc')
             ->select();        
 

@@ -230,8 +230,8 @@ CabCmdHelper.prototype = {
             return 0;
         }
 
-        var timestamp = (Date.parse(new Date())) / 1000;
-        if (timestamp - this.last_cmd_send_time <= 3) {
+        var timestamp = Date.parse(new Date());
+        if (timestamp - this.last_cmd_send_time <= 500) {
             toastr.warning('您发送过于频繁，请稍后再试');
             return 0;
         }
