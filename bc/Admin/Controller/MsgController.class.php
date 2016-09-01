@@ -941,8 +941,10 @@ class MsgController extends Controller
                     if(count($items) > 1){
                         foreach ($items as $idx=>$item){
                             if($idx > 0){
-                                $cabDb->delete($item['id']);
+                                $cabDb->where("id={$item['id']}")->delete();
+                                $cabDb->table("gui_device")->where("cabinet_id={$item['id']}")->delete();
                             }
+
                         }
                     }
                     $item = $items[0];

@@ -5,12 +5,12 @@
                 <div class="row">
                     <div class="col-xs-8 text-left bk-vcenter">
                         <div class="">
-                            <h1 class="bk-margin-off">自检计划</h1>
+                            <h1 class="bk-margin-off">自检状态</h1>
 
                         </div>
                     </div>
                     <div class="col-xs-4 bk-vcenter text-right">
-                        <a href="" ng-click="checkerStatus.init()" title="重新获取"> <i class="fa fa-spinner fa-3x"></i></a>
+                        <a href="" ng-click="checkerStatus.init()" title="重新获取" style="color:green;"> <i class="fa fa-refresh fa-3x"></i></a>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -21,7 +21,7 @@
                             <th>状态</th>
                             <th>进度</th>
                             <th>开始时间</th>
-                            <th></th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody >
@@ -31,19 +31,19 @@
                         <tr ng-repeat="checker in checkerStatus.checkers">
                             <td ng-bind="checker.type"></td>
                             <td ng-bind="checker.status"></td>
-                            <td ng-bind="checker.progress"></td>
+                            <td> <span  ng-bind="checker.progress" ng-show="checker.isWorking()"></span> <span ng-show="!checker.isWorking()">----</span></td>
                             <td ng-bind="checker.start_time * 1000|date:'yyyy-MM-dd HH:mm:ss'"></td>
                             <td class="bk-padding-off-right">
                                 <ul class="list-inline bk-margin-off-bottom text-right">
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Start" title="自检将会立刻启动" ng-click="checkerStatus.startCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-success bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-success">
+                                    <li class="bk-padding-off-right" ng-show="checker.isWaiting()">
+                                        <a data-original-title="Start" title="自检将会立刻启动" ng-click="showStartModal(checker.id)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-success bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-success">
                                             <i class="fa fa-play"></i>
                                         </a>
                                         <br>
                                         <p class="help-block">立刻启动</p>
                                     </li>
-                                    <li class="bk-padding-off-right">
-                                        <a data-original-title="Stop" title="停止自检" ng-click="checkerStatus.stopCheck(checker)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-danger bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-danger">
+                                    <li class="bk-padding-off-right" ng-show="checker.isWorking()">
+                                        <a data-original-title="Stop" title="停止自检" ng-click="showStopModal(checker.id)" data-placement="top" data-toggle="tooltip" class="bk-round bk-border-danger bk-border-darken bk-bg-lighten bk-border-3x bk-icon bk-icon-default bk-bg-danger">
                                             <i class="fa fa-stop"></i>
                                         </a>
                                         <br>

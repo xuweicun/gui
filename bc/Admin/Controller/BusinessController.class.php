@@ -139,7 +139,7 @@ class BusinessController extends Controller
             if($plan['type'] == 'md5'){
                 $plans[$key]['going'] = count($md5_going);
                 $plans[$key]['finished'] = count($md5_finished);
-
+                $plans[$key]['count'] = count($dsks);
             }
             else{
                 $plans[$key]['going'] = count($sn_going);
