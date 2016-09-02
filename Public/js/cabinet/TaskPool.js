@@ -41,6 +41,10 @@ TaskPool.prototype = {
     },
 
     add: function (task) {
+        if(!task.valid){
+            toastr.warning('命令数据格式不完整,无法加入实时状态监控队列');
+            return;
+        }
         this.going.forEach(function (e) {
             if (e.id == task.id) {
                 //判断是否是新命令，如果不是新命令，不执行任何操作

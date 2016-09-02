@@ -94,7 +94,7 @@
                             </td>
 
                             <td>
-                                <span ng-bind="disk.check_cmd_status.progress" ng-show="disk.check_cmd_status.progress!=null"></span>
+                                <span ng-bind="disk.check_cmd_status.progress+'%'" ng-show="disk.check_cmd_status.progress!=null"></span>
                                 <span ng-show="disk.check_cmd_status.started=='1' && disk.check_cmd_status.finished=='0'">-已开始</span>
                                 <span ng-show="disk.check_cmd_status.finished=='1'">-已完成</span>
                                 <span ng-show="disk.check_cmd_status.finished=='1'" ng-bind="'状态码'+disk.check_cmd_status.status"></span>
