@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-left bk-margin-off-bottom">
+                    <table class="table text-left bk-margin-off-bottom" datatable="ng">
                         <thead>
                         <tr>
                             <th>类型</th>
@@ -25,9 +25,9 @@
                         </tr>
                         </thead>
                         <tbody >
-                        <tr ng-show="checkerStatus.checkers.length==0">
+                        <!--tr ng-show="checkerStatus.checkers.length==0">
                             <td>当前没有等待中或进行中的自检计划</td>
-                        </tr>
+                        </tr-->
                         <tr ng-repeat="checker in checkerStatus.checkers">
                             <td ng-bind="checker.type"></td>
                             <td ng-bind="checker.status"></td>
@@ -74,17 +74,22 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-left bk-margin-off-bottom">
+                    <table class="table text-left bk-margin-off-bottom" datatable="ng">
                         <thead>
                         <tr>
-                            <th>磁盘位置</th><th>磁盘信息自检</th><th>磁盘校验</th><th>进度</th><th>桥接</th><th>状态</th>
+                            <th>磁盘位置</th>
+                            <th>磁盘信息自检</th>
+                            <th>磁盘校验</th>
+                            <th>进度</th>
+                            <th>桥接</th>
+                            <th>状态</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody >
-                        <tr ng-show="checkerStatus.disks.length==0">
+                        <!--tr ng-show="checkerStatus.disks.length==0">
                             <td>无磁盘信息</td>
-                        </tr>
+                        </tr-->
                         <tr ng-repeat="disk in checkerStatus.disks">
                             <td ng-bind="disk.getPos()"></td>
                             <td ng-bind="disk.transStatus(disk.sn_status)"></td>
