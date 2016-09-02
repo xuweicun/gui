@@ -342,7 +342,9 @@ class BusinessController extends Controller
             ->where($map)
             ->order('start_time desc')
             ->select();        
-
+        if (!$logs) {
+            $logs = array();
+        }
         $this->AjaxReturn($logs);
     }
 
