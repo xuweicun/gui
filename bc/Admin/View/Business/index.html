@@ -1,198 +1,191 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-	<!-- Basic -->
-	<meta charset="UTF-8" />
-
-	<title>离线硬盘存储管理系统</title>
-
-	<script src="/Public/js/browser-check.js"></script>
-
-	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-	<include file="PublicHeader" />
-
+<!-- Basic -->
+<meta charset="UTF-8" />
+<title>离线硬盘存储管理系统</title>
+<script src="/Public/js/browser-check.js"></script>
+<!-- Mobile Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<include file="PublicHeader" />
 </head>
 
 
 <body ng-app="device" ng-controller="statusMonitor  as showCase" ng-cloak ng-init="is_ok = false" ng-mousedown="on_mouse_move()" ng-mousemove="on_mouse_move()">
-	<!-- Start: Header -->
-	<div class="navbar" role="navigation" ng-show="!taskPool.user_left && is_ok">
-		<div class="container-fluid container-nav">
-			<!-- Navbar Action -->
-			<ul class="nav navbar-nav navbar-actions navbar-left">
-				<li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-th-large"></i></a></li>
-				<li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
-			</ul>
-			<!-- Navbar Left -->
-			<div class="navbar-left">
-				<!-- Search Form -->
-				<form class="search navbar-form" action="search.php" target="_blank" method="post">
-					<div class="input-group input-search">
-						<input type="text" class="form-control bk-radius" name="key" id="q" placeholder="搜索...">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-						</span>
-					</div>
-				</form>
-			</div>
-			<!-- Navbar Right -->
-			<div class="navbar-right">
-				<!-- Notifications
-				<div ng-include="pageViewUrls.notifyViewUrl"></div>
-					 -->
-				<!-- End Notifications -->
-				<!-- Userbox -->
-				<div class="userbox">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<!--<figure class="profile-picture hidden-xs">
-							<img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
-						</figure>-->
-						<div class="profile-info">
-							<span class="name">您好,<{$username}></span>
-							<span class="role">
-								<i class="fa fa-circle" ng-class="{false:'bk-fg-success',true:'bk-fg-default'}[user.off_line]"></i>
-								<span ng-bind="role+'权限'" ng-show="!user.off_line"></span>
-								<span ng-show="user.off_line">离线</span>
-							</span>
-							<span id="username" style="display:none" ng-disabled="user.off_line"><{$username}></span>
-							<span id="userid" style="display:none" ng-disabled="user.off_line"><{$userid}></span>
-							<span id="can_write" style="display:none" ng-disabled="user.off_line"><{$can_write}></span>
-							<span id="token" style="display:none" ng-disabled="user.off_line"><{$token}></span>
-						</div>
-						<i class="fa custom-caret"></i>
-					</a>
+<!-- Start: Header -->
+<div class="navbar" role="navigation" ng-show="!taskPool.user_left && is_ok">
+    <div class="container-fluid container-nav">
+        <!-- Navbar Action -->
+        <ul class="nav navbar-nav navbar-actions navbar-left">
+            <li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-th-large"></i></a></li>
+            <li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
+        </ul>
+        <!-- Navbar Left -->
+        <div class="navbar-left">
+            <!-- Search Form -->
+            <form class="search navbar-form" action="search.php" target="_blank" method="post">
+                <div class="input-group input-search">
+                    <input type="text" class="form-control bk-radius" name="key" id="q" placeholder="搜索...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <!-- Navbar Right -->
+        <div class="navbar-right">
+            <!-- Notifications
+                <div ng-include="pageViewUrls.notifyViewUrl"></div>
+                     -->
+            <!-- End Notifications -->
+            <!-- Userbox -->
+            <div class="userbox">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <!--<figure class="profile-picture hidden-xs">
+                            <img src="/Public/assets/img/avatar.jpg" class="img-circle" alt="" />
+                        </figure>-->
+                    <div class="profile-info">
+                        <span class="name">您好,<{$username}></span>
+                        <span class="role">
+                            <i class="fa fa-circle" ng-class="{false:'bk-fg-success',true:'bk-fg-default'}[user.off_line]"></i>
+                            <span ng-bind="role+'权限'" ng-show="!user.off_line"></span>
+                            <span ng-show="user.off_line">离线</span>
+                        </span>
+                        <span id="username" style="display:none" ng-disabled="user.off_line"><{$username}></span>
+                        <span id="userid" style="display:none" ng-disabled="user.off_line"><{$userid}></span>
+                        <span id="can_write" style="display:none" ng-disabled="user.off_line"><{$can_write}></span>
+                        <span id="token" style="display:none" ng-disabled="user.off_line"><{$token}></span>
+                    </div>
+                    <i class="fa custom-caret"></i>
+                </a>
 
-					<div class="dropdown-menu">
-						<ul class="list-unstyled">
-                            <li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
-                                <div class="progress progress-xs  progress-striped active">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                        60%
-                                    </div>
-                                </div>
-                            </li>
-							<li>
-								<a href="" ng-click="user_profile.showChangePasswordModal()"><i class="fa fa-usd"></i> 修改密码</a>
-							</li>
-
-                            <li>
-                                <a href="" ng-click="taskPool.user_force_leave();">
-                                    <i class="fa fa-lock" aria-hidden="true"></i><span>锁屏</span>
-                                </a>
-                            </li>
-							<li>
-								<a href="" ng-click="user_profile.show_logout_modal();"><i class="fa fa-power-off"></i> 注销</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-				<!-- End Userbox -->
-			</div>
-			<!-- End Navbar Right -->
-		</div>
-	</div>
-	<!-- End: Header -->
-	<div class="container-fluid content" ng-show="!taskPool.user_left">
-		<div class="row">
-			<div class="sidebar" ng-show="!taskPool.user_left">
-				<div ng-include="pageViewUrls.siderBarUrl"></div>
-			</div>
-			<div class="main" ng-show="!user.off_line">
-				<div class="container-fluid content" ng-hide="is_ok">
-					<h4>系统正在努力加载中...请稍候！</h4>
-				</div>
-				<!-- Start: Content -->
-				<div class="container-fluid content hidden" ng-class="{'hidden':!is_ok}" ng-show="page_index == 'main'">
-					<include file="cabs" />
-					<div class="row" ng-show="cabs.getLth() > 0">
-						<div class="panel panel-default col-lg-9">
-							<div class="panel-heading">
-								<i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
-								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'diskinfo');" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜磁盘信息查询</a>
-								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'filetree',cab.sn);" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜文件目录查询</a>
-								<a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="stopDeploy(cab.id);" ng-show="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">停止当前柜查询操作</a>
-								<a ng-click="cab.start_cmd_device_status()"
-								   class="btn btn-primary btn-xs pull-right bk-margin-5"
-								   ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
-								   title="查询当前柜磁盘在位信息">
-									当前柜磁盘在位查询
-								</a>
-							</div>
-							<div class="panel-body" ng-include="pageViewUrls.cabinetViewUrl">
-							</div>
-						</div>
-						<div class="panel panel-default col-lg-3">
-							<div class="panel-heading">
-								<i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>盘位信息
-							</div>
-							<div class="panel-body" ng-include="pageViewUrls.diskViewUrl">
-							</div>
-						</div>
-					</div>
-					<div class="row" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-include="pageViewUrls.taskViewUrl">
-						</div>
-					</div>
-				</div>
-				<div class="container-fluid content" ng-show="page_index == 'user_log'">
-					<div ng-include="pageViewUrls.userLogViewUrl"></div>
-				</div>
-				<div class="container-fluid content" ng-show="page_index == 'manul'">
-					<div ng-include="pageViewUrls.manulViewUrl"></div>
-				</div>
-				<!--/container-->
-			</div>
-		</div>
-	</div>
-    <div class="container-fluid content" ng-show="taskPool.user_left">
-        <div class="row">
-            <!-- Main Page -->
-            <div class="body-sign body-locked">
-                <div class="center-sign">
-                    <div class="panel bk-bg-white panel-sign">
-                        <div class="panel-body text-center bk-padding-off bk-wrapper">
-                            <div class="bk-avatar bk-avatar120-halfdown">
-                                <div class="bk-vcenter"></div>
-                                <div class="bk-fg-info bk-fg-darken">
-                                    <img src="Public/assets/img/avatar1.jpg" alt="" class="img-circle bk-img-120 bk-border-white bk-border-darken bk-border-3x" />
-                                </div>
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
+                        <div class="progress progress-xs  progress-striped active">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
+                                aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                60%
                             </div>
                         </div>
-                        <div class="panel-body bk-bg-white bk-padding-left-30 bk-padding-right-30 bk-avatar120-halfdown-after text-center">
-                            <h3 class="bk-margin-off"><strong><{$username}></strong></h3>
-                            <div class="bk-padding-bottom-30 bk-padding-top-10">
-                                <p>页面锁定</p>
+                        </li>
+                        <li>
+                        <a href="" ng-click="user_profile.showChangePasswordModal()"><i class="fa fa-usd"></i> 修改密码</a>
+                        </li>
+
+                        <li>
+                        <a href="" ng-click="taskPool.user_force_leave();">
+                            <i class="fa fa-lock" aria-hidden="true"></i><span>锁屏</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="" ng-click="user_profile.show_logout_modal();"><i class="fa fa-power-off"></i> 注销</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- End Userbox -->
+        </div>
+        <!-- End Navbar Right -->
+    </div>
+</div>
+<!-- End: Header -->
+<div class="container-fluid content" ng-show="!taskPool.user_left">
+    <div class="row">
+        <div class="sidebar" ng-show="!taskPool.user_left">
+            <div ng-include="pageViewUrls.siderBarUrl"></div>
+        </div>
+        <div class="main" ng-show="!user.off_line">
+            <div class="container-fluid content" ng-hide="is_ok">
+                <h4>系统正在努力加载中...请稍候！</h4>
+            </div>
+            <!-- Start: Content -->
+            <div class="container-fluid content hidden" ng-class="{'hidden':!is_ok}" ng-show="page_index == 'main'">
+                <include file="cabs" />
+                <div class="row" ng-show="cabs.getLth() > 0">
+                    <div class="panel panel-default col-lg-9">
+                        <div class="panel-heading">
+                            <i class="fa fa-building-o"></i>数据存储柜({{cab.id}}#)
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'diskinfo');" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜磁盘信息查询</a>
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="deploy(cab.id,'filetree',cab.sn);" ng-disabled="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">当前柜文件目录查询</a>
+                            <a href="" class="btn btn-danger pull-right btn-xs bk-margin-5" ng-click="stopDeploy(cab.id);" ng-show="deployer.working;" title="查询过程中请勿进行其他操作，以免查询失败">停止当前柜查询操作</a>
+                            <a ng-click="cab.start_cmd_device_status()"
+                                class="btn btn-primary btn-xs pull-right bk-margin-5"
+                                ng-class="{ true:'btn-warning', false:'btn-primary' }[cab.is_device_status_cmd_going()]"
+                                title="查询当前柜磁盘在位信息">
+                                当前柜磁盘在位查询
+                            </a>
+                        </div>
+                        <div class="panel-body" ng-include="pageViewUrls.cabinetViewUrl">
+                        </div>
+                    </div>
+                    <div class="panel panel-default col-lg-3">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-hdd bk-margin-left-5"></i>盘位信息
+                        </div>
+                        <div class="panel-body" ng-include="pageViewUrls.diskViewUrl">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="taskPool.ready==true" ng-controller="InitCtrl">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-include="pageViewUrls.taskViewUrl">
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid content" ng-show="page_index == 'user_log'">
+                <div ng-include="pageViewUrls.userLogViewUrl"></div>
+            </div>
+            <div class="container-fluid content" ng-show="page_index == 'manul'">
+                <div ng-include="pageViewUrls.manulViewUrl"></div>
+            </div>
+            <!--/container-->
+        </div>
+    </div>
+</div>
+<div class="container-fluid content" ng-show="taskPool.user_left">
+    <div class="row">
+        <!-- Main Page -->
+        <div class="body-sign body-locked">
+            <div class="center-sign">
+                <div class="panel bk-bg-white panel-sign">
+                    <div class="panel-body text-center bk-padding-off bk-wrapper">
+                        <div class="bk-avatar bk-avatar120-halfdown">
+                            <div class="bk-vcenter"></div>
+                            <div class="bk-fg-info bk-fg-darken">
+                                <img src="Public/assets/img/avatar1.jpg" alt="" class="img-circle bk-img-120 bk-border-white bk-border-darken bk-border-3x" />
                             </div>
-                            <div class="form-group">
-                                <div class="input-group input-group-icon">
-                                    <input id="prependedInput" class="form-control bk-radius" size="16" type="password" placeholder="请输入解锁密码" ng-model="user_unlock_pwd" />
-                                    <span class="input-group-addon">
-                                        <span class="icon icon-lg">
-                                            <i class="fa fa-lock"></i>
-                                        </span>
+                        </div>
+                    </div>
+                    <div class="panel-body bk-bg-white bk-padding-left-30 bk-padding-right-30 bk-avatar120-halfdown-after text-center">
+                        <h3 class="bk-margin-off"><strong><{$username}></strong></h3>
+                        <div class="bk-padding-bottom-30 bk-padding-top-10">
+                            <p>页面锁定</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-icon">
+                                <input id="prependedInput" class="form-control bk-radius" size="16" type="password" placeholder="请输入解锁密码" ng-model="user_unlock_pwd" />
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-lock"></i>
                                     </span>
-                                </div>
+                                </span>
                             </div>
-                            <span class="bk-fg-danger text-left">
-                                {{user_unlock_msg}}
-                            </span>
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-primary" ng-click="user_unlock()" ng-disabled="!user_unlock_pwd || btn_guard">解锁</button>
-                            </div>
+                        </div>
+                        <span class="bk-fg-danger text-left">
+                            {{user_unlock_msg}}
+                        </span>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary" ng-click="user_unlock()" ng-disabled="!user_unlock_pwd || btn_guard">解锁</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End Main Page -->
-
         </div>
-    </div><!--/container-->
-	<include file="PublicTail" />
+        <!-- End Main Page -->
+
+    </div>
+</div><!--/container-->
+<include file="PublicTail" />
 </body>
 </html>

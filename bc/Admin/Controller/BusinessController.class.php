@@ -317,13 +317,13 @@ class BusinessController extends Controller
             $map = "start_time >= $ts_from and start_time < $ts_to";
         }
 
-        $user_id = I('get.userid', -1, 'intval');
-        if ($user_id != -1) {
+        $user_id = I('get.userid');
+        if ($user_id) {
             if ($map) {
-                $map += " and ";
+                $map .= " and ";
             }
 
-            $map += "user_id = $user_id";
+            $map .= "user_id = $user_id";
         }
 
         $db = M('CmdLog');
@@ -342,7 +342,9 @@ class BusinessController extends Controller
             ->where($map)
             ->order('start_time desc')
             ->select();        
-
+        if (!$logs) {
+            $logs = array();
+        }
         $this->AjaxReturn($logs);
     }
 
