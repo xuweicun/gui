@@ -40,6 +40,7 @@ CabCmdHelper.prototype = {
     createCmd: function (log) {
         var newcmd = new CabCmd(log);
         newcmd.init();
+
         return newcmd;
     },
     getdiskinfo: function (level, group, disk, cab) {

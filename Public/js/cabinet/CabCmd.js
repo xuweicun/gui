@@ -1,6 +1,13 @@
 ﻿function CabCmd(log) {
-
-    this.msg = JSON.parse(log.msg);
+    this.valid = true;
+    this.msg = null;
+    if(log.msg == undefined || log.msg == null)
+    {
+        this.valid = false;
+    }else
+    {
+        this.msg = JSON.parse(log.msg);
+    }
     this._stime = log.start_time;
     this._ctime = log.current_time;
     this.username = log.username;
@@ -40,7 +47,7 @@
     this.status = -1;
     this.substatus = -1;
     //剩余时间，为0时表示时间用完
-    this.usedTime = (this._ctime == undefined?0:parseInt(this._ctime) - parseInt(this._stime));
+    this.usedTime = ((this._ctime == undefined || this._stime == undefined)?0:parseInt(this._ctime) - parseInt(this._stime));
     this.progress = -1;
     this.stage = 0;
     //最长等待，20小时
