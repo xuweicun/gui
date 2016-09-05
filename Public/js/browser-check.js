@@ -7,4 +7,4 @@
 		top.location='/index.php?m=admin&c=business&a=invalid_browser'; 
 	}
 }//myBrowser() end
-//BrowserCheck();
+BrowserCheck();

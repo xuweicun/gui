@@ -382,7 +382,7 @@ CabinetHelper.prototype = {
                 if (_dsk.bridged == '1') {
                     cnt_b++;
                 }
-                if (_dsk.normal == '0') {
+                if (_dsk.health == '2' || _dsk.health == '3') {
                     cnt_x++;
                 }				
                 if (_dsk.md5_changed == '1') {

@@ -388,8 +388,89 @@ user_app.controller('user_controller', function ($scope, $http, $timeout, WebSoc
     });
     
     $scope.curr_modal = new ModalHelper();
+    $scope.showStartModal = function (id) {
+        $scope.checker_to_start = id;
+        $("#modalStartCheck").modal("toggle");
+
+    }
+    $scope.startCheck = function () {
+        $('#modalStartCheck').modal('hide');
+
+        global_http({
+            url: '/index.php?m=admin&c=check&a=startCheck&id='+$scope.checker_to_start,
+            method: 'get'
+        }).success(function (data) {
+            if(data['status'] == '0'){
+                new PNotify({
+                    title: '启动自检',
+                    text: "启动时间重新设置成功,自检将于稍后启动",
+                    type: 'success',
+                    shadow: true,
+                    icon: 'fa fa-check'
+                });
+                $scope.checkerStatus.init();
+            }
+            else{
+                new PNotify({
+                    title: '启动自检',
+                    text: "操作失败",
+                    type: 'error',
+                    shadow: true,
+                    icon: 'fa fa-alarm'
+                });
+            }
+        }).error(function (data) {
+            new PNotify({
+                title: '启动自检',
+                text: "操作失败",
+                type: 'error',
+                shadow: true,
+                icon: 'fa fa-alarm'
+            });
+
+        });
+    }
+    $scope.showStopModal = function (id) {
+        $scope.checker_to_stop = id;
+        $('#modalStopCheck').modal('toggle');
+    }
     $scope.stopCheck = function(){
-//        $scope.
+//        $scope.toStop
+        $('#modalStopCheck').modal('hide');
+
+        global_http({
+            url: '/index.php?m=admin&c=check&a=stopCheck&id='+$scope.checker_to_stop,
+            method: 'get'
+        }).success(function (data) {
+           if(data['status'] == '0'){
+               new PNotify({
+                   title: '停止自检',
+                   text: "操作成功",
+                   type: 'success',
+                   shadow: true,
+                   icon: 'fa fa-check'
+               });
+               $scope.checkerStatus.init();
+           }
+            else{
+               new PNotify({
+                   title: '停止自检',
+                   text: "操作失败",
+                   type: 'error',
+                   shadow: true,
+                   icon: 'fa fa-alarm'
+               });
+           }
+        }).error(function (data) {
+            new PNotify({
+                title: '停止自检',
+                text: "操作失败",
+                type: 'error',
+                shadow: true,
+                icon: 'fa fa-alarm'
+            });
+
+        });
     }
     $scope.showLogoutModal = function () {
         $scope.curr_modal.show_modal({

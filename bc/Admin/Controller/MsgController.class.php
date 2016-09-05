@@ -770,8 +770,9 @@ class MsgController extends Controller
             //var_dump($item);
             if (!$item || $item['restart_time'] != $_POST['restart_time']) {
                 //所有硬盘桥接、在位状态清零
+                M()->execute('update gui_device set bridged=0,loaded=0 where loaded=1');
                 $db = M('Device');
-                $items = $db->select();
+                //$items = $db->select();
                 foreach ($items as $item) {
                     $item['bridged'] = 0;
                     $item['loaded'] = 0;
@@ -936,17 +937,28 @@ class MsgController extends Controller
             foreach ($_POST['cabinets'] as $cab) {
                 // 依据柜子序列号进行查找
                 $map['name'] = array('eq', $cab['sn']);
-                $item = $cabDb->where($map)->find();
-                if ($item) {
-                    // 若不在位，代表被移除过
-                        $item['level_cnt'] = $cab['level_cnt'];
-                        $item['group_cnt'] = $cab['group_cnt'];
-                        $item['disk_cnt'] = $cab['disk_cnt'];
-                        $item['loaded'] = 1;
+                $items = $cabDb->where($map)->select();
+                if($items){
+                    if(count($items) > 1){
+                        foreach ($items as $idx=>$item){
+                            if($idx > 0){
+                                $cabDb->where("id={$item['id']}")->delete();
+                                $cabDb->table("gui_device")->where("cabinet_id={$item['id']}")->delete();
+                            }
+
+                        }
+                    }
+                    $item = $items[0];
+                    $item['level_cnt'] = $cab['level_cnt'];
+                    $item['group_cnt'] = $cab['group_cnt'];
+                    $item['disk_cnt'] = $cab['disk_cnt'];
+                    $item['loaded'] = 1;
                     //如果发生变化，则新增告警
-                        $item['sn'] = $cab['id'];
-                        $cabDb->save($item);
-                } else {
+                    $item['sn'] = $cab['id'];
+
+                    $cabDb->save($item);
+                }
+                else {
                     $data['sn'] = $cab['id'];
                     $data['name'] = $cab['sn'];
                     $data['level_cnt'] = $cab['level_cnt'];
@@ -962,7 +974,7 @@ class MsgController extends Controller
             }
             //如果有不再在位的柜子，系统为其重新分配ID
             $all_cabs = $cabDb->select();
-            $all_disks = $cabDb->table("gui_device")->select();
+            $all_disks = $cabDb->table("gui_device")->field(array('id', 'cabinet_id','cab_id'))->select();
             $all_busy_disks = $cabDb->table("gui_cmd_disk")->select();
             foreach ($all_cabs as $l_cab) {
                 if($l_cab['loaded'] == 1) {

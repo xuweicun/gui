@@ -15,6 +15,22 @@
                         </div>
                     </div>
                 </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-lg-12 small">
+                        <p><b style="color:red">[填写说明]</b> 用空隔分开的IP或IP网段, 用于控制可访问网盘的IP。以下*表示1~255的任意一个值。</p>
+                        <ol>
+                            <li>
+                                IP. 例如: 192.168.1.55。
+                            </li>
+                            <li>
+                                IP网段1. 例如: 192. 表示192.*.*.* 均可访问网盘内容。<br />
+                                IP网段2. 例如: 192.2. 表示192.2.*.* 均可访问网盘内容。<br />
+                                IP网段3. 例如: 192.2.3. 表示192.2.3.* 均可访问网盘内容。<br />
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel-footer">
@@ -415,8 +431,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal" aria-hidden="true">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
                 <h4 class="modal-title">
@@ -433,6 +448,34 @@
                 </button>
                 <button type="button" class="btn btn-primary"
                         ng-click="stopCheck()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="modalStartCheck" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    开始自检
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>您确定要马上开始自检吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary"
+                        ng-click="startCheck()">
                     提交
                 </button>
             </div>

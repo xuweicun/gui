@@ -116,6 +116,7 @@
 			})
 			.factory('ErrCode', function () {
         return {
+            '-3':'timeout',
             "0": "no error",
 			"1": "bridge not started",
 			"10": "md5 not complete",

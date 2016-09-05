@@ -78,7 +78,7 @@ Checker.prototype = {
     init: function (data) {
         this.type = data['type'] == 'md5'? 'MD5校验':'健康状况校验';
         this.start_time = data['start_time'];
-        this.progress = "Finished:"+data['finished']+"/Going: "+data['going'];
+        this.progress = "已完成:"+data['finished']+";进行中: "+data['going']+";总数量:"+data['count'];
         this.id = data['id'];
         switch (parseInt(data['status'])){
             case -1:
@@ -93,6 +93,12 @@ Checker.prototype = {
             default:
                 this.status = '已取消或终止';
         }
+    },
+    isWorking: function () {
+        return this.status == '进行中';
+    },
+    isWaiting: function () {
+        return this.status == '等待中';
     }
 }
 function CheckStatus(){
