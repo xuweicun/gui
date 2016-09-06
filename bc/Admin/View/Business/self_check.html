@@ -82,8 +82,8 @@
                             <th>磁盘校验</th>
                             <th>进度</th>
                             <th>桥接</th>
-                            <th>状态</th>
-                            <th></th>
+                           <!-- <th>状态</th>
+                            <th></th>-->
                         </tr>
                         </thead>
                         <tbody >
@@ -105,7 +105,7 @@
                                 <span ng-show="disk.check_cmd_status.finished=='1'" ng-bind="'状态码'+disk.check_cmd_status.status"></span>
                             </td>
                             <td ng-bind="disk.bridged"></td>
-                            <td>
+                            <!--<td>
                                 <span  ng-bind="disk.isBusy()"></span>
                                 <a href="" class="bk-round bk-border-warning bk-border-darken bk-bg-lighten bk-icon bk-icon-default bk-bg-warning" ng-click="disk.updateCmdStatus()" ng-show="disk.busy=='1'"> <i class="fa fa-refresh"></i></a>
                                 <div class="row" style="color:#ff0000;"  ng-show="disk.busy_cmd!=null" >
@@ -115,7 +115,7 @@
                             </td>
                             <td class="bk-padding-off-right">
 
-                            </td>
+                            </td>-->
                         </tr>
                         </tbody>
                     </table>

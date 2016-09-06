@@ -1656,12 +1656,14 @@ class MsgController extends Controller
      */
     private function updateCautionLog()
     {
+        echo "<h3>Updating log</h3>";
         $new_sts = $_POST;
         //检查当前柜子的状态
         $cab_id = $this->msg->cab_id;
         $db = M("Cab");
         $cab = $db->where("sn=$cab_id")->find();
         if (!$cab) {
+            echo "No cab found.<br/>";
             return;
         }
         $cab_status = json_decode($cab['status'], true);
@@ -1680,6 +1682,9 @@ class MsgController extends Controller
             $log_db = M('CabCautionLog');
             $log_db->add($data);
 
+        }
+        else{
+            echo "Nothing special.";
         }
     }
 
