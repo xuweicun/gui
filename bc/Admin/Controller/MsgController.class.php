@@ -1660,7 +1660,7 @@ class MsgController extends Controller
         //检查当前柜子的状态
         $cab_id = $this->msg->cab_id;
         $db = M("Cab");
-        $cab = $db->find($cab_id);
+        $cab = $db->where("sn=$cab_id")->find();
         if (!$cab) {
             return;
         }
@@ -1672,6 +1672,7 @@ class MsgController extends Controller
             //新增日志
             $data = array(
                 'cab_id' => $cab_id,
+                'cabinet_id'=>$cab['id'],
                 'status' => $this->msg->return_msg,
                 'pushed' => 0,
                 'time' => time()
