@@ -102,13 +102,7 @@ class BusinessController extends Controller
         }
     }
 
-    public function checkDb()
-    {
-        $db = Db::instance('db1');
-        if ($db) {
-            echo "1";
-        } else echo "0";
-    }
+
 
     public function checkPermission()
     {
@@ -1045,29 +1039,6 @@ class BusinessController extends Controller
         $this->AjaxReturn($user_items);
     }
 
-    public function getTestResults()
-    {
-        $db = M('Test');
-        $items = $db->select();
-        foreach ($items as $item) {
-            var_dump($item);
-
-            echo "<br/>";
-        }
-    }
-
-    public function waitTilDone($cmd, $maxTime)
-    {
-        $exctTime = 0;
-        $cmdDb = M('CmdLog');
-        $status = -1;//未完成
-        $map['cmd'] = array('eq', $cmd);
-        $map['status'] = array('eq', $status);
-        while ($exctTime < $maxTime) {
-            sleep(1);
-            $exctTime = $exctTime + 1;
-        }
-    }
 
     public function setTimeOut()
     {
@@ -1708,24 +1679,8 @@ class BusinessController extends Controller
 
     }
 
-    public function clearSystRunLog()
-    {
-        $db = M('SystemRunLog');
-        $db->where("1")->delete();
-    }
 
-    public function showSystRunLog()
-    {
-        echo "当前时间:" . date("Y-m-d H:m:s", time()) . "<br/>";
-        echo "正在获取日志..<br/>";
-        $db = M('SystemRunLog');
-        $logs = $db->select();
-        foreach ($logs as $log) {
-            echo $log['type'] . "-" . $log['msg'] . "-" . date("Y-m-d H:i:s A", (int)$log['time']);
-            echo "<br/>";
-        }
 
-    }
 
     private function handleGroup($data, $db)
     {

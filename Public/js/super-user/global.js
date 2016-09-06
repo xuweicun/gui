@@ -23,6 +23,13 @@ user_app.filter('to_trusted', function ($sce) {
     return function (input) {
         return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
+}).filter('disk_occupation',function () {
+    return function (task,inuse,sts) {
+        var output = '';
+        if(inuse == 1 && sts == -1){
+
+        }
+    }
 });
 user_app.controller('user_controller', function ($scope, $http, $timeout, WebSock, DTOptionsBuilder, DTDefaultOptions) {
 
