@@ -138,8 +138,12 @@ CmdCaution.prototype = {
         case '2': 
             warn_msg += '[<span class="bk-fg-warning">一般</span>]';
             break;
-        default: 
+	case 3:
+	case '3':
             warn_msg += '[<span class="bk-fg-danger">严重</span>]';
+		break;
+        default: 
+            warn_msg += '[<span class="bk-fg-danger">未知</span>]';
             break;
         }    
 
