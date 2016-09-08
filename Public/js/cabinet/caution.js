@@ -129,12 +129,13 @@ CmdCaution.prototype = {
         default:
             throw 'unknown cmd for cmd caution';
         };
-
         warn_msg += '命令时发生告警，类别为 ';
         switch(warning) {
+            case 1:
         case '1': 
             warn_msg += '[<span class="bk-fg-danger">硬件故障</span>]';
             break;
+        case 2:
         case '2': 
             warn_msg += '[<span class="bk-fg-warning">一般</span>]';
             break;
