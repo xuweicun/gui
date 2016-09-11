@@ -1,35 +1,42 @@
-/*
- Navicat MySQL Data Transfer
+-- MySQL dump 10.13  Distrib 5.5.48, for Linux (x86_64)
+--
+-- Host: localhost    Database: gui
+-- ------------------------------------------------------
+-- Server version	5.5.48-log
 
- Source Server         : gui
- Source Server Version : 50542
- Source Host           : 222.35.224.230
- Source Database       : gui
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- Target Server Version : 50542
- File Encoding         : utf-8
+--
+-- Table structure for table `gui_admin`
+--
 
- Date: 09/06/2016 09:22:49 AM
-*/
-
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
---  Table structure for `gui_admin`
--- ----------------------------
 DROP TABLE IF EXISTS `gui_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_admin` (
   `adminid` smallint(6) NOT NULL AUTO_INCREMENT,
   `adminname` varchar(50) COLLATE gbk_bin NOT NULL,
   `password` varchar(100) COLLATE gbk_bin NOT NULL,
   PRIMARY KEY (`adminid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk COLLATE=gbk_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_cab`
--- ----------------------------
+--
+-- Table structure for table `gui_cab`
+--
+
 DROP TABLE IF EXISTS `gui_cab`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_cab` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `sn` varchar(64) DEFAULT NULL COMMENT 'proxy id',
@@ -46,12 +53,16 @@ CREATE TABLE `gui_cab` (
   `name` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_cab_caution_log`
--- ----------------------------
+--
+-- Table structure for table `gui_cab_caution_log`
+--
+
 DROP TABLE IF EXISTS `gui_cab_caution_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_cab_caution_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `cabinet_id` smallint(6) DEFAULT '0' COMMENT 'db id of cab',
@@ -63,12 +74,16 @@ CREATE TABLE `gui_cab_caution_log` (
   `time` varchar(1024) DEFAULT NULL,
   `modify_time` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_check_conf`
--- ----------------------------
+--
+-- Table structure for table `gui_check_conf`
+--
+
 DROP TABLE IF EXISTS `gui_check_conf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_check_conf` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `time` varchar(100) DEFAULT NULL,
@@ -80,12 +95,16 @@ CREATE TABLE `gui_check_conf` (
   `cnt` smallint(6) DEFAULT NULL,
   `user_id` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_check_plan`
--- ----------------------------
+--
+-- Table structure for table `gui_check_plan`
+--
+
 DROP TABLE IF EXISTS `gui_check_plan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_check_plan` (
   `id` smallint(6) NOT NULL AUTO_INCREMENT,
   `type` varchar(10) DEFAULT NULL,
@@ -95,24 +114,32 @@ CREATE TABLE `gui_check_plan` (
   `modify_time` varchar(100) DEFAULT NULL,
   `user_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_check_start_time`
--- ----------------------------
+--
+-- Table structure for table `gui_check_start_time`
+--
+
 DROP TABLE IF EXISTS `gui_check_start_time`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_check_start_time` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `is_current` tinyint(1) DEFAULT '1',
   `type` varchar(10) DEFAULT NULL,
   `start_date` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_chg_log`
--- ----------------------------
+--
+-- Table structure for table `gui_chg_log`
+--
+
 DROP TABLE IF EXISTS `gui_chg_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_chg_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `obj_id` int(5) NOT NULL,
@@ -123,11 +150,15 @@ CREATE TABLE `gui_chg_log` (
   `type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='异常记录';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_cmd_disk`
--- ----------------------------
+--
+-- Table structure for table `gui_cmd_disk`
+--
+
 DROP TABLE IF EXISTS `gui_cmd_disk`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_cmd_disk` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `cmd_id` int(10) NOT NULL,
@@ -137,12 +168,16 @@ CREATE TABLE `gui_cmd_disk` (
   `grp` smallint(2) DEFAULT NULL,
   `disk` smallint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_cmd_log`
--- ----------------------------
+--
+-- Table structure for table `gui_cmd_log`
+--
+
 DROP TABLE IF EXISTS `gui_cmd_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_cmd_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dst_id` int(10) DEFAULT '0' COMMENT '目标命令id',
@@ -163,23 +198,31 @@ CREATE TABLE `gui_cmd_log` (
   `busy_disks` varchar(4096) DEFAULT NULL,
   `started` tinyint(1) DEFAULT '0' COMMENT '标记命令是否开始',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_config`
--- ----------------------------
+--
+-- Table structure for table `gui_config`
+--
+
 DROP TABLE IF EXISTS `gui_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `key` varchar(50) NOT NULL,
   `value` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_device`
--- ----------------------------
+--
+-- Table structure for table `gui_device`
+--
+
 DROP TABLE IF EXISTS `gui_device`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_device` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `cab_id` int(5) DEFAULT '1' COMMENT '柜子id',
@@ -208,12 +251,16 @@ CREATE TABLE `gui_device` (
   `busy_cmd_id` int(10) DEFAULT '0',
   `md5_skip_time` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='the storage closet';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_disk`
--- ----------------------------
+--
+-- Table structure for table `gui_disk`
+--
+
 DROP TABLE IF EXISTS `gui_disk`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_disk` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sn` varchar(20) DEFAULT NULL,
@@ -233,12 +280,16 @@ CREATE TABLE `gui_disk` (
   `rotation` varchar(32) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_disk_chg_log`
--- ----------------------------
+--
+-- Table structure for table `gui_disk_chg_log`
+--
+
 DROP TABLE IF EXISTS `gui_disk_chg_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_disk_chg_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `time` varchar(30) DEFAULT NULL,
@@ -247,12 +298,16 @@ CREATE TABLE `gui_disk_chg_log` (
   `obj_id` int(10) NOT NULL,
   `value` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_disk_md5_log`
--- ----------------------------
+--
+-- Table structure for table `gui_disk_md5_log`
+--
+
 DROP TABLE IF EXISTS `gui_disk_md5_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_disk_md5_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` int(11) NOT NULL,
@@ -268,12 +323,16 @@ CREATE TABLE `gui_disk_md5_log` (
   `cabinet_id` int(11) DEFAULT NULL,
   `cmd_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='忠实记录MD5命令执行过程';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_disk_smart`
--- ----------------------------
+--
+-- Table structure for table `gui_disk_smart`
+--
+
 DROP TABLE IF EXISTS `gui_disk_smart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_disk_smart` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `disk_id` int(10) DEFAULT NULL,
@@ -284,12 +343,16 @@ CREATE TABLE `gui_disk_smart` (
   `thd` varchar(64) DEFAULT NULL,
   `w_val` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4317 DEFAULT CHARSET=utf8 COMMENT='smart value';
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8 COMMENT='smart value';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_disk_smart_log`
--- ----------------------------
+--
+-- Table structure for table `gui_disk_smart_log`
+--
+
 DROP TABLE IF EXISTS `gui_disk_smart_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_disk_smart_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` int(11) NOT NULL COMMENT '命令成功发出时间',
@@ -308,54 +371,74 @@ CREATE TABLE `gui_disk_smart_log` (
   `cmd_id` int(11) DEFAULT NULL,
   `health` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='忠实记录DISKINFO执行过程';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_fatal_msg`
--- ----------------------------
+--
+-- Table structure for table `gui_fatal_msg`
+--
+
 DROP TABLE IF EXISTS `gui_fatal_msg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_fatal_msg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `msg` varchar(4096) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_install_time`
--- ----------------------------
+--
+-- Table structure for table `gui_install_time`
+--
+
 DROP TABLE IF EXISTS `gui_install_time`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_install_time` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
   `time` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_level`
--- ----------------------------
+--
+-- Table structure for table `gui_level`
+--
+
 DROP TABLE IF EXISTS `gui_level`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_level` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `level` int(5) NOT NULL,
   `protected` int(1) DEFAULT '1' COMMENT '写保护',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='层级表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_restart_time`
--- ----------------------------
+--
+-- Table structure for table `gui_restart_time`
+--
+
 DROP TABLE IF EXISTS `gui_restart_time`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_restart_time` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `restart_time` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_run_time_err_log`
--- ----------------------------
+--
+-- Table structure for table `gui_run_time_err_log`
+--
+
 DROP TABLE IF EXISTS `gui_run_time_err_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_run_time_err_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `cmd_id` int(10) NOT NULL,
@@ -367,12 +450,16 @@ CREATE TABLE `gui_run_time_err_log` (
   `err_msg` varchar(1024) DEFAULT NULL,
   `cmd` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_smb`
--- ----------------------------
+--
+-- Table structure for table `gui_smb`
+--
+
 DROP TABLE IF EXISTS `gui_smb`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_smb` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
@@ -382,24 +469,32 @@ CREATE TABLE `gui_smb` (
   `dsk` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_super`
--- ----------------------------
+--
+-- Table structure for table `gui_super`
+--
+
 DROP TABLE IF EXISTS `gui_super`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_super` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pwd` varchar(500) NOT NULL,
   `name` varchar(100) NOT NULL,
   `locked` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_system_run_log`
--- ----------------------------
+--
+-- Table structure for table `gui_system_run_log`
+--
+
 DROP TABLE IF EXISTS `gui_system_run_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_system_run_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `type` varchar(50) DEFAULT NULL,
@@ -407,22 +502,30 @@ CREATE TABLE `gui_system_run_log` (
   `time` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_test`
--- ----------------------------
+--
+-- Table structure for table `gui_test`
+--
+
 DROP TABLE IF EXISTS `gui_test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_test` (
   `response` varchar(1000) NOT NULL,
   `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
---  Table structure for `gui_user`
--- ----------------------------
+--
+-- Table structure for table `gui_user`
+--
+
 DROP TABLE IF EXISTS `gui_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gui_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` text NOT NULL,
@@ -439,6 +542,56 @@ CREATE TABLE `gui_user` (
   `locked` int(11) NOT NULL DEFAULT '0',
   `smb_ip` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-SET FOREIGN_KEY_CHECKS = 1;
+--
+-- Table structure for table `gui_xl_team`
+--
+
+DROP TABLE IF EXISTS `gui_xl_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gui_xl_team` (
+  `id` int(8) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `teamid` int(8) NOT NULL COMMENT '队伍ID',
+  `name` varchar(200) NOT NULL COMMENT '队伍名称',
+  `iconnumber` int(3) NOT NULL COMMENT '队标图序号',
+  `channel` int(10) NOT NULL COMMENT '信道号',
+  `number` int(5) NOT NULL COMMENT '队伍人数',
+  `createtime` int(11) NOT NULL COMMENT '创建时间',
+  `remarks` varchar(200) NOT NULL COMMENT '备注',
+  `offlinepath` varchar(200) NOT NULL COMMENT '离线地图包路径',
+  `trajectorypath` varchar(200) NOT NULL COMMENT '轨迹路径',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='队伍信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `gui_xl_team_member`
+--
+
+DROP TABLE IF EXISTS `gui_xl_team_member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gui_xl_team_member` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `teamid` int(8) NOT NULL COMMENT '队伍id',
+  `memberid` int(11) NOT NULL COMMENT '成员id',
+  `memberiname` varchar(100) NOT NULL COMMENT '成员昵称',
+  `membericonid` int(5) NOT NULL COMMENT '成员头像编号',
+  `joinorder` int(5) NOT NULL COMMENT '成员入队顺序（创建队伍后首先自动把创建人加入本表，序号1，再有成员加入序号依次向后）',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='成员信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-09-11 18:37:33
