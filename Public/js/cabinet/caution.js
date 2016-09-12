@@ -104,7 +104,7 @@ function CmdCaution()
 }
 
 CmdCaution.prototype = {
-    setWarning: function (cmd, warning)
+    setWarning: function (cmd, warning, msg)
     {
         var warn_msg = "硬盘";
 
@@ -148,7 +148,7 @@ CmdCaution.prototype = {
             break;
         }    
 
-        this.warning_msg = warn_msg;
+        this.warning_msg = warn_msg + '，备注：' + msg + '。';
     }
 };
 
@@ -283,7 +283,7 @@ CautionManage.prototype = {
                     cau.id = msg.id;
                     cau.cab_id = status.device_id;
                     cau.time = parseInt(msg.time);
-                    cau.setWarning(status, parseInt(msg.err_code));
+                    cau.setWarning(status, parseInt(msg.err_code), msg.err_msg);
                     cau.dismissed = msg.dismissed;
                     cau.username = msg.username;
                 }
