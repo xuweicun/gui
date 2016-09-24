@@ -27,6 +27,7 @@ $config = array(
             ':item_table/:id\d$'        =>  array('lang/link/item'),
             ':item_table/toid/:id\d/size/:size\d$'          =>  array('lang/link/items', '', array('method'=>'get')),
             ':item_table/list$'         =>  array('lang/link/items'),
+            ':item_table/list/from/:id\d$'         =>  array('lang/link/items'),
             ':item_table/where/:where$'         =>  array('lang/link/where')
         )
 );

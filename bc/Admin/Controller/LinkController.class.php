@@ -102,23 +102,16 @@ class LinkController extends RestController
     }
 
  	public function read_all()
- 	{
-        $items = $this->db->order('id desc');
+    {
+        $size = 20;
+        $items = $this->db->order('id desc')->limit($size);
 
         $id = I('get.id');
         if ($id) {
-            $size = I('get.size');
-            $items = $items->where("id<=$id")->limit($size) ;      
+            $items = $items->where("id<=$id");      
         }
 
         $items = $items->select();
-
-        if ($id) {
-            $items = $this->db->where("id<=$id")->order('id desc')->limit($size)->select();
-        }
-        else {
-
-        }
 
     	if ($items) {
     		$this->response($items, 'json');
