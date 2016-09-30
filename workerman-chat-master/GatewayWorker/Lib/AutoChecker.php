@@ -829,11 +829,29 @@ Class AutoChecker
         return $plan;
     }
 
+    /********************
+     * @param $dsk 磁盘信息
+     * @param $db_cab_id 磁盘实际所属柜子数据库序列号
+     * @param $cmd_id 命令ID,便于索引
+     */
+    public function setDiskBusy($dsk,$db_cab_id,$cmd_id){
+        $tbl = "gui_cmd_disk";
+        $data = array(
+            'cmd_id'=>$cmd_id,
+            'db_cab_id'=>$db_cab_id,
+            'cab'=>$dsk['cab_id'],
+            'level'=>$dsk['level'],
+            'grp'=>$dsk['zu'],
+            'disk'=>$dsk['disk']
+        );
+        $this->db->insert($tbl)->cols($data)->query();
+    }
     public function updateCmdLog($dsk,$db_cab_id)
     {
         $cmd = $this->type == 'md5' ? 'MD5' : 'DISKINFO';
         $db = $this->db;
         $tbl_cmd_log = "gui_cmd_log";
+        //增加忙碌磁盘记录
 
         $new_cmd = array(
             'cmd' => $cmd,

@@ -185,7 +185,26 @@ Deployer.prototype = {
         }
         else {
             //命令失败,开始下一个
-            this.stage = 0;
+            if (this.type == 'filetree') {
+                if (this.stage == 2)//获取文件目录失败，需要关闭桥接
+                {
+                    this.stage = this.stage + 1;
+                }
+                else {
+                    if (this.stage == 3)//停止失败，停止本次获取
+                    {
+                        this.stage = 0;
+                       this.stopDeploy();
+                    }
+                    else{
+                        this.stage = 0;
+                    }
+                }
+            }
+            else
+            {
+                this.stage = 0;
+            }
         }
         if (this.stage == 0) {
             //下一磁盘

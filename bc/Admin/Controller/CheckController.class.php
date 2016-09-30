@@ -44,7 +44,7 @@ class CheckController extends Controller
         $rst = $db->where("id=$id")->find();
         $rst['start_time'] = time();
         $rst['modify_time'] = time();
-        $rst['status'] = C('PLAN_STATUS_WORKING');
+        //$rst['status'] = C('PLAN_STATUS_WORKING');
         $sts = $db->save($rst);
         $this->_ajaxReturn($sts);
     }
