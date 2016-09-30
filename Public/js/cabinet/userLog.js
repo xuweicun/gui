@@ -246,7 +246,7 @@
             "9": "device invalid"
         };
 
-        err_code['-3'] = 'tiemout';
+        err_code['-3'] = 'timeout';
 
         return err_code;
     });
