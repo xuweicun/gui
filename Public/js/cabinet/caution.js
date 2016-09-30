@@ -148,7 +148,7 @@ CmdCaution.prototype = {
             break;
         }    
 
-        this.warning_msg = warn_msg + '，备注：' + msg + '。';
+        this.warning_msg = warn_msg + (msg?('，备注：'+msg):'') + '。';
     }
 };
 

@@ -402,26 +402,26 @@ angular.module('device.services', [])
         var open = function () {
             // 登录
             var login_data = '{"type":"login","user_grp":"' + user_grp + '","user_id":"' + global_user.id +
-                '","client_name":"wilson","room_id":"1","token":"'+global_user.token+'"}';
-            console.log("websocket握手成功，发送登录数据:" + login_data);
+                '","client_name":"' + global_user.username + '","room_id":"1","token":"'+global_user.token+'"}';
+            //console.log("websocket握手成功，发送登录数据:" + login_data);
             ws.send(login_data);
         }
 
         var onmessage = function (e) {
-            console.log(e.data);
+            //console.log(e.data);
             var data = eval("(" + e.data + ")");
 
             switch (data['type']) {
                 // 服务端ping客户端
                 case 'ping':
-                    console.log(ws);
+              //      console.log(ws);
                     try {
                         ws.send('{"type":"pong"}');
                         //throw new Error("发送消息失败");
                     } catch (e) {
                         console.log("解析出错", e.message);
                     }finally {
-                        console.log("right");
+              //          console.log("right");
                     }
                     break;
                 // 登录 更新用户列表
@@ -430,11 +430,11 @@ angular.module('device.services', [])
                     //token检查是否冲突
                     if(data['token'] == global_user.token)
                     {
-                        console.log("自己发出的消息,忽略",data['token'],global_user.token);
+                        //console.log("自己发出的消息,忽略",data['token'],global_user.token);
                         break;
                     }
                     else{
-                        console.log(data['user_id'],global_user.id);
+                        //console.log(data['user_id'],global_user.id);
                         if(data['user_id'].toString() == global_user.id.toString()){
                             //异地登录,需要退出
                             console.log("new User:", data['user_name']);
@@ -458,24 +458,24 @@ angular.module('device.services', [])
                     break;
                 case 'logout':
                     //{"type":"logout","client_id":xxx,"time":"xxx"}
-                    console.log("其他用户退出登录");
+                    //console.log("其他用户退出登录");
                     break;
                 case 'status':
-                    console.log('收到推送的状态信息');
+                    //console.log('收到推送的状态信息');
                     var num = data['num'];
                     for(var i = 0;i <num;i++) {
                         global_cabinet_helper.i_on_msg_push_status(data[i.toString()]);
                     }
                     break;
                 case 'partition':
-                    console.log('收到推送的分区容量信息');
+                    //console.log('收到推送的分区容量信息');
                     var num = data['num'];
                     for(var i = 0;i <num;i++) {
                         global_cabinet_helper.i_on_msg_push_partition(data[i.toString()]);
                     }
                     break;
                 case 'check_status':
-                    console.log('自检消息',data['msg']);
+                    //console.log('自检消息',data['msg']);
                     break;
                 case 'cab_caution':
                     global_scope.on_caution_msgs(data);
@@ -521,7 +521,7 @@ angular.module('device.services', [])
 
         }
         var close = function () {
-            console.log("连接关闭,正在重新连接中");
+            //console.log("连接关闭,正在重新连接中");
             ws = new WebSocket(wm_server);
             ws.onmessage = onmessage;
             ws.onclose = close;
