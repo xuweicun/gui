@@ -191,7 +191,7 @@ Deployer.prototype = {
                     this.stage = this.stage + 1;
                 }
                 else {
-                    if (this.type == 3)//停止失败，停止本次获取
+                    if (this.stage == 3)//停止失败，停止本次获取
                     {
                         this.stage = 0;
                        this.stopDeploy();
