@@ -425,8 +425,8 @@ CabinetHelper.prototype = {
             url: '/index.php?m=admin&c=business&a=getCabInfo',
             method: 'GET'
         }).success(function (data) {
+			global_scope.is_ok = true;
             if (data === null){
-				global_scope.is_ok = true;
                 global_task_pool.init();
                 return;
             }
